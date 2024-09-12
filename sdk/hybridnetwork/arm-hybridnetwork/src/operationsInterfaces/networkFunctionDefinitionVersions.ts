@@ -22,7 +22,7 @@ import {
   NetworkFunctionDefinitionVersionsUpdateResponse,
   NetworkFunctionDefinitionVersionUpdateState,
   NetworkFunctionDefinitionVersionsUpdateStateOptionalParams,
-  NetworkFunctionDefinitionVersionsUpdateStateResponse
+  NetworkFunctionDefinitionVersionsUpdateStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface NetworkFunctionDefinitionVersions {
     resourceGroupName: string,
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
-    options?: NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupOptionalParams
+    options?: NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunctionDefinitionVersion>;
   /**
    * Deletes the specified network function definition version.
@@ -56,7 +56,7 @@ export interface NetworkFunctionDefinitionVersions {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
-    options?: NetworkFunctionDefinitionVersionsDeleteOptionalParams
+    options?: NetworkFunctionDefinitionVersionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionDefinitionVersionsDeleteResponse>,
@@ -77,7 +77,7 @@ export interface NetworkFunctionDefinitionVersions {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
-    options?: NetworkFunctionDefinitionVersionsDeleteOptionalParams
+    options?: NetworkFunctionDefinitionVersionsDeleteOptionalParams,
   ): Promise<NetworkFunctionDefinitionVersionsDeleteResponse>;
   /**
    * Creates or updates a network function definition version.
@@ -96,7 +96,7 @@ export interface NetworkFunctionDefinitionVersions {
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
     parameters: NetworkFunctionDefinitionVersion,
-    options?: NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionDefinitionVersionsCreateOrUpdateResponse>,
@@ -120,7 +120,7 @@ export interface NetworkFunctionDefinitionVersions {
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
     parameters: NetworkFunctionDefinitionVersion,
-    options?: NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkFunctionDefinitionVersionsCreateOrUpdateResponse>;
   /**
    * Gets information about a network function definition version.
@@ -136,7 +136,7 @@ export interface NetworkFunctionDefinitionVersions {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
-    options?: NetworkFunctionDefinitionVersionsGetOptionalParams
+    options?: NetworkFunctionDefinitionVersionsGetOptionalParams,
   ): Promise<NetworkFunctionDefinitionVersionsGetResponse>;
   /**
    * Updates a network function definition version resource.
@@ -155,7 +155,7 @@ export interface NetworkFunctionDefinitionVersions {
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
     parameters: TagsObject,
-    options?: NetworkFunctionDefinitionVersionsUpdateOptionalParams
+    options?: NetworkFunctionDefinitionVersionsUpdateOptionalParams,
   ): Promise<NetworkFunctionDefinitionVersionsUpdateResponse>;
   /**
    * Update network function definition version state.
@@ -173,7 +173,7 @@ export interface NetworkFunctionDefinitionVersions {
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
     parameters: NetworkFunctionDefinitionVersionUpdateState,
-    options?: NetworkFunctionDefinitionVersionsUpdateStateOptionalParams
+    options?: NetworkFunctionDefinitionVersionsUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionDefinitionVersionsUpdateStateResponse>,
@@ -196,6 +196,6 @@ export interface NetworkFunctionDefinitionVersions {
     networkFunctionDefinitionGroupName: string,
     networkFunctionDefinitionVersionName: string,
     parameters: NetworkFunctionDefinitionVersionUpdateState,
-    options?: NetworkFunctionDefinitionVersionsUpdateStateOptionalParams
+    options?: NetworkFunctionDefinitionVersionsUpdateStateOptionalParams,
   ): Promise<NetworkFunctionDefinitionVersionsUpdateStateResponse>;
 }

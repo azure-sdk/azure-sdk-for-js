@@ -19,7 +19,7 @@ import {
   NetworkServiceDesignGroupsGetResponse,
   TagsObject,
   NetworkServiceDesignGroupsUpdateOptionalParams,
-  NetworkServiceDesignGroupsUpdateResponse
+  NetworkServiceDesignGroupsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface NetworkServiceDesignGroups {
   listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams
+    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<NetworkServiceDesignGroup>;
   /**
    * Deletes a specified network service design group.
@@ -47,7 +47,7 @@ export interface NetworkServiceDesignGroups {
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsDeleteOptionalParams
+    options?: NetworkServiceDesignGroupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignGroupsDeleteResponse>,
@@ -65,7 +65,7 @@ export interface NetworkServiceDesignGroups {
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsDeleteOptionalParams
+    options?: NetworkServiceDesignGroupsDeleteOptionalParams,
   ): Promise<NetworkServiceDesignGroupsDeleteResponse>;
   /**
    * Creates or updates a network service design group.
@@ -81,7 +81,7 @@ export interface NetworkServiceDesignGroups {
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: NetworkServiceDesignGroup,
-    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignGroupsCreateOrUpdateResponse>,
@@ -102,7 +102,7 @@ export interface NetworkServiceDesignGroups {
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: NetworkServiceDesignGroup,
-    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams,
   ): Promise<NetworkServiceDesignGroupsCreateOrUpdateResponse>;
   /**
    * Gets information about the specified networkServiceDesign group.
@@ -115,7 +115,7 @@ export interface NetworkServiceDesignGroups {
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsGetOptionalParams
+    options?: NetworkServiceDesignGroupsGetOptionalParams,
   ): Promise<NetworkServiceDesignGroupsGetResponse>;
   /**
    * Updates a network service design groups resource.
@@ -131,6 +131,6 @@ export interface NetworkServiceDesignGroups {
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: TagsObject,
-    options?: NetworkServiceDesignGroupsUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsUpdateOptionalParams,
   ): Promise<NetworkServiceDesignGroupsUpdateResponse>;
 }

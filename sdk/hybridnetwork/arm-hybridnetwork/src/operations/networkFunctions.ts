@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -38,7 +38,7 @@ import {
   ExecuteRequestParameters,
   NetworkFunctionsExecuteRequestOptionalParams,
   NetworkFunctionsListBySubscriptionNextResponse,
-  NetworkFunctionsListByResourceGroupNextResponse
+  NetworkFunctionsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NetworkFunctionsListBySubscriptionOptionalParams
+    options?: NetworkFunctionsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunction> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -74,13 +74,13 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: NetworkFunctionsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFunction[]> {
     let result: NetworkFunctionsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NetworkFunctionsListBySubscriptionOptionalParams
+    options?: NetworkFunctionsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<NetworkFunction> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -115,7 +115,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFunctionsListByResourceGroupOptionalParams
+    options?: NetworkFunctionsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunction> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -132,16 +132,16 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: NetworkFunctionsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkFunction[]> {
     let result: NetworkFunctionsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -156,7 +156,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -167,11 +167,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NetworkFunctionsListByResourceGroupOptionalParams
+    options?: NetworkFunctionsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkFunction> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -186,25 +186,24 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   async beginDelete(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsDeleteOptionalParams
+    options?: NetworkFunctionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +212,8 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,20 +221,20 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFunctionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -250,12 +249,12 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsDeleteOptionalParams
+    options?: NetworkFunctionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkFunctionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,11 +268,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   get(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: NetworkFunctionsGetOptionalParams
+    options?: NetworkFunctionsGetOptionalParams,
   ): Promise<NetworkFunctionsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFunctionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -289,7 +288,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: NetworkFunction,
-    options?: NetworkFunctionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionsCreateOrUpdateResponse>,
@@ -298,21 +297,20 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkFunctionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -321,8 +319,8 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -330,15 +328,15 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFunctionName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkFunctionsCreateOrUpdateResponse,
@@ -346,7 +344,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -364,13 +362,13 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: NetworkFunction,
-    options?: NetworkFunctionsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionsCreateOrUpdateOptionalParams,
   ): Promise<NetworkFunctionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkFunctionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -386,11 +384,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: TagsObject,
-    options?: NetworkFunctionsUpdateTagsOptionalParams
+    options?: NetworkFunctionsUpdateTagsOptionalParams,
   ): Promise<NetworkFunctionsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkFunctionName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -399,11 +397,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NetworkFunctionsListBySubscriptionOptionalParams
+    options?: NetworkFunctionsListBySubscriptionOptionalParams,
   ): Promise<NetworkFunctionsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -414,11 +412,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NetworkFunctionsListByResourceGroupOptionalParams
+    options?: NetworkFunctionsListByResourceGroupOptionalParams,
   ): Promise<NetworkFunctionsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -433,25 +431,24 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: ExecuteRequestParameters,
-    options?: NetworkFunctionsExecuteRequestOptionalParams
+    options?: NetworkFunctionsExecuteRequestOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -460,8 +457,8 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -469,20 +466,20 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, networkFunctionName, parameters, options },
-      spec: executeRequestOperationSpec
+      spec: executeRequestOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -499,13 +496,13 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
     resourceGroupName: string,
     networkFunctionName: string,
     parameters: ExecuteRequestParameters,
-    options?: NetworkFunctionsExecuteRequestOptionalParams
+    options?: NetworkFunctionsExecuteRequestOptionalParams,
   ): Promise<void> {
     const poller = await this.beginExecuteRequest(
       resourceGroupName,
       networkFunctionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -517,11 +514,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NetworkFunctionsListBySubscriptionNextOptionalParams
+    options?: NetworkFunctionsListBySubscriptionNextOptionalParams,
   ): Promise<NetworkFunctionsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -534,11 +531,11 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NetworkFunctionsListByResourceGroupNextOptionalParams
+    options?: NetworkFunctionsListByResourceGroupNextOptionalParams,
   ): Promise<NetworkFunctionsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -546,8 +543,7 @@ export class NetworkFunctionsImpl implements NetworkFunctions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -555,61 +551,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName
+    Parameters.networkFunctionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName1
+    Parameters.networkFunctionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     201: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     202: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     204: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -617,23 +611,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName1
+    Parameters.networkFunctionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunction
+      bodyMapper: Mappers.NetworkFunction,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -641,53 +634,50 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName1
+    Parameters.networkFunctionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/networkFunctions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunctionListResult
+      bodyMapper: Mappers.NetworkFunctionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunctionListResult
+      bodyMapper: Mappers.NetworkFunctionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const executeRequestOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/executeRequest",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/networkFunctions/{networkFunctionName}/executeRequest",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -695,8 +685,8 @@ const executeRequestOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -704,48 +694,48 @@ const executeRequestOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkFunctionName
+    Parameters.networkFunctionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunctionListResult
+      bodyMapper: Mappers.NetworkFunctionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkFunctionListResult
+      bodyMapper: Mappers.NetworkFunctionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

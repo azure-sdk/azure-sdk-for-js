@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   SiteNetworkServicesUpdateTagsOptionalParams,
   SiteNetworkServicesUpdateTagsResponse,
   SiteNetworkServicesListBySubscriptionNextResponse,
-  SiteNetworkServicesListByResourceGroupNextResponse
+  SiteNetworkServicesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SiteNetworkServicesListBySubscriptionOptionalParams
+    options?: SiteNetworkServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SiteNetworkService> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +73,13 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SiteNetworkServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SiteNetworkService[]> {
     let result: SiteNetworkServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SiteNetworkServicesListBySubscriptionOptionalParams
+    options?: SiteNetworkServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SiteNetworkService> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -114,7 +114,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SiteNetworkServicesListByResourceGroupOptionalParams
+    options?: SiteNetworkServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SiteNetworkService> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -131,16 +131,16 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SiteNetworkServicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SiteNetworkService[]> {
     let result: SiteNetworkServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +155,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -166,11 +166,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SiteNetworkServicesListByResourceGroupOptionalParams
+    options?: SiteNetworkServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SiteNetworkService> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -185,7 +185,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   async beginDelete(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesDeleteOptionalParams
+    options?: SiteNetworkServicesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SiteNetworkServicesDeleteResponse>,
@@ -194,21 +194,20 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SiteNetworkServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -217,8 +216,8 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -226,15 +225,15 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, siteNetworkServiceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       SiteNetworkServicesDeleteResponse,
@@ -242,7 +241,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -257,12 +256,12 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   async beginDeleteAndWait(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesDeleteOptionalParams
+    options?: SiteNetworkServicesDeleteOptionalParams,
   ): Promise<SiteNetworkServicesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       siteNetworkServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -276,11 +275,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   get(
     resourceGroupName: string,
     siteNetworkServiceName: string,
-    options?: SiteNetworkServicesGetOptionalParams
+    options?: SiteNetworkServicesGetOptionalParams,
   ): Promise<SiteNetworkServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteNetworkServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -295,7 +294,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: SiteNetworkService,
-    options?: SiteNetworkServicesCreateOrUpdateOptionalParams
+    options?: SiteNetworkServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SiteNetworkServicesCreateOrUpdateResponse>,
@@ -304,21 +303,20 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SiteNetworkServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -327,8 +325,8 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -336,15 +334,15 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, siteNetworkServiceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SiteNetworkServicesCreateOrUpdateResponse,
@@ -352,7 +350,7 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -369,13 +367,13 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: SiteNetworkService,
-    options?: SiteNetworkServicesCreateOrUpdateOptionalParams
+    options?: SiteNetworkServicesCreateOrUpdateOptionalParams,
   ): Promise<SiteNetworkServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       siteNetworkServiceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -391,11 +389,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
     resourceGroupName: string,
     siteNetworkServiceName: string,
     parameters: TagsObject,
-    options?: SiteNetworkServicesUpdateTagsOptionalParams
+    options?: SiteNetworkServicesUpdateTagsOptionalParams,
   ): Promise<SiteNetworkServicesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteNetworkServiceName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -404,11 +402,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SiteNetworkServicesListBySubscriptionOptionalParams
+    options?: SiteNetworkServicesListBySubscriptionOptionalParams,
   ): Promise<SiteNetworkServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -419,11 +417,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SiteNetworkServicesListByResourceGroupOptionalParams
+    options?: SiteNetworkServicesListByResourceGroupOptionalParams,
   ): Promise<SiteNetworkServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -434,11 +432,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SiteNetworkServicesListBySubscriptionNextOptionalParams
+    options?: SiteNetworkServicesListBySubscriptionNextOptionalParams,
   ): Promise<SiteNetworkServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -451,11 +449,11 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SiteNetworkServicesListByResourceGroupNextOptionalParams
+    options?: SiteNetworkServicesListByResourceGroupNextOptionalParams,
   ): Promise<SiteNetworkServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -463,102 +461,98 @@ export class SiteNetworkServicesImpl implements SiteNetworkServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders
+      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders
+      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders
+      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders
+      headersMapper: Mappers.SiteNetworkServicesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteNetworkServiceName
+    Parameters.siteNetworkServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteNetworkServiceName
+    Parameters.siteNetworkServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     201: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     202: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     204: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteNetworkServiceName
+    Parameters.siteNetworkServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices/{siteNetworkServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkService
+      bodyMapper: Mappers.SiteNetworkService,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -566,86 +560,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteNetworkServiceName
+    Parameters.siteNetworkServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/siteNetworkServices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/siteNetworkServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkServiceListResult
+      bodyMapper: Mappers.SiteNetworkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/siteNetworkServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkServiceListResult
+      bodyMapper: Mappers.SiteNetworkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkServiceListResult
+      bodyMapper: Mappers.SiteNetworkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteNetworkServiceListResult
+      bodyMapper: Mappers.SiteNetworkServiceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

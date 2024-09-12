@@ -15,7 +15,7 @@ import {
   ProxyArtifactListVersionsOptionalParams,
   ArtifactChangeState,
   ProxyArtifactUpdateStateOptionalParams,
-  ProxyArtifactUpdateStateResponse
+  ProxyArtifactUpdateStateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ProxyArtifact {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ProxyArtifactListOptionalParams
+    options?: ProxyArtifactListOptionalParams,
   ): PagedAsyncIterableIterator<ProxyArtifactListOverview>;
   /**
    * Get a Artifact overview information.
@@ -47,7 +47,7 @@ export interface ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     artifactName: string,
-    options?: ProxyArtifactListVersionsOptionalParams
+    options?: ProxyArtifactListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ProxyArtifactVersionsListOverview>;
   /**
    * Change artifact state defined in artifact store.
@@ -66,7 +66,7 @@ export interface ProxyArtifact {
     artifactName: string,
     artifactVersionName: string,
     parameters: ArtifactChangeState,
-    options?: ProxyArtifactUpdateStateOptionalParams
+    options?: ProxyArtifactUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProxyArtifactUpdateStateResponse>,
@@ -90,6 +90,6 @@ export interface ProxyArtifact {
     artifactName: string,
     artifactVersionName: string,
     parameters: ArtifactChangeState,
-    options?: ProxyArtifactUpdateStateOptionalParams
+    options?: ProxyArtifactUpdateStateOptionalParams,
   ): Promise<ProxyArtifactUpdateStateResponse>;
 }

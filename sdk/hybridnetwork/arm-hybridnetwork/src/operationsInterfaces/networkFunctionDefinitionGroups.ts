@@ -19,7 +19,7 @@ import {
   NetworkFunctionDefinitionGroupsGetResponse,
   TagsObject,
   NetworkFunctionDefinitionGroupsUpdateOptionalParams,
-  NetworkFunctionDefinitionGroupsUpdateResponse
+  NetworkFunctionDefinitionGroupsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface NetworkFunctionDefinitionGroups {
   listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: NetworkFunctionDefinitionGroupsListByPublisherOptionalParams
+    options?: NetworkFunctionDefinitionGroupsListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<NetworkFunctionDefinitionGroup>;
   /**
    * Deletes a specified network function definition group.
@@ -47,7 +47,7 @@ export interface NetworkFunctionDefinitionGroups {
     resourceGroupName: string,
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
-    options?: NetworkFunctionDefinitionGroupsDeleteOptionalParams
+    options?: NetworkFunctionDefinitionGroupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionDefinitionGroupsDeleteResponse>,
@@ -65,7 +65,7 @@ export interface NetworkFunctionDefinitionGroups {
     resourceGroupName: string,
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
-    options?: NetworkFunctionDefinitionGroupsDeleteOptionalParams
+    options?: NetworkFunctionDefinitionGroupsDeleteOptionalParams,
   ): Promise<NetworkFunctionDefinitionGroupsDeleteResponse>;
   /**
    * Creates or updates a network function definition group.
@@ -81,7 +81,7 @@ export interface NetworkFunctionDefinitionGroups {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     parameters: NetworkFunctionDefinitionGroup,
-    options?: NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkFunctionDefinitionGroupsCreateOrUpdateResponse>,
@@ -102,7 +102,7 @@ export interface NetworkFunctionDefinitionGroups {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     parameters: NetworkFunctionDefinitionGroup,
-    options?: NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams
+    options?: NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams,
   ): Promise<NetworkFunctionDefinitionGroupsCreateOrUpdateResponse>;
   /**
    * Gets information about the specified networkFunctionDefinition group.
@@ -115,7 +115,7 @@ export interface NetworkFunctionDefinitionGroups {
     resourceGroupName: string,
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
-    options?: NetworkFunctionDefinitionGroupsGetOptionalParams
+    options?: NetworkFunctionDefinitionGroupsGetOptionalParams,
   ): Promise<NetworkFunctionDefinitionGroupsGetResponse>;
   /**
    * Updates a network function definition group resource.
@@ -131,6 +131,6 @@ export interface NetworkFunctionDefinitionGroups {
     publisherName: string,
     networkFunctionDefinitionGroupName: string,
     parameters: TagsObject,
-    options?: NetworkFunctionDefinitionGroupsUpdateOptionalParams
+    options?: NetworkFunctionDefinitionGroupsUpdateOptionalParams,
   ): Promise<NetworkFunctionDefinitionGroupsUpdateResponse>;
 }

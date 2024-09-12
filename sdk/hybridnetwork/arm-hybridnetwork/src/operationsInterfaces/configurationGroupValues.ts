@@ -20,7 +20,7 @@ import {
   ConfigurationGroupValuesCreateOrUpdateResponse,
   TagsObject,
   ConfigurationGroupValuesUpdateTagsOptionalParams,
-  ConfigurationGroupValuesUpdateTagsResponse
+  ConfigurationGroupValuesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ConfigurationGroupValues {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams
+    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupValue>;
   /**
    * Lists all the hybrid network configurationGroupValues in a resource group.
@@ -40,7 +40,7 @@ export interface ConfigurationGroupValues {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams
+    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupValue>;
   /**
    * Deletes the specified hybrid configuration group value.
@@ -51,7 +51,7 @@ export interface ConfigurationGroupValues {
   beginDelete(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesDeleteOptionalParams
+    options?: ConfigurationGroupValuesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupValuesDeleteResponse>,
@@ -67,7 +67,7 @@ export interface ConfigurationGroupValues {
   beginDeleteAndWait(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesDeleteOptionalParams
+    options?: ConfigurationGroupValuesDeleteOptionalParams,
   ): Promise<ConfigurationGroupValuesDeleteResponse>;
   /**
    * Gets information about the specified hybrid configuration group values.
@@ -78,7 +78,7 @@ export interface ConfigurationGroupValues {
   get(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesGetOptionalParams
+    options?: ConfigurationGroupValuesGetOptionalParams,
   ): Promise<ConfigurationGroupValuesGetResponse>;
   /**
    * Creates or updates a hybrid configuration group value.
@@ -91,7 +91,7 @@ export interface ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: ConfigurationGroupValue,
-    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupValuesCreateOrUpdateResponse>,
@@ -109,7 +109,7 @@ export interface ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: ConfigurationGroupValue,
-    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationGroupValuesCreateOrUpdateResponse>;
   /**
    * Updates a hybrid configuration group tags.
@@ -122,6 +122,6 @@ export interface ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: TagsObject,
-    options?: ConfigurationGroupValuesUpdateTagsOptionalParams
+    options?: ConfigurationGroupValuesUpdateTagsOptionalParams,
   ): Promise<ConfigurationGroupValuesUpdateTagsResponse>;
 }

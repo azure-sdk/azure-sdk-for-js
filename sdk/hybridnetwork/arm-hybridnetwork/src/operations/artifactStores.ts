@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -24,6 +24,14 @@ import {
   ArtifactStoresListByPublisherNextOptionalParams,
   ArtifactStoresListByPublisherOptionalParams,
   ArtifactStoresListByPublisherResponse,
+  ArtifactStoreNetworkFabricControllerEndPoints,
+  ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextOptionalParams,
+  ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse,
+  ArtifactStorePrivateEndPointsFormat,
+  ArtifactStoresListPrivateEndPointsNextOptionalParams,
+  ArtifactStoresListPrivateEndPointsOptionalParams,
+  ArtifactStoresListPrivateEndPointsResponse,
   ArtifactStoresDeleteOptionalParams,
   ArtifactStoresDeleteResponse,
   ArtifactStoresCreateOrUpdateOptionalParams,
@@ -33,7 +41,17 @@ import {
   TagsObject,
   ArtifactStoresUpdateOptionalParams,
   ArtifactStoresUpdateResponse,
-  ArtifactStoresListByPublisherNextResponse
+  ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ArtifactStoresAddNetworkFabricControllerEndPointsResponse,
+  ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse,
+  ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ArtifactStoresApprovePrivateEndPointsResponse,
+  ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ArtifactStoresRemovePrivateEndPointsResponse,
+  ArtifactStoresListByPublisherNextResponse,
+  ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextResponse,
+  ArtifactStoresListPrivateEndPointsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,12 +76,12 @@ export class ArtifactStoresImpl implements ArtifactStores {
   public listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactStore> {
     const iter = this.listByPublisherPagingAll(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +98,9 @@ export class ArtifactStoresImpl implements ArtifactStores {
           resourceGroupName,
           publisherName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -90,7 +108,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     options?: ArtifactStoresListByPublisherOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ArtifactStore[]> {
     let result: ArtifactStoresListByPublisherResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +116,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
       result = await this._listByPublisher(
         resourceGroupName,
         publisherName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +128,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
         resourceGroupName,
         publisherName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +140,200 @@ export class ArtifactStoresImpl implements ArtifactStores {
   private async *listByPublisherPagingAll(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): AsyncIterableIterator<ArtifactStore> {
     for await (const page of this.listByPublisherPagingPage(
       resourceGroupName,
       publisherName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  public beginListNetworkFabricControllerPrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ): PagedAsyncIterableIterator<ArtifactStoreNetworkFabricControllerEndPoints> {
+    const iter = this.listNetworkFabricControllerPrivateEndPointsPagingAll(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listNetworkFabricControllerPrivateEndPointsPagingPage(
+          resourceGroupName,
+          publisherName,
+          artifactStoreName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listNetworkFabricControllerPrivateEndPointsPagingPage(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ArtifactStoreNetworkFabricControllerEndPoints[]> {
+    let result: ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._listNetworkFabricControllerPrivateEndPoints(
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        options,
+      );
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNetworkFabricControllerPrivateEndPointsNext(
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listNetworkFabricControllerPrivateEndPointsPagingAll(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ): AsyncIterableIterator<ArtifactStoreNetworkFabricControllerEndPoints> {
+    for await (const page of this.listNetworkFabricControllerPrivateEndPointsPagingPage(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  public beginListPrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListPrivateEndPointsOptionalParams,
+  ): PagedAsyncIterableIterator<ArtifactStorePrivateEndPointsFormat> {
+    const iter = this.listPrivateEndPointsPagingAll(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPrivateEndPointsPagingPage(
+          resourceGroupName,
+          publisherName,
+          artifactStoreName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listPrivateEndPointsPagingPage(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListPrivateEndPointsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ArtifactStorePrivateEndPointsFormat[]> {
+    let result: ArtifactStoresListPrivateEndPointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._listPrivateEndPoints(
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        options,
+      );
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listPrivateEndPointsNext(
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPrivateEndPointsPagingAll(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListPrivateEndPointsOptionalParams,
+  ): AsyncIterableIterator<ArtifactStorePrivateEndPointsFormat> {
+    for await (const page of this.listPrivateEndPointsPagingPage(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +348,11 @@ export class ArtifactStoresImpl implements ArtifactStores {
   private _listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): Promise<ArtifactStoresListByPublisherResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      listByPublisherOperationSpec
+      listByPublisherOperationSpec,
     );
   }
 
@@ -161,7 +367,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresDeleteResponse>,
@@ -170,21 +376,20 @@ export class ArtifactStoresImpl implements ArtifactStores {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactStoresDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -193,8 +398,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -202,15 +407,15 @@ export class ArtifactStoresImpl implements ArtifactStores {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publisherName, artifactStoreName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactStoresDeleteResponse,
@@ -218,7 +423,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -235,13 +440,13 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<ArtifactStoresDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -259,7 +464,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresCreateOrUpdateResponse>,
@@ -268,21 +473,20 @@ export class ArtifactStoresImpl implements ArtifactStores {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArtifactStoresCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -291,8 +495,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -300,8 +504,8 @@ export class ArtifactStoresImpl implements ArtifactStores {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -312,9 +516,9 @@ export class ArtifactStoresImpl implements ArtifactStores {
         publisherName,
         artifactStoreName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ArtifactStoresCreateOrUpdateResponse,
@@ -322,7 +526,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -341,14 +545,14 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<ArtifactStoresCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publisherName,
       artifactStoreName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -364,11 +568,11 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresGetOptionalParams
+    options?: ArtifactStoresGetOptionalParams,
   ): Promise<ArtifactStoresGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, artifactStoreName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -385,7 +589,7 @@ export class ArtifactStoresImpl implements ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: TagsObject,
-    options?: ArtifactStoresUpdateOptionalParams
+    options?: ArtifactStoresUpdateOptionalParams,
   ): Promise<ArtifactStoresUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -393,10 +597,580 @@ export class ArtifactStoresImpl implements ArtifactStores {
         publisherName,
         artifactStoreName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
+  }
+
+  /**
+   * Add network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginAddNetworkFabricControllerEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>,
+      ArtifactStoresAddNetworkFabricControllerEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresAddNetworkFabricControllerEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        parameters,
+        options,
+      },
+      spec: addNetworkFabricControllerEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresAddNetworkFabricControllerEndPointsResponse,
+      OperationState<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Add network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginAddNetworkFabricControllerEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<ArtifactStoresAddNetworkFabricControllerEndPointsResponse> {
+    const poller = await this.beginAddNetworkFabricControllerEndPoints(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete network fabric controllers on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginDeleteNetworkFabricControllerEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>,
+      ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        parameters,
+        options,
+      },
+      spec: deleteNetworkFabricControllerEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse,
+      OperationState<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete network fabric controllers on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginDeleteNetworkFabricControllerEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse> {
+    const poller = await this.beginDeleteNetworkFabricControllerEndPoints(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  private async _listNetworkFabricControllerPrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse>,
+      ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publisherName, artifactStoreName, options },
+      spec: listNetworkFabricControllerPrivateEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse,
+      OperationState<ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Approve manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to approve private endpoints.
+   * @param options The options parameters.
+   */
+  async beginApprovePrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresApprovePrivateEndPointsResponse>,
+      ArtifactStoresApprovePrivateEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresApprovePrivateEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        parameters,
+        options,
+      },
+      spec: approvePrivateEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresApprovePrivateEndPointsResponse,
+      OperationState<ArtifactStoresApprovePrivateEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Approve manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to approve private endpoints.
+   * @param options The options parameters.
+   */
+  async beginApprovePrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ): Promise<ArtifactStoresApprovePrivateEndPointsResponse> {
+    const poller = await this.beginApprovePrivateEndPoints(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Remove manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginRemovePrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresRemovePrivateEndPointsResponse>,
+      ArtifactStoresRemovePrivateEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresRemovePrivateEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        parameters,
+        options,
+      },
+      spec: removePrivateEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresRemovePrivateEndPointsResponse,
+      OperationState<ArtifactStoresRemovePrivateEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Remove manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  async beginRemovePrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ): Promise<ArtifactStoresRemovePrivateEndPointsResponse> {
+    const poller = await this.beginRemovePrivateEndPoints(
+      resourceGroupName,
+      publisherName,
+      artifactStoreName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * List manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  private async _listPrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListPrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresListPrivateEndPointsResponse>,
+      ArtifactStoresListPrivateEndPointsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ArtifactStoresListPrivateEndPointsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, publisherName, artifactStoreName, options },
+      spec: listPrivateEndPointsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ArtifactStoresListPrivateEndPointsResponse,
+      OperationState<ArtifactStoresListPrivateEndPointsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -410,11 +1184,66 @@ export class ArtifactStoresImpl implements ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     nextLink: string,
-    options?: ArtifactStoresListByPublisherNextOptionalParams
+    options?: ArtifactStoresListByPublisherNextOptionalParams,
   ): Promise<ArtifactStoresListByPublisherNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, nextLink, options },
-      listByPublisherNextOperationSpec
+      listByPublisherNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListNetworkFabricControllerPrivateEndPointsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListNetworkFabricControllerPrivateEndPoints method.
+   * @param options The options parameters.
+   */
+  private _listNetworkFabricControllerPrivateEndPointsNext(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    nextLink: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextOptionalParams,
+  ): Promise<ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        nextLink,
+        options,
+      },
+      listNetworkFabricControllerPrivateEndPointsNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListPrivateEndPointsNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param nextLink The nextLink from the previous successful call to the ListPrivateEndPoints method.
+   * @param options The options parameters.
+   */
+  private _listPrivateEndPointsNext(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    nextLink: string,
+    options?: ArtifactStoresListPrivateEndPointsNextOptionalParams,
+  ): Promise<ArtifactStoresListPrivateEndPointsNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        publisherName,
+        artifactStoreName,
+        nextLink,
+        options,
+      },
+      listPrivateEndPointsNextOperationSpec,
     );
   }
 }
@@ -422,47 +1251,15 @@ export class ArtifactStoresImpl implements ArtifactStores {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPublisherOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStoreListResult
+      bodyMapper: Mappers.ArtifactStoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ArtifactStoresDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -470,31 +1267,60 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ArtifactStoresDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     201: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     202: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     204: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
@@ -503,23 +1329,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -527,22 +1352,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStore
+      bodyMapper: Mappers.ArtifactStore,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -551,30 +1375,287 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const addNetworkFabricControllerEndPointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/addNetworkFabricControllerEndPoints",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        headersMapper:
+          Mappers.ArtifactStoresAddNetworkFabricControllerEndPointsHeaders,
+      },
+      201: {
+        headersMapper:
+          Mappers.ArtifactStoresAddNetworkFabricControllerEndPointsHeaders,
+      },
+      202: {
+        headersMapper:
+          Mappers.ArtifactStoresAddNetworkFabricControllerEndPointsHeaders,
+      },
+      204: {
+        headersMapper:
+          Mappers.ArtifactStoresAddNetworkFabricControllerEndPointsHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.parameters15,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.publisherName,
+      Parameters.subscriptionId,
+      Parameters.artifactStoreName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const deleteNetworkFabricControllerEndPointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/deleteNetworkFabricControllerEndPoints",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        headersMapper:
+          Mappers.ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders,
+      },
+      201: {
+        headersMapper:
+          Mappers.ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders,
+      },
+      202: {
+        headersMapper:
+          Mappers.ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders,
+      },
+      204: {
+        headersMapper:
+          Mappers.ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.parameters15,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.publisherName,
+      Parameters.subscriptionId,
+      Parameters.artifactStoreName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const listNetworkFabricControllerPrivateEndPointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listNetworkFabricControllerPrivateEndPoints",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ArtifactStoreNetworkFabricControllerEndPointsList,
+      },
+      201: {
+        bodyMapper: Mappers.ArtifactStoreNetworkFabricControllerEndPointsList,
+      },
+      202: {
+        bodyMapper: Mappers.ArtifactStoreNetworkFabricControllerEndPointsList,
+      },
+      204: {
+        bodyMapper: Mappers.ArtifactStoreNetworkFabricControllerEndPointsList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.publisherName,
+      Parameters.subscriptionId,
+      Parameters.artifactStoreName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const approvePrivateEndPointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/approvePrivateEndPoints",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ArtifactStoresApprovePrivateEndPointsHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ArtifactStoresApprovePrivateEndPointsHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactStoresApprovePrivateEndPointsHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ArtifactStoresApprovePrivateEndPointsHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters16,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const removePrivateEndPointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/removePrivateEndPoints",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ArtifactStoresRemovePrivateEndPointsHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ArtifactStoresRemovePrivateEndPointsHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactStoresRemovePrivateEndPointsHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ArtifactStoresRemovePrivateEndPointsHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters16,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listPrivateEndPointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/listPrivateEndPoints",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArtifactStorePrivateEndPointsListResult,
+    },
+    201: {
+      bodyMapper: Mappers.ArtifactStorePrivateEndPointsListResult,
+    },
+    202: {
+      bodyMapper: Mappers.ArtifactStorePrivateEndPointsListResult,
+    },
+    204: {
+      bodyMapper: Mappers.ArtifactStorePrivateEndPointsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByPublisherNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactStoreListResult
+      bodyMapper: Mappers.ArtifactStoreListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNetworkFabricControllerPrivateEndPointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ArtifactStoreNetworkFabricControllerEndPointsList,
+      },
+      202: {
+        headersMapper:
+          Mappers.ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.publisherName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.artifactStoreName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listPrivateEndPointsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArtifactStorePrivateEndPointsListResult,
+    },
+    202: {
+      headersMapper: Mappers.ArtifactStoresListPrivateEndPointsNextHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.artifactStoreName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   ProxyArtifactUpdateStateOptionalParams,
   ProxyArtifactUpdateStateResponse,
   ProxyArtifactListNextResponse,
-  ProxyArtifactListVersionsNextResponse
+  ProxyArtifactListVersionsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +59,13 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ProxyArtifactListOptionalParams
+    options?: ProxyArtifactListOptionalParams,
   ): PagedAsyncIterableIterator<ProxyArtifactListOverview> {
     const iter = this.listPagingAll(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
           publisherName,
           artifactStoreName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     options?: ProxyArtifactListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProxyArtifactListOverview[]> {
     let result: ProxyArtifactListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         resourceGroupName,
         publisherName,
         artifactStoreName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ProxyArtifactListOptionalParams
+    options?: ProxyArtifactListOptionalParams,
   ): AsyncIterableIterator<ProxyArtifactListOverview> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       publisherName,
       artifactStoreName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,14 +154,14 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     artifactName: string,
-    options?: ProxyArtifactListVersionsOptionalParams
+    options?: ProxyArtifactListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ProxyArtifactVersionsListOverview> {
     const iter = this.listVersionsPagingAll(
       resourceGroupName,
       publisherName,
       artifactStoreName,
       artifactName,
-      options
+      options,
     );
     return {
       next() {
@@ -180,9 +180,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
           artifactStoreName,
           artifactName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -192,7 +192,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     artifactStoreName: string,
     artifactName: string,
     options?: ProxyArtifactListVersionsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProxyArtifactVersionsListOverview[]> {
     let result: ProxyArtifactListVersionsResponse;
     let continuationToken = settings?.continuationToken;
@@ -202,7 +202,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         artifactName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -215,7 +215,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -229,14 +229,14 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     artifactName: string,
-    options?: ProxyArtifactListVersionsOptionalParams
+    options?: ProxyArtifactListVersionsOptionalParams,
   ): AsyncIterableIterator<ProxyArtifactVersionsListOverview> {
     for await (const page of this.listVersionsPagingPage(
       resourceGroupName,
       publisherName,
       artifactStoreName,
       artifactName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -253,11 +253,11 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ProxyArtifactListOptionalParams
+    options?: ProxyArtifactListOptionalParams,
   ): Promise<ProxyArtifactListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, artifactStoreName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -274,7 +274,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     artifactName: string,
-    options?: ProxyArtifactListVersionsOptionalParams
+    options?: ProxyArtifactListVersionsOptionalParams,
   ): Promise<ProxyArtifactListVersionsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -282,9 +282,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         artifactName,
-        options
+        options,
       },
-      listVersionsOperationSpec
+      listVersionsOperationSpec,
     );
   }
 
@@ -305,7 +305,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     artifactName: string,
     artifactVersionName: string,
     parameters: ArtifactChangeState,
-    options?: ProxyArtifactUpdateStateOptionalParams
+    options?: ProxyArtifactUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProxyArtifactUpdateStateResponse>,
@@ -314,21 +314,20 @@ export class ProxyArtifactImpl implements ProxyArtifact {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProxyArtifactUpdateStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -337,8 +336,8 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -346,8 +345,8 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -360,9 +359,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         artifactName,
         artifactVersionName,
         parameters,
-        options
+        options,
       },
-      spec: updateStateOperationSpec
+      spec: updateStateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProxyArtifactUpdateStateResponse,
@@ -370,7 +369,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -393,7 +392,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     artifactName: string,
     artifactVersionName: string,
     parameters: ArtifactChangeState,
-    options?: ProxyArtifactUpdateStateOptionalParams
+    options?: ProxyArtifactUpdateStateOptionalParams,
   ): Promise<ProxyArtifactUpdateStateResponse> {
     const poller = await this.beginUpdateState(
       resourceGroupName,
@@ -402,7 +401,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
       artifactName,
       artifactVersionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -420,7 +419,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     nextLink: string,
-    options?: ProxyArtifactListNextOptionalParams
+    options?: ProxyArtifactListNextOptionalParams,
   ): Promise<ProxyArtifactListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -428,9 +427,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -447,7 +446,7 @@ export class ProxyArtifactImpl implements ProxyArtifact {
     publisherName: string,
     artifactStoreName: string,
     nextLink: string,
-    options?: ProxyArtifactListVersionsNextOptionalParams
+    options?: ProxyArtifactListVersionsNextOptionalParams,
   ): Promise<ProxyArtifactListVersionsNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -455,9 +454,9 @@ export class ProxyArtifactImpl implements ProxyArtifact {
         publisherName,
         artifactStoreName,
         nextLink,
-        options
+        options,
       },
-      listVersionsNextOperationSpec
+      listVersionsNextOperationSpec,
     );
   }
 }
@@ -465,16 +464,15 @@ export class ProxyArtifactImpl implements ProxyArtifact {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifacts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifacts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProxyArtifactOverviewListResult
+      bodyMapper: Mappers.ProxyArtifactOverviewListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -482,56 +480,22 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listVersionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProxyArtifactVersionsOverviewListResult
+      bodyMapper: Mappers.ProxyArtifactVersionsOverviewListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.artifactName],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId,
-    Parameters.artifactStoreName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions/{artifactVersionName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProxyArtifactVersionsListOverview
-    },
-    201: {
-      bodyMapper: Mappers.ProxyArtifactVersionsListOverview
-    },
-    202: {
-      bodyMapper: Mappers.ProxyArtifactVersionsListOverview
-    },
-    204: {
-      bodyMapper: Mappers.ProxyArtifactVersionsListOverview
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion, Parameters.artifactName],
   urlParameters: [
     Parameters.$host,
@@ -539,22 +503,54 @@ const updateStateOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.artifactStoreName,
-    Parameters.artifactVersionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateStateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/artifactStores/{artifactStoreName}/artifactVersions/{artifactVersionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProxyArtifactVersionsListOverview,
+    },
+    201: {
+      bodyMapper: Mappers.ProxyArtifactVersionsListOverview,
+    },
+    202: {
+      bodyMapper: Mappers.ProxyArtifactVersionsListOverview,
+    },
+    204: {
+      bodyMapper: Mappers.ProxyArtifactVersionsListOverview,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion, Parameters.artifactName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.artifactStoreName,
+    Parameters.artifactVersionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProxyArtifactOverviewListResult
+      bodyMapper: Mappers.ProxyArtifactOverviewListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -562,21 +558,21 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProxyArtifactVersionsOverviewListResult
+      bodyMapper: Mappers.ProxyArtifactVersionsOverviewListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -584,8 +580,8 @@ const listVersionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.publisherName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.artifactStoreName
+    Parameters.artifactStoreName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

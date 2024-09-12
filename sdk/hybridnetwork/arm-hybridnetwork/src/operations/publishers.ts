@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   PublishersUpdateOptionalParams,
   PublishersUpdateResponse,
   PublishersListBySubscriptionNextResponse,
-  PublishersListByResourceGroupNextResponse
+  PublishersListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class PublishersImpl implements Publishers {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PublishersListBySubscriptionOptionalParams
+    options?: PublishersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Publisher> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class PublishersImpl implements Publishers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: PublishersListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Publisher[]> {
     let result: PublishersListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class PublishersImpl implements Publishers {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PublishersListBySubscriptionOptionalParams
+    options?: PublishersListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Publisher> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class PublishersImpl implements Publishers {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: PublishersListByResourceGroupOptionalParams
+    options?: PublishersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Publisher> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class PublishersImpl implements Publishers {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PublishersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Publisher[]> {
     let result: PublishersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class PublishersImpl implements Publishers {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class PublishersImpl implements Publishers {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PublishersListByResourceGroupOptionalParams
+    options?: PublishersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Publisher> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +180,11 @@ export class PublishersImpl implements Publishers {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PublishersListBySubscriptionOptionalParams
+    options?: PublishersListBySubscriptionOptionalParams,
   ): Promise<PublishersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class PublishersImpl implements Publishers {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: PublishersListByResourceGroupOptionalParams
+    options?: PublishersListByResourceGroupOptionalParams,
   ): Promise<PublishersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -212,7 +212,7 @@ export class PublishersImpl implements Publishers {
   async beginDelete(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersDeleteOptionalParams
+    options?: PublishersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublishersDeleteResponse>,
@@ -221,21 +221,20 @@ export class PublishersImpl implements Publishers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PublishersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -244,8 +243,8 @@ export class PublishersImpl implements Publishers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -253,15 +252,15 @@ export class PublishersImpl implements Publishers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publisherName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       PublishersDeleteResponse,
@@ -269,7 +268,7 @@ export class PublishersImpl implements Publishers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -284,12 +283,12 @@ export class PublishersImpl implements Publishers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersDeleteOptionalParams
+    options?: PublishersDeleteOptionalParams,
   ): Promise<PublishersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -303,11 +302,11 @@ export class PublishersImpl implements Publishers {
   get(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersGetOptionalParams
+    options?: PublishersGetOptionalParams,
   ): Promise<PublishersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -320,7 +319,7 @@ export class PublishersImpl implements Publishers {
   async beginCreateOrUpdate(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersCreateOrUpdateOptionalParams
+    options?: PublishersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublishersCreateOrUpdateResponse>,
@@ -329,21 +328,20 @@ export class PublishersImpl implements Publishers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PublishersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -352,8 +350,8 @@ export class PublishersImpl implements Publishers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -361,15 +359,15 @@ export class PublishersImpl implements Publishers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, publisherName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PublishersCreateOrUpdateResponse,
@@ -377,7 +375,7 @@ export class PublishersImpl implements Publishers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -392,12 +390,12 @@ export class PublishersImpl implements Publishers {
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersCreateOrUpdateOptionalParams
+    options?: PublishersCreateOrUpdateOptionalParams,
   ): Promise<PublishersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -411,11 +409,11 @@ export class PublishersImpl implements Publishers {
   update(
     resourceGroupName: string,
     publisherName: string,
-    options?: PublishersUpdateOptionalParams
+    options?: PublishersUpdateOptionalParams,
   ): Promise<PublishersUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -426,11 +424,11 @@ export class PublishersImpl implements Publishers {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PublishersListBySubscriptionNextOptionalParams
+    options?: PublishersListBySubscriptionNextOptionalParams,
   ): Promise<PublishersListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -443,11 +441,11 @@ export class PublishersImpl implements Publishers {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PublishersListByResourceGroupNextOptionalParams
+    options?: PublishersListByResourceGroupNextOptionalParams,
   ): Promise<PublishersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -455,116 +453,111 @@ export class PublishersImpl implements Publishers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/publishers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/publishers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublisherListResult
+      bodyMapper: Mappers.PublisherListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublisherListResult
+      bodyMapper: Mappers.PublisherListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PublishersDeleteHeaders
+      headersMapper: Mappers.PublishersDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PublishersDeleteHeaders
+      headersMapper: Mappers.PublishersDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PublishersDeleteHeaders
+      headersMapper: Mappers.PublishersDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PublishersDeleteHeaders
+      headersMapper: Mappers.PublishersDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     201: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     202: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     204: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
@@ -572,23 +565,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Publisher
+      bodyMapper: Mappers.Publisher,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
@@ -596,48 +588,48 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublisherListResult
+      bodyMapper: Mappers.PublisherListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PublisherListResult
+      bodyMapper: Mappers.PublisherListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

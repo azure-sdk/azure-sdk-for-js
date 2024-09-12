@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,13 +33,14 @@ import {
   TagsObject,
   NetworkServiceDesignGroupsUpdateOptionalParams,
   NetworkServiceDesignGroupsUpdateResponse,
-  NetworkServiceDesignGroupsListByPublisherNextResponse
+  NetworkServiceDesignGroupsListByPublisherNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkServiceDesignGroups operations. */
 export class NetworkServiceDesignGroupsImpl
-  implements NetworkServiceDesignGroups {
+  implements NetworkServiceDesignGroups
+{
   private readonly client: HybridNetworkManagementClient;
 
   /**
@@ -59,12 +60,12 @@ export class NetworkServiceDesignGroupsImpl
   public listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams
+    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<NetworkServiceDesignGroup> {
     const iter = this.listByPublisherPagingAll(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +82,9 @@ export class NetworkServiceDesignGroupsImpl
           resourceGroupName,
           publisherName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +92,7 @@ export class NetworkServiceDesignGroupsImpl
     resourceGroupName: string,
     publisherName: string,
     options?: NetworkServiceDesignGroupsListByPublisherOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkServiceDesignGroup[]> {
     let result: NetworkServiceDesignGroupsListByPublisherResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class NetworkServiceDesignGroupsImpl
       result = await this._listByPublisher(
         resourceGroupName,
         publisherName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +112,7 @@ export class NetworkServiceDesignGroupsImpl
         resourceGroupName,
         publisherName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +124,12 @@ export class NetworkServiceDesignGroupsImpl
   private async *listByPublisherPagingAll(
     resourceGroupName: string,
     publisherName: string,
-    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams
+    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams,
   ): AsyncIterableIterator<NetworkServiceDesignGroup> {
     for await (const page of this.listByPublisherPagingPage(
       resourceGroupName,
       publisherName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +144,11 @@ export class NetworkServiceDesignGroupsImpl
   private _listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams
+    options?: NetworkServiceDesignGroupsListByPublisherOptionalParams,
   ): Promise<NetworkServiceDesignGroupsListByPublisherResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      listByPublisherOperationSpec
+      listByPublisherOperationSpec,
     );
   }
 
@@ -162,7 +163,7 @@ export class NetworkServiceDesignGroupsImpl
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsDeleteOptionalParams
+    options?: NetworkServiceDesignGroupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignGroupsDeleteResponse>,
@@ -171,21 +172,20 @@ export class NetworkServiceDesignGroupsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkServiceDesignGroupsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -194,8 +194,8 @@ export class NetworkServiceDesignGroupsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -203,8 +203,8 @@ export class NetworkServiceDesignGroupsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -214,9 +214,9 @@ export class NetworkServiceDesignGroupsImpl
         resourceGroupName,
         publisherName,
         networkServiceDesignGroupName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkServiceDesignGroupsDeleteResponse,
@@ -224,7 +224,7 @@ export class NetworkServiceDesignGroupsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,13 +241,13 @@ export class NetworkServiceDesignGroupsImpl
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsDeleteOptionalParams
+    options?: NetworkServiceDesignGroupsDeleteOptionalParams,
   ): Promise<NetworkServiceDesignGroupsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
       networkServiceDesignGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -266,7 +266,7 @@ export class NetworkServiceDesignGroupsImpl
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: NetworkServiceDesignGroup,
-    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkServiceDesignGroupsCreateOrUpdateResponse>,
@@ -275,21 +275,20 @@ export class NetworkServiceDesignGroupsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<NetworkServiceDesignGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -298,8 +297,8 @@ export class NetworkServiceDesignGroupsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -307,8 +306,8 @@ export class NetworkServiceDesignGroupsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -319,9 +318,9 @@ export class NetworkServiceDesignGroupsImpl
         publisherName,
         networkServiceDesignGroupName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       NetworkServiceDesignGroupsCreateOrUpdateResponse,
@@ -329,7 +328,7 @@ export class NetworkServiceDesignGroupsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -349,14 +348,14 @@ export class NetworkServiceDesignGroupsImpl
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: NetworkServiceDesignGroup,
-    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsCreateOrUpdateOptionalParams,
   ): Promise<NetworkServiceDesignGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publisherName,
       networkServiceDesignGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -372,16 +371,16 @@ export class NetworkServiceDesignGroupsImpl
     resourceGroupName: string,
     publisherName: string,
     networkServiceDesignGroupName: string,
-    options?: NetworkServiceDesignGroupsGetOptionalParams
+    options?: NetworkServiceDesignGroupsGetOptionalParams,
   ): Promise<NetworkServiceDesignGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         publisherName,
         networkServiceDesignGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -399,7 +398,7 @@ export class NetworkServiceDesignGroupsImpl
     publisherName: string,
     networkServiceDesignGroupName: string,
     parameters: TagsObject,
-    options?: NetworkServiceDesignGroupsUpdateOptionalParams
+    options?: NetworkServiceDesignGroupsUpdateOptionalParams,
   ): Promise<NetworkServiceDesignGroupsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -407,9 +406,9 @@ export class NetworkServiceDesignGroupsImpl
         publisherName,
         networkServiceDesignGroupName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -424,11 +423,11 @@ export class NetworkServiceDesignGroupsImpl
     resourceGroupName: string,
     publisherName: string,
     nextLink: string,
-    options?: NetworkServiceDesignGroupsListByPublisherNextOptionalParams
+    options?: NetworkServiceDesignGroupsListByPublisherNextOptionalParams,
   ): Promise<NetworkServiceDesignGroupsListByPublisherNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, nextLink, options },
-      listByPublisherNextOperationSpec
+      listByPublisherNextOperationSpec,
     );
   }
 }
@@ -436,47 +435,15 @@ export class NetworkServiceDesignGroupsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPublisherOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkServiceDesignGroupListResult
+      bodyMapper: Mappers.NetworkServiceDesignGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -484,31 +451,60 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.networkServiceDesignGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.NetworkServiceDesignGroupsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.networkServiceDesignGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     201: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     202: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     204: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -517,23 +513,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.networkServiceDesignGroupName
+    Parameters.networkServiceDesignGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -541,22 +536,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.networkServiceDesignGroupName
+    Parameters.networkServiceDesignGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/networkServiceDesignGroups/{networkServiceDesignGroupName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkServiceDesignGroup
+      bodyMapper: Mappers.NetworkServiceDesignGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -565,30 +559,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.networkServiceDesignGroupName
+    Parameters.networkServiceDesignGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPublisherNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkServiceDesignGroupListResult
+      bodyMapper: Mappers.NetworkServiceDesignGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

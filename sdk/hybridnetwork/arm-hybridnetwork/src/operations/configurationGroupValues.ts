@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   ConfigurationGroupValuesUpdateTagsOptionalParams,
   ConfigurationGroupValuesUpdateTagsResponse,
   ConfigurationGroupValuesListBySubscriptionNextResponse,
-  ConfigurationGroupValuesListByResourceGroupNextResponse
+  ConfigurationGroupValuesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams
+    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupValue> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +73,13 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ConfigurationGroupValuesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationGroupValue[]> {
     let result: ConfigurationGroupValuesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams
+    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ConfigurationGroupValue> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -114,7 +114,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams
+    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupValue> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -131,16 +131,16 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ConfigurationGroupValuesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationGroupValue[]> {
     let result: ConfigurationGroupValuesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +155,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -166,11 +166,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams
+    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConfigurationGroupValue> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -185,7 +185,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   async beginDelete(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesDeleteOptionalParams
+    options?: ConfigurationGroupValuesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupValuesDeleteResponse>,
@@ -194,21 +194,20 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationGroupValuesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -217,8 +216,8 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -226,15 +225,15 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, configurationGroupValueName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationGroupValuesDeleteResponse,
@@ -242,7 +241,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -257,12 +256,12 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   async beginDeleteAndWait(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesDeleteOptionalParams
+    options?: ConfigurationGroupValuesDeleteOptionalParams,
   ): Promise<ConfigurationGroupValuesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       configurationGroupValueName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -276,11 +275,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   get(
     resourceGroupName: string,
     configurationGroupValueName: string,
-    options?: ConfigurationGroupValuesGetOptionalParams
+    options?: ConfigurationGroupValuesGetOptionalParams,
   ): Promise<ConfigurationGroupValuesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configurationGroupValueName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -295,7 +294,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: ConfigurationGroupValue,
-    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupValuesCreateOrUpdateResponse>,
@@ -304,21 +303,20 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationGroupValuesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -327,8 +325,8 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -336,8 +334,8 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -347,9 +345,9 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
         resourceGroupName,
         configurationGroupValueName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationGroupValuesCreateOrUpdateResponse,
@@ -357,7 +355,7 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -374,13 +372,13 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: ConfigurationGroupValue,
-    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupValuesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationGroupValuesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       configurationGroupValueName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -396,11 +394,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
     resourceGroupName: string,
     configurationGroupValueName: string,
     parameters: TagsObject,
-    options?: ConfigurationGroupValuesUpdateTagsOptionalParams
+    options?: ConfigurationGroupValuesUpdateTagsOptionalParams,
   ): Promise<ConfigurationGroupValuesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configurationGroupValueName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -409,11 +407,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams
+    options?: ConfigurationGroupValuesListBySubscriptionOptionalParams,
   ): Promise<ConfigurationGroupValuesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -424,11 +422,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams
+    options?: ConfigurationGroupValuesListByResourceGroupOptionalParams,
   ): Promise<ConfigurationGroupValuesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -439,11 +437,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ConfigurationGroupValuesListBySubscriptionNextOptionalParams
+    options?: ConfigurationGroupValuesListBySubscriptionNextOptionalParams,
   ): Promise<ConfigurationGroupValuesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -456,11 +454,11 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ConfigurationGroupValuesListByResourceGroupNextOptionalParams
+    options?: ConfigurationGroupValuesListByResourceGroupNextOptionalParams,
   ): Promise<ConfigurationGroupValuesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -468,78 +466,75 @@ export class ConfigurationGroupValuesImpl implements ConfigurationGroupValues {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders
+      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders
+      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders
+      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders
+      headersMapper: Mappers.ConfigurationGroupValuesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupValueName
+    Parameters.configurationGroupValueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupValueName
+    Parameters.configurationGroupValueName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -547,23 +542,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupValueName
+    Parameters.configurationGroupValueName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues/{configurationGroupValueName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValue
+      bodyMapper: Mappers.ConfigurationGroupValue,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -571,86 +565,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupValueName
+    Parameters.configurationGroupValueName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroupValues",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/configurationGroupValues",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValueListResult
+      bodyMapper: Mappers.ConfigurationGroupValueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/configurationGroupValues",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValueListResult
+      bodyMapper: Mappers.ConfigurationGroupValueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValueListResult
+      bodyMapper: Mappers.ConfigurationGroupValueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupValueListResult
+      bodyMapper: Mappers.ConfigurationGroupValueListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

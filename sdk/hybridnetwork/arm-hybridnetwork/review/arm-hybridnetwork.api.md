@@ -193,7 +193,30 @@ export interface ArtifactStoreListResult {
 }
 
 // @public
+export interface ArtifactStoreNetworkFabricControllerEndPoints {
+    networkFabricControllerIds?: ReferencedResource[];
+}
+
+// @public
+export interface ArtifactStoreNetworkFabricControllerEndPointsList {
+    readonly nextLink?: string;
+    value?: ArtifactStoreNetworkFabricControllerEndPoints[];
+}
+
+// @public
+export interface ArtifactStorePrivateEndPointsFormat {
+    manualPrivateEndPointConnections?: ReferencedResource[];
+}
+
+// @public
+export interface ArtifactStorePrivateEndPointsListResult {
+    readonly nextLink?: string;
+    value?: ArtifactStorePrivateEndPointsFormat[];
+}
+
+// @public
 export interface ArtifactStorePropertiesFormat {
+    backingResourcePublicNetworkAccess?: BackingResourcePublicNetworkAccess;
     // (undocumented)
     managedResourceGroupConfiguration?: ArtifactStorePropertiesFormatManagedResourceGroupConfiguration;
     readonly provisioningState?: ProvisioningState;
@@ -210,14 +233,52 @@ export interface ArtifactStorePropertiesFormatManagedResourceGroupConfiguration 
 
 // @public
 export interface ArtifactStores {
+    beginAddNetworkFabricControllerEndPoints(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStoreNetworkFabricControllerEndPoints, options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>, ArtifactStoresAddNetworkFabricControllerEndPointsResponse>>;
+    beginAddNetworkFabricControllerEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStoreNetworkFabricControllerEndPoints, options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams): Promise<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>;
+    beginApprovePrivateEndPoints(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStorePrivateEndPointsFormat, options?: ArtifactStoresApprovePrivateEndPointsOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresApprovePrivateEndPointsResponse>, ArtifactStoresApprovePrivateEndPointsResponse>>;
+    beginApprovePrivateEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStorePrivateEndPointsFormat, options?: ArtifactStoresApprovePrivateEndPointsOptionalParams): Promise<ArtifactStoresApprovePrivateEndPointsResponse>;
     beginCreateOrUpdate(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStore, options?: ArtifactStoresCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresCreateOrUpdateResponse>, ArtifactStoresCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStore, options?: ArtifactStoresCreateOrUpdateOptionalParams): Promise<ArtifactStoresCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, publisherName: string, artifactStoreName: string, options?: ArtifactStoresDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresDeleteResponse>, ArtifactStoresDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, options?: ArtifactStoresDeleteOptionalParams): Promise<ArtifactStoresDeleteResponse>;
+    beginDeleteNetworkFabricControllerEndPoints(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStoreNetworkFabricControllerEndPoints, options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>, ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>>;
+    beginDeleteNetworkFabricControllerEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStoreNetworkFabricControllerEndPoints, options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams): Promise<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>;
+    beginListNetworkFabricControllerPrivateEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams): PagedAsyncIterableIterator<ArtifactStoreNetworkFabricControllerEndPoints>;
+    beginListPrivateEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, options?: ArtifactStoresListPrivateEndPointsOptionalParams): PagedAsyncIterableIterator<ArtifactStorePrivateEndPointsFormat>;
+    beginRemovePrivateEndPoints(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStorePrivateEndPointsFormat, options?: ArtifactStoresRemovePrivateEndPointsOptionalParams): Promise<SimplePollerLike<OperationState<ArtifactStoresRemovePrivateEndPointsResponse>, ArtifactStoresRemovePrivateEndPointsResponse>>;
+    beginRemovePrivateEndPointsAndWait(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: ArtifactStorePrivateEndPointsFormat, options?: ArtifactStoresRemovePrivateEndPointsOptionalParams): Promise<ArtifactStoresRemovePrivateEndPointsResponse>;
     get(resourceGroupName: string, publisherName: string, artifactStoreName: string, options?: ArtifactStoresGetOptionalParams): Promise<ArtifactStoresGetResponse>;
     listByPublisher(resourceGroupName: string, publisherName: string, options?: ArtifactStoresListByPublisherOptionalParams): PagedAsyncIterableIterator<ArtifactStore>;
     update(resourceGroupName: string, publisherName: string, artifactStoreName: string, parameters: TagsObject, options?: ArtifactStoresUpdateOptionalParams): Promise<ArtifactStoresUpdateResponse>;
 }
+
+// @public
+export interface ArtifactStoresAddNetworkFabricControllerEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresAddNetworkFabricControllerEndPointsResponse = ArtifactStoresAddNetworkFabricControllerEndPointsHeaders;
+
+// @public
+export interface ArtifactStoresApprovePrivateEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresApprovePrivateEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresApprovePrivateEndPointsResponse = ArtifactStoresApprovePrivateEndPointsHeaders;
 
 // @public
 export interface ArtifactStoresCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -232,6 +293,20 @@ export type ArtifactStoresCreateOrUpdateResponse = ArtifactStore;
 export interface ArtifactStoresDeleteHeaders {
     location?: string;
 }
+
+// @public
+export interface ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse = ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders;
 
 // @public
 export interface ArtifactStoresDeleteOptionalParams extends coreClient.OperationOptions {
@@ -262,6 +337,72 @@ export interface ArtifactStoresListByPublisherOptionalParams extends coreClient.
 
 // @public
 export type ArtifactStoresListByPublisherResponse = ArtifactStoreListResult;
+
+// @public
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextResponse = ArtifactStoreNetworkFabricControllerEndPointsList;
+
+// @public
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse = ArtifactStoreNetworkFabricControllerEndPointsList;
+
+// @public
+export interface ArtifactStoresListPrivateEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresListPrivateEndPointsNextHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresListPrivateEndPointsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArtifactStoresListPrivateEndPointsNextResponse = ArtifactStorePrivateEndPointsListResult;
+
+// @public
+export interface ArtifactStoresListPrivateEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresListPrivateEndPointsResponse = ArtifactStorePrivateEndPointsListResult;
+
+// @public
+export interface ArtifactStoresRemovePrivateEndPointsHeaders {
+    location?: string;
+}
+
+// @public
+export interface ArtifactStoresRemovePrivateEndPointsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArtifactStoresRemovePrivateEndPointsResponse = ArtifactStoresRemovePrivateEndPointsHeaders;
 
 // @public
 export interface ArtifactStoresUpdateOptionalParams extends coreClient.OperationOptions {
@@ -453,6 +594,9 @@ export interface AzureStorageAccountCredential extends ArtifactAccessCredential 
     expiry?: Date;
     storageAccountId?: string;
 }
+
+// @public
+export type BackingResourcePublicNetworkAccess = string;
 
 // @public
 export interface Component extends ProxyResource {
@@ -998,6 +1142,12 @@ export enum KnownAzureOperatorNexusArtifactType {
 }
 
 // @public
+export enum KnownBackingResourcePublicNetworkAccess {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownConfigurationGenerationType {
     HandlebarTemplate = "HandlebarTemplate",
     Unknown = "Unknown"
@@ -1428,15 +1578,15 @@ export interface NetworkFunctionListResult {
 export interface NetworkFunctionPropertiesFormat {
     allowSoftwareUpdate?: boolean;
     configurationType: "Secret" | "Open";
-    readonly networkFunctionDefinitionGroupName?: string;
-    readonly networkFunctionDefinitionOfferingLocation?: string;
-    readonly networkFunctionDefinitionVersion?: string;
+    networkFunctionDefinitionGroupName?: string;
+    networkFunctionDefinitionOfferingLocation?: string;
+    networkFunctionDefinitionVersion?: string;
     networkFunctionDefinitionVersionResourceReference?: DeploymentResourceIdReferenceUnion;
     nfviId?: string;
     nfviType?: NfviType;
     readonly provisioningState?: ProvisioningState;
-    readonly publisherName?: string;
-    readonly publisherScope?: PublisherScope;
+    publisherName?: string;
+    publisherScope?: PublisherScope;
     roleOverrideValues?: string[];
 }
 

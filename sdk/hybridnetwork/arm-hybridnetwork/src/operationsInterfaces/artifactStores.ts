@@ -11,6 +11,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ArtifactStore,
   ArtifactStoresListByPublisherOptionalParams,
+  ArtifactStoreNetworkFabricControllerEndPoints,
+  ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ArtifactStorePrivateEndPointsFormat,
+  ArtifactStoresListPrivateEndPointsOptionalParams,
   ArtifactStoresDeleteOptionalParams,
   ArtifactStoresDeleteResponse,
   ArtifactStoresCreateOrUpdateOptionalParams,
@@ -19,7 +23,15 @@ import {
   ArtifactStoresGetResponse,
   TagsObject,
   ArtifactStoresUpdateOptionalParams,
-  ArtifactStoresUpdateResponse
+  ArtifactStoresUpdateResponse,
+  ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ArtifactStoresAddNetworkFabricControllerEndPointsResponse,
+  ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse,
+  ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ArtifactStoresApprovePrivateEndPointsResponse,
+  ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ArtifactStoresRemovePrivateEndPointsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,8 +46,34 @@ export interface ArtifactStores {
   listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ArtifactStoresListByPublisherOptionalParams
+    options?: ArtifactStoresListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ArtifactStore>;
+  /**
+   * List network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  beginListNetworkFabricControllerPrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams,
+  ): PagedAsyncIterableIterator<ArtifactStoreNetworkFabricControllerEndPoints>;
+  /**
+   * List manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param options The options parameters.
+   */
+  beginListPrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    options?: ArtifactStoresListPrivateEndPointsOptionalParams,
+  ): PagedAsyncIterableIterator<ArtifactStorePrivateEndPointsFormat>;
   /**
    * Deletes the specified artifact store.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -47,7 +85,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresDeleteResponse>,
@@ -65,7 +103,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresDeleteOptionalParams
+    options?: ArtifactStoresDeleteOptionalParams,
   ): Promise<ArtifactStoresDeleteResponse>;
   /**
    * Creates or updates a artifact store.
@@ -80,7 +118,7 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArtifactStoresCreateOrUpdateResponse>,
@@ -100,7 +138,7 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: ArtifactStore,
-    options?: ArtifactStoresCreateOrUpdateOptionalParams
+    options?: ArtifactStoresCreateOrUpdateOptionalParams,
   ): Promise<ArtifactStoresCreateOrUpdateResponse>;
   /**
    * Gets information about the specified artifact store.
@@ -113,7 +151,7 @@ export interface ArtifactStores {
     resourceGroupName: string,
     publisherName: string,
     artifactStoreName: string,
-    options?: ArtifactStoresGetOptionalParams
+    options?: ArtifactStoresGetOptionalParams,
   ): Promise<ArtifactStoresGetResponse>;
   /**
    * Update artifact store resource.
@@ -128,6 +166,146 @@ export interface ArtifactStores {
     publisherName: string,
     artifactStoreName: string,
     parameters: TagsObject,
-    options?: ArtifactStoresUpdateOptionalParams
+    options?: ArtifactStoresUpdateOptionalParams,
   ): Promise<ArtifactStoresUpdateResponse>;
+  /**
+   * Add network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginAddNetworkFabricControllerEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>,
+      ArtifactStoresAddNetworkFabricControllerEndPointsResponse
+    >
+  >;
+  /**
+   * Add network fabric controllers to artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginAddNetworkFabricControllerEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<ArtifactStoresAddNetworkFabricControllerEndPointsResponse>;
+  /**
+   * Delete network fabric controllers on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginDeleteNetworkFabricControllerEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>,
+      ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse
+    >
+  >;
+  /**
+   * Delete network fabric controllers on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginDeleteNetworkFabricControllerEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStoreNetworkFabricControllerEndPoints,
+    options?: ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams,
+  ): Promise<ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse>;
+  /**
+   * Approve manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to approve private endpoints.
+   * @param options The options parameters.
+   */
+  beginApprovePrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresApprovePrivateEndPointsResponse>,
+      ArtifactStoresApprovePrivateEndPointsResponse
+    >
+  >;
+  /**
+   * Approve manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to approve private endpoints.
+   * @param options The options parameters.
+   */
+  beginApprovePrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresApprovePrivateEndPointsOptionalParams,
+  ): Promise<ArtifactStoresApprovePrivateEndPointsResponse>;
+  /**
+   * Remove manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginRemovePrivateEndPoints(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ArtifactStoresRemovePrivateEndPointsResponse>,
+      ArtifactStoresRemovePrivateEndPointsResponse
+    >
+  >;
+  /**
+   * Remove manual private endpoints on artifact stores
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param publisherName The name of the publisher.
+   * @param artifactStoreName The name of the artifact store.
+   * @param parameters Parameters supplied to the create or update application group operation.
+   * @param options The options parameters.
+   */
+  beginRemovePrivateEndPointsAndWait(
+    resourceGroupName: string,
+    publisherName: string,
+    artifactStoreName: string,
+    parameters: ArtifactStorePrivateEndPointsFormat,
+    options?: ArtifactStoresRemovePrivateEndPointsOptionalParams,
+  ): Promise<ArtifactStoresRemovePrivateEndPointsResponse>;
 }

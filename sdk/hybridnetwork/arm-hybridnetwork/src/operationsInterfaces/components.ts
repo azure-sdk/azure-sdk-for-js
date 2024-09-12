@@ -11,7 +11,7 @@ import {
   Component,
   ComponentsListByNetworkFunctionOptionalParams,
   ComponentsGetOptionalParams,
-  ComponentsGetResponse
+  ComponentsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Components {
   listByNetworkFunction(
     resourceGroupName: string,
     networkFunctionName: string,
-    options?: ComponentsListByNetworkFunctionOptionalParams
+    options?: ComponentsListByNetworkFunctionOptionalParams,
   ): PagedAsyncIterableIterator<Component>;
   /**
    * Gets information about the specified application instance resource.
@@ -39,6 +39,6 @@ export interface Components {
     resourceGroupName: string,
     networkFunctionName: string,
     componentName: string,
-    options?: ComponentsGetOptionalParams
+    options?: ComponentsGetOptionalParams,
   ): Promise<ComponentsGetResponse>;
 }

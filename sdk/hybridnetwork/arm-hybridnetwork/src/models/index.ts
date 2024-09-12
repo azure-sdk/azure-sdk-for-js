@@ -245,31 +245,16 @@ export interface NetworkFunctionPropertiesFormat {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The publisher name for the network function.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publisherName?: string;
-  /**
-   * The scope of the publisher.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publisherScope?: PublisherScope;
-  /**
-   * The network function definition group name for the network function.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkFunctionDefinitionGroupName?: string;
-  /**
-   * The network function definition version for the network function.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkFunctionDefinitionVersion?: string;
-  /**
-   * The location of the network function definition offering.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkFunctionDefinitionOfferingLocation?: string;
+  /** The publisher name for the network function. */
+  publisherName?: string;
+  /** The scope of the publisher. */
+  publisherScope?: PublisherScope;
+  /** The network function definition group name for the network function. */
+  networkFunctionDefinitionGroupName?: string;
+  /** The network function definition version for the network function. */
+  networkFunctionDefinitionVersion?: string;
+  /** The location of the network function definition offering. */
+  networkFunctionDefinitionOfferingLocation?: string;
   /** The network function definition version resource reference. */
   networkFunctionDefinitionVersionResourceReference?: DeploymentResourceIdReferenceUnion;
   /** The nfvi type for the network function. */
@@ -761,6 +746,8 @@ export interface ArtifactStorePropertiesFormat {
   readonly provisioningState?: ProvisioningState;
   /** The artifact store type. */
   storeType?: ArtifactStoreType;
+  /** The artifact store backing resource network access type */
+  backingResourcePublicNetworkAccess?: BackingResourcePublicNetworkAccess;
   /** The replication strategy. */
   replicationStrategy?: ArtifactReplicationStrategy;
   managedResourceGroupConfiguration?: ArtifactStorePropertiesFormatManagedResourceGroupConfiguration;
@@ -776,6 +763,40 @@ export interface ArtifactStorePropertiesFormatManagedResourceGroupConfiguration 
   name?: string;
   /** The managed resource group location. */
   location?: string;
+}
+
+/** List of network fabric controller ids. */
+export interface ArtifactStoreNetworkFabricControllerEndPoints {
+  /** list of network fabric controllers. */
+  networkFabricControllerIds?: ReferencedResource[];
+}
+
+/** List of manual private endpoints. */
+export interface ArtifactStoreNetworkFabricControllerEndPointsList {
+  /** A list of network fabric controllers. */
+  value?: ArtifactStoreNetworkFabricControllerEndPoints[];
+  /**
+   * The URI to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of manual private endpoints. */
+export interface ArtifactStorePrivateEndPointsFormat {
+  /** list of private endpoints. */
+  manualPrivateEndPointConnections?: ReferencedResource[];
+}
+
+/** List of manual private endpoints. */
+export interface ArtifactStorePrivateEndPointsListResult {
+  /** A list of private endpoints. */
+  value?: ArtifactStorePrivateEndPointsFormat[];
+  /**
+   * The URI to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A list of artifact manifests. */
@@ -1673,6 +1694,54 @@ export interface ArtifactStoresDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ArtifactStores_addNetworkFabricControllerEndPoints operation. */
+export interface ArtifactStoresAddNetworkFabricControllerEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_deleteNetworkFabricControllerEndPoints operation. */
+export interface ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_listNetworkFabricControllerPrivateEndPoints operation. */
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_approvePrivateEndPoints operation. */
+export interface ArtifactStoresApprovePrivateEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_removePrivateEndPoints operation. */
+export interface ArtifactStoresRemovePrivateEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_listPrivateEndPoints operation. */
+export interface ArtifactStoresListPrivateEndPointsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_listNetworkFabricControllerPrivateEndPointsNext operation. */
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ArtifactStores_listPrivateEndPointsNext operation. */
+export interface ArtifactStoresListPrivateEndPointsNextHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
 /** Defines headers for ArtifactManifests_delete operation. */
 export interface ArtifactManifestsDeleteHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -1720,7 +1789,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** Converging */
-  Converging = "Converging"
+  Converging = "Converging",
 }
 
 /**
@@ -1752,7 +1821,7 @@ export enum KnownVersionState {
   /** Validating */
   Validating = "Validating",
   /** ValidationFailed */
-  ValidationFailed = "ValidationFailed"
+  ValidationFailed = "ValidationFailed",
 }
 
 /**
@@ -1778,7 +1847,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1798,7 +1867,7 @@ export enum KnownPublisherScope {
   /** Unknown */
   Unknown = "Unknown",
   /** Private */
-  Private = "Private"
+  Private = "Private",
 }
 
 /**
@@ -1818,7 +1887,7 @@ export enum KnownIdType {
   /** Open */
   Open = "Open",
   /** Secret */
-  Secret = "Secret"
+  Secret = "Secret",
 }
 
 /**
@@ -1839,7 +1908,7 @@ export enum KnownConfigurationGroupValueConfigurationType {
   /** Secret */
   Secret = "Secret",
   /** Open */
-  Open = "Open"
+  Open = "Open",
 }
 
 /**
@@ -1862,7 +1931,7 @@ export enum KnownNfviType {
   /** AzureCore */
   AzureCore = "AzureCore",
   /** AzureOperatorNexus */
-  AzureOperatorNexus = "AzureOperatorNexus"
+  AzureOperatorNexus = "AzureOperatorNexus",
 }
 
 /**
@@ -1884,7 +1953,7 @@ export enum KnownNetworkFunctionConfigurationType {
   /** Secret */
   Secret = "Secret",
   /** Open */
-  Open = "Open"
+  Open = "Open",
 }
 
 /**
@@ -1907,7 +1976,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1935,7 +2004,7 @@ export enum KnownHttpMethod {
   /** Patch */
   Patch = "Patch",
   /** Delete */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -1981,7 +2050,7 @@ export enum KnownStatus {
   /** Rollingback */
   Rollingback = "Rollingback",
   /** Upgrading */
-  Upgrading = "Upgrading"
+  Upgrading = "Upgrading",
 }
 
 /**
@@ -2021,7 +2090,7 @@ export enum KnownPodStatus {
   /** Terminating */
   Terminating = "Terminating",
   /** NotReady */
-  NotReady = "NotReady"
+  NotReady = "NotReady",
 }
 
 /**
@@ -2044,7 +2113,7 @@ export enum KnownPodEventType {
   /** Normal */
   Normal = "Normal",
   /** Warning */
-  Warning = "Warning"
+  Warning = "Warning",
 }
 
 /**
@@ -2064,7 +2133,7 @@ export enum KnownNetworkFunctionType {
   /** VirtualNetworkFunction */
   VirtualNetworkFunction = "VirtualNetworkFunction",
   /** ContainerizedNetworkFunction */
-  ContainerizedNetworkFunction = "ContainerizedNetworkFunction"
+  ContainerizedNetworkFunction = "ContainerizedNetworkFunction",
 }
 
 /**
@@ -2085,7 +2154,7 @@ export enum KnownType {
   /** ArmResourceDefinition */
   ArmResourceDefinition = "ArmResourceDefinition",
   /** NetworkFunctionDefinition */
-  NetworkFunctionDefinition = "NetworkFunctionDefinition"
+  NetworkFunctionDefinition = "NetworkFunctionDefinition",
 }
 
 /**
@@ -2106,7 +2175,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -2123,7 +2192,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2142,7 +2211,7 @@ export enum KnownArtifactStoreType {
   /** AzureContainerRegistry */
   AzureContainerRegistry = "AzureContainerRegistry",
   /** AzureStorageAccount */
-  AzureStorageAccount = "AzureStorageAccount"
+  AzureStorageAccount = "AzureStorageAccount",
 }
 
 /**
@@ -2156,12 +2225,30 @@ export enum KnownArtifactStoreType {
  */
 export type ArtifactStoreType = string;
 
+/** Known values of {@link BackingResourcePublicNetworkAccess} that the service accepts. */
+export enum KnownBackingResourcePublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for BackingResourcePublicNetworkAccess. \
+ * {@link KnownBackingResourcePublicNetworkAccess} can be used interchangeably with BackingResourcePublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type BackingResourcePublicNetworkAccess = string;
+
 /** Known values of {@link ArtifactReplicationStrategy} that the service accepts. */
 export enum KnownArtifactReplicationStrategy {
   /** Unknown */
   Unknown = "Unknown",
   /** SingleReplication */
-  SingleReplication = "SingleReplication"
+  SingleReplication = "SingleReplication",
 }
 
 /**
@@ -2187,7 +2274,7 @@ export enum KnownArtifactManifestState {
   /** ValidationFailed */
   ValidationFailed = "ValidationFailed",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -2215,7 +2302,7 @@ export enum KnownArtifactType {
   /** ArmTemplate */
   ArmTemplate = "ArmTemplate",
   /** ImageFile */
-  ImageFile = "ImageFile"
+  ImageFile = "ImageFile",
 }
 
 /**
@@ -2238,7 +2325,7 @@ export enum KnownCredentialType {
   /** AzureContainerRegistryScopedToken */
   AzureContainerRegistryScopedToken = "AzureContainerRegistryScopedToken",
   /** AzureStorageAccountToken */
-  AzureStorageAccountToken = "AzureStorageAccountToken"
+  AzureStorageAccountToken = "AzureStorageAccountToken",
 }
 
 /**
@@ -2261,7 +2348,7 @@ export enum KnownArtifactState {
   /** Active */
   Active = "Active",
   /** Deprecated */
-  Deprecated = "Deprecated"
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -2281,7 +2368,7 @@ export enum KnownSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -2299,7 +2386,7 @@ export enum KnownSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -2319,7 +2406,7 @@ export enum KnownApplicationEnablement {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2338,7 +2425,7 @@ export enum KnownContainerizedNetworkFunctionNfviType {
   /** Unknown */
   Unknown = "Unknown",
   /** AzureArcKubernetes */
-  AzureArcKubernetes = "AzureArcKubernetes"
+  AzureArcKubernetes = "AzureArcKubernetes",
 }
 
 /**
@@ -2358,7 +2445,7 @@ export enum KnownVirtualNetworkFunctionNfviType {
   /** AzureCore */
   AzureCore = "AzureCore",
   /** AzureOperatorNexus */
-  AzureOperatorNexus = "AzureOperatorNexus"
+  AzureOperatorNexus = "AzureOperatorNexus",
 }
 
 /**
@@ -2377,7 +2464,7 @@ export enum KnownAzureArcKubernetesArtifactType {
   /** Unknown */
   Unknown = "Unknown",
   /** HelmPackage */
-  HelmPackage = "HelmPackage"
+  HelmPackage = "HelmPackage",
 }
 
 /**
@@ -2397,7 +2484,7 @@ export enum KnownAzureCoreArtifactType {
   /** VhdImageFile */
   VhdImageFile = "VhdImageFile",
   /** ArmTemplate */
-  ArmTemplate = "ArmTemplate"
+  ArmTemplate = "ArmTemplate",
 }
 
 /**
@@ -2418,7 +2505,7 @@ export enum KnownAzureOperatorNexusArtifactType {
   /** ImageFile */
   ImageFile = "ImageFile",
   /** ArmTemplate */
-  ArmTemplate = "ArmTemplate"
+  ArmTemplate = "ArmTemplate",
 }
 
 /**
@@ -2437,7 +2524,7 @@ export enum KnownTemplateType {
   /** Unknown */
   Unknown = "Unknown",
   /** ArmTemplate */
-  ArmTemplate = "ArmTemplate"
+  ArmTemplate = "ArmTemplate",
 }
 
 /**
@@ -2455,7 +2542,7 @@ export enum KnownConfigurationGenerationType {
   /** Unknown */
   Unknown = "Unknown",
   /** HandlebarTemplate */
-  HandlebarTemplate = "HandlebarTemplate"
+  HandlebarTemplate = "HandlebarTemplate",
 }
 
 /**
@@ -2473,7 +2560,8 @@ export interface ConfigurationGroupSchemasListByPublisherOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisher operation. */
-export type ConfigurationGroupSchemasListByPublisherResponse = ConfigurationGroupSchemaListResult;
+export type ConfigurationGroupSchemasListByPublisherResponse =
+  ConfigurationGroupSchemaListResult;
 
 /** Optional parameters. */
 export interface ConfigurationGroupSchemasDeleteOptionalParams
@@ -2485,7 +2573,8 @@ export interface ConfigurationGroupSchemasDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ConfigurationGroupSchemasDeleteResponse = ConfigurationGroupSchemasDeleteHeaders;
+export type ConfigurationGroupSchemasDeleteResponse =
+  ConfigurationGroupSchemasDeleteHeaders;
 
 /** Optional parameters. */
 export interface ConfigurationGroupSchemasCreateOrUpdateOptionalParams
@@ -2497,7 +2586,8 @@ export interface ConfigurationGroupSchemasCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationGroupSchemasCreateOrUpdateResponse = ConfigurationGroupSchema;
+export type ConfigurationGroupSchemasCreateOrUpdateResponse =
+  ConfigurationGroupSchema;
 
 /** Optional parameters. */
 export interface ConfigurationGroupSchemasGetOptionalParams
@@ -2523,14 +2613,16 @@ export interface ConfigurationGroupSchemasUpdateStateOptionalParams
 }
 
 /** Contains response data for the updateState operation. */
-export type ConfigurationGroupSchemasUpdateStateResponse = ConfigurationGroupSchemaVersionUpdateState;
+export type ConfigurationGroupSchemasUpdateStateResponse =
+  ConfigurationGroupSchemaVersionUpdateState;
 
 /** Optional parameters. */
 export interface ConfigurationGroupSchemasListByPublisherNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisherNext operation. */
-export type ConfigurationGroupSchemasListByPublisherNextResponse = ConfigurationGroupSchemaListResult;
+export type ConfigurationGroupSchemasListByPublisherNextResponse =
+  ConfigurationGroupSchemaListResult;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesDeleteOptionalParams
@@ -2542,7 +2634,8 @@ export interface ConfigurationGroupValuesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ConfigurationGroupValuesDeleteResponse = ConfigurationGroupValuesDeleteHeaders;
+export type ConfigurationGroupValuesDeleteResponse =
+  ConfigurationGroupValuesDeleteHeaders;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesGetOptionalParams
@@ -2561,42 +2654,48 @@ export interface ConfigurationGroupValuesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationGroupValuesCreateOrUpdateResponse = ConfigurationGroupValue;
+export type ConfigurationGroupValuesCreateOrUpdateResponse =
+  ConfigurationGroupValue;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesUpdateTagsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateTags operation. */
-export type ConfigurationGroupValuesUpdateTagsResponse = ConfigurationGroupValue;
+export type ConfigurationGroupValuesUpdateTagsResponse =
+  ConfigurationGroupValue;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ConfigurationGroupValuesListBySubscriptionResponse = ConfigurationGroupValueListResult;
+export type ConfigurationGroupValuesListBySubscriptionResponse =
+  ConfigurationGroupValueListResult;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ConfigurationGroupValuesListByResourceGroupResponse = ConfigurationGroupValueListResult;
+export type ConfigurationGroupValuesListByResourceGroupResponse =
+  ConfigurationGroupValueListResult;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConfigurationGroupValuesListBySubscriptionNextResponse = ConfigurationGroupValueListResult;
+export type ConfigurationGroupValuesListBySubscriptionNextResponse =
+  ConfigurationGroupValueListResult;
 
 /** Optional parameters. */
 export interface ConfigurationGroupValuesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConfigurationGroupValuesListByResourceGroupNextResponse = ConfigurationGroupValueListResult;
+export type ConfigurationGroupValuesListByResourceGroupNextResponse =
+  ConfigurationGroupValueListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionsDeleteOptionalParams
@@ -2638,14 +2737,16 @@ export interface NetworkFunctionsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type NetworkFunctionsListBySubscriptionResponse = NetworkFunctionListResult;
+export type NetworkFunctionsListBySubscriptionResponse =
+  NetworkFunctionListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type NetworkFunctionsListByResourceGroupResponse = NetworkFunctionListResult;
+export type NetworkFunctionsListByResourceGroupResponse =
+  NetworkFunctionListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionsExecuteRequestOptionalParams
@@ -2661,14 +2762,16 @@ export interface NetworkFunctionsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type NetworkFunctionsListBySubscriptionNextResponse = NetworkFunctionListResult;
+export type NetworkFunctionsListBySubscriptionNextResponse =
+  NetworkFunctionListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkFunctionsListByResourceGroupNextResponse = NetworkFunctionListResult;
+export type NetworkFunctionsListByResourceGroupNextResponse =
+  NetworkFunctionListResult;
 
 /** Optional parameters. */
 export interface ComponentsGetOptionalParams
@@ -2696,7 +2799,8 @@ export interface NetworkFunctionDefinitionGroupsListByPublisherOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisher operation. */
-export type NetworkFunctionDefinitionGroupsListByPublisherResponse = NetworkFunctionDefinitionGroupListResult;
+export type NetworkFunctionDefinitionGroupsListByPublisherResponse =
+  NetworkFunctionDefinitionGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionGroupsDeleteOptionalParams
@@ -2708,7 +2812,8 @@ export interface NetworkFunctionDefinitionGroupsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NetworkFunctionDefinitionGroupsDeleteResponse = NetworkFunctionDefinitionGroupsDeleteHeaders;
+export type NetworkFunctionDefinitionGroupsDeleteResponse =
+  NetworkFunctionDefinitionGroupsDeleteHeaders;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams
@@ -2720,28 +2825,32 @@ export interface NetworkFunctionDefinitionGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkFunctionDefinitionGroupsCreateOrUpdateResponse = NetworkFunctionDefinitionGroup;
+export type NetworkFunctionDefinitionGroupsCreateOrUpdateResponse =
+  NetworkFunctionDefinitionGroup;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionGroupsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkFunctionDefinitionGroupsGetResponse = NetworkFunctionDefinitionGroup;
+export type NetworkFunctionDefinitionGroupsGetResponse =
+  NetworkFunctionDefinitionGroup;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionGroupsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type NetworkFunctionDefinitionGroupsUpdateResponse = NetworkFunctionDefinitionGroup;
+export type NetworkFunctionDefinitionGroupsUpdateResponse =
+  NetworkFunctionDefinitionGroup;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionGroupsListByPublisherNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisherNext operation. */
-export type NetworkFunctionDefinitionGroupsListByPublisherNextResponse = NetworkFunctionDefinitionGroupListResult;
+export type NetworkFunctionDefinitionGroupsListByPublisherNextResponse =
+  NetworkFunctionDefinitionGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsDeleteOptionalParams
@@ -2753,7 +2862,8 @@ export interface NetworkFunctionDefinitionVersionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NetworkFunctionDefinitionVersionsDeleteResponse = NetworkFunctionDefinitionVersionsDeleteHeaders;
+export type NetworkFunctionDefinitionVersionsDeleteResponse =
+  NetworkFunctionDefinitionVersionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams
@@ -2765,28 +2875,32 @@ export interface NetworkFunctionDefinitionVersionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkFunctionDefinitionVersionsCreateOrUpdateResponse = NetworkFunctionDefinitionVersion;
+export type NetworkFunctionDefinitionVersionsCreateOrUpdateResponse =
+  NetworkFunctionDefinitionVersion;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkFunctionDefinitionVersionsGetResponse = NetworkFunctionDefinitionVersion;
+export type NetworkFunctionDefinitionVersionsGetResponse =
+  NetworkFunctionDefinitionVersion;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type NetworkFunctionDefinitionVersionsUpdateResponse = NetworkFunctionDefinitionVersion;
+export type NetworkFunctionDefinitionVersionsUpdateResponse =
+  NetworkFunctionDefinitionVersion;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkFunctionDefinitionGroup operation. */
-export type NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupResponse = NetworkFunctionDefinitionVersionListResult;
+export type NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupResponse =
+  NetworkFunctionDefinitionVersionListResult;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsUpdateStateOptionalParams
@@ -2798,21 +2912,24 @@ export interface NetworkFunctionDefinitionVersionsUpdateStateOptionalParams
 }
 
 /** Contains response data for the updateState operation. */
-export type NetworkFunctionDefinitionVersionsUpdateStateResponse = NetworkFunctionDefinitionVersionUpdateState;
+export type NetworkFunctionDefinitionVersionsUpdateStateResponse =
+  NetworkFunctionDefinitionVersionUpdateState;
 
 /** Optional parameters. */
 export interface NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkFunctionDefinitionGroupNext operation. */
-export type NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupNextResponse = NetworkFunctionDefinitionVersionListResult;
+export type NetworkFunctionDefinitionVersionsListByNetworkFunctionDefinitionGroupNextResponse =
+  NetworkFunctionDefinitionVersionListResult;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignGroupsListByPublisherOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisher operation. */
-export type NetworkServiceDesignGroupsListByPublisherResponse = NetworkServiceDesignGroupListResult;
+export type NetworkServiceDesignGroupsListByPublisherResponse =
+  NetworkServiceDesignGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignGroupsDeleteOptionalParams
@@ -2824,7 +2941,8 @@ export interface NetworkServiceDesignGroupsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NetworkServiceDesignGroupsDeleteResponse = NetworkServiceDesignGroupsDeleteHeaders;
+export type NetworkServiceDesignGroupsDeleteResponse =
+  NetworkServiceDesignGroupsDeleteHeaders;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
@@ -2836,7 +2954,8 @@ export interface NetworkServiceDesignGroupsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkServiceDesignGroupsCreateOrUpdateResponse = NetworkServiceDesignGroup;
+export type NetworkServiceDesignGroupsCreateOrUpdateResponse =
+  NetworkServiceDesignGroup;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignGroupsGetOptionalParams
@@ -2850,14 +2969,16 @@ export interface NetworkServiceDesignGroupsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type NetworkServiceDesignGroupsUpdateResponse = NetworkServiceDesignGroup;
+export type NetworkServiceDesignGroupsUpdateResponse =
+  NetworkServiceDesignGroup;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignGroupsListByPublisherNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPublisherNext operation. */
-export type NetworkServiceDesignGroupsListByPublisherNextResponse = NetworkServiceDesignGroupListResult;
+export type NetworkServiceDesignGroupsListByPublisherNextResponse =
+  NetworkServiceDesignGroupListResult;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsDeleteOptionalParams
@@ -2869,7 +2990,8 @@ export interface NetworkServiceDesignVersionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NetworkServiceDesignVersionsDeleteResponse = NetworkServiceDesignVersionsDeleteHeaders;
+export type NetworkServiceDesignVersionsDeleteResponse =
+  NetworkServiceDesignVersionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsCreateOrUpdateOptionalParams
@@ -2881,28 +3003,32 @@ export interface NetworkServiceDesignVersionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NetworkServiceDesignVersionsCreateOrUpdateResponse = NetworkServiceDesignVersion;
+export type NetworkServiceDesignVersionsCreateOrUpdateResponse =
+  NetworkServiceDesignVersion;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NetworkServiceDesignVersionsGetResponse = NetworkServiceDesignVersion;
+export type NetworkServiceDesignVersionsGetResponse =
+  NetworkServiceDesignVersion;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type NetworkServiceDesignVersionsUpdateResponse = NetworkServiceDesignVersion;
+export type NetworkServiceDesignVersionsUpdateResponse =
+  NetworkServiceDesignVersion;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsListByNetworkServiceDesignGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkServiceDesignGroup operation. */
-export type NetworkServiceDesignVersionsListByNetworkServiceDesignGroupResponse = NetworkServiceDesignVersionListResult;
+export type NetworkServiceDesignVersionsListByNetworkServiceDesignGroupResponse =
+  NetworkServiceDesignVersionListResult;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsUpdateStateOptionalParams
@@ -2914,14 +3040,16 @@ export interface NetworkServiceDesignVersionsUpdateStateOptionalParams
 }
 
 /** Contains response data for the updateState operation. */
-export type NetworkServiceDesignVersionsUpdateStateResponse = NetworkServiceDesignVersionUpdateState;
+export type NetworkServiceDesignVersionsUpdateStateResponse =
+  NetworkServiceDesignVersionUpdateState;
 
 /** Optional parameters. */
 export interface NetworkServiceDesignVersionsListByNetworkServiceDesignGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNetworkServiceDesignGroupNext operation. */
-export type NetworkServiceDesignVersionsListByNetworkServiceDesignGroupNextResponse = NetworkServiceDesignVersionListResult;
+export type NetworkServiceDesignVersionsListByNetworkServiceDesignGroupNextResponse =
+  NetworkServiceDesignVersionListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -3054,6 +3182,84 @@ export interface ArtifactStoresUpdateOptionalParams
 export type ArtifactStoresUpdateResponse = ArtifactStore;
 
 /** Optional parameters. */
+export interface ArtifactStoresAddNetworkFabricControllerEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addNetworkFabricControllerEndPoints operation. */
+export type ArtifactStoresAddNetworkFabricControllerEndPointsResponse =
+  ArtifactStoresAddNetworkFabricControllerEndPointsHeaders;
+
+/** Optional parameters. */
+export interface ArtifactStoresDeleteNetworkFabricControllerEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteNetworkFabricControllerEndPoints operation. */
+export type ArtifactStoresDeleteNetworkFabricControllerEndPointsResponse =
+  ArtifactStoresDeleteNetworkFabricControllerEndPointsHeaders;
+
+/** Optional parameters. */
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listNetworkFabricControllerPrivateEndPoints operation. */
+export type ArtifactStoresListNetworkFabricControllerPrivateEndPointsResponse =
+  ArtifactStoreNetworkFabricControllerEndPointsList;
+
+/** Optional parameters. */
+export interface ArtifactStoresApprovePrivateEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the approvePrivateEndPoints operation. */
+export type ArtifactStoresApprovePrivateEndPointsResponse =
+  ArtifactStoresApprovePrivateEndPointsHeaders;
+
+/** Optional parameters. */
+export interface ArtifactStoresRemovePrivateEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the removePrivateEndPoints operation. */
+export type ArtifactStoresRemovePrivateEndPointsResponse =
+  ArtifactStoresRemovePrivateEndPointsHeaders;
+
+/** Optional parameters. */
+export interface ArtifactStoresListPrivateEndPointsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listPrivateEndPoints operation. */
+export type ArtifactStoresListPrivateEndPointsResponse =
+  ArtifactStorePrivateEndPointsListResult;
+
+/** Optional parameters. */
 export interface ArtifactStoresListByPublisherNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3061,11 +3267,28 @@ export interface ArtifactStoresListByPublisherNextOptionalParams
 export type ArtifactStoresListByPublisherNextResponse = ArtifactStoreListResult;
 
 /** Optional parameters. */
+export interface ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNetworkFabricControllerPrivateEndPointsNext operation. */
+export type ArtifactStoresListNetworkFabricControllerPrivateEndPointsNextResponse =
+  ArtifactStoreNetworkFabricControllerEndPointsList;
+
+/** Optional parameters. */
+export interface ArtifactStoresListPrivateEndPointsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndPointsNext operation. */
+export type ArtifactStoresListPrivateEndPointsNextResponse =
+  ArtifactStorePrivateEndPointsListResult;
+
+/** Optional parameters. */
 export interface ArtifactManifestsListByArtifactStoreOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByArtifactStore operation. */
-export type ArtifactManifestsListByArtifactStoreResponse = ArtifactManifestListResult;
+export type ArtifactManifestsListByArtifactStoreResponse =
+  ArtifactManifestListResult;
 
 /** Optional parameters. */
 export interface ArtifactManifestsDeleteOptionalParams
@@ -3110,7 +3333,8 @@ export interface ArtifactManifestsListCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCredential operation. */
-export type ArtifactManifestsListCredentialResponse = ArtifactAccessCredentialUnion;
+export type ArtifactManifestsListCredentialResponse =
+  ArtifactAccessCredentialUnion;
 
 /** Optional parameters. */
 export interface ArtifactManifestsUpdateStateOptionalParams
@@ -3129,7 +3353,8 @@ export interface ArtifactManifestsListByArtifactStoreNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByArtifactStoreNext operation. */
-export type ArtifactManifestsListByArtifactStoreNextResponse = ArtifactManifestListResult;
+export type ArtifactManifestsListByArtifactStoreNextResponse =
+  ArtifactManifestListResult;
 
 /** Optional parameters. */
 export interface ProxyArtifactListOptionalParams
@@ -3143,7 +3368,8 @@ export interface ProxyArtifactListVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersions operation. */
-export type ProxyArtifactListVersionsResponse = ProxyArtifactVersionsOverviewListResult;
+export type ProxyArtifactListVersionsResponse =
+  ProxyArtifactVersionsOverviewListResult;
 
 /** Optional parameters. */
 export interface ProxyArtifactUpdateStateOptionalParams
@@ -3155,7 +3381,8 @@ export interface ProxyArtifactUpdateStateOptionalParams
 }
 
 /** Contains response data for the updateState operation. */
-export type ProxyArtifactUpdateStateResponse = ProxyArtifactVersionsListOverview;
+export type ProxyArtifactUpdateStateResponse =
+  ProxyArtifactVersionsListOverview;
 
 /** Optional parameters. */
 export interface ProxyArtifactListNextOptionalParams
@@ -3169,7 +3396,8 @@ export interface ProxyArtifactListVersionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersionsNext operation. */
-export type ProxyArtifactListVersionsNextResponse = ProxyArtifactVersionsOverviewListResult;
+export type ProxyArtifactListVersionsNextResponse =
+  ProxyArtifactVersionsOverviewListResult;
 
 /** Optional parameters. */
 export interface SitesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -3245,7 +3473,8 @@ export interface SiteNetworkServicesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type SiteNetworkServicesDeleteResponse = SiteNetworkServicesDeleteHeaders;
+export type SiteNetworkServicesDeleteResponse =
+  SiteNetworkServicesDeleteHeaders;
 
 /** Optional parameters. */
 export interface SiteNetworkServicesGetOptionalParams
@@ -3278,28 +3507,32 @@ export interface SiteNetworkServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SiteNetworkServicesListBySubscriptionResponse = SiteNetworkServiceListResult;
+export type SiteNetworkServicesListBySubscriptionResponse =
+  SiteNetworkServiceListResult;
 
 /** Optional parameters. */
 export interface SiteNetworkServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SiteNetworkServicesListByResourceGroupResponse = SiteNetworkServiceListResult;
+export type SiteNetworkServicesListByResourceGroupResponse =
+  SiteNetworkServiceListResult;
 
 /** Optional parameters. */
 export interface SiteNetworkServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SiteNetworkServicesListBySubscriptionNextResponse = SiteNetworkServiceListResult;
+export type SiteNetworkServicesListBySubscriptionNextResponse =
+  SiteNetworkServiceListResult;
 
 /** Optional parameters. */
 export interface SiteNetworkServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SiteNetworkServicesListByResourceGroupNextResponse = SiteNetworkServiceListResult;
+export type SiteNetworkServicesListByResourceGroupNextResponse =
+  SiteNetworkServiceListResult;
 
 /** Optional parameters. */
 export interface HybridNetworkManagementClientOptionalParams

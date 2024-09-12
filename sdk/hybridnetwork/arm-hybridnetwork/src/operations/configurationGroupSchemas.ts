@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,13 +36,14 @@ import {
   ConfigurationGroupSchemaVersionUpdateState,
   ConfigurationGroupSchemasUpdateStateOptionalParams,
   ConfigurationGroupSchemasUpdateStateResponse,
-  ConfigurationGroupSchemasListByPublisherNextResponse
+  ConfigurationGroupSchemasListByPublisherNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConfigurationGroupSchemas operations. */
 export class ConfigurationGroupSchemasImpl
-  implements ConfigurationGroupSchemas {
+  implements ConfigurationGroupSchemas
+{
   private readonly client: HybridNetworkManagementClient;
 
   /**
@@ -62,12 +63,12 @@ export class ConfigurationGroupSchemasImpl
   public listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ConfigurationGroupSchemasListByPublisherOptionalParams
+    options?: ConfigurationGroupSchemasListByPublisherOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationGroupSchema> {
     const iter = this.listByPublisherPagingAll(
       resourceGroupName,
       publisherName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +85,9 @@ export class ConfigurationGroupSchemasImpl
           resourceGroupName,
           publisherName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +95,7 @@ export class ConfigurationGroupSchemasImpl
     resourceGroupName: string,
     publisherName: string,
     options?: ConfigurationGroupSchemasListByPublisherOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationGroupSchema[]> {
     let result: ConfigurationGroupSchemasListByPublisherResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +103,7 @@ export class ConfigurationGroupSchemasImpl
       result = await this._listByPublisher(
         resourceGroupName,
         publisherName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +115,7 @@ export class ConfigurationGroupSchemasImpl
         resourceGroupName,
         publisherName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,12 +127,12 @@ export class ConfigurationGroupSchemasImpl
   private async *listByPublisherPagingAll(
     resourceGroupName: string,
     publisherName: string,
-    options?: ConfigurationGroupSchemasListByPublisherOptionalParams
+    options?: ConfigurationGroupSchemasListByPublisherOptionalParams,
   ): AsyncIterableIterator<ConfigurationGroupSchema> {
     for await (const page of this.listByPublisherPagingPage(
       resourceGroupName,
       publisherName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +147,11 @@ export class ConfigurationGroupSchemasImpl
   private _listByPublisher(
     resourceGroupName: string,
     publisherName: string,
-    options?: ConfigurationGroupSchemasListByPublisherOptionalParams
+    options?: ConfigurationGroupSchemasListByPublisherOptionalParams,
   ): Promise<ConfigurationGroupSchemasListByPublisherResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, options },
-      listByPublisherOperationSpec
+      listByPublisherOperationSpec,
     );
   }
 
@@ -165,7 +166,7 @@ export class ConfigurationGroupSchemasImpl
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasDeleteOptionalParams
+    options?: ConfigurationGroupSchemasDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasDeleteResponse>,
@@ -174,21 +175,20 @@ export class ConfigurationGroupSchemasImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationGroupSchemasDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -197,8 +197,8 @@ export class ConfigurationGroupSchemasImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -206,8 +206,8 @@ export class ConfigurationGroupSchemasImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -217,9 +217,9 @@ export class ConfigurationGroupSchemasImpl
         resourceGroupName,
         publisherName,
         configurationGroupSchemaName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationGroupSchemasDeleteResponse,
@@ -227,7 +227,7 @@ export class ConfigurationGroupSchemasImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -244,13 +244,13 @@ export class ConfigurationGroupSchemasImpl
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasDeleteOptionalParams
+    options?: ConfigurationGroupSchemasDeleteOptionalParams,
   ): Promise<ConfigurationGroupSchemasDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       publisherName,
       configurationGroupSchemaName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -268,7 +268,7 @@ export class ConfigurationGroupSchemasImpl
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchema,
-    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasCreateOrUpdateResponse>,
@@ -277,21 +277,20 @@ export class ConfigurationGroupSchemasImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationGroupSchemasCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -300,8 +299,8 @@ export class ConfigurationGroupSchemasImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -309,8 +308,8 @@ export class ConfigurationGroupSchemasImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -321,9 +320,9 @@ export class ConfigurationGroupSchemasImpl
         publisherName,
         configurationGroupSchemaName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationGroupSchemasCreateOrUpdateResponse,
@@ -331,7 +330,7 @@ export class ConfigurationGroupSchemasImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -350,14 +349,14 @@ export class ConfigurationGroupSchemasImpl
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchema,
-    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams
+    options?: ConfigurationGroupSchemasCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationGroupSchemasCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       publisherName,
       configurationGroupSchemaName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -373,16 +372,16 @@ export class ConfigurationGroupSchemasImpl
     resourceGroupName: string,
     publisherName: string,
     configurationGroupSchemaName: string,
-    options?: ConfigurationGroupSchemasGetOptionalParams
+    options?: ConfigurationGroupSchemasGetOptionalParams,
   ): Promise<ConfigurationGroupSchemasGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         publisherName,
         configurationGroupSchemaName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -400,7 +399,7 @@ export class ConfigurationGroupSchemasImpl
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: TagsObject,
-    options?: ConfigurationGroupSchemasUpdateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateOptionalParams,
   ): Promise<ConfigurationGroupSchemasUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -408,9 +407,9 @@ export class ConfigurationGroupSchemasImpl
         publisherName,
         configurationGroupSchemaName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -427,7 +426,7 @@ export class ConfigurationGroupSchemasImpl
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchemaVersionUpdateState,
-    options?: ConfigurationGroupSchemasUpdateStateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateStateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationGroupSchemasUpdateStateResponse>,
@@ -436,21 +435,20 @@ export class ConfigurationGroupSchemasImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationGroupSchemasUpdateStateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -459,8 +457,8 @@ export class ConfigurationGroupSchemasImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -468,8 +466,8 @@ export class ConfigurationGroupSchemasImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -480,9 +478,9 @@ export class ConfigurationGroupSchemasImpl
         publisherName,
         configurationGroupSchemaName,
         parameters,
-        options
+        options,
       },
-      spec: updateStateOperationSpec
+      spec: updateStateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationGroupSchemasUpdateStateResponse,
@@ -490,7 +488,7 @@ export class ConfigurationGroupSchemasImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -509,14 +507,14 @@ export class ConfigurationGroupSchemasImpl
     publisherName: string,
     configurationGroupSchemaName: string,
     parameters: ConfigurationGroupSchemaVersionUpdateState,
-    options?: ConfigurationGroupSchemasUpdateStateOptionalParams
+    options?: ConfigurationGroupSchemasUpdateStateOptionalParams,
   ): Promise<ConfigurationGroupSchemasUpdateStateResponse> {
     const poller = await this.beginUpdateState(
       resourceGroupName,
       publisherName,
       configurationGroupSchemaName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -532,11 +530,11 @@ export class ConfigurationGroupSchemasImpl
     resourceGroupName: string,
     publisherName: string,
     nextLink: string,
-    options?: ConfigurationGroupSchemasListByPublisherNextOptionalParams
+    options?: ConfigurationGroupSchemasListByPublisherNextOptionalParams,
   ): Promise<ConfigurationGroupSchemasListByPublisherNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, publisherName, nextLink, options },
-      listByPublisherNextOperationSpec
+      listByPublisherNextOperationSpec,
     );
   }
 }
@@ -544,47 +542,15 @@ export class ConfigurationGroupSchemasImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByPublisherOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaListResult
+      bodyMapper: Mappers.ConfigurationGroupSchemaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.publisherName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -592,31 +558,60 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupSchemaName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ConfigurationGroupSchemasDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.publisherName,
+    Parameters.subscriptionId,
+    Parameters.configurationGroupSchemaName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -625,23 +620,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupSchemaName
+    Parameters.configurationGroupSchemaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -649,22 +643,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupSchemaName
+    Parameters.configurationGroupSchemaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchema
+      bodyMapper: Mappers.ConfigurationGroupSchema,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -673,32 +666,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupSchemaName
+    Parameters.configurationGroupSchemaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateStateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}/updateState",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/publishers/{publisherName}/configurationGroupSchemas/{configurationGroupSchemaName}/updateState",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState
+      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState
+      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState
+      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState
+      bodyMapper: Mappers.ConfigurationGroupSchemaVersionUpdateState,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -707,30 +699,30 @@ const updateStateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.configurationGroupSchemaName
+    Parameters.configurationGroupSchemaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPublisherNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationGroupSchemaListResult
+      bodyMapper: Mappers.ConfigurationGroupSchemaListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.publisherName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

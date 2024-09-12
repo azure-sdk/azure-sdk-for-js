@@ -16,7 +16,7 @@ import { HybridNetworkManagementClient } from "../hybridNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,7 +37,7 @@ import {
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
   SitesListBySubscriptionNextResponse,
-  SitesListByResourceGroupNextResponse
+  SitesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class SitesImpl implements Sites {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SitesListBySubscriptionOptionalParams
+    options?: SitesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Site> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +73,13 @@ export class SitesImpl implements Sites {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SitesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Site[]> {
     let result: SitesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class SitesImpl implements Sites {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SitesListBySubscriptionOptionalParams
+    options?: SitesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Site> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -114,7 +114,7 @@ export class SitesImpl implements Sites {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SitesListByResourceGroupOptionalParams
+    options?: SitesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Site> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -131,16 +131,16 @@ export class SitesImpl implements Sites {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SitesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Site[]> {
     let result: SitesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +155,7 @@ export class SitesImpl implements Sites {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -166,11 +166,11 @@ export class SitesImpl implements Sites {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SitesListByResourceGroupOptionalParams
+    options?: SitesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Site> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -185,27 +185,26 @@ export class SitesImpl implements Sites {
   async beginDelete(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<SitesDeleteResponse>, SitesDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SitesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -214,8 +213,8 @@ export class SitesImpl implements Sites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -223,15 +222,15 @@ export class SitesImpl implements Sites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, siteName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       SitesDeleteResponse,
@@ -239,7 +238,7 @@ export class SitesImpl implements Sites {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -254,7 +253,7 @@ export class SitesImpl implements Sites {
   async beginDeleteAndWait(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesDeleteOptionalParams
+    options?: SitesDeleteOptionalParams,
   ): Promise<SitesDeleteResponse> {
     const poller = await this.beginDelete(resourceGroupName, siteName, options);
     return poller.pollUntilDone();
@@ -269,11 +268,11 @@ export class SitesImpl implements Sites {
   get(
     resourceGroupName: string,
     siteName: string,
-    options?: SitesGetOptionalParams
+    options?: SitesGetOptionalParams,
   ): Promise<SitesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -288,7 +287,7 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SitesCreateOrUpdateResponse>,
@@ -297,21 +296,20 @@ export class SitesImpl implements Sites {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SitesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -320,8 +318,8 @@ export class SitesImpl implements Sites {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -329,15 +327,15 @@ export class SitesImpl implements Sites {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, siteName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SitesCreateOrUpdateResponse,
@@ -345,7 +343,7 @@ export class SitesImpl implements Sites {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -362,13 +360,13 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: Site,
-    options?: SitesCreateOrUpdateOptionalParams
+    options?: SitesCreateOrUpdateOptionalParams,
   ): Promise<SitesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       siteName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -384,11 +382,11 @@ export class SitesImpl implements Sites {
     resourceGroupName: string,
     siteName: string,
     parameters: TagsObject,
-    options?: SitesUpdateTagsOptionalParams
+    options?: SitesUpdateTagsOptionalParams,
   ): Promise<SitesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -397,11 +395,11 @@ export class SitesImpl implements Sites {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SitesListBySubscriptionOptionalParams
+    options?: SitesListBySubscriptionOptionalParams,
   ): Promise<SitesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -412,11 +410,11 @@ export class SitesImpl implements Sites {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SitesListByResourceGroupOptionalParams
+    options?: SitesListByResourceGroupOptionalParams,
   ): Promise<SitesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -427,11 +425,11 @@ export class SitesImpl implements Sites {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SitesListBySubscriptionNextOptionalParams
+    options?: SitesListBySubscriptionNextOptionalParams,
   ): Promise<SitesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -444,11 +442,11 @@ export class SitesImpl implements Sites {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SitesListByResourceGroupNextOptionalParams
+    options?: SitesListByResourceGroupNextOptionalParams,
   ): Promise<SitesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -456,102 +454,98 @@ export class SitesImpl implements Sites {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SitesDeleteHeaders
+      headersMapper: Mappers.SitesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SitesDeleteHeaders
+      headersMapper: Mappers.SitesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SitesDeleteHeaders
+      headersMapper: Mappers.SitesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SitesDeleteHeaders
+      headersMapper: Mappers.SitesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     201: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     202: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     204: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites/{siteName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Site
+      bodyMapper: Mappers.Site,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -559,86 +553,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/sites",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridNetwork/sites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridNetwork/sites",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SiteListResult
+      bodyMapper: Mappers.SiteListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
