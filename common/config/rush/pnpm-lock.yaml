@@ -16012,7 +16012,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtesting.tgz:
-    resolution: {integrity: sha512-bZ3xgB1ce48ivsojJyX2Z/bDBrbE3MBrL3b25iT2rL99ch8KfMq+TEag9qmK9PI00d2Vt2OyuHUYF2Xgd+1AoQ==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-6e18rp0LZH/a62VxIqNZjJ9MaxsPKM8gNjrFnre9E2QFJksqQXK8I2/7MJc6vgZI5ECfqEjqMaiVLYxGlbLUfg==, tarball: file:projects/arm-loadtesting.tgz}
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
@@ -16032,6 +16032,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
