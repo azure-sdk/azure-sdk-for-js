@@ -10079,6 +10079,12 @@ export const GalleryImageFeature: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      startsAtVersion: {
+        serializedName: "startsAtVersion",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

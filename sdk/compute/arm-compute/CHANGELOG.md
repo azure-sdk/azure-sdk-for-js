@@ -1,15 +1,12 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.2.0 (2024-09-12)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryImageFeature has a new optional parameter startsAtVersion
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +576,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 
