@@ -1,15 +1,19 @@
 # Release History
-
-## 5.0.1 (Unreleased)
-
+    
+## 6.0.0 (2024-09-12)
+    
 ### Features Added
+
+  - Interface ReservationPurchaseRequest has a new optional parameter instanceFlexibility
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ReservationPurchaseRequest no longer has parameter instanceFlexibilityPropertiesInstanceFlexibility
+  - Interface ReservationPurchaseRequest no longer has parameter instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility
+  - Type of parameter rebillDetails of interface InvoiceProperties is changed from InvoicePropertiesRebillDetails to RebillDetails
+  - Type of parameter billingProfileDisplayName of interface TransactionProperties is changed from any to string
+    
+    
 ## 5.0.0 (2024-09-04)
     
 ### Features Added
