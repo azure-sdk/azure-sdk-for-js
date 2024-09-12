@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -32,11 +25,6 @@ export interface ContainerGroupProperties {
     containerGroupProfile: ContainerGroupProfile;
     subnetIds?: Subnet[];
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -121,24 +109,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export interface PoolResourceStateCount {
@@ -166,16 +137,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StandbyPoolManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface StandbyContainerGroupPoolElasticityProfile {
@@ -227,12 +188,6 @@ export interface StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalP
 }
 
 // @public
-export interface StandbyContainerGroupPoolRuntimeViewsOperations {
-    get: (resourceGroupName: string, standbyContainerGroupPoolName: string, runtimeView: string, options?: StandbyContainerGroupPoolRuntimeViewsGetOptionalParams) => Promise<StandbyContainerGroupPoolRuntimeViewResource>;
-    listByStandbyPool: (resourceGroupName: string, standbyContainerGroupPoolName: string, options?: StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams) => PagedAsyncIterableIterator<StandbyContainerGroupPoolRuntimeViewResource>;
-}
-
-// @public
 export interface StandbyContainerGroupPoolsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -255,34 +210,7 @@ export interface StandbyContainerGroupPoolsListBySubscriptionOptionalParams exte
 }
 
 // @public
-export interface StandbyContainerGroupPoolsOperations {
-    createOrUpdate: (resourceGroupName: string, standbyContainerGroupPoolName: string, resource: StandbyContainerGroupPoolResource, options?: StandbyContainerGroupPoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<StandbyContainerGroupPoolResource>, StandbyContainerGroupPoolResource>;
-    delete: (resourceGroupName: string, standbyContainerGroupPoolName: string, options?: StandbyContainerGroupPoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, standbyContainerGroupPoolName: string, options?: StandbyContainerGroupPoolsGetOptionalParams) => Promise<StandbyContainerGroupPoolResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: StandbyContainerGroupPoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
-    listBySubscription: (options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
-    update: (resourceGroupName: string, standbyContainerGroupPoolName: string, properties: StandbyContainerGroupPoolResourceUpdate, options?: StandbyContainerGroupPoolsUpdateOptionalParams) => Promise<StandbyContainerGroupPoolResource>;
-}
-
-// @public
 export interface StandbyContainerGroupPoolsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export class StandbyPoolManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: StandbyPoolManagementClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly standbyContainerGroupPoolRuntimeViews: StandbyContainerGroupPoolRuntimeViewsOperations;
-    readonly standbyContainerGroupPools: StandbyContainerGroupPoolsOperations;
-    readonly standbyVirtualMachinePoolRuntimeViews: StandbyVirtualMachinePoolRuntimeViewsOperations;
-    readonly standbyVirtualMachinePools: StandbyVirtualMachinePoolsOperations;
-    readonly standbyVirtualMachines: StandbyVirtualMachinesOperations;
-}
-
-// @public
-export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -337,12 +265,6 @@ export interface StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalP
 }
 
 // @public
-export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
-    get: (resourceGroupName: string, standbyVirtualMachinePoolName: string, runtimeView: string, options?: StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams) => Promise<StandbyVirtualMachinePoolRuntimeViewResource>;
-    listByStandbyPool: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolRuntimeViewResource>;
-}
-
-// @public
 export interface StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -362,16 +284,6 @@ export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams ext
 
 // @public
 export interface StandbyVirtualMachinePoolsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsOperations {
-    createOrUpdate: (resourceGroupName: string, standbyVirtualMachinePoolName: string, resource: StandbyVirtualMachinePoolResource, options?: StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<StandbyVirtualMachinePoolResource>, StandbyVirtualMachinePoolResource>;
-    delete: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinePoolsGetOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: StandbyVirtualMachinePoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
-    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
-    update: (resourceGroupName: string, standbyVirtualMachinePoolName: string, properties: StandbyVirtualMachinePoolResourceUpdate, options?: StandbyVirtualMachinePoolsUpdateOptionalParams) => Promise<StandbyVirtualMachinePoolResource>;
 }
 
 // @public
@@ -395,12 +307,6 @@ export interface StandbyVirtualMachinesGetOptionalParams extends OperationOption
 
 // @public
 export interface StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinesOperations {
-    get: (resourceGroupName: string, standbyVirtualMachinePoolName: string, standbyVirtualMachineName: string, options?: StandbyVirtualMachinesGetOptionalParams) => Promise<StandbyVirtualMachineResource>;
-    listByStandbyVirtualMachinePoolResource: (resourceGroupName: string, standbyVirtualMachinePoolName: string, options?: StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams) => PagedAsyncIterableIterator<StandbyVirtualMachineResource>;
 }
 
 // @public
