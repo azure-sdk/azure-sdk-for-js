@@ -1,14 +1,11 @@
-# Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
+## 1.0.0-beta.1 (2024-09-12)
+    
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+  - Operation AnalyzeFromImageData.post has a new signature
+  - Operation AnalyzeFromImageData.post has a new signature
+    
+# Release History
 
 ## 1.0.0-beta.3 (2024-07-18)
 
