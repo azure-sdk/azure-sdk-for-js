@@ -2629,6 +2629,7 @@ export interface GalleryImage extends Resource {
 // @public
 export interface GalleryImageFeature {
     name?: string;
+    startsAtVersion?: string;
     value?: string;
 }
 
