@@ -1,15 +1,44 @@
 # Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
+    
+## 1.0.0-beta.4 (2024-09-13)
+Compared with version 1.0.0-beta.3
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group IacProfiles
+  - Added Interface ExportTemplateRequest
+  - Added Interface IacProfile
+  - Added Interface IacProfileListResult
+  - Added Interface IacProfilesCreateOrUpdateOptionalParams
+  - Added Interface IacProfilesDeleteOptionalParams
+  - Added Interface IacProfilesExportOptionalParams
+  - Added Interface IacProfilesGetOptionalParams
+  - Added Interface IacProfilesListByResourceGroupNextOptionalParams
+  - Added Interface IacProfilesListByResourceGroupOptionalParams
+  - Added Interface IacProfilesListNextOptionalParams
+  - Added Interface IacProfilesListOptionalParams
+  - Added Interface IacProfilesScaleOptionalParams
+  - Added Interface IacProfilesSyncOptionalParams
+  - Added Interface IacProfilesUpdateTagsOptionalParams
+  - Added Interface IacTemplateDetails
+  - Added Interface IacTemplateProperties
+  - Added Interface PrLinkResponse
+  - Added Interface ScaleProperty
+  - Added Interface ScaleTemplateRequest
+  - Added Interface StageProperties
+  - Added Type Alias IacProfilesCreateOrUpdateResponse
+  - Added Type Alias IacProfilesExportResponse
+  - Added Type Alias IacProfilesGetResponse
+  - Added Type Alias IacProfilesListByResourceGroupNextResponse
+  - Added Type Alias IacProfilesListByResourceGroupResponse
+  - Added Type Alias IacProfilesListNextResponse
+  - Added Type Alias IacProfilesListResponse
+  - Added Type Alias IacProfilesScaleResponse
+  - Added Type Alias IacProfilesUpdateTagsResponse
+  - Added Type Alias QuickStartTemplateType
+  - Added Enum KnownQuickStartTemplateType
+    
+    
 ## 1.0.0-beta.3 (2023-05-29)
     
 ### Features Added
@@ -60,4 +89,4 @@
     
 ## 1.0.0-beta.1 (2022-10-18)
 
-The package of @azure/arm-devhub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-devhub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
