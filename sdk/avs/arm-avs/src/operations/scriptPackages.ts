@@ -12,7 +12,7 @@ import { ScriptPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPITest } from "../azureVMwareSolutionAPITest";
 import {
   ScriptPackage,
   ScriptPackagesListNextOptionalParams,
@@ -26,13 +26,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScriptPackages operations. */
 export class ScriptPackagesImpl implements ScriptPackages {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPITest;
 
   /**
    * Initialize a new instance of the class ScriptPackages class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPITest) {
     this.client = client;
   }
 
@@ -179,7 +179,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptPackageListResult,
+      bodyMapper: Mappers.ScriptPackagesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -222,7 +222,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptPackageListResult,
+      bodyMapper: Mappers.ScriptPackagesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

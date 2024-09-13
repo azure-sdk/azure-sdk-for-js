@@ -10,7 +10,7 @@ import { Locations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPITest } from "../azureVMwareSolutionAPITest";
 import {
   LocationsCheckQuotaAvailabilityOptionalParams,
   LocationsCheckQuotaAvailabilityResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing Locations operations. */
 export class LocationsImpl implements Locations {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPITest;
 
   /**
    * Initialize a new instance of the class Locations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPITest) {
     this.client = client;
   }
 
