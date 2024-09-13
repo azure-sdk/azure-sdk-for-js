@@ -2883,7 +2883,6 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GrantAccessData {
-    // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
     fileFormat?: FileFormat;
