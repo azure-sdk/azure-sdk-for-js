@@ -16,7 +16,7 @@ import {
   SapLandscapeMonitorUpdateOptionalParams,
   SapLandscapeMonitorUpdateResponse,
   SapLandscapeMonitorListOptionalParams,
-  SapLandscapeMonitorListResponse
+  SapLandscapeMonitorListResponse,
 } from "../models";
 
 /** Interface representing a SapLandscapeMonitorOperations. */
@@ -31,7 +31,7 @@ export interface SapLandscapeMonitorOperations {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorGetOptionalParams
+    options?: SapLandscapeMonitorGetOptionalParams,
   ): Promise<SapLandscapeMonitorGetResponse>;
   /**
    * Creates a SAP Landscape Monitor Dashboard for the specified subscription, resource group, and
@@ -46,7 +46,7 @@ export interface SapLandscapeMonitorOperations {
     resourceGroupName: string,
     monitorName: string,
     sapLandscapeMonitorParameter: SapLandscapeMonitor,
-    options?: SapLandscapeMonitorCreateOptionalParams
+    options?: SapLandscapeMonitorCreateOptionalParams,
   ): Promise<SapLandscapeMonitorCreateResponse>;
   /**
    * Deletes a SAP Landscape Monitor Dashboard with the specified subscription, resource group, and SAP
@@ -58,7 +58,7 @@ export interface SapLandscapeMonitorOperations {
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorDeleteOptionalParams
+    options?: SapLandscapeMonitorDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches the SAP Landscape Monitor Dashboard for the specified subscription, resource group, and SAP
@@ -73,7 +73,7 @@ export interface SapLandscapeMonitorOperations {
     resourceGroupName: string,
     monitorName: string,
     sapLandscapeMonitorParameter: SapLandscapeMonitor,
-    options?: SapLandscapeMonitorUpdateOptionalParams
+    options?: SapLandscapeMonitorUpdateOptionalParams,
   ): Promise<SapLandscapeMonitorUpdateResponse>;
   /**
    * Gets configuration values for Single Pane Of Glass for SAP monitor for the specified subscription,
@@ -85,6 +85,6 @@ export interface SapLandscapeMonitorOperations {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorListOptionalParams
+    options?: SapLandscapeMonitorListOptionalParams,
   ): Promise<SapLandscapeMonitorListResponse>;
 }
