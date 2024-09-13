@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AdminRules } from "../operationsInterfaces";
+import { SecurityUserRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AdminRule,
-  AdminRulesListNextOptionalParams,
-  AdminRulesListOptionalParams,
-  AdminRulesListResponse,
-  AdminRulesGetOptionalParams,
-  AdminRulesGetResponse,
-  AdminRulesCreateOrUpdateOptionalParams,
-  AdminRulesCreateOrUpdateResponse,
-  AdminRulesDeleteOptionalParams,
-  AdminRulesListNextResponse,
+  SecurityUserRule,
+  SecurityUserRulesListNextOptionalParams,
+  SecurityUserRulesListOptionalParams,
+  SecurityUserRulesListResponse,
+  SecurityUserRulesGetOptionalParams,
+  SecurityUserRulesGetResponse,
+  SecurityUserRulesCreateOrUpdateOptionalParams,
+  SecurityUserRulesCreateOrUpdateResponse,
+  SecurityUserRulesDeleteOptionalParams,
+  SecurityUserRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AdminRules operations. */
-export class AdminRulesImpl implements AdminRules {
+/** Class containing SecurityUserRules operations. */
+export class SecurityUserRulesImpl implements SecurityUserRules {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AdminRules class.
+   * Initialize a new instance of the class SecurityUserRules class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,8 +46,8 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all Security User Rules in a rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -58,8 +58,8 @@ export class AdminRulesImpl implements AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRule> {
+    options?: SecurityUserRulesListOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityUserRule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
@@ -95,10 +95,10 @@ export class AdminRulesImpl implements AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
+    options?: SecurityUserRulesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AdminRule[]> {
-    let result: AdminRulesListResponse;
+  ): AsyncIterableIterator<SecurityUserRule[]> {
+    let result: SecurityUserRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -134,8 +134,8 @@ export class AdminRulesImpl implements AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): AsyncIterableIterator<AdminRule> {
+    options?: SecurityUserRulesListOptionalParams,
+  ): AsyncIterableIterator<SecurityUserRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
@@ -148,8 +148,8 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all Security User Rules in a rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -160,8 +160,8 @@ export class AdminRulesImpl implements AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): Promise<AdminRulesListResponse> {
+    options?: SecurityUserRulesListOptionalParams,
+  ): Promise<SecurityUserRulesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -175,8 +175,8 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Gets a network manager security configuration admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Gets a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -189,8 +189,8 @@ export class AdminRulesImpl implements AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesGetOptionalParams,
-  ): Promise<AdminRulesGetResponse> {
+    options?: SecurityUserRulesGetOptionalParams,
+  ): Promise<SecurityUserRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -205,13 +205,13 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Creates or updates an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
    * @param ruleName The name of the rule.
-   * @param adminRule The admin rule to create or update
+   * @param securityUserRule The security user rule to create or update
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -220,9 +220,9 @@ export class AdminRulesImpl implements AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    adminRule: AdminRule,
-    options?: AdminRulesCreateOrUpdateOptionalParams,
-  ): Promise<AdminRulesCreateOrUpdateResponse> {
+    securityUserRule: SecurityUserRule,
+    options?: SecurityUserRulesCreateOrUpdateOptionalParams,
+  ): Promise<SecurityUserRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -230,7 +230,7 @@ export class AdminRulesImpl implements AdminRules {
         configurationName,
         ruleCollectionName,
         ruleName,
-        adminRule,
+        securityUserRule,
         options,
       },
       createOrUpdateOperationSpec,
@@ -238,8 +238,8 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -252,7 +252,7 @@ export class AdminRulesImpl implements AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -314,8 +314,8 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -328,7 +328,7 @@ export class AdminRulesImpl implements AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -343,7 +343,7 @@ export class AdminRulesImpl implements AdminRules {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -356,8 +356,8 @@ export class AdminRulesImpl implements AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     nextLink: string,
-    options?: AdminRulesListNextOptionalParams,
-  ): Promise<AdminRulesListNextResponse> {
+    options?: SecurityUserRulesListNextOptionalParams,
+  ): Promise<SecurityUserRulesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -375,14 +375,14 @@ export class AdminRulesImpl implements AdminRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleListResult,
+      bodyMapper: Mappers.SecurityUserRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [
@@ -392,70 +392,70 @@ const listOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.SecurityUserRule,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.SecurityUserRule,
     },
     201: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.SecurityUserRule,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.adminRule,
+  requestBody: Parameters.securityUserRule,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -463,18 +463,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -484,20 +484,20 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleListResult,
+      bodyMapper: Mappers.SecurityUserRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CommonErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

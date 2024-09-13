@@ -9,40 +9,37 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  AdminRule,
-  AdminRulesListOptionalParams,
-  AdminRulesGetOptionalParams,
-  AdminRulesGetResponse,
-  AdminRulesCreateOrUpdateOptionalParams,
-  AdminRulesCreateOrUpdateResponse,
-  AdminRulesDeleteOptionalParams,
+  SecurityUserRuleCollection,
+  SecurityUserRuleCollectionsListOptionalParams,
+  SecurityUserRuleCollectionsGetOptionalParams,
+  SecurityUserRuleCollectionsGetResponse,
+  SecurityUserRuleCollectionsCreateOrUpdateOptionalParams,
+  SecurityUserRuleCollectionsCreateOrUpdateResponse,
+  SecurityUserRuleCollectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AdminRules. */
-export interface AdminRules {
+/** Interface representing a SecurityUserRuleCollections. */
+export interface SecurityUserRuleCollections {
   /**
-   * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all the security user rule collections in a security configuration, in a paginated format.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRule>;
+    options?: SecurityUserRuleCollectionsListOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityUserRuleCollection>;
   /**
-   * Gets a network manager security configuration admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Gets a network manager security user configuration rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
    * @param options The options parameters.
    */
   get(
@@ -50,17 +47,15 @@ export interface AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesGetOptionalParams,
-  ): Promise<AdminRulesGetResponse>;
+    options?: SecurityUserRuleCollectionsGetOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsGetResponse>;
   /**
-   * Creates or updates an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a security user rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
-   * @param adminRule The admin rule to create or update
+   * @param securityUserRuleCollection The Security User Rule Collection to create or update
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -68,17 +63,15 @@ export interface AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    ruleName: string,
-    adminRule: AdminRule,
-    options?: AdminRulesCreateOrUpdateOptionalParams,
-  ): Promise<AdminRulesCreateOrUpdateResponse>;
+    securityUserRuleCollection: SecurityUserRuleCollection,
+    options?: SecurityUserRuleCollectionsCreateOrUpdateOptionalParams,
+  ): Promise<SecurityUserRuleCollectionsCreateOrUpdateResponse>;
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a Security User Rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
    * @param options The options parameters.
    */
   beginDelete(
@@ -86,16 +79,14 @@ export interface AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRuleCollectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a Security User Rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -103,7 +94,6 @@ export interface AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRuleCollectionsDeleteOptionalParams,
   ): Promise<void>;
 }

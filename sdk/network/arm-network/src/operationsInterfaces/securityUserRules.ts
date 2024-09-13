@@ -9,21 +9,21 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  AdminRule,
-  AdminRulesListOptionalParams,
-  AdminRulesGetOptionalParams,
-  AdminRulesGetResponse,
-  AdminRulesCreateOrUpdateOptionalParams,
-  AdminRulesCreateOrUpdateResponse,
-  AdminRulesDeleteOptionalParams,
+  SecurityUserRule,
+  SecurityUserRulesListOptionalParams,
+  SecurityUserRulesGetOptionalParams,
+  SecurityUserRulesGetResponse,
+  SecurityUserRulesCreateOrUpdateOptionalParams,
+  SecurityUserRulesCreateOrUpdateResponse,
+  SecurityUserRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AdminRules. */
-export interface AdminRules {
+/** Interface representing a SecurityUserRules. */
+export interface SecurityUserRules {
   /**
-   * List all network manager security configuration admin rules.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all Security User Rules in a rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -34,11 +34,11 @@ export interface AdminRules {
     networkManagerName: string,
     configurationName: string,
     ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRule>;
+    options?: SecurityUserRulesListOptionalParams,
+  ): PagedAsyncIterableIterator<SecurityUserRule>;
   /**
-   * Gets a network manager security configuration admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Gets a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -51,16 +51,16 @@ export interface AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesGetOptionalParams,
-  ): Promise<AdminRulesGetResponse>;
+    options?: SecurityUserRulesGetOptionalParams,
+  ): Promise<SecurityUserRulesGetResponse>;
   /**
-   * Creates or updates an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
    * @param ruleName The name of the rule.
-   * @param adminRule The admin rule to create or update
+   * @param securityUserRule The security user rule to create or update
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -69,12 +69,12 @@ export interface AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    adminRule: AdminRule,
-    options?: AdminRulesCreateOrUpdateOptionalParams,
-  ): Promise<AdminRulesCreateOrUpdateResponse>;
+    securityUserRule: SecurityUserRule,
+    options?: SecurityUserRulesCreateOrUpdateOptionalParams,
+  ): Promise<SecurityUserRulesCreateOrUpdateResponse>;
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -87,11 +87,11 @@ export interface AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes a security user rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
    * @param configurationName The name of the network manager Security Configuration.
    * @param ruleCollectionName The name of the network manager security Configuration rule collection.
@@ -104,6 +104,6 @@ export interface AdminRules {
     configurationName: string,
     ruleCollectionName: string,
     ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
+    options?: SecurityUserRulesDeleteOptionalParams,
   ): Promise<void>;
 }

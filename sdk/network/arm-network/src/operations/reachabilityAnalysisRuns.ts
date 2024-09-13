@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { AdminRules } from "../operationsInterfaces";
+import { ReachabilityAnalysisRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  AdminRule,
-  AdminRulesListNextOptionalParams,
-  AdminRulesListOptionalParams,
-  AdminRulesListResponse,
-  AdminRulesGetOptionalParams,
-  AdminRulesGetResponse,
-  AdminRulesCreateOrUpdateOptionalParams,
-  AdminRulesCreateOrUpdateResponse,
-  AdminRulesDeleteOptionalParams,
-  AdminRulesListNextResponse,
+  ReachabilityAnalysisRun,
+  ReachabilityAnalysisRunsListNextOptionalParams,
+  ReachabilityAnalysisRunsListOptionalParams,
+  ReachabilityAnalysisRunsListResponse,
+  ReachabilityAnalysisRunsGetOptionalParams,
+  ReachabilityAnalysisRunsGetResponse,
+  ReachabilityAnalysisRunsCreateOptionalParams,
+  ReachabilityAnalysisRunsCreateResponse,
+  ReachabilityAnalysisRunsDeleteOptionalParams,
+  ReachabilityAnalysisRunsDeleteResponse,
+  ReachabilityAnalysisRunsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AdminRules operations. */
-export class AdminRulesImpl implements AdminRules {
+/** Class containing ReachabilityAnalysisRuns operations. */
+export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class AdminRules class.
+   * Initialize a new instance of the class ReachabilityAnalysisRuns class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,25 +47,22 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * List all network manager security configuration admin rules.
+   * Gets list of Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<AdminRule> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): PagedAsyncIterableIterator<ReachabilityAnalysisRun> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      workspaceName,
       options,
     );
     return {
@@ -81,8 +79,7 @@ export class AdminRulesImpl implements AdminRules {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
-          configurationName,
-          ruleCollectionName,
+          workspaceName,
           options,
           settings,
         );
@@ -93,19 +90,17 @@ export class AdminRulesImpl implements AdminRules {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<AdminRule[]> {
-    let result: AdminRulesListResponse;
+  ): AsyncIterableIterator<ReachabilityAnalysisRun[]> {
+    let result: ReachabilityAnalysisRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         options,
       );
       let page = result.value || [];
@@ -117,8 +112,7 @@ export class AdminRulesImpl implements AdminRules {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         continuationToken,
         options,
       );
@@ -132,15 +126,13 @@ export class AdminRulesImpl implements AdminRules {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): AsyncIterableIterator<AdminRule> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): AsyncIterableIterator<ReachabilityAnalysisRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      workspaceName,
       options,
     )) {
       yield* page;
@@ -148,56 +140,45 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * List all network manager security configuration admin rules.
+   * Gets list of Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: AdminRulesListOptionalParams,
-  ): Promise<AdminRulesListResponse> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        options,
-      },
+      { resourceGroupName, networkManagerName, workspaceName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets a network manager security configuration admin rule.
+   * Gets Reachability Analysis Run.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesGetOptionalParams,
-  ): Promise<AdminRulesGetResponse> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsGetOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
+        workspaceName,
+        reachabilityAnalysisRunName,
         options,
       },
       getOperationSpec,
@@ -205,59 +186,31 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Creates or updates an admin rule.
+   * Creates Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
-   * @param adminRule The admin rule to create or update
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
+   * @param body Analysis Run resource object to create/update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    adminRule: AdminRule,
-    options?: AdminRulesCreateOrUpdateOptionalParams,
-  ): Promise<AdminRulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
-        adminRule,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes an admin rule.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    body: ReachabilityAnalysisRun,
+    options?: ReachabilityAnalysisRunsCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReachabilityAnalysisRunsCreateResponse>,
+      ReachabilityAnalysisRunsCreateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ReachabilityAnalysisRunsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -297,14 +250,17 @@ export class AdminRulesImpl implements AdminRules {
       args: {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
+        workspaceName,
+        reachabilityAnalysisRunName,
+        body,
         options,
       },
-      spec: deleteOperationSpec,
+      spec: createOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ReachabilityAnalysisRunsCreateResponse,
+      OperationState<ReachabilityAnalysisRunsCreateResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -314,28 +270,134 @@ export class AdminRulesImpl implements AdminRules {
   }
 
   /**
-   * Deletes an admin rule.
+   * Creates Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
-   * @param ruleName The name of the rule.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
+   * @param body Analysis Run resource object to create/update.
+   * @param options The options parameters.
+   */
+  async beginCreateAndWait(
+    resourceGroupName: string,
+    networkManagerName: string,
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    body: ReachabilityAnalysisRun,
+    options?: ReachabilityAnalysisRunsCreateOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsCreateResponse> {
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      networkManagerName,
+      workspaceName,
+      reachabilityAnalysisRunName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    networkManagerName: string,
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>,
+      ReachabilityAnalysisRunsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReachabilityAnalysisRunsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkManagerName,
+        workspaceName,
+        reachabilityAnalysisRunName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReachabilityAnalysisRunsDeleteResponse,
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: AdminRulesDeleteOptionalParams,
-  ): Promise<void> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
-      ruleName,
+      workspaceName,
+      reachabilityAnalysisRunName,
       options,
     );
     return poller.pollUntilDone();
@@ -345,25 +407,22 @@ export class AdminRulesImpl implements AdminRules {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param ruleCollectionName The name of the network manager security Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
+    workspaceName: string,
     nextLink: string,
-    options?: AdminRulesListNextOptionalParams,
-  ): Promise<AdminRulesListNextResponse> {
+    options?: ReachabilityAnalysisRunsListNextOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         nextLink,
         options,
       },
@@ -375,11 +434,11 @@ export class AdminRulesImpl implements AdminRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -387,26 +446,28 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -418,63 +479,74 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     201: {
-      bodyMapper: Mappers.AdminRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
+    },
+    202: {
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
+    },
+    204: {
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.adminRule,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
-    Parameters.ruleName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -484,7 +556,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdminRuleListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
       bodyMapper: Mappers.CommonErrorResponse,
@@ -496,8 +568,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.networkManagerName1,
-    Parameters.configurationName,
-    Parameters.ruleCollectionName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
