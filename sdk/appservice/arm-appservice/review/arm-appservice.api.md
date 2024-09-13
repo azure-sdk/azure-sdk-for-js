@@ -6300,6 +6300,98 @@ export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
 export type SiteAvailabilityState = "Normal" | "Limited" | "DisasterRecoveryMode";
 
 // @public
+export interface SiteCertificates {
+    createOrUpdate(resourceGroupName: string, siteName: string, name: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateOptionalParams): Promise<SiteCertificatesCreateOrUpdateResponse>;
+    createOrUpdateSlot(resourceGroupName: string, siteName: string, name: string, slot: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateSlotOptionalParams): Promise<SiteCertificatesCreateOrUpdateSlotResponse>;
+    delete(resourceGroupName: string, siteName: string, name: string, options?: SiteCertificatesDeleteOptionalParams): Promise<void>;
+    deleteSlot(resourceGroupName: string, siteName: string, slot: string, name: string, options?: SiteCertificatesDeleteSlotOptionalParams): Promise<void>;
+    get(resourceGroupName: string, siteName: string, name: string, options?: SiteCertificatesGetOptionalParams): Promise<SiteCertificatesGetResponse>;
+    getSlot(resourceGroupName: string, siteName: string, slot: string, name: string, options?: SiteCertificatesGetSlotOptionalParams): Promise<SiteCertificatesGetSlotResponse>;
+    list(resourceGroupName: string, siteName: string, options?: SiteCertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
+    listSlot(resourceGroupName: string, siteName: string, slot: string, options?: SiteCertificatesListSlotOptionalParams): PagedAsyncIterableIterator<Certificate>;
+    update(resourceGroupName: string, siteName: string, name: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateOptionalParams): Promise<SiteCertificatesUpdateResponse>;
+    updateSlot(resourceGroupName: string, siteName: string, name: string, slot: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateSlotOptionalParams): Promise<SiteCertificatesUpdateSlotResponse>;
+}
+
+// @public
+export interface SiteCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesCreateOrUpdateResponse = Certificate;
+
+// @public
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
+
+// @public
+export interface SiteCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SiteCertificatesDeleteSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SiteCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesGetResponse = Certificate;
+
+// @public
+export interface SiteCertificatesGetSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesGetSlotResponse = Certificate;
+
+// @public
+export interface SiteCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListNextResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListSlotNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListSlotNextResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListSlotResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesUpdateResponse = Certificate;
+
+// @public
+export interface SiteCertificatesUpdateSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesUpdateSlotResponse = Certificate;
+
+// @public
 export interface SiteCloneability {
     blockingCharacteristics?: SiteCloneabilityCriterion[];
     blockingFeatures?: SiteCloneabilityCriterion[];
@@ -12171,6 +12263,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     recommendations: Recommendations;
     // (undocumented)
     resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
+    // (undocumented)
+    siteCertificates: SiteCertificates;
     // (undocumented)
     staticSites: StaticSites;
     // (undocumented)

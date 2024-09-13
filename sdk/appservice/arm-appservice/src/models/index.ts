@@ -14335,6 +14335,84 @@ export type StaticSitesGetLinkedBackendsForBuildNextResponse =
   StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
+export interface SiteCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SiteCertificatesListResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SiteCertificatesGetResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SiteCertificatesCreateOrUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SiteCertificatesUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlot operation. */
+export type SiteCertificatesListSlotResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSlot operation. */
+export type SiteCertificatesGetSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateSlot operation. */
+export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateSlot operation. */
+export type SiteCertificatesUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SiteCertificatesListNextResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotNext operation. */
+export type SiteCertificatesListSlotNextResponse = CertificateCollection;
+
+/** Optional parameters. */
 export interface WebAppsListOptionalParams
   extends coreClient.OperationOptions {}
 

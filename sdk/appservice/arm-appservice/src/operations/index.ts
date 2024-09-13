@@ -26,6 +26,7 @@ export * from "./recommendations";
 export * from "./resourceHealthMetadataOperations";
 export * from "./getUsagesInLocation";
 export * from "./staticSites";
+export * from "./siteCertificates";
 export * from "./webApps";
 export * from "./workflows";
 export * from "./workflowRuns";
