@@ -71,8 +71,8 @@ export interface CreateOrReplaceEnvironmentBodyParam {
   body: Environment;
 }
 
-export type CreateOrReplaceEnvironmentParameters = CreateOrReplaceEnvironmentBodyParam &
-  RequestParameters;
+export type CreateOrReplaceEnvironmentParameters =
+  CreateOrReplaceEnvironmentBodyParam & RequestParameters;
 export type DeleteEnvironmentParameters = RequestParameters;
 export type ListCatalogsByProjectParameters = RequestParameters;
 export type GetCatalogParameters = RequestParameters;
