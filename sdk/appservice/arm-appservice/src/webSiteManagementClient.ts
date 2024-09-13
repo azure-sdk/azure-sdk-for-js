@@ -37,6 +37,7 @@ import {
   ResourceHealthMetadataOperationsImpl,
   GetUsagesInLocationImpl,
   StaticSitesImpl,
+  SiteCertificatesImpl,
   WebAppsImpl,
   WorkflowsImpl,
   WorkflowRunsImpl,
@@ -69,6 +70,7 @@ import {
   ResourceHealthMetadataOperations,
   GetUsagesInLocation,
   StaticSites,
+  SiteCertificates,
   WebApps,
   Workflows,
   WorkflowRuns,
@@ -195,7 +197,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/15.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -276,6 +278,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       new ResourceHealthMetadataOperationsImpl(this);
     this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
     this.staticSites = new StaticSitesImpl(this);
+    this.siteCertificates = new SiteCertificatesImpl(this);
     this.webApps = new WebAppsImpl(this);
     this.workflows = new WorkflowsImpl(this);
     this.workflowRuns = new WorkflowRunsImpl(this);
@@ -1107,6 +1110,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   getUsagesInLocation: GetUsagesInLocation;
   staticSites: StaticSites;
+  siteCertificates: SiteCertificates;
   webApps: WebApps;
   workflows: Workflows;
   workflowRuns: WorkflowRuns;
