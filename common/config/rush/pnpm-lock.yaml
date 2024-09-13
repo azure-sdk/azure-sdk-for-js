@@ -16503,7 +16503,7 @@ packages:
     dev: false
 
   file:projects/arm-migrationdiscoverysap.tgz:
-    resolution: {integrity: sha512-MFas9Xa5dhHjq09P9iuwEQJYJb1Fhad2QPY+C+o9ZmzrEeC0Npn//8gMvGWBFRS/3bKIM4IzDL8mqgQh9TieJA==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    resolution: {integrity: sha512-fWJK8//cg7friWJ+f8EidsR7NS4ZDs0PppliGNirYHF4uLtGA8U5Gy+A9Z7ZUOfXgXTPoze6bULHWA7NQvBUZw==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
     name: '@rush-temp/arm-migrationdiscoverysap'
     version: 0.0.0
     dependencies:
@@ -16524,6 +16524,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
