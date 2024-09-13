@@ -1,15 +1,25 @@
 # Release History
-
-## 9.1.1 (Unreleased)
-
+    
+## 9.2.0-beta.1 (2024-09-13)
+Compared with version 9.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfigMap
+  - Added Interface ContainerGroupProfileReferenceDefinition
+  - Added Interface SecretReference
+  - Added Interface StandbyPoolProfileDefinition
+  - Interface AzureFileVolume has a new optional parameter storageAccountKeyReference
+  - Interface Container has a new optional parameter configMap
+  - Interface ContainerGroupProperties has a new optional parameter containerGroupProfile
+  - Interface ContainerGroupProperties has a new optional parameter isCreatedFromStandbyPool
+  - Interface ContainerGroupProperties has a new optional parameter secrets
+  - Interface ContainerGroupProperties has a new optional parameter standbyPoolProfile
+  - Interface EnvironmentVariable has a new optional parameter secureValueReference
+  - Interface ImageRegistryCredential has a new optional parameter passwordReference
+  - Interface Volume has a new optional parameter secretReference
+    
+    
 ## 9.1.0 (2023-04-24)
     
 ### Features Added
@@ -89,4 +99,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

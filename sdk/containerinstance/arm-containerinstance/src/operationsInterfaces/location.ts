@@ -13,7 +13,7 @@ import {
   CachedImages,
   LocationListCachedImagesOptionalParams,
   Capabilities,
-  LocationListCapabilitiesOptionalParams
+  LocationListCapabilitiesOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Location {
    */
   listUsage(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
@@ -35,7 +35,7 @@ export interface Location {
    */
   listCachedImages(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
   ): PagedAsyncIterableIterator<CachedImages>;
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
@@ -44,6 +44,6 @@ export interface Location {
    */
   listCapabilities(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
   ): PagedAsyncIterableIterator<Capabilities>;
 }

@@ -9380,6 +9380,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /quick-lru@5.1.1:
@@ -10361,6 +10362,7 @@ packages:
 
   /text-decoder@1.1.1:
     resolution: {integrity: sha512-8zll7REEv4GDD3x4/0pW+ppIxSNs7H1J10IKFZsuOMscumCdM2a+toDGLPA3T+1+fLBql4zbt5z83GEQGGV5VA==}
+    requiresBuild: true
     dependencies:
       b4a: 1.6.6
     dev: false
@@ -13744,7 +13746,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-IeTmSosHKsNS/TA1NqQNs/nksO+D8+6b05enj5Tqe8JkVyyjWdgz0jCVap5GMOd9zmhSZgTlzBXzf7/8JlZAOg==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-8a2fLFTxLQ0JMKVJzm8KpRI5LMacnO8+MDFHc7qv9Ig+Ji1oOd1vGYTeuOJNI83Ru14weGLDgXUpSB2HYbyVoQ==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -13765,6 +13767,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:

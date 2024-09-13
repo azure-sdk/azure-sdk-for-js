@@ -25,7 +25,7 @@ import {
   ContainerGroupsStopOptionalParams,
   ContainerGroupsStartOptionalParams,
   ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams,
-  ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse
+  ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface ContainerGroups {
    * @param options The options parameters.
    */
   list(
-    options?: ContainerGroupsListOptionalParams
+    options?: ContainerGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ContainerGroup>;
   /**
    * Get a list of container groups in a specified subscription and resource group. This operation
@@ -49,7 +49,7 @@ export interface ContainerGroups {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerGroupsListByResourceGroupOptionalParams
+    options?: ContainerGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ContainerGroup>;
   /**
    * Gets the properties of the specified container group in the specified subscription and resource
@@ -62,7 +62,7 @@ export interface ContainerGroups {
   get(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsGetOptionalParams
+    options?: ContainerGroupsGetOptionalParams,
   ): Promise<ContainerGroupsGetResponse>;
   /**
    * Create or update container groups with specified configurations.
@@ -75,7 +75,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     containerGroup: ContainerGroup,
-    options?: ContainerGroupsCreateOrUpdateOptionalParams
+    options?: ContainerGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerGroupsCreateOrUpdateResponse>,
@@ -93,7 +93,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     containerGroup: ContainerGroup,
-    options?: ContainerGroupsCreateOrUpdateOptionalParams
+    options?: ContainerGroupsCreateOrUpdateOptionalParams,
   ): Promise<ContainerGroupsCreateOrUpdateResponse>;
   /**
    * Updates container group tags with specified values.
@@ -106,7 +106,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     resource: Resource,
-    options?: ContainerGroupsUpdateOptionalParams
+    options?: ContainerGroupsUpdateOptionalParams,
   ): Promise<ContainerGroupsUpdateResponse>;
   /**
    * Delete the specified container group in the specified subscription and resource group. The operation
@@ -118,7 +118,7 @@ export interface ContainerGroups {
   beginDelete(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsDeleteOptionalParams
+    options?: ContainerGroupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerGroupsDeleteResponse>,
@@ -135,7 +135,7 @@ export interface ContainerGroups {
   beginDeleteAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsDeleteOptionalParams
+    options?: ContainerGroupsDeleteOptionalParams,
   ): Promise<ContainerGroupsDeleteResponse>;
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
@@ -147,7 +147,7 @@ export interface ContainerGroups {
   beginRestart(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsRestartOptionalParams
+    options?: ContainerGroupsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
@@ -159,7 +159,7 @@ export interface ContainerGroups {
   beginRestartAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsRestartOptionalParams
+    options?: ContainerGroupsRestartOptionalParams,
   ): Promise<void>;
   /**
    * Stops all containers in a container group. Compute resources will be deallocated and billing will
@@ -171,7 +171,7 @@ export interface ContainerGroups {
   stop(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStopOptionalParams
+    options?: ContainerGroupsStopOptionalParams,
   ): Promise<void>;
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
@@ -183,7 +183,7 @@ export interface ContainerGroups {
   beginStart(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStartOptionalParams
+    options?: ContainerGroupsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
@@ -195,7 +195,7 @@ export interface ContainerGroups {
   beginStartAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStartOptionalParams
+    options?: ContainerGroupsStartOptionalParams,
   ): Promise<void>;
   /**
    * Gets all the network dependencies for this container group to allow complete control of network
@@ -207,6 +207,6 @@ export interface ContainerGroups {
   getOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
 }

@@ -15,6 +15,7 @@ export interface AzureFileVolume {
     readOnly?: boolean;
     shareName: string;
     storageAccountKey?: string;
+    storageAccountKeyReference?: string;
     storageAccountName: string;
 }
 
@@ -72,8 +73,16 @@ export interface ConfidentialComputeProperties {
 }
 
 // @public
+export interface ConfigMap {
+    keyValuePairs?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface Container {
     command?: string[];
+    configMap?: ConfigMap;
     environmentVariables?: EnvironmentVariable[];
     image: string;
     readonly instanceView?: ContainerPropertiesInstanceView;
@@ -150,8 +159,15 @@ export type ContainerGroupNetworkProtocol = string;
 export type ContainerGroupPriority = string;
 
 // @public
+export interface ContainerGroupProfileReferenceDefinition {
+    id?: string;
+    revision?: number;
+}
+
+// @public
 export interface ContainerGroupProperties {
     confidentialComputeProperties?: ConfidentialComputeProperties;
+    containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
@@ -162,11 +178,14 @@ export interface ContainerGroupProperties {
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
+    readonly isCreatedFromStandbyPool?: boolean;
     osType: OperatingSystemTypes;
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
+    secrets?: SecretReference[];
     sku?: ContainerGroupSku;
+    standbyPoolProfile?: StandbyPoolProfileDefinition;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
 }
@@ -429,6 +448,7 @@ export interface EncryptionProperties {
 export interface EnvironmentVariable {
     name: string;
     secureValue?: string;
+    secureValueReference?: string;
     value?: string;
 }
 
@@ -473,6 +493,7 @@ export interface ImageRegistryCredential {
     identity?: string;
     identityUrl?: string;
     password?: string;
+    passwordReference?: string;
     server: string;
     username?: string;
 }
@@ -735,6 +756,14 @@ export interface ResourceRequirements {
 export type Scheme = string;
 
 // @public
+export interface SecretReference {
+    identity: string;
+    name: string;
+    // (undocumented)
+    secretReferenceUri: string;
+}
+
+// @public
 export interface SecurityContextCapabilitiesDefinition {
     add?: string[];
     drop?: string[];
@@ -748,6 +777,12 @@ export interface SecurityContextDefinition {
     runAsGroup?: number;
     runAsUser?: number;
     seccompProfile?: string;
+}
+
+// @public
+export interface StandbyPoolProfileDefinition {
+    failContainerGroupCreateOnReuseFailure?: boolean;
+    id?: string;
 }
 
 // @public
@@ -795,6 +830,9 @@ export interface Volume {
     gitRepo?: GitRepoVolume;
     name: string;
     secret?: {
+        [propertyName: string]: string;
+    };
+    secretReference?: {
         [propertyName: string]: string;
     };
 }
