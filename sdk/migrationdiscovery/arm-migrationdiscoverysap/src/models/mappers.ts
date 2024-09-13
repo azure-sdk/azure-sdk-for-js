@@ -28,7 +28,6 @@ export const SAPDiscoverySiteListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -437,7 +436,6 @@ export const SAPInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -533,7 +531,6 @@ export const ServerInstanceListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1006,16 +1003,16 @@ export const SapDiscoverySitesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SapDiscoverySitesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1028,16 +1025,16 @@ export const SapDiscoverySitesImportEntitiesHeaders: coreClient.CompositeMapper 
       name: "Composite",
       className: "SapDiscoverySitesImportEntitiesHeaders",
       modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
-        },
         location: {
           serializedName: "location",
           type: {
             name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
           },
         },
       },
@@ -1064,16 +1061,16 @@ export const SapInstancesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SapInstancesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1100,16 +1097,16 @@ export const ServerInstancesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ServerInstancesDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
