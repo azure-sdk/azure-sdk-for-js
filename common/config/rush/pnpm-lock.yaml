@@ -18435,7 +18435,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-iKMaq8Mpd8NWdBvKvDKFX8HME7Vmks7T44pkpV8l7Py3eFY9JQSE6DVvrY9yD6EJWWxUkoswtZM7/UcoNr8gzw==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-AB3+aJmetqJBzOBw1hmy3KTxRMVmheDH6yphAt8w5D7lgRLGI3YOhEPiQ+MSXtFRIWOrrAoJFmG5iilt/i2O5g==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -18456,6 +18456,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
