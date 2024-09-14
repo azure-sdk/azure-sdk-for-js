@@ -1,18 +1,17 @@
 # Release History
-
-## 10.0.0-beta.2 (Unreleased)
-
-### Features Added
-
+    
+## 10.0.0 (2024-09-14)
+    
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation ProviderOperationsMetadataOperations.get
+  - Removed operation RoleAssignments.listForResourceGroup
+  - Class AuthorizationManagementClient has a new signature
+    
+    
 ## 10.0.0-beta.1 (2023-07-04)
     
-**Features**
+### Features Added
 
   - Added operation group AccessReviewDefaultSettingsOperations
   - Added operation group AccessReviewHistoryDefinitionInstance
@@ -306,7 +305,7 @@
   - Added Enum KnownSeverityLevel
   - Class AuthorizationManagementClient has a new signature
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface RoleManagementPolicyAssignment no longer has parameter effectiveRules
     
@@ -319,4 +318,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

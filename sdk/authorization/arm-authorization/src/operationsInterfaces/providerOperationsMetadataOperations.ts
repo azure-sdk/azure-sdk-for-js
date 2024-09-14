@@ -10,8 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProviderOperationsMetadata,
   ProviderOperationsMetadataListOptionalParams,
-  ProviderOperationsMetadataGetOptionalParams,
-  ProviderOperationsMetadataGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,15 +20,6 @@ export interface ProviderOperationsMetadataOperations {
    * @param options The options parameters.
    */
   list(
-    options?: ProviderOperationsMetadataListOptionalParams
+    options?: ProviderOperationsMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderOperationsMetadata>;
-  /**
-   * Gets provider operations metadata for the specified resource provider.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param options The options parameters.
-   */
-  get(
-    resourceProviderNamespace: string,
-    options?: ProviderOperationsMetadataGetOptionalParams
-  ): Promise<ProviderOperationsMetadataGetResponse>;
 }
