@@ -1,33 +1,264 @@
-# Release History
-
-## 1.0.0-beta.2 (Unreleased)
-
+## 1.0.0-beta.1 (2024-09-14)
+    
 ### Features Added
+
+  - Added operation group GetSessionImage
+  - Added Interface AddFaceFromUrlRequest
+  - Added Interface CreateCollectionRequest
+  - Added Interface CreateLivenessWithVerifySessionJsonContent
+  - Added Interface CreateLivenessWithVerifySessionMultipartContentParametersPartDescriptor
+  - Added Interface CreateLivenessWithVerifySessionMultipartContentVerifyImagePartDescriptor
+  - Added Interface DetectFromSessionImageId200Response
+  - Added Interface DetectFromSessionImageIdBodyParam
+  - Added Interface DetectFromSessionImageIdDefaultHeaders
+  - Added Interface DetectFromSessionImageIdDefaultResponse
+  - Added Interface DetectFromSessionImageIdMediaTypesParam
+  - Added Interface DetectFromSessionImageIdQueryParam
+  - Added Interface DetectFromSessionImageIdQueryParamProperties
+  - Added Interface FaceUserData
+  - Added Interface GetSessionImage200Headers
+  - Added Interface GetSessionImage200Response
+  - Added Interface GetSessionImageDefaultHeaders
+  - Added Interface GetSessionImageDefaultResponse
+  - Added Interface UserDefinedFields
+  - Added Interface UserDefinedFieldsForUpdate
+  - Added Type Alias CreateLivenessWithVerifySessionMultipartContent
+  - Added Type Alias DetectFromSessionImageIdParameters
+  - Added Type Alias GetSessionImageParameters
+  - Added Type Alias LivenessModel
+  - Interface CreateLivenessSessionContent has a new optional parameter enableSessionImage
+  - Interface CreateLivenessSessionContent has a new optional parameter livenessSingleModalModel
+  - Interface LivenessSessionAuditEntryOutput has a new optional parameter sessionImageId
+  - Interface LivenessSessionAuditEntryOutput has a new optional parameter verifyImageHash
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.1 (2024-05-23)
-
-This is the first preview of the Azure Face Service client library `@azure-rest/ai-vision-face` that follows the [TypeScript Azure SDK Design Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html).
-This library replaces the package [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
-
-This package's [documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/face/ai-vision-face-rest/samples) demonstrate the new API.
-
-### Features Added
-
-These are the new features not supported by the old package [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
-
-- Added support for Liveness Detection.
-- Added support for `Person` and `DynamicPersonGroup` operations.
-- Added support for face recognition with `PersonDirectory` by passing `IdentifyFromPersonDirectoryParameters` or `IdentifyFromDynamicPersonGroupParameters` to `/identify`.
-- Added support for authentication with Microsoft Entra ID using `DefaultAzureCredential` from `@azure/identity`.
-
-### Breaking Changes
-
-- This library supports only the Azure AI Face v1.1-preview.1 API, whose data models are not compatible with the v1.0 API used by [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
-- This library follows the design of [REST client](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/), which is essentially different from [@azure/cognitiveservices-face](https://www.npmjs.com/package/@azure/cognitiveservices-face).
-- The Snapshot operations are all removed as [the Snapshot API is no longer supported](https://azure.microsoft.com/updates/facelimitedaccess/).
+  - Operation AddFaceListFaceFromUrl.post has a new signature
+  - Operation AddFaceListFaceFromUrl.post has a new signature
+  - Operation AddFaceListFaceFromUrl.post has a new signature
+  - Operation AddLargeFaceListFaceFromUrl.post has a new signature
+  - Operation AddLargeFaceListFaceFromUrl.post has a new signature
+  - Operation AddLargeFaceListFaceFromUrl.post has a new signature
+  - Operation AddLargePersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation AddLargePersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation AddLargePersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation AddPersonFace.post has a new signature
+  - Operation AddPersonFace.post has a new signature
+  - Operation AddPersonFace.post has a new signature
+  - Operation AddPersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation AddPersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation AddPersonGroupPersonFaceFromUrl.post has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.patch has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.patch has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.patch has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.patch has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.put has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.put has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.put has a new signature
+  - Operation CreateDynamicPersonGroupWithPerson.put has a new signature
+  - Operation CreateFaceList.patch has a new signature
+  - Operation CreateFaceList.put has a new signature
+  - Operation CreateLargeFaceList.patch has a new signature
+  - Operation CreateLargeFaceList.put has a new signature
+  - Operation CreateLargePersonGroup.patch has a new signature
+  - Operation CreateLargePersonGroup.put has a new signature
+  - Operation CreateLargePersonGroupPerson.post has a new signature
+  - Operation CreateLivenessSession.post has a new signature
+  - Operation CreateLivenessWithVerifySessionWithVerifyImage.post has a new signature
+  - Operation CreateLivenessWithVerifySessionWithVerifyImage.post has a new signature
+  - Operation CreateLivenessWithVerifySessionWithVerifyImage.post has a new signature
+  - Operation CreatePerson.post has a new signature
+  - Operation CreatePersonGroup.patch has a new signature
+  - Operation CreatePersonGroup.put has a new signature
+  - Operation CreatePersonGroupPerson.post has a new signature
+  - Operation DeleteLargeFaceListFace.patch has a new signature
+  - Operation DeleteLargePersonGroupPerson.patch has a new signature
+  - Operation DeleteLargePersonGroupPersonFace.patch has a new signature
+  - Operation DeletePerson.patch has a new signature
+  - Operation DeletePersonFace.patch has a new signature
+  - Operation DeletePersonGroupPerson.patch has a new signature
+  - Operation DeletePersonGroupPersonFace.patch has a new signature
+  - Operation DetectFromUrl.post has a new signature
+  - Operation DetectFromUrl.post has a new signature
+  - Operation DetectFromUrl.post has a new signature
+  - Operation DetectFromUrl.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation FindSimilar.post has a new signature
+  - Operation Group.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation IdentifyFromPersonGroup.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Operation VerifyFaceToFace.post has a new signature
+  - Parameter body of interface AddFaceListFaceFromUrlBodyParam is now required
+  - Parameter body of interface AddLargeFaceListFaceFromUrlBodyParam is now required
+  - Parameter body of interface AddLargePersonGroupPersonFaceFromUrlBodyParam is now required
+  - Parameter body of interface AddPersonFaceFromUrlBodyParam is now required
+  - Parameter body of interface AddPersonGroupPersonFaceFromUrlBodyParam is now required
+  - Parameter body of interface CreateDynamicPersonGroupBodyParam is now required
+  - Parameter body of interface CreateDynamicPersonGroupWithPersonBodyParam is now required
+  - Parameter body of interface CreateFaceListBodyParam is now required
+  - Parameter body of interface CreateLargeFaceListBodyParam is now required
+  - Parameter body of interface CreateLargePersonGroupBodyParam is now required
+  - Parameter body of interface CreateLargePersonGroupPersonBodyParam is now required
+  - Parameter body of interface CreateLivenessSessionBodyParam is now required
+  - Parameter body of interface CreateLivenessWithVerifySessionBodyParam is now required
+  - Parameter body of interface CreateLivenessWithVerifySessionWithVerifyImageBodyParam is now required
+  - Parameter body of interface CreatePersonBodyParam is now required
+  - Parameter body of interface CreatePersonGroupBodyParam is now required
+  - Parameter body of interface CreatePersonGroupPersonBodyParam is now required
+  - Parameter body of interface DetectFromUrlBodyParam is now required
+  - Parameter body of interface FindSimilarBodyParam is now required
+  - Parameter body of interface FindSimilarFromFaceListBodyParam is now required
+  - Parameter body of interface FindSimilarFromLargeFaceListBodyParam is now required
+  - Parameter body of interface GroupBodyParam is now required
+  - Parameter body of interface IdentifyFromDynamicPersonGroupBodyParam is now required
+  - Parameter body of interface IdentifyFromLargePersonGroupBodyParam is now required
+  - Parameter body of interface IdentifyFromPersonDirectoryBodyParam is now required
+  - Parameter body of interface IdentifyFromPersonGroupBodyParam is now required
+  - Parameter body of interface UpdateDynamicPersonGroupBodyParam is now required
+  - Parameter body of interface UpdateDynamicPersonGroupWithPersonChangesBodyParam is now required
+  - Parameter body of interface UpdateFaceListBodyParam is now required
+  - Parameter body of interface UpdateLargeFaceListBodyParam is now required
+  - Parameter body of interface UpdateLargeFaceListFaceBodyParam is now required
+  - Parameter body of interface UpdateLargePersonGroupBodyParam is now required
+  - Parameter body of interface UpdateLargePersonGroupPersonBodyParam is now required
+  - Parameter body of interface UpdateLargePersonGroupPersonFaceBodyParam is now required
+  - Parameter body of interface UpdatePersonBodyParam is now required
+  - Parameter body of interface UpdatePersonFaceBodyParam is now required
+  - Parameter body of interface UpdatePersonGroupBodyParam is now required
+  - Parameter body of interface UpdatePersonGroupPersonBodyParam is now required
+  - Parameter body of interface UpdatePersonGroupPersonFaceBodyParam is now required
+  - Parameter body of interface VerifyFaceToFaceBodyParam is now required
+  - Parameter body of interface VerifyFromLargePersonGroupBodyParam is now required
+  - Parameter body of interface VerifyFromPersonDirectoryBodyParam is now required
+  - Parameter body of interface VerifyFromPersonGroupBodyParam is now required
+  - Type of parameter body of interface AddFaceListFaceFromUrlBodyParam is changed from {
+        url: string;
+    } to AddFaceFromUrlRequest
+  - Type of parameter body of interface AddLargeFaceListFaceFromUrlBodyParam is changed from {
+        url: string;
+    } to AddFaceFromUrlRequest
+  - Type of parameter body of interface AddLargePersonGroupPersonFaceFromUrlBodyParam is changed from {
+        url: string;
+    } to AddFaceFromUrlRequest
+  - Type of parameter body of interface AddPersonGroupPersonFaceFromUrlBodyParam is changed from {
+        url: string;
+    } to AddFaceFromUrlRequest
+  - Type of parameter body of interface CreateDynamicPersonGroupBodyParam is changed from {
+        name: string;
+        userData?: string;
+    } to UserDefinedFields
+  - Type of parameter body of interface CreateFaceListBodyParam is changed from {
+        name: string;
+        userData?: string;
+        recognitionModel?: RecognitionModel;
+    } to CreateCollectionRequest
+  - Type of parameter body of interface CreateLargeFaceListBodyParam is changed from {
+        name: string;
+        userData?: string;
+        recognitionModel?: RecognitionModel;
+    } to CreateCollectionRequest
+  - Type of parameter body of interface CreateLargePersonGroupBodyParam is changed from {
+        name: string;
+        userData?: string;
+        recognitionModel?: RecognitionModel;
+    } to CreateCollectionRequest
+  - Type of parameter body of interface CreateLargePersonGroupPersonBodyParam is changed from {
+        name: string;
+        userData?: string;
+    } to UserDefinedFields
+  - Type of parameter body of interface CreateLivenessWithVerifySessionBodyParam is changed from CreateLivenessSessionContent to CreateLivenessWithVerifySessionJsonContent
+  - Type of parameter body of interface CreateLivenessWithVerifySessionWithVerifyImageBodyParam is changed from CreateLivenessWithVerifySessionContent to CreateLivenessWithVerifySessionMultipartContent
+  - Type of parameter body of interface CreatePersonBodyParam is changed from {
+        name: string;
+        userData?: string;
+    } to UserDefinedFields
+  - Type of parameter body of interface CreatePersonGroupBodyParam is changed from {
+        name: string;
+        userData?: string;
+        recognitionModel?: RecognitionModel;
+    } to CreateCollectionRequest
+  - Type of parameter body of interface CreatePersonGroupPersonBodyParam is changed from {
+        name: string;
+        userData?: string;
+    } to UserDefinedFields
+  - Type of parameter body of interface UpdateDynamicPersonGroupBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdateFaceListBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdateLargeFaceListBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdateLargeFaceListFaceBodyParam is changed from {
+        userData?: string;
+    } to FaceUserData
+  - Type of parameter body of interface UpdateLargePersonGroupBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdateLargePersonGroupPersonBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdateLargePersonGroupPersonFaceBodyParam is changed from {
+        userData?: string;
+    } to FaceUserData
+  - Type of parameter body of interface UpdatePersonBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdatePersonFaceBodyParam is changed from {
+        userData?: string;
+    } to FaceUserData
+  - Type of parameter body of interface UpdatePersonGroupBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdatePersonGroupPersonBodyParam is changed from {
+        name?: string;
+        userData?: string;
+    } to UserDefinedFieldsForUpdate
+  - Type of parameter body of interface UpdatePersonGroupPersonFaceBodyParam is changed from {
+        userData?: string;
+    } to FaceUserData
+    
