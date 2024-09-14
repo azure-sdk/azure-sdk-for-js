@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPITest } from "../azureVMwareSolutionAPITest";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPITest;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPITest) {
     this.client = client;
   }
 

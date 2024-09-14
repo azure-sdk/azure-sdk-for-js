@@ -12,7 +12,7 @@ import { CloudLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
+import { AzureVMwareSolutionAPITest } from "../azureVMwareSolutionAPITest";
 import {
   SimplePollerLike,
   OperationState,
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudLinks operations. */
 export class CloudLinksImpl implements CloudLinks {
-  private readonly client: AzureVMwareSolutionAPI;
+  private readonly client: AzureVMwareSolutionAPITest;
 
   /**
    * Initialize a new instance of the class CloudLinks class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureVMwareSolutionAPI) {
+  constructor(client: AzureVMwareSolutionAPITest) {
     this.client = client;
   }
 
@@ -381,7 +381,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudLinkListResult,
+      bodyMapper: Mappers.CloudLinkList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -480,7 +480,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CloudLinkListResult,
+      bodyMapper: Mappers.CloudLinkList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
