@@ -12,7 +12,7 @@ import {
   ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ConfigurationProfileHCIAssignmentsGetResponse,
-  ConfigurationProfileHCIAssignmentsDeleteOptionalParams
+  ConfigurationProfileHCIAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ConfigurationProfileHCIAssignments. */
@@ -31,7 +31,7 @@ export interface ConfigurationProfileHCIAssignments {
     clusterName: string,
     configurationProfileAssignmentName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse>;
   /**
    * Get information about a configuration profile assignment
@@ -44,7 +44,7 @@ export interface ConfigurationProfileHCIAssignments {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHCIAssignmentsGetOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileHCIAssignmentsGetResponse>;
   /**
    * Delete a configuration profile assignment
@@ -57,6 +57,6 @@ export interface ConfigurationProfileHCIAssignments {
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHCIAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

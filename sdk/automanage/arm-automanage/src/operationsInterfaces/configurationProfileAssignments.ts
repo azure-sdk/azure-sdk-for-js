@@ -18,7 +18,7 @@ import {
   ConfigurationProfileAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileAssignmentsGetOptionalParams,
   ConfigurationProfileAssignmentsGetResponse,
-  ConfigurationProfileAssignmentsDeleteOptionalParams
+  ConfigurationProfileAssignmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ConfigurationProfileAssignments {
   listByVirtualMachines(
     resourceGroupName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams
+    options?: ConfigurationProfileAssignmentsListByVirtualMachinesOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment>;
   /**
    * Get list of configuration profile assignments
@@ -42,14 +42,14 @@ export interface ConfigurationProfileAssignments {
    */
   list(
     resourceGroupName: string,
-    options?: ConfigurationProfileAssignmentsListOptionalParams
+    options?: ConfigurationProfileAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment>;
   /**
    * Get list of configuration profile assignments under a given subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
+    options?: ConfigurationProfileAssignmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment>;
   /**
    * Get list of configuration profile assignments
@@ -60,7 +60,7 @@ export interface ConfigurationProfileAssignments {
   listByMachineName(
     resourceGroupName: string,
     machineName: string,
-    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByMachineNameOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment>;
   /**
    * Get list of configuration profile assignments
@@ -71,7 +71,7 @@ export interface ConfigurationProfileAssignments {
   listByClusterName(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams
+    options?: ConfigurationProfileAssignmentsListByClusterNameOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfileAssignment>;
   /**
    * Creates an association between a VM and Automanage configuration profile
@@ -87,7 +87,7 @@ export interface ConfigurationProfileAssignments {
     resourceGroupName: string,
     vmName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsCreateOrUpdateResponse>;
   /**
    * Get information about a configuration profile assignment
@@ -100,7 +100,7 @@ export interface ConfigurationProfileAssignments {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsGetOptionalParams
+    options?: ConfigurationProfileAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileAssignmentsGetResponse>;
   /**
    * Delete a configuration profile assignment
@@ -113,6 +113,6 @@ export interface ConfigurationProfileAssignments {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ConfigurationProfileAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

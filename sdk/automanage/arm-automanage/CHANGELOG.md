@@ -1,27 +1,38 @@
 # Release History
+    
+## 2.0.0 (2024-09-14)
+    
+### Features Added
 
-## 1.0.3 (2023-01-11)
+  - Added Interface AssignmentReportProperties
+  - Added Interface Report_2
+  - Added Interface ReportList_2
+  - Added Interface ServicePrincipalProperties
+  - Interface BestPractice has a new optional parameter properties
+  - Interface ServicePrincipal has a new optional parameter properties
+  - Added function getContinuationToken
 
-**Features**
- 
-  - Exposes `getContinuationToken` helper function to extract continuation token
+### Breaking Changes
 
-**Bugs Fixed**
- 
-  - A series of small bug fixs relevant to authentication and apiVersion policy
-
+  - Removed operation group BestPractices
+  - Class AutomanageClient has a new signature
+  - Interface BestPractice no longer has parameter configuration
+  - Interface ServicePrincipal no longer has parameter authorizationSet
+  - Interface ServicePrincipal no longer has parameter servicePrincipalId
+  - Class AutomanageClient no longer has parameter bestPractices
+    
 ## 1.0.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 1.0.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 
 ## 1.0.0 (2022-08-03)
 
-The package of @azure/arm-automanage is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-automanage is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
