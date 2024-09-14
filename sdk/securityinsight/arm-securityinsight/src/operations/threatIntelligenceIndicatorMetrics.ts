@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
   ThreatIntelligenceIndicatorMetricsListOptionalParams,
-  ThreatIntelligenceIndicatorMetricsListResponse
+  ThreatIntelligenceIndicatorMetricsListResponse,
 } from "../models";
 
 /** Class containing ThreatIntelligenceIndicatorMetrics operations. */
 export class ThreatIntelligenceIndicatorMetricsImpl
-  implements ThreatIntelligenceIndicatorMetrics {
+  implements ThreatIntelligenceIndicatorMetrics
+{
   private readonly client: SecurityInsights;
 
   /**
@@ -38,11 +39,11 @@ export class ThreatIntelligenceIndicatorMetricsImpl
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorMetricsListOptionalParams
+    options?: ThreatIntelligenceIndicatorMetricsListOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorMetricsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class ThreatIntelligenceIndicatorMetricsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/metrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/metrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThreatIntelligenceMetricsList
+      bodyMapper: Mappers.ThreatIntelligenceMetricsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
