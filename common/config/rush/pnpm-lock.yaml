@@ -17967,7 +17967,7 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-uwrO1rzLldkeACmDg6IrzkUcDhEPxYbT7Vd7uz6GJuleJo+U+rlKz4KngctChfIy+H5lXO8M1tG/8HFhO1BDhA==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-nEKyUMqDGn6Fhr+3igm4v151+7/ogFd+e8r3TaFWqqEx/rOroHxIDV0uN6/UBARF2UQzkHuyYPkXNU2T9aUcqQ==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
@@ -17988,6 +17988,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
