@@ -17016,7 +17016,7 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-O4w3wJjlBG8lJxb00WGPRmvBl8pUVFvsUn7KMszAyY5q1LoqRD/P/adX7omQvj+RBYzzLPkG9t9Rd+7sIwnZyA==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-jnxSt03rIl6BP8Nv90yDkN2B+fnVfqyhL0VD6KzD2xhTzMPw3gD2MTKqD3VuoOpEqT2zqRkdEhiL993d9ohgLg==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
@@ -17037,6 +17037,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -20776,7 +20777,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Y89gCuNnHD3FSHtxVO2vCgGgCF27cFz7Hd+Xlmfgu5s/Fz8lm4IjZqOm165C2xjS7EWmWmrIEfXKwGfVQcZnBA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-pn9zH/hDLIUtPM0yvtLRtZRxV2+MLWvT6pJsNgev9cnDv1YZHaiULo3cQJnz2EcmY3pfkUYpWnfCS9hGgyx81g==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21966,7 +21967,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-5EkTlu2q3ZkjPIlIBMu4R++aneg//XjawueoiPtgIS2Be16wcAhkmossUcKDv1whl1evCy79PC5drQIvn1Yi6Q==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-Cim8tCcd8vmyBCC1RE4JxO7pemVC9h+Hxj42wZNwQRJ5UZGdqfLEhBRJSbtS6pCij+ODphVLZam6LCdYGs6Q/A==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -22855,7 +22856,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-F+yqX4lUjKfhiUBNZzkXQgl5PJ5Pb9TrhNUtWQCL3PUec0DOi69Tb2Ee7I0G1dC5YMTq8+/KHQt4+h4A508OIg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-LAiD2ighFMbVXl/jZtEOgRGTVgN8BYi1y4N6QV2OPCLY4DMmYJOE2Y2U4YxDSHzCHlnLv7yO3o3KLI0svZmMgw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22904,7 +22905,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-sESrhp5gqJlN9Dbuo7OBRjHACgvphnHexzxoCDPmp9oBNxCWDd0WRpA1HP0fSjCfCFPkRLq3Xk0LBLeOK652VA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-ei6GEyYTOaWi0bRHe20WvpNUE4fnBiR51IsRxn0slD9OaP5b8C2L3JRdRMq/srLfopeVCcG2zRLFngaSrp9Tng==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -23384,7 +23385,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-2jm9OSGbUW14BNuxxCHTPhh1a2kmgOHOOvyoAShyM9AXS041o8jrCQHV7oHxIkg9ilRAUGZlWq6MLvTgzEclgQ==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-DHl9YVlJONVHeY/UGhOYfxZnd6iQ0zRWPBk762zMZVfaReu/d95ZKvH0/IDIz9QVpql3jsDI5tRgQ1TKxpresg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
