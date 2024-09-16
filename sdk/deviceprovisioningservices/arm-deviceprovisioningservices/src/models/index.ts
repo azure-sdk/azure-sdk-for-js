@@ -188,7 +188,7 @@ export interface IotDpsPropertiesDescription {
    */
   readonly idScope?: string;
   /** List of authorization keys for a provisioning service. */
-  authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
   /**
    * Optional.
    * Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery.
@@ -281,7 +281,7 @@ export interface IotHubDefinitionDescription {
 }
 
 /** Description of the shared access key. */
-export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
+export interface SharedAccessSignatureAuthorizationRule {
   /** Name of the key. */
   keyName: string;
   /** Primary SAS key value. */
@@ -358,10 +358,16 @@ export interface Resource {
   readonly type?: string;
   /** The resource location. */
   location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
-  /** The subscription id of the resource. */
-  subscriptionid?: string;
+  /**
+   * The resource group of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourcegroup?: string;
+  /**
+   * The subscription id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionid?: string;
   /** The resource tags. */
   tags?: { [propertyName: string]: string };
 }
@@ -493,7 +499,7 @@ export interface NameAvailabilityInfo {
 /** List of shared access keys. */
 export interface SharedAccessSignatureAuthorizationRuleListResult {
   /** The list of shared access policies. */
-  value?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  value?: SharedAccessSignatureAuthorizationRule[];
   /**
    * The next link.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -582,7 +588,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -602,7 +608,7 @@ export enum KnownCertificatePurpose {
   /** ClientAuthentication */
   ClientAuthentication = "clientAuthentication",
   /** ServerAuthentication */
-  ServerAuthentication = "serverAuthentication"
+  ServerAuthentication = "serverAuthentication",
 }
 
 /**
@@ -640,7 +646,7 @@ export enum KnownState {
   /** FailingOver */
   FailingOver = "FailingOver",
   /** FailoverFailed */
-  FailoverFailed = "FailoverFailed"
+  FailoverFailed = "FailoverFailed",
 }
 
 /**
@@ -668,7 +674,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -690,7 +696,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -712,7 +718,7 @@ export enum KnownAllocationPolicy {
   /** GeoLatency */
   GeoLatency = "GeoLatency",
   /** Static */
-  Static = "Static"
+  Static = "Static",
 }
 
 /**
@@ -739,7 +745,7 @@ export enum KnownAccessRightsDescription {
   /** RegistrationStatusRead */
   RegistrationStatusRead = "RegistrationStatusRead",
   /** RegistrationStatusWrite */
-  RegistrationStatusWrite = "RegistrationStatusWrite"
+  RegistrationStatusWrite = "RegistrationStatusWrite",
 }
 
 /**
@@ -759,7 +765,7 @@ export type AccessRightsDescription = string;
 /** Known values of {@link IotDpsSku} that the service accepts. */
 export enum KnownIotDpsSku {
   /** S1 */
-  S1 = "S1"
+  S1 = "S1",
 }
 
 /**
@@ -780,7 +786,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -800,7 +806,7 @@ export enum KnownNameUnavailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -901,7 +907,8 @@ export interface DpsCertificateGenerateVerificationCodeOptionalParams
 }
 
 /** Contains response data for the generateVerificationCode operation. */
-export type DpsCertificateGenerateVerificationCodeResponse = VerificationCodeResponse;
+export type DpsCertificateGenerateVerificationCodeResponse =
+  VerificationCodeResponse;
 
 /** Optional parameters. */
 export interface DpsCertificateVerifyCertificateOptionalParams
@@ -944,7 +951,8 @@ export interface IotDpsResourceCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IotDpsResourceCreateOrUpdateResponse = ProvisioningServiceDescription;
+export type IotDpsResourceCreateOrUpdateResponse =
+  ProvisioningServiceDescription;
 
 /** Optional parameters. */
 export interface IotDpsResourceUpdateOptionalParams
@@ -972,14 +980,16 @@ export interface IotDpsResourceListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type IotDpsResourceListBySubscriptionResponse = ProvisioningServiceDescriptionListResult;
+export type IotDpsResourceListBySubscriptionResponse =
+  ProvisioningServiceDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IotDpsResourceListByResourceGroupResponse = ProvisioningServiceDescriptionListResult;
+export type IotDpsResourceListByResourceGroupResponse =
+  ProvisioningServiceDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceGetOperationResultOptionalParams
@@ -1000,28 +1010,32 @@ export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalP
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkProvisioningServiceNameAvailability operation. */
-export type IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse = NameAvailabilityInfo;
+export type IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse =
+  NameAvailabilityInfo;
 
 /** Optional parameters. */
 export interface IotDpsResourceListKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type IotDpsResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
+export type IotDpsResourceListKeysResponse =
+  SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceListKeysForKeyNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysForKeyName operation. */
-export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
+export type IotDpsResourceListKeysForKeyNameResponse =
+  SharedAccessSignatureAuthorizationRule;
 
 /** Optional parameters. */
 export interface IotDpsResourceListPrivateLinkResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateLinkResources operation. */
-export type IotDpsResourceListPrivateLinkResourcesResponse = PrivateLinkResources;
+export type IotDpsResourceListPrivateLinkResourcesResponse =
+  PrivateLinkResources;
 
 /** Optional parameters. */
 export interface IotDpsResourceGetPrivateLinkResourcesOptionalParams
@@ -1035,14 +1049,16 @@ export interface IotDpsResourceListPrivateEndpointConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateEndpointConnections operation. */
-export type IotDpsResourceListPrivateEndpointConnectionsResponse = PrivateEndpointConnection[];
+export type IotDpsResourceListPrivateEndpointConnectionsResponse =
+  PrivateEndpointConnection[];
 
 /** Optional parameters. */
 export interface IotDpsResourceGetPrivateEndpointConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateEndpointConnection operation. */
-export type IotDpsResourceGetPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type IotDpsResourceGetPrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
@@ -1054,7 +1070,8 @@ export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalPa
 }
 
 /** Contains response data for the createOrUpdatePrivateEndpointConnection operation. */
-export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
@@ -1066,35 +1083,40 @@ export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
 }
 
 /** Contains response data for the deletePrivateEndpointConnection operation. */
-export type IotDpsResourceDeletePrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type IotDpsResourceDeletePrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface IotDpsResourceListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IotDpsResourceListBySubscriptionNextResponse = ProvisioningServiceDescriptionListResult;
+export type IotDpsResourceListBySubscriptionNextResponse =
+  ProvisioningServiceDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IotDpsResourceListByResourceGroupNextResponse = ProvisioningServiceDescriptionListResult;
+export type IotDpsResourceListByResourceGroupNextResponse =
+  ProvisioningServiceDescriptionListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceListValidSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listValidSkusNext operation. */
-export type IotDpsResourceListValidSkusNextResponse = IotDpsSkuDefinitionListResult;
+export type IotDpsResourceListValidSkusNextResponse =
+  IotDpsSkuDefinitionListResult;
 
 /** Optional parameters. */
 export interface IotDpsResourceListKeysNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeysNext operation. */
-export type IotDpsResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
+export type IotDpsResourceListKeysNextResponse =
+  SharedAccessSignatureAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface IotDpsClientOptionalParams

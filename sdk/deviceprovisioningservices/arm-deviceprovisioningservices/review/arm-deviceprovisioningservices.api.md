@@ -195,7 +195,7 @@ export interface IotDpsClientOptionalParams extends coreClient.ServiceClientOpti
 // @public
 export interface IotDpsPropertiesDescription {
     allocationPolicy?: AllocationPolicy;
-    authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+    authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     readonly deviceProvisioningHostName?: string;
     enableDataResidency?: boolean;
     readonly idScope?: string;
@@ -215,20 +215,20 @@ export interface IotDpsResource {
     beginCreateOrUpdateAndWait(resourceGroupName: string, provisioningServiceName: string, iotDpsDescription: ProvisioningServiceDescription, options?: IotDpsResourceCreateOrUpdateOptionalParams): Promise<IotDpsResourceCreateOrUpdateResponse>;
     beginCreateOrUpdatePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>, IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>>;
     beginCreateOrUpdatePrivateEndpointConnectionAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>;
-    beginDelete(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<void>;
+    beginDelete(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceDeleteOptionalParams): Promise<void>;
     beginDeletePrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>, IotDpsResourceDeletePrivateEndpointConnectionResponse>>;
     beginDeletePrivateEndpointConnectionAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse>;
     beginUpdate(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotDpsResourceUpdateResponse>, IotDpsResourceUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams): Promise<IotDpsResourceUpdateResponse>;
     checkProvisioningServiceNameAvailability(argumentsParam: OperationInputs, options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
-    get(resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceGetOptionalParams): Promise<IotDpsResourceGetResponse>;
+    get(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceGetOptionalParams): Promise<IotDpsResourceGetResponse>;
     getOperationResult(operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: IotDpsResourceGetOperationResultOptionalParams): Promise<IotDpsResourceGetOperationResultResponse>;
     getPrivateEndpointConnection(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams): Promise<IotDpsResourceGetPrivateEndpointConnectionResponse>;
     getPrivateLinkResources(resourceGroupName: string, resourceName: string, groupId: string, options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams): Promise<IotDpsResourceGetPrivateLinkResourcesResponse>;
     listByResourceGroup(resourceGroupName: string, options?: IotDpsResourceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
     listBySubscription(options?: IotDpsResourceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
-    listKeys(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListKeysOptionalParams): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+    listKeys(provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListKeysOptionalParams): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule>;
     listKeysForKeyName(provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: IotDpsResourceListKeysForKeyNameOptionalParams): Promise<IotDpsResourceListKeysForKeyNameResponse>;
     listPrivateEndpointConnections(resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams): Promise<IotDpsResourceListPrivateEndpointConnectionsResponse>;
     listPrivateLinkResources(resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateLinkResourcesOptionalParams): Promise<IotDpsResourceListPrivateLinkResourcesResponse>;
@@ -343,7 +343,7 @@ export interface IotDpsResourceListKeysForKeyNameOptionalParams extends coreClie
 }
 
 // @public
-export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
+export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRule;
 
 // @public
 export interface IotDpsResourceListKeysNextOptionalParams extends coreClient.OperationOptions {
@@ -644,8 +644,8 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
-    resourcegroup?: string;
-    subscriptionid?: string;
+    readonly resourcegroup?: string;
+    readonly subscriptionid?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -653,7 +653,7 @@ export interface Resource {
 }
 
 // @public
-export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
+export interface SharedAccessSignatureAuthorizationRule {
     keyName: string;
     primaryKey?: string;
     rights: AccessRightsDescription;
@@ -663,7 +663,7 @@ export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
 // @public
 export interface SharedAccessSignatureAuthorizationRuleListResult {
     readonly nextLink?: string;
-    value?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+    value?: SharedAccessSignatureAuthorizationRule[];
 }
 
 // @public
