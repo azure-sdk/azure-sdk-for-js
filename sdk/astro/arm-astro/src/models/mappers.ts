@@ -286,7 +286,6 @@ export const LiftrBaseMarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       subscriptionId: {
         serializedName: "subscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -350,6 +349,19 @@ export const LiftrBaseOfferDetails: coreClient.CompositeMapper = {
         serializedName: "termId",
         type: {
           name: "String",
+        },
+      },
+      renewalMode: {
+        serializedName: "renewalMode",
+        type: {
+          name: "String",
+        },
+      },
+      endDate: {
+        serializedName: "endDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -861,16 +873,16 @@ export const OrganizationsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -882,16 +894,16 @@ export const OrganizationsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
