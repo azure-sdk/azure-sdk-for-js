@@ -1200,6 +1200,18 @@ export const MarketplaceSaaSInfo: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      publisherId: {
+        serializedName: "publisherId",
+        type: {
+          name: "String",
+        },
+      },
+      offerId: {
+        serializedName: "offerId",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1611,6 +1623,57 @@ export const VMExtensionPayload: coreClient.CompositeMapper = {
   },
 };
 
+export const ResubscribeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResubscribeProperties",
+    modelProperties: {
+      planId: {
+        serializedName: "planId",
+        type: {
+          name: "String",
+        },
+      },
+      termId: {
+        serializedName: "termId",
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      resourceGroup: {
+        serializedName: "resourceGroup",
+        type: {
+          name: "String",
+        },
+      },
+      organizationId: {
+        serializedName: "organizationId",
+        type: {
+          name: "String",
+        },
+      },
+      publisherId: {
+        serializedName: "publisherId",
+        type: {
+          name: "String",
+        },
+      },
+      offerId: {
+        serializedName: "offerId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AppServicesGetParameter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1966,6 +2029,21 @@ export const MonitorsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const MonitorsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const MonitorsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1990,6 +2068,21 @@ export const MonitorsSwitchBillingHeaders: coreClient.CompositeMapper = {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitorsResubscribeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsResubscribeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },

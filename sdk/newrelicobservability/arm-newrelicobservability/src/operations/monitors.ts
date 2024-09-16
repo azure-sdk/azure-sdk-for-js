@@ -62,8 +62,11 @@ import {
   SwitchBillingRequest,
   MonitorsSwitchBillingOptionalParams,
   MonitorsSwitchBillingResponse,
+  MonitorsRefreshIngestionKeyOptionalParams,
   MonitorsVmHostPayloadOptionalParams,
   MonitorsVmHostPayloadResponse,
+  MonitorsResubscribeOptionalParams,
+  MonitorsResubscribeResponse,
   MonitorsListBySubscriptionNextResponse,
   MonitorsListByResourceGroupNextResponse,
   MonitorsListAppServicesNextResponse,
@@ -710,16 +713,91 @@ export class MonitorsImpl implements Monitors {
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    properties: NewRelicMonitorResourceUpdate,
+    options?: MonitorsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsUpdateResponse>,
+      MonitorsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitorsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, properties, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitorsUpdateResponse,
+      OperationState<MonitorsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a NewRelicMonitorResource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     properties: NewRelicMonitorResourceUpdate,
     options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, properties, options },
-      updateOperationSpec,
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      monitorName,
+      properties,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -905,6 +983,23 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
+   * Refreshes the ingestion key for all monitors linked to the same account associated to this monitor.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param options The options parameters.
+   */
+  refreshIngestionKey(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsRefreshIngestionKeyOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      refreshIngestionKeyOperationSpec,
+    );
+  }
+
+  /**
    * List the resources currently being monitored by the NewRelic monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Name of the Monitors resource
@@ -955,6 +1050,96 @@ export class MonitorsImpl implements Monitors {
       { resourceGroupName, monitorName, options },
       vmHostPayloadOperationSpec,
     );
+  }
+
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginResubscribe(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsResubscribeResponse>,
+      MonitorsResubscribeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitorsResubscribeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: resubscribeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitorsResubscribeResponse,
+      OperationState<MonitorsResubscribeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginResubscribeAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<MonitorsResubscribeResponse> {
+    const poller = await this.beginResubscribe(
+      resourceGroupName,
+      monitorName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -1168,6 +1353,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.NewRelicMonitorResource,
     },
+    201: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    202: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    204: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -1325,6 +1519,25 @@ const listHostsOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const refreshIngestionKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/refreshIngestionKey",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/monitoredResources",
   httpMethod: "POST",
@@ -1386,6 +1599,38 @@ const vmHostPayloadOperationSpec: coreClient.OperationSpec = {
     Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const resubscribeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/resubscribe",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    201: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    202: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    204: {
+      bodyMapper: Mappers.NewRelicMonitorResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
