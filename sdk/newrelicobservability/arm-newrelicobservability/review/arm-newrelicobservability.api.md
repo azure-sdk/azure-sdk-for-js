@@ -81,9 +81,6 @@ export interface AppServicesListResponse {
 }
 
 // @public
-export type BillingCycle = string;
-
-// @public
 export interface BillingInfo {
     get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
 }
@@ -200,13 +197,6 @@ export enum KnownAccountCreationSource {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownBillingCycle {
-    Monthly = "MONTHLY",
-    Weekly = "WEEKLY",
-    Yearly = "YEARLY"
 }
 
 // @public
@@ -395,6 +385,8 @@ export interface MarketplaceSaaSInfo {
     marketplaceStatus?: string;
     marketplaceSubscriptionId?: string;
     marketplaceSubscriptionName?: string;
+    offerId?: string;
+    publisherId?: string;
 }
 
 // @public
@@ -473,8 +465,8 @@ export interface MonitoredSubscriptionPropertiesList {
 
 // @public
 export interface MonitoredSubscriptions {
-    beginCreateorUpdate(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateorUpdateResponse>, MonitoredSubscriptionsCreateorUpdateResponse>>;
-    beginCreateorUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>, MonitoredSubscriptionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsDeleteResponse>, MonitoredSubscriptionsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<MonitoredSubscriptionsDeleteResponse>;
     beginUpdate(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
@@ -484,14 +476,14 @@ export interface MonitoredSubscriptions {
 }
 
 // @public
-export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     body?: MonitoredSubscriptionProperties;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+export type MonitoredSubscriptionsCreateOrUpdateResponse = MonitoredSubscriptionProperties;
 
 // @public
 export interface MonitoredSubscriptionsDeleteHeaders {
@@ -561,6 +553,10 @@ export interface Monitors {
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<MonitorsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, userEmail: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, userEmail: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
+    beginResubscribe(resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsResubscribeResponse>, MonitorsResubscribeResponse>>;
+    beginResubscribeAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams): Promise<MonitorsResubscribeResponse>;
+    beginUpdate(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     getMetricRules(resourceGroupName: string, monitorName: string, request: MetricsRequest, options?: MonitorsGetMetricRulesOptionalParams): Promise<MonitorsGetMetricRulesResponse>;
     getMetricStatus(resourceGroupName: string, monitorName: string, request: MetricsStatusRequest, options?: MonitorsGetMetricStatusOptionalParams): Promise<MonitorsGetMetricStatusResponse>;
@@ -570,8 +566,8 @@ export interface Monitors {
     listHosts(resourceGroupName: string, monitorName: string, request: HostsGetRequest, options?: MonitorsListHostsOptionalParams): PagedAsyncIterableIterator<VMInfo>;
     listLinkedResources(resourceGroupName: string, monitorName: string, options?: MonitorsListLinkedResourcesOptionalParams): PagedAsyncIterableIterator<LinkedResource>;
     listMonitoredResources(resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
+    refreshIngestionKey(resourceGroupName: string, monitorName: string, options?: MonitorsRefreshIngestionKeyOptionalParams): Promise<void>;
     switchBilling(resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams): Promise<MonitorsSwitchBillingResponse>;
-    update(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     vmHostPayload(resourceGroupName: string, monitorName: string, options?: MonitorsVmHostPayloadOptionalParams): Promise<MonitorsVmHostPayloadResponse>;
 }
 
@@ -706,6 +702,26 @@ export interface MonitorsListMonitoredResourcesOptionalParams extends coreClient
 export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
 
 // @public
+export interface MonitorsRefreshIngestionKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface MonitorsResubscribeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MonitorsResubscribeOptionalParams extends coreClient.OperationOptions {
+    body?: ResubscribeProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitorsResubscribeResponse = NewRelicMonitorResource;
+
+// @public
 export interface MonitorsSwitchBillingHeaders {
     retryAfter?: number;
 }
@@ -718,7 +734,15 @@ export interface MonitorsSwitchBillingOptionalParams extends coreClient.Operatio
 export type MonitorsSwitchBillingResponse = NewRelicMonitorResource;
 
 // @public
+export interface MonitorsUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -916,7 +940,7 @@ export type PatchOperation = string;
 
 // @public
 export interface PlanData {
-    billingCycle?: BillingCycle;
+    billingCycle?: string;
     effectiveDate?: Date;
     planDetails?: string;
     usageType?: UsageType;
@@ -969,6 +993,17 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ResubscribeProperties {
+    offerId?: string;
+    organizationId?: string;
+    planId?: string;
+    publisherId?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+    termId?: string;
 }
 
 // @public

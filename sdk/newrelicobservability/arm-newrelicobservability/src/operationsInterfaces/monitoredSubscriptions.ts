@@ -14,8 +14,8 @@ import {
   ConfigurationName,
   MonitoredSubscriptionsGetOptionalParams,
   MonitoredSubscriptionsGetResponse,
-  MonitoredSubscriptionsCreateorUpdateOptionalParams,
-  MonitoredSubscriptionsCreateorUpdateResponse,
+  MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  MonitoredSubscriptionsCreateOrUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
   MonitoredSubscriptionsDeleteOptionalParams,
@@ -56,15 +56,15 @@ export interface MonitoredSubscriptions {
    * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  beginCreateorUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     monitorName: string,
     configurationName: ConfigurationName,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
-      MonitoredSubscriptionsCreateorUpdateResponse
+      OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>,
+      MonitoredSubscriptionsCreateOrUpdateResponse
     >
   >;
   /**
@@ -74,12 +74,12 @@ export interface MonitoredSubscriptions {
    * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  beginCreateorUpdateAndWait(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     configurationName: ConfigurationName,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
-  ): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsCreateOrUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the NewRelic monitor resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

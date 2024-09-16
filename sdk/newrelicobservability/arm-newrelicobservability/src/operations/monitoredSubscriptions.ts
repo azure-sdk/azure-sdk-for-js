@@ -27,8 +27,8 @@ import {
   ConfigurationName,
   MonitoredSubscriptionsGetOptionalParams,
   MonitoredSubscriptionsGetResponse,
-  MonitoredSubscriptionsCreateorUpdateOptionalParams,
-  MonitoredSubscriptionsCreateorUpdateResponse,
+  MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  MonitoredSubscriptionsCreateOrUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
   MonitoredSubscriptionsDeleteOptionalParams,
@@ -168,21 +168,21 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  async beginCreateorUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     monitorName: string,
     configurationName: ConfigurationName,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
-      MonitoredSubscriptionsCreateorUpdateResponse
+      OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>,
+      MonitoredSubscriptionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> => {
+    ): Promise<MonitoredSubscriptionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -220,11 +220,11 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, configurationName, options },
-      spec: createorUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      MonitoredSubscriptionsCreateorUpdateResponse,
-      OperationState<MonitoredSubscriptionsCreateorUpdateResponse>
+      MonitoredSubscriptionsCreateOrUpdateResponse,
+      OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -240,13 +240,13 @@ export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
    * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
-  async beginCreateorUpdateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     configurationName: ConfigurationName,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
-  ): Promise<MonitoredSubscriptionsCreateorUpdateResponse> {
-    const poller = await this.beginCreateorUpdate(
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       configurationName,
@@ -508,7 +508,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createorUpdateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/monitoredSubscriptions/{configurationName}",
   httpMethod: "PUT",
   responses: {
@@ -528,7 +528,7 @@ const createorUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -561,7 +561,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
