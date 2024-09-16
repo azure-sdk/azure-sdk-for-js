@@ -14537,7 +14537,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
-    resolution: {integrity: sha512-D1j7w251vbrba8H1bHgnWhFID6Nf0yN2d2IaXcyB4zNibyi0D8ZI8SvBidMrsGXOo+yAD/jCSp1Ta4n+xgy+Dg==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-dI9pl8KPuRkyqfpr9S/uKATCwYK14nYPqDcztoZijkuLmVaGs7urauOwq50mzx4SkBOs44qyDM22LTQi+cGRMw==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
@@ -14558,6 +14558,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
