@@ -12,7 +12,7 @@ import { FeaturesetVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -38,13 +38,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FeaturesetVersions operations. */
 export class FeaturesetVersionsImpl implements FeaturesetVersions {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class FeaturesetVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
@@ -607,7 +607,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body21,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -641,7 +641,7 @@ const backfillOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -669,9 +669,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.name,
   ],
   headerParameters: [Parameters.accept],

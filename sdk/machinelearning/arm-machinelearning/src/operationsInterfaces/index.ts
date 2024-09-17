@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./workspaces";
 export * from "./usages";
 export * from "./virtualMachineSizes";
 export * from "./quotas";
 export * from "./computeOperations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./workspaceConnections";
-export * from "./managedNetworkSettingsRule";
-export * from "./managedNetworkProvisions";
 export * from "./registryCodeContainers";
 export * from "./registryCodeVersions";
 export * from "./registryComponentContainers";
@@ -54,3 +47,21 @@ export * from "./schedules";
 export * from "./serverlessEndpoints";
 export * from "./registries";
 export * from "./workspaceFeatures";
+export * from "./operations";
+export * from "./workspaces";
+export * from "./workspaceConnections";
+export * from "./connection";
+export * from "./connectionRaiBlocklists";
+export * from "./connectionRaiBlocklist";
+export * from "./connectionRaiBlocklistItem";
+export * from "./connectionRaiBlocklistItems";
+export * from "./connectionRaiPolicies";
+export * from "./connectionRaiPolicy";
+export * from "./endpointDeployment";
+export * from "./endpointOperations";
+export * from "./raiPolicies";
+export * from "./raiPolicy";
+export * from "./managedNetworkSettingsRule";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./managedNetworkProvisions";
