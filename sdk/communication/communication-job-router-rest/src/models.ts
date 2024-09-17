@@ -17,15 +17,24 @@ export interface ClassificationPolicy {
 
 /** An attachment of queue selectors to resolve a queue to a job from a classification policy. */
 export interface QueueSelectorAttachmentParent {
+  /**
+   * The type discriminator describing a sub-type of QueueSelectorAttachment.
+   *
+   * Possible values: "conditional", "passThrough", "ruleEngine", "static", "weightedAllocation"
+   */
+  queueSelectorAttachmentKind: QueueSelectorAttachmentKind;
   kind: string;
 }
 
 /** Describes a set of queue selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface ConditionalQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The condition that must be true for the queue selectors to be attached. */
   condition: RouterRule;
   /** The queue selectors to attach. */
   queueSelectors: Array<RouterQueueSelector>;
+  /** The type discriminator describing the type of queue selector attachment. */
+  queueSelectorAttachmentKind: "conditional";
   /** The type discriminator describing the type of queue selector attachment. */
   kind: "conditional";
 }
@@ -39,12 +48,20 @@ export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachm
  * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
  */
 export interface RouterRuleParent {
+  /**
+   * The type discriminator describing a sub-type of RouterRule
+   *
+   * Possible values: "directMap", "expression", "function", "static", "webhook"
+   */
+  routerRuleKind: RouterRuleKind;
   kind: string;
 }
 
 /** A rule that return the same labels as the input labels. */
 export interface DirectMapRouterRule extends RouterRuleParent {
   /** The type discriminator describing a sub-type of Rule. */
+  routerRuleKind: "directMap";
+  /** The type discriminator describing a kind of Rule. */
   kind: "directMap";
 }
 
@@ -55,10 +72,12 @@ export interface ExpressionRouterRule extends RouterRuleParent {
    *
    * Possible values: "powerFx"
    */
-  language?: string;
+  language?: ExpressionRouterRuleLanguage;
   /** An expression to evaluate. Should contain return statement with calculated values. */
   expression: string;
   /** The type discriminator describing a sub-type of Rule. */
+  routerRuleKind: "expression";
+  /** The type discriminator describing a kind of Rule. */
   kind: "expression";
 }
 
@@ -69,6 +88,8 @@ export interface FunctionRouterRule extends RouterRuleParent {
   /** Credentials used to access Azure function rule. */
   credential?: FunctionRouterRuleCredential;
   /** The type discriminator describing a sub-type of Rule. */
+  routerRuleKind: "function";
+  /** The type discriminator describing a kind of Rule. */
   kind: "function";
 }
 
@@ -87,6 +108,8 @@ export interface StaticRouterRule extends RouterRuleParent {
   /** The static value this rule always returns. Values must be primitive values - number, string, boolean. */
   value?: unknown;
   /** The type discriminator describing a sub-type of Rule. */
+  routerRuleKind: "static";
+  /** The type discriminator describing a kind of Rule. */
   kind: "static";
 }
 
@@ -99,6 +122,8 @@ export interface WebhookRouterRule extends RouterRuleParent {
   /** Uri for Contoso's Web Server. */
   webhookUri?: string;
   /** The type discriminator describing a sub-type of Rule. */
+  routerRuleKind: "webhook";
+  /** The type discriminator describing a kind of Rule. */
   kind: "webhook";
 }
 
@@ -119,13 +144,14 @@ export interface RouterQueueSelector {
    *
    * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
-  labelOperator: string;
+  labelOperator: LabelOperator;
   /** The value to compare against the actual label value with the given operator. Values must be primitive values - number, string, boolean. */
   value?: unknown;
 }
 
 /** Attaches a queue selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface PassThroughQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -133,31 +159,42 @@ export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachm
    *
    * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
-  labelOperator: string;
+  labelOperator: LabelOperator;
+  /** The type discriminator describing the type of queue selector attachment. */
+  queueSelectorAttachmentKind: "passThrough";
   /** The type discriminator describing the type of queue selector attachment. */
   kind: "passThrough";
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved. */
-export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface RuleEngineQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** A RouterRule that resolves a collection of queue selectors to attach. */
   rule: RouterRule;
+  /** The type discriminator describing the type of queue selector attachment. */
+  queueSelectorAttachmentKind: "ruleEngine";
   /** The type discriminator describing the type of queue selector attachment. */
   kind: "ruleEngine";
 }
 
 /** Describes a queue selector that will be attached to a job. */
-export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface StaticQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The queue selector to attach. */
   queueSelector: RouterQueueSelector;
+  /** The type discriminator describing the type of queue selector attachment. */
+  queueSelectorAttachmentKind: "static";
   /** The type discriminator describing the type of queue selector attachment. */
   kind: "static";
 }
 
 /** Describes multiple sets of queue selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface WeightedAllocationQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocation>;
+  /** The type discriminator describing the type of queue selector attachment. */
+  queueSelectorAttachmentKind: "weightedAllocation";
   /** The type discriminator describing the type of queue selector attachment. */
   kind: "weightedAllocation";
 }
@@ -172,15 +209,24 @@ export interface QueueWeightedAllocation {
 
 /** An attachment which attaches worker selectors to a job. */
 export interface WorkerSelectorAttachmentParent {
+  /**
+   * The type discriminator describing a sub-type of WorkerSelectorAttachment.
+   *
+   * Possible values: "conditional", "passThrough", "ruleEngine", "static", "weightedAllocation"
+   */
+  workerSelectorAttachmentKind: WorkerSelectorAttachmentKind;
   kind: string;
 }
 
 /** Describes a set of worker selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface ConditionalWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The condition that must be true for the worker selectors to be attached. */
   condition: RouterRule;
   /** The worker selectors to attach. */
   workerSelectors: Array<RouterWorkerSelector>;
+  /** The type discriminator describing the type of worker selector attachment. */
+  workerSelectorAttachmentKind: "conditional";
   /** The type discriminator describing the type of worker selector attachment. */
   kind: "conditional";
 }
@@ -194,7 +240,7 @@ export interface RouterWorkerSelector {
    *
    * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
-  labelOperator: string;
+  labelOperator: LabelOperator;
   /** The value to compare against the actual label value with the given operator. Values must be primitive values - number, string, boolean. */
   value?: unknown;
   /** Describes how long this label selector is valid in seconds. */
@@ -204,7 +250,8 @@ export interface RouterWorkerSelector {
 }
 
 /** Attaches a worker selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface PassThroughWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -212,33 +259,44 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
    *
    * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
-  labelOperator: string;
+  labelOperator: LabelOperator;
   /** Describes how long the attached label selector is valid in seconds. */
   expiresAfterSeconds?: number;
+  /** The type discriminator describing the type of worker selector attachment. */
+  workerSelectorAttachmentKind: "passThrough";
   /** The type discriminator describing the type of worker selector attachment. */
   kind: "passThrough";
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved. */
-export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface RuleEngineWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** A RouterRule that resolves a collection of worker selectors to attach. */
   rule: RouterRule;
+  /** The type discriminator describing the type of worker selector attachment. */
+  workerSelectorAttachmentKind: "ruleEngine";
   /** The type discriminator describing the type of worker selector attachment. */
   kind: "ruleEngine";
 }
 
 /** Describes a worker selector that will be attached to a job. */
-export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface StaticWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The worker selector to attach. */
   workerSelector: RouterWorkerSelector;
+  /** The type discriminator describing the type of worker selector attachment. */
+  workerSelectorAttachmentKind: "static";
   /** The type discriminator describing the type of worker selector attachment. */
   kind: "static";
 }
 
 /** Describes multiple sets of worker selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface WeightedAllocationWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocation>;
+  /** The type discriminator describing the type of worker selector attachment. */
+  workerSelectorAttachmentKind: "weightedAllocation";
   /** The type discriminator describing the type of worker selector attachment. */
   kind: "weightedAllocation";
 }
@@ -269,6 +327,12 @@ export interface DistributionModeParent {
   maxConcurrentOffers?: number;
   /** If set to true, then router will match workers to jobs even if they don't match label selectors. Warning: You may get workers that are not qualified for a job they are matched with if you set this variable to true. This flag is intended more for temporary usage. By default, set to false. */
   bypassSelectors?: boolean;
+  /**
+   * The type discriminator describing a sub-type of DistributionMode.
+   *
+   * Possible values: "bestWorker", "longestIdle", "roundRobin"
+   */
+  distributionModeKind: DistributionModeKind;
   kind: string;
 }
 
@@ -279,6 +343,8 @@ export interface BestWorkerMode extends DistributionModeParent {
   /** Options to configure 'scoringRule'. If not set, default values are used. */
   scoringRuleOptions?: ScoringRuleOptions;
   /** The type discriminator describing a sub-type of Mode */
+  distributionModeKind: "bestWorker";
+  /** The type discriminator describing a kind of Mode */
   kind: "bestWorker";
 }
 
@@ -287,7 +353,7 @@ export interface ScoringRuleOptions {
   /** Set batch size when 'isBatchScoringEnabled' is set to true. Defaults to 20 if not configured. */
   batchSize?: number;
   /** List of extra parameters from a job that will be sent as part of the payload to scoring rule. If not set, a job's labels (sent in the payload as `job`) and a job's worker selectors (sent in the payload as `selectors`) are added to the payload of the scoring rule by default. Note: Worker labels are always sent with scoring payload. */
-  scoringParameters?: string[];
+  scoringParameters?: ScoringRuleParameterSelector[];
   /** If set to true, will score workers in batches, and the parameter name of the worker labels will be sent as `workers`. By default, set to false and the parameter name for the worker labels will be sent as `worker`. Note: If enabled, use 'batchSize' to set batch size. */
   isBatchScoringEnabled?: boolean;
   /** If false, will sort scores by ascending order. By default, set to true. */
@@ -297,12 +363,16 @@ export interface ScoringRuleOptions {
 /** Jobs are directed to the worker who has been idle longest. */
 export interface LongestIdleMode extends DistributionModeParent {
   /** The type discriminator describing a sub-type of Mode. */
+  distributionModeKind: "longestIdle";
+  /** The type discriminator describing a kind of Mode. */
   kind: "longestIdle";
 }
 
 /** Jobs are distributed in order to workers, starting with the worker that is after the last worker to receive a job. */
 export interface RoundRobinMode extends DistributionModeParent {
   /** The type discriminator describing a sub-type of Mode. */
+  distributionModeKind: "roundRobin";
+  /** The type discriminator describing a kind of Mode. */
   kind: "roundRobin";
 }
 
@@ -326,6 +396,12 @@ export interface ExceptionRule {
 
 /** Abstract base class for defining a trigger for exception rules. */
 export interface ExceptionTriggerParent {
+  /**
+   * The type discriminator describing a sub-type of ExceptionTrigger.
+   *
+   * Possible values: "queueLength", "waitTime"
+   */
+  exceptionTriggerKind: ExceptionTriggerKind;
   kind: string;
 }
 
@@ -334,6 +410,8 @@ export interface QueueLengthExceptionTrigger extends ExceptionTriggerParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
+  exceptionTriggerKind: "queueLength";
+  /** The type discriminator describing a kind of ExceptionTrigger. */
   kind: "queueLength";
 }
 
@@ -342,6 +420,8 @@ export interface WaitTimeExceptionTrigger extends ExceptionTriggerParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
+  exceptionTriggerKind: "waitTime";
+  /** The type discriminator describing a kind of ExceptionTrigger. */
   kind: "waitTime";
 }
 
@@ -349,6 +429,12 @@ export interface WaitTimeExceptionTrigger extends ExceptionTriggerParent {
 export interface ExceptionActionParent {
   /** Unique Id of the exception action. */
   id?: string;
+  /**
+   * The type discriminator describing a sub-type of ExceptionAction.
+   *
+   * Possible values: "cancel", "manualReclassify", "reclassify"
+   */
+  exceptionActionKind: ExceptionActionKind;
   kind: string;
 }
 
@@ -358,6 +444,8 @@ export interface CancelExceptionAction extends ExceptionActionParent {
   note?: string;
   /** Indicates the outcome of a job, populate this field with your own custom values. */
   dispositionCode?: string;
+  /** The type discriminator describing a sub-type of ExceptionAction. */
+  exceptionActionKind: "cancel";
   /** The type discriminator describing a sub-type of ExceptionAction. */
   kind: "cancel";
 }
@@ -371,6 +459,8 @@ export interface ManualReclassifyExceptionAction extends ExceptionActionParent {
   /** Updated WorkerSelectors. */
   workerSelectors?: Array<RouterWorkerSelector>;
   /** The type discriminator describing a sub-type of ExceptionAction. */
+  exceptionActionKind: "manualReclassify";
+  /** The type discriminator describing a sub-type of ExceptionAction. */
   kind: "manualReclassify";
 }
 
@@ -380,6 +470,8 @@ export interface ReclassifyExceptionAction extends ExceptionActionParent {
   classificationPolicyId?: string;
   /** Dictionary containing the labels to update (or add if not existing) in key-value pairs.  Values must be primitive values - number, string, boolean. */
   labelsToUpsert?: Record<string, unknown>;
+  /** The type discriminator describing a sub-type of ExceptionAction. */
+  exceptionActionKind: "reclassify";
   /** The type discriminator describing a sub-type of ExceptionAction. */
   kind: "reclassify";
 }
@@ -406,7 +498,7 @@ export interface RouterJob {
   classificationPolicyId?: string;
   /** Id of a queue that this job is queued to. */
   queueId?: string;
-  /** Priority of this job. */
+  /** Priority of this job. Value must be between -100 to 100. */
   priority?: number;
   /** Reason code for cancelled or closed jobs. */
   dispositionCode?: string;
@@ -449,6 +541,12 @@ export interface RouterJobNote {
  * SuspendMode: Used when matching workers to a job needs to be suspended.
  */
 export interface JobMatchingModeParent {
+  /**
+   * The type discriminator describing a sub-type of JobMatchingMode.
+   *
+   * Possible values: "queueAndMatch", "scheduleAndSuspend", "suspend"
+   */
+  jobMatchingModeKind: JobMatchingModeKind;
   kind: string;
 }
 
@@ -457,17 +555,23 @@ export interface ScheduleAndSuspendMode extends JobMatchingModeParent {
   /** Requested schedule time. */
   scheduleAt: Date | string;
   /** The type discriminator describing ScheduleAndSuspendMode */
+  jobMatchingModeKind: "scheduleAndSuspend";
+  /** The type discriminator describing ScheduleAndSuspendMode kind */
   kind: "scheduleAndSuspend";
 }
 
 /** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
 export interface QueueAndMatchMode extends JobMatchingModeParent {
   /** The type discriminator describing QueueAndMatchMode */
+  jobMatchingModeKind: "queueAndMatch";
+  /** The type discriminator describing QueueAndMatchMode */
   kind: "queueAndMatch";
 }
 
 /** Describes a matching mode where matching worker to a job is suspended. */
 export interface SuspendMode extends JobMatchingModeParent {
+  /** The type discriminator describing SuspendMode */
+  jobMatchingModeKind: "suspend";
   /** The type discriminator describing SuspendMode */
   kind: "suspend";
 }
@@ -535,7 +639,7 @@ export interface RouterChannel {
   channelId: string;
   /** The amount of capacity that an instance of a job of this channel will consume of the total worker capacity. */
   capacityCostPerJob: number;
-  /** The maximum number of jobs that can be supported concurrently for this channel. */
+  /** The maximum number of jobs that can be supported concurrently for this channel. Value must be greater than zero. */
   maxNumberOfJobs?: number;
 }
 
@@ -622,3 +726,33 @@ export type JobMatchingMode =
   | ScheduleAndSuspendMode
   | QueueAndMatchMode
   | SuspendMode;
+/** Alias for QueueSelectorAttachmentKind */
+export type QueueSelectorAttachmentKind = string;
+/** Alias for RouterRuleKind */
+export type RouterRuleKind = string;
+/** Alias for ExpressionRouterRuleLanguage */
+export type ExpressionRouterRuleLanguage = string;
+/** Alias for LabelOperator */
+export type LabelOperator = string;
+/** Alias for WorkerSelectorAttachmentKind */
+export type WorkerSelectorAttachmentKind = string;
+/** Alias for RouterWorkerSelectorStatus */
+export type RouterWorkerSelectorStatus = string;
+/** Alias for DistributionModeKind */
+export type DistributionModeKind = string;
+/** Alias for ScoringRuleParameterSelector */
+export type ScoringRuleParameterSelector = string;
+/** Alias for ExceptionTriggerKind */
+export type ExceptionTriggerKind = string;
+/** Alias for ExceptionActionKind */
+export type ExceptionActionKind = string;
+/** Alias for RouterJobStatus */
+export type RouterJobStatus = string;
+/** Alias for JobMatchingModeKind */
+export type JobMatchingModeKind = string;
+/** Alias for RouterJobStatusSelector */
+export type RouterJobStatusSelector = string;
+/** Alias for RouterWorkerState */
+export type RouterWorkerState = string;
+/** Alias for RouterWorkerStateSelector */
+export type RouterWorkerStateSelector = string;
