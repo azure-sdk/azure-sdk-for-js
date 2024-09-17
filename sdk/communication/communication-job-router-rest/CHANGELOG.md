@@ -1,45 +1,120 @@
-# Release History
-
-## 1.1.0-beta.2 (Unreleased)
-
+## 1.0.0-beta.1 (2024-09-17)
+    
 ### Features Added
+
+  - Added Interface AzureCommunicationRoutingServiceClientOptions
+  - Added Type Alias DistributionModeKind
+  - Added Type Alias DistributionModeKindOutput
+  - Added Type Alias ExceptionActionKind
+  - Added Type Alias ExceptionActionKindOutput
+  - Added Type Alias ExceptionTriggerKind
+  - Added Type Alias ExceptionTriggerKindOutput
+  - Added Type Alias ExpressionRouterRuleLanguage
+  - Added Type Alias ExpressionRouterRuleLanguageOutput
+  - Added Type Alias JobMatchingModeKind
+  - Added Type Alias JobMatchingModeKindOutput
+  - Added Type Alias LabelOperator
+  - Added Type Alias LabelOperatorOutput
+  - Added Type Alias QueueSelectorAttachmentKind
+  - Added Type Alias QueueSelectorAttachmentKindOutput
+  - Added Type Alias RouterJobStatus
+  - Added Type Alias RouterJobStatusOutput
+  - Added Type Alias RouterJobStatusSelector
+  - Added Type Alias RouterRuleKind
+  - Added Type Alias RouterRuleKindOutput
+  - Added Type Alias RouterWorkerSelectorStatus
+  - Added Type Alias RouterWorkerSelectorStatusOutput
+  - Added Type Alias RouterWorkerState
+  - Added Type Alias RouterWorkerStateOutput
+  - Added Type Alias RouterWorkerStateSelector
+  - Added Type Alias ScoringRuleParameterSelector
+  - Added Type Alias ScoringRuleParameterSelectorOutput
+  - Added Type Alias WorkerSelectorAttachmentKind
+  - Added Type Alias WorkerSelectorAttachmentKindOutput
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.1.0-beta.1 (2024-04-12)
-
-### Features Added
-
-#### RouterWorker
-
-- Added `MaxConcurrentOffers`
-
-## 1.0.0 (2023-11-01)
-
-### Features Added
-
-This is the initial release of the @azure-rest version of Job Router SDK.
-There was a previous preview SDK under a different package named @azure/communication-job-router which will be deprecated.
-
-Using AzureCommunicationRoutingServiceClient:
-
-- Upsert, get, list and delete DistributionPolicy.
-- Upsert, get, list and delete RouterQueue.
-- Upsert, get, list and delete ClassificationPolicy.
-- Upsert, get, list and delete ExceptionPolicy.
-- Upsert, get, list and delete RouterJob.
-- RouterJob can be created and updated with different matching modes: QueueAndMatchMode, ScheduleAndSuspendMode and SuspendMode.
-- Reclassify a RouterJob.
-- Close a RouterJob.
-- Complete a RouterJob.
-- Cancel a RouterJob.
-- Unassign a RouterJob.
-- Get the position of a RouterJob in a queue.
-- Upsert, get, list and delete RouterWorker.
-- Accept an offer.
-- Decline an offer.
-- Get queue statistics.
+  - Interface BestWorkerMode has a new required parameter distributionModeKind
+  - Interface BestWorkerModeOutput has a new required parameter distributionModeKind
+  - Interface CancelExceptionAction has a new required parameter exceptionActionKind
+  - Interface CancelExceptionActionOutput has a new required parameter exceptionActionKind
+  - Interface ConditionalQueueSelectorAttachment has a new required parameter queueSelectorAttachmentKind
+  - Interface ConditionalQueueSelectorAttachmentOutput has a new required parameter queueSelectorAttachmentKind
+  - Interface ConditionalWorkerSelectorAttachment has a new required parameter workerSelectorAttachmentKind
+  - Interface ConditionalWorkerSelectorAttachmentOutput has a new required parameter workerSelectorAttachmentKind
+  - Interface DirectMapRouterRule has a new required parameter routerRuleKind
+  - Interface DirectMapRouterRuleOutput has a new required parameter routerRuleKind
+  - Interface DistributionModeOutputParent has a new required parameter distributionModeKind
+  - Interface DistributionModeParent has a new required parameter distributionModeKind
+  - Interface ExceptionActionOutputParent has a new required parameter exceptionActionKind
+  - Interface ExceptionActionParent has a new required parameter exceptionActionKind
+  - Interface ExceptionTriggerOutputParent has a new required parameter exceptionTriggerKind
+  - Interface ExceptionTriggerParent has a new required parameter exceptionTriggerKind
+  - Interface ExpressionRouterRule has a new required parameter routerRuleKind
+  - Interface ExpressionRouterRuleOutput has a new required parameter routerRuleKind
+  - Interface FunctionRouterRule has a new required parameter routerRuleKind
+  - Interface FunctionRouterRuleOutput has a new required parameter routerRuleKind
+  - Interface JobMatchingModeOutputParent has a new required parameter jobMatchingModeKind
+  - Interface JobMatchingModeParent has a new required parameter jobMatchingModeKind
+  - Interface LongestIdleMode has a new required parameter distributionModeKind
+  - Interface LongestIdleModeOutput has a new required parameter distributionModeKind
+  - Interface ManualReclassifyExceptionAction has a new required parameter exceptionActionKind
+  - Interface ManualReclassifyExceptionActionOutput has a new required parameter exceptionActionKind
+  - Interface PassThroughQueueSelectorAttachment has a new required parameter queueSelectorAttachmentKind
+  - Interface PassThroughQueueSelectorAttachmentOutput has a new required parameter queueSelectorAttachmentKind
+  - Interface PassThroughWorkerSelectorAttachment has a new required parameter workerSelectorAttachmentKind
+  - Interface PassThroughWorkerSelectorAttachmentOutput has a new required parameter workerSelectorAttachmentKind
+  - Interface QueueAndMatchMode has a new required parameter jobMatchingModeKind
+  - Interface QueueAndMatchModeOutput has a new required parameter jobMatchingModeKind
+  - Interface QueueLengthExceptionTrigger has a new required parameter exceptionTriggerKind
+  - Interface QueueLengthExceptionTriggerOutput has a new required parameter exceptionTriggerKind
+  - Interface QueueSelectorAttachmentOutputParent has a new required parameter queueSelectorAttachmentKind
+  - Interface QueueSelectorAttachmentParent has a new required parameter queueSelectorAttachmentKind
+  - Interface ReclassifyExceptionAction has a new required parameter exceptionActionKind
+  - Interface ReclassifyExceptionActionOutput has a new required parameter exceptionActionKind
+  - Interface RoundRobinMode has a new required parameter distributionModeKind
+  - Interface RoundRobinModeOutput has a new required parameter distributionModeKind
+  - Interface RouterRuleOutputParent has a new required parameter routerRuleKind
+  - Interface RouterRuleParent has a new required parameter routerRuleKind
+  - Interface RuleEngineQueueSelectorAttachment has a new required parameter queueSelectorAttachmentKind
+  - Interface RuleEngineQueueSelectorAttachmentOutput has a new required parameter queueSelectorAttachmentKind
+  - Interface RuleEngineWorkerSelectorAttachment has a new required parameter workerSelectorAttachmentKind
+  - Interface RuleEngineWorkerSelectorAttachmentOutput has a new required parameter workerSelectorAttachmentKind
+  - Interface ScheduleAndSuspendMode has a new required parameter jobMatchingModeKind
+  - Interface ScheduleAndSuspendModeOutput has a new required parameter jobMatchingModeKind
+  - Interface StaticQueueSelectorAttachment has a new required parameter queueSelectorAttachmentKind
+  - Interface StaticQueueSelectorAttachmentOutput has a new required parameter queueSelectorAttachmentKind
+  - Interface StaticRouterRule has a new required parameter routerRuleKind
+  - Interface StaticRouterRuleOutput has a new required parameter routerRuleKind
+  - Interface StaticWorkerSelectorAttachment has a new required parameter workerSelectorAttachmentKind
+  - Interface StaticWorkerSelectorAttachmentOutput has a new required parameter workerSelectorAttachmentKind
+  - Interface SuspendMode has a new required parameter jobMatchingModeKind
+  - Interface SuspendModeOutput has a new required parameter jobMatchingModeKind
+  - Interface WaitTimeExceptionTrigger has a new required parameter exceptionTriggerKind
+  - Interface WaitTimeExceptionTriggerOutput has a new required parameter exceptionTriggerKind
+  - Interface WebhookRouterRule has a new required parameter routerRuleKind
+  - Interface WebhookRouterRuleOutput has a new required parameter routerRuleKind
+  - Interface WeightedAllocationQueueSelectorAttachment has a new required parameter queueSelectorAttachmentKind
+  - Interface WeightedAllocationQueueSelectorAttachmentOutput has a new required parameter queueSelectorAttachmentKind
+  - Interface WeightedAllocationWorkerSelectorAttachment has a new required parameter workerSelectorAttachmentKind
+  - Interface WeightedAllocationWorkerSelectorAttachmentOutput has a new required parameter workerSelectorAttachmentKind
+  - Interface WorkerSelectorAttachmentOutputParent has a new required parameter workerSelectorAttachmentKind
+  - Interface WorkerSelectorAttachmentParent has a new required parameter workerSelectorAttachmentKind
+  - Type of parameter language of interface ExpressionRouterRule is changed from string to ExpressionRouterRuleLanguage
+  - Type of parameter language of interface ExpressionRouterRuleOutput is changed from string to ExpressionRouterRuleLanguageOutput
+  - Type of parameter status of interface ListJobsQueryParamProperties is changed from string to RouterJobStatusSelector
+  - Type of parameter state of interface ListWorkersQueryParamProperties is changed from string to RouterWorkerStateSelector
+  - Type of parameter labelOperator of interface PassThroughQueueSelectorAttachment is changed from string to LabelOperator
+  - Type of parameter labelOperator of interface PassThroughQueueSelectorAttachmentOutput is changed from string to LabelOperatorOutput
+  - Type of parameter labelOperator of interface PassThroughWorkerSelectorAttachment is changed from string to LabelOperator
+  - Type of parameter labelOperator of interface PassThroughWorkerSelectorAttachmentOutput is changed from string to LabelOperatorOutput
+  - Type of parameter status of interface RouterJobOutput is changed from string to RouterJobStatusOutput
+  - Type of parameter labelOperator of interface RouterQueueSelector is changed from string to LabelOperator
+  - Type of parameter labelOperator of interface RouterQueueSelectorOutput is changed from string to LabelOperatorOutput
+  - Type of parameter state of interface RouterWorkerOutput is changed from string to RouterWorkerStateOutput
+  - Type of parameter labelOperator of interface RouterWorkerSelector is changed from string to LabelOperator
+  - Type of parameter labelOperator of interface RouterWorkerSelectorOutput is changed from string to LabelOperatorOutput
+  - Type of parameter status of interface RouterWorkerSelectorOutput is changed from string to RouterWorkerSelectorStatusOutput
+  - Type of parameter scoringParameters of interface ScoringRuleOptions is changed from string[] to ScoringRuleParameterSelector[]
+  - Type of parameter scoringParameters of interface ScoringRuleOptionsOutput is changed from string[] to ScoringRuleParameterSelectorOutput[]
+    
