@@ -102,18 +102,7 @@ export interface IpGroups {
    * @param ipGroupsName The name of the ipGroups.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified ipGroups.
-   * @param resourceGroupName The name of the resource group.
-   * @param ipGroupsName The name of the ipGroups.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     ipGroupsName: string,
     options?: IpGroupsDeleteOptionalParams,
