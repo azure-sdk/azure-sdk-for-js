@@ -373,8 +373,8 @@ export enum KnownLinuxVMGuestPatchMode {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
 }
@@ -387,7 +387,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    "2020-11-01" = "2020-11-01"
+    v2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -639,7 +639,7 @@ export interface Plan {
 export type ProtocolTypes = string;
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating" | "Deleting" | "Migrating";
+export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating";
 
 // @public
 export interface ProxyAgentSettings {
