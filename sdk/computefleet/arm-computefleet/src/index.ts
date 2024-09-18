@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export {
+  AzureFleetClient,
+  AzureFleetClientOptionalParams,
+} from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,
@@ -165,8 +174,6 @@ export {
   FleetsListByResourceGroupOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
 } from "./models/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
