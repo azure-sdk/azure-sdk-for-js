@@ -148,6 +148,18 @@ export interface LedgerProperties {
   aadBasedSecurityPrincipals?: AADBasedSecurityPrincipal[];
   /** Array of all cert based Security Principals. */
   certBasedSecurityPrincipals?: CertBasedSecurityPrincipal[];
+  /** CCF Property for the logging level for the untrusted host: Trace, Debug, Info, Fail, Fatal. */
+  hostLevel?: string;
+  /** CCF Property for the maximum size of the http request body: 1MB, 5MB, 10MB. */
+  maxBodySizeInMb?: number;
+  /** CCF Property for the subject name to include in the node certificate. Default: CN=CCF Node. */
+  subjectName?: string;
+  /** Number of CCF nodes in the ACC Ledger. */
+  nodeCount?: number;
+  /** Prefix for the write load balancer. Example: write */
+  writeLBAddressPrefix?: string;
+  /** Number of additional threads processing incoming client requests in the enclave (modify with care!) */
+  workerThreads?: number;
 }
 
 /** AAD based security principal with associated Ledger RoleName */
