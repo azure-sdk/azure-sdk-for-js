@@ -10947,6 +10947,312 @@ export const SharingUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const GalleryResourceProfilePropertiesBase: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryResourceProfilePropertiesBase",
+      modelProperties: {
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const AccessControlRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessControlRules",
+    modelProperties: {
+      privileges: {
+        serializedName: "privileges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessControlRulesPrivilege",
+            },
+          },
+        },
+      },
+      roles: {
+        serializedName: "roles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessControlRulesRole",
+            },
+          },
+        },
+      },
+      identities: {
+        serializedName: "identities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessControlRulesIdentity",
+            },
+          },
+        },
+      },
+      roleAssignments: {
+        serializedName: "roleAssignments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessControlRulesRoleAssignment",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AccessControlRulesPrivilege: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessControlRulesPrivilege",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      path: {
+        serializedName: "path",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      queryParameters: {
+        serializedName: "queryParameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const AccessControlRulesRole: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessControlRulesRole",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      privileges: {
+        serializedName: "privileges",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AccessControlRulesIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessControlRulesIdentity",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "String",
+        },
+      },
+      groupName: {
+        serializedName: "groupName",
+        type: {
+          name: "String",
+        },
+      },
+      exePath: {
+        serializedName: "exePath",
+        type: {
+          name: "String",
+        },
+      },
+      processName: {
+        serializedName: "processName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AccessControlRulesRoleAssignment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessControlRulesRoleAssignment",
+    modelProperties: {
+      role: {
+        serializedName: "role",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      identities: {
+        serializedName: "identities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const GalleryResourceProfileVersionPropertiesBase: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryResourceProfileVersionPropertiesBase",
+      modelProperties: {
+        targetLocations: {
+          serializedName: "targetLocations",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "TargetRegion",
+              },
+            },
+          },
+        },
+        excludeFromLatest: {
+          serializedName: "excludeFromLatest",
+          type: {
+            name: "Boolean",
+          },
+        },
+        publishedDate: {
+          serializedName: "publishedDate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        replicationStatus: {
+          serializedName: "replicationStatus",
+          type: {
+            name: "Composite",
+            className: "ReplicationStatus",
+          },
+        },
+      },
+    },
+  };
+
+export const GalleryInVMAccessControlProfileList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryInVMAccessControlProfileList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryInVMAccessControlProfile",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryInVMAccessControlProfileVersionList: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileVersionList",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "GalleryInVMAccessControlProfileVersion",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const SharedGalleryList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15654,6 +15960,92 @@ export const GalleryApplicationVersion: coreClient.CompositeMapper = {
   },
 };
 
+export const GalleryInVMAccessControlProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryInVMAccessControlProfile",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "GalleryInVMAccessControlProfileProperties",
+        },
+      },
+    },
+  },
+};
+
+export const GalleryInVMAccessControlProfileVersion: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileVersion",
+      modelProperties: {
+        ...Resource.type.modelProperties,
+        targetLocations: {
+          serializedName: "properties.targetLocations",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "TargetRegion",
+              },
+            },
+          },
+        },
+        excludeFromLatest: {
+          serializedName: "properties.excludeFromLatest",
+          type: {
+            name: "Boolean",
+          },
+        },
+        publishedDate: {
+          serializedName: "properties.publishedDate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "properties.provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        replicationStatus: {
+          serializedName: "properties.replicationStatus",
+          type: {
+            name: "Composite",
+            className: "ReplicationStatus",
+          },
+        },
+        mode: {
+          serializedName: "properties.mode",
+          type: {
+            name: "String",
+          },
+        },
+        defaultAccess: {
+          serializedName: "properties.defaultAccess",
+          type: {
+            name: "String",
+          },
+        },
+        rules: {
+          serializedName: "properties.rules",
+          type: {
+            name: "Composite",
+            className: "AccessControlRules",
+          },
+        },
+      },
+    },
+  };
+
 export const VirtualMachineScaleSetUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17402,6 +17794,93 @@ export const GalleryApplicationVersionUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const GalleryInVMAccessControlProfileUpdate: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileUpdate",
+      modelProperties: {
+        ...UpdateResourceDefinition.type.modelProperties,
+        properties: {
+          serializedName: "properties",
+          type: {
+            name: "Composite",
+            className: "GalleryInVMAccessControlProfileProperties",
+          },
+        },
+      },
+    },
+  };
+
+export const GalleryInVMAccessControlProfileVersionUpdate: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileVersionUpdate",
+      modelProperties: {
+        ...UpdateResourceDefinition.type.modelProperties,
+        targetLocations: {
+          serializedName: "properties.targetLocations",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "TargetRegion",
+              },
+            },
+          },
+        },
+        excludeFromLatest: {
+          serializedName: "properties.excludeFromLatest",
+          type: {
+            name: "Boolean",
+          },
+        },
+        publishedDate: {
+          serializedName: "properties.publishedDate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        provisioningState: {
+          serializedName: "properties.provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        replicationStatus: {
+          serializedName: "properties.replicationStatus",
+          type: {
+            name: "Composite",
+            className: "ReplicationStatus",
+          },
+        },
+        mode: {
+          serializedName: "properties.mode",
+          type: {
+            name: "String",
+          },
+        },
+        defaultAccess: {
+          serializedName: "properties.defaultAccess",
+          type: {
+            name: "String",
+          },
+        },
+        rules: {
+          serializedName: "properties.rules",
+          type: {
+            name: "Composite",
+            className: "AccessControlRules",
+          },
+        },
+      },
+    },
+  };
+
 export const GalleryImageVersionPublishingProfile: coreClient.CompositeMapper =
   {
     type: {
@@ -17612,6 +18091,71 @@ export const GalleryApplicationVersionSafetyProfile: coreClient.CompositeMapper 
       className: "GalleryApplicationVersionSafetyProfile",
       modelProperties: {
         ...GalleryArtifactSafetyProfileBase.type.modelProperties,
+      },
+    },
+  };
+
+export const GalleryInVMAccessControlProfileProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileProperties",
+      modelProperties: {
+        ...GalleryResourceProfilePropertiesBase.type.modelProperties,
+        description: {
+          serializedName: "description",
+          type: {
+            name: "String",
+          },
+        },
+        osType: {
+          serializedName: "osType",
+          required: true,
+          type: {
+            name: "Enum",
+            allowedValues: ["Windows", "Linux"],
+          },
+        },
+        applicableHostEndpoint: {
+          serializedName: "applicableHostEndpoint",
+          required: true,
+          type: {
+            name: "Enum",
+            allowedValues: ["WireServer", "IMDS"],
+          },
+        },
+      },
+    },
+  };
+
+export const GalleryInVMAccessControlProfileVersionProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileVersionProperties",
+      modelProperties: {
+        ...GalleryResourceProfileVersionPropertiesBase.type.modelProperties,
+        mode: {
+          serializedName: "mode",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        defaultAccess: {
+          serializedName: "defaultAccess",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        rules: {
+          serializedName: "rules",
+          type: {
+            name: "Composite",
+            className: "AccessControlRules",
+          },
+        },
       },
     },
   };
@@ -18202,3 +18746,47 @@ export const DedicatedHostsRedeployHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const GalleryInVMAccessControlProfilesDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfilesDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const GalleryInVMAccessControlProfileVersionsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "GalleryInVMAccessControlProfileVersionsDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };

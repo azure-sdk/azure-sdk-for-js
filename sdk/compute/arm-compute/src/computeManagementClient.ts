@@ -48,6 +48,8 @@ import {
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
   GallerySharingProfileImpl,
+  GalleryInVMAccessControlProfilesImpl,
+  GalleryInVMAccessControlProfileVersionsImpl,
   SharedGalleriesImpl,
   SharedGalleryImagesImpl,
   SharedGalleryImageVersionsImpl,
@@ -99,6 +101,8 @@ import {
   GalleryApplications,
   GalleryApplicationVersions,
   GallerySharingProfile,
+  GalleryInVMAccessControlProfiles,
+  GalleryInVMAccessControlProfileVersions,
   SharedGalleries,
   SharedGalleryImages,
   SharedGalleryImageVersions,
@@ -145,7 +149,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.1.1`;
+    const packageDetails = `azsdk-js-arm-compute/22.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -245,6 +249,10 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
+    this.galleryInVMAccessControlProfiles =
+      new GalleryInVMAccessControlProfilesImpl(this);
+    this.galleryInVMAccessControlProfileVersions =
+      new GalleryInVMAccessControlProfileVersionsImpl(this);
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
     this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
@@ -300,6 +308,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
   gallerySharingProfile: GallerySharingProfile;
+  galleryInVMAccessControlProfiles: GalleryInVMAccessControlProfiles;
+  galleryInVMAccessControlProfileVersions: GalleryInVMAccessControlProfileVersions;
   sharedGalleries: SharedGalleries;
   sharedGalleryImages: SharedGalleryImages;
   sharedGalleryImageVersions: SharedGalleryImageVersions;
