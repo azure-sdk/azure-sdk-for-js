@@ -312,80 +312,15 @@ export class IpGroupsImpl implements IpGroups {
    * @param ipGroupsName The name of the ipGroups.
    * @param options The options parameters.
    */
-  async beginDelete(
-    resourceGroupName: string,
-    ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, ipGroupsName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes the specified ipGroups.
-   * @param resourceGroupName The name of the resource group.
-   * @param ipGroupsName The name of the ipGroups.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     ipGroupsName: string,
     options?: IpGroupsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      ipGroupsName,
-      options,
+    return this.client.sendOperationRequest(
+      { resourceGroupName, ipGroupsName, options },
+      deleteOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -529,8 +464,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorModel,
