@@ -21,9 +21,6 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   VirtualMachineScaleSet,
-  VirtualMachineScaleSetsListByLocationNextOptionalParams,
-  VirtualMachineScaleSetsListByLocationOptionalParams,
-  VirtualMachineScaleSetsListByLocationResponse,
   VirtualMachineScaleSetsListNextOptionalParams,
   VirtualMachineScaleSetsListOptionalParams,
   VirtualMachineScaleSetsListResponse,
@@ -68,7 +65,6 @@ import {
   VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams,
   OrchestrationServiceStateInput,
   VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams,
-  VirtualMachineScaleSetsListByLocationNextResponse,
   VirtualMachineScaleSetsListNextResponse,
   VirtualMachineScaleSetsListAllNextResponse,
   VirtualMachineScaleSetsListSkusNextResponse,
@@ -86,68 +82,6 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets all the VM scale sets under the specified subscription for the specified location.
-   * @param location The location for which VM scale sets under the subscription are queried.
-   * @param options The options parameters.
-   */
-  public listByLocation(
-    location: string,
-    options?: VirtualMachineScaleSetsListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualMachineScaleSet> {
-    const iter = this.listByLocationPagingAll(location, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByLocationPagingPage(location, options, settings);
-      },
-    };
-  }
-
-  private async *listByLocationPagingPage(
-    location: string,
-    options?: VirtualMachineScaleSetsListByLocationOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<VirtualMachineScaleSet[]> {
-    let result: VirtualMachineScaleSetsListByLocationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByLocation(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByLocationNext(
-        location,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByLocationPagingAll(
-    location: string,
-    options?: VirtualMachineScaleSetsListByLocationOptionalParams,
-  ): AsyncIterableIterator<VirtualMachineScaleSet> {
-    for await (const page of this.listByLocationPagingPage(location, options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -431,21 +365,6 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Gets all the VM scale sets under the specified subscription for the specified location.
-   * @param location The location for which VM scale sets under the subscription are queried.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
-    location: string,
-    options?: VirtualMachineScaleSetsListByLocationOptionalParams,
-  ): Promise<VirtualMachineScaleSetsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listByLocationOperationSpec,
-    );
   }
 
   /**
@@ -1952,23 +1871,6 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   }
 
   /**
-   * ListByLocationNext
-   * @param location The location for which VM scale sets under the subscription are queried.
-   * @param nextLink The nextLink from the previous successful call to the ListByLocation method.
-   * @param options The options parameters.
-   */
-  private _listByLocationNext(
-    location: string,
-    nextLink: string,
-    options?: VirtualMachineScaleSetsListByLocationNextOptionalParams,
-  ): Promise<VirtualMachineScaleSetsListByLocationNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listByLocationNextOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the List method.
@@ -2041,26 +1943,6 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByLocationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
   httpMethod: "PUT",
@@ -2645,26 +2527,6 @@ const setOrchestrationServiceStateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const listByLocationNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

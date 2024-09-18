@@ -344,34 +344,6 @@ export const VirtualMachineSize: coreClient.CompositeMapper = {
   },
 };
 
-export const VirtualMachineScaleSetListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualMachineScaleSetListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "VirtualMachineScaleSet",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3516,6 +3488,34 @@ export const OrchestrationServiceSummary: coreClient.CompositeMapper = {
       serviceState: {
         serializedName: "serviceState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualMachineScaleSetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VirtualMachineScaleSet",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },

@@ -139,14 +139,6 @@ export interface VirtualMachineSize {
   maxDataDiskCount?: number;
 }
 
-/** The List Virtual Machine operation response. */
-export interface VirtualMachineScaleSetListResult {
-  /** The list of virtual machine scale sets. */
-  value: VirtualMachineScaleSet[];
-  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of VMSS. */
-  nextLink?: string;
-}
-
 /** Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name. */
 export interface Sku {
   /** The sku name. */
@@ -1212,6 +1204,14 @@ export interface OrchestrationServiceSummary {
   readonly serviceState?: OrchestrationServiceState;
 }
 
+/** The List Virtual Machine operation response. */
+export interface VirtualMachineScaleSetListResult {
+  /** The list of virtual machine scale sets. */
+  value: VirtualMachineScaleSet[];
+  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of VMSS. */
+  nextLink?: string;
+}
+
 /** The List VM scale set extension operation response. */
 export interface VirtualMachineScaleSetExtensionListResult {
   /** The list of VM scale set extensions. */
@@ -1709,7 +1709,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -9856,14 +9856,6 @@ export interface VirtualMachineSizesListOptionalParams
 export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
 
 /** Optional parameters. */
-export interface VirtualMachineScaleSetsListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocation operation. */
-export type VirtualMachineScaleSetsListByLocationResponse =
-  VirtualMachineScaleSetListResult;
-
-/** Optional parameters. */
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
@@ -10118,14 +10110,6 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalPara
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface VirtualMachineScaleSetsListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type VirtualMachineScaleSetsListByLocationNextResponse =
-  VirtualMachineScaleSetListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListNextOptionalParams
