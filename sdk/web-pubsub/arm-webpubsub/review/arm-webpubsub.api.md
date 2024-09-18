@@ -14,6 +14,22 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ACLAction = string;
 
 // @public
+export interface ApplicationFirewallSettings {
+    clientConnectionCountRules?: ClientConnectionCountRuleUnion[];
+}
+
+// @public
+export interface ClientConnectionCountRule {
+    type: "ThrottleByJwtCustomClaimRule" | "ThrottleByJwtSignatureRule" | "ThrottleByUserIdRule";
+}
+
+// @public
+export type ClientConnectionCountRuleDiscriminator = string;
+
+// @public (undocumented)
+export type ClientConnectionCountRuleUnion = ClientConnectionCountRule | ThrottleByJwtCustomClaimRule | ThrottleByJwtSignatureRule | ThrottleByUserIdRule;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -139,6 +155,13 @@ export { KeyType_2 as KeyType }
 export enum KnownACLAction {
     Allow = "Allow",
     Deny = "Deny"
+}
+
+// @public
+export enum KnownClientConnectionCountRuleDiscriminator {
+    ThrottleByJwtCustomClaimRule = "ThrottleByJwtCustomClaimRule",
+    ThrottleByJwtSignatureRule = "ThrottleByJwtSignatureRule",
+    ThrottleByUserIdRule = "ThrottleByUserIdRule"
 }
 
 // @public
@@ -486,6 +509,7 @@ export interface ShareablePrivateLinkResourceType {
 
 // @public
 export interface SharedPrivateLinkResource extends ProxyResource {
+    fqdns?: string[];
     groupId?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -553,6 +577,25 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface ThrottleByJwtCustomClaimRule extends ClientConnectionCountRule {
+    claimName: string;
+    maxCount?: number;
+    type: "ThrottleByJwtCustomClaimRule";
+}
+
+// @public
+export interface ThrottleByJwtSignatureRule extends ClientConnectionCountRule {
+    maxCount?: number;
+    type: "ThrottleByJwtSignatureRule";
+}
+
+// @public
+export interface ThrottleByUserIdRule extends ClientConnectionCountRule {
+    maxCount?: number;
+    type: "ThrottleByUserIdRule";
 }
 
 // @public
@@ -752,6 +795,7 @@ export interface WebPubSubHubProperties {
     anonymousConnectPolicy?: string;
     eventHandlers?: EventHandler[];
     eventListeners?: EventListener_2[];
+    webSocketKeepAliveIntervalInSeconds?: number;
 }
 
 // @public
@@ -885,6 +929,8 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     webPubSubReplicas: WebPubSubReplicas;
     // (undocumented)
+    webPubSubReplicaSharedPrivateLinkResources: WebPubSubReplicaSharedPrivateLinkResources;
+    // (undocumented)
     webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }
 
@@ -1014,6 +1060,44 @@ export interface WebPubSubReplicasGetOptionalParams extends coreClient.Operation
 export type WebPubSubReplicasGetResponse = Replica;
 
 // @public
+export interface WebPubSubReplicaSharedPrivateLinkResources {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>, WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams): Promise<WebPubSubReplicaSharedPrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
+}
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
+
+// @public
 export interface WebPubSubReplicasListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1062,6 +1146,7 @@ export type WebPubSubRequestType = string;
 
 // @public
 export interface WebPubSubResource extends TrackedResource {
+    applicationFirewall?: ApplicationFirewallSettings;
     disableAadAuth?: boolean;
     disableLocalAuth?: boolean;
     readonly externalIP?: string;
@@ -1081,6 +1166,7 @@ export interface WebPubSubResource extends TrackedResource {
     readonly serverPort?: number;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: ResourceSku;
+    socketIO?: WebPubSubSocketIOSettings;
     tls?: WebPubSubTlsSettings;
     readonly version?: string;
 }
@@ -1154,6 +1240,11 @@ export type WebPubSubSharedPrivateLinkResourcesListResponse = SharedPrivateLinkR
 
 // @public
 export type WebPubSubSkuTier = string;
+
+// @public
+export interface WebPubSubSocketIOSettings {
+    serviceMode?: string;
+}
 
 // @public
 export interface WebPubSubTlsSettings {
