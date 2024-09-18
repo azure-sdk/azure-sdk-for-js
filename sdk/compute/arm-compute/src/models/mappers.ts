@@ -2045,16 +2045,45 @@ export const ProxyAgentSettings: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      keyIncarnationId: {
+        serializedName: "keyIncarnationId",
+        type: {
+          name: "Number",
+        },
+      },
+      wireServer: {
+        serializedName: "wireServer",
+        type: {
+          name: "Composite",
+          className: "HostEndpointSettings",
+        },
+      },
+      imds: {
+        serializedName: "imds",
+        type: {
+          name: "Composite",
+          className: "HostEndpointSettings",
+        },
+      },
+    },
+  },
+};
+
+export const HostEndpointSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HostEndpointSettings",
+    modelProperties: {
       mode: {
         serializedName: "mode",
         type: {
           name: "String",
         },
       },
-      keyIncarnationId: {
-        serializedName: "keyIncarnationId",
+      inVMAccessControlProfileReferenceId: {
+        serializedName: "inVMAccessControlProfileReferenceId",
         type: {
-          name: "Number",
+          name: "String",
         },
       },
     },
