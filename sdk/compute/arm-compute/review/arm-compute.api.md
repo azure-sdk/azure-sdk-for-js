@@ -7179,7 +7179,6 @@ export interface VirtualMachineScaleSets {
     getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetsGetInstanceViewResponse>;
     list(resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listAll(options?: VirtualMachineScaleSetsListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    listByLocation(location: string, options?: VirtualMachineScaleSetsListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
     listSkus(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
 }
@@ -7309,20 +7308,6 @@ export interface VirtualMachineScaleSetsListAllOptionalParams extends coreClient
 
 // @public
 export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListWithLinkResult;
-
-// @public
-export interface VirtualMachineScaleSetsListByLocationNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsListByLocationNextResponse = VirtualMachineScaleSetListResult;
-
-// @public
-export interface VirtualMachineScaleSetsListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineScaleSetsListByLocationResponse = VirtualMachineScaleSetListResult;
 
 // @public
 export interface VirtualMachineScaleSetsListNextOptionalParams extends coreClient.OperationOptions {
