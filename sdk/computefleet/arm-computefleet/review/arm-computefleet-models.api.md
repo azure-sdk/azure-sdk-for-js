@@ -84,11 +84,6 @@ export interface ComputeProfile {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -342,8 +337,8 @@ export enum KnownLinuxVMGuestPatchMode {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
 }
@@ -356,7 +351,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    "2020-11-01" = "2020-11-01"
+    v2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -571,18 +566,6 @@ export interface OSImageNotificationProfile {
 }
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
     automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
@@ -603,7 +586,7 @@ export interface Plan {
 export type ProtocolTypes = string;
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating" | "Deleting" | "Migrating";
+export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating";
 
 // @public
 export interface ProxyAgentSettings {
