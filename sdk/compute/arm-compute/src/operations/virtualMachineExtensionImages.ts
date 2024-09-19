@@ -109,7 +109,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.version,
     Parameters.typeParam,
@@ -142,7 +142,7 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
   ],
   headerParameters: [Parameters.accept],
@@ -178,7 +178,7 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.typeParam,
   ],

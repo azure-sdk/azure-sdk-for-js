@@ -58,7 +58,7 @@ export interface VirtualMachineScaleSets {
    * @param options The options parameters.
    */
   listByLocation(
-    location: string,
+    location: number,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
   /**

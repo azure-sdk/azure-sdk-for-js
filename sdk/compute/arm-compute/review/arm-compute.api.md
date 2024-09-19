@@ -7179,7 +7179,7 @@ export interface VirtualMachineScaleSets {
     getInstanceView(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetInstanceViewOptionalParams): Promise<VirtualMachineScaleSetsGetInstanceViewResponse>;
     list(resourceGroupName: string, options?: VirtualMachineScaleSetsListOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listAll(options?: VirtualMachineScaleSetsListAllOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
-    listByLocation(location: string, options?: VirtualMachineScaleSetsListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
+    listByLocation(location: number, options?: VirtualMachineScaleSetsListByLocationOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSet>;
     listOSUpgradeHistory(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams): PagedAsyncIterableIterator<UpgradeOperationHistoricalStatusInfo>;
     listSkus(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsListSkusOptionalParams): PagedAsyncIterableIterator<VirtualMachineScaleSetSku>;
 }

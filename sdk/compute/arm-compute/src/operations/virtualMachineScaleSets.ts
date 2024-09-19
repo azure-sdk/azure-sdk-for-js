@@ -94,7 +94,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * @param options The options parameters.
    */
   public listByLocation(
-    location: string,
+    location: number,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineScaleSet> {
     const iter = this.listByLocationPagingAll(location, options);
@@ -115,7 +115,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   }
 
   private async *listByLocationPagingPage(
-    location: string,
+    location: number,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineScaleSet[]> {
@@ -142,7 +142,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   }
 
   private async *listByLocationPagingAll(
-    location: string,
+    location: number,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
   ): AsyncIterableIterator<VirtualMachineScaleSet> {
     for await (const page of this.listByLocationPagingPage(location, options)) {
@@ -439,7 +439,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * @param options The options parameters.
    */
   private _listByLocation(
-    location: string,
+    location: number,
     options?: VirtualMachineScaleSetsListByLocationOptionalParams,
   ): Promise<VirtualMachineScaleSetsListByLocationResponse> {
     return this.client.sendOperationRequest(
@@ -1958,7 +1958,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
    * @param options The options parameters.
    */
   private _listByLocationNext(
-    location: string,
+    location: number,
     nextLink: string,
     options?: VirtualMachineScaleSetsListByLocationNextOptionalParams,
   ): Promise<VirtualMachineScaleSetsListByLocationNextResponse> {
@@ -2055,8 +2055,8 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2660,9 +2660,9 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

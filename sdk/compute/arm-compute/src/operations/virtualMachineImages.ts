@@ -169,7 +169,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -208,7 +208,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -241,7 +241,7 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
   ],
   headerParameters: [Parameters.accept],
@@ -272,7 +272,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -302,7 +302,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
   ],
@@ -324,7 +324,7 @@ const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.edgeZone,
   ],
   headerParameters: [Parameters.accept],
