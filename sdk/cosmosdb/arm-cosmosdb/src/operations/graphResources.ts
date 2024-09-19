@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { GraphResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,25 +19,24 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
-  PrivateEndpointConnectionsListByDatabaseAccountResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
+  GraphResourceGetResults,
+  GraphResourcesListGraphsOptionalParams,
+  GraphResourcesListGraphsResponse,
+  GraphResourcesGetGraphOptionalParams,
+  GraphResourcesGetGraphResponse,
+  GraphResourceCreateUpdateParameters,
+  GraphResourcesCreateUpdateGraphOptionalParams,
+  GraphResourcesCreateUpdateGraphResponse,
+  GraphResourcesDeleteGraphResourceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+/** Class containing GraphResources operations. */
+export class GraphResourcesImpl implements GraphResources {
   private readonly client: CosmosDBManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class GraphResources class.
    * @param client Reference to the service client
    */
   constructor(client: CosmosDBManagementClient) {
@@ -45,17 +44,17 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections on a Cosmos DB account.
+   * Lists the graphs under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
    */
-  public listByDatabaseAccount(
+  public listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByDatabaseAccountPagingAll(
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): PagedAsyncIterableIterator<GraphResourceGetResults> {
+    const iter = this.listGraphsPagingAll(
       resourceGroupName,
       accountName,
       options,
@@ -71,7 +70,7 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDatabaseAccountPagingPage(
+        return this.listGraphsPagingPage(
           resourceGroupName,
           accountName,
           options,
@@ -81,27 +80,23 @@ export class PrivateEndpointConnectionsImpl
     };
   }
 
-  private async *listByDatabaseAccountPagingPage(
+  private async *listGraphsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
+    options?: GraphResourcesListGraphsOptionalParams,
     _settings?: PageSettings,
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: PrivateEndpointConnectionsListByDatabaseAccountResponse;
-    result = await this._listByDatabaseAccount(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+  ): AsyncIterableIterator<GraphResourceGetResults[]> {
+    let result: GraphResourcesListGraphsResponse;
+    result = await this._listGraphs(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
-  private async *listByDatabaseAccountPagingAll(
+  private async *listGraphsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listByDatabaseAccountPagingPage(
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): AsyncIterableIterator<GraphResourceGetResults> {
+    for await (const page of this.listGraphsPagingPage(
       resourceGroupName,
       accountName,
       options,
@@ -111,70 +106,65 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all private endpoint connections on a Cosmos DB account.
+   * Lists the graphs under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
    */
-  private _listByDatabaseAccount(
+  private _listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListByDatabaseAccountOptionalParams,
-  ): Promise<PrivateEndpointConnectionsListByDatabaseAccountResponse> {
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): Promise<GraphResourcesListGraphsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByDatabaseAccountOperationSpec,
+      listGraphsOperationSpec,
     );
   }
 
   /**
-   * Gets a private endpoint connection.
+   * Gets the Graph resource under an existing Azure Cosmos DB database account with the provided name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  get(
+  getGraph(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    graphName: string,
+    options?: GraphResourcesGetGraphOptionalParams,
+  ): Promise<GraphResourcesGetGraphResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        privateEndpointConnectionName,
-        options,
-      },
-      getOperationSpec,
+      { resourceGroupName, accountName, graphName, options },
+      getGraphOperationSpec,
     );
   }
 
   /**
-   * Approve or reject a private endpoint connection with a given name.
+   * Create or update an Azure Cosmos DB Graph.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param graphName Cosmos DB graph resource name.
+   * @param createUpdateGraphParameters The parameters to provide for the current graph.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreateUpdateGraph(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+    graphName: string,
+    createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      OperationState<GraphResourcesCreateUpdateGraphResponse>,
+      GraphResourcesCreateUpdateGraphResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<GraphResourcesCreateUpdateGraphResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -214,15 +204,15 @@ export class PrivateEndpointConnectionsImpl
       args: {
         resourceGroupName,
         accountName,
-        privateEndpointConnectionName,
-        parameters,
+        graphName,
+        createUpdateGraphParameters,
         options,
       },
-      spec: createOrUpdateOperationSpec,
+      spec: createUpdateGraphOperationSpec,
     });
     const poller = await createHttpPoller<
-      PrivateEndpointConnectionsCreateOrUpdateResponse,
-      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>
+      GraphResourcesCreateUpdateGraphResponse,
+      OperationState<GraphResourcesCreateUpdateGraphResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -232,42 +222,42 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Approve or reject a private endpoint connection with a given name.
+   * Create or update an Azure Cosmos DB Graph.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param parameters A private endpoint connection
+   * @param graphName Cosmos DB graph resource name.
+   * @param createUpdateGraphParameters The parameters to provide for the current graph.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateUpdateGraphAndWait(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    graphName: string,
+    createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams,
+  ): Promise<GraphResourcesCreateUpdateGraphResponse> {
+    const poller = await this.beginCreateUpdateGraph(
       resourceGroupName,
       accountName,
-      privateEndpointConnectionName,
-      parameters,
+      graphName,
+      createUpdateGraphParameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a private endpoint connection with a given name.
+   * Deletes an existing Azure Cosmos DB Graph Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginDeleteGraphResource(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    graphName: string,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -309,13 +299,8 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        accountName,
-        privateEndpointConnectionName,
-        options,
-      },
-      spec: deleteOperationSpec,
+      args: { resourceGroupName, accountName, graphName, options },
+      spec: deleteGraphResourceOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
@@ -326,22 +311,22 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes a private endpoint connection with a given name.
+   * Deletes an existing Azure Cosmos DB Graph Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginDeleteGraphResourceAndWait(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+    graphName: string,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
+    const poller = await this.beginDeleteGraphResource(
       resourceGroupName,
       accountName,
-      privateEndpointConnectionName,
+      graphName,
       options,
     );
     return poller.pollUntilDone();
@@ -350,12 +335,12 @@ export class PrivateEndpointConnectionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections",
+const listGraphsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.GraphResourcesListResult,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -368,12 +353,12 @@ const listByDatabaseAccountOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+const getGraphOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -382,64 +367,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.graphName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+const createUpdateGraphOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.createUpdateGraphParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.graphName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+const deleteGraphResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.privateEndpointConnectionName,
+    Parameters.graphName,
   ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
