@@ -186,7 +186,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
@@ -207,7 +207,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.galleryImageName,
     Parameters.galleryUniqueName,
   ],
@@ -229,7 +229,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],

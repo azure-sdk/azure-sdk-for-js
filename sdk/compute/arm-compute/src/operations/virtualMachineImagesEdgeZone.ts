@@ -163,7 +163,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -203,7 +203,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -237,7 +237,7 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.edgeZone,
   ],
@@ -269,7 +269,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.edgeZone,
   ],
   headerParameters: [Parameters.accept],
@@ -300,7 +300,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location2,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.edgeZone,

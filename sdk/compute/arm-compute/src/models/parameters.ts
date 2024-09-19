@@ -158,6 +158,17 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -542,7 +553,7 @@ export const installPatchesInput: OperationParameter = {
   mapper: VirtualMachineInstallPatchesParametersMapper,
 };
 
-export const location1: OperationURLParameter = {
+export const location2: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     serializedName: "location",
