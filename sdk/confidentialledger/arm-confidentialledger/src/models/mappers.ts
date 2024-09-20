@@ -324,6 +324,48 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           },
         },
       },
+      hostLevel: {
+        serializedName: "hostLevel",
+        type: {
+          name: "String",
+        },
+      },
+      maxBodySizeInMb: {
+        serializedName: "maxBodySizeInMb",
+        type: {
+          name: "Number",
+        },
+      },
+      subjectName: {
+        serializedName: "subjectName",
+        type: {
+          name: "String",
+        },
+      },
+      nodeCount: {
+        serializedName: "nodeCount",
+        type: {
+          name: "Number",
+        },
+      },
+      writeLBAddressPrefix: {
+        serializedName: "writeLBAddressPrefix",
+        type: {
+          name: "String",
+        },
+      },
+      workerThreads: {
+        serializedName: "workerThreads",
+        type: {
+          name: "Number",
+        },
+      },
+      enclavePlatform: {
+        serializedName: "enclavePlatform",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -632,6 +674,12 @@ export const ManagedCCFProperties: coreClient.CompositeMapper = {
         serializedName: "nodeCount",
         type: {
           name: "Number",
+        },
+      },
+      enclavePlatform: {
+        serializedName: "enclavePlatform",
+        type: {
+          name: "String",
         },
       },
     },

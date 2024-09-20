@@ -122,6 +122,9 @@ export interface DeploymentType {
 }
 
 // @public
+export type EnclavePlatform = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -156,6 +159,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownEnclavePlatform {
+    AmdSevSnp = "AmdSevSnp",
+    IntelSgx = "IntelSgx"
 }
 
 // @public
@@ -290,14 +299,21 @@ export type LedgerListBySubscriptionResponse = ConfidentialLedgerList;
 export interface LedgerProperties {
     aadBasedSecurityPrincipals?: AADBasedSecurityPrincipal[];
     certBasedSecurityPrincipals?: CertBasedSecurityPrincipal[];
+    enclavePlatform?: EnclavePlatform;
+    hostLevel?: string;
     readonly identityServiceUri?: string;
     readonly ledgerInternalNamespace?: string;
     readonly ledgerName?: string;
     ledgerSku?: LedgerSku;
     ledgerType?: LedgerType;
     readonly ledgerUri?: string;
+    maxBodySizeInMb?: number;
+    nodeCount?: number;
     readonly provisioningState?: ProvisioningState;
     runningState?: RunningState;
+    subjectName?: string;
+    workerThreads?: number;
+    writeLBAddressPrefix?: string;
 }
 
 // @public
@@ -432,6 +448,7 @@ export interface ManagedCCFProperties {
     readonly appName?: string;
     readonly appUri?: string;
     deploymentType?: DeploymentType;
+    enclavePlatform?: EnclavePlatform;
     readonly identityServiceUri?: string;
     memberIdentityCertificates?: MemberIdentityCertificate[];
     nodeCount?: number;
