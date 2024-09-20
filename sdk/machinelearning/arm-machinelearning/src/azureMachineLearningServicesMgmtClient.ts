@@ -114,15 +114,15 @@ import {
   Registries,
   WorkspaceFeatures,
 } from "./operationsInterfaces";
-import { AzureMachineLearningServicesManagementClientOptionalParams } from "./models";
+import { AzureMachineLearningServicesMgmtClientOptionalParams } from "./models";
 
-export class AzureMachineLearningServicesManagementClient extends coreClient.ServiceClient {
+export class AzureMachineLearningServicesMgmtClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureMachineLearningServicesManagementClient class.
+   * Initializes a new instance of the AzureMachineLearningServicesMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -130,7 +130,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureMachineLearningServicesManagementClientOptionalParams,
+    options?: AzureMachineLearningServicesMgmtClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -143,13 +143,12 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
     if (!options) {
       options = {};
     }
-    const defaults: AzureMachineLearningServicesManagementClientOptionalParams =
-      {
-        requestContentType: "application/json; charset=utf-8",
-        credential: credentials,
-      };
+    const defaults: AzureMachineLearningServicesMgmtClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials,
+    };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0`;
+    const packageDetails = `azsdk-js-arm-machinelearning/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -203,7 +202,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-10-01";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
