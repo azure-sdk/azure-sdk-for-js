@@ -582,7 +582,7 @@ const createOrUpdateByCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -634,7 +634,7 @@ const createOrUpdateByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -686,7 +686,7 @@ const createOrUpdateByCustomerAtBillingAccountOperationSpec: coreClient.Operatio
         bodyMapper: Mappers.ErrorResponse,
       },
     },
-    requestBody: Parameters.parameters19,
+    requestBody: Parameters.parameters18,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
@@ -733,7 +733,7 @@ const createOrUpdateByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept, Parameters.contentType],

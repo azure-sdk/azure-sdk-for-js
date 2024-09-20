@@ -1759,361 +1759,6 @@ export const BillingProfileListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const BillingPropertyProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BillingPropertyProperties",
-    modelProperties: {
-      billingAccountAgreementType: {
-        serializedName: "billingAccountAgreementType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountDisplayName: {
-        serializedName: "billingAccountDisplayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountId: {
-        serializedName: "billingAccountId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      accountAdminNotificationEmailAddress: {
-        serializedName: "accountAdminNotificationEmailAddress",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountSoldToCountry: {
-        serializedName: "billingAccountSoldToCountry",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountStatus: {
-        serializedName: "billingAccountStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountStatusReasonCode: {
-        serializedName: "billingAccountStatusReasonCode",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountType: {
-        serializedName: "billingAccountType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingAccountSubType: {
-        serializedName: "billingAccountSubType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingCurrency: {
-        serializedName: "billingCurrency",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfileDisplayName: {
-        serializedName: "billingProfileDisplayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfileId: {
-        serializedName: "billingProfileId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfileSpendingLimit: {
-        serializedName: "billingProfileSpendingLimit",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfileSpendingLimitDetails: {
-        serializedName: "billingProfileSpendingLimitDetails",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SpendingLimitDetails",
-            },
-          },
-        },
-      },
-      billingProfileStatus: {
-        serializedName: "billingProfileStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfileStatusReasonCode: {
-        serializedName: "billingProfileStatusReasonCode",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfilePaymentMethodFamily: {
-        serializedName: "billingProfilePaymentMethodFamily",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingProfilePaymentMethodType: {
-        serializedName: "billingProfilePaymentMethodType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      billingTenantId: {
-        serializedName: "billingTenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      costCenter: {
-        serializedName: "costCenter",
-        type: {
-          name: "String",
-        },
-      },
-      customerDisplayName: {
-        serializedName: "customerDisplayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      customerId: {
-        serializedName: "customerId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      customerStatus: {
-        serializedName: "customerStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      invoiceSectionDisplayName: {
-        serializedName: "invoiceSectionDisplayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      invoiceSectionId: {
-        serializedName: "invoiceSectionId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      invoiceSectionStatus: {
-        serializedName: "invoiceSectionStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      invoiceSectionStatusReasonCode: {
-        serializedName: "invoiceSectionStatusReasonCode",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      isTransitionedBillingAccount: {
-        serializedName: "isTransitionedBillingAccount",
-        readOnly: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      skuDescription: {
-        serializedName: "skuDescription",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      skuId: {
-        serializedName: "skuId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionBillingStatus: {
-        serializedName: "subscriptionBillingStatus",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionBillingStatusDetails: {
-        serializedName: "subscriptionBillingStatusDetails",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BillingSubscriptionStatusDetails",
-            },
-          },
-        },
-      },
-      subscriptionBillingType: {
-        serializedName: "subscriptionBillingType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      subscriptionServiceUsageAddress: {
-        serializedName: "subscriptionServiceUsageAddress",
-        type: {
-          name: "Composite",
-          className: "BillingPropertyPropertiesSubscriptionServiceUsageAddress",
-        },
-      },
-      subscriptionWorkloadType: {
-        serializedName: "subscriptionWorkloadType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      enrollmentDetails: {
-        serializedName: "enrollmentDetails",
-        type: {
-          name: "Composite",
-          className: "BillingPropertyPropertiesEnrollmentDetails",
-        },
-      },
-      isAccountAdmin: {
-        serializedName: "isAccountAdmin",
-        readOnly: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      productId: {
-        serializedName: "productId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      productName: {
-        serializedName: "productName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const BillingSubscriptionStatusDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BillingSubscriptionStatusDetails",
-    modelProperties: {
-      effectiveDate: {
-        serializedName: "effectiveDate",
-        readOnly: true,
-        type: {
-          name: "DateTime",
-        },
-      },
-      reason: {
-        serializedName: "reason",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const SubscriptionEnrollmentDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubscriptionEnrollmentDetails",
-    modelProperties: {
-      departmentDisplayName: {
-        serializedName: "departmentDisplayName",
-        type: {
-          name: "String",
-        },
-      },
-      departmentId: {
-        serializedName: "departmentId",
-        type: {
-          name: "String",
-        },
-      },
-      enrollmentAccountStatus: {
-        serializedName: "enrollmentAccountStatus",
-        type: {
-          name: "String",
-        },
-      },
-      enrollmentAccountDisplayName: {
-        serializedName: "enrollmentAccountDisplayName",
-        type: {
-          name: "String",
-        },
-      },
-      enrollmentAccountId: {
-        serializedName: "enrollmentAccountId",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const BillingRequestListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3820,6 +3465,29 @@ export const SystemOverrides: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const BillingSubscriptionStatusDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingSubscriptionStatusDetails",
+    modelProperties: {
+      effectiveDate: {
+        serializedName: "effectiveDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      reason: {
+        serializedName: "reason",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -7126,6 +6794,338 @@ export const RecipientTransferDetailsListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const BillingPropertyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingPropertyProperties",
+    modelProperties: {
+      billingAccountAgreementType: {
+        serializedName: "billingAccountAgreementType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountDisplayName: {
+        serializedName: "billingAccountDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountId: {
+        serializedName: "billingAccountId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      accountAdminNotificationEmailAddress: {
+        serializedName: "accountAdminNotificationEmailAddress",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountSoldToCountry: {
+        serializedName: "billingAccountSoldToCountry",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountStatus: {
+        serializedName: "billingAccountStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountStatusReasonCode: {
+        serializedName: "billingAccountStatusReasonCode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountType: {
+        serializedName: "billingAccountType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingAccountSubType: {
+        serializedName: "billingAccountSubType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingCurrency: {
+        serializedName: "billingCurrency",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfileDisplayName: {
+        serializedName: "billingProfileDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfileId: {
+        serializedName: "billingProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfileSpendingLimit: {
+        serializedName: "billingProfileSpendingLimit",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfileSpendingLimitDetails: {
+        serializedName: "billingProfileSpendingLimitDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpendingLimitDetails",
+            },
+          },
+        },
+      },
+      billingProfileStatus: {
+        serializedName: "billingProfileStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfileStatusReasonCode: {
+        serializedName: "billingProfileStatusReasonCode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfilePaymentMethodFamily: {
+        serializedName: "billingProfilePaymentMethodFamily",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingProfilePaymentMethodType: {
+        serializedName: "billingProfilePaymentMethodType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      billingTenantId: {
+        serializedName: "billingTenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      costCenter: {
+        serializedName: "costCenter",
+        type: {
+          name: "String",
+        },
+      },
+      customerDisplayName: {
+        serializedName: "customerDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      customerId: {
+        serializedName: "customerId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      customerStatus: {
+        serializedName: "customerStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      invoiceSectionDisplayName: {
+        serializedName: "invoiceSectionDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      invoiceSectionId: {
+        serializedName: "invoiceSectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      invoiceSectionStatus: {
+        serializedName: "invoiceSectionStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      invoiceSectionStatusReasonCode: {
+        serializedName: "invoiceSectionStatusReasonCode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      isTransitionedBillingAccount: {
+        serializedName: "isTransitionedBillingAccount",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      skuDescription: {
+        serializedName: "skuDescription",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      skuId: {
+        serializedName: "skuId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionBillingStatus: {
+        serializedName: "subscriptionBillingStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionBillingStatusDetails: {
+        serializedName: "subscriptionBillingStatusDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BillingSubscriptionStatusDetails",
+            },
+          },
+        },
+      },
+      subscriptionBillingType: {
+        serializedName: "subscriptionBillingType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionServiceUsageAddress: {
+        serializedName: "subscriptionServiceUsageAddress",
+        type: {
+          name: "Composite",
+          className: "BillingPropertyPropertiesSubscriptionServiceUsageAddress",
+        },
+      },
+      subscriptionWorkloadType: {
+        serializedName: "subscriptionWorkloadType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      enrollmentDetails: {
+        serializedName: "enrollmentDetails",
+        type: {
+          name: "Composite",
+          className: "BillingPropertyPropertiesEnrollmentDetails",
+        },
+      },
+      isAccountAdmin: {
+        serializedName: "isAccountAdmin",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      productId: {
+        serializedName: "productId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      productName: {
+        serializedName: "productName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionEnrollmentDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionEnrollmentDetails",
+    modelProperties: {
+      departmentDisplayName: {
+        serializedName: "departmentDisplayName",
+        type: {
+          name: "String",
+        },
+      },
+      departmentId: {
+        serializedName: "departmentId",
+        type: {
+          name: "String",
+        },
+      },
+      enrollmentAccountStatus: {
+        serializedName: "enrollmentAccountStatus",
+        type: {
+          name: "String",
+        },
+      },
+      enrollmentAccountDisplayName: {
+        serializedName: "enrollmentAccountDisplayName",
+        type: {
+          name: "String",
+        },
+      },
+      enrollmentAccountId: {
+        serializedName: "enrollmentAccountId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ExternalReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7528,17 +7528,6 @@ export const BillingAccountPropertiesRegistrationNumber: coreClient.CompositeMap
     },
   };
 
-export const BillingPropertyPropertiesEnrollmentDetails: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingPropertyPropertiesEnrollmentDetails",
-      modelProperties: {
-        ...SubscriptionEnrollmentDetails.type.modelProperties,
-      },
-    },
-  };
-
 export const BillingRequestPropertiesReviewedBy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7673,6 +7662,17 @@ export const TransactionPropertiesRefundTransactionDetails: coreClient.Composite
       className: "TransactionPropertiesRefundTransactionDetails",
       modelProperties: {
         ...RefundTransactionDetails.type.modelProperties,
+      },
+    },
+  };
+
+export const BillingPropertyPropertiesEnrollmentDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BillingPropertyPropertiesEnrollmentDetails",
+      modelProperties: {
+        ...SubscriptionEnrollmentDetails.type.modelProperties,
       },
     },
   };
@@ -8230,23 +8230,6 @@ export const BillingProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BillingProfileProperties",
-        },
-      },
-    },
-  },
-};
-
-export const BillingProperty: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BillingProperty",
-    modelProperties: {
-      ...ProxyResourceWithTags.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "BillingPropertyProperties",
         },
       },
     },
@@ -10185,6 +10168,23 @@ export const RecipientTransferDetails: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const BillingProperty: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingProperty",
+    modelProperties: {
+      ...ProxyResourceWithTags.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "BillingPropertyProperties",
         },
       },
     },

@@ -17,7 +17,6 @@ import {
   AddressDetails as AddressDetailsMapper,
   CheckAccessRequest as CheckAccessRequestMapper,
   BillingProfile as BillingProfileMapper,
-  BillingProperty as BillingPropertyMapper,
   BillingRequest as BillingRequestMapper,
   BillingRoleAssignmentProperties as BillingRoleAssignmentPropertiesMapper,
   BillingRoleAssignment as BillingRoleAssignmentMapper,
@@ -426,49 +425,6 @@ export const parameters6: OperationParameter = {
   mapper: BillingProfileMapper,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
-    },
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const includeBillingCountry: OperationQueryParameter = {
-  parameterPath: ["options", "includeBillingCountry"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "includeBillingCountry",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const includeTransitionStatus: OperationQueryParameter = {
-  parameterPath: ["options", "includeTransitionStatus"],
-  mapper: {
-    defaultValue: false,
-    serializedName: "includeTransitionStatus",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: BillingPropertyMapper,
-};
-
 export const billingRequestName: OperationURLParameter = {
   parameterPath: "billingRequestName",
   mapper: {
@@ -485,7 +441,7 @@ export const billingRequestName: OperationURLParameter = {
   },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingRequestMapper,
 };
@@ -506,7 +462,7 @@ export const billingRoleAssignmentName: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingRoleAssignmentPropertiesMapper,
 };
@@ -522,7 +478,7 @@ export const resolveScopeDisplayNames: OperationQueryParameter = {
   },
 };
 
-export const parameters10: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingRoleAssignmentMapper,
 };
@@ -670,27 +626,27 @@ export const invoiceSectionName1: OperationURLParameter = {
   },
 };
 
-export const parameters11: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: CancelSubscriptionRequestMapper,
 };
 
-export const parameters12: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingSubscriptionMergeRequestMapper,
 };
 
-export const parameters13: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: MoveBillingSubscriptionRequestMapper,
 };
 
-export const parameters14: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingSubscriptionSplitRequestMapper,
 };
 
-export const parameters15: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingSubscriptionPatchMapper,
 };
@@ -728,7 +684,7 @@ export const aliasName: OperationURLParameter = {
   },
 };
 
-export const parameters16: OperationParameter = {
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingSubscriptionAliasMapper,
 };
@@ -753,7 +709,7 @@ export const periodEndDate: OperationQueryParameter = {
   },
 };
 
-export const parameters17: OperationParameter = {
+export const parameters16: OperationParameter = {
   parameterPath: "parameters",
   mapper: {
     serializedName: "parameters",
@@ -796,7 +752,23 @@ export const documentName: OperationQueryParameter = {
   },
 };
 
-export const parameters18: OperationParameter = {
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
+      ),
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: InvoiceSectionMapper,
 };
@@ -823,22 +795,22 @@ export const policyName: OperationURLParameter = {
   },
 };
 
-export const parameters19: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: CustomerPolicyMapper,
 };
 
-export const parameters20: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingProfilePolicyMapper,
 };
 
-export const parameters21: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: "parameters",
   mapper: BillingAccountPolicyMapper,
 };
 
-export const parameters22: OperationParameter = {
+export const parameters21: OperationParameter = {
   parameterPath: "parameters",
   mapper: MoveProductRequestMapper,
 };
@@ -859,7 +831,7 @@ export const productName: OperationURLParameter = {
   },
 };
 
-export const parameters23: OperationParameter = {
+export const parameters22: OperationParameter = {
   parameterPath: "parameters",
   mapper: ProductPatchMapper,
 };
@@ -938,17 +910,17 @@ export const transferName: OperationURLParameter = {
   },
 };
 
-export const parameters24: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: InitiateTransferRequestMapper,
 };
 
-export const parameters25: OperationParameter = {
+export const parameters24: OperationParameter = {
   parameterPath: "parameters",
   mapper: PartnerInitiateTransferRequestMapper,
 };
 
-export const parameters26: OperationParameter = {
+export const parameters25: OperationParameter = {
   parameterPath: "parameters",
   mapper: AcceptTransferRequestMapper,
 };

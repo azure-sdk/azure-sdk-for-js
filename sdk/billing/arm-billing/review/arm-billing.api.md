@@ -516,8 +516,6 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     billingProfiles: BillingProfiles;
     // (undocumented)
-    billingPropertyOperations: BillingPropertyOperations;
-    // (undocumented)
     billingRequests: BillingRequests;
     // (undocumented)
     billingRoleAssignments: BillingRoleAssignments;
@@ -938,21 +936,6 @@ export interface BillingProperty extends ProxyResourceWithTags {
 }
 
 // @public
-export interface BillingPropertyGetOptionalParams extends coreClient.OperationOptions {
-    includeBillingCountry?: boolean;
-    includeTransitionStatus?: boolean;
-}
-
-// @public
-export type BillingPropertyGetResponse = BillingProperty;
-
-// @public
-export interface BillingPropertyOperations {
-    get(options?: BillingPropertyGetOptionalParams): Promise<BillingPropertyGetResponse>;
-    update(parameters: BillingProperty, options?: BillingPropertyUpdateOptionalParams): Promise<BillingPropertyUpdateResponse>;
-}
-
-// @public
 export interface BillingPropertyProperties {
     readonly accountAdminNotificationEmailAddress?: string;
     readonly billingAccountAgreementType?: AgreementType;
@@ -1002,13 +985,6 @@ export interface BillingPropertyPropertiesEnrollmentDetails extends Subscription
 // @public
 export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress extends AddressDetails {
 }
-
-// @public
-export interface BillingPropertyUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BillingPropertyUpdateResponse = BillingProperty;
 
 // @public
 export type BillingRelationshipType = string;
