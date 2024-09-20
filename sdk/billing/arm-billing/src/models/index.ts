@@ -836,224 +836,6 @@ export interface BillingProfileListResult {
   readonly value?: BillingProfile[];
 }
 
-/** A billing property. */
-export interface BillingPropertyProperties {
-  /**
-   * The type of agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountAgreementType?: AgreementType;
-  /**
-   * The name of the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountDisplayName?: string;
-  /**
-   * The fully qualified ID that uniquely identifies a billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountId?: string;
-  /**
-   * Notification email address for legacy account. Available for agreement type Microsoft Online Services Program.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountAdminNotificationEmailAddress?: string;
-  /**
-   * The country of the individual or organization that is responsible for the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountSoldToCountry?: string;
-  /**
-   * The current status of the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountStatus?: AccountStatus;
-  /**
-   * Reason for the specified billing account status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
-  /**
-   * The type of customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountType?: AccountType;
-  /**
-   * The tier of the account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingAccountSubType?: AccountSubType;
-  /**
-   * The billing currency for the subscription. Available for billing accounts with agreement type Enterprise Agreement
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingCurrency?: string;
-  /**
-   * The name of the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileDisplayName?: string;
-  /**
-   * The fully qualified ID that uniquely identifies a billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileId?: string;
-  /**
-   * The billing profile spending limit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileSpendingLimit?: SpendingLimit;
-  /**
-   * The details of billing profile spending limit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileSpendingLimitDetails?: SpendingLimitDetails[];
-  /**
-   * The status of the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileStatus?: BillingProfileStatus;
-  /**
-   * Reason for the specified billing profile status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
-  /**
-   * The payment method family of the primary payment method for the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfilePaymentMethodFamily?: PaymentMethodFamily;
-  /**
-   * The payment method type of the primary payment method for the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfilePaymentMethodType?: string;
-  /**
-   * The Azure AD tenant ID of the billing account for the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingTenantId?: string;
-  /** The cost center applied to the subscription. Available for agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. This property can be updated via patch. */
-  costCenter?: string;
-  /**
-   * The name of the customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerDisplayName?: string;
-  /**
-   * The fully qualified ID that uniquely identifies a customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /**
-   * Identifies the status of an customer. This is an upcoming property that will be populated in the future.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerStatus?: CustomerStatus;
-  /**
-   * The name of the invoice section.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionDisplayName?: string;
-  /**
-   * The fully qualified ID that uniquely identifies an invoice section.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionId?: string;
-  /**
-   * Identifies the status of an invoice section.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionStatus?: InvoiceSectionState;
-  /**
-   * Reason for the specified invoice section status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionStatusReasonCode?: InvoiceSectionStateReasonCode;
-  /**
-   * Specifies if the billing account for the subscription is transitioned from a Microsoft Online Service Program to a Microsoft Customer Agreement (MCA) account. Will be present and value will be true if its a transitioned billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isTransitionedBillingAccount?: boolean;
-  /**
-   * The sku description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuDescription?: string;
-  /**
-   * The ID that uniquely identifies a sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuId?: string;
-  /**
-   * The subscription status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionBillingStatus?: BillingSubscriptionStatus;
-  /**
-   * The reason codes for the subscription status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionBillingStatusDetails?: BillingSubscriptionStatusDetails[];
-  /**
-   * The type of billing subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionBillingType?: SubscriptionBillingType;
-  /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
-  subscriptionServiceUsageAddress?: BillingPropertyPropertiesSubscriptionServiceUsageAddress;
-  /**
-   * The Azure workload type of the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionWorkloadType?: SubscriptionWorkloadType;
-  /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-  enrollmentDetails?: BillingPropertyPropertiesEnrollmentDetails;
-  /**
-   * Indicates whether user is the account admin.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isAccountAdmin?: boolean;
-  /**
-   * The ID that uniquely identifies a product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productId?: string;
-  /**
-   * The ID that uniquely identifies a product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productName?: string;
-}
-
-/** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
-export interface BillingSubscriptionStatusDetails {
-  /**
-   * The suspension effective date for a subscription. This field is not available for Enterprise Agreement billing accounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly effectiveDate?: Date;
-  /**
-   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reason?: SubscriptionStatusReason;
-}
-
-/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-export interface SubscriptionEnrollmentDetails {
-  /** The name of the department */
-  departmentDisplayName?: string;
-  /** The ID that uniquely identifies the department. */
-  departmentId?: string;
-  /** The status of the enrollment account. */
-  enrollmentAccountStatus?: string;
-  /** The name of the enrollment account. */
-  enrollmentAccountDisplayName?: string;
-  /** The ID that uniquely identifies an enrollment account. */
-  enrollmentAccountId?: string;
-}
-
 /** A container for a list of resources */
 export interface BillingRequestListResult {
   /**
@@ -1901,6 +1683,20 @@ export interface SystemOverrides {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cancellationAllowedEndDate?: Date;
+}
+
+/** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
+export interface BillingSubscriptionStatusDetails {
+  /**
+   * The suspension effective date for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDate?: Date;
+  /**
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: SubscriptionStatusReason;
 }
 
 /** A container for a list of resources */
@@ -3440,6 +3236,210 @@ export interface RecipientTransferDetailsListResult {
   readonly nextLink?: string;
 }
 
+/** A billing property. */
+export interface BillingPropertyProperties {
+  /**
+   * The type of agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountAgreementType?: AgreementType;
+  /**
+   * The name of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * Notification email address for legacy account. Available for agreement type Microsoft Online Services Program.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountAdminNotificationEmailAddress?: string;
+  /**
+   * The country of the individual or organization that is responsible for the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountSoldToCountry?: string;
+  /**
+   * The current status of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountStatus?: AccountStatus;
+  /**
+   * Reason for the specified billing account status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
+  /**
+   * The type of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountType?: AccountType;
+  /**
+   * The tier of the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountSubType?: AccountSubType;
+  /**
+   * The billing currency for the subscription. Available for billing accounts with agreement type Enterprise Agreement
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileSpendingLimit?: SpendingLimit;
+  /**
+   * The details of billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileSpendingLimitDetails?: SpendingLimitDetails[];
+  /**
+   * The status of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileStatus?: BillingProfileStatus;
+  /**
+   * Reason for the specified billing profile status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+  /**
+   * The payment method family of the primary payment method for the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfilePaymentMethodFamily?: PaymentMethodFamily;
+  /**
+   * The payment method type of the primary payment method for the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfilePaymentMethodType?: string;
+  /**
+   * The Azure AD tenant ID of the billing account for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingTenantId?: string;
+  /** The cost center applied to the subscription. Available for agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. This property can be updated via patch. */
+  costCenter?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * Identifies the status of an customer. This is an upcoming property that will be populated in the future.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerStatus?: CustomerStatus;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * Identifies the status of an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionStatus?: InvoiceSectionState;
+  /**
+   * Reason for the specified invoice section status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionStatusReasonCode?: InvoiceSectionStateReasonCode;
+  /**
+   * Specifies if the billing account for the subscription is transitioned from a Microsoft Online Service Program to a Microsoft Customer Agreement (MCA) account. Will be present and value will be true if its a transitioned billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTransitionedBillingAccount?: boolean;
+  /**
+   * The sku description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /**
+   * The ID that uniquely identifies a sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuId?: string;
+  /**
+   * The subscription status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingStatus?: BillingSubscriptionStatus;
+  /**
+   * The reason codes for the subscription status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingStatusDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The type of billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingType?: SubscriptionBillingType;
+  /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
+  subscriptionServiceUsageAddress?: BillingPropertyPropertiesSubscriptionServiceUsageAddress;
+  /**
+   * The Azure workload type of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionWorkloadType?: SubscriptionWorkloadType;
+  /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+  enrollmentDetails?: BillingPropertyPropertiesEnrollmentDetails;
+  /**
+   * Indicates whether user is the account admin.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAccountAdmin?: boolean;
+  /**
+   * The ID that uniquely identifies a product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productId?: string;
+  /**
+   * The ID that uniquely identifies a product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+}
+
+/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+export interface SubscriptionEnrollmentDetails {
+  /** The name of the department */
+  departmentDisplayName?: string;
+  /** The ID that uniquely identifies the department. */
+  departmentId?: string;
+  /** The status of the enrollment account. */
+  enrollmentAccountStatus?: string;
+  /** The name of the enrollment account. */
+  enrollmentAccountDisplayName?: string;
+  /** The ID that uniquely identifies an enrollment account. */
+  enrollmentAccountId?: string;
+}
+
 /** An external reference. */
 export interface ExternalReference {
   /**
@@ -3573,10 +3573,6 @@ export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress
 export interface BillingAccountPropertiesRegistrationNumber
   extends RegistrationNumber {}
 
-/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-export interface BillingPropertyPropertiesEnrollmentDetails
-  extends SubscriptionEnrollmentDetails {}
-
 /** The principal of the request reviewer. Will only be set if request is approved. */
 export interface BillingRequestPropertiesReviewedBy extends Principal {}
 
@@ -3626,6 +3622,10 @@ export interface MoveProductEligibilityResultErrorDetails
 /** The refund details of a transaction. */
 export interface TransactionPropertiesRefundTransactionDetails
   extends RefundTransactionDetails {}
+
+/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+export interface BillingPropertyPropertiesEnrollmentDetails
+  extends SubscriptionEnrollmentDetails {}
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources. */
 export interface ProxyResourceWithTags extends ProxyResource {
@@ -3856,12 +3856,6 @@ export interface BillingAccountPatch extends ProxyResourceWithTags {
 export interface BillingProfile extends ProxyResourceWithTags {
   /** A billing profile. */
   properties?: BillingProfileProperties;
-}
-
-/** A billing property. */
-export interface BillingProperty extends ProxyResourceWithTags {
-  /** A billing property. */
-  properties?: BillingPropertyProperties;
 }
 
 /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
@@ -4885,6 +4879,12 @@ export interface RecipientTransferDetails extends ProxyResourceWithTags {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly supportedAccounts?: SupportedAccountType[];
+}
+
+/** A billing property. */
+export interface BillingProperty extends ProxyResourceWithTags {
+  /** A billing property. */
+  properties?: BillingPropertyProperties;
 }
 
 /** Defines headers for AssociatedTenants_delete operation. */
@@ -6059,237 +6059,6 @@ export enum KnownSpendingLimitStatus {
  */
 export type SpendingLimitStatus = string;
 
-/** Known values of {@link CustomerStatus} that the service accepts. */
-export enum KnownCustomerStatus {
-  /** Other */
-  Other = "Other",
-  /** Active */
-  Active = "Active",
-  /** Pending */
-  Pending = "Pending",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Warned */
-  Warned = "Warned",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** UnderReview */
-  UnderReview = "UnderReview",
-}
-
-/**
- * Defines values for CustomerStatus. \
- * {@link KnownCustomerStatus} can be used interchangeably with CustomerStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Other** \
- * **Active** \
- * **Pending** \
- * **Disabled** \
- * **Warned** \
- * **Deleted** \
- * **UnderReview**
- */
-export type CustomerStatus = string;
-
-/** Known values of {@link InvoiceSectionState} that the service accepts. */
-export enum KnownInvoiceSectionState {
-  /** Other */
-  Other = "Other",
-  /** Active */
-  Active = "Active",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** UnderReview */
-  UnderReview = "UnderReview",
-  /** Warned */
-  Warned = "Warned",
-  /** Restricted */
-  Restricted = "Restricted",
-}
-
-/**
- * Defines values for InvoiceSectionState. \
- * {@link KnownInvoiceSectionState} can be used interchangeably with InvoiceSectionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Other** \
- * **Active** \
- * **Deleted** \
- * **Disabled** \
- * **UnderReview** \
- * **Warned** \
- * **Restricted**
- */
-export type InvoiceSectionState = string;
-
-/** Known values of {@link InvoiceSectionStateReasonCode} that the service accepts. */
-export enum KnownInvoiceSectionStateReasonCode {
-  /** Other */
-  Other = "Other",
-  /** PastDue */
-  PastDue = "PastDue",
-  /** UnusualActivity */
-  UnusualActivity = "UnusualActivity",
-  /** SpendingLimitReached */
-  SpendingLimitReached = "SpendingLimitReached",
-  /** SpendingLimitExpired */
-  SpendingLimitExpired = "SpendingLimitExpired",
-}
-
-/**
- * Defines values for InvoiceSectionStateReasonCode. \
- * {@link KnownInvoiceSectionStateReasonCode} can be used interchangeably with InvoiceSectionStateReasonCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Other** \
- * **PastDue** \
- * **UnusualActivity** \
- * **SpendingLimitReached** \
- * **SpendingLimitExpired**
- */
-export type InvoiceSectionStateReasonCode = string;
-
-/** Known values of {@link BillingSubscriptionStatus} that the service accepts. */
-export enum KnownBillingSubscriptionStatus {
-  /** Other */
-  Other = "Other",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Active */
-  Active = "Active",
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Warned */
-  Warned = "Warned",
-  /** Expiring */
-  Expiring = "Expiring",
-  /** Expired */
-  Expired = "Expired",
-  /** AutoRenew */
-  AutoRenew = "AutoRenew",
-  /** Cancelled */
-  Cancelled = "Cancelled",
-  /** Suspended */
-  Suspended = "Suspended",
-  /** Failed */
-  Failed = "Failed",
-}
-
-/**
- * Defines values for BillingSubscriptionStatus. \
- * {@link KnownBillingSubscriptionStatus} can be used interchangeably with BillingSubscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Other** \
- * **Unknown** \
- * **Active** \
- * **Disabled** \
- * **Deleted** \
- * **Warned** \
- * **Expiring** \
- * **Expired** \
- * **AutoRenew** \
- * **Cancelled** \
- * **Suspended** \
- * **Failed**
- */
-export type BillingSubscriptionStatus = string;
-
-/** Known values of {@link SubscriptionStatusReason} that the service accepts. */
-export enum KnownSubscriptionStatusReason {
-  /** None */
-  None = "None",
-  /** Cancelled */
-  Cancelled = "Cancelled",
-  /** PastDue */
-  PastDue = "PastDue",
-  /** SuspiciousActivity */
-  SuspiciousActivity = "SuspiciousActivity",
-  /** Other */
-  Other = "Other",
-  /** Transferred */
-  Transferred = "Transferred",
-  /** PolicyViolation */
-  PolicyViolation = "PolicyViolation",
-  /** SpendingLimitReached */
-  SpendingLimitReached = "SpendingLimitReached",
-  /** Expired */
-  Expired = "Expired",
-}
-
-/**
- * Defines values for SubscriptionStatusReason. \
- * {@link KnownSubscriptionStatusReason} can be used interchangeably with SubscriptionStatusReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Cancelled** \
- * **PastDue** \
- * **SuspiciousActivity** \
- * **Other** \
- * **Transferred** \
- * **PolicyViolation** \
- * **SpendingLimitReached** \
- * **Expired**
- */
-export type SubscriptionStatusReason = string;
-
-/** Known values of {@link SubscriptionBillingType} that the service accepts. */
-export enum KnownSubscriptionBillingType {
-  /** None */
-  None = "None",
-  /** Benefit */
-  Benefit = "Benefit",
-  /** Free */
-  Free = "Free",
-  /** Paid */
-  Paid = "Paid",
-  /** PrePaid */
-  PrePaid = "PrePaid",
-}
-
-/**
- * Defines values for SubscriptionBillingType. \
- * {@link KnownSubscriptionBillingType} can be used interchangeably with SubscriptionBillingType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Benefit** \
- * **Free** \
- * **Paid** \
- * **PrePaid**
- */
-export type SubscriptionBillingType = string;
-
-/** Known values of {@link SubscriptionWorkloadType} that the service accepts. */
-export enum KnownSubscriptionWorkloadType {
-  /** None */
-  None = "None",
-  /** Production */
-  Production = "Production",
-  /** DevTest */
-  DevTest = "DevTest",
-  /** Internal */
-  Internal = "Internal",
-}
-
-/**
- * Defines values for SubscriptionWorkloadType. \
- * {@link KnownSubscriptionWorkloadType} can be used interchangeably with SubscriptionWorkloadType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Production** \
- * **DevTest** \
- * **Internal**
- */
-export type SubscriptionWorkloadType = string;
-
 /** Known values of {@link BillingRequestStatus} that the service accepts. */
 export enum KnownBillingRequestStatus {
   /** Other */
@@ -6554,6 +6323,54 @@ export enum KnownCancellation {
  */
 export type Cancellation = string;
 
+/** Known values of {@link BillingSubscriptionStatus} that the service accepts. */
+export enum KnownBillingSubscriptionStatus {
+  /** Other */
+  Other = "Other",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Active */
+  Active = "Active",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Warned */
+  Warned = "Warned",
+  /** Expiring */
+  Expiring = "Expiring",
+  /** Expired */
+  Expired = "Expired",
+  /** AutoRenew */
+  AutoRenew = "AutoRenew",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Suspended */
+  Suspended = "Suspended",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for BillingSubscriptionStatus. \
+ * {@link KnownBillingSubscriptionStatus} can be used interchangeably with BillingSubscriptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Unknown** \
+ * **Active** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Warned** \
+ * **Expiring** \
+ * **Expired** \
+ * **AutoRenew** \
+ * **Cancelled** \
+ * **Suspended** \
+ * **Failed**
+ */
+export type BillingSubscriptionStatus = string;
+
 /** Known values of {@link BillingSubscriptionOperationStatus} that the service accepts. */
 export enum KnownBillingSubscriptionOperationStatus {
   /** Other */
@@ -6574,6 +6391,45 @@ export enum KnownBillingSubscriptionOperationStatus {
  * **LockedForUpdate**
  */
 export type BillingSubscriptionOperationStatus = string;
+
+/** Known values of {@link SubscriptionStatusReason} that the service accepts. */
+export enum KnownSubscriptionStatusReason {
+  /** None */
+  None = "None",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PastDue */
+  PastDue = "PastDue",
+  /** SuspiciousActivity */
+  SuspiciousActivity = "SuspiciousActivity",
+  /** Other */
+  Other = "Other",
+  /** Transferred */
+  Transferred = "Transferred",
+  /** PolicyViolation */
+  PolicyViolation = "PolicyViolation",
+  /** SpendingLimitReached */
+  SpendingLimitReached = "SpendingLimitReached",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for SubscriptionStatusReason. \
+ * {@link KnownSubscriptionStatusReason} can be used interchangeably with SubscriptionStatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Cancelled** \
+ * **PastDue** \
+ * **SuspiciousActivity** \
+ * **Other** \
+ * **Transferred** \
+ * **PolicyViolation** \
+ * **SpendingLimitReached** \
+ * **Expired**
+ */
+export type SubscriptionStatusReason = string;
 
 /** Known values of {@link CancellationReason} that the service accepts. */
 export enum KnownCancellationReason {
@@ -6691,6 +6547,39 @@ export enum KnownSubscriptionTransferValidationErrorCode {
  * **InvoiceSectionIsRestricted**
  */
 export type SubscriptionTransferValidationErrorCode = string;
+
+/** Known values of {@link CustomerStatus} that the service accepts. */
+export enum KnownCustomerStatus {
+  /** Other */
+  Other = "Other",
+  /** Active */
+  Active = "Active",
+  /** Pending */
+  Pending = "Pending",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Warned */
+  Warned = "Warned",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** UnderReview */
+  UnderReview = "UnderReview",
+}
+
+/**
+ * Defines values for CustomerStatus. \
+ * {@link KnownCustomerStatus} can be used interchangeably with CustomerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Active** \
+ * **Pending** \
+ * **Disabled** \
+ * **Warned** \
+ * **Deleted** \
+ * **UnderReview**
+ */
+export type CustomerStatus = string;
 
 /** Known values of {@link InvoiceDocumentType} that the service accepts. */
 export enum KnownInvoiceDocumentType {
@@ -6949,6 +6838,66 @@ export enum KnownDeleteInvoiceSectionEligibilityCode {
  * **ActiveBillingSubscriptions**
  */
 export type DeleteInvoiceSectionEligibilityCode = string;
+
+/** Known values of {@link InvoiceSectionState} that the service accepts. */
+export enum KnownInvoiceSectionState {
+  /** Other */
+  Other = "Other",
+  /** Active */
+  Active = "Active",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** UnderReview */
+  UnderReview = "UnderReview",
+  /** Warned */
+  Warned = "Warned",
+  /** Restricted */
+  Restricted = "Restricted",
+}
+
+/**
+ * Defines values for InvoiceSectionState. \
+ * {@link KnownInvoiceSectionState} can be used interchangeably with InvoiceSectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Active** \
+ * **Deleted** \
+ * **Disabled** \
+ * **UnderReview** \
+ * **Warned** \
+ * **Restricted**
+ */
+export type InvoiceSectionState = string;
+
+/** Known values of {@link InvoiceSectionStateReasonCode} that the service accepts. */
+export enum KnownInvoiceSectionStateReasonCode {
+  /** Other */
+  Other = "Other",
+  /** PastDue */
+  PastDue = "PastDue",
+  /** UnusualActivity */
+  UnusualActivity = "UnusualActivity",
+  /** SpendingLimitReached */
+  SpendingLimitReached = "SpendingLimitReached",
+  /** SpendingLimitExpired */
+  SpendingLimitExpired = "SpendingLimitExpired",
+}
+
+/**
+ * Defines values for InvoiceSectionStateReasonCode. \
+ * {@link KnownInvoiceSectionStateReasonCode} can be used interchangeably with InvoiceSectionStateReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **PastDue** \
+ * **UnusualActivity** \
+ * **SpendingLimitReached** \
+ * **SpendingLimitExpired**
+ */
+export type InvoiceSectionStateReasonCode = string;
 
 /** Known values of {@link PaymentMethodStatus} that the service accepts. */
 export enum KnownPaymentMethodStatus {
@@ -7628,6 +7577,57 @@ export enum KnownSupportedAccountType {
  */
 export type SupportedAccountType = string;
 
+/** Known values of {@link SubscriptionBillingType} that the service accepts. */
+export enum KnownSubscriptionBillingType {
+  /** None */
+  None = "None",
+  /** Benefit */
+  Benefit = "Benefit",
+  /** Free */
+  Free = "Free",
+  /** Paid */
+  Paid = "Paid",
+  /** PrePaid */
+  PrePaid = "PrePaid",
+}
+
+/**
+ * Defines values for SubscriptionBillingType. \
+ * {@link KnownSubscriptionBillingType} can be used interchangeably with SubscriptionBillingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Benefit** \
+ * **Free** \
+ * **Paid** \
+ * **PrePaid**
+ */
+export type SubscriptionBillingType = string;
+
+/** Known values of {@link SubscriptionWorkloadType} that the service accepts. */
+export enum KnownSubscriptionWorkloadType {
+  /** None */
+  None = "None",
+  /** Production */
+  Production = "Production",
+  /** DevTest */
+  DevTest = "DevTest",
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for SubscriptionWorkloadType. \
+ * {@link KnownSubscriptionWorkloadType} can be used interchangeably with SubscriptionWorkloadType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Production** \
+ * **DevTest** \
+ * **Internal**
+ */
+export type SubscriptionWorkloadType = string;
+
 /** Optional parameters. */
 export interface AgreementsGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -8080,25 +8080,6 @@ export interface BillingProfilesListByBillingAccountNextOptionalParams
 /** Contains response data for the listByBillingAccountNext operation. */
 export type BillingProfilesListByBillingAccountNextResponse =
   BillingProfileListResult;
-
-/** Optional parameters. */
-export interface BillingPropertyGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** A flag that specifies whether or not to include billing country. */
-  includeBillingCountry?: boolean;
-  /** A flag that specifies whether or not to include transition status for billing accounts with agreement type Microsoft Customer Agreement. */
-  includeTransitionStatus?: boolean;
-}
-
-/** Contains response data for the get operation. */
-export type BillingPropertyGetResponse = BillingProperty;
-
-/** Optional parameters. */
-export interface BillingPropertyUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BillingPropertyUpdateResponse = BillingProperty;
 
 /** Optional parameters. */
 export interface BillingRequestsListByBillingProfileOptionalParams

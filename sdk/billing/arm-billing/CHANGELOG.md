@@ -1,15 +1,13 @@
 # Release History
-
-## 5.0.1 (Unreleased)
-
-### Features Added
-
+    
+## 6.0.0 (2024-09-20)
+    
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group BillingPropertyOperations
+  - Class BillingManagementClient no longer has parameter billingPropertyOperations
+    
+    
 ## 5.0.0 (2024-09-04)
     
 ### Features Added

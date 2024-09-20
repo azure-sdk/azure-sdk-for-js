@@ -13,7 +13,6 @@ export * from "./billingAccounts";
 export * from "./address";
 export * from "./billingPermissions";
 export * from "./billingProfiles";
-export * from "./billingPropertyOperations";
 export * from "./billingRequests";
 export * from "./billingRoleAssignments";
 export * from "./billingRoleDefinitionOperations";

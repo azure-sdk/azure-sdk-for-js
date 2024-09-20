@@ -22,7 +22,6 @@ import {
   AddressImpl,
   BillingPermissionsImpl,
   BillingProfilesImpl,
-  BillingPropertyOperationsImpl,
   BillingRequestsImpl,
   BillingRoleAssignmentsImpl,
   BillingRoleDefinitionOperationsImpl,
@@ -54,7 +53,6 @@ import {
   Address,
   BillingPermissions,
   BillingProfiles,
-  BillingPropertyOperations,
   BillingRequests,
   BillingRoleAssignments,
   BillingRoleDefinitionOperations,
@@ -126,7 +124,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-billing/5.0.1`;
+    const packageDetails = `azsdk-js-arm-billing/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -188,7 +186,6 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     this.address = new AddressImpl(this);
     this.billingPermissions = new BillingPermissionsImpl(this);
     this.billingProfiles = new BillingProfilesImpl(this);
-    this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
     this.billingRequests = new BillingRequestsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
     this.billingRoleDefinitionOperations =
@@ -252,7 +249,6 @@ export class BillingManagementClient extends coreClient.ServiceClient {
   address: Address;
   billingPermissions: BillingPermissions;
   billingProfiles: BillingProfiles;
-  billingPropertyOperations: BillingPropertyOperations;
   billingRequests: BillingRequests;
   billingRoleAssignments: BillingRoleAssignments;
   billingRoleDefinitionOperations: BillingRoleDefinitionOperations;
