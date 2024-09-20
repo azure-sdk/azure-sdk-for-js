@@ -12,7 +12,7 @@ import { DataContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   DataContainer,
   DataContainersListNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataContainers operations. */
 export class DataContainersImpl implements DataContainers {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class DataContainers class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
