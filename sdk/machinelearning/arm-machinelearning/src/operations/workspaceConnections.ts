@@ -12,7 +12,7 @@ import { WorkspaceConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListNextOptionalParams,
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceConnections operations. */
 export class WorkspaceConnectionsImpl implements WorkspaceConnections {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class WorkspaceConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
