@@ -286,7 +286,6 @@ export const LiftrBaseMarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       subscriptionId: {
         serializedName: "subscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -350,6 +349,19 @@ export const LiftrBaseOfferDetails: coreClient.CompositeMapper = {
         serializedName: "termId",
         type: {
           name: "String",
+        },
+      },
+      renewalMode: {
+        serializedName: "renewalMode",
+        type: {
+          name: "String",
+        },
+      },
+      endDate: {
+        serializedName: "endDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -680,6 +692,13 @@ export const OrganizationResourceUpdateProperties: coreClient.CompositeMapper =
       name: "Composite",
       className: "OrganizationResourceUpdateProperties",
       modelProperties: {
+        marketplace: {
+          serializedName: "marketplace",
+          type: {
+            name: "Composite",
+            className: "LiftrBaseMarketplaceDetailsUpdate",
+          },
+        },
         user: {
           serializedName: "user",
           type: {
@@ -697,6 +716,85 @@ export const OrganizationResourceUpdateProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const LiftrBaseMarketplaceDetailsUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiftrBaseMarketplaceDetailsUpdate",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionStatus: {
+        serializedName: "subscriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      offerDetails: {
+        serializedName: "offerDetails",
+        type: {
+          name: "Composite",
+          className: "LiftrBaseOfferDetailsUpdate",
+        },
+      },
+    },
+  },
+};
+
+export const LiftrBaseOfferDetailsUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiftrBaseOfferDetailsUpdate",
+    modelProperties: {
+      publisherId: {
+        serializedName: "publisherId",
+        type: {
+          name: "String",
+        },
+      },
+      offerId: {
+        serializedName: "offerId",
+        type: {
+          name: "String",
+        },
+      },
+      planId: {
+        serializedName: "planId",
+        type: {
+          name: "String",
+        },
+      },
+      planName: {
+        serializedName: "planName",
+        type: {
+          name: "String",
+        },
+      },
+      termUnit: {
+        serializedName: "termUnit",
+        type: {
+          name: "String",
+        },
+      },
+      termId: {
+        serializedName: "termId",
+        type: {
+          name: "String",
+        },
+      },
+      renewalMode: {
+        serializedName: "renewalMode",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const LiftrBaseUserDetailsUpdate: coreClient.CompositeMapper = {
   type: {
@@ -861,16 +959,16 @@ export const OrganizationsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -882,16 +980,16 @@ export const OrganizationsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
