@@ -1,15 +1,13 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.2.0 (2024-09-23)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryImageVersion has a new optional parameter restore
+  - Interface GalleryImageVersionUpdate has a new optional parameter restore
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +577,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 
