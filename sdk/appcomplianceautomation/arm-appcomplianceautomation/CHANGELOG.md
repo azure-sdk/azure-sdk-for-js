@@ -1,17 +1,452 @@
-# Release History
-
-## 1.0.1 (Unreleased)
-
+## 1.0.0-beta.1 (2024-09-23)
+    
 ### Features Added
+
+  - Added operation group EvidenceDownload
+  - Added operation group EvidenceGet
+  - Added operation group EvidenceListByReport
+  - Added operation group OperationsList
+  - Added operation group ProviderActionsCheckNameAvailability
+  - Added operation group ProviderActionsGetCollectionCount
+  - Added operation group ProviderActionsGetOverviewStatus
+  - Added operation group ProviderActionsListInUseStorageAccounts
+  - Added operation group ProviderActionsOnboard
+  - Added operation group ProviderActionsTriggerEvaluation
+  - Added operation group ReportCheckNameAvailability
+  - Added operation group ReportFix
+  - Added operation group ReportGet
+  - Added operation group ReportGetScopingQuestions
+  - Added operation group ReportList
+  - Added operation group ReportSyncCertRecord
+  - Added operation group ReportVerify
+  - Added operation group ScopingConfigurationGet
+  - Added operation group ScopingConfigurationList
+  - Added operation group SimplePollerLike
+  - Added operation group SnapshotDownload
+  - Added operation group SnapshotGet
+  - Added operation group SnapshotList
+  - Added operation group WebhookGet
+  - Added operation group WebhookList
+  - Added Interface AppComplianceAutomationClientOptions
+  - Added Interface AzureEntityResource
+  - Added Interface AzureEntityResourceOutput
+  - Added Interface CategoryOutput
+  - Added Interface CertSyncRecordOutput
+  - Added Interface CheckNameAvailabilityResponseOutput
+  - Added Interface ComplianceReportItemOutput
+  - Added Interface ComplianceResultOutput
+  - Added Interface ControlFamilyOutput
+  - Added Interface ControlOutput
+  - Added Interface ControlSyncRecordOutput
+  - Added Interface DownloadResponseComplianceDetailedPdfReportOutput
+  - Added Interface DownloadResponseCompliancePdfReportOutput
+  - Added Interface DownloadResponseOutput
+  - Added Interface ErrorAdditionalInfoOutput
+  - Added Interface ErrorDetailOutput
+  - Added Interface ErrorResponseOutput
+  - Added Interface EvidenceCreateOrUpdate200Response
+  - Added Interface EvidenceCreateOrUpdate201Response
+  - Added Interface EvidenceCreateOrUpdateBodyParam
+  - Added Interface EvidenceCreateOrUpdateDefaultResponse
+  - Added Interface EvidenceCreateOrUpdateQueryParam
+  - Added Interface EvidenceCreateOrUpdateQueryParamProperties
+  - Added Interface EvidenceDelete200Response
+  - Added Interface EvidenceDelete204Response
+  - Added Interface EvidenceDeleteDefaultResponse
+  - Added Interface EvidenceDownload200Response
+  - Added Interface EvidenceDownloadBodyParam
+  - Added Interface EvidenceDownloadDefaultResponse
+  - Added Interface EvidenceFileDownloadResponseEvidenceFileOutput
+  - Added Interface EvidenceFileDownloadResponseOutput
+  - Added Interface EvidenceGet200Response
+  - Added Interface EvidenceGetDefaultResponse
+  - Added Interface EvidenceListByReport200Response
+  - Added Interface EvidenceListByReportDefaultResponse
+  - Added Interface EvidenceListByReportQueryParam
+  - Added Interface EvidenceListByReportQueryParamProperties
+  - Added Interface EvidencePropertiesOutput
+  - Added Interface EvidenceResourceOutput
+  - Added Interface ExtensionResource
+  - Added Interface ExtensionResourceOutput
+  - Added Interface GetCollectionCountResponseOutput
+  - Added Interface GetOverviewStatusResponseOutput
+  - Added Interface Identity
+  - Added Interface IdentityOutput
+  - Added Interface ListInUseStorageAccountsResponseOutput
+  - Added Interface OnboardResponseOutput
+  - Added Interface OperationDisplayOutput
+  - Added Interface OperationOutput
+  - Added Interface OperationsList200Response
+  - Added Interface OperationsListDefaultResponse
+  - Added Interface OverviewStatusOutput
+  - Added Interface PagingOptions
+  - Added Interface Plan
+  - Added Interface PlanOutput
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionOutput
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionPropertiesOutput
+  - Added Interface PrivateEndpointOutput
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceOutput
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcePropertiesOutput
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface PrivateLinkServiceConnectionStateOutput
+  - Added Interface ProviderActionsCheckNameAvailability200Response
+  - Added Interface ProviderActionsCheckNameAvailabilityBodyParam
+  - Added Interface ProviderActionsCheckNameAvailabilityDefaultResponse
+  - Added Interface ProviderActionsGetCollectionCount200Response
+  - Added Interface ProviderActionsGetCollectionCountBodyParam
+  - Added Interface ProviderActionsGetCollectionCountDefaultResponse
+  - Added Interface ProviderActionsGetOverviewStatus200Response
+  - Added Interface ProviderActionsGetOverviewStatusBodyParam
+  - Added Interface ProviderActionsGetOverviewStatusDefaultResponse
+  - Added Interface ProviderActionsListInUseStorageAccounts200Response
+  - Added Interface ProviderActionsListInUseStorageAccountsBodyParam
+  - Added Interface ProviderActionsListInUseStorageAccountsDefaultResponse
+  - Added Interface ProviderActionsOnboard200Response
+  - Added Interface ProviderActionsOnboard202Headers
+  - Added Interface ProviderActionsOnboard202Response
+  - Added Interface ProviderActionsOnboardBodyParam
+  - Added Interface ProviderActionsOnboardDefaultResponse
+  - Added Interface ProviderActionsOnboardLogicalResponse
+  - Added Interface ProviderActionsTriggerEvaluation200Response
+  - Added Interface ProviderActionsTriggerEvaluation202Headers
+  - Added Interface ProviderActionsTriggerEvaluation202Response
+  - Added Interface ProviderActionsTriggerEvaluationBodyParam
+  - Added Interface ProviderActionsTriggerEvaluationDefaultResponse
+  - Added Interface ProviderActionsTriggerEvaluationLogicalResponse
+  - Added Interface ProxyResourceOutput
+  - Added Interface QuickAssessmentOutput
+  - Added Interface RecommendationOutput
+  - Added Interface RecommendationSolutionOutput
+  - Added Interface ReportCheckNameAvailability200Response
+  - Added Interface ReportCheckNameAvailabilityBodyParam
+  - Added Interface ReportCheckNameAvailabilityDefaultResponse
+  - Added Interface ReportComplianceStatusOutput
+  - Added Interface ReportCreateOrUpdate200Response
+  - Added Interface ReportCreateOrUpdate201Headers
+  - Added Interface ReportCreateOrUpdate201Response
+  - Added Interface ReportCreateOrUpdateBodyParam
+  - Added Interface ReportCreateOrUpdateDefaultResponse
+  - Added Interface ReportCreateOrUpdateLogicalResponse
+  - Added Interface ReportDelete202Headers
+  - Added Interface ReportDelete202Response
+  - Added Interface ReportDelete204Response
+  - Added Interface ReportDeleteDefaultResponse
+  - Added Interface ReportDeleteLogicalResponse
+  - Added Interface ReportFix200Response
+  - Added Interface ReportFix202Headers
+  - Added Interface ReportFix202Response
+  - Added Interface ReportFixDefaultResponse
+  - Added Interface ReportFixLogicalResponse
+  - Added Interface ReportFixResultOutput
+  - Added Interface ReportGet200Response
+  - Added Interface ReportGetDefaultResponse
+  - Added Interface ReportGetScopingQuestions200Response
+  - Added Interface ReportGetScopingQuestionsDefaultResponse
+  - Added Interface ReportList200Response
+  - Added Interface ReportListDefaultResponse
+  - Added Interface ReportListQueryParam
+  - Added Interface ReportListQueryParamProperties
+  - Added Interface ReportPropertiesOutput
+  - Added Interface ReportResourceOutput
+  - Added Interface ReportSyncCertRecord200Response
+  - Added Interface ReportSyncCertRecord202Headers
+  - Added Interface ReportSyncCertRecord202Response
+  - Added Interface ReportSyncCertRecordBodyParam
+  - Added Interface ReportSyncCertRecordDefaultResponse
+  - Added Interface ReportSyncCertRecordLogicalResponse
+  - Added Interface ReportUpdate200Response
+  - Added Interface ReportUpdate202Headers
+  - Added Interface ReportUpdate202Response
+  - Added Interface ReportUpdateBodyParam
+  - Added Interface ReportUpdateDefaultResponse
+  - Added Interface ReportUpdateLogicalResponse
+  - Added Interface ReportVerificationResultOutput
+  - Added Interface ReportVerify200Response
+  - Added Interface ReportVerify202Headers
+  - Added Interface ReportVerify202Response
+  - Added Interface ReportVerifyDefaultResponse
+  - Added Interface ReportVerifyLogicalResponse
+  - Added Interface ResourceItemOutput
+  - Added Interface ResourceMetadataOutput
+  - Added Interface ResourceModelWithAllowedPropertySet
+  - Added Interface ResourceModelWithAllowedPropertySetOutput
+  - Added Interface ResourceOutput
+  - Added Interface ResponsibilityOutput
+  - Added Interface ResponsibilityResourceOutput
+  - Added Interface Routes
+  - Added Interface ScopingAnswerOutput
+  - Added Interface ScopingConfigurationCreateOrUpdate200Response
+  - Added Interface ScopingConfigurationCreateOrUpdate201Response
+  - Added Interface ScopingConfigurationCreateOrUpdateBodyParam
+  - Added Interface ScopingConfigurationCreateOrUpdateDefaultResponse
+  - Added Interface ScopingConfigurationDelete200Response
+  - Added Interface ScopingConfigurationDelete204Response
+  - Added Interface ScopingConfigurationDeleteDefaultResponse
+  - Added Interface ScopingConfigurationGet200Response
+  - Added Interface ScopingConfigurationGetDefaultResponse
+  - Added Interface ScopingConfigurationList200Response
+  - Added Interface ScopingConfigurationListDefaultResponse
+  - Added Interface ScopingConfigurationPropertiesOutput
+  - Added Interface ScopingConfigurationResourceOutput
+  - Added Interface ScopingQuestionOutput
+  - Added Interface ScopingQuestionsOutput
+  - Added Interface Sku
+  - Added Interface SkuOutput
+  - Added Interface SnapshotDownload200Response
+  - Added Interface SnapshotDownload202Headers
+  - Added Interface SnapshotDownload202Response
+  - Added Interface SnapshotDownloadBodyParam
+  - Added Interface SnapshotDownloadDefaultResponse
+  - Added Interface SnapshotDownloadLogicalResponse
+  - Added Interface SnapshotGet200Response
+  - Added Interface SnapshotGetDefaultResponse
+  - Added Interface SnapshotList200Response
+  - Added Interface SnapshotListDefaultResponse
+  - Added Interface SnapshotListQueryParam
+  - Added Interface SnapshotListQueryParamProperties
+  - Added Interface SnapshotPropertiesOutput
+  - Added Interface SnapshotResourceOutput
+  - Added Interface StatusItemOutput
+  - Added Interface StorageInfoOutput
+  - Added Interface SyncCertRecordResponseOutput
+  - Added Interface SystemDataOutput
+  - Added Interface TrackedResource
+  - Added Interface TrackedResourceOutput
+  - Added Interface TriggerEvaluationPropertyOutput
+  - Added Interface TriggerEvaluationResponseOutput
+  - Added Interface WebhookCreateOrUpdate200Response
+  - Added Interface WebhookCreateOrUpdate201Response
+  - Added Interface WebhookCreateOrUpdateBodyParam
+  - Added Interface WebhookCreateOrUpdateDefaultResponse
+  - Added Interface WebhookDelete200Response
+  - Added Interface WebhookDelete204Response
+  - Added Interface WebhookDeleteDefaultResponse
+  - Added Interface WebhookGet200Response
+  - Added Interface WebhookGetDefaultResponse
+  - Added Interface WebhookList200Response
+  - Added Interface WebhookListDefaultResponse
+  - Added Interface WebhookListQueryParam
+  - Added Interface WebhookListQueryParamProperties
+  - Added Interface WebhookPropertiesOutput
+  - Added Interface WebhookResourceOutput
+  - Added Interface WebhookUpdate200Response
+  - Added Interface WebhookUpdateBodyParam
+  - Added Interface WebhookUpdateDefaultResponse
+  - Added Type Alias ActionTypeOutput
+  - Added Type Alias AppComplianceAutomationClient
+  - Added Type Alias CategoryStatusOutput
+  - Added Type Alias CheckNameAvailabilityReasonOutput
+  - Added Type Alias ContentTypeOutput
+  - Added Type Alias ControlFamilyStatusOutput
+  - Added Type Alias ControlStatusOutput
+  - Added Type Alias CreatedByTypeOutput
+  - Added Type Alias DeliveryStatusOutput
+  - Added Type Alias EnableSslVerificationOutput
+  - Added Type Alias EvidenceCreateOrUpdateParameters
+  - Added Type Alias EvidenceDeleteParameters
+  - Added Type Alias EvidenceDownloadParameters
+  - Added Type Alias EvidenceGetParameters
+  - Added Type Alias EvidenceListByReportParameters
+  - Added Type Alias EvidenceResourceListResultOutput
+  - Added Type Alias EvidenceTypeOutput
+  - Added Type Alias GetArrayType
+  - Added Type Alias GetPage
+  - Added Type Alias InputTypeOutput
+  - Added Type Alias IsRecommendSolutionOutput
+  - Added Type Alias NotificationEventOutput
+  - Added Type Alias OperationListResultOutput
+  - Added Type Alias OperationsListParameters
+  - Added Type Alias OriginOutput
+  - Added Type Alias PaginateReturn
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointConnectionProvisioningStateOutput
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PrivateEndpointServiceConnectionStatusOutput
+  - Added Type Alias ProviderActionsCheckNameAvailabilityParameters
+  - Added Type Alias ProviderActionsGetCollectionCountParameters
+  - Added Type Alias ProviderActionsGetOverviewStatusParameters
+  - Added Type Alias ProviderActionsListInUseStorageAccountsParameters
+  - Added Type Alias ProviderActionsOnboardParameters
+  - Added Type Alias ProviderActionsTriggerEvaluationParameters
+  - Added Type Alias ProvisioningStateOutput
+  - Added Type Alias ReportCheckNameAvailabilityParameters
+  - Added Type Alias ReportCreateOrUpdateParameters
+  - Added Type Alias ReportDeleteParameters
+  - Added Type Alias ReportFixParameters
+  - Added Type Alias ReportGetParameters
+  - Added Type Alias ReportGetScopingQuestionsParameters
+  - Added Type Alias ReportListParameters
+  - Added Type Alias ReportResourceListResultOutput
+  - Added Type Alias ReportStatusOutput
+  - Added Type Alias ReportSyncCertRecordParameters
+  - Added Type Alias ReportUpdateParameters
+  - Added Type Alias ReportVerifyParameters
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias ResourceIdentityTypeOutput
+  - Added Type Alias ResourceOriginOutput
+  - Added Type Alias ResourceStatusOutput
+  - Added Type Alias ResponsibilityEnvironmentOutput
+  - Added Type Alias ResponsibilitySeverityOutput
+  - Added Type Alias ResponsibilityStatusOutput
+  - Added Type Alias ResponsibilityTypeOutput
+  - Added Type Alias ResultOutput
+  - Added Type Alias RuleOutput
+  - Added Type Alias ScopingConfigurationCreateOrUpdateParameters
+  - Added Type Alias ScopingConfigurationDeleteParameters
+  - Added Type Alias ScopingConfigurationGetParameters
+  - Added Type Alias ScopingConfigurationListParameters
+  - Added Type Alias ScopingConfigurationResourceListResultOutput
+  - Added Type Alias SendAllEventsOutput
+  - Added Type Alias SkuTier
+  - Added Type Alias SkuTierOutput
+  - Added Type Alias SnapshotDownloadParameters
+  - Added Type Alias SnapshotGetParameters
+  - Added Type Alias SnapshotListParameters
+  - Added Type Alias SnapshotResourceListResultOutput
+  - Added Type Alias UpdateWebhookKeyOutput
+  - Added Type Alias WebhookCreateOrUpdateParameters
+  - Added Type Alias WebhookDeleteParameters
+  - Added Type Alias WebhookGetParameters
+  - Added Type Alias WebhookKeyEnabledOutput
+  - Added Type Alias WebhookListParameters
+  - Added Type Alias WebhookResourceListResultOutput
+  - Added Type Alias WebhookStatusOutput
+  - Added Type Alias WebhookUpdateParameters
+  - Type of parameter triggerTime of interface ReportPatchProperties is changed from Date to Date | string
+  - Type of parameter triggerTime of interface ReportProperties is changed from Date to Date | string
+  - Type of parameter createdAt of interface SystemData is changed from Date to Date | string
+  - Type of parameter lastModifiedAt of interface SystemData is changed from Date to Date | string
+  - Added function createClient
+  - Added function getLongRunningPoller
+  - Added function isUnexpected
+  - Added function paginate
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0 (2024-06-25)
-
-### Features Added
-
-The package of @azure/arm-appcomplianceautomation is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
+  - Removed operation group Evidence
+  - Removed operation group Operations
+  - Removed operation group ProviderActions
+  - Removed operation group Report_2
+  - Removed operation group ScopingConfiguration
+  - Removed operation group Snapshot
+  - Removed operation group Webhook
+  - Deleted Class AppComplianceAutomationToolForMicrosoft365
+  - Interface Category no longer has parameter categoryName
+  - Interface Category no longer has parameter categoryStatus
+  - Interface Category no longer has parameter controlFamilies
+  - Interface ComplianceResult no longer has parameter categories
+  - Interface ComplianceResult no longer has parameter complianceName
+  - Interface Control no longer has parameter controlDescription
+  - Interface Control no longer has parameter controlDescriptionHyperLink
+  - Interface Control no longer has parameter controlFullName
+  - Interface Control no longer has parameter controlId
+  - Interface Control no longer has parameter controlName
+  - Interface Control no longer has parameter controlStatus
+  - Interface Control no longer has parameter responsibilities
+  - Interface ControlFamily no longer has parameter controlFamilyName
+  - Interface ControlFamily no longer has parameter controlFamilyStatus
+  - Interface ControlFamily no longer has parameter controls
+  - Interface EvidenceProperties no longer has parameter provisioningState
+  - Interface OverviewStatus no longer has parameter failedCount
+  - Interface OverviewStatus no longer has parameter manualCount
+  - Interface OverviewStatus no longer has parameter notApplicableCount
+  - Interface OverviewStatus no longer has parameter passedCount
+  - Interface OverviewStatus no longer has parameter pendingCount
+  - Interface Recommendation no longer has parameter recommendationId
+  - Interface Recommendation no longer has parameter recommendationShortName
+  - Interface Recommendation no longer has parameter recommendationSolutions
+  - Interface RecommendationSolution no longer has parameter isRecommendSolution
+  - Interface RecommendationSolution no longer has parameter recommendationSolutionContent
+  - Interface RecommendationSolution no longer has parameter recommendationSolutionIndex
+  - Interface ReportComplianceStatus no longer has parameter m365
+  - Interface ReportPatchProperties no longer has parameter certRecords
+  - Interface ReportPatchProperties no longer has parameter complianceStatus
+  - Interface ReportPatchProperties no longer has parameter errors
+  - Interface ReportPatchProperties no longer has parameter lastTriggerTime
+  - Interface ReportPatchProperties no longer has parameter nextTriggerTime
+  - Interface ReportPatchProperties no longer has parameter provisioningState
+  - Interface ReportPatchProperties no longer has parameter status
+  - Interface ReportPatchProperties no longer has parameter subscriptions
+  - Interface ReportPatchProperties no longer has parameter tenantId
+  - Interface ReportProperties no longer has parameter certRecords
+  - Interface ReportProperties no longer has parameter complianceStatus
+  - Interface ReportProperties no longer has parameter errors
+  - Interface ReportProperties no longer has parameter lastTriggerTime
+  - Interface ReportProperties no longer has parameter nextTriggerTime
+  - Interface ReportProperties no longer has parameter provisioningState
+  - Interface ReportProperties no longer has parameter status
+  - Interface ReportProperties no longer has parameter subscriptions
+  - Interface ReportProperties no longer has parameter tenantId
+  - Interface Resource no longer has parameter id
+  - Interface Resource no longer has parameter name
+  - Interface Resource no longer has parameter systemData
+  - Interface Resource no longer has parameter type
+  - Interface Responsibility no longer has parameter guidance
+  - Interface Responsibility no longer has parameter justification
+  - Interface Responsibility no longer has parameter recommendationList
+  - Interface Responsibility no longer has parameter resourceList
+  - Interface Responsibility no longer has parameter responsibilityDescription
+  - Interface Responsibility no longer has parameter responsibilityEnvironment
+  - Interface Responsibility no longer has parameter responsibilityId
+  - Interface Responsibility no longer has parameter responsibilitySeverity
+  - Interface Responsibility no longer has parameter responsibilityStatus
+  - Interface Responsibility no longer has parameter responsibilityTitle
+  - Interface Responsibility no longer has parameter responsibilityType
+  - Interface ResponsibilityResource no longer has parameter accountId
+  - Interface ResponsibilityResource no longer has parameter resourceId
+  - Interface ResponsibilityResource no longer has parameter resourceOrigin
+  - Interface ResponsibilityResource no longer has parameter resourceStatus
+  - Interface ResponsibilityResource no longer has parameter resourceStatusChangeDate
+  - Interface ResponsibilityResource no longer has parameter resourceType
+  - Interface ScopingConfigurationProperties no longer has parameter provisioningState
+  - Interface SnapshotProperties no longer has parameter complianceResults
+  - Interface SnapshotProperties no longer has parameter createdAt
+  - Interface SnapshotProperties no longer has parameter provisioningState
+  - Interface SnapshotProperties no longer has parameter reportProperties
+  - Interface SnapshotProperties no longer has parameter reportSystemData
+  - Interface SnapshotProperties no longer has parameter snapshotName
+  - Interface WebhookProperties no longer has parameter deliveryStatus
+  - Interface WebhookProperties no longer has parameter provisioningState
+  - Interface WebhookProperties no longer has parameter tenantId
+  - Interface WebhookProperties no longer has parameter webhookId
+  - Interface WebhookProperties no longer has parameter webhookKeyEnabled
+  - Type of parameter controls of interface CertSyncRecord is changed from ControlSyncRecord[] to Array<ControlSyncRecord>
+  - Type of parameter resources of interface ReportPatchProperties is changed from ResourceMetadata[] to Array<ResourceMetadata>
+  - Type of parameter resources of interface ReportProperties is changed from ResourceMetadata[] to Array<ResourceMetadata>
+  - Type of parameter answers of interface ScopingConfigurationProperties is changed from ScopingAnswer[] to Array<ScopingAnswer>
+  - Removed Enum KnownActionType
+  - Removed Enum KnownCategoryStatus
+  - Removed Enum KnownCheckNameAvailabilityReason
+  - Removed Enum KnownContentType
+  - Removed Enum KnownControlFamilyStatus
+  - Removed Enum KnownControlStatus
+  - Removed Enum KnownCreatedByType
+  - Removed Enum KnownDeliveryStatus
+  - Removed Enum KnownDownloadType
+  - Removed Enum KnownEnableSslVerification
+  - Removed Enum KnownEvidenceType
+  - Removed Enum KnownInputType
+  - Removed Enum KnownIsRecommendSolution
+  - Removed Enum KnownNotificationEvent
+  - Removed Enum KnownOrigin
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownReportStatus
+  - Removed Enum KnownResourceOrigin
+  - Removed Enum KnownResourceStatus
+  - Removed Enum KnownResponsibilityEnvironment
+  - Removed Enum KnownResponsibilitySeverity
+  - Removed Enum KnownResponsibilityStatus
+  - Removed Enum KnownResponsibilityType
+  - Removed Enum KnownResult
+  - Removed Enum KnownRule
+  - Removed Enum KnownSendAllEvents
+  - Removed Enum KnownUpdateWebhookKey
+  - Removed Enum KnownWebhookKeyEnabled
+  - Removed Enum KnownWebhookStatus
+  - Removed function getContinuationToken
+    
