@@ -2096,7 +2096,6 @@ export interface Routes {
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
-    getOperationId(): string;
     getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
