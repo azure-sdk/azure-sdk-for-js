@@ -12,7 +12,7 @@ import { VmInstanceHybridIdentityMetadatas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ScVmm } from "../scVmm";
+import { ScVmmTest } from "../scVmmTest";
 import {
   VmInstanceHybridIdentityMetadata,
   VmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceNextOptionalParams,
@@ -26,14 +26,15 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VmInstanceHybridIdentityMetadatas operations. */
 export class VmInstanceHybridIdentityMetadatasImpl
-  implements VmInstanceHybridIdentityMetadatas {
-  private readonly client: ScVmm;
+  implements VmInstanceHybridIdentityMetadatas
+{
+  private readonly client: ScVmmTest;
 
   /**
    * Initialize a new instance of the class VmInstanceHybridIdentityMetadatas class.
    * @param client Reference to the service client
    */
-  constructor(client: ScVmm) {
+  constructor(client: ScVmmTest) {
     this.client = client;
   }
 
@@ -193,22 +194,22 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByVirtualMachineInstanceNextOperationSpec: coreClient.OperationSpec =
-{
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VmInstanceHybridIdentityMetadataListResult,
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.VmInstanceHybridIdentityMetadataListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceUri,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

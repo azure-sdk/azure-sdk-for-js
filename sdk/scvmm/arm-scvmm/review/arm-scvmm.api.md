@@ -346,6 +346,7 @@ export interface GuestAgentProperties {
     credentials?: GuestCredential;
     readonly customResourceName?: string;
     httpProxyConfig?: HttpProxyConfiguration;
+    privateLinkScopeResourceId?: string;
     provisioningAction?: ProvisioningAction;
     readonly provisioningState?: ProvisioningState;
     readonly status?: string;
@@ -727,9 +728,16 @@ export type Origin = string;
 export interface OsProfileForVmInstance {
     adminPassword?: string;
     computerName?: string;
+    domainName?: string;
+    domainPassword?: string;
+    domainUsername?: string;
     readonly osSku?: string;
     readonly osType?: OsType;
     readonly osVersion?: string;
+    productKey?: string;
+    runOnceCommands?: string;
+    timezone?: number;
+    workgroup?: string;
 }
 
 // @public
@@ -754,11 +762,11 @@ export interface Resource {
 }
 
 // @public (undocumented)
-export class ScVmm extends coreClient.ServiceClient {
+export class ScVmmTest extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ScVmmOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ScVmmOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ScVmmTestOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ScVmmTestOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -786,7 +794,7 @@ export class ScVmm extends coreClient.ServiceClient {
 }
 
 // @public
-export interface ScVmmOptionalParams extends coreClient.ServiceClientOptions {
+export interface ScVmmTestOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
