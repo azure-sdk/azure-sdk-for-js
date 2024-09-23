@@ -6,7 +6,7 @@ Automanage Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/automanage/arm-automanage) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-automanage) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-automanage) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
