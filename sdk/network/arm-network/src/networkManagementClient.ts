@@ -82,10 +82,16 @@ import {
   ConnectivityConfigurationsImpl,
   NetworkGroupsImpl,
   StaticMembersImpl,
+  NetworkManagerRoutingConfigurationsImpl,
+  RoutingRuleCollectionsImpl,
+  RoutingRulesImpl,
   ScopeConnectionsImpl,
   SecurityAdminConfigurationsImpl,
   AdminRuleCollectionsImpl,
   AdminRulesImpl,
+  SecurityUserConfigurationsImpl,
+  SecurityUserRuleCollectionsImpl,
+  SecurityUserRulesImpl,
   NetworkProfilesImpl,
   NetworkSecurityGroupsImpl,
   SecurityRulesImpl,
@@ -219,10 +225,16 @@ import {
   ConnectivityConfigurations,
   NetworkGroups,
   StaticMembers,
+  NetworkManagerRoutingConfigurations,
+  RoutingRuleCollections,
+  RoutingRules,
   ScopeConnections,
   SecurityAdminConfigurations,
   AdminRuleCollections,
   AdminRules,
+  SecurityUserConfigurations,
+  SecurityUserRuleCollections,
+  SecurityUserRules,
   NetworkProfiles,
   NetworkSecurityGroups,
   SecurityRules,
@@ -388,7 +400,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.3.1`;
+    const packageDetails = `azsdk-js-arm-network/33.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -543,12 +555,21 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.connectivityConfigurations = new ConnectivityConfigurationsImpl(this);
     this.networkGroups = new NetworkGroupsImpl(this);
     this.staticMembers = new StaticMembersImpl(this);
+    this.networkManagerRoutingConfigurations =
+      new NetworkManagerRoutingConfigurationsImpl(this);
+    this.routingRuleCollections = new RoutingRuleCollectionsImpl(this);
+    this.routingRules = new RoutingRulesImpl(this);
     this.scopeConnections = new ScopeConnectionsImpl(this);
     this.securityAdminConfigurations = new SecurityAdminConfigurationsImpl(
       this,
     );
     this.adminRuleCollections = new AdminRuleCollectionsImpl(this);
     this.adminRules = new AdminRulesImpl(this);
+    this.securityUserConfigurations = new SecurityUserConfigurationsImpl(this);
+    this.securityUserRuleCollections = new SecurityUserRuleCollectionsImpl(
+      this,
+    );
+    this.securityUserRules = new SecurityUserRulesImpl(this);
     this.networkProfiles = new NetworkProfilesImpl(this);
     this.networkSecurityGroups = new NetworkSecurityGroupsImpl(this);
     this.securityRules = new SecurityRulesImpl(this);
@@ -1736,10 +1757,16 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   connectivityConfigurations: ConnectivityConfigurations;
   networkGroups: NetworkGroups;
   staticMembers: StaticMembers;
+  networkManagerRoutingConfigurations: NetworkManagerRoutingConfigurations;
+  routingRuleCollections: RoutingRuleCollections;
+  routingRules: RoutingRules;
   scopeConnections: ScopeConnections;
   securityAdminConfigurations: SecurityAdminConfigurations;
   adminRuleCollections: AdminRuleCollections;
   adminRules: AdminRules;
+  securityUserConfigurations: SecurityUserConfigurations;
+  securityUserRuleCollections: SecurityUserRuleCollections;
+  securityUserRules: SecurityUserRules;
   networkProfiles: NetworkProfiles;
   networkSecurityGroups: NetworkSecurityGroups;
   securityRules: SecurityRules;
