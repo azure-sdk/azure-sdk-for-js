@@ -26,15 +26,15 @@ import {
   ServerInstances,
   Operations,
 } from "./operationsInterfaces";
-import { WorkloadsClientOptionalParams } from "./models";
+import { WorkloadsClientTestOptionalParams } from "./models";
 
-export class WorkloadsClient extends coreClient.ServiceClient {
+export class WorkloadsClientTest extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the WorkloadsClient class.
+   * Initializes a new instance of the WorkloadsClientTest class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -42,7 +42,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: WorkloadsClientOptionalParams,
+    options?: WorkloadsClientTestOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,12 +55,12 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: WorkloadsClientOptionalParams = {
+    const defaults: WorkloadsClientTestOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-migrationdiscoverysap/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-migrationdiscoverysap/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
