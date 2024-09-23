@@ -18,15 +18,14 @@ import {
   ProviderOperationsMetadataListNextOptionalParams,
   ProviderOperationsMetadataListOptionalParams,
   ProviderOperationsMetadataListResponse,
-  ProviderOperationsMetadataGetOptionalParams,
-  ProviderOperationsMetadataGetResponse,
-  ProviderOperationsMetadataListNextResponse
+  ProviderOperationsMetadataListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProviderOperationsMetadataOperations operations. */
 export class ProviderOperationsMetadataOperationsImpl
-  implements ProviderOperationsMetadataOperations {
+  implements ProviderOperationsMetadataOperations
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -42,7 +41,7 @@ export class ProviderOperationsMetadataOperationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ProviderOperationsMetadataListOptionalParams
+    options?: ProviderOperationsMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderOperationsMetadata> {
     const iter = this.listPagingAll(options);
     return {
@@ -57,13 +56,13 @@ export class ProviderOperationsMetadataOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ProviderOperationsMetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProviderOperationsMetadata[]> {
     let result: ProviderOperationsMetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +83,7 @@ export class ProviderOperationsMetadataOperationsImpl
   }
 
   private async *listPagingAll(
-    options?: ProviderOperationsMetadataListOptionalParams
+    options?: ProviderOperationsMetadataListOptionalParams,
   ): AsyncIterableIterator<ProviderOperationsMetadata> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -92,26 +91,11 @@ export class ProviderOperationsMetadataOperationsImpl
   }
 
   /**
-   * Gets provider operations metadata for the specified resource provider.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param options The options parameters.
-   */
-  get(
-    resourceProviderNamespace: string,
-    options?: ProviderOperationsMetadataGetOptionalParams
-  ): Promise<ProviderOperationsMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceProviderNamespace, options },
-      getOperationSpec
-    );
-  }
-
-  /**
    * Gets provider operations metadata for all resource providers.
    * @param options The options parameters.
    */
   private _list(
-    options?: ProviderOperationsMetadataListOptionalParams
+    options?: ProviderOperationsMetadataListOptionalParams,
   ): Promise<ProviderOperationsMetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -123,62 +107,45 @@ export class ProviderOperationsMetadataOperationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ProviderOperationsMetadataListNextOptionalParams
+    options?: ProviderOperationsMetadataListNextOptionalParams,
   ): Promise<ProviderOperationsMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Authorization/providerOperations/{resourceProviderNamespace}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProviderOperationsMetadata
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1, Parameters.expand],
-  urlParameters: [Parameters.$host, Parameters.resourceProviderNamespace],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Authorization/providerOperations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderOperationsMetadataListResult
+      bodyMapper: Mappers.ProviderOperationsMetadataListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderOperationsMetadataListResult
+      bodyMapper: Mappers.ProviderOperationsMetadataListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

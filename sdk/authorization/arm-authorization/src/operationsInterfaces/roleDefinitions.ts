@@ -17,7 +17,7 @@ import {
   RoleDefinitionsCreateOrUpdateOptionalParams,
   RoleDefinitionsCreateOrUpdateResponse,
   RoleDefinitionsGetByIdOptionalParams,
-  RoleDefinitionsGetByIdResponse
+  RoleDefinitionsGetByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,50 +25,38 @@ import {
 export interface RoleDefinitions {
   /**
    * Get all role definitions that are applicable at scope and above.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param scope The scope of the role definition.
    * @param options The options parameters.
    */
   list(
     scope: string,
-    options?: RoleDefinitionsListOptionalParams
+    options?: RoleDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<RoleDefinition>;
   /**
    * Deletes a role definition.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param scope The scope of the role definition.
    * @param roleDefinitionId The ID of the role definition to delete.
    * @param options The options parameters.
    */
   delete(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsDeleteOptionalParams
+    options?: RoleDefinitionsDeleteOptionalParams,
   ): Promise<RoleDefinitionsDeleteResponse>;
   /**
-   * Get role definition by ID (GUID).
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * Get role definition by name (GUID).
+   * @param scope The scope of the role definition.
    * @param roleDefinitionId The ID of the role definition.
    * @param options The options parameters.
    */
   get(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsGetOptionalParams
+    options?: RoleDefinitionsGetOptionalParams,
   ): Promise<RoleDefinitionsGetResponse>;
   /**
    * Creates or updates a role definition.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param scope The scope of the role definition.
    * @param roleDefinitionId The ID of the role definition.
    * @param roleDefinition The values for the role definition.
    * @param options The options parameters.
@@ -77,7 +65,7 @@ export interface RoleDefinitions {
     scope: string,
     roleDefinitionId: string,
     roleDefinition: RoleDefinition,
-    options?: RoleDefinitionsCreateOrUpdateOptionalParams
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<RoleDefinitionsCreateOrUpdateResponse>;
   /**
    * Gets a role definition by ID.
@@ -90,6 +78,6 @@ export interface RoleDefinitions {
    */
   getById(
     roleId: string,
-    options?: RoleDefinitionsGetByIdOptionalParams
+    options?: RoleDefinitionsGetByIdOptionalParams,
   ): Promise<RoleDefinitionsGetByIdResponse>;
 }
