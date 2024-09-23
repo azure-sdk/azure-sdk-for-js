@@ -2726,6 +2726,7 @@ export interface GalleryImageVersion extends Resource {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    restore?: boolean;
     safetyProfile?: GalleryImageVersionSafetyProfile;
     securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
@@ -2823,6 +2824,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    restore?: boolean;
     safetyProfile?: GalleryImageVersionSafetyProfile;
     securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;

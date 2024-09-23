@@ -15553,6 +15553,12 @@ export const GalleryImageVersion: coreClient.CompositeMapper = {
           className: "ImageVersionSecurityProfile",
         },
       },
+      restore: {
+        serializedName: "properties.restore",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -17299,6 +17305,12 @@ export const GalleryImageVersionUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageVersionSecurityProfile",
+        },
+      },
+      restore: {
+        serializedName: "properties.restore",
+        type: {
+          name: "Boolean",
         },
       },
     },
