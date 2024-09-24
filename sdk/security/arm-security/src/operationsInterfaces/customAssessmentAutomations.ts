@@ -23,7 +23,8 @@ import {
 /** Interface representing a CustomAssessmentAutomations. */
 export interface CustomAssessmentAutomations {
   /**
-   * List custom assessment automations by provided subscription and resource group
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription and resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
@@ -33,14 +34,16 @@ export interface CustomAssessmentAutomations {
     options?: CustomAssessmentAutomationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation>;
   /**
-   * List custom assessment automations by provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: CustomAssessmentAutomationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomAssessmentAutomation>;
   /**
-   * Gets a single custom assessment automation by name for the provided subscription and resource group.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets a single custom assessment automation
+   * by name for the provided subscription and resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
@@ -52,8 +55,9 @@ export interface CustomAssessmentAutomations {
     options?: CustomAssessmentAutomationsGetOptionalParams,
   ): Promise<CustomAssessmentAutomationsGetResponse>;
   /**
-   * Creates or updates a custom assessment automation for the provided subscription. Please note that
-   * providing an existing custom assessment automation will replace the existing record.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Creates or updates a custom assessment
+   * automation for the provided subscription. Please note that providing an existing custom assessment
+   * automation will replace the existing record.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
@@ -67,7 +71,8 @@ export interface CustomAssessmentAutomations {
     options?: CustomAssessmentAutomationsCreateOptionalParams,
   ): Promise<CustomAssessmentAutomationsCreateResponse>;
   /**
-   * Deletes a custom assessment automation by name for a provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a custom assessment automation by
+   * name for a provided subscription
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
