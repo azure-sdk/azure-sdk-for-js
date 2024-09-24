@@ -23,7 +23,8 @@ import {
 /** Interface representing a CustomEntityStoreAssignments. */
 export interface CustomEntityStoreAssignments {
   /**
-   * List custom entity store assignments by a provided subscription and resource group
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom entity store assignments by a
+   * provided subscription and resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
@@ -33,15 +34,16 @@ export interface CustomEntityStoreAssignments {
     options?: CustomEntityStoreAssignmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment>;
   /**
-   * List custom entity store assignments by provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom entity store assignments by
+   * provided subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: CustomEntityStoreAssignmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomEntityStoreAssignment>;
   /**
-   * Gets a single custom entity store assignment by name for the provided subscription and resource
-   * group.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets a single custom entity store
+   * assignment by name for the provided subscription and resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customEntityStoreAssignmentName Name of the custom entity store assignment. Generated name is
@@ -54,7 +56,8 @@ export interface CustomEntityStoreAssignments {
     options?: CustomEntityStoreAssignmentsGetOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsGetResponse>;
   /**
-   * Creates a custom entity store assignment for the provided subscription, if not already exists.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Creates a custom entity store assignment
+   * for the provided subscription, if not already exists.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customEntityStoreAssignmentName Name of the custom entity store assignment. Generated name is
@@ -69,7 +72,8 @@ export interface CustomEntityStoreAssignments {
     options?: CustomEntityStoreAssignmentsCreateOptionalParams,
   ): Promise<CustomEntityStoreAssignmentsCreateResponse>;
   /**
-   * Delete a custom entity store assignment by name for a provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] Delete a custom entity store assignment by
+   * name for a provided subscription
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customEntityStoreAssignmentName Name of the custom entity store assignment. Generated name is

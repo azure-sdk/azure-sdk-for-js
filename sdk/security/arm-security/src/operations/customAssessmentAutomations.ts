@@ -47,7 +47,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * List custom assessment automations by provided subscription and resource group
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription and resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
@@ -117,7 +118,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * List custom assessment automations by provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -171,7 +173,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * Gets a single custom assessment automation by name for the provided subscription and resource group.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Gets a single custom assessment automation
+   * by name for the provided subscription and resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
@@ -189,8 +192,9 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * Creates or updates a custom assessment automation for the provided subscription. Please note that
-   * providing an existing custom assessment automation will replace the existing record.
+   * [DEPRECATED NOTICE: This operation will soon be removed] Creates or updates a custom assessment
+   * automation for the provided subscription. Please note that providing an existing custom assessment
+   * automation will replace the existing record.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
@@ -215,7 +219,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * Deletes a custom assessment automation by name for a provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] Deletes a custom assessment automation by
+   * name for a provided subscription
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param customAssessmentAutomationName Name of the Custom Assessment Automation.
@@ -233,7 +238,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * List custom assessment automations by provided subscription and resource group
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription and resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
@@ -249,7 +255,8 @@ export class CustomAssessmentAutomationsImpl
   }
 
   /**
-   * List custom assessment automations by provided subscription
+   * [DEPRECATED NOTICE: This operation will soon be removed] List custom assessment automations by
+   * provided subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -308,7 +315,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -333,7 +340,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.customAssessmentAutomationBody,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -354,7 +361,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -375,7 +382,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -395,7 +402,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
