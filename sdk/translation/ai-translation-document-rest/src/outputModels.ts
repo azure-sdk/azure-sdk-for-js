@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 /** Translation job Status Response */
 export interface TranslationsStatusOutput {
   /** The summary status of individual operation */
@@ -111,6 +108,8 @@ export interface StatusSummaryOutput {
   cancelled: number;
   /** Total characters charged by the API */
   totalCharacterCharged: number;
+  /** Total image scans charged by the API */
+  totalImageScansCharged?: number;
 }
 
 /** Document Status Response */
@@ -142,6 +141,10 @@ export interface DocumentStatusOutput {
   id: string;
   /** Character charged by the API */
   characterCharged?: number;
+  /** Total image scans charged by the API */
+  totalImageScansCharged?: number;
+  /** Total image scans failed by the API */
+  totalImageScansFailed?: number;
 }
 
 /** Documents Status Response */

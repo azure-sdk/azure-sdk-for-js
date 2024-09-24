@@ -1,19 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
 
 export interface DocumentTranslateContentGlossaryPartDescriptor {
   name: "glossary";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
@@ -22,6 +29,8 @@ export interface DocumentTranslateContentGlossaryPartDescriptor {
 export interface StartTranslationDetails {
   /** The input list of documents or folders containing documents */
   inputs: Array<BatchRequest>;
+  /** The batch translation options */
+  options?: BatchOptions;
 }
 
 /** Definition for the input batch translation request */
@@ -113,6 +122,12 @@ export interface Glossary {
    * Possible values: "AzureBlob"
    */
   storageSource?: StorageSource;
+}
+
+/** The batch translation options */
+export interface BatchOptions {
+  /** Specifies if the text within an image has to be translated */
+  translateTextWithinImage?: boolean;
 }
 
 /** Document Translate Request Content */
