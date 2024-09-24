@@ -141,7 +141,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-12-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -989,6 +989,48 @@ export const location1: OperationURLParameter = {
     serializedName: "location",
     required: true,
     xmlName: "location",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const name2: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-z][A-z0-9]*$"),
+    },
+    serializedName: "name",
+    required: true,
+    xmlName: "name",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-z][A-z0-9]*$"),
+    },
+    serializedName: "certificateName",
+    required: true,
+    xmlName: "certificateName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName1: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    xmlName: "certificateName",
     type: {
       name: "String",
     },
