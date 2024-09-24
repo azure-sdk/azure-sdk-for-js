@@ -21,24 +21,19 @@ export type AddonAutoscaling = string;
 
 // @public
 export interface AdvancedNetworking {
+    enabled?: boolean;
     observability?: AdvancedNetworkingObservability;
     security?: AdvancedNetworkingSecurity;
 }
 
 // @public
-export interface AdvancedNetworkingFqdnPolicy {
-    enabled?: boolean;
-}
-
-// @public
 export interface AdvancedNetworkingObservability {
     enabled?: boolean;
-    tlsManagement?: TLSManagement;
 }
 
 // @public
 export interface AdvancedNetworkingSecurity {
-    fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
+    enabled?: boolean;
 }
 
 // @public
@@ -136,6 +131,7 @@ export interface AgentPoolGatewayProfile {
 
 // @public (undocumented)
 export interface AgentPoolGPUProfile {
+    driverType?: DriverType;
     installGPUDriver?: boolean;
 }
 
@@ -442,7 +438,7 @@ export interface ContainerServiceLinuxProfile {
 export interface ContainerServiceNetworkProfile {
     advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
-    ipFamilies?: IpFamily[];
+    ipFamilies?: IPFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -525,6 +521,9 @@ export interface DelegatedResource {
 }
 
 // @public
+export type DriverType = string;
+
+// @public
 export interface EndpointDependency {
     domainName?: string;
     endpointDetails?: EndpointDetail[];
@@ -600,7 +599,7 @@ export interface GuardrailsAvailableVersionsProperties {
 export type GuardrailsSupport = string;
 
 // @public
-export type IpFamily = string;
+export type IPFamily = string;
 
 // @public
 export interface IPTag {
@@ -722,6 +721,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDriverType {
+    Cuda = "CUDA",
+    Grid = "GRID"
+}
+
+// @public
 export enum KnownExpander {
     LeastWaste = "least-waste",
     MostPods = "most-pods",
@@ -756,7 +761,7 @@ export enum KnownGuardrailsSupport {
 }
 
 // @public
-export enum KnownIpFamily {
+export enum KnownIPFamily {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
 }
@@ -1010,12 +1015,6 @@ export enum KnownSnapshotType {
 }
 
 // @public
-export enum KnownTLSManagement {
-    Managed = "Managed",
-    None = "None"
-}
-
-// @public
 export enum KnownTrustedAccessRoleBindingProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
@@ -1225,7 +1224,7 @@ export interface Machine extends SubResource {
 
 // @public
 export interface MachineIpAddress {
-    readonly family?: IpFamily;
+    readonly family?: IPFamily;
     readonly ip?: string;
 }
 
@@ -2973,9 +2972,6 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
-
-// @public
-export type TLSManagement = string;
 
 // @public
 export interface TrackedResource extends Resource {

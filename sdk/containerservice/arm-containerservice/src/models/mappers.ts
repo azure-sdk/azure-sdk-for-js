@@ -1335,6 +1335,12 @@ export const AgentPoolGPUProfile: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      driverType: {
+        serializedName: "driverType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -2435,6 +2441,12 @@ export const AdvancedNetworking: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AdvancedNetworking",
     modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
       observability: {
         serializedName: "observability",
         type: {
@@ -2464,12 +2476,6 @@ export const AdvancedNetworkingObservability: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      tlsManagement: {
-        serializedName: "tlsManagement",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -2478,22 +2484,6 @@ export const AdvancedNetworkingSecurity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdvancedNetworkingSecurity",
-    modelProperties: {
-      fqdnPolicy: {
-        serializedName: "fqdnPolicy",
-        type: {
-          name: "Composite",
-          className: "AdvancedNetworkingFqdnPolicy",
-        },
-      },
-    },
-  },
-};
-
-export const AdvancedNetworkingFqdnPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AdvancedNetworkingFqdnPolicy",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -4885,15 +4875,15 @@ export const MachineIpAddress: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MachineIpAddress",
     modelProperties: {
-      ip: {
-        serializedName: "ip",
+      family: {
+        serializedName: "family",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      family: {
-        serializedName: "family",
+      ip: {
+        serializedName: "ip",
         readOnly: true,
         type: {
           name: "String",
