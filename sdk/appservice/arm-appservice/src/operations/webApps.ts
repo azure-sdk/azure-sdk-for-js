@@ -455,6 +455,8 @@ import {
   WebAppsIsCloneableResponse,
   WebAppsListSyncFunctionTriggersOptionalParams,
   WebAppsListSyncFunctionTriggersResponse,
+  WebAppsUpdateMachineKeyOptionalParams,
+  WebAppsUpdateMachineKeyResponse,
   StorageMigrationOptions,
   WebAppsMigrateStorageOptionalParams,
   WebAppsMigrateStorageResponse,
@@ -465,7 +467,7 @@ import {
   WebAppsGetMigrateMySqlStatusResponse,
   WebAppsGetSwiftVirtualNetworkConnectionOptionalParams,
   WebAppsGetSwiftVirtualNetworkConnectionResponse,
-  SwiftVirtualNetwork,
+  SwiftVirtualNetworkProxy,
   WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse,
   WebAppsDeleteSwiftVirtualNetworkOptionalParams,
@@ -9984,6 +9986,23 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
+   * Updates the machine key of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  updateMachineKey(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsUpdateMachineKeyOptionalParams,
+  ): Promise<WebAppsUpdateMachineKeyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      updateMachineKeyOperationSpec,
+    );
+  }
+
+  /**
    * Description for Restores a web app.
    * @param subscriptionName Azure subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -10230,7 +10249,7 @@ export class WebAppsImpl implements WebApps {
   createOrUpdateSwiftVirtualNetworkConnectionWithCheck(
     resourceGroupName: string,
     name: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   ): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse> {
     return this.client.sendOperationRequest(
@@ -10269,7 +10288,7 @@ export class WebAppsImpl implements WebApps {
   updateSwiftVirtualNetworkConnectionWithCheck(
     resourceGroupName: string,
     name: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   ): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse> {
     return this.client.sendOperationRequest(
@@ -14878,7 +14897,7 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams,
   ): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse> {
     return this.client.sendOperationRequest(
@@ -14923,7 +14942,7 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams,
   ): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse> {
     return this.client.sendOperationRequest(
@@ -20078,7 +20097,7 @@ const backupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -20167,7 +20186,7 @@ const listBackupStatusSecretsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -20192,7 +20211,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -20544,7 +20563,7 @@ const updateBackupConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21400,7 +21419,7 @@ const discoverBackupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -22677,6 +22696,29 @@ const listSyncFunctionTriggersOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const updateMachineKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/updatemachinekey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const migrateStorageOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migrate",
   httpMethod: "PUT",
@@ -22768,7 +22810,7 @@ const getSwiftVirtualNetworkConnectionOperationSpec: coreClient.OperationSpec =
     httpMethod: "GET",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -22790,7 +22832,7 @@ const createOrUpdateSwiftVirtualNetworkConnectionWithCheckOperationSpec: coreCli
     httpMethod: "PUT",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -22836,7 +22878,7 @@ const updateSwiftVirtualNetworkConnectionWithCheckOperationSpec: coreClient.Oper
     httpMethod: "PATCH",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -23806,7 +23848,7 @@ const restoreFromBackupBlobOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -23923,7 +23965,7 @@ const createOrUpdateSiteContainerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -24252,7 +24294,7 @@ const backupSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -24345,7 +24387,7 @@ const listBackupStatusSecretsSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -24371,7 +24413,7 @@ const restoreSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -24740,7 +24782,7 @@ const updateBackupConfigurationSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -25590,7 +25632,7 @@ const discoverBackupSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -26911,7 +26953,7 @@ const getSwiftVirtualNetworkConnectionSlotOperationSpec: coreClient.OperationSpe
     httpMethod: "GET",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -26934,7 +26976,7 @@ const createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOperationSpec: cor
     httpMethod: "PUT",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -26982,7 +27024,7 @@ const updateSwiftVirtualNetworkConnectionWithCheckSlotOperationSpec: coreClient.
     httpMethod: "PATCH",
     responses: {
       200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
+        bodyMapper: Mappers.SwiftVirtualNetworkProxy,
       },
       default: {
         bodyMapper: Mappers.DefaultErrorResponse,
@@ -27993,7 +28035,7 @@ const restoreFromBackupBlobSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -28115,7 +28157,7 @@ const createOrUpdateSiteContainerSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

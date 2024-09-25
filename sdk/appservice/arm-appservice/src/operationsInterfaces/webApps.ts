@@ -306,6 +306,8 @@ import {
   WebAppsIsCloneableResponse,
   WebAppsListSyncFunctionTriggersOptionalParams,
   WebAppsListSyncFunctionTriggersResponse,
+  WebAppsUpdateMachineKeyOptionalParams,
+  WebAppsUpdateMachineKeyResponse,
   StorageMigrationOptions,
   WebAppsMigrateStorageOptionalParams,
   WebAppsMigrateStorageResponse,
@@ -316,7 +318,7 @@ import {
   WebAppsGetMigrateMySqlStatusResponse,
   WebAppsGetSwiftVirtualNetworkConnectionOptionalParams,
   WebAppsGetSwiftVirtualNetworkConnectionResponse,
-  SwiftVirtualNetwork,
+  SwiftVirtualNetworkProxy,
   WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse,
   WebAppsDeleteSwiftVirtualNetworkOptionalParams,
@@ -3109,6 +3111,17 @@ export interface WebApps {
     options?: WebAppsListSyncFunctionTriggersOptionalParams,
   ): Promise<WebAppsListSyncFunctionTriggersResponse>;
   /**
+   * Updates the machine key of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  updateMachineKey(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsUpdateMachineKeyOptionalParams,
+  ): Promise<WebAppsUpdateMachineKeyResponse>;
+  /**
    * Description for Restores a web app.
    * @param subscriptionName Azure subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -3210,7 +3223,7 @@ export interface WebApps {
   createOrUpdateSwiftVirtualNetworkConnectionWithCheck(
     resourceGroupName: string,
     name: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   ): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
   /**
@@ -3237,7 +3250,7 @@ export interface WebApps {
   updateSwiftVirtualNetworkConnectionWithCheck(
     resourceGroupName: string,
     name: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams,
   ): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse>;
   /**
@@ -5608,7 +5621,7 @@ export interface WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams,
   ): Promise<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
   /**
@@ -5641,7 +5654,7 @@ export interface WebApps {
     resourceGroupName: string,
     name: string,
     slot: string,
-    connectionEnvelope: SwiftVirtualNetwork,
+    connectionEnvelope: SwiftVirtualNetworkProxy,
     options?: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams,
   ): Promise<WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>;
   /**
