@@ -79,26 +79,10 @@ export interface CloudErrorProperties {
   message?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** The Private Endpoint resource. */
+/** The private endpoint resource. */
 export interface PrivateEndpoint {
   /**
-   * The ARM identifier for Private Endpoint
+   * The ARM identifier for private endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -117,7 +101,7 @@ export interface PrivateLinkServiceConnectionState {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -131,62 +115,66 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
-export interface ResourceModelWithAllowedPropertySet {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The geo-location where the resource lives */
-  location?: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value. */
-  kind?: string;
-  /**
-   * The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  identity?: ResourceModelWithAllowedPropertySetIdentity;
-  sku?: ResourceModelWithAllowedPropertySetSku;
-  plan?: ResourceModelWithAllowedPropertySetPlan;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/** Identity for the resource. */
-export interface Identity {
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * The principal ID of resource identity.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The identity type. */
-  type?: "SystemAssigned";
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** The resource model definition representing SKU */
 export interface Sku {
-  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  /** The name of the SKU. E.g. P3. It is typically a letter+number code */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
   tier?: SkuTier;
@@ -573,6 +561,405 @@ export interface HostPoolList {
   readonly nextLink?: string;
 }
 
+/** The configurations of a hostpool update. */
+export interface HostPoolUpdateConfigurationProperties {
+  /** Whether not to save original disk. False by default. */
+  deleteOriginalVm?: boolean;
+  /** The maximum number of virtual machines to be removed during hostpool update. */
+  maxVmsRemoved: number;
+  /** Grace period before logging off users in minutes. */
+  logOffDelayMinutes: number;
+  /** Log off message sent to user for logoff. Default value is an empty string. */
+  logOffMessage?: string;
+}
+
+/** Represents a SessionHostManagementPatch definition. */
+export interface SessionHostManagementPatch {
+  /** Time zone for sessionHostManagement operations as defined in https://docs.microsoft.com/dotnet/api/system.timezoneinfo.findsystemtimezonebyid. Must be set if useLocalTime is true. */
+  scheduledDateTimeZone?: string;
+  /** Parameters for a hostpool update. */
+  update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+/** The configurations of a hostpool update. */
+export interface HostPoolUpdateConfigurationPatchProperties {
+  /** Whether not to save original disk. False by default. */
+  deleteOriginalVm?: boolean;
+  /** The maximum number of virtual machines to be removed during hostpool update. */
+  maxVmsRemoved?: number;
+  /** Grace period before logging off users in minutes. */
+  logOffDelayMinutes?: number;
+  /** Log off message sent to user for logoff. */
+  logOffMessage?: string;
+}
+
+/** List of SessionHostManagement definitions. */
+export interface SessionHostManagementList {
+  /** List of SessionHostManagement definitions. */
+  value?: SessionHostManagement[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Object containing the definition for properties to be used for a sessionHostUpdate operation. */
+export interface UpdateSessionHostsRequestBody {
+  /** The timestamp that the update validation is scheduled for. If none is provided, the update will be executed immediately */
+  scheduledDateTime?: Date;
+  /** The timeZone as defined in https://docs.microsoft.com/dotnet/api/system.timezoneinfo.findsystemtimezonebyid. */
+  scheduledDateTimeZone?: string;
+  /** settings for management information for the hostpool update operation. If none is provided the update will use the settings saved in the sessionHostManagement object. */
+  update?: HostPoolUpdateConfigurationPatchProperties;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Represents properties for a hostpool update control request. */
+export interface HostPoolUpdateControlParameter {
+  /** Action types for controlling hostpool update. */
+  action: HostPoolUpdateAction;
+  /** The cancel message sent to the user on the session host. This is can only be specified if the action is 'Cancel'. */
+  cancelMessage?: string;
+}
+
+/** The current status of the session host update async operation. */
+export interface SessionHostManagementUpdateStatus {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. Current defined values are < Error | Scheduled | UpdatingSessionHosts | ValidatingSessionHostUpdate | Paused | Pausing | Cancelling > | Succeeded | Failed | Canceled */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+  /** The Log Analytics. */
+  correlationId?: string;
+  /** Progress information on the sessionHostManagement operation. */
+  progress?: SessionHostManagementOperationProgress;
+  /** The timestamp that the update is scheduled for. */
+  scheduledDateTime?: Date;
+  /** SessionHostManagement properties used for the operation. */
+  sessionHostManagement?: SessionHostManagement;
+}
+
+/** SessionHostManagement Operation Progress information. */
+export interface SessionHostManagementOperationProgress {
+  /** Time that the sessionHostManagement operation was created. */
+  executionStartTime?: Date;
+  /** The number of sessionHosts to be started in the sessionHostManagement operation. */
+  totalSessionHosts?: number;
+  /** The number of sessionHosts in progress in the sessionHostManagement operation. */
+  sessionHostsInProgress?: number;
+  /** The number of sessionHosts completed in the sessionHostManagement operation. */
+  sessionHostsCompleted?: number;
+  /** The number of sessionHosts rollback failed in the sessionHostManagement operation. */
+  sessionHostsRollbackFailed?: number;
+}
+
+/** Network information. */
+export interface NetworkInfoProperties {
+  /** The resource ID of the subnet. */
+  subnetId: string;
+  /** The resource ID of the security group. Any allowable/open ports should be specified in the Network Security Group(NSG). */
+  securityGroupId?: string;
+}
+
+/** Disk information. */
+export interface DiskInfoProperties {
+  /** The disk type used by virtual machine in hostpool session host. */
+  type: VirtualMachineDiskType;
+}
+
+/** Image configurations of session host in a HostPool. */
+export interface ImageInfoProperties {
+  /** The type of image session hosts use in the hostpool. */
+  imageType: Type;
+  /** The values to uniquely identify a marketplace image. Only one should be populated based on the image type. */
+  marketplaceInfo?: MarketplaceInfoProperties;
+  /** The values to uniquely identify a custom image. Only one should be populated based on the image type. */
+  customInfo?: CustomInfoProperties;
+}
+
+/** Marketplace image information. */
+export interface MarketplaceInfoProperties {
+  /** The offer of the image. */
+  offer: string;
+  /** The publisher of the image. */
+  publisher: string;
+  /** The sku of the image. */
+  sku: string;
+  /** The exact version of the image. */
+  exactVersion: string;
+}
+
+/** Custom image information. */
+export interface CustomInfoProperties {
+  /** The resource id of the custom image. */
+  resourceId: string;
+}
+
+/** Domain configurations of session hosts. */
+export interface DomainInfoProperties {
+  /** The type of domain join done by the virtual machine. */
+  joinType: DomainJoinType;
+  /** Active directory info. Only one should be populated based on the join type. */
+  activeDirectoryInfo?: ActiveDirectoryInfoProperties;
+  /** Azure active directory info. Only one should be populated based on the join type. */
+  azureActiveDirectoryInfo?: AzureActiveDirectoryInfoProperties;
+}
+
+/** Active directory info. Only one should be populated based on the join type. */
+export interface ActiveDirectoryInfoProperties {
+  /** Credentials needed to create the virtual machine. */
+  domainCredentials: KeyVaultCredentialsProperties;
+  /** The organizational unit(OU) path. */
+  ouPath: string;
+  /** The domain a virtual machine connected to a hostpool will join. */
+  domainName?: string;
+}
+
+/** Credentials kept in the keyvault. */
+export interface KeyVaultCredentialsProperties {
+  /** The uri to access the secret that the username is stored in. */
+  usernameKeyVaultSecretUri: string;
+  /** The uri to access the secret that the password is stored in. */
+  passwordKeyVaultSecretUri: string;
+}
+
+/** Azure Active directory info. Only one should be populated based on the join type. */
+export interface AzureActiveDirectoryInfoProperties {
+  /** The Mobile Device Management(MDM) guid. */
+  mdmProviderGuid: string;
+}
+
+/** Security information. */
+export interface SecurityInfoProperties {
+  /** The security type used by virtual machine in hostpool session host. Default is Standard. */
+  type?: VirtualMachineSecurityType;
+  /** Whether to use secureBoot on the virtual machine. */
+  secureBootEnabled?: boolean;
+  /** Whether to use vTPM on the virtual machine. */
+  vTpmEnabled?: boolean;
+}
+
+/** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
+export interface BootDiagnosticsInfoProperties {
+  /** Whether boot diagnostics should be enabled on the Virtual Machine. */
+  enabled?: boolean;
+  /** Uri of the storage account to use for placing the console output and screenshot. <br><br>If storageUri is not specified while enabling boot diagnostics, managed storage will be used. */
+  storageUri?: string;
+}
+
+/** Represents a SessionHostConfigurationPatch definition. */
+export interface SessionHostConfigurationPatch {
+  /** Friendly name to describe this version of the SessionHostConfiguration. */
+  friendlyName?: string;
+  /** Hashtable that lists key/value pair tags to apply to the VMs */
+  vmTags?: { [propertyName: string]: string };
+  /** The Location for the session host to be created in */
+  vmLocation?: string;
+  /** The ResourceGroup for the session hosts to be created in. It will default to the ResourceGroup of the hostpool if not provided. */
+  vmResourceGroup?: string;
+  /** The prefix that should be associated with session host names */
+  vmNamePrefix?: string;
+  /** Value for availability zones to be used by the session host. Should be from [1,2,3]. */
+  availabilityZones?: number[];
+  /** Network information. */
+  networkInfo?: NetworkInfoPatchProperties;
+  /** The id of the size of a virtual machine connected to a hostpool. Example: Standard_D2as_v6 */
+  vmSizeId?: string;
+  /** Disk information. */
+  diskInfo?: DiskInfoPatchProperties;
+  /** The uri to the storage blob containing the arm template to be run on the virtual machine after provisioning. */
+  customConfigurationScriptUrl?: string;
+  /** Image configurations of HostPool. */
+  imageInfo?: ImageInfoPatchProperties;
+  /** Domain configurations of session hosts. */
+  domainInfo?: DomainInfoPatchProperties;
+  /** Security information. */
+  securityInfo?: SecurityInfoPatchProperties;
+  /** Local Admin credentials for session hosts. */
+  vmAdminCredentials?: KeyVaultCredentialsPatchProperties;
+  /** Boot Diagnostics information. */
+  bootDiagnosticsInfo?: BootDiagnosticsInfoPatchProperties;
+}
+
+/** Network information. */
+export interface NetworkInfoPatchProperties {
+  /** The resource ID of the subnet. */
+  subnetId?: string;
+  /** The resource ID of the security group. Any allowable/open ports should be specified in the Network Security Group(NSG). */
+  securityGroupId?: string;
+}
+
+/** Disk information. */
+export interface DiskInfoPatchProperties {
+  /** The disk type used by virtual machine in hostpool session host. */
+  type?: VirtualMachineDiskType;
+}
+
+/** Image configurations of session host in a HostPool. */
+export interface ImageInfoPatchProperties {
+  /** The type of image session hosts use in the hostpool. */
+  imageType?: Type;
+  /** The values to uniquely identify a marketplace image. Only one should be populated based on the image type. */
+  marketplaceInfo?: MarketplaceInfoPatchProperties;
+  /** The values to uniquely identify a custom image. Only one should be populated based on the image type. */
+  customInfo?: CustomInfoPatchProperties;
+}
+
+/** Marketplace image information. */
+export interface MarketplaceInfoPatchProperties {
+  /** The offer of the image. */
+  offer?: string;
+  /** The publisher of the image. */
+  publisher?: string;
+  /** The sku of the image. */
+  sku?: string;
+  /** The exact version of the image. */
+  exactVersion?: string;
+}
+
+/** Custom image information. */
+export interface CustomInfoPatchProperties {
+  /** The resource id of the custom image. */
+  resourceId?: string;
+}
+
+/** Domain configurations of session hosts. */
+export interface DomainInfoPatchProperties {
+  /** Active directory info. Only one should be populated based on the join type. */
+  activeDirectoryInfo?: ActiveDirectoryInfoPatchProperties;
+}
+
+/** Active directory info. Only one should be populated based on the join type. */
+export interface ActiveDirectoryInfoPatchProperties {
+  /** Credentials needed to create the virtual machine. */
+  domainCredentials?: KeyVaultCredentialsPatchProperties;
+}
+
+/** Credentials kept in the keyvault. */
+export interface KeyVaultCredentialsPatchProperties {
+  /** The uri to access the secret that the username is stored in. */
+  usernameKeyVaultSecretUri?: string;
+  /** The uri to access the secret that the password is stored in. */
+  passwordKeyVaultSecretUri?: string;
+}
+
+/** Security information. */
+export interface SecurityInfoPatchProperties {
+  /** The security type used by virtual machine in hostpool session host. */
+  type?: VirtualMachineSecurityType;
+  /** Whether to use secureBoot on the virtual machine. */
+  secureBootEnabled?: boolean;
+  /** Whether to use vTPM on the virtual machine. */
+  vTpmEnabled?: boolean;
+}
+
+/** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
+export interface BootDiagnosticsInfoPatchProperties {
+  /** Whether boot diagnostics should be enabled on the Virtual Machine. */
+  enabled?: boolean;
+  /** Uri of the storage account to use for placing the console output and screenshot. <br><br>If storageUri is not specified while enabling boot diagnostics, managed storage will be used. */
+  storageUri?: string;
+}
+
+/** List of SessionHostConfiguration definitions. */
+export interface SessionHostConfigurationList {
+  /** List of SessionHostConfiguration definitions. */
+  value?: SessionHostConfiguration[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of ActiveSessionHostConfiguration definitions. */
+export interface ActiveSessionHostConfigurationList {
+  /** List of ActiveSessionHostConfiguration definitions. */
+  value?: ActiveSessionHostConfiguration[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of RegistrationToken definitions. */
+export interface RegistrationTokenList {
+  /** List of RegistrationToken definitions. */
+  value?: RegistrationTokenMinimal[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents a Minimal set of properties for RegistrationToken definition. */
+export interface RegistrationTokenMinimal {
+  /** Expiration time of registration token. */
+  expirationTime?: Date;
+  /** The registration token base64 encoded string. */
+  token?: string;
+}
+
 /** List of UserSession definitions. */
 export interface UserSessionList {
   /** List of UserSession definitions. */
@@ -635,7 +1022,7 @@ export interface SessionHostList {
 
 /** Schema for MSIX Package Dependencies properties. */
 export interface MsixPackageDependencies {
-  /** Name of package dependency. */
+  /** Name of the package dependency. For Msix packages, this is the other packages this package depends upon, for APP-V packages this is the locations of the user and deployment config files */
   dependencyName?: string;
   /** Name of dependency publisher. */
   publisher?: string;
@@ -672,6 +1059,84 @@ export interface MsixPackageList {
   readonly nextLink?: string;
 }
 
+/** Information to import app attach package */
+export interface ImportPackageInfoRequest {
+  /** URI to Image */
+  path?: string;
+  /** Possible device architectures that an app attach package can be configured for */
+  packageArchitecture?: AppAttachPackageArchitectures;
+}
+
+/** List of App Attach Package definitions. */
+export interface AppAttachPackageList {
+  /** List of App Attach Package definitions. */
+  value?: AppAttachPackage[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Schema for App Attach Package properties. */
+export interface AppAttachPackageProperties {
+  /**
+   * The provisioning state of the App Attach Package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Detailed properties for App Attach Package */
+  image?: AppAttachPackageInfoProperties;
+  /** List of Hostpool resource Ids. */
+  hostPoolReferences?: string[];
+  /** URL of keyvault location to store certificate */
+  keyVaultURL?: string;
+  /** Parameter indicating how the health check should behave if this package fails staging */
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+  /** Specific name of package owner, is "AppAttach" for native app attach packages */
+  packageOwnerName?: string;
+  /** Lookback url to third party control plane, is null for native app attach packages */
+  packageLookbackUrl?: string;
+  /** Field that can be populated with custom data and filtered on in list GET calls */
+  customData?: string;
+}
+
+/** Schema for Import Package Information properties. */
+export interface AppAttachPackageInfoProperties {
+  /** Alias of App Attach Package. Assigned at import time */
+  packageAlias?: string;
+  /** VHD/CIM/APP-V image path on Network Share. */
+  imagePath?: string;
+  /** Package Name from appxmanifest.xml. */
+  packageName?: string;
+  /** Identifier not including the package version, for Msix packages it is the family name from the appxmanifest.xml. */
+  packageFamilyName?: string;
+  /** Identifier including the package version, for Msix packages it is the full name from the appxmanifest.xml. */
+  packageFullName?: string;
+  /** User friendly Name to be displayed in the portal. */
+  displayName?: string;
+  /** Relative Path to the package inside the image. */
+  packageRelativePath?: string;
+  /** Specifies how to register Package in feed. */
+  isRegularRegistration?: boolean;
+  /** Make this version of the package the active one across the hostpool. */
+  isActive?: boolean;
+  /** List of package dependencies. */
+  packageDependencies?: MsixPackageDependencies[];
+  /** Package Version found in the appxmanifest.xml. */
+  version?: string;
+  /** Date the package source was last updated, for Msix packages this is found in the appxmanifest.xml. */
+  lastUpdated?: Date;
+  /** List of package applications. */
+  packageApplications?: MsixPackageApplications[];
+  /** Certificate name found in the appxmanifest.xml. */
+  certificateName?: string;
+  /** Date certificate expires, found in the appxmanifest.xml. */
+  certificateExpiry?: Date;
+  /** Is package timestamped so it can ignore the certificate expiry date */
+  isPackageTimestamped?: PackageTimestamped;
+}
+
 /** Represents URI referring to MSIX Image */
 export interface MsixImageURI {
   /** URI to Image */
@@ -689,6 +1154,22 @@ export interface ExpandMsixImageList {
   readonly nextLink?: string;
 }
 
+/** Schema for patchable fields on an App Attach Package. */
+export interface AppAttachPackagePatchProperties {
+  /** Detailed properties for App Attach Package */
+  image?: AppAttachPackageInfoProperties;
+  /** List of Hostpool resource Ids. */
+  hostPoolReferences?: string[];
+  /** URL of keyvault location to store certificate */
+  keyVaultURL?: string;
+  /** Parameter indicating how the health check should behave if this package fails staging */
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+  /** Lookback url to third party control plane, should be null for first party packages */
+  packageLookbackUrl?: string;
+  /** Field that can be populated with custom data and filtered on in list GET calls */
+  customData?: string;
+}
+
 /** Represents message sent to a UserSession. */
 export interface SendMessage {
   /** Title of message. */
@@ -697,9 +1178,57 @@ export interface SendMessage {
   messageBody?: string;
 }
 
-/** The Private Endpoint Connection resource. */
+/** Hostpool update fault information. */
+export interface HostPoolUpdateFault {
+  /** Hostpool update fault type. */
+  faultType?: FaultType;
+  /** Hostpool update fault code. */
+  faultCode?: string;
+  /** Hostpool update fault text. */
+  faultText?: string;
+  /** Hostpool update fault context. */
+  faultContext?: string;
+}
+
+/** The current status of an async operation. */
+export interface SessionHostConfigurationOperationStatus {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. Current defined values are <UpdateFailed | Paused | Pausing | Cancelling | InProgress | Succeeded | Failed | Canceled> */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: SessionHostConfigurationOperationStatus[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** List of OperationStatus definitions. */
+export interface SessionHostConfigurationOperationStatusList {
+  /** List of OperationStatus definitions. */
+  value?: SessionHostConfigurationOperationStatus[];
+  /**
+   * Link to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The private endpoint connection resource. */
 export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -708,6 +1237,14 @@ export interface PrivateEndpointConnection extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /** A private link resource */
@@ -728,11 +1265,6 @@ export interface PrivateLinkResource extends Resource {
 
 /** Represents a ScalingPlanPooledSchedule definition. */
 export interface ScalingPlanPooledSchedule extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Set of days of the week on which this schedule is active. */
   daysOfWeek?: DayOfWeek[];
   /** Starting time for ramp up period. */
@@ -839,11 +1371,6 @@ export interface StartMenuItem extends Resource {
 /** Schema for Application properties. */
 export interface Application extends Resource {
   /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
    * ObjectId of Application. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -884,11 +1411,6 @@ export interface Application extends Resource {
 
 /** Schema for Desktop properties. */
 export interface Desktop extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * ObjectId of Desktop. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -950,15 +1472,101 @@ export interface HostPoolPatch extends Resource {
   publicNetworkAccess?: HostpoolPublicNetworkAccess;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
   agentUpdate?: AgentUpdatePatchProperties;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP;
+}
+
+/** Represents a SessionHostConfiguration definition. */
+export interface SessionHostConfiguration extends Resource {
+  /**
+   * The timestamp of the last update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: Date;
+  /** Friendly name to describe this version of the SessionHostConfiguration. */
+  friendlyName?: string;
+  /**
+   * Provisioning state of the Session Host Configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateSHC;
+  /** Hashtable that lists key/value pair tags to apply to the VMs */
+  vmTags?: { [propertyName: string]: string };
+  /** The Location for the session host to be created in. It will default to the location of the hostpool if not provided. */
+  vmLocation?: string;
+  /** The ResourceGroup for the session hosts to be created in. It will default to the ResourceGroup of the hostpool if not provided. */
+  vmResourceGroup?: string;
+  /** The prefix that should be associated with session host names */
+  vmNamePrefix: string;
+  /** Value for availability zones to be used by the session host. Should be from [1,2,3]. */
+  availabilityZones?: number[];
+  /** Network information. */
+  networkInfo: NetworkInfoProperties;
+  /** The id of the size of a virtual machine connected to a hostpool. Example: Standard_D2as_v6 */
+  vmSizeId: string;
+  /** Disk information. */
+  diskInfo: DiskInfoProperties;
+  /** The uri to the storage blob containing the arm template to be run on the virtual machine after provisioning. */
+  customConfigurationScriptUrl?: string;
+  /** Image configurations of HostPool. */
+  imageInfo: ImageInfoProperties;
+  /** Domain configurations of session hosts. */
+  domainInfo: DomainInfoProperties;
+  /** Security information. */
+  securityInfo?: SecurityInfoProperties;
+  /** Local Admin credentials for session hosts. */
+  vmAdminCredentials: KeyVaultCredentialsProperties;
+  /** Boot Diagnostics information. */
+  bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+}
+
+/** Represents a ActiveSessionHostConfiguration definition. This has all of the sessionHostConfiguration properties except provisioningState */
+export interface ActiveSessionHostConfiguration extends Resource {
+  /**
+   * The timestamp of the last update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: Date;
+  /** Friendly name to describe this version of the SessionHostConfiguration. */
+  friendlyName?: string;
+  /** Hashtable that lists key/value pair tags to apply to the VMs */
+  vmTags?: { [propertyName: string]: string };
+  /** The Location for the session host to be created in. It will default to the location of the hostpool if not provided. */
+  vmLocation?: string;
+  /** The ResourceGroup for the session hosts to be created in. It will default to the ResourceGroup of the hostpool if not provided. */
+  vmResourceGroup?: string;
+  /** The prefix that should be associated with session host names */
+  vmNamePrefix: string;
+  /** Value for availability zones to be used by the session host. Should be from [1,2,3]. */
+  availabilityZones?: number[];
+  /** Network information. */
+  networkInfo: NetworkInfoProperties;
+  /** The id of the size of a virtual machine connected to a hostpool. Example: Standard_D2as_v6 */
+  vmSizeId: string;
+  /** Disk information. */
+  diskInfo: DiskInfoProperties;
+  /** The uri to the storage blob containing the arm template to be run on the virtual machine after provisioning. */
+  customConfigurationScriptUrl?: string;
+  /** Image configurations of HostPool. */
+  imageInfo: ImageInfoProperties;
+  /** Domain configurations of session hosts. */
+  domainInfo: DomainInfoProperties;
+  /** Security information. */
+  securityInfo?: SecurityInfoProperties;
+  /** Local Admin credentials for session hosts. */
+  vmAdminCredentials: KeyVaultCredentialsProperties;
+  /** Boot Diagnostics information. */
+  bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
 }
 
 /** Represents a UserSession definition. */
 export interface UserSession extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * ObjectId of user session. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -978,11 +1586,6 @@ export interface UserSession extends Resource {
 
 /** Represents a SessionHost definition. */
 export interface SessionHost extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /**
    * ObjectId of SessionHost. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1031,6 +1634,16 @@ export interface SessionHost extends Resource {
   /** The error message. */
   updateErrorMessage?: string;
   /**
+   * The last time update was completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSessionHostUpdateTime?: Date;
+  /**
+   * SessionHostConfiguration version reference at the time the update is initiated, in the format of date time. Example: 2024-04-26T04:56:45Z
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sessionHostConfiguration?: string;
+  /**
    * List of SessionHostHealthCheckReports
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1049,11 +1662,6 @@ export interface SessionHostPatch extends Resource {
 
 /** Schema for MSIX Package properties. */
 export interface MsixPackage extends Resource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** VHD/CIM image path on Network Share. */
   imagePath?: string;
   /** Package Name from appxmanifest.xml. */
@@ -1116,192 +1724,51 @@ export interface ExpandMsixImage extends Resource {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
+  /** Certificate name found in the appxmanifest.xml. */
+  certificateName?: string;
+  /** Date certificate expires, found in the appxmanifest.xml. */
+  certificateExpiry?: Date;
 }
 
-/** Represents a Workspace definition. */
-export interface Workspace extends ResourceModelWithAllowedPropertySet {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of Workspace. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of Workspace. */
-  description?: string;
-  /** Friendly name of Workspace. */
-  friendlyName?: string;
-  /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?: string[];
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * List of private endpoint connection associated with the specified resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+/** Schema for patchable App Attach Package properties. */
+export interface AppAttachPackagePatch extends Resource {
+  /** tags to be updated */
+  tags?: { [propertyName: string]: string };
+  /** Detailed properties for App Attach Package */
+  properties?: AppAttachPackagePatchProperties;
 }
-
-/** Represents a scaling plan definition. */
-export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of scaling plan. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of scaling plan. */
-  description?: string;
-  /** User friendly name of scaling plan. */
-  friendlyName?: string;
-  /** Timezone of the scaling plan. */
-  timeZone: string;
-  /** HostPool type for desktop. */
-  hostPoolType?: ScalingHostPoolType;
-  /** Exclusion tag for scaling plan. */
-  exclusionTag?: string;
-  /** List of ScalingPlanPooledSchedule definitions. */
-  schedules?: ScalingSchedule[];
-  /** List of ScalingHostPoolReference definitions. */
-  hostPoolReferences?: ScalingHostPoolReference[];
-}
-
-/** Represents a ApplicationGroup definition. */
-export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of ApplicationGroup. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of ApplicationGroup. */
-  description?: string;
-  /** Friendly name of ApplicationGroup. */
-  friendlyName?: string;
-  /** HostPool arm path of ApplicationGroup. */
-  hostPoolArmPath: string;
-  /**
-   * Workspace arm path of ApplicationGroup.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceArmPath?: string;
-  /** Resource Type of ApplicationGroup. */
-  applicationGroupType: ApplicationGroupType;
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-  /** Boolean representing whether the applicationGroup is show in the feed. */
-  showInFeed?: boolean;
-}
-
-/** Represents a HostPool definition. */
-export interface HostPool extends ResourceModelWithAllowedPropertySet {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of HostPool. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Friendly name of HostPool. */
-  friendlyName?: string;
-  /** Description of HostPool. */
-  description?: string;
-  /** HostPool type for desktop. */
-  hostPoolType: HostPoolType;
-  /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
-  /** Custom rdp property of HostPool. */
-  customRdpProperty?: string;
-  /** The max session limit of HostPool. */
-  maxSessionLimit?: number;
-  /** The type of the load balancer. */
-  loadBalancerType: LoadBalancerType;
-  /** The ring number of HostPool. */
-  ring?: number;
-  /** Is validation environment. */
-  validationEnvironment?: boolean;
-  /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo;
-  /** VM template for sessionhosts configuration within hostpool. */
-  vmTemplate?: string;
-  /**
-   * List of applicationGroup links.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicationGroupReferences?: string[];
-  /** URL to customer ADFS server for signing WVD SSO certificates. */
-  ssoadfsAuthority?: string;
-  /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
-  ssoClientId?: string;
-  /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
-  ssoClientSecretKeyVaultPath?: string;
-  /** The type of single sign on Secret Type. */
-  ssoSecretType?: SSOSecretType;
-  /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType: PreferredAppGroupType;
-  /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean;
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: HostpoolPublicNetworkAccess;
-  /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdateProperties;
-  /**
-   * List of private endpoint connection associated with the specified resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-}
-
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
-
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
-
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionWithSystemData
-  extends PrivateEndpointConnection {
+  extends PrivateEndpointConnection {}
+
+/** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
+export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. E.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value. */
+  kind?: string;
   /**
-   * Metadata pertaining to creation and last modification of the resource.
+   * The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly etag?: string;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** The resource model definition representing SKU */
+  sku?: Sku;
+  /** Plan for the resource. */
+  plan?: Plan;
+}
+
+/** Schema for App Attach Package properties. */
+export interface AppAttachPackage extends TrackedResource {
+  /** Detailed properties for App Attach Package */
+  properties: AppAttachPackageProperties;
 }
 
 /** Represents a ScalingPlanPersonalSchedule definition. */
 export interface ScalingPlanPersonalSchedule extends ProxyResource {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Set of days of the week on which this schedule is active. */
   daysOfWeek?: DayOfWeek[];
   /** Starting time for ramp up period. */
@@ -1356,36 +1823,196 @@ export interface ScalingPlanPersonalSchedule extends ProxyResource {
   offPeakMinutesToWaitOnLogoff?: number;
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+/** Represents a SessionHostManagement definition. */
+export interface SessionHostManagement extends ProxyResource {
+  /** Time zone for sessionHostManagement operations as defined in https://docs.microsoft.com/dotnet/api/system.timezoneinfo.findsystemtimezonebyid. Must be set if useLocalTime is true. */
+  scheduledDateTimeZone: string;
+  /** Parameters for a hostpool update. */
+  update: HostPoolUpdateConfigurationProperties;
 }
 
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
+/** Represents a Workspace definition. */
+export interface Workspace extends ResourceModelWithAllowedPropertySet {
+  /**
+   * ObjectId of Workspace. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of Workspace. */
+  description?: string;
+  /** Friendly name of Workspace. */
+  friendlyName?: string;
+  /** List of applicationGroup resource Ids. */
+  applicationGroupReferences?: string[];
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * List of private endpoint connection associated with the specified resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** Represents a scaling plan definition. */
+export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
+  /**
+   * ObjectId of scaling plan. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of scaling plan. */
+  description?: string;
+  /** User friendly name of scaling plan. */
+  friendlyName?: string;
+  /** Timezone of the scaling plan. */
+  timeZone: string;
+  /** HostPool type for desktop. */
+  hostPoolType?: ScalingHostPoolType;
+  /** Exclusion tag for scaling plan. */
+  exclusionTag?: string;
+  /** List of ScalingPlanPooledSchedule definitions. */
+  schedules?: ScalingSchedule[];
+  /** List of ScalingHostPoolReference definitions. */
+  hostPoolReferences?: ScalingHostPoolReference[];
+}
+
+/** Represents a ApplicationGroup definition. */
+export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
+  /**
+   * ObjectId of ApplicationGroup. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of ApplicationGroup. */
+  description?: string;
+  /** Friendly name of ApplicationGroup. */
+  friendlyName?: string;
+  /** HostPool arm path of ApplicationGroup. */
+  hostPoolArmPath: string;
+  /**
+   * Workspace arm path of ApplicationGroup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceArmPath?: string;
+  /** Resource Type of ApplicationGroup. */
+  applicationGroupType: ApplicationGroupType;
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+  /** Boolean representing whether the applicationGroup is show in the feed. */
+  showInFeed?: boolean;
+}
+
+/** Represents a HostPool definition. */
+export interface HostPool extends ResourceModelWithAllowedPropertySet {
+  /**
+   * ObjectId of HostPool. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Friendly name of HostPool. */
+  friendlyName?: string;
+  /** Description of HostPool. */
+  description?: string;
+  /** HostPool type for desktop. */
+  hostPoolType: HostPoolType;
+  /** PersonalDesktopAssignment type for HostPool. */
+  personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
+  /** Custom rdp property of HostPool. */
+  customRdpProperty?: string;
+  /** The max session limit of HostPool. */
+  maxSessionLimit?: number;
+  /** The type of the load balancer. */
+  loadBalancerType: LoadBalancerType;
+  /** The ring number of HostPool. */
+  ring?: number;
+  /** Is validation environment. */
+  validationEnvironment?: boolean;
+  /** The registration info of HostPool. */
+  registrationInfo?: RegistrationInfo;
+  /** VM template for sessionhosts configuration within hostpool. */
+  vmTemplate?: string;
+  /** The type of management for this hostpool, Automated or Standard. The default value is Automated. */
+  managementType?: ManagementType;
+  /**
+   * List of applicationGroup links.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationGroupReferences?: string[];
+  /**
+   * List of App Attach Package links.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appAttachPackageReferences?: string[];
+  /** URL to customer ADFS server for signing WVD SSO certificates. */
+  ssoadfsAuthority?: string;
+  /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
+  ssoClientId?: string;
+  /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
+  ssoClientSecretKeyVaultPath?: string;
+  /** The type of single sign on Secret Type. */
+  ssoSecretType?: SSOSecretType;
+  /** The type of preferred application group type, default to Desktop Application Group */
+  preferredAppGroupType: PreferredAppGroupType;
+  /** The flag to turn on/off StartVMOnConnect feature. */
+  startVMOnConnect?: boolean;
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
+  publicNetworkAccess?: HostpoolPublicNetworkAccess;
+  /** The session host configuration for updating agent, monitoring agent, and stack component. */
+  agentUpdate?: AgentUpdateProperties;
+  /**
+   * List of private endpoint connection associated with the specified resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP;
+}
+
+/** Defines headers for ControlSessionHostUpdate_post operation. */
+export interface ControlSessionHostUpdatePostHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SessionHostConfigurations_createOrUpdate operation. */
+export interface SessionHostConfigurationsCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for SessionHostConfigurations_update operation. */
+export interface SessionHostConfigurationsUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+}
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1405,7 +2032,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -1428,7 +2055,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1443,10 +2070,60 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link ScalingHostPoolType} that the service accepts. */
 export enum KnownScalingHostPoolType {
   /** Users get a new (random) SessionHost every time it connects to the HostPool. */
-  Pooled = "Pooled"
+  Pooled = "Pooled",
+  /** Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. */
+  Personal = "Personal",
 }
 
 /**
@@ -1454,7 +2131,8 @@ export enum KnownScalingHostPoolType {
  * {@link KnownScalingHostPoolType} can be used interchangeably with ScalingHostPoolType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool.
+ * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool. \
+ * **Personal**: Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost.
  */
 export type ScalingHostPoolType = string;
 
@@ -1473,7 +2151,7 @@ export enum KnownScalingScheduleDaysOfWeekItem {
   /** Friday */
   Friday = "Friday",
   /** Saturday */
-  Saturday = "Saturday"
+  Saturday = "Saturday",
 }
 
 /**
@@ -1496,7 +2174,7 @@ export enum KnownSessionHostLoadBalancingAlgorithm {
   /** BreadthFirst */
   BreadthFirst = "BreadthFirst",
   /** DepthFirst */
-  DepthFirst = "DepthFirst"
+  DepthFirst = "DepthFirst",
 }
 
 /**
@@ -1514,7 +2192,7 @@ export enum KnownStopHostsWhen {
   /** ZeroSessions */
   ZeroSessions = "ZeroSessions",
   /** ZeroActiveSessions */
-  ZeroActiveSessions = "ZeroActiveSessions"
+  ZeroActiveSessions = "ZeroActiveSessions",
 }
 
 /**
@@ -1534,7 +2212,7 @@ export enum KnownStartupBehavior {
   /** Session hosts with an assigned user will be started during Ramp Up */
   WithAssignedUser = "WithAssignedUser",
   /** All personal session hosts in the hostpool will be started during ramp up. */
-  All = "All"
+  All = "All",
 }
 
 /**
@@ -1553,7 +2231,7 @@ export enum KnownSetStartVMOnConnect {
   /** Enable */
   Enable = "Enable",
   /** Disable */
-  Disable = "Disable"
+  Disable = "Disable",
 }
 
 /**
@@ -1573,7 +2251,7 @@ export enum KnownSessionHandlingOperation {
   /** Deallocate */
   Deallocate = "Deallocate",
   /** Hibernate */
-  Hibernate = "Hibernate"
+  Hibernate = "Hibernate",
 }
 
 /**
@@ -1592,7 +2270,7 @@ export enum KnownApplicationGroupType {
   /** RemoteApp */
   RemoteApp = "RemoteApp",
   /** Desktop */
-  Desktop = "Desktop"
+  Desktop = "Desktop",
 }
 
 /**
@@ -1610,7 +2288,7 @@ export enum KnownRemoteApplicationType {
   /** InBuilt */
   InBuilt = "InBuilt",
   /** MsixApplication */
-  MsixApplication = "MsixApplication"
+  MsixApplication = "MsixApplication",
 }
 
 /**
@@ -1630,7 +2308,7 @@ export enum KnownCommandLineSetting {
   /** Allow */
   Allow = "Allow",
   /** Require */
-  Require = "Require"
+  Require = "Require",
 }
 
 /**
@@ -1651,7 +2329,7 @@ export enum KnownHostPoolType {
   /** Users get a new (random) SessionHost every time it connects to the HostPool. */
   Pooled = "Pooled",
   /** Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct. */
-  BYODesktop = "BYODesktop"
+  BYODesktop = "BYODesktop",
 }
 
 /**
@@ -1670,7 +2348,7 @@ export enum KnownPersonalDesktopAssignmentType {
   /** Automatic */
   Automatic = "Automatic",
   /** Direct */
-  Direct = "Direct"
+  Direct = "Direct",
 }
 
 /**
@@ -1690,7 +2368,9 @@ export enum KnownLoadBalancerType {
   /** DepthFirst */
   DepthFirst = "DepthFirst",
   /** Persistent */
-  Persistent = "Persistent"
+  Persistent = "Persistent",
+  /** MultiplePersistent */
+  MultiplePersistent = "MultiplePersistent",
 }
 
 /**
@@ -1700,7 +2380,8 @@ export enum KnownLoadBalancerType {
  * ### Known values supported by the service
  * **BreadthFirst** \
  * **DepthFirst** \
- * **Persistent**
+ * **Persistent** \
+ * **MultiplePersistent**
  */
 export type LoadBalancerType = string;
 
@@ -1711,7 +2392,7 @@ export enum KnownRegistrationTokenOperation {
   /** None */
   None = "None",
   /** Update */
-  Update = "Update"
+  Update = "Update",
 }
 
 /**
@@ -1725,6 +2406,24 @@ export enum KnownRegistrationTokenOperation {
  */
 export type RegistrationTokenOperation = string;
 
+/** Known values of {@link ManagementType} that the service accepts. */
+export enum KnownManagementType {
+  /** Automated */
+  Automated = "Automated",
+  /** Standard */
+  Standard = "Standard",
+}
+
+/**
+ * Defines values for ManagementType. \
+ * {@link KnownManagementType} can be used interchangeably with ManagementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automated** \
+ * **Standard**
+ */
+export type ManagementType = string;
+
 /** Known values of {@link SSOSecretType} that the service accepts. */
 export enum KnownSSOSecretType {
   /** SharedKey */
@@ -1734,7 +2433,7 @@ export enum KnownSSOSecretType {
   /** SharedKeyInKeyVault */
   SharedKeyInKeyVault = "SharedKeyInKeyVault",
   /** CertificateInKeyVault */
-  CertificateInKeyVault = "CertificateInKeyVault"
+  CertificateInKeyVault = "CertificateInKeyVault",
 }
 
 /**
@@ -1756,7 +2455,7 @@ export enum KnownPreferredAppGroupType {
   /** Desktop */
   Desktop = "Desktop",
   /** RailApplications */
-  RailApplications = "RailApplications"
+  RailApplications = "RailApplications",
 }
 
 /**
@@ -1779,7 +2478,7 @@ export enum KnownHostpoolPublicNetworkAccess {
   /** EnabledForSessionHostsOnly */
   EnabledForSessionHostsOnly = "EnabledForSessionHostsOnly",
   /** EnabledForClientsOnly */
-  EnabledForClientsOnly = "EnabledForClientsOnly"
+  EnabledForClientsOnly = "EnabledForClientsOnly",
 }
 
 /**
@@ -1799,7 +2498,7 @@ export enum KnownSessionHostComponentUpdateType {
   /** Agent and other agent side components are delivery schedule is controlled by WVD Infra. */
   Default = "Default",
   /** TenantAdmin have opted in for Scheduled Component Update feature. */
-  Scheduled = "Scheduled"
+  Scheduled = "Scheduled",
 }
 
 /**
@@ -1812,12 +2511,225 @@ export enum KnownSessionHostComponentUpdateType {
  */
 export type SessionHostComponentUpdateType = string;
 
+/** Known values of {@link ManagedPrivateUDP} that the service accepts. */
+export enum KnownManagedPrivateUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ManagedPrivateUDP. \
+ * {@link KnownManagedPrivateUDP} can be used interchangeably with ManagedPrivateUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ManagedPrivateUDP = string;
+
+/** Known values of {@link DirectUDP} that the service accepts. */
+export enum KnownDirectUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for DirectUDP. \
+ * {@link KnownDirectUDP} can be used interchangeably with DirectUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type DirectUDP = string;
+
+/** Known values of {@link PublicUDP} that the service accepts. */
+export enum KnownPublicUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicUDP. \
+ * {@link KnownPublicUDP} can be used interchangeably with PublicUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicUDP = string;
+
+/** Known values of {@link RelayUDP} that the service accepts. */
+export enum KnownRelayUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for RelayUDP. \
+ * {@link KnownRelayUDP} can be used interchangeably with RelayUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type RelayUDP = string;
+
+/** Known values of {@link HostPoolUpdateAction} that the service accepts. */
+export enum KnownHostPoolUpdateAction {
+  /** Start the hostpool update. */
+  Start = "Start",
+  /** Pause the hostpool update. */
+  Pause = "Pause",
+  /** Cancel the hostpool update. */
+  Cancel = "Cancel",
+  /** Retry the hostpool update. */
+  Retry = "Retry",
+  /** Resume the hostpool update. */
+  Resume = "Resume",
+}
+
+/**
+ * Defines values for HostPoolUpdateAction. \
+ * {@link KnownHostPoolUpdateAction} can be used interchangeably with HostPoolUpdateAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Start**: Start the hostpool update. \
+ * **Pause**: Pause the hostpool update. \
+ * **Cancel**: Cancel the hostpool update. \
+ * **Retry**: Retry the hostpool update. \
+ * **Resume**: Resume the hostpool update.
+ */
+export type HostPoolUpdateAction = string;
+
+/** Known values of {@link ProvisioningStateSHC} that the service accepts. */
+export enum KnownProvisioningStateSHC {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+}
+
+/**
+ * Defines values for ProvisioningStateSHC. \
+ * {@link KnownProvisioningStateSHC} can be used interchangeably with ProvisioningStateSHC,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Provisioning**
+ */
+export type ProvisioningStateSHC = string;
+
+/** Known values of {@link VirtualMachineDiskType} that the service accepts. */
+export enum KnownVirtualMachineDiskType {
+  /** Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. */
+  StandardLRS = "Standard_LRS",
+  /** Premium SSD locally redundant storage. Best for production and performance sensitive workloads. */
+  PremiumLRS = "Premium_LRS",
+  /** Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test. */
+  StandardSSDLRS = "StandardSSD_LRS",
+}
+
+/**
+ * Defines values for VirtualMachineDiskType. \
+ * {@link KnownVirtualMachineDiskType} can be used interchangeably with VirtualMachineDiskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS**: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. \
+ * **Premium_LRS**: Premium SSD locally redundant storage. Best for production and performance sensitive workloads. \
+ * **StandardSSD_LRS**: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test.
+ */
+export type VirtualMachineDiskType = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Using default marketplace images offered by Azure Marketplace. */
+  Marketplace = "Marketplace",
+  /** Using a custom image. */
+  Custom = "Custom",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Marketplace**: Using default marketplace images offered by Azure Marketplace. \
+ * **Custom**: Using a custom image.
+ */
+export type Type = string;
+
+/** Known values of {@link DomainJoinType} that the service accepts. */
+export enum KnownDomainJoinType {
+  /** Using microsoft active directory. */
+  ActiveDirectory = "ActiveDirectory",
+  /** Using microsoft azure active directory. */
+  AzureActiveDirectory = "AzureActiveDirectory",
+}
+
+/**
+ * Defines values for DomainJoinType. \
+ * {@link KnownDomainJoinType} can be used interchangeably with DomainJoinType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory**: Using microsoft active directory. \
+ * **AzureActiveDirectory**: Using microsoft azure active directory.
+ */
+export type DomainJoinType = string;
+
+/** Known values of {@link VirtualMachineSecurityType} that the service accepts. */
+export enum KnownVirtualMachineSecurityType {
+  /** Standard security protocol. No additional parameters */
+  Standard = "Standard",
+  /** TrustedLaunch allows for secure boot adn vTPM */
+  TrustedLaunch = "TrustedLaunch",
+  /** Confidential Virtual Machine security protocol */
+  ConfidentialVM = "ConfidentialVM",
+}
+
+/**
+ * Defines values for VirtualMachineSecurityType. \
+ * {@link KnownVirtualMachineSecurityType} can be used interchangeably with VirtualMachineSecurityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Standard security protocol. No additional parameters \
+ * **TrustedLaunch**: TrustedLaunch allows for secure boot adn vTPM \
+ * **ConfidentialVM**: Confidential Virtual Machine security protocol
+ */
+export type VirtualMachineSecurityType = string;
+
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
   /** RemoteApp */
   RemoteApp = "RemoteApp",
   /** Desktop */
-  Desktop = "Desktop"
+  Desktop = "Desktop",
 }
 
 /**
@@ -1843,7 +2755,7 @@ export enum KnownSessionState {
   /** LogOff */
   LogOff = "LogOff",
   /** UserProfileDiskMounted */
-  UserProfileDiskMounted = "UserProfileDiskMounted"
+  UserProfileDiskMounted = "UserProfileDiskMounted",
 }
 
 /**
@@ -1885,7 +2797,7 @@ export enum KnownStatus {
   /** FSLogix is in an unhealthy state on the session host. */
   FSLogixNotHealthy = "FSLogixNotHealthy",
   /** New status to inform admins that the health on their endpoint needs to be fixed. The connections might not fail, as these issues are not fatal. */
-  NeedsAssistance = "NeedsAssistance"
+  NeedsAssistance = "NeedsAssistance",
 }
 
 /**
@@ -1919,7 +2831,7 @@ export enum KnownUpdateState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1958,7 +2870,7 @@ export enum KnownHealthCheckName {
   /** Verifies the metadata service is accessible and return compute properties. (Currently Enabled) */
   MetaDataServiceCheck = "MetaDataServiceCheck",
   /** Verifies that the AppAttachService is healthy (there were no issues during package staging). The AppAttachService is used to enable the staging\/registration (and eventual deregistration\/destaging) of MSIX apps that have been set up by the tenant admin. This checks whether the component had any failures during package staging. Failures in staging will prevent some MSIX apps from working properly for the end user. If this check fails, it is non fatal and the machine still can service connections, main issue may be certain apps will not work for end-users. (Currently Enabled) */
-  AppAttachHealthCheck = "AppAttachHealthCheck"
+  AppAttachHealthCheck = "AppAttachHealthCheck",
 }
 
 /**
@@ -1989,7 +2901,7 @@ export enum KnownHealthCheckResult {
   /** Health check failed. */
   HealthCheckFailed = "HealthCheckFailed",
   /** We received a Shutdown notification. */
-  SessionHostShutdown = "SessionHostShutdown"
+  SessionHostShutdown = "SessionHostShutdown",
 }
 
 /**
@@ -2003,6 +2915,138 @@ export enum KnownHealthCheckResult {
  * **SessionHostShutdown**: We received a Shutdown notification.
  */
 export type HealthCheckResult = string;
+
+/** Known values of {@link AppAttachPackageArchitectures} that the service accepts. */
+export enum KnownAppAttachPackageArchitectures {
+  /** ARM */
+  ARM = "ARM",
+  /** ARM64 */
+  ARM64 = "ARM64",
+  /** X86 */
+  X86 = "x86",
+  /** X64 */
+  X64 = "x64",
+  /** Neutral */
+  Neutral = "Neutral",
+  /** X86A64 */
+  X86A64 = "x86a64",
+  /** ALL */
+  ALL = "ALL",
+}
+
+/**
+ * Defines values for AppAttachPackageArchitectures. \
+ * {@link KnownAppAttachPackageArchitectures} can be used interchangeably with AppAttachPackageArchitectures,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ARM** \
+ * **ARM64** \
+ * **x86** \
+ * **x64** \
+ * **Neutral** \
+ * **x86a64** \
+ * **ALL**
+ */
+export type AppAttachPackageArchitectures = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Provisioning** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link PackageTimestamped} that the service accepts. */
+export enum KnownPackageTimestamped {
+  /** Timestamped */
+  Timestamped = "Timestamped",
+  /** NotTimestamped */
+  NotTimestamped = "NotTimestamped",
+}
+
+/**
+ * Defines values for PackageTimestamped. \
+ * {@link KnownPackageTimestamped} can be used interchangeably with PackageTimestamped,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Timestamped** \
+ * **NotTimestamped**
+ */
+export type PackageTimestamped = string;
+
+/** Known values of {@link FailHealthCheckOnStagingFailure} that the service accepts. */
+export enum KnownFailHealthCheckOnStagingFailure {
+  /** Unhealthy */
+  Unhealthy = "Unhealthy",
+  /** NeedsAssistance */
+  NeedsAssistance = "NeedsAssistance",
+  /** DoNotFail */
+  DoNotFail = "DoNotFail",
+}
+
+/**
+ * Defines values for FailHealthCheckOnStagingFailure. \
+ * {@link KnownFailHealthCheckOnStagingFailure} can be used interchangeably with FailHealthCheckOnStagingFailure,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unhealthy** \
+ * **NeedsAssistance** \
+ * **DoNotFail**
+ */
+export type FailHealthCheckOnStagingFailure = string;
+
+/** Known values of {@link FaultType} that the service accepts. */
+export enum KnownFaultType {
+  /** Fault caused by service error. */
+  ServiceError = "ServiceError",
+  /** Fault caused by user error. */
+  UserError = "UserError",
+}
+
+/**
+ * Defines values for FaultType. \
+ * {@link KnownFaultType} can be used interchangeably with FaultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceError**: Fault caused by service error. \
+ * **UserError**: Fault caused by user error.
+ */
+export type FaultType = string;
+
+/** Known values of {@link OperationTypeSHM} that the service accepts. */
+export enum KnownOperationTypeSHM {
+  /** InitiateSessionHostUpdate */
+  InitiateSessionHostUpdate = "InitiateSessionHostUpdate",
+  /** ValidateSessionHostUpdate */
+  ValidateSessionHostUpdate = "ValidateSessionHostUpdate",
+}
+
+/**
+ * Defines values for OperationTypeSHM. \
+ * {@link KnownOperationTypeSHM} can be used interchangeably with OperationTypeSHM,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InitiateSessionHostUpdate** \
+ * **ValidateSessionHostUpdate**
+ */
+export type OperationTypeSHM = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 /** Defines values for DayOfWeek. */
@@ -2097,14 +3141,16 @@ export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
-export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByWorkspaceResponse =
+  PrivateEndpointConnectionListResultWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByWorkspace operation. */
-export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsGetByWorkspaceResponse =
+  PrivateEndpointConnectionWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
@@ -2115,7 +3161,8 @@ export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateByWorkspace operation. */
-export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsUpdateByWorkspaceResponse =
+  PrivateEndpointConnectionWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByHostPoolOptionalParams
@@ -2129,14 +3176,16 @@ export interface PrivateEndpointConnectionsListByHostPoolOptionalParams
 }
 
 /** Contains response data for the listByHostPool operation. */
-export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByHostPoolResponse =
+  PrivateEndpointConnectionListResultWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByHostPool operation. */
-export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsGetByHostPoolResponse =
+  PrivateEndpointConnectionWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
@@ -2147,21 +3196,24 @@ export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateByHostPool operation. */
-export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsUpdateByHostPoolResponse =
+  PrivateEndpointConnectionWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByWorkspaceNextResponse =
+  PrivateEndpointConnectionListResultWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
-export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByHostPoolNextResponse =
+  PrivateEndpointConnectionListResultWithSystemData;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByWorkspaceOptionalParams
@@ -2175,7 +3227,8 @@ export interface PrivateLinkResourcesListByWorkspaceOptionalParams
 }
 
 /** Contains response data for the listByWorkspace operation. */
-export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByWorkspaceResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByHostPoolOptionalParams
@@ -2189,21 +3242,24 @@ export interface PrivateLinkResourcesListByHostPoolOptionalParams
 }
 
 /** Contains response data for the listByHostPool operation. */
-export type PrivateLinkResourcesListByHostPoolResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByHostPoolResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateLinkResourcesListByWorkspaceNextResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByWorkspaceNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByHostPoolNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
-export type PrivateLinkResourcesListByHostPoolNextResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByHostPoolNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ScalingPlansGetOptionalParams
@@ -2308,7 +3364,8 @@ export interface ScalingPlanPooledSchedulesCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ScalingPlanPooledSchedulesCreateResponse = ScalingPlanPooledSchedule;
+export type ScalingPlanPooledSchedulesCreateResponse =
+  ScalingPlanPooledSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesDeleteOptionalParams
@@ -2322,7 +3379,8 @@ export interface ScalingPlanPooledSchedulesUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type ScalingPlanPooledSchedulesUpdateResponse = ScalingPlanPooledSchedule;
+export type ScalingPlanPooledSchedulesUpdateResponse =
+  ScalingPlanPooledSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesListOptionalParams
@@ -2336,28 +3394,32 @@ export interface ScalingPlanPooledSchedulesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScalingPlanPooledSchedulesListResponse = ScalingPlanPooledScheduleList;
+export type ScalingPlanPooledSchedulesListResponse =
+  ScalingPlanPooledScheduleList;
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScalingPlanPooledSchedulesListNextResponse = ScalingPlanPooledScheduleList;
+export type ScalingPlanPooledSchedulesListNextResponse =
+  ScalingPlanPooledScheduleList;
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ScalingPlanPersonalSchedulesGetResponse = ScalingPlanPersonalSchedule;
+export type ScalingPlanPersonalSchedulesGetResponse =
+  ScalingPlanPersonalSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type ScalingPlanPersonalSchedulesCreateResponse = ScalingPlanPersonalSchedule;
+export type ScalingPlanPersonalSchedulesCreateResponse =
+  ScalingPlanPersonalSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesDeleteOptionalParams
@@ -2371,7 +3433,8 @@ export interface ScalingPlanPersonalSchedulesUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSchedule;
+export type ScalingPlanPersonalSchedulesUpdateResponse =
+  ScalingPlanPersonalSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesListOptionalParams
@@ -2385,14 +3448,16 @@ export interface ScalingPlanPersonalSchedulesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ScalingPlanPersonalSchedulesListResponse = ScalingPlanPersonalScheduleList;
+export type ScalingPlanPersonalSchedulesListResponse =
+  ScalingPlanPersonalScheduleList;
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScalingPlanPersonalSchedulesListNextResponse = ScalingPlanPersonalScheduleList;
+export type ScalingPlanPersonalSchedulesListNextResponse =
+  ScalingPlanPersonalScheduleList;
 
 /** Optional parameters. */
 export interface ApplicationGroupsGetOptionalParams
@@ -2453,14 +3518,16 @@ export interface ApplicationGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ApplicationGroupsListByResourceGroupNextResponse = ApplicationGroupList;
+export type ApplicationGroupsListByResourceGroupNextResponse =
+  ApplicationGroupList;
 
 /** Optional parameters. */
 export interface ApplicationGroupsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ApplicationGroupsListBySubscriptionNextResponse = ApplicationGroupList;
+export type ApplicationGroupsListBySubscriptionNextResponse =
+  ApplicationGroupList;
 
 /** Optional parameters. */
 export interface StartMenuItemsListOptionalParams
@@ -2637,6 +3704,13 @@ export interface HostPoolsRetrieveRegistrationTokenOptionalParams
 export type HostPoolsRetrieveRegistrationTokenResponse = RegistrationInfo;
 
 /** Optional parameters. */
+export interface HostPoolsListRegistrationTokensOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRegistrationTokens operation. */
+export type HostPoolsListRegistrationTokensResponse = RegistrationTokenList;
+
+/** Optional parameters. */
 export interface HostPoolsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2649,6 +3723,150 @@ export interface HostPoolsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type HostPoolsListNextResponse = HostPoolList;
+
+/** Optional parameters. */
+export interface SessionHostManagementsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SessionHostManagementsGetResponse = SessionHostManagement;
+
+/** Optional parameters. */
+export interface SessionHostManagementsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SessionHostManagementsCreateOrUpdateResponse =
+  SessionHostManagement;
+
+/** Optional parameters. */
+export interface SessionHostManagementsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing SessionHostManagement definitions. */
+  sessionHostManagement?: SessionHostManagementPatch;
+}
+
+/** Contains response data for the update operation. */
+export type SessionHostManagementsUpdateResponse = SessionHostManagement;
+
+/** Optional parameters. */
+export interface SessionHostManagementsListByHostPoolOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPool operation. */
+export type SessionHostManagementsListByHostPoolResponse =
+  SessionHostManagementList;
+
+/** Optional parameters. */
+export interface SessionHostManagementsListByHostPoolNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPoolNext operation. */
+export type SessionHostManagementsListByHostPoolNextResponse =
+  SessionHostManagementList;
+
+/** Optional parameters. */
+export interface InitiateSessionHostUpdatePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing the definition for properties to be used in the sessionHostUpdate validation. */
+  updateSessionHostsRequestBody?: UpdateSessionHostsRequestBody;
+}
+
+/** Optional parameters. */
+export interface ControlSessionHostUpdatePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the post operation. */
+export type ControlSessionHostUpdatePostResponse =
+  ControlSessionHostUpdatePostHeaders;
+
+/** Optional parameters. */
+export interface SessionHostManagementsUpdateStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SessionHostManagementsUpdateStatusGetResponse =
+  SessionHostManagementUpdateStatus;
+
+/** Optional parameters. */
+export interface SessionHostConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SessionHostConfigurationsCreateOrUpdateResponse =
+  SessionHostConfigurationsCreateOrUpdateHeaders & SessionHostConfiguration;
+
+/** Optional parameters. */
+export interface SessionHostConfigurationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing SessionHostConfiguration definitions. */
+  sessionHostConfiguration?: SessionHostConfigurationPatch;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SessionHostConfigurationsUpdateResponse =
+  SessionHostConfigurationsUpdateHeaders & SessionHostConfiguration;
+
+/** Optional parameters. */
+export interface SessionHostConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SessionHostConfigurationsGetResponse = SessionHostConfiguration;
+
+/** Optional parameters. */
+export interface SessionHostConfigurationsListByHostPoolOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPool operation. */
+export type SessionHostConfigurationsListByHostPoolResponse =
+  SessionHostConfigurationList;
+
+/** Optional parameters. */
+export interface SessionHostConfigurationsListByHostPoolNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPoolNext operation. */
+export type SessionHostConfigurationsListByHostPoolNextResponse =
+  SessionHostConfigurationList;
+
+/** Optional parameters. */
+export interface ActiveSessionHostConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ActiveSessionHostConfigurationsGetResponse =
+  ActiveSessionHostConfiguration;
+
+/** Optional parameters. */
+export interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPool operation. */
+export type ActiveSessionHostConfigurationsListByHostPoolResponse =
+  ActiveSessionHostConfigurationList;
+
+/** Optional parameters. */
+export interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostPoolNext operation. */
+export type ActiveSessionHostConfigurationsListByHostPoolNextResponse =
+  ActiveSessionHostConfigurationList;
 
 /** Optional parameters. */
 export interface UserSessionsListByHostPoolOptionalParams
@@ -2754,6 +3972,8 @@ export interface SessionHostsListOptionalParams
   isDescending?: boolean;
   /** Initial number of items to skip. */
   initialSkip?: number;
+  /** The path to the VM. */
+  vmPath?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -2765,6 +3985,10 @@ export interface SessionHostsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SessionHostsListNextResponse = SessionHostList;
+
+/** Optional parameters. */
+export interface SessionHostRetryProvisioningOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface MsixPackagesGetOptionalParams
@@ -2816,6 +4040,20 @@ export interface MsixPackagesListNextOptionalParams
 export type MsixPackagesListNextResponse = MsixPackageList;
 
 /** Optional parameters. */
+export interface AppAttachPackageInfoImportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the import operation. */
+export type AppAttachPackageInfoImportResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageInfoImportNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the importNext operation. */
+export type AppAttachPackageInfoImportNextResponse = AppAttachPackageList;
+
+/** Optional parameters. */
 export interface MsixImagesExpandOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2828,6 +4066,73 @@ export interface MsixImagesExpandNextOptionalParams
 
 /** Contains response data for the expandNext operation. */
 export type MsixImagesExpandNextResponse = ExpandMsixImageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AppAttachPackageGetResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Force flag to delete App Attach package. */
+  force?: boolean;
+}
+
+/** Optional parameters. */
+export interface AppAttachPackageUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Object containing App Attach Package definition. */
+  appAttachPackagePatch?: AppAttachPackagePatch;
+}
+
+/** Contains response data for the update operation. */
+export type AppAttachPackageUpdateResponse = AppAttachPackage;
+
+/** Optional parameters. */
+export interface AppAttachPackageListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression. Valid properties for filtering are package name, host pool, package owner name, and custom data. */
+  filter?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AppAttachPackageListByResourceGroupResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter expression. Valid properties for filtering are package name, resource group, host pool, package owner name, and custom data. */
+  filter?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type AppAttachPackageListBySubscriptionResponse = AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AppAttachPackageListByResourceGroupNextResponse =
+  AppAttachPackageList;
+
+/** Optional parameters. */
+export interface AppAttachPackageListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AppAttachPackageListBySubscriptionNextResponse =
+  AppAttachPackageList;
 
 /** Optional parameters. */
 export interface DesktopVirtualizationAPIClientOptionalParams

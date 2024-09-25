@@ -8,25 +8,25 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ExpandMsixImage,
-  MsixImageURI,
-  MsixImagesExpandOptionalParams,
+  AppAttachPackage,
+  ImportPackageInfoRequest,
+  AppAttachPackageInfoImportOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a MsixImages. */
-export interface MsixImages {
+/** Interface representing a AppAttachPackageInfo. */
+export interface AppAttachPackageInfo {
   /**
-   * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
    * @param options The options parameters.
    */
-  listExpand(
+  listImport(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams,
-  ): PagedAsyncIterableIterator<ExpandMsixImage>;
+    importPackageInfoRequest: ImportPackageInfoRequest,
+    options?: AppAttachPackageInfoImportOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage>;
 }
