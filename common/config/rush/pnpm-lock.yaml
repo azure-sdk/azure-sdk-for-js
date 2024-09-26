@@ -16732,7 +16732,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5qfO0a31+swfnXGpyq3cmrbZ8Bj0tsLzx4frzixKRWNYsjpj3dbGiuLoIQDzcaw7mADeSVcXqduGOLAPxhtsdw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -17529,7 +17529,7 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-oOT8OK3YGCj4z7xDVUbC0XgAc73YBSMMtmGIZjtR/kGA3FA8H8F4RN/1QiHT55aqm0hAL6wHJwFVricLaQg+4A==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-FdCD31jDVAqSVMZbwMFDqn9MlzgcusyAeAEGUf5SkAYpQy+tjPI8qYNoab3jqudZT2r6ZhbJybLqQCNAgL2PGg==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
@@ -17548,9 +17548,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'

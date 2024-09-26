@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PolicyInsights client.
 
-Query component policy states at varying resource scopes for Resource Provider mode policies.
+
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policyinsights/arm-policyinsights) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-policyinsights) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-policyinsights?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-policyinsights) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

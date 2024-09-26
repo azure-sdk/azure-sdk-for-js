@@ -6,12 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./policyTrackedResources";
 export * from "./remediations";
-export * from "./policyEvents";
-export * from "./policyStates";
-export * from "./policyMetadataOperations";
-export * from "./policyRestrictions";
-export * from "./componentPolicyStates";
-export * from "./operations";
-export * from "./attestations";

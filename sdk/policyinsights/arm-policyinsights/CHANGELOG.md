@@ -1,15 +1,50 @@
 # Release History
-
-## 6.0.0-beta.4 (Unreleased)
-
+    
+## 6.0.0 (2024-09-26)
+    
 ### Features Added
+
+  - Interface PolicyInsightsClientOptionalParams has a new optional parameter apiVersion
+  - Interface RemediationFilters has a new optional parameter resourceIds
+  - Added function getContinuationToken
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Attestations
+  - Removed operation group Operations
+  - Removed operation group PolicyEvents
+  - Removed operation group PolicyMetadataOperations
+  - Removed operation group PolicyRestrictions
+  - Removed operation group PolicyStates
+  - Removed operation group PolicyTrackedResources
+  - Class PolicyInsightsClient has a new signature
+  - Interface QueryOptions no longer has parameter apply
+  - Interface QueryOptions no longer has parameter expand
+  - Interface QueryOptions no longer has parameter from
+  - Interface QueryOptions no longer has parameter orderBy
+  - Interface QueryOptions no longer has parameter select
+  - Interface QueryOptions no longer has parameter skipToken
+  - Interface QueryOptions no longer has parameter to
+  - Interface RemediationsListDeploymentsAtManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListDeploymentsAtSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForManagementGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForResourceGroupNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForResourceNextOptionalParams no longer has parameter queryOptions
+  - Interface RemediationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
+  - Class PolicyInsightsClient no longer has parameter attestations
+  - Class PolicyInsightsClient no longer has parameter operations
+  - Class PolicyInsightsClient no longer has parameter policyEvents
+  - Class PolicyInsightsClient no longer has parameter policyMetadataOperations
+  - Class PolicyInsightsClient no longer has parameter policyRestrictions
+  - Class PolicyInsightsClient no longer has parameter policyStates
+  - Class PolicyInsightsClient no longer has parameter policyTrackedResources
+  - Removed Enum KnownComplianceState
+  - Removed Enum KnownFieldRestrictionResult
+  - Removed Enum KnownPolicyStatesResource
+    
+    
 ## 6.0.0-beta.3 (2023-01-30)
     
 ### Features Added
@@ -103,84 +138,7 @@
   - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
   - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
     
-## 6.0.0-beta.2 (2022-10-19)
     
-### Features Added
-
-  - Added operation PolicyRestrictions.checkAtManagementGroupScope
-  - Added Interface Attestation
-  - Added Interface CheckManagementGroupRestrictionsRequest
-  - Added Interface PolicyMetadataProperties
-  - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
-  - Added Type Alias PolicyEventsResourceType
-  - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse
-  - Added Type Alias PolicyStatesSummaryResourceType
-  - Added Type Alias PolicyTrackedResourcesResourceType
-  - Added Enum KnownPolicyEventsResourceType
-  - Added Enum KnownPolicyStatesSummaryResourceType
-  - Added Enum KnownPolicyTrackedResourcesResourceType
-
-### Breaking Changes
-
-  - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicySetDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForResource has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscription has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForManagementGroup has a new signature
-  - Operation PolicyStates.summarizeForPolicyDefinition has a new signature
-  - Operation PolicyStates.summarizeForPolicySetDefinition has a new signature
-  - Operation PolicyStates.summarizeForResource has a new signature
-  - Operation PolicyStates.summarizeForResourceGroup has a new signature
-  - Operation PolicyStates.summarizeForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForSubscription has a new signature
-  - Operation PolicyStates.summarizeForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResource has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
-
-## 6.0.0-beta.1 (2022-03-31)
-    
-### Features Added
-
-  - Added operation PolicyRestrictions.checkAtManagementGroupScope
-  - Added Interface CheckManagementGroupRestrictionsRequest
-  - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
-  - Added Type Alias PolicyEventsResourceType
-  - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse
-  - Added Type Alias PolicyStatesSummaryResourceType
-  - Added Type Alias PolicyTrackedResourcesResourceType
-  - Added Enum KnownPolicyEventsResourceType
-  - Added Enum KnownPolicyStatesSummaryResourceType
-  - Added Enum KnownPolicyTrackedResourcesResourceType
-
-### Breaking Changes
-
-  - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicySetDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForResource has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscription has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForManagementGroup has a new signature
-  - Operation PolicyStates.summarizeForPolicyDefinition has a new signature
-  - Operation PolicyStates.summarizeForPolicySetDefinition has a new signature
-  - Operation PolicyStates.summarizeForResource has a new signature
-  - Operation PolicyStates.summarizeForResourceGroup has a new signature
-  - Operation PolicyStates.summarizeForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForSubscription has a new signature
-  - Operation PolicyStates.summarizeForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResource has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
-
 ## 5.0.0 (2022-01-24)
 
 The package of @azure/arm-policyinsights is using our next generation design principles since version 5.0.0, which contains breaking changes.
@@ -189,4 +147,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
