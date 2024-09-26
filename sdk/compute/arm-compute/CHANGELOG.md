@@ -1,15 +1,59 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.2.0 (2024-09-26)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GalleryInVMAccessControlProfiles
+  - Added operation group GalleryInVMAccessControlProfileVersions
+  - Added Interface AccessControlRules
+  - Added Interface AccessControlRulesIdentity
+  - Added Interface AccessControlRulesPrivilege
+  - Added Interface AccessControlRulesRole
+  - Added Interface AccessControlRulesRoleAssignment
+  - Added Interface GalleryInVMAccessControlProfile
+  - Added Interface GalleryInVMAccessControlProfileList
+  - Added Interface GalleryInVMAccessControlProfileProperties
+  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfilesDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileUpdate
+  - Added Interface GalleryInVMAccessControlProfileVersion
+  - Added Interface GalleryInVMAccessControlProfileVersionList
+  - Added Interface GalleryInVMAccessControlProfileVersionProperties
+  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionUpdate
+  - Added Interface GalleryResourceProfilePropertiesBase
+  - Added Interface GalleryResourceProfileVersionPropertiesBase
+  - Added Type Alias AccessControlRulesMode
+  - Added Type Alias EndpointAccess
+  - Added Type Alias EndpointTypes
+  - Added Type Alias GalleryInVMAccessControlProfilesCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsUpdateResponse
+  - Added Enum KnownAccessControlRulesMode
+  - Added Enum KnownEndpointAccess
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +623,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 
