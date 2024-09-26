@@ -1709,7 +1709,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -4133,6 +4133,106 @@ export interface SharingUpdate {
   groups?: SharingProfileGroup[];
 }
 
+/** The properties of a gallery ResourceProfile. */
+export interface GalleryResourceProfilePropertiesBase {
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+}
+
+/** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
+export interface AccessControlRules {
+  /** A list of privileges. */
+  privileges?: AccessControlRulesPrivilege[];
+  /** A list of roles. */
+  roles?: AccessControlRulesRole[];
+  /** A list of identities. */
+  identities?: AccessControlRulesIdentity[];
+  /** A list of role assignments. */
+  roleAssignments?: AccessControlRulesRoleAssignment[];
+}
+
+/** The properties of an Access Control Rule Privilege. */
+export interface AccessControlRulesPrivilege {
+  /** The name of the privilege. */
+  name: string;
+  /** The HTTP path corresponding to the privilege. */
+  path: string;
+  /** The query parameters to match in the path. */
+  queryParameters?: { [propertyName: string]: string };
+}
+
+/** The properties of an Access Control Rule Role. */
+export interface AccessControlRulesRole {
+  /** The name of the role. */
+  name: string;
+  /** A list of privileges needed by this role. */
+  privileges: string[];
+}
+
+/** The properties of an Access Control Rule Identity. */
+export interface AccessControlRulesIdentity {
+  /** The name of the identity. */
+  name: string;
+  /** The username corresponding to this identity. */
+  userName?: string;
+  /** The groupName corresponding to this identity. */
+  groupName?: string;
+  /** The path to the executable. */
+  exePath?: string;
+  /** The process name of the executable. */
+  processName?: string;
+}
+
+/** The properties of an Access Control Rule RoleAssignment. */
+export interface AccessControlRulesRoleAssignment {
+  /** The name of the role. */
+  role: string;
+  /** A list of identities that can access the privileges defined by the role. */
+  identities: string[];
+}
+
+/** The properties of a gallery ResourceProfile version. */
+export interface GalleryResourceProfileVersionPropertiesBase {
+  /** The target regions where the Resource Profile version is going to be replicated to. This property is updatable. */
+  targetLocations?: TargetRegion[];
+  /** If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version. */
+  excludeFromLatest?: boolean;
+  /**
+   * The timestamp for when the Resource Profile Version is published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedDate?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+}
+
+/** The List Gallery InVMAccessControlProfiles operation response. */
+export interface GalleryInVMAccessControlProfileList {
+  /** A list of Gallery InVMAccessControlProfiles. */
+  value: GalleryInVMAccessControlProfile[];
+  /** The uri to fetch the next page of inVMAccessControlProfiles in the gallery. Call ListNext() with this to fetch the next page of gallery inVMAccessControlProfiles. */
+  nextLink?: string;
+}
+
+/** The List Gallery InVMAccessControlProfile Versions operation response. */
+export interface GalleryInVMAccessControlProfileVersionList {
+  /** A list of Gallery InVMAccessControlProfile Versions. */
+  value: GalleryInVMAccessControlProfileVersion[];
+  /** The uri to fetch the next page of inVMAccessControlProfile versions. Call ListNext() with this to fetch the next page of gallery inVMAccessControlProfile versions. */
+  nextLink?: string;
+}
+
 /** The List Shared Galleries operation response. */
 export interface SharedGalleryList {
   /** A list of shared galleries. */
@@ -6003,7 +6103,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6063,6 +6163,41 @@ export interface GalleryApplicationVersion extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+}
+
+/** Specifies information about the gallery inVMAccessControlProfile that you want to create or update. */
+export interface GalleryInVMAccessControlProfile extends Resource {
+  /** Describes the properties of a gallery inVMAccessControlProfile. */
+  properties?: GalleryInVMAccessControlProfileProperties;
+}
+
+/** Specifies information about the gallery inVMAccessControlProfile version that you want to create or update. */
+export interface GalleryInVMAccessControlProfileVersion extends Resource {
+  /** The target regions where the Resource Profile version is going to be replicated to. This property is updatable. */
+  targetLocations?: TargetRegion[];
+  /** If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version. */
+  excludeFromLatest?: boolean;
+  /**
+   * The timestamp for when the Resource Profile Version is published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedDate?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+  /** This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. */
+  mode?: AccessControlRulesMode;
+  /** This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. */
+  defaultAccess?: EndpointAccess;
+  /** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
+  rules?: AccessControlRules;
 }
 
 /** Describes a Virtual Machine Scale Set. */
@@ -6672,7 +6807,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6733,6 +6868,43 @@ export interface GalleryApplicationVersionUpdate
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+}
+
+/** Specifies information about the gallery inVMAccessControlProfile that you want to update. */
+export interface GalleryInVMAccessControlProfileUpdate
+  extends UpdateResourceDefinition {
+  /** Describes the properties of a gallery inVMAccessControlProfile. */
+  properties?: GalleryInVMAccessControlProfileProperties;
+}
+
+/** Specifies information about the gallery inVMAccessControlProfile version that you want to update. */
+export interface GalleryInVMAccessControlProfileVersionUpdate
+  extends UpdateResourceDefinition {
+  /** The target regions where the Resource Profile version is going to be replicated to. This property is updatable. */
+  targetLocations?: TargetRegion[];
+  /** If set to true, Virtual Machines deployed from the latest version of the Resource Profile won't use this Profile version. */
+  excludeFromLatest?: boolean;
+  /**
+   * The timestamp for when the Resource Profile Version is published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedDate?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: GalleryProvisioningState;
+  /**
+   * This is the replication status of the gallery image version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationStatus?: ReplicationStatus;
+  /** This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. */
+  mode?: AccessControlRulesMode;
+  /** This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. */
+  defaultAccess?: EndpointAccess;
+  /** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
+  rules?: AccessControlRules;
 }
 
 /** The publishing profile of a gallery image Version. */
@@ -6812,6 +6984,28 @@ export interface GalleryImageVersionSafetyProfile
 export interface GalleryApplicationVersionSafetyProfile
   extends GalleryArtifactSafetyProfileBase {}
 
+/** Describes the properties of a gallery inVMAccessControlProfile. */
+export interface GalleryInVMAccessControlProfileProperties
+  extends GalleryResourceProfilePropertiesBase {
+  /** The description of this gallery inVMAccessControlProfile resources. This property is updatable. */
+  description?: string;
+  /** This property allows you to specify the OS type of the VMs/VMSS for which this profile can be used against. Possible values are: 'Windows' or 'Linux' */
+  osType: OperatingSystemTypes;
+  /** This property allows you to specify the Endpoint type for which this profile is defining the access control for. Possible values are: 'WireServer' or 'IMDS' */
+  applicableHostEndpoint: EndpointTypes;
+}
+
+/** Describes the properties of an inVMAccessControlProfile version. */
+export interface GalleryInVMAccessControlProfileVersionProperties
+  extends GalleryResourceProfileVersionPropertiesBase {
+  /** This property allows you to specify whether the access control rules are in Audit mode, in Enforce mode or Disabled. Possible values are: 'Audit', 'Enforce' or 'Disabled'. */
+  mode: AccessControlRulesMode;
+  /** This property allows you to specify if the requests will be allowed to access the host endpoints. Possible values are: 'Allow', 'Deny'. */
+  defaultAccess: EndpointAccess;
+  /** This is the Access Control Rules specification for an inVMAccessControlProfile version. */
+  rules?: AccessControlRules;
+}
+
 /** Base information about the shared gallery resource in pir. */
 export interface PirSharedGalleryResource extends PirResource {
   /** The unique id of this shared gallery. */
@@ -6857,7 +7051,7 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6942,7 +7136,7 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6994,6 +7188,18 @@ export interface VirtualMachinesAttachDetachDataDisksHeaders {
 /** Defines headers for DedicatedHosts_redeploy operation. */
 export interface DedicatedHostsRedeployHeaders {
   location?: string;
+}
+
+/** Defines headers for GalleryInVMAccessControlProfiles_delete operation. */
+export interface GalleryInVMAccessControlProfilesDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for GalleryInVMAccessControlProfileVersions_delete operation. */
+export interface GalleryInVMAccessControlProfileVersionsDeleteHeaders {
+  location?: string;
+  azureAsyncOperation?: string;
 }
 
 /** Known values of {@link RepairAction} that the service accepts. */
@@ -9663,6 +9869,45 @@ export enum KnownSharingUpdateOperationTypes {
  */
 export type SharingUpdateOperationTypes = string;
 
+/** Known values of {@link AccessControlRulesMode} that the service accepts. */
+export enum KnownAccessControlRulesMode {
+  /** Audit */
+  Audit = "Audit",
+  /** Enforce */
+  Enforce = "Enforce",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for AccessControlRulesMode. \
+ * {@link KnownAccessControlRulesMode} can be used interchangeably with AccessControlRulesMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Audit** \
+ * **Enforce** \
+ * **Disabled**
+ */
+export type AccessControlRulesMode = string;
+
+/** Known values of {@link EndpointAccess} that the service accepts. */
+export enum KnownEndpointAccess {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny",
+}
+
+/**
+ * Defines values for EndpointAccess. \
+ * {@link KnownEndpointAccess} can be used interchangeably with EndpointAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type EndpointAccess = string;
+
 /** Known values of {@link SharedToValues} that the service accepts. */
 export enum KnownSharedToValues {
   /** Tenant */
@@ -9827,6 +10072,8 @@ export type GalleryApplicationCustomActionParameterType =
   | "String"
   | "ConfigurationDataBlob"
   | "LogOutputBlob";
+/** Defines values for EndpointTypes. */
+export type EndpointTypes = "WireServer" | "IMDS";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -12549,6 +12796,132 @@ export interface GallerySharingProfileUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type GallerySharingProfileUpdateResponse = SharingUpdate;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GalleryInVMAccessControlProfilesCreateOrUpdateResponse =
+  GalleryInVMAccessControlProfile;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GalleryInVMAccessControlProfilesUpdateResponse =
+  GalleryInVMAccessControlProfile;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryInVMAccessControlProfilesGetResponse =
+  GalleryInVMAccessControlProfile;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GalleryInVMAccessControlProfilesDeleteResponse =
+  GalleryInVMAccessControlProfilesDeleteHeaders;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGallery operation. */
+export type GalleryInVMAccessControlProfilesListByGalleryResponse =
+  GalleryInVMAccessControlProfileList;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryNext operation. */
+export type GalleryInVMAccessControlProfilesListByGalleryNextResponse =
+  GalleryInVMAccessControlProfileList;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse =
+  GalleryInVMAccessControlProfileVersion;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GalleryInVMAccessControlProfileVersionsUpdateResponse =
+  GalleryInVMAccessControlProfileVersion;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryInVMAccessControlProfileVersionsGetResponse =
+  GalleryInVMAccessControlProfileVersion;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GalleryInVMAccessControlProfileVersionsDeleteResponse =
+  GalleryInVMAccessControlProfileVersionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryInVMAccessControlProfile operation. */
+export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse =
+  GalleryInVMAccessControlProfileVersionList;
+
+/** Optional parameters. */
+export interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGalleryInVMAccessControlProfileNext operation. */
+export type GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse =
+  GalleryInVMAccessControlProfileVersionList;
 
 /** Optional parameters. */
 export interface SharedGalleriesListOptionalParams

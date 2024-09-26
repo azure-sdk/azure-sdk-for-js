@@ -44,6 +44,8 @@ export * from "./galleryImageVersions";
 export * from "./galleryApplications";
 export * from "./galleryApplicationVersions";
 export * from "./gallerySharingProfile";
+export * from "./galleryInVMAccessControlProfiles";
+export * from "./galleryInVMAccessControlProfileVersions";
 export * from "./sharedGalleries";
 export * from "./sharedGalleryImages";
 export * from "./sharedGalleryImageVersions";
