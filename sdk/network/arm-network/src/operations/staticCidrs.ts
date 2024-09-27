@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetworkGroups } from "../operationsInterfaces";
+import { StaticCidrs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkGroup,
-  NetworkGroupsListNextOptionalParams,
-  NetworkGroupsListOptionalParams,
-  NetworkGroupsListResponse,
-  NetworkGroupsGetOptionalParams,
-  NetworkGroupsGetResponse,
-  NetworkGroupsCreateOrUpdateOptionalParams,
-  NetworkGroupsCreateOrUpdateResponse,
-  NetworkGroupsDeleteOptionalParams,
-  NetworkGroupsListNextResponse,
+  StaticCidr,
+  StaticCidrsListNextOptionalParams,
+  StaticCidrsListOptionalParams,
+  StaticCidrsListResponse,
+  StaticCidrsCreateOptionalParams,
+  StaticCidrsCreateResponse,
+  StaticCidrsGetOptionalParams,
+  StaticCidrsGetResponse,
+  StaticCidrsDeleteOptionalParams,
+  StaticCidrsDeleteResponse,
+  StaticCidrsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkGroups operations. */
-export class NetworkGroupsImpl implements NetworkGroups {
+/** Class containing StaticCidrs operations. */
+export class StaticCidrsImpl implements StaticCidrs {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class NetworkGroups class.
+   * Initialize a new instance of the class StaticCidrs class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,19 +47,22 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Lists the specified network group.
+   * Gets list of Static CIDR resources at Network Manager level.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<NetworkGroup> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): PagedAsyncIterableIterator<StaticCidr> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
+      poolName,
       options,
     );
     return {
@@ -75,6 +79,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
+          poolName,
           options,
           settings,
         );
@@ -85,13 +90,19 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NetworkGroup[]> {
-    let result: NetworkGroupsListResponse;
+  ): AsyncIterableIterator<StaticCidr[]> {
+    let result: StaticCidrsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkManagerName, options);
+      result = await this._list(
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -101,6 +112,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
+        poolName,
         continuationToken,
         options,
       );
@@ -114,11 +126,13 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): AsyncIterableIterator<NetworkGroup> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): AsyncIterableIterator<StaticCidr> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
+      poolName,
       options,
     )) {
       yield* page;
@@ -126,68 +140,102 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Gets the specified network group.
+   * Gets list of Static CIDR resources at Network Manager level.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param poolName Pool resource name.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): Promise<StaticCidrsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkManagerName, poolName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Creates/Updates the Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param poolName IP Address Manager Pool resource name.
+   * @param staticCidrName Static Cidr allocation name.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsCreateOptionalParams,
+  ): Promise<StaticCidrsCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specific Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to retrieve.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsGetOptionalParams,
-  ): Promise<NetworkGroupsGetResponse> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsGetOptionalParams,
+  ): Promise<StaticCidrsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, networkGroupName, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a network group.
+   * Delete the Static CIDR resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
-   * @param parameters Parameters supplied to the specify which network group need to create
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    networkManagerName: string,
-    networkGroupName: string,
-    parameters: NetworkGroup,
-    options?: NetworkGroupsCreateOrUpdateOptionalParams,
-  ): Promise<NetworkGroupsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        networkGroupName,
-        parameters,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes a network group.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticCidrsDeleteResponse>,
+      StaticCidrsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<StaticCidrsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,12 +275,16 @@ export class NetworkGroupsImpl implements NetworkGroups {
       args: {
         resourceGroupName,
         networkManagerName,
-        networkGroupName,
+        poolName,
+        staticCidrName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      StaticCidrsDeleteResponse,
+      OperationState<StaticCidrsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -242,59 +294,47 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Deletes a network group.
+   * Delete the Static CIDR resource.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
-  ): Promise<void> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<StaticCidrsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      networkGroupName,
+      poolName,
+      staticCidrName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists the specified network group.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): Promise<NetworkGroupsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
+    poolName: string,
     nextLink: string,
-    options?: NetworkGroupsListNextOptionalParams,
-  ): Promise<NetworkGroupsListNextResponse> {
+    options?: StaticCidrsListNextOptionalParams,
+  ): Promise<StaticCidrsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, nextLink, options },
+      { resourceGroupName, networkManagerName, poolName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -302,105 +342,114 @@ export class NetworkGroupsImpl implements NetworkGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
-    },
-    201: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticCidr,
+    },
+    201: {
+      bodyMapper: Mappers.StaticCidr,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticCidr,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -410,10 +459,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
@@ -421,7 +470,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

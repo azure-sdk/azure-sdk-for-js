@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetworkGroups } from "../operationsInterfaces";
+import { RoutingRuleCollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,25 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkGroup,
-  NetworkGroupsListNextOptionalParams,
-  NetworkGroupsListOptionalParams,
-  NetworkGroupsListResponse,
-  NetworkGroupsGetOptionalParams,
-  NetworkGroupsGetResponse,
-  NetworkGroupsCreateOrUpdateOptionalParams,
-  NetworkGroupsCreateOrUpdateResponse,
-  NetworkGroupsDeleteOptionalParams,
-  NetworkGroupsListNextResponse,
+  RoutingRuleCollection,
+  RoutingRuleCollectionsListNextOptionalParams,
+  RoutingRuleCollectionsListOptionalParams,
+  RoutingRuleCollectionsListResponse,
+  RoutingRuleCollectionsGetOptionalParams,
+  RoutingRuleCollectionsGetResponse,
+  RoutingRuleCollectionsCreateOrUpdateOptionalParams,
+  RoutingRuleCollectionsCreateOrUpdateResponse,
+  RoutingRuleCollectionsDeleteOptionalParams,
+  RoutingRuleCollectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkGroups operations. */
-export class NetworkGroupsImpl implements NetworkGroups {
+/** Class containing RoutingRuleCollections operations. */
+export class RoutingRuleCollectionsImpl implements RoutingRuleCollections {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class NetworkGroups class.
+   * Initialize a new instance of the class RoutingRuleCollections class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,19 +46,22 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Lists the specified network group.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all the rule collections in a routing configuration, in a paginated format.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
+   * @param configurationName The name of the network manager Routing Configuration.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<NetworkGroup> {
+    configurationName: string,
+    options?: RoutingRuleCollectionsListOptionalParams,
+  ): PagedAsyncIterableIterator<RoutingRuleCollection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
+      configurationName,
       options,
     );
     return {
@@ -75,6 +78,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
+          configurationName,
           options,
           settings,
         );
@@ -85,13 +89,19 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
+    configurationName: string,
+    options?: RoutingRuleCollectionsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NetworkGroup[]> {
-    let result: NetworkGroupsListResponse;
+  ): AsyncIterableIterator<RoutingRuleCollection[]> {
+    let result: RoutingRuleCollectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkManagerName, options);
+      result = await this._list(
+        resourceGroupName,
+        networkManagerName,
+        configurationName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -101,6 +111,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
+        configurationName,
         continuationToken,
         options,
       );
@@ -114,11 +125,13 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): AsyncIterableIterator<NetworkGroup> {
+    configurationName: string,
+    options?: RoutingRuleCollectionsListOptionalParams,
+  ): AsyncIterableIterator<RoutingRuleCollection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
+      configurationName,
       options,
     )) {
       yield* page;
@@ -126,45 +139,75 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Gets the specified network group.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all the rule collections in a routing configuration, in a paginated format.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param configurationName The name of the network manager Routing Configuration.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    networkManagerName: string,
+    configurationName: string,
+    options?: RoutingRuleCollectionsListOptionalParams,
+  ): Promise<RoutingRuleCollectionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkManagerName, configurationName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a network manager routing configuration rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkManagerName The name of the network manager.
+   * @param configurationName The name of the network manager Routing Configuration.
+   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsGetOptionalParams,
-  ): Promise<NetworkGroupsGetResponse> {
+    configurationName: string,
+    ruleCollectionName: string,
+    options?: RoutingRuleCollectionsGetOptionalParams,
+  ): Promise<RoutingRuleCollectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, networkGroupName, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        configurationName,
+        ruleCollectionName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a network group.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a routing rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
-   * @param parameters Parameters supplied to the specify which network group need to create
+   * @param configurationName The name of the network manager Routing Configuration.
+   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+   * @param ruleCollection The Rule Collection to create or update
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    parameters: NetworkGroup,
-    options?: NetworkGroupsCreateOrUpdateOptionalParams,
-  ): Promise<NetworkGroupsCreateOrUpdateResponse> {
+    configurationName: string,
+    ruleCollectionName: string,
+    ruleCollection: RoutingRuleCollection,
+    options?: RoutingRuleCollectionsCreateOrUpdateOptionalParams,
+  ): Promise<RoutingRuleCollectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        networkGroupName,
-        parameters,
+        configurationName,
+        ruleCollectionName,
+        ruleCollection,
         options,
       },
       createOrUpdateOperationSpec,
@@ -172,17 +215,19 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Deletes a network group.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes an routing rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param configurationName The name of the network manager Routing Configuration.
+   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
+    configurationName: string,
+    ruleCollectionName: string,
+    options?: RoutingRuleCollectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -227,7 +272,8 @@ export class NetworkGroupsImpl implements NetworkGroups {
       args: {
         resourceGroupName,
         networkManagerName,
-        networkGroupName,
+        configurationName,
+        ruleCollectionName,
         options,
       },
       spec: deleteOperationSpec,
@@ -242,59 +288,53 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Deletes a network group.
-   * @param resourceGroupName The name of the resource group.
+   * Deletes an routing rule collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param configurationName The name of the network manager Routing Configuration.
+   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
+    configurationName: string,
+    ruleCollectionName: string,
+    options?: RoutingRuleCollectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      networkGroupName,
+      configurationName,
+      ruleCollectionName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists the specified network group.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): Promise<NetworkGroupsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param networkManagerName The name of the network manager.
+   * @param configurationName The name of the network manager Routing Configuration.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
+    configurationName: string,
     nextLink: string,
-    options?: NetworkGroupsListNextOptionalParams,
-  ): Promise<NetworkGroupsListNextResponse> {
+    options?: RoutingRuleCollectionsListNextOptionalParams,
+  ): Promise<RoutingRuleCollectionsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, nextLink, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        configurationName,
+        nextLink,
+        options,
+      },
       listNextOperationSpec,
     );
   }
@@ -302,12 +342,38 @@ export class NetworkGroupsImpl implements NetworkGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroup,
+      bodyMapper: Mappers.RoutingRuleCollectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.skipToken1,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoutingRuleCollection,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -316,49 +382,45 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.RoutingRuleCollection,
     },
     201: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.RoutingRuleCollection,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.ruleCollection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -372,35 +434,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
+    Parameters.ruleCollectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -410,7 +448,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
+      bodyMapper: Mappers.RoutingRuleCollectionListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -418,10 +456,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName,
+    Parameters.resourceGroupName1,
+    Parameters.networkManagerName2,
+    Parameters.configurationName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

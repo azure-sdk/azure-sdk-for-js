@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { NetworkGroups } from "../operationsInterfaces";
+import { ReachabilityAnalysisRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  NetworkGroup,
-  NetworkGroupsListNextOptionalParams,
-  NetworkGroupsListOptionalParams,
-  NetworkGroupsListResponse,
-  NetworkGroupsGetOptionalParams,
-  NetworkGroupsGetResponse,
-  NetworkGroupsCreateOrUpdateOptionalParams,
-  NetworkGroupsCreateOrUpdateResponse,
-  NetworkGroupsDeleteOptionalParams,
-  NetworkGroupsListNextResponse,
+  ReachabilityAnalysisRun,
+  ReachabilityAnalysisRunsListNextOptionalParams,
+  ReachabilityAnalysisRunsListOptionalParams,
+  ReachabilityAnalysisRunsListResponse,
+  ReachabilityAnalysisRunsGetOptionalParams,
+  ReachabilityAnalysisRunsGetResponse,
+  ReachabilityAnalysisRunsCreateOptionalParams,
+  ReachabilityAnalysisRunsCreateResponse,
+  ReachabilityAnalysisRunsDeleteOptionalParams,
+  ReachabilityAnalysisRunsDeleteResponse,
+  ReachabilityAnalysisRunsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing NetworkGroups operations. */
-export class NetworkGroupsImpl implements NetworkGroups {
+/** Class containing ReachabilityAnalysisRuns operations. */
+export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class NetworkGroups class.
+   * Initialize a new instance of the class ReachabilityAnalysisRuns class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,19 +47,22 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Lists the specified network group.
+   * Gets list of Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<NetworkGroup> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): PagedAsyncIterableIterator<ReachabilityAnalysisRun> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
+      workspaceName,
       options,
     );
     return {
@@ -75,6 +79,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
+          workspaceName,
           options,
           settings,
         );
@@ -85,13 +90,19 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NetworkGroup[]> {
-    let result: NetworkGroupsListResponse;
+  ): AsyncIterableIterator<ReachabilityAnalysisRun[]> {
+    let result: ReachabilityAnalysisRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkManagerName, options);
+      result = await this._list(
+        resourceGroupName,
+        networkManagerName,
+        workspaceName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -101,6 +112,7 @@ export class NetworkGroupsImpl implements NetworkGroups {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
+        workspaceName,
         continuationToken,
         options,
       );
@@ -114,11 +126,13 @@ export class NetworkGroupsImpl implements NetworkGroups {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): AsyncIterableIterator<NetworkGroup> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): AsyncIterableIterator<ReachabilityAnalysisRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
+      workspaceName,
       options,
     )) {
       yield* page;
@@ -126,68 +140,105 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Gets the specified network group.
+   * Gets list of Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param workspaceName Workspace name.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    networkManagerName: string,
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkManagerName, workspaceName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * Gets Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsGetOptionalParams,
-  ): Promise<NetworkGroupsGetResponse> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsGetOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, networkGroupName, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        workspaceName,
+        reachabilityAnalysisRunName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a network group.
+   * Creates Reachability Analysis Runs.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
-   * @param parameters Parameters supplied to the specify which network group need to create
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
+   * @param body Analysis Run resource object to create/update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    parameters: NetworkGroup,
-    options?: NetworkGroupsCreateOrUpdateOptionalParams,
-  ): Promise<NetworkGroupsCreateOrUpdateResponse> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    body: ReachabilityAnalysisRun,
+    options?: ReachabilityAnalysisRunsCreateOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        networkGroupName,
-        parameters,
+        workspaceName,
+        reachabilityAnalysisRunName,
+        body,
         options,
       },
-      createOrUpdateOperationSpec,
+      createOperationSpec,
     );
   }
 
   /**
-   * Deletes a network group.
+   * Deletes Reachability Analysis Run.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>,
+      ReachabilityAnalysisRunsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ReachabilityAnalysisRunsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,12 +278,16 @@ export class NetworkGroupsImpl implements NetworkGroups {
       args: {
         resourceGroupName,
         networkManagerName,
-        networkGroupName,
+        workspaceName,
+        reachabilityAnalysisRunName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ReachabilityAnalysisRunsDeleteResponse,
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -242,59 +297,53 @@ export class NetworkGroupsImpl implements NetworkGroups {
   }
 
   /**
-   * Deletes a network group.
+   * Deletes Reachability Analysis Run.
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param networkGroupName The name of the network group.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    networkGroupName: string,
-    options?: NetworkGroupsDeleteOptionalParams,
-  ): Promise<void> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      networkGroupName,
+      workspaceName,
+      reachabilityAnalysisRunName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists the specified network group.
-   * @param resourceGroupName The name of the resource group.
-   * @param networkManagerName The name of the network manager.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    networkManagerName: string,
-    options?: NetworkGroupsListOptionalParams,
-  ): Promise<NetworkGroupsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
+    workspaceName: string,
     nextLink: string,
-    options?: NetworkGroupsListNextOptionalParams,
-  ): Promise<NetworkGroupsListNextResponse> {
+    options?: ReachabilityAnalysisRunsListNextOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, nextLink, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        workspaceName,
+        nextLink,
+        options,
+      },
       listNextOperationSpec,
     );
   }
@@ -302,105 +351,114 @@ export class NetworkGroupsImpl implements NetworkGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
-    },
-    201: {
-      bodyMapper: Mappers.NetworkGroup,
-      headersMapper: Mappers.NetworkGroupsCreateOrUpdateHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkManagerName,
-    Parameters.networkGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
+    },
+    201: {
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  requestBody: Parameters.body4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -410,10 +468,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkGroupListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
@@ -421,7 +479,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
