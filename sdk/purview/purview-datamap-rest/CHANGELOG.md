@@ -1,14 +1,194 @@
-## Release History
+## 1.0.0-beta.1 (2024-09-27)
+    
+### Features Added
 
-### 1.0.0-beta.2 (Unreleased)
+  - Added Interface BusinessMetadataOptionsFilePartDescriptor
+  - Added Interface DiscoveryAutoCompleteQueryParam
+  - Added Interface DiscoveryAutoCompleteQueryParamProperties
+  - Added Interface DiscoveryQueryQueryParam
+  - Added Interface DiscoveryQueryQueryParamProperties
+  - Added Interface DiscoverySuggestQueryParam
+  - Added Interface DiscoverySuggestQueryParamProperties
+  - Added Interface EntityDelete200Response
+  - Added Interface EntityDeleteDefaultResponse
+  - Added Interface EntityGetSampleBusinessMetadataTemplate200Headers
+  - Added Interface GlossaryDelete204Response
+  - Added Interface GlossaryDeleteDefaultResponse
+  - Added Interface GlossaryGetDetailedQueryParam
+  - Added Interface GlossaryGetDetailedQueryParamProperties
+  - Added Interface GlossaryGetTermQueryParam
+  - Added Interface GlossaryGetTermQueryParamProperties
+  - Added Interface PurviewDataMapClientOptions
+  - Added Interface RelationshipDelete204Response
+  - Added Interface RelationshipDeleteDefaultResponse
+  - Added Interface TypeDelete204Response
+  - Added Interface TypeDeleteDefaultResponse
+  - Added Interface TypeGetTermTemplateDefByGuidQueryParam
+  - Added Interface TypeGetTermTemplateDefByGuidQueryParamProperties
+  - Added Interface TypeGetTermTemplateDefByNameQueryParam
+  - Added Interface TypeGetTermTemplateDefByNameQueryParamProperties
+  - Added Type Alias AtlasTermAssignmentStatus
+  - Added Type Alias AtlasTermAssignmentStatusOutput
+  - Added Type Alias AtlasTermRelationshipStatus
+  - Added Type Alias AtlasTermRelationshipStatusOutput
+  - Added Type Alias BusinessAttributeUpdateBehavior
+  - Added Type Alias BusinessMetadataOptions
+  - Added Type Alias CardinalityValue
+  - Added Type Alias CardinalityValueOutput
+  - Added Type Alias EntityStatus
+  - Added Type Alias EntityStatusOutput
+  - Added Type Alias ImportStatusOutput
+  - Added Type Alias LineageDirection
+  - Added Type Alias LineageDirectionOutput
+  - Added Type Alias RelationshipCategory
+  - Added Type Alias RelationshipCategoryOutput
+  - Added Type Alias RoundingMode
+  - Added Type Alias RoundingModeOutput
+  - Added Type Alias SearchSortOrder
+  - Added Type Alias SortTypeOutput
+  - Added Type Alias StatusAtlasRelationship
+  - Added Type Alias StatusAtlasRelationshipOutput
+  - Added Type Alias TermStatus
+  - Added Type Alias TermStatusOutput
+  - Added Type Alias TypeCategory
+  - Added Type Alias TypeCategoryOutput
+  - Interface EntityBulkCreateOrUpdateQueryParamProperties has a new optional parameter api-version
+  - Interface EntityCreateOrUpdateQueryParamProperties has a new optional parameter api-version
+  - Interface EntityListByGuidsQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryCreateTermsQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryListQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryListRelatedTermsQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryListTermsQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryPartialUpdateQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryPartialUpdateTermQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryUpdateQueryParamProperties has a new optional parameter api-version
+  - Interface GlossaryUpdateTermQueryParamProperties has a new optional parameter api-version
+  - Interface QueryResultOutput has a new optional parameter @search.count
+  - Interface QueryResultOutput has a new optional parameter @search.count.approximate
+  - Interface QueryResultOutput has a new optional parameter @search.facets
+  - Interface SearchResultValueOutput has a new optional parameter @search.highlights
+  - Interface SearchResultValueOutput has a new optional parameter @search.score
+  - Interface SuggestResultValueOutput has a new optional parameter @search.score
+  - Interface SuggestResultValueOutput has a new optional parameter @search.text
+  - Interface TypeListHeadersQueryParamProperties has a new optional parameter api-version
+  - Interface TypeListQueryParamProperties has a new optional parameter api-version
+  - Add parameters of DiscoveryAutoCompleteQueryParam to TypeAlias DiscoveryAutoCompleteParameters
+  - Add parameters of DiscoveryQueryQueryParam to TypeAlias DiscoveryQueryParameters
+  - Add parameters of DiscoverySuggestQueryParam to TypeAlias DiscoverySuggestParameters
+  - Add parameters of GlossaryGetDetailedQueryParam to TypeAlias GlossaryGetDetailedParameters
+  - Add parameters of GlossaryGetTermQueryParam to TypeAlias GlossaryGetTermParameters
+  - Add parameters of TypeGetTermTemplateDefByGuidQueryParam to TypeAlias TypeGetTermTemplateDefByGuidParameters
+  - Add parameters of TypeGetTermTemplateDefByNameQueryParam to TypeAlias TypeGetTermTemplateDefByNameParameters
 
-#### Features Added
+### Breaking Changes
 
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 1.0.0-beta.1 (2024-03-04)
-  - Initial Release
+  - Operation DiscoveryAutoComplete.post has a new signature
+  - Operation DiscoveryQuery.post has a new signature
+  - Operation DiscoverySuggest.post has a new signature
+  - Operation EntityAddClassification.post has a new signature
+  - Operation EntityBulkSetClassifications.post has a new signature
+  - Operation EntityCreateOrUpdate.post has a new signature
+  - Operation EntityGetByUniqueAttributes.put has a new signature
+  - Operation EntityListByGuids.post has a new signature
+  - Operation GlossaryCreateCategory.post has a new signature
+  - Operation GlossaryCreateTerm.post has a new signature
+  - Operation GlossaryGet.put has a new signature
+  - Operation GlossaryGetCategory.put has a new signature
+  - Operation GlossaryGetTerm.put has a new signature
+  - Operation GlossaryList.post has a new signature
+  - Operation RelationshipCreate.post has a new signature
+  - Operation RelationshipCreate.put has a new signature
+  - Operation TypeList.delete has a new signature
+  - Operation TypeList.post has a new signature
+  - Operation TypeList.put has a new signature
+  - Interface QueryResultOutput no longer has parameter searchCount
+  - Interface QueryResultOutput no longer has parameter searchCountApproximate
+  - Interface QueryResultOutput no longer has parameter searchFacets
+  - Interface SearchResultValueOutput no longer has parameter searchHighlights
+  - Interface SearchResultValueOutput no longer has parameter searchScore
+  - Interface SuggestResultValueOutput no longer has parameter searchScore
+  - Interface SuggestResultValueOutput no longer has parameter searchText
+  - Interface EntityGetSampleBusinessMetadataTemplate200Response has a new required parameter headers
+  - Interface EntityMoveEntitiesToCollectionQueryParamProperties has a new required parameter api-version
+  - Interface LineageGetNextPageQueryParamProperties has a new required parameter api-version
+  - Parameter body of interface DiscoveryAutoCompleteBodyParam is now required
+  - Parameter body of interface DiscoveryQueryBodyParam is now required
+  - Parameter body of interface DiscoverySuggestBodyParam is now required
+  - Parameter body of interface EntityAddClassificationBodyParam is now required
+  - Parameter body of interface EntityBulkCreateOrUpdateBodyParam is now required
+  - Parameter body of interface EntityBulkSetClassificationsBodyParam is now required
+  - Parameter body of interface EntityCreateOrUpdateBodyParam is now required
+  - Parameter body of interface EntityImportBusinessMetadataBodyParam is now required
+  - Parameter body of interface EntityMoveEntitiesToCollectionBodyParam is now required
+  - Parameter body of interface EntityPartialUpdateByUniqueAttributesBodyParam is now required
+  - Parameter body of interface GlossaryCreateBodyParam is now required
+  - Parameter body of interface GlossaryCreateCategoryBodyParam is now required
+  - Parameter body of interface GlossaryCreateTermBodyParam is now required
+  - Parameter body of interface GlossaryUpdateBodyParam is now required
+  - Parameter body of interface GlossaryUpdateCategoryBodyParam is now required
+  - Parameter body of interface GlossaryUpdateTermBodyParam is now required
+  - Parameter body of interface RelationshipCreateBodyParam is now required
+  - Parameter body of interface RelationshipUpdateBodyParam is now required
+  - Parameter body of interface TypeBulkCreateBodyParam is now required
+  - Parameter body of interface TypeBulkDeleteBodyParam is now required
+  - Parameter body of interface TypeBulkUpdateBodyParam is now required
+  - Type of parameter cardinality of interface AtlasAttributeDef is changed from string to CardinalityValue
+  - Type of parameter cardinality of interface AtlasAttributeDefOutput is changed from string to CardinalityValueOutput
+  - Type of parameter category of interface AtlasBusinessMetadataDef is changed from string to TypeCategory
+  - Type of parameter category of interface AtlasBusinessMetadataDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter entityStatus of interface AtlasClassification is changed from string to EntityStatus
+  - Type of parameter category of interface AtlasClassificationDef is changed from string to TypeCategory
+  - Type of parameter category of interface AtlasClassificationDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter entityStatus of interface AtlasClassificationOutput is changed from string to EntityStatusOutput
+  - Type of parameter sortType of interface AtlasClassificationsOutput is changed from string to SortTypeOutput
+  - Type of parameter status of interface AtlasEntity is changed from string to EntityStatus
+  - Type of parameter category of interface AtlasEntityDef is changed from string to TypeCategory
+  - Type of parameter category of interface AtlasEntityDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter status of interface AtlasEntityHeader is changed from string to EntityStatus
+  - Type of parameter status of interface AtlasEntityHeaderOutput is changed from string to EntityStatusOutput
+  - Type of parameter status of interface AtlasEntityOutput is changed from string to EntityStatusOutput
+  - Type of parameter category of interface AtlasEnumDef is changed from string to TypeCategory
+  - Type of parameter category of interface AtlasEnumDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter status of interface AtlasGlossaryTerm is changed from string to TermStatus
+  - Type of parameter status of interface AtlasGlossaryTermOutput is changed from string to TermStatusOutput
+  - Type of parameter lineageDirection of interface AtlasLineageInfoOutput is changed from string to LineageDirectionOutput
+  - Type of parameter entityStatus of interface AtlasRelatedObjectId is changed from string to EntityStatus
+  - Type of parameter relationshipStatus of interface AtlasRelatedObjectId is changed from string to StatusAtlasRelationship
+  - Type of parameter entityStatus of interface AtlasRelatedObjectIdOutput is changed from string to EntityStatusOutput
+  - Type of parameter relationshipStatus of interface AtlasRelatedObjectIdOutput is changed from string to StatusAtlasRelationshipOutput
+  - Type of parameter status of interface AtlasRelatedTermHeader is changed from string to AtlasTermRelationshipStatus
+  - Type of parameter status of interface AtlasRelatedTermHeaderOutput is changed from string to AtlasTermRelationshipStatusOutput
+  - Type of parameter status of interface AtlasRelationship is changed from string to StatusAtlasRelationship
+  - Type of parameter cardinality of interface AtlasRelationshipAttributeDef is changed from string to CardinalityValue
+  - Type of parameter cardinality of interface AtlasRelationshipAttributeDefOutput is changed from string to CardinalityValueOutput
+  - Type of parameter category of interface AtlasRelationshipDef is changed from string to TypeCategory
+  - Type of parameter relationshipCategory of interface AtlasRelationshipDef is changed from string to RelationshipCategory
+  - Type of parameter category of interface AtlasRelationshipDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter relationshipCategory of interface AtlasRelationshipDefOutput is changed from string to RelationshipCategoryOutput
+  - Type of parameter cardinality of interface AtlasRelationshipEndDef is changed from string to CardinalityValue
+  - Type of parameter cardinality of interface AtlasRelationshipEndDefOutput is changed from string to CardinalityValueOutput
+  - Type of parameter status of interface AtlasRelationshipOutput is changed from string to StatusAtlasRelationshipOutput
+  - Type of parameter category of interface AtlasStructDef is changed from string to TypeCategory
+  - Type of parameter category of interface AtlasStructDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter status of interface AtlasTermAssignmentHeader is changed from string to AtlasTermAssignmentStatus
+  - Type of parameter status of interface AtlasTermAssignmentHeaderOutput is changed from string to AtlasTermAssignmentStatusOutput
+  - Type of parameter status of interface AtlasTermCategorizationHeader is changed from string to AtlasTermRelationshipStatus
+  - Type of parameter status of interface AtlasTermCategorizationHeaderOutput is changed from string to AtlasTermRelationshipStatusOutput
+  - Type of parameter category of interface AtlasTypeDefHeaderOutput is changed from string to TypeCategoryOutput
+  - Type of parameter category of interface AtlasTypeDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter relationshipCategory of interface AtlasTypeDefOutput is changed from string to RelationshipCategoryOutput
+  - Type of parameter businessAttributeUpdateBehavior of interface EntityBulkCreateOrUpdateQueryParamProperties is changed from string to BusinessAttributeUpdateBehavior
+  - Type of parameter businessAttributeUpdateBehavior of interface EntityCreateOrUpdateQueryParamProperties is changed from string to BusinessAttributeUpdateBehavior
+  - Type of parameter importStatus of interface ImportInfoOutput is changed from string to ImportStatusOutput
+  - Type of parameter direction of interface LineageGetByUniqueAttributeQueryParamProperties is changed from string to LineageDirection
+  - Type of parameter direction of interface LineageGetNextPageQueryParamProperties is changed from string to LineageDirection
+  - Type of parameter direction of interface LineageGetQueryParamProperties is changed from string to LineageDirection
+  - Type of parameter roundingMode of interface NumberFormat is changed from string to RoundingMode
+  - Type of parameter roundingMode of interface NumberFormatOutput is changed from string to RoundingModeOutput
+  - Type of parameter count of interface SearchFacetSort is changed from string to SearchSortOrder
+  - Type of parameter value of interface SearchFacetSort is changed from string to SearchSortOrder
+  - Type of parameter category of interface TermTemplateDef is changed from string to TypeCategory
+  - Type of parameter category of interface TermTemplateDefOutput is changed from string to TypeCategoryOutput
+  - Type of parameter type of interface TypeListHeadersQueryParamProperties is changed from string to TypeCategory
+  - Type of parameter type of interface TypeListQueryParamProperties is changed from string to TypeCategory
+    
