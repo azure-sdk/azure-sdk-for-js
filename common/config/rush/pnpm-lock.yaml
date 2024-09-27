@@ -15576,31 +15576,30 @@ packages:
     dev: false
 
   file:projects/arm-healthdataaiservices.tgz:
-    resolution: {integrity: sha512-tyUVQWuRSVdZRjkIIEh5b4fZckDMvvH7VO1rsKdnfXJ+4tNr3u4ODFAPPokAPxM7oh5dY9zDx4v3DlU8B2ykyw==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-ZtfUEUKJqusSjCXtg6qKaejRebsjV8wRfQl1eEtass8UqWabY/P7cxCw/vuExaG0YvJplfd60W3Y+Vb+YtKtww==, tarball: file:projects/arm-healthdataaiservices.tgz}
     name: '@rush-temp/arm-healthdataaiservices'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
       '@types/node': 18.19.50
-      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
       '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       dotenv: 16.4.5
-      eslint: 9.11.0
+      eslint: 8.57.1
       mkdirp: 3.0.1
       playwright: 1.47.2
       prettier: 3.3.3
       rimraf: 5.0.10
-      tshy: 2.0.1
+      tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
       vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
@@ -16732,7 +16731,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5qfO0a31+swfnXGpyq3cmrbZ8Bj0tsLzx4frzixKRWNYsjpj3dbGiuLoIQDzcaw7mADeSVcXqduGOLAPxhtsdw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
