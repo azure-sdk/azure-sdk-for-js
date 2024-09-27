@@ -845,6 +845,9 @@ dependencies:
   '@rush-temp/container-registry':
     specifier: file:./projects/container-registry.tgz
     version: file:projects/container-registry.tgz
+  '@rush-temp/contoso-widgetmanager-rest':
+    specifier: file:./projects/contoso-widgetmanager-rest.tgz
+    version: file:projects/contoso-widgetmanager-rest.tgz
   '@rush-temp/core-amqp':
     specifier: file:./projects/core-amqp.tgz
     version: file:projects/core-amqp.tgz
@@ -16732,7 +16735,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5qfO0a31+swfnXGpyq3cmrbZ8Bj0tsLzx4frzixKRWNYsjpj3dbGiuLoIQDzcaw7mADeSVcXqduGOLAPxhtsdw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -20666,6 +20669,47 @@ packages:
       - jiti
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/contoso-widgetmanager-rest.tgz:
+    resolution: {integrity: sha512-oKsoYS7tB3B1KG/G1INYBAwkOi46RcFBjLypL81B1sL8NFhZvIkzOh0oWp6dcu5PAdb1QBOGFSCSrWB9IDzJwg==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
+    name: '@rush-temp/contoso-widgetmanager-rest'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
+      '@types/node': 18.19.50
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      playwright: 1.47.2
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/core-amqp.tgz:
