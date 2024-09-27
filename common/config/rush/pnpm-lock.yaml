@@ -16732,7 +16732,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5qfO0a31+swfnXGpyq3cmrbZ8Bj0tsLzx4frzixKRWNYsjpj3dbGiuLoIQDzcaw7mADeSVcXqduGOLAPxhtsdw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -20189,7 +20189,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-jlO9QjK5W6b4aS+ABhwfwjecO7DG0i3iSpzAEeXKH+DR+tD8gEfi9OXiQrLbQpHSqrMf4XYtfU6dNA2AwXh9qw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-Yz3uYjilpY3eb0CJqX2DJx4m6CaFnRNP8dsN5hoi80XQqawffk7/HqoaNTQZ+W90w+b79Ez0XoQ17il/EnUW3g==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -20201,11 +20201,13 @@ packages:
       '@types/chai': 4.3.19
       '@types/mocha': 10.0.8
       '@types/node': 18.19.50
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      eslint: 9.11.0
+      eslint: 8.57.1
       karma: 6.4.4(debug@4.3.7)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20219,19 +20221,34 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
+      prettier: 3.3.3
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
+      tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
-      - jiti
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-messages.tgz:
