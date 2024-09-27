@@ -3404,6 +3404,8 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
+  ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

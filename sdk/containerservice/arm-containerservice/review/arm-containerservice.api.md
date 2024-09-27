@@ -168,6 +168,7 @@ export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
 
 // @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

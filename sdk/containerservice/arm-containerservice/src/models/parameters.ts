@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-07-01",
+    defaultValue: "2024-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -264,6 +264,16 @@ export const agentPoolName: OperationURLParameter = {
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: AgentPoolMapper,
+};
+
+export const ignorePodDisruptionBudget: OperationQueryParameter = {
+  parameterPath: ["options", "ignorePodDisruptionBudget"],
+  mapper: {
+    serializedName: "ignore-pod-disruption-budget",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const machines: OperationParameter = {
