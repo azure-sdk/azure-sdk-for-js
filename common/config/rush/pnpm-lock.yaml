@@ -16732,7 +16732,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-5qfO0a31+swfnXGpyq3cmrbZ8Bj0tsLzx4frzixKRWNYsjpj3dbGiuLoIQDzcaw7mADeSVcXqduGOLAPxhtsdw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -18984,7 +18984,7 @@ packages:
     dev: false
 
   file:projects/arm-standbypool.tgz:
-    resolution: {integrity: sha512-cZ+3KqNhZXQ8w2JL3VlYce2KrfDPCXGHgRqZQiOUbujloVx+MYlARSceN8vLAF1WdVx2Mpz/R1xQQmKgPnLA6A==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-RA7FbmDLZOkNF8NGzmcG2AzyQ/IlvajjibpOkVM7IdTgHFhumThLzssHoB44fKP9DYImkzGxxmtzpaUSmy/TEw==, tarball: file:projects/arm-standbypool.tgz}
     name: '@rush-temp/arm-standbypool'
     version: 0.0.0
     dependencies:
@@ -18997,7 +18997,7 @@ packages:
       '@types/chai': 4.3.19
       '@types/mocha': 10.0.8
       '@types/node': 18.19.50
-      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
       '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19012,7 +19012,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
       tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
       vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
