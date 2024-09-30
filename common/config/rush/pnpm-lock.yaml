@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -15575,7 +15575,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-A7+V6V2mM+iJkWIhyHHxwFwt5oGrgdlu4gcYutMpglOzI3GPtS8r9iQPQFEai8whcLa1KeT2njUD7TA4HLseVQ==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-RqGhgTloyH1VNtz5ZagttRrgCElo2dk68YbMSafzhwFOBR8rsQcMcwyHXWOF7ncaJ4yKovDX+oMAjN8g3WWB7A==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15594,10 +15594,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
