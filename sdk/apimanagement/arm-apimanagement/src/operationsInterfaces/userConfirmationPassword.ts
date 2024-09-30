@@ -21,6 +21,6 @@ export interface UserConfirmationPassword {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserConfirmationPasswordSendOptionalParams
+    options?: UserConfirmationPasswordSendOptionalParams,
   ): Promise<void>;
 }
