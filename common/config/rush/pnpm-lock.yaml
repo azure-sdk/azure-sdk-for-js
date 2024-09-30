@@ -11757,7 +11757,7 @@ packages:
     dev: false
 
   file:projects/ai-content-safety.tgz:
-    resolution: {integrity: sha512-XeLIGmGEvhQIAis3L87dxk2mNUwuOURUo7sQabcVlOGYBeqE8ph1B667SdIGMuA5n4MrD3Ns1+hxrNuPcgB5ig==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-61Ecxzg+1swaOnn6+1sPWTYU4TLFE62lE1PA9/jv97M84xIZElaFuUQSgFX8lxOQxuaFp/XACEwd8leym0UpyQ==, tarball: file:projects/ai-content-safety.tgz}
     name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
@@ -11769,11 +11769,13 @@ packages:
       '@types/chai': 4.3.19
       '@types/mocha': 10.0.8
       '@types/node': 18.19.50
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      eslint: 9.11.0
+      eslint: 8.57.1
       karma: 6.4.4(debug@4.3.7)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -11787,19 +11789,34 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
+      prettier: 3.3.3
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
+      tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
-      - jiti
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-document-intelligence.tgz:

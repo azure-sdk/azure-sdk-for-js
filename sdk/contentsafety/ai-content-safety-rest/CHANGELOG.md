@@ -1,56 +1,382 @@
-# Release History
-
-## 1.0.1 (Unreleased)
-
+## 1.0.0 (2024-09-30)
+    
 ### Features Added
+
+  - Added operation group ImageIncidentOperationsAddIncidentSamples
+  - Added operation group ImageIncidentOperationsDeploy
+  - Added operation group ImageIncidentOperationsGetIncidents
+  - Added operation group ImageIncidentOperationsGetIncidentSample
+  - Added operation group ImageIncidentOperationsGetLongRunningOperation
+  - Added operation group ImageIncidentOperationsListIncidents
+  - Added operation group ImageIncidentOperationsListIncidentSamples
+  - Added operation group ImageIncidentOperationsRemoveIncidentSamples
+  - Added operation group ImageOperationsAnalyzeImage
+  - Added operation group ImageOperationsDetectImageIncidents
+  - Added operation group ImageOperationsDetectImageProtectedMaterial
+  - Added operation group ImageWithTextOperationsAnalyzeImageWithText
+  - Added operation group SimplePollerLike
+  - Added operation group TextBlocklistsAddOrUpdateBlocklistItems
+  - Added operation group TextBlocklistsGetTextBlocklist
+  - Added operation group TextBlocklistsGetTextBlocklistItem
+  - Added operation group TextBlocklistsListTextBlocklistItems
+  - Added operation group TextBlocklistsListTextBlocklists
+  - Added operation group TextBlocklistsRemoveBlocklistItems
+  - Added operation group TextCustomizedCategoryOperationsBuild
+  - Added operation group TextCustomizedCategoryOperationsCreateTextCustomCategoryVersion
+  - Added operation group TextCustomizedCategoryOperationsGetLongRunningOperation
+  - Added operation group TextCustomizedCategoryOperationsListCustomizedCategory
+  - Added operation group TextIncidentOperationsAddIncidentSamples
+  - Added operation group TextIncidentOperationsDeploy
+  - Added operation group TextIncidentOperationsGetIncidents
+  - Added operation group TextIncidentOperationsGetIncidentSample
+  - Added operation group TextIncidentOperationsGetLongRunningOperation
+  - Added operation group TextIncidentOperationsListIncidents
+  - Added operation group TextIncidentOperationsListIncidentSamples
+  - Added operation group TextIncidentOperationsRemoveIncidentSamples
+  - Added operation group TextOperationsAnalyzeText
+  - Added operation group TextOperationsAnalyzeTextCustomCategory
+  - Added operation group TextOperationsDetectCodeProtectedMaterial
+  - Added operation group TextOperationsDetectGroundednessOptions
+  - Added operation group TextOperationsDetectTextIncidents
+  - Added operation group TextOperationsDetectTextProtectedMaterial
+  - Added operation group TextOperationsShieldPrompt
+  - Added Interface AddImageIncidentSamplesOptions
+  - Added Interface AddImageIncidentSamplesResultOutput
+  - Added Interface AddTextIncidentSamplesOptions
+  - Added Interface AddTextIncidentSamplesResultOutput
+  - Added Interface AnalyzeImageDetectIncidentsOptions
+  - Added Interface AnalyzeImageWithTextOptions
+  - Added Interface AnalyzeImageWithTextResultOutput
+  - Added Interface AnalyzeTextCustomCategoryOption
+  - Added Interface AnalyzeTextCustomCategoryResultOutput
+  - Added Interface AnalyzeTextDetectIncidentsOptions
+  - Added Interface AnalyzeTextGroundednessOptions
+  - Added Interface AnalyzeTextGroundednessResultOutput
+  - Added Interface CodeCitationOutput
+  - Added Interface CodeProtectedMaterialAnalysisResultOutput
+  - Added Interface ContentSafetyClientOptions
+  - Added Interface CustomCategoryLongRunningOperationStatusResultOutput
+  - Added Interface CustomCategoryOperationDetailOutput
+  - Added Interface DetectCodeProtectedMaterialOptions
+  - Added Interface DetectCodeProtectedMaterialResultOutput
+  - Added Interface DetectImageProtectedMaterialOptions
+  - Added Interface DetectImageProtectedMaterialResultOutput
+  - Added Interface DetectIncidentsResultOutput
+  - Added Interface DetectTextProtectedMaterialOptions
+  - Added Interface DetectTextProtectedMaterialResultOutput
+  - Added Interface DocumentInjectionAnalysisResultOutput
+  - Added Interface ImageData
+  - Added Interface ImageDataResultOutput
+  - Added Interface ImageIncident
+  - Added Interface ImageIncidentOperationResultOutput
+  - Added Interface ImageIncidentOperationsAddIncidentSamples200Response
+  - Added Interface ImageIncidentOperationsAddIncidentSamplesBodyParam
+  - Added Interface ImageIncidentOperationsAddIncidentSamplesDefaultHeaders
+  - Added Interface ImageIncidentOperationsAddIncidentSamplesDefaultResponse
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncident200Response
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncident201Response
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncidentBodyParam
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncidentDefaultHeaders
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncidentDefaultResponse
+  - Added Interface ImageIncidentOperationsCreateOrUpdateIncidentMediaTypesParam
+  - Added Interface ImageIncidentOperationsDeleteIncident204Response
+  - Added Interface ImageIncidentOperationsDeleteIncidentDefaultHeaders
+  - Added Interface ImageIncidentOperationsDeleteIncidentDefaultResponse
+  - Added Interface ImageIncidentOperationsDeploy202Headers
+  - Added Interface ImageIncidentOperationsDeploy202Response
+  - Added Interface ImageIncidentOperationsDeployDefaultHeaders
+  - Added Interface ImageIncidentOperationsDeployDefaultResponse
+  - Added Interface ImageIncidentOperationsDeployHeaderParam
+  - Added Interface ImageIncidentOperationsDeployHeaders
+  - Added Interface ImageIncidentOperationsDeployLogicalResponse
+  - Added Interface ImageIncidentOperationsGetIncidents200Response
+  - Added Interface ImageIncidentOperationsGetIncidentSample200Response
+  - Added Interface ImageIncidentOperationsGetIncidentSampleDefaultHeaders
+  - Added Interface ImageIncidentOperationsGetIncidentSampleDefaultResponse
+  - Added Interface ImageIncidentOperationsGetIncidentsDefaultHeaders
+  - Added Interface ImageIncidentOperationsGetIncidentsDefaultResponse
+  - Added Interface ImageIncidentOperationsGetLongRunningOperation200Response
+  - Added Interface ImageIncidentOperationsGetLongRunningOperationDefaultHeaders
+  - Added Interface ImageIncidentOperationsGetLongRunningOperationDefaultResponse
+  - Added Interface ImageIncidentOperationsListIncidents200Response
+  - Added Interface ImageIncidentOperationsListIncidentSamples200Response
+  - Added Interface ImageIncidentOperationsListIncidentSamplesDefaultHeaders
+  - Added Interface ImageIncidentOperationsListIncidentSamplesDefaultResponse
+  - Added Interface ImageIncidentOperationsListIncidentSamplesQueryParam
+  - Added Interface ImageIncidentOperationsListIncidentSamplesQueryParamProperties
+  - Added Interface ImageIncidentOperationsListIncidentsDefaultHeaders
+  - Added Interface ImageIncidentOperationsListIncidentsDefaultResponse
+  - Added Interface ImageIncidentOperationsListIncidentsQueryParam
+  - Added Interface ImageIncidentOperationsListIncidentsQueryParamProperties
+  - Added Interface ImageIncidentOperationsRemoveIncidentSamples204Response
+  - Added Interface ImageIncidentOperationsRemoveIncidentSamplesBodyParam
+  - Added Interface ImageIncidentOperationsRemoveIncidentSamplesDefaultHeaders
+  - Added Interface ImageIncidentOperationsRemoveIncidentSamplesDefaultResponse
+  - Added Interface ImageIncidentOutput
+  - Added Interface ImageIncidentSample
+  - Added Interface ImageIncidentSampleResultOutput
+  - Added Interface ImageOperationsAnalyzeImage200Response
+  - Added Interface ImageOperationsAnalyzeImageBodyParam
+  - Added Interface ImageOperationsAnalyzeImageDefaultHeaders
+  - Added Interface ImageOperationsAnalyzeImageDefaultResponse
+  - Added Interface ImageOperationsDetectImageIncidents200Response
+  - Added Interface ImageOperationsDetectImageIncidentsBodyParam
+  - Added Interface ImageOperationsDetectImageIncidentsDefaultHeaders
+  - Added Interface ImageOperationsDetectImageIncidentsDefaultResponse
+  - Added Interface ImageOperationsDetectImageProtectedMaterial200Response
+  - Added Interface ImageOperationsDetectImageProtectedMaterialBodyParam
+  - Added Interface ImageOperationsDetectImageProtectedMaterialDefaultHeaders
+  - Added Interface ImageOperationsDetectImageProtectedMaterialDefaultResponse
+  - Added Interface ImageProtectedMaterialAnalysisResultOutput
+  - Added Interface ImageWithTextCategoriesAnalysisOutput
+  - Added Interface ImageWithTextOperationsAnalyzeImageWithText200Response
+  - Added Interface ImageWithTextOperationsAnalyzeImageWithTextBodyParam
+  - Added Interface ImageWithTextOperationsAnalyzeImageWithTextDefaultHeaders
+  - Added Interface ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse
+  - Added Interface IncidentLongRunningOperationStatusResultOutput
+  - Added Interface IncidentMatchOutput
+  - Added Interface IndexDetailsOutput
+  - Added Interface ListImageIncidentSampleResultOutput
+  - Added Interface LLMResource
+  - Added Interface QnAOptions
+  - Added Interface RemoveImageIncidentSamplesOptions
+  - Added Interface RemoveTextIncidentSamplesOptions
+  - Added Interface ResourceOperationStatusOutput
+  - Added Interface ShieldPromptOptions
+  - Added Interface ShieldPromptResultOutput
+  - Added Interface TextBlocklistsAddOrUpdateBlocklistItems200Response
+  - Added Interface TextBlocklistsAddOrUpdateBlocklistItemsBodyParam
+  - Added Interface TextBlocklistsAddOrUpdateBlocklistItemsDefaultHeaders
+  - Added Interface TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklist200Response
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklist201Response
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklistBodyParam
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklistDefaultHeaders
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse
+  - Added Interface TextBlocklistsCreateOrUpdateTextBlocklistMediaTypesParam
+  - Added Interface TextBlocklistsDeleteTextBlocklist204Response
+  - Added Interface TextBlocklistsDeleteTextBlocklistDefaultHeaders
+  - Added Interface TextBlocklistsDeleteTextBlocklistDefaultResponse
+  - Added Interface TextBlocklistsGetTextBlocklist200Response
+  - Added Interface TextBlocklistsGetTextBlocklistDefaultHeaders
+  - Added Interface TextBlocklistsGetTextBlocklistDefaultResponse
+  - Added Interface TextBlocklistsGetTextBlocklistItem200Response
+  - Added Interface TextBlocklistsGetTextBlocklistItemDefaultHeaders
+  - Added Interface TextBlocklistsGetTextBlocklistItemDefaultResponse
+  - Added Interface TextBlocklistsListTextBlocklistItems200Response
+  - Added Interface TextBlocklistsListTextBlocklistItemsDefaultHeaders
+  - Added Interface TextBlocklistsListTextBlocklistItemsDefaultResponse
+  - Added Interface TextBlocklistsListTextBlocklistItemsQueryParam
+  - Added Interface TextBlocklistsListTextBlocklistItemsQueryParamProperties
+  - Added Interface TextBlocklistsListTextBlocklists200Response
+  - Added Interface TextBlocklistsListTextBlocklistsDefaultHeaders
+  - Added Interface TextBlocklistsListTextBlocklistsDefaultResponse
+  - Added Interface TextBlocklistsRemoveBlocklistItems204Response
+  - Added Interface TextBlocklistsRemoveBlocklistItemsBodyParam
+  - Added Interface TextBlocklistsRemoveBlocklistItemsDefaultHeaders
+  - Added Interface TextBlocklistsRemoveBlocklistItemsDefaultResponse
+  - Added Interface TextCustomCategoryAnalysisOutput
+  - Added Interface TextCustomCategoryVersion
+  - Added Interface TextCustomCategoryVersionListOutput
+  - Added Interface TextCustomCategoryVersionOutput
+  - Added Interface TextCustomizedCategoryOperationsBuild202Headers
+  - Added Interface TextCustomizedCategoryOperationsBuild202Response
+  - Added Interface TextCustomizedCategoryOperationsBuildDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsBuildDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsBuildHeaderParam
+  - Added Interface TextCustomizedCategoryOperationsBuildHeaders
+  - Added Interface TextCustomizedCategoryOperationsBuildLogicalResponse
+  - Added Interface TextCustomizedCategoryOperationsBuildQueryParam
+  - Added Interface TextCustomizedCategoryOperationsBuildQueryParamProperties
+  - Added Interface TextCustomizedCategoryOperationsCreateTextCustomCategoryVersion200Response
+  - Added Interface TextCustomizedCategoryOperationsCreateTextCustomCategoryVersion201Response
+  - Added Interface TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionBodyParam
+  - Added Interface TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsDeleteCustomizedCategory204Response
+  - Added Interface TextCustomizedCategoryOperationsDeleteCustomizedCategoryDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsDeleteCustomizedCategoryDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsDeleteCustomizedCategoryQueryParam
+  - Added Interface TextCustomizedCategoryOperationsDeleteCustomizedCategoryQueryParamProperties
+  - Added Interface TextCustomizedCategoryOperationsGetCustomizedCategory200Response
+  - Added Interface TextCustomizedCategoryOperationsGetCustomizedCategoryDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsGetCustomizedCategoryDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsGetCustomizedCategoryQueryParam
+  - Added Interface TextCustomizedCategoryOperationsGetCustomizedCategoryQueryParamProperties
+  - Added Interface TextCustomizedCategoryOperationsGetLongRunningOperation200Response
+  - Added Interface TextCustomizedCategoryOperationsGetLongRunningOperationDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsGetLongRunningOperationDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsListCustomizedCategory200Response
+  - Added Interface TextCustomizedCategoryOperationsListCustomizedCategoryDefaultHeaders
+  - Added Interface TextCustomizedCategoryOperationsListCustomizedCategoryDefaultResponse
+  - Added Interface TextCustomizedCategoryOperationsListCustomizedCategoryQueryParam
+  - Added Interface TextCustomizedCategoryOperationsListCustomizedCategoryQueryParamProperties
+  - Added Interface TextIncident
+  - Added Interface TextIncidentOperationResultOutput
+  - Added Interface TextIncidentOperationsAddIncidentSamples200Response
+  - Added Interface TextIncidentOperationsAddIncidentSamplesBodyParam
+  - Added Interface TextIncidentOperationsAddIncidentSamplesDefaultHeaders
+  - Added Interface TextIncidentOperationsAddIncidentSamplesDefaultResponse
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncident200Response
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncident201Response
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncidentBodyParam
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncidentDefaultHeaders
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncidentDefaultResponse
+  - Added Interface TextIncidentOperationsCreateOrUpdateIncidentMediaTypesParam
+  - Added Interface TextIncidentOperationsDeleteIncident204Response
+  - Added Interface TextIncidentOperationsDeleteIncidentDefaultHeaders
+  - Added Interface TextIncidentOperationsDeleteIncidentDefaultResponse
+  - Added Interface TextIncidentOperationsDeploy202Headers
+  - Added Interface TextIncidentOperationsDeploy202Response
+  - Added Interface TextIncidentOperationsDeployDefaultHeaders
+  - Added Interface TextIncidentOperationsDeployDefaultResponse
+  - Added Interface TextIncidentOperationsDeployHeaderParam
+  - Added Interface TextIncidentOperationsDeployHeaders
+  - Added Interface TextIncidentOperationsDeployLogicalResponse
+  - Added Interface TextIncidentOperationsGetIncidents200Response
+  - Added Interface TextIncidentOperationsGetIncidentSample200Response
+  - Added Interface TextIncidentOperationsGetIncidentSampleDefaultHeaders
+  - Added Interface TextIncidentOperationsGetIncidentSampleDefaultResponse
+  - Added Interface TextIncidentOperationsGetIncidentsDefaultHeaders
+  - Added Interface TextIncidentOperationsGetIncidentsDefaultResponse
+  - Added Interface TextIncidentOperationsGetLongRunningOperation200Response
+  - Added Interface TextIncidentOperationsGetLongRunningOperationDefaultHeaders
+  - Added Interface TextIncidentOperationsGetLongRunningOperationDefaultResponse
+  - Added Interface TextIncidentOperationsListIncidents200Response
+  - Added Interface TextIncidentOperationsListIncidentSamples200Response
+  - Added Interface TextIncidentOperationsListIncidentSamplesDefaultHeaders
+  - Added Interface TextIncidentOperationsListIncidentSamplesDefaultResponse
+  - Added Interface TextIncidentOperationsListIncidentSamplesQueryParam
+  - Added Interface TextIncidentOperationsListIncidentSamplesQueryParamProperties
+  - Added Interface TextIncidentOperationsListIncidentsDefaultHeaders
+  - Added Interface TextIncidentOperationsListIncidentsDefaultResponse
+  - Added Interface TextIncidentOperationsListIncidentsQueryParam
+  - Added Interface TextIncidentOperationsListIncidentsQueryParamProperties
+  - Added Interface TextIncidentOperationsRemoveIncidentSamples204Response
+  - Added Interface TextIncidentOperationsRemoveIncidentSamplesBodyParam
+  - Added Interface TextIncidentOperationsRemoveIncidentSamplesDefaultHeaders
+  - Added Interface TextIncidentOperationsRemoveIncidentSamplesDefaultResponse
+  - Added Interface TextIncidentOutput
+  - Added Interface TextIncidentSample
+  - Added Interface TextIncidentSampleOutput
+  - Added Interface TextOperationsAnalyzeText200Response
+  - Added Interface TextOperationsAnalyzeTextBodyParam
+  - Added Interface TextOperationsAnalyzeTextCustomCategory200Response
+  - Added Interface TextOperationsAnalyzeTextCustomCategoryBodyParam
+  - Added Interface TextOperationsAnalyzeTextCustomCategoryDefaultHeaders
+  - Added Interface TextOperationsAnalyzeTextCustomCategoryDefaultResponse
+  - Added Interface TextOperationsAnalyzeTextDefaultHeaders
+  - Added Interface TextOperationsAnalyzeTextDefaultResponse
+  - Added Interface TextOperationsDetectCodeProtectedMaterial200Response
+  - Added Interface TextOperationsDetectCodeProtectedMaterialBodyParam
+  - Added Interface TextOperationsDetectCodeProtectedMaterialDefaultHeaders
+  - Added Interface TextOperationsDetectCodeProtectedMaterialDefaultResponse
+  - Added Interface TextOperationsDetectGroundednessOptions200Response
+  - Added Interface TextOperationsDetectGroundednessOptionsBodyParam
+  - Added Interface TextOperationsDetectGroundednessOptionsDefaultHeaders
+  - Added Interface TextOperationsDetectGroundednessOptionsDefaultResponse
+  - Added Interface TextOperationsDetectTextIncidents200Response
+  - Added Interface TextOperationsDetectTextIncidentsBodyParam
+  - Added Interface TextOperationsDetectTextIncidentsDefaultHeaders
+  - Added Interface TextOperationsDetectTextIncidentsDefaultResponse
+  - Added Interface TextOperationsDetectTextProtectedMaterial200Response
+  - Added Interface TextOperationsDetectTextProtectedMaterialBodyParam
+  - Added Interface TextOperationsDetectTextProtectedMaterialDefaultHeaders
+  - Added Interface TextOperationsDetectTextProtectedMaterialDefaultResponse
+  - Added Interface TextOperationsShieldPrompt200Response
+  - Added Interface TextOperationsShieldPromptBodyParam
+  - Added Interface TextOperationsShieldPromptDefaultHeaders
+  - Added Interface TextOperationsShieldPromptDefaultResponse
+  - Added Interface TextProtectedMaterialAnalysisResultOutput
+  - Added Interface UngroundednessDetailsOutput
+  - Added Interface UserPromptInjectionAnalysisResultOutput
+  - Added Type Alias AnalyzeImageOutputType
+  - Added Type Alias AnalyzeTextOutputType
+  - Added Type Alias CustomCategoryOperationStatusOutput
+  - Added Type Alias CustomCategoryStatus
+  - Added Type Alias CustomCategoryStatusOutput
+  - Added Type Alias GroundednessDomain
+  - Added Type Alias GroundednessTask
+  - Added Type Alias ImageCategory
+  - Added Type Alias ImageCategoryOutput
+  - Added Type Alias ImageIncidentOperationsAddIncidentSamplesParameters
+  - Added Type Alias ImageIncidentOperationsCreateOrUpdateIncidentParameters
+  - Added Type Alias ImageIncidentOperationsDeleteIncidentParameters
+  - Added Type Alias ImageIncidentOperationsDeployParameters
+  - Added Type Alias ImageIncidentOperationsGetIncidentSampleParameters
+  - Added Type Alias ImageIncidentOperationsGetIncidentsParameters
+  - Added Type Alias ImageIncidentOperationsGetLongRunningOperationParameters
+  - Added Type Alias ImageIncidentOperationsListIncidentSamplesParameters
+  - Added Type Alias ImageIncidentOperationsListIncidentsParameters
+  - Added Type Alias ImageIncidentOperationsRemoveIncidentSamplesParameters
+  - Added Type Alias ImageIncidentResourceMergeAndPatch
+  - Added Type Alias ImageOperationsAnalyzeImageParameters
+  - Added Type Alias ImageOperationsDetectImageIncidentsParameters
+  - Added Type Alias ImageOperationsDetectImageProtectedMaterialParameters
+  - Added Type Alias ImageWithTextCategory
+  - Added Type Alias ImageWithTextCategoryOutput
+  - Added Type Alias ImageWithTextOperationsAnalyzeImageWithTextParameters
+  - Added Type Alias IncidentOperationStatusOutput
+  - Added Type Alias LLMResourceType
+  - Added Type Alias OperationStateOutput
+  - Added Type Alias PagedImageIncidentOutput
+  - Added Type Alias PagedListImageIncidentSampleResultOutput
+  - Added Type Alias PagedTextCustomCategoryVersionOutput
+  - Added Type Alias PagedTextIncidentOutput
+  - Added Type Alias PagedTextIncidentSampleOutput
+  - Added Type Alias TextBlocklistsAddOrUpdateBlocklistItemsParameters
+  - Added Type Alias TextBlocklistsCreateOrUpdateTextBlocklistParameters
+  - Added Type Alias TextBlocklistsDeleteTextBlocklistParameters
+  - Added Type Alias TextBlocklistsGetTextBlocklistItemParameters
+  - Added Type Alias TextBlocklistsGetTextBlocklistParameters
+  - Added Type Alias TextBlocklistsListTextBlocklistItemsParameters
+  - Added Type Alias TextBlocklistsListTextBlocklistsParameters
+  - Added Type Alias TextBlocklistsRemoveBlocklistItemsParameters
+  - Added Type Alias TextCategory
+  - Added Type Alias TextCategoryOutput
+  - Added Type Alias TextCustomizedCategoryOperationsBuildParameters
+  - Added Type Alias TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionParameters
+  - Added Type Alias TextCustomizedCategoryOperationsDeleteCustomizedCategoryParameters
+  - Added Type Alias TextCustomizedCategoryOperationsGetCustomizedCategoryParameters
+  - Added Type Alias TextCustomizedCategoryOperationsGetLongRunningOperationParameters
+  - Added Type Alias TextCustomizedCategoryOperationsListCustomizedCategoryParameters
+  - Added Type Alias TextIncidentOperationsAddIncidentSamplesParameters
+  - Added Type Alias TextIncidentOperationsCreateOrUpdateIncidentParameters
+  - Added Type Alias TextIncidentOperationsDeleteIncidentParameters
+  - Added Type Alias TextIncidentOperationsDeployParameters
+  - Added Type Alias TextIncidentOperationsGetIncidentSampleParameters
+  - Added Type Alias TextIncidentOperationsGetIncidentsParameters
+  - Added Type Alias TextIncidentOperationsGetLongRunningOperationParameters
+  - Added Type Alias TextIncidentOperationsListIncidentSamplesParameters
+  - Added Type Alias TextIncidentOperationsListIncidentsParameters
+  - Added Type Alias TextIncidentOperationsRemoveIncidentSamplesParameters
+  - Added Type Alias TextIncidentResourceMergeAndPatch
+  - Added Type Alias TextOperationsAnalyzeTextCustomCategoryParameters
+  - Added Type Alias TextOperationsAnalyzeTextParameters
+  - Added Type Alias TextOperationsDetectCodeProtectedMaterialParameters
+  - Added Type Alias TextOperationsDetectGroundednessOptionsParameters
+  - Added Type Alias TextOperationsDetectTextIncidentsParameters
+  - Added Type Alias TextOperationsDetectTextProtectedMaterialParameters
+  - Added Type Alias TextOperationsShieldPromptParameters
+  - Interface TextBlocklistItem has a new optional parameter isRegex
+  - Interface TextBlocklistItemOutput has a new optional parameter isRegex
+  - Added function getLongRunningPoller
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0 (2023-12-13)
-
-### Features Added
-
-- Support AAD Authentication
-- Support 8 severity levels output for Text Analyze
-
-### Breaking Changes
-
-Contract change for AnalyzeText, AnalyzeImage, Blocklist management related parameters
-
-#### AnalyzeText
-
-- AnalyzeTextOptions
-  - Renamed `breakByBlocklists` to `haltOnBlocklistHit`
-  - Add `outputType`
-- AnalyzeTextResultOutput
-  - Renamed `blocklistsMatchResults` to `blocklistsMatch`
-  - Replaced `TextAnalyzeSeverityResultOutput` by `TextCategoriesAnalysisOutput`
-
-#### AnalyzeImage
-
-- AnalyzeImageOptions
-  - Add `outputType`
-- AnalyzeImageResultOutput
-  - Replaced `ImageAnalyzeSeverityResultOutput` by `ImageCategoriesAnalysisOutput`
-
-#### Blocklist management
-
-- Renamed `"/text/blocklists/{blocklistName}:addBlockItems"` to `"/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}:removeBlockItems"` to `"/text/blocklists/{blocklistName}:removeBlocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}/blockItems"` to `"/text/blocklists/{blocklistName}/blocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}/blockItems/{blockItemId}"` to `"/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}"`
-- Renamed `AddBlockItemsOptions` to `AddOrUpdateTextBlocklistItemsOptions`
-  - Renamed `blockItems` to `blocklistItems`
-- Renamed `AddBlockItemsResultOutput` to `AddOrUpdateTextBlocklistItemsResultOutput`
-    - Renamed `value` to `blocklistItems`
-- Renamed `RemoveBlockItemsOptions` to `RemoveTextBlocklistItemsOptions`
-  - Renamed `blockItemIds` to `blocklistItemIds`
-- Renamed `TextBlockItemInfo` to `TextBlocklistItem`
-
-## 1.0.0-beta.1 (2023-09-28)
-
-- This is the initial beta release for Azure AI Content Safety, see README.md for details.
+  - Removed operation group AddOrUpdateBlocklistItems
+  - Removed operation group AnalyzeImage
+  - Removed operation group AnalyzeText
+  - Removed operation group GetTextBlocklist
+  - Removed operation group GetTextBlocklistItem
+  - Removed operation group ListTextBlocklistItems
+  - Removed operation group ListTextBlocklists
+  - Removed operation group RemoveBlocklistItems
+  - Type of parameter categories of interface AnalyzeImageOptions is changed from string[] to ImageCategory[]
+  - Type of parameter image of interface AnalyzeImageOptions is changed from ImageData_2 to ImageData
+  - Type of parameter outputType of interface AnalyzeImageOptions is changed from string to AnalyzeImageOutputType
+  - Type of parameter categories of interface AnalyzeTextOptions is changed from string[] to TextCategory[]
+  - Type of parameter outputType of interface AnalyzeTextOptions is changed from string to AnalyzeTextOutputType
+  - Type of parameter category of interface ImageCategoriesAnalysisOutput is changed from string to ImageCategoryOutput
+  - Type of parameter category of interface TextCategoriesAnalysisOutput is changed from string to TextCategoryOutput
+    
