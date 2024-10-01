@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -17842,7 +17842,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-JuNcfEsRUQn5xB+oobUVmJi6AYH+VuM+Zf0NsI+LRpUNUMEGtQ3E7Inui+qap75dVhlSVcx8mv8/ubsEZv9FnQ==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-eYhTG5aBnsNRzWccB9V9r+hMk9Z8Lcidclp5/xDvFJ+ywLUyGrMvg/aba4B4jr3S1g09ghQrn+uYqjvTUWinTw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -17859,12 +17859,13 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       esm: 3.2.25
-      mkdirp: 2.1.6
+      mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
