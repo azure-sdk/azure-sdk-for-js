@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -18385,7 +18385,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-Cx3vVnuVkixfnjxkezpLLCFgoblfiqXnK3MfSB6l4e2ulZsVfX/07iNCALqvxcGXwcmPYdTR4WxrFXQ689j39w==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-OY99Vo6BRV0FW7OYRiZs3Bl0VyaA5vFJVMeG3d0S8vQWQR5mecwa4g24N6RhyUc4lF2Z/GdsqyWydco69qF8Xw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -18405,9 +18405,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
