@@ -9,18 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Project as ProjectMapper,
-  Group as GroupMapper,
-  UpdateGroupBody as UpdateGroupBodyMapper,
-  Assessment as AssessmentMapper,
-  HyperVCollector as HyperVCollectorMapper,
-  ServerCollector as ServerCollectorMapper,
-  VMwareCollector as VMwareCollectorMapper,
-  ImportCollector as ImportCollectorMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  MigrateAgentModel as MigrateAgentModelMapper,
+  ModernizeProjectModel as ModernizeProjectModelMapper,
+  UpdateModernizeProjectModel as UpdateModernizeProjectModelMapper,
+  WorkloadDeploymentModel as WorkloadDeploymentModelMapper,
+  BuildContainerImageModel as BuildContainerImageModelMapper,
+  TestMigrateModel as TestMigrateModelMapper,
+  WorkloadInstanceModel as WorkloadInstanceModelMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -30,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -41,10 +39,34 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-05-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -53,21 +75,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2019-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -76,20 +86,51 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const projectName: OperationURLParameter = {
-  parameterPath: "projectName",
+export const modernizeProjectName: OperationURLParameter = {
+  parameterPath: "modernizeProjectName",
   mapper: {
-    serializedName: "projectName",
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "modernizeProjectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const deployedResourceName: OperationURLParameter = {
+  parameterPath: "deployedResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "deployedResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const agentName: OperationURLParameter = {
+  parameterPath: "agentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "agentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -99,185 +140,135 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const project: OperationParameter = {
-  parameterPath: ["options", "project"],
-  mapper: ProjectMapper
-};
-
-export const assessmentOptionsName: OperationURLParameter = {
-  parameterPath: "assessmentOptionsName",
-  mapper: {
-    serializedName: "assessmentOptionsName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
-export const machineName: OperationURLParameter = {
-  parameterPath: "machineName",
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MigrateAgentModelMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
   mapper: {
-    serializedName: "machineName",
+    serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const groupName: OperationURLParameter = {
-  parameterPath: "groupName",
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ModernizeProjectModelMapper,
+};
+
+export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: UpdateModernizeProjectModelMapper,
+};
+
+export const continuationToken: OperationQueryParameter = {
+  parameterPath: ["options", "continuationToken"],
   mapper: {
-    serializedName: "groupName",
+    serializedName: "continuationToken",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationType: OperationQueryParameter = {
+  parameterPath: ["options", "operationType"],
+  mapper: {
+    serializedName: "OperationType",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "workflowName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const group: OperationParameter = {
-  parameterPath: ["options", "group"],
-  mapper: GroupMapper
-};
-
-export const groupUpdateProperties: OperationParameter = {
-  parameterPath: ["options", "groupUpdateProperties"],
-  mapper: UpdateGroupBodyMapper
-};
-
-export const assessmentName: OperationURLParameter = {
-  parameterPath: "assessmentName",
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
   mapper: {
-    serializedName: "assessmentName",
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workloadDeploymentName: OperationURLParameter = {
+  parameterPath: "workloadDeploymentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "workloadDeploymentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const assessment: OperationParameter = {
-  parameterPath: ["options", "assessment"],
-  mapper: AssessmentMapper
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: WorkloadDeploymentModelMapper,
 };
 
-export const assessedMachineName: OperationURLParameter = {
-  parameterPath: "assessedMachineName",
+export const forceDelete: OperationQueryParameter = {
+  parameterPath: ["options", "forceDelete"],
   mapper: {
-    serializedName: "assessedMachineName",
+    serializedName: "forceDelete",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const body4: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: BuildContainerImageModelMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: TestMigrateModelMapper,
+};
+
+export const workloadInstanceName: OperationURLParameter = {
+  parameterPath: "workloadInstanceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
+    serializedName: "workloadInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const hyperVCollectorName: OperationURLParameter = {
-  parameterPath: "hyperVCollectorName",
-  mapper: {
-    serializedName: "hyperVCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: HyperVCollectorMapper
-};
-
-export const serverCollectorName: OperationURLParameter = {
-  parameterPath: "serverCollectorName",
-  mapper: {
-    serializedName: "serverCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody1: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: ServerCollectorMapper
-};
-
-export const vmWareCollectorName: OperationURLParameter = {
-  parameterPath: "vmWareCollectorName",
-  mapper: {
-    serializedName: "vmWareCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody2: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: VMwareCollectorMapper
-};
-
-export const importCollectorName: OperationURLParameter = {
-  parameterPath: "importCollectorName",
-  mapper: {
-    serializedName: "importCollectorName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const collectorBody3: OperationParameter = {
-  parameterPath: ["options", "collectorBody"],
-  mapper: ImportCollectorMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const privateEndpointConnectionBody: OperationParameter = {
-  parameterPath: ["options", "privateEndpointConnectionBody"],
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const privateLinkResourceName: OperationURLParameter = {
-  parameterPath: "privateLinkResourceName",
-  mapper: {
-    serializedName: "privateLinkResourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const body6: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: WorkloadInstanceModelMapper,
 };

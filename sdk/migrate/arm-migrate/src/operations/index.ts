@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./projects";
-export * from "./machines";
-export * from "./groups";
-export * from "./assessments";
-export * from "./assessedMachines";
-export * from "./hyperVCollectors";
-export * from "./serverCollectors";
-export * from "./vMwareCollectors";
-export * from "./importCollectors";
-export * from "./privateEndpointConnectionOperations";
-export * from "./privateLinkResourceOperations";
 export * from "./operations";
+export * from "./deployedResource";
+export * from "./migrateAgent";
+export * from "./migrateAgentOperationStatus";
+export * from "./modernizeProject";
+export * from "./modernizeProjectStatistics";
+export * from "./modernizeProjectOperationStatus";
+export * from "./workflow";
+export * from "./workflowOperationStatus";
+export * from "./workloadDeployment";
+export * from "./workloadDeploymentOperationStatus";
+export * from "./workloadInstance";
+export * from "./workloadInstanceOperationStatus";
