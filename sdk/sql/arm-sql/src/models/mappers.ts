@@ -5674,36 +5674,6 @@ export const ServerConnectionPolicyListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const DistributedAvailabilityGroupsListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DistributedAvailabilityGroupsListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "DistributedAvailabilityGroup",
-              },
-            },
-          },
-        },
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
 export const ServerTrustCertificatesListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9949,6 +9919,255 @@ export const ReplicationLinkListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const DistributedAvailabilityGroupsListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DistributedAvailabilityGroupsListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DistributedAvailabilityGroup",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DistributedAvailabilityGroupDatabase: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DistributedAvailabilityGroupDatabase",
+      modelProperties: {
+        databaseName: {
+          serializedName: "databaseName",
+          type: {
+            name: "String",
+          },
+        },
+        instanceReplicaId: {
+          serializedName: "instanceReplicaId",
+          readOnly: true,
+          type: {
+            name: "Uuid",
+          },
+        },
+        partnerReplicaId: {
+          serializedName: "partnerReplicaId",
+          readOnly: true,
+          type: {
+            name: "Uuid",
+          },
+        },
+        replicaState: {
+          serializedName: "replicaState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        seedingProgress: {
+          serializedName: "seedingProgress",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        synchronizationHealth: {
+          serializedName: "synchronizationHealth",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        connectedState: {
+          serializedName: "connectedState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastReceivedLsn: {
+          serializedName: "lastReceivedLsn",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastReceivedTime: {
+          serializedName: "lastReceivedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        lastSentLsn: {
+          serializedName: "lastSentLsn",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastSentTime: {
+          serializedName: "lastSentTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        lastCommitLsn: {
+          serializedName: "lastCommitLsn",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastCommitTime: {
+          serializedName: "lastCommitTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        lastHardenedLsn: {
+          serializedName: "lastHardenedLsn",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastHardenedTime: {
+          serializedName: "lastHardenedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        lastBackupLsn: {
+          serializedName: "lastBackupLsn",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastBackupTime: {
+          serializedName: "lastBackupTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        mostRecentLinkError: {
+          serializedName: "mostRecentLinkError",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        partnerAuthCertValidity: {
+          serializedName: "partnerAuthCertValidity",
+          type: {
+            name: "Composite",
+            className: "CertificateInfo",
+          },
+        },
+        instanceSendReplicationLagSeconds: {
+          serializedName: "instanceSendReplicationLagSeconds",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        instanceRedoReplicationLagSeconds: {
+          serializedName: "instanceRedoReplicationLagSeconds",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const CertificateInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CertificateInfo",
+    modelProperties: {
+      certificateName: {
+        serializedName: "certificateName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      expiryDate: {
+        serializedName: "expiryDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const DistributedAvailabilityGroupsFailoverRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DistributedAvailabilityGroupsFailoverRequest",
+      modelProperties: {
+        failoverType: {
+          serializedName: "failoverType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DistributedAvailabilityGroupSetRole: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedAvailabilityGroupSetRole",
+    modelProperties: {
+      instanceRole: {
+        serializedName: "instanceRole",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      roleChangeType: {
+        serializedName: "roleChangeType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const SloUsageMetric: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13918,81 +14137,6 @@ export const ServerConnectionPolicy: coreClient.CompositeMapper = {
   },
 };
 
-export const DistributedAvailabilityGroup: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DistributedAvailabilityGroup",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      targetDatabase: {
-        serializedName: "properties.targetDatabase",
-        type: {
-          name: "String",
-        },
-      },
-      sourceEndpoint: {
-        serializedName: "properties.sourceEndpoint",
-        type: {
-          name: "String",
-        },
-      },
-      primaryAvailabilityGroupName: {
-        serializedName: "properties.primaryAvailabilityGroupName",
-        type: {
-          name: "String",
-        },
-      },
-      secondaryAvailabilityGroupName: {
-        serializedName: "properties.secondaryAvailabilityGroupName",
-        type: {
-          name: "String",
-        },
-      },
-      replicationMode: {
-        serializedName: "properties.replicationMode",
-        type: {
-          name: "String",
-        },
-      },
-      distributedAvailabilityGroupId: {
-        serializedName: "properties.distributedAvailabilityGroupId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      sourceReplicaId: {
-        serializedName: "properties.sourceReplicaId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      targetReplicaId: {
-        serializedName: "properties.targetReplicaId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      linkState: {
-        serializedName: "properties.linkState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      lastHardenedLsn: {
-        serializedName: "properties.lastHardenedLsn",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const ServerTrustCertificate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -16485,6 +16629,91 @@ export const ReplicationLinkUpdate: coreClient.CompositeMapper = {
   },
 };
 
+export const DistributedAvailabilityGroup: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedAvailabilityGroup",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      distributedAvailabilityGroupName: {
+        serializedName: "properties.distributedAvailabilityGroupName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      distributedAvailabilityGroupId: {
+        serializedName: "properties.distributedAvailabilityGroupId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      replicationMode: {
+        serializedName: "properties.replicationMode",
+        type: {
+          name: "String",
+        },
+      },
+      partnerLinkRole: {
+        serializedName: "properties.partnerLinkRole",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      partnerAvailabilityGroupName: {
+        serializedName: "properties.partnerAvailabilityGroupName",
+        type: {
+          name: "String",
+        },
+      },
+      partnerEndpoint: {
+        serializedName: "properties.partnerEndpoint",
+        type: {
+          name: "String",
+        },
+      },
+      instanceLinkRole: {
+        serializedName: "properties.instanceLinkRole",
+        type: {
+          name: "String",
+        },
+      },
+      instanceAvailabilityGroupName: {
+        serializedName: "properties.instanceAvailabilityGroupName",
+        type: {
+          name: "String",
+        },
+      },
+      failoverMode: {
+        serializedName: "properties.failoverMode",
+        type: {
+          name: "String",
+        },
+      },
+      seedingMode: {
+        serializedName: "properties.seedingMode",
+        type: {
+          name: "String",
+        },
+      },
+      databases: {
+        serializedName: "properties.databases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedAvailabilityGroupDatabase",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const JobAgent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -17681,6 +17910,22 @@ export const FailoverGroupsTryPlannedBeforeForcedFailoverHeaders: coreClient.Com
     type: {
       name: "Composite",
       className: "FailoverGroupsTryPlannedBeforeForcedFailoverHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DistributedAvailabilityGroupsFailoverHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DistributedAvailabilityGroupsFailoverHeaders",
       modelProperties: {
         location: {
           serializedName: "location",
