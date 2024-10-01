@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -18878,7 +18878,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-4uzGOXMp2QsJGHHzTsjVP6qykvXtQDmexBR2ZWiG5oqjkJ7F1rPXeH7dEpdWYyK+vCl3xpyTB2Aw2LHyVgREEA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-sq7RD5mZRl5zCMT84wVMLjgJv6CZdeIZZ3NUPQfrXnQSIDdsYqEiww3zUvEYGNrUwqzQfhapu6e8L2vhfbYq5g==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -18896,10 +18896,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23188,7 +23188,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-micYqYdS28ldR3rNvKUud3F9dYcl1yW+GlumpMlyBCMTJR8ZK/Vjev6aUcPJehWHWMSAz5Wu4w2nnuYkXv39AA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-zIeUCSxRVQirkAneT1WpvUwFEvVNfzVfjtNLYPzF5owfu04F8QLNOnhMXaLCjQC3hNL9Ph8cWifX203WMorkUw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
