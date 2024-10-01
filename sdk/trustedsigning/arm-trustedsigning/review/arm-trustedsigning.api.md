@@ -4,18 +4,20 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccountSku {
     name: SkuName;
+}
+
+// @public
+export interface AccountSkuPatch {
+    name?: SkuName;
 }
 
 // @public
@@ -24,71 +26,103 @@ export type ActionType = string;
 // @public
 export interface Certificate {
     createdDate?: string;
+    effectiveAt?: Date;
+    enhancedKeyUsage?: string;
     expiryDate?: string;
-    revocation?: Revocation;
+    failureReason?: string;
+    reason?: string;
+    remarks?: string;
+    requestedAt?: Date;
     serialNumber?: string;
     status?: CertificateStatus;
+    readonly statusRevocationStatus?: RevocationStatus;
     subjectName?: string;
     thumbprint?: string;
 }
 
 // @public
 export interface CertificateProfile extends ProxyResource {
-    properties?: CertificateProfileProperties;
-}
-
-// @public
-export interface CertificateProfileProperties {
     readonly certificates?: Certificate[];
-    readonly city?: string;
-    readonly commonName?: string;
-    readonly country?: string;
-    readonly enhancedKeyUsage?: string;
     identityValidationId?: string;
     includeCity?: boolean;
     includeCountry?: boolean;
     includePostalCode?: boolean;
     includeState?: boolean;
     includeStreetAddress?: boolean;
-    readonly organization?: string;
-    readonly organizationUnit?: string;
-    readonly postalCode?: string;
-    profileType: ProfileType;
+    profileType?: ProfileType;
     readonly provisioningState?: ProvisioningState;
-    readonly state?: string;
     readonly status?: CertificateProfileStatus;
-    readonly streetAddress?: string;
 }
 
 // @public
-export interface CertificateProfilesCreateOptionalParams extends OperationOptions {
+export interface CertificateProfileListResult {
+    nextLink?: string;
+    value: CertificateProfile[];
+}
+
+// @public
+export interface CertificateProfiles {
+    beginCreate(resourceGroupName: string, accountName: string, profileName: string, resource: CertificateProfile, options?: CertificateProfilesCreateOptionalParams): Promise<SimplePollerLike<OperationState<CertificateProfilesCreateResponse>, CertificateProfilesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, profileName: string, resource: CertificateProfile, options?: CertificateProfilesCreateOptionalParams): Promise<CertificateProfilesCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CertificateProfilesDeleteResponse>, CertificateProfilesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesDeleteOptionalParams): Promise<CertificateProfilesDeleteResponse>;
+    get(resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesGetOptionalParams): Promise<CertificateProfilesGetResponse>;
+    listByCodeSigningAccount(resourceGroupName: string, accountName: string, options?: CertificateProfilesListByCodeSigningAccountOptionalParams): PagedAsyncIterableIterator<CertificateProfile>;
+    revokeCertificate(resourceGroupName: string, accountName: string, profileName: string, body: RevokeCertificate, options?: CertificateProfilesRevokeCertificateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface CertificateProfilesCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateProfilesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificateProfilesDeleteOptionalParams extends OperationOptions {
+export type CertificateProfilesCreateResponse = CertificateProfile;
+
+// @public
+export interface CertificateProfilesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CertificateProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificateProfilesGetOptionalParams extends OperationOptions {
+export type CertificateProfilesDeleteResponse = CertificateProfilesDeleteHeaders;
+
+// @public
+export interface CertificateProfilesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateProfilesListByCodeSigningAccountOptionalParams extends OperationOptions {
+export type CertificateProfilesGetResponse = CertificateProfile;
+
+// @public
+export interface CertificateProfilesListByCodeSigningAccountNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateProfilesOperations {
-    create: (resourceGroupName: string, accountName: string, profileName: string, resource: CertificateProfile, options?: CertificateProfilesCreateOptionalParams) => PollerLike<OperationState<CertificateProfile>, CertificateProfile>;
-    delete: (resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, profileName: string, options?: CertificateProfilesGetOptionalParams) => Promise<CertificateProfile>;
-    listByCodeSigningAccount: (resourceGroupName: string, accountName: string, options?: CertificateProfilesListByCodeSigningAccountOptionalParams) => PagedAsyncIterableIterator<CertificateProfile>;
-    revokeCertificate: (resourceGroupName: string, accountName: string, profileName: string, body: RevokeCertificate, options?: CertificateProfilesRevokeCertificateOptionalParams) => Promise<void>;
+export type CertificateProfilesListByCodeSigningAccountNextResponse = CertificateProfileListResult;
+
+// @public
+export interface CertificateProfilesListByCodeSigningAccountOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CertificateProfilesRevokeCertificateOptionalParams extends OperationOptions {
+export type CertificateProfilesListByCodeSigningAccountResponse = CertificateProfileListResult;
+
+// @public
+export interface CertificateProfilesRevokeCertificateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -111,90 +145,174 @@ export interface CheckNameAvailabilityResult {
 
 // @public
 export interface CodeSigningAccount extends TrackedResource {
-    properties?: CodeSigningAccountProperties;
-}
-
-// @public
-export interface CodeSigningAccountPatch {
-    properties?: CodeSigningAccountPatchProperties;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface CodeSigningAccountPatchProperties {
-    sku?: AccountSku;
-}
-
-// @public
-export interface CodeSigningAccountProperties {
     readonly accountUri?: string;
     readonly provisioningState?: ProvisioningState;
     sku?: AccountSku;
 }
 
 // @public
-export interface CodeSigningAccountsCheckNameAvailabilityOptionalParams extends OperationOptions {
+export interface CodeSigningAccountListResult {
+    nextLink?: string;
+    value: CodeSigningAccount[];
 }
 
 // @public
-export interface CodeSigningAccountsCreateOptionalParams extends OperationOptions {
+export interface CodeSigningAccountPatch {
+    sku?: AccountSkuPatch;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface CodeSigningAccounts {
+    beginCreate(resourceGroupName: string, accountName: string, resource: CodeSigningAccount, options?: CodeSigningAccountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<CodeSigningAccountsCreateResponse>, CodeSigningAccountsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, resource: CodeSigningAccount, options?: CodeSigningAccountsCreateOptionalParams): Promise<CodeSigningAccountsCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: CodeSigningAccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CodeSigningAccountsDeleteResponse>, CodeSigningAccountsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: CodeSigningAccountsDeleteOptionalParams): Promise<CodeSigningAccountsDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, properties: CodeSigningAccountPatch, options?: CodeSigningAccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CodeSigningAccountsUpdateResponse>, CodeSigningAccountsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, properties: CodeSigningAccountPatch, options?: CodeSigningAccountsUpdateOptionalParams): Promise<CodeSigningAccountsUpdateResponse>;
+    checkNameAvailability(body: CheckNameAvailability, options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams): Promise<CodeSigningAccountsCheckNameAvailabilityResponse>;
+    get(resourceGroupName: string, accountName: string, options?: CodeSigningAccountsGetOptionalParams): Promise<CodeSigningAccountsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: CodeSigningAccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<CodeSigningAccount>;
+    listBySubscription(options?: CodeSigningAccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<CodeSigningAccount>;
+}
+
+// @public
+export interface CodeSigningAccountsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CodeSigningAccountsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+
+// @public
+export interface CodeSigningAccountsCreateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface CodeSigningAccountsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CodeSigningAccountsDeleteOptionalParams extends OperationOptions {
+export type CodeSigningAccountsCreateResponse = CodeSigningAccount;
+
+// @public
+export interface CodeSigningAccountsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CodeSigningAccountsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CodeSigningAccountsGetOptionalParams extends OperationOptions {
+export type CodeSigningAccountsDeleteResponse = CodeSigningAccountsDeleteHeaders;
+
+// @public
+export interface CodeSigningAccountsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CodeSigningAccountsListByResourceGroupOptionalParams extends OperationOptions {
+export type CodeSigningAccountsGetResponse = CodeSigningAccount;
+
+// @public
+export interface CodeSigningAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CodeSigningAccountsListBySubscriptionOptionalParams extends OperationOptions {
+export type CodeSigningAccountsListByResourceGroupNextResponse = CodeSigningAccountListResult;
+
+// @public
+export interface CodeSigningAccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CodeSigningAccountsOperations {
-    checkNameAvailability: (body: CheckNameAvailability, options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResult>;
-    create: (resourceGroupName: string, accountName: string, resource: CodeSigningAccount, options?: CodeSigningAccountsCreateOptionalParams) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
-    delete: (resourceGroupName: string, accountName: string, options?: CodeSigningAccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, options?: CodeSigningAccountsGetOptionalParams) => Promise<CodeSigningAccount>;
-    listByResourceGroup: (resourceGroupName: string, options?: CodeSigningAccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CodeSigningAccount>;
-    listBySubscription: (options?: CodeSigningAccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CodeSigningAccount>;
-    update: (resourceGroupName: string, accountName: string, properties: CodeSigningAccountPatch, options?: CodeSigningAccountsUpdateOptionalParams) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+export type CodeSigningAccountsListByResourceGroupResponse = CodeSigningAccountListResult;
+
+// @public
+export interface CodeSigningAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface CodeSigningAccountsUpdateOptionalParams extends OperationOptions {
+export type CodeSigningAccountsListBySubscriptionNextResponse = CodeSigningAccountListResult;
+
+// @public
+export interface CodeSigningAccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CodeSigningAccountsListBySubscriptionResponse = CodeSigningAccountListResult;
+
+// @public
+export interface CodeSigningAccountsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface CodeSigningAccountsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type CodeSigningAccountsUpdateResponse = CodeSigningAccount;
 
 // @public (undocumented)
-export class CodeSigningClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: CodeSigningClientOptionalParams);
-    readonly certificateProfiles: CertificateProfilesOperations;
-    readonly codeSigningAccounts: CodeSigningAccountsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
+export class CodeSigningManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CodeSigningManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    certificateProfiles: CertificateProfiles;
+    // (undocumented)
+    codeSigningAccounts: CodeSigningAccounts;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptionId: string;
 }
 
 // @public
-export interface CodeSigningClientOptionalParams extends ClientOptions {
+export interface CodeSigningManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
     apiVersion?: string;
+    endpoint?: string;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
@@ -273,8 +391,8 @@ export type NameUnavailabilityReason = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -289,28 +407,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProfileType = string;
@@ -328,26 +450,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CodeSigningClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface Revocation {
-    effectiveAt?: Date;
-    failureReason?: string;
-    reason?: string;
-    remarks?: string;
-    requestedAt?: Date;
-    status?: RevocationStatus;
 }
 
 // @public
@@ -378,7 +480,9 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // (No @packageDocumentation comment for this package)
