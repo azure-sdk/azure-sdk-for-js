@@ -20,7 +20,7 @@ import {
   RecommendedActionsListByServerResponse,
   RecommendedActionsGetOptionalParams,
   RecommendedActionsGetResponse,
-  RecommendedActionsListByServerNextResponse
+  RecommendedActionsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class RecommendedActionsImpl implements RecommendedActions {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: RecommendedActionsListByServerOptionalParams
+    options?: RecommendedActionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RecommendationAction> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
       advisorName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class RecommendedActionsImpl implements RecommendedActions {
           serverName,
           advisorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class RecommendedActionsImpl implements RecommendedActions {
     serverName: string,
     advisorName: string,
     options?: RecommendedActionsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecommendationAction[]> {
     let result: RecommendedActionsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class RecommendedActionsImpl implements RecommendedActions {
         resourceGroupName,
         serverName,
         advisorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class RecommendedActionsImpl implements RecommendedActions {
         serverName,
         advisorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class RecommendedActionsImpl implements RecommendedActions {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: RecommendedActionsListByServerOptionalParams
+    options?: RecommendedActionsListByServerOptionalParams,
   ): AsyncIterableIterator<RecommendationAction> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
       advisorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class RecommendedActionsImpl implements RecommendedActions {
     serverName: string,
     advisorName: string,
     recommendedActionName: string,
-    options?: RecommendedActionsGetOptionalParams
+    options?: RecommendedActionsGetOptionalParams,
   ): Promise<RecommendedActionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -150,9 +150,9 @@ export class RecommendedActionsImpl implements RecommendedActions {
         serverName,
         advisorName,
         recommendedActionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class RecommendedActionsImpl implements RecommendedActions {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: RecommendedActionsListByServerOptionalParams
+    options?: RecommendedActionsListByServerOptionalParams,
   ): Promise<RecommendedActionsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advisorName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class RecommendedActionsImpl implements RecommendedActions {
     serverName: string,
     advisorName: string,
     nextLink: string,
-    options?: RecommendedActionsListByServerNextOptionalParams
+    options?: RecommendedActionsListByServerNextOptionalParams,
   ): Promise<RecommendedActionsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advisorName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -200,13 +200,12 @@ export class RecommendedActionsImpl implements RecommendedActions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions/{recommendedActionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendationAction
-    }
+      bodyMapper: Mappers.RecommendationAction,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -215,19 +214,18 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.advisorName,
-    Parameters.recommendedActionName
+    Parameters.recommendedActionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/recommendedActions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendationActionsResultList
-    }
+      bodyMapper: Mappers.RecommendationActionsResultList,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.sessionId],
   urlParameters: [
@@ -235,28 +233,27 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendationActionsResultList
-    }
+      bodyMapper: Mappers.RecommendationActionsResultList,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.sessionId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.nextLink,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

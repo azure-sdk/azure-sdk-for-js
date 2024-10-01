@@ -11,12 +11,16 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MariaDBManagementClient } from "../mariaDBManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   ConfigurationListResult,
   ServerParametersListUpdateConfigurationsOptionalParams,
-  ServerParametersListUpdateConfigurationsResponse
+  ServerParametersListUpdateConfigurationsResponse,
 } from "../models";
 
 /** Class containing ServerParameters operations. */
@@ -42,30 +46,29 @@ export class ServerParametersImpl implements ServerParameters {
     resourceGroupName: string,
     serverName: string,
     value: ConfigurationListResult,
-    options?: ServerParametersListUpdateConfigurationsOptionalParams
+    options?: ServerParametersListUpdateConfigurationsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerParametersListUpdateConfigurationsResponse>,
+    SimplePollerLike<
+      OperationState<ServerParametersListUpdateConfigurationsResponse>,
       ServerParametersListUpdateConfigurationsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServerParametersListUpdateConfigurationsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -74,8 +77,8 @@ export class ServerParametersImpl implements ServerParameters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -83,20 +86,23 @@ export class ServerParametersImpl implements ServerParameters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, value, options },
-      listUpdateConfigurationsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serverName, value, options },
+      spec: listUpdateConfigurationsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServerParametersListUpdateConfigurationsResponse,
+      OperationState<ServerParametersListUpdateConfigurationsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -113,13 +119,13 @@ export class ServerParametersImpl implements ServerParameters {
     resourceGroupName: string,
     serverName: string,
     value: ConfigurationListResult,
-    options?: ServerParametersListUpdateConfigurationsOptionalParams
+    options?: ServerParametersListUpdateConfigurationsOptionalParams,
   ): Promise<ServerParametersListUpdateConfigurationsResponse> {
     const poller = await this.beginListUpdateConfigurations(
       resourceGroupName,
       serverName,
       value,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -128,25 +134,24 @@ export class ServerParametersImpl implements ServerParameters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listUpdateConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/updateConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/updateConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     202: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     204: {
-      bodyMapper: Mappers.ConfigurationListResult
+      bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.value,
   queryParameters: [Parameters.apiVersion],
@@ -154,9 +159,9 @@ const listUpdateConfigurationsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

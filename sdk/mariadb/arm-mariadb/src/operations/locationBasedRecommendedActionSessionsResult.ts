@@ -18,13 +18,14 @@ import {
   LocationBasedRecommendedActionSessionsResultListNextOptionalParams,
   LocationBasedRecommendedActionSessionsResultListOptionalParams,
   LocationBasedRecommendedActionSessionsResultListResponse,
-  LocationBasedRecommendedActionSessionsResultListNextResponse
+  LocationBasedRecommendedActionSessionsResultListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedRecommendedActionSessionsResult operations. */
 export class LocationBasedRecommendedActionSessionsResultImpl
-  implements LocationBasedRecommendedActionSessionsResult {
+  implements LocationBasedRecommendedActionSessionsResult
+{
   private readonly client: MariaDBManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class LocationBasedRecommendedActionSessionsResultImpl
   public list(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams
+    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams,
   ): PagedAsyncIterableIterator<RecommendationAction> {
     const iter = this.listPagingAll(locationName, operationId, options);
     return {
@@ -62,9 +63,9 @@ export class LocationBasedRecommendedActionSessionsResultImpl
           locationName,
           operationId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +73,7 @@ export class LocationBasedRecommendedActionSessionsResultImpl
     locationName: string,
     operationId: string,
     options?: LocationBasedRecommendedActionSessionsResultListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecommendationAction[]> {
     let result: LocationBasedRecommendedActionSessionsResultListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class LocationBasedRecommendedActionSessionsResultImpl
         locationName,
         operationId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +101,12 @@ export class LocationBasedRecommendedActionSessionsResultImpl
   private async *listPagingAll(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams
+    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams,
   ): AsyncIterableIterator<RecommendationAction> {
     for await (const page of this.listPagingPage(
       locationName,
       operationId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,11 +121,11 @@ export class LocationBasedRecommendedActionSessionsResultImpl
   private _list(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams
+    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams,
   ): Promise<LocationBasedRecommendedActionSessionsResultListResponse> {
     return this.client.sendOperationRequest(
       { locationName, operationId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class LocationBasedRecommendedActionSessionsResultImpl
     locationName: string,
     operationId: string,
     nextLink: string,
-    options?: LocationBasedRecommendedActionSessionsResultListNextOptionalParams
+    options?: LocationBasedRecommendedActionSessionsResultListNextOptionalParams,
   ): Promise<LocationBasedRecommendedActionSessionsResultListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, operationId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -151,46 +152,44 @@ export class LocationBasedRecommendedActionSessionsResultImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsOperationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsOperationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendationActionsResultList
+      bodyMapper: Mappers.RecommendationActionsResultList,
     },
     201: {
-      bodyMapper: Mappers.RecommendationActionsResultList
-    }
+      bodyMapper: Mappers.RecommendationActionsResultList,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendationActionsResultList
+      bodyMapper: Mappers.RecommendationActionsResultList,
     },
     201: {
-      bodyMapper: Mappers.RecommendationActionsResultList
-    }
+      bodyMapper: Mappers.RecommendationActionsResultList,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.locationName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

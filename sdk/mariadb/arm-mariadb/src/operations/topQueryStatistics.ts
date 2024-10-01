@@ -21,7 +21,7 @@ import {
   TopQueryStatisticsListByServerResponse,
   TopQueryStatisticsGetOptionalParams,
   TopQueryStatisticsGetResponse,
-  TopQueryStatisticsListByServerNextResponse
+  TopQueryStatisticsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,13 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: TopQueryStatisticsInput,
-    options?: TopQueryStatisticsListByServerOptionalParams
+    options?: TopQueryStatisticsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<QueryStatistic> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
           serverName,
           parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     serverName: string,
     parameters: TopQueryStatisticsInput,
     options?: TopQueryStatisticsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QueryStatistic[]> {
     let result: TopQueryStatisticsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
         resourceGroupName,
         serverName,
         parameters,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
         serverName,
         parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,13 +118,13 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: TopQueryStatisticsInput,
-    options?: TopQueryStatisticsListByServerOptionalParams
+    options?: TopQueryStatisticsListByServerOptionalParams,
   ): AsyncIterableIterator<QueryStatistic> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     queryStatisticId: string,
-    options?: TopQueryStatisticsGetOptionalParams
+    options?: TopQueryStatisticsGetOptionalParams,
   ): Promise<TopQueryStatisticsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, queryStatisticId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: TopQueryStatisticsInput,
-    options?: TopQueryStatisticsListByServerOptionalParams
+    options?: TopQueryStatisticsListByServerOptionalParams,
   ): Promise<TopQueryStatisticsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -181,11 +181,11 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
     serverName: string,
     parameters: TopQueryStatisticsInput,
     nextLink: string,
-    options?: TopQueryStatisticsListByServerNextOptionalParams
+    options?: TopQueryStatisticsListByServerNextOptionalParams,
   ): Promise<TopQueryStatisticsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -193,16 +193,15 @@ export class TopQueryStatisticsImpl implements TopQueryStatistics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/topQueryStatistics/{queryStatisticId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/topQueryStatistics/{queryStatisticId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueryStatistic
+      bodyMapper: Mappers.QueryStatistic,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -210,54 +209,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.queryStatisticId
+    Parameters.queryStatisticId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/topQueryStatistics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/topQueryStatistics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopQueryStatisticsResultList
+      bodyMapper: Mappers.TopQueryStatisticsResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TopQueryStatisticsResultList
+      bodyMapper: Mappers.TopQueryStatisticsResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

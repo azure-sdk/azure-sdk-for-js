@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MariaDBManagementClient } from "../mariaDBManagementClient";
 import {
   RecoverableServersGetOptionalParams,
-  RecoverableServersGetResponse
+  RecoverableServersGetResponse,
 } from "../models";
 
 /** Class containing RecoverableServers operations. */
@@ -37,11 +37,11 @@ export class RecoverableServersImpl implements RecoverableServers {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: RecoverableServersGetOptionalParams
+    options?: RecoverableServersGetOptionalParams,
   ): Promise<RecoverableServersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class RecoverableServersImpl implements RecoverableServers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/recoverableServers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/recoverableServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoverableServerResource
+      bodyMapper: Mappers.RecoverableServerResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

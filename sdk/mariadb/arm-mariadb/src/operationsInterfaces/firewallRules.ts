@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRule,
   FirewallRulesListByServerOptionalParams,
@@ -15,7 +15,7 @@ import {
   FirewallRulesCreateOrUpdateResponse,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesGetOptionalParams,
-  FirewallRulesGetResponse
+  FirewallRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FirewallRules {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: FirewallRulesListByServerOptionalParams
+    options?: FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<FirewallRule>;
   /**
    * Creates a new firewall rule or updates an existing firewall rule.
@@ -45,10 +45,10 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<FirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<FirewallRulesCreateOrUpdateResponse>,
       FirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -65,7 +65,7 @@ export interface FirewallRules {
     serverName: string,
     firewallRuleName: string,
     parameters: FirewallRule,
-    options?: FirewallRulesCreateOrUpdateOptionalParams
+    options?: FirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<FirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a server firewall rule.
@@ -78,8 +78,8 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: FirewallRulesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a server firewall rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -91,7 +91,7 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesDeleteOptionalParams
+    options?: FirewallRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a server firewall rule.
@@ -104,6 +104,6 @@ export interface FirewallRules {
     resourceGroupName: string,
     serverName: string,
     firewallRuleName: string,
-    options?: FirewallRulesGetOptionalParams
+    options?: FirewallRulesGetOptionalParams,
   ): Promise<FirewallRulesGetResponse>;
 }

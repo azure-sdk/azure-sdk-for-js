@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Configuration,
   ConfigurationsListByServerOptionalParams,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
   ConfigurationsGetOptionalParams,
-  ConfigurationsGetResponse
+  ConfigurationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Configurations {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Configuration>;
   /**
    * Updates a configuration of a server.
@@ -44,10 +44,10 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
       ConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -64,7 +64,7 @@ export interface Configurations {
     serverName: string,
     configurationName: string,
     parameters: Configuration,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse>;
   /**
    * Gets information about a configuration of server.
@@ -77,6 +77,6 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
 }

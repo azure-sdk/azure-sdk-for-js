@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { MariaDBManagementClient } from "../mariaDBManagementClient";
 import {
   LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams,
-  LocationBasedRecommendedActionSessionsOperationStatusGetResponse
+  LocationBasedRecommendedActionSessionsOperationStatusGetResponse,
 } from "../models";
 
 /** Class containing LocationBasedRecommendedActionSessionsOperationStatus operations. */
 export class LocationBasedRecommendedActionSessionsOperationStatusImpl
-  implements LocationBasedRecommendedActionSessionsOperationStatus {
+  implements LocationBasedRecommendedActionSessionsOperationStatus
+{
   private readonly client: MariaDBManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class LocationBasedRecommendedActionSessionsOperationStatusImpl
   get(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams
+    options?: LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams,
   ): Promise<LocationBasedRecommendedActionSessionsOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,21 +51,20 @@ export class LocationBasedRecommendedActionSessionsOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsAzureAsyncOperation/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/recommendedActionSessionsAzureAsyncOperation/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecommendedActionSessionsOperationStatus
-    }
+      bodyMapper: Mappers.RecommendedActionSessionsOperationStatus,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.locationName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

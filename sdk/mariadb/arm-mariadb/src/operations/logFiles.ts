@@ -15,7 +15,7 @@ import { MariaDBManagementClient } from "../mariaDBManagementClient";
 import {
   LogFile,
   LogFilesListByServerOptionalParams,
-  LogFilesListByServerResponse
+  LogFilesListByServerResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class LogFilesImpl implements LogFiles {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LogFile> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class LogFilesImpl implements LogFiles {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +72,7 @@ export class LogFilesImpl implements LogFiles {
     resourceGroupName: string,
     serverName: string,
     options?: LogFilesListByServerOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LogFile[]> {
     let result: LogFilesListByServerResponse;
     result = await this._listByServer(resourceGroupName, serverName, options);
@@ -82,12 +82,12 @@ export class LogFilesImpl implements LogFiles {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): AsyncIterableIterator<LogFile> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -102,11 +102,11 @@ export class LogFilesImpl implements LogFiles {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: LogFilesListByServerOptionalParams
+    options?: LogFilesListByServerOptionalParams,
   ): Promise<LogFilesListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 }
@@ -114,24 +114,23 @@ export class LogFilesImpl implements LogFiles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/logFiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/logFiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogFileListResult
+      bodyMapper: Mappers.LogFileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

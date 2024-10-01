@@ -8,7 +8,7 @@
 
 import {
   LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams,
-  LocationBasedRecommendedActionSessionsOperationStatusGetResponse
+  LocationBasedRecommendedActionSessionsOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a LocationBasedRecommendedActionSessionsOperationStatus. */
@@ -22,6 +22,6 @@ export interface LocationBasedRecommendedActionSessionsOperationStatus {
   get(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams
+    options?: LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams,
   ): Promise<LocationBasedRecommendedActionSessionsOperationStatusGetResponse>;
 }

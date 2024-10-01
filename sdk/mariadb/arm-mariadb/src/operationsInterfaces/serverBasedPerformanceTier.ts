@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PerformanceTierProperties,
-  ServerBasedPerformanceTierListOptionalParams
+  ServerBasedPerformanceTierListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface ServerBasedPerformanceTier {
   list(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBasedPerformanceTierListOptionalParams
+    options?: ServerBasedPerformanceTierListOptionalParams,
   ): PagedAsyncIterableIterator<PerformanceTierProperties>;
 }

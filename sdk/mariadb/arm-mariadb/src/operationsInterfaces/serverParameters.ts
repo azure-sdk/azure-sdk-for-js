@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConfigurationListResult,
   ServerParametersListUpdateConfigurationsOptionalParams,
-  ServerParametersListUpdateConfigurationsResponse
+  ServerParametersListUpdateConfigurationsResponse,
 } from "../models";
 
 /** Interface representing a ServerParameters. */
@@ -26,10 +26,10 @@ export interface ServerParameters {
     resourceGroupName: string,
     serverName: string,
     value: ConfigurationListResult,
-    options?: ServerParametersListUpdateConfigurationsOptionalParams
+    options?: ServerParametersListUpdateConfigurationsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServerParametersListUpdateConfigurationsResponse>,
+    SimplePollerLike<
+      OperationState<ServerParametersListUpdateConfigurationsResponse>,
       ServerParametersListUpdateConfigurationsResponse
     >
   >;
@@ -44,6 +44,6 @@ export interface ServerParameters {
     resourceGroupName: string,
     serverName: string,
     value: ConfigurationListResult,
-    options?: ServerParametersListUpdateConfigurationsOptionalParams
+    options?: ServerParametersListUpdateConfigurationsOptionalParams,
   ): Promise<ServerParametersListUpdateConfigurationsResponse>;
 }

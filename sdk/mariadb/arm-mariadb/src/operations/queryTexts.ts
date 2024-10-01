@@ -20,7 +20,7 @@ import {
   QueryTextsListByServerResponse,
   QueryTextsGetOptionalParams,
   QueryTextsGetResponse,
-  QueryTextsListByServerNextResponse
+  QueryTextsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class QueryTextsImpl implements QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryIds: string[],
-    options?: QueryTextsListByServerOptionalParams
+    options?: QueryTextsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<QueryText> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
       queryIds,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class QueryTextsImpl implements QueryTexts {
           serverName,
           queryIds,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class QueryTextsImpl implements QueryTexts {
     serverName: string,
     queryIds: string[],
     options?: QueryTextsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<QueryText[]> {
     let result: QueryTextsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class QueryTextsImpl implements QueryTexts {
         resourceGroupName,
         serverName,
         queryIds,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,9 +102,8 @@ export class QueryTextsImpl implements QueryTexts {
       result = await this._listByServerNext(
         resourceGroupName,
         serverName,
-        queryIds,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +116,13 @@ export class QueryTextsImpl implements QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryIds: string[],
-    options?: QueryTextsListByServerOptionalParams
+    options?: QueryTextsListByServerOptionalParams,
   ): AsyncIterableIterator<QueryText> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
       queryIds,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +139,11 @@ export class QueryTextsImpl implements QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryId: string,
-    options?: QueryTextsGetOptionalParams
+    options?: QueryTextsGetOptionalParams,
   ): Promise<QueryTextsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, queryId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,11 +158,11 @@ export class QueryTextsImpl implements QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryIds: string[],
-    options?: QueryTextsListByServerOptionalParams
+    options?: QueryTextsListByServerOptionalParams,
   ): Promise<QueryTextsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, queryIds, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -171,20 +170,18 @@ export class QueryTextsImpl implements QueryTexts {
    * ListByServerNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
-   * @param queryIds The query identifiers
    * @param nextLink The nextLink from the previous successful call to the ListByServer method.
    * @param options The options parameters.
    */
   private _listByServerNext(
     resourceGroupName: string,
     serverName: string,
-    queryIds: string[],
     nextLink: string,
-    options?: QueryTextsListByServerNextOptionalParams
+    options?: QueryTextsListByServerNextOptionalParams,
   ): Promise<QueryTextsListByServerNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, queryIds, nextLink, options },
-      listByServerNextOperationSpec
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -192,16 +189,15 @@ export class QueryTextsImpl implements QueryTexts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/queryTexts/{queryId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/queryTexts/{queryId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueryText
+      bodyMapper: Mappers.QueryText,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -209,43 +205,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.queryId
+    Parameters.queryId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/queryTexts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/queryTexts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QueryTextsResultList
+      bodyMapper: Mappers.QueryTextsResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.queryIds],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByServerNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueryTextsResultList
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.queryIds],
   urlParameters: [
@@ -253,8 +227,28 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryTextsResultList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -16486,7 +16486,7 @@ packages:
     dev: false
 
   file:projects/arm-mariadb.tgz:
-    resolution: {integrity: sha512-oPXvkTJpAHzDYcEpsh5jc8zxUB6xLl0R/DrC5uzqq09dR4WZjEUsvb49nE/ze8xSQHfrlZCq6Q37Y5tzdapyNw==, tarball: file:projects/arm-mariadb.tgz}
+    resolution: {integrity: sha512-V2vlz1AheKmfciQHt+nM+V5g5YZmKiG+OvOBlLQp2Yy0Lrjgqtnnb0t6rknMxnBzZC4tlgt0Eu+bofYFah3ntg==, tarball: file:projects/arm-mariadb.tgz}
     name: '@rush-temp/arm-mariadb'
     version: 0.0.0
     dependencies:
@@ -16501,12 +16501,14 @@ packages:
       '@types/node': 18.19.54
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23188,7 +23190,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-micYqYdS28ldR3rNvKUud3F9dYcl1yW+GlumpMlyBCMTJR8ZK/Vjev6aUcPJehWHWMSAz5Wu4w2nnuYkXv39AA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-zIeUCSxRVQirkAneT1WpvUwFEvVNfzVfjtNLYPzF5owfu04F8QLNOnhMXaLCjQC3hNL9Ph8cWifX203WMorkUw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:

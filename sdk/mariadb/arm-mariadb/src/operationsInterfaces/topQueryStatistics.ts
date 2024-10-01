@@ -12,7 +12,7 @@ import {
   TopQueryStatisticsInput,
   TopQueryStatisticsListByServerOptionalParams,
   TopQueryStatisticsGetOptionalParams,
-  TopQueryStatisticsGetResponse
+  TopQueryStatisticsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: TopQueryStatisticsInput,
-    options?: TopQueryStatisticsListByServerOptionalParams
+    options?: TopQueryStatisticsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<QueryStatistic>;
   /**
    * Retrieve the query statistic for specified identifier.
@@ -42,6 +42,6 @@ export interface TopQueryStatistics {
     resourceGroupName: string,
     serverName: string,
     queryStatisticId: string,
-    options?: TopQueryStatisticsGetOptionalParams
+    options?: TopQueryStatisticsGetOptionalParams,
   ): Promise<TopQueryStatisticsGetResponse>;
 }

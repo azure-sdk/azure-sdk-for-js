@@ -15,13 +15,14 @@ import { MariaDBManagementClient } from "../mariaDBManagementClient";
 import {
   PerformanceTierProperties,
   LocationBasedPerformanceTierListOptionalParams,
-  LocationBasedPerformanceTierListResponse
+  LocationBasedPerformanceTierListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedPerformanceTier operations. */
 export class LocationBasedPerformanceTierImpl
-  implements LocationBasedPerformanceTier {
+  implements LocationBasedPerformanceTier
+{
   private readonly client: MariaDBManagementClient;
 
   /**
@@ -39,7 +40,7 @@ export class LocationBasedPerformanceTierImpl
    */
   public list(
     locationName: string,
-    options?: LocationBasedPerformanceTierListOptionalParams
+    options?: LocationBasedPerformanceTierListOptionalParams,
   ): PagedAsyncIterableIterator<PerformanceTierProperties> {
     const iter = this.listPagingAll(locationName, options);
     return {
@@ -54,14 +55,14 @@ export class LocationBasedPerformanceTierImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     locationName: string,
     options?: LocationBasedPerformanceTierListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PerformanceTierProperties[]> {
     let result: LocationBasedPerformanceTierListResponse;
     result = await this._list(locationName, options);
@@ -70,7 +71,7 @@ export class LocationBasedPerformanceTierImpl
 
   private async *listPagingAll(
     locationName: string,
-    options?: LocationBasedPerformanceTierListOptionalParams
+    options?: LocationBasedPerformanceTierListOptionalParams,
   ): AsyncIterableIterator<PerformanceTierProperties> {
     for await (const page of this.listPagingPage(locationName, options)) {
       yield* page;
@@ -84,11 +85,11 @@ export class LocationBasedPerformanceTierImpl
    */
   private _list(
     locationName: string,
-    options?: LocationBasedPerformanceTierListOptionalParams
+    options?: LocationBasedPerformanceTierListOptionalParams,
   ): Promise<LocationBasedPerformanceTierListResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -96,23 +97,22 @@ export class LocationBasedPerformanceTierImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/performanceTiers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/performanceTiers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PerformanceTierListResult
+      bodyMapper: Mappers.PerformanceTierListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

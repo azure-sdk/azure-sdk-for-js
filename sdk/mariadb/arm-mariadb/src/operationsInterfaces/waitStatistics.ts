@@ -12,7 +12,7 @@ import {
   WaitStatisticsInput,
   WaitStatisticsListByServerOptionalParams,
   WaitStatisticsGetOptionalParams,
-  WaitStatisticsGetResponse
+  WaitStatisticsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: WaitStatisticsInput,
-    options?: WaitStatisticsListByServerOptionalParams
+    options?: WaitStatisticsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<WaitStatistic>;
   /**
    * Retrieve wait statistics for specified identifier.
@@ -42,6 +42,6 @@ export interface WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     waitStatisticsId: string,
-    options?: WaitStatisticsGetOptionalParams
+    options?: WaitStatisticsGetOptionalParams,
   ): Promise<WaitStatisticsGetResponse>;
 }

@@ -890,7 +890,7 @@ export enum KnownSkuTier {
   /** GeneralPurpose */
   GeneralPurpose = "GeneralPurpose",
   /** MemoryOptimized */
-  MemoryOptimized = "MemoryOptimized"
+  MemoryOptimized = "MemoryOptimized",
 }
 
 /**
@@ -909,7 +909,7 @@ export enum KnownServerVersion {
   /** Ten2 */
   Ten2 = "10.2",
   /** Ten3 */
-  Ten3 = "10.3"
+  Ten3 = "10.3",
 }
 
 /**
@@ -931,7 +931,7 @@ export enum KnownMinimalTlsVersionEnum {
   /** TLS12 */
   TLS12 = "TLS1_2",
   /** TLSEnforcementDisabled */
-  TLSEnforcementDisabled = "TLSEnforcementDisabled"
+  TLSEnforcementDisabled = "TLSEnforcementDisabled",
 }
 
 /**
@@ -951,7 +951,7 @@ export enum KnownPublicNetworkAccessEnum {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -969,7 +969,7 @@ export enum KnownGeoRedundantBackup {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -987,7 +987,7 @@ export enum KnownStorageAutogrow {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1009,7 +1009,7 @@ export enum KnownCreateMode {
   /** GeoRestore */
   GeoRestore = "GeoRestore",
   /** Replica */
-  Replica = "Replica"
+  Replica = "Replica",
 }
 
 /**
@@ -1031,7 +1031,7 @@ export enum KnownServerState {
   /** Dropping */
   Dropping = "Dropping",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1054,7 +1054,7 @@ export enum KnownPrivateLinkServiceConnectionStateStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1072,7 +1072,7 @@ export type PrivateLinkServiceConnectionStateStatus = string;
 /** Known values of {@link PrivateLinkServiceConnectionStateActionsRequire} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStateActionsRequire {
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1095,7 +1095,7 @@ export enum KnownPrivateEndpointProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Rejecting */
-  Rejecting = "Rejecting"
+  Rejecting = "Rejecting",
 }
 
 /**
@@ -1122,7 +1122,7 @@ export enum KnownVirtualNetworkRuleState {
   /** Deleting */
   Deleting = "Deleting",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -1145,7 +1145,7 @@ export enum KnownOperationOrigin {
   /** User */
   User = "user",
   /** System */
-  System = "system"
+  System = "system",
 }
 
 /**
@@ -1164,7 +1164,7 @@ export enum KnownQueryPerformanceInsightResetDataResultState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1180,7 +1180,7 @@ export type QueryPerformanceInsightResetDataResultState = string;
 /** Known values of {@link SecurityAlertPolicyName} that the service accepts. */
 export enum KnownSecurityAlertPolicyName {
   /** Default */
-  Default = "Default"
+  Default = "Default",
 }
 
 /**
@@ -1350,14 +1350,16 @@ export interface VirtualNetworkRulesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult;
+export type VirtualNetworkRulesListByServerResponse =
+  VirtualNetworkRuleListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkRulesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult;
+export type VirtualNetworkRulesListByServerNextResponse =
+  VirtualNetworkRuleListResult;
 
 /** Optional parameters. */
 export interface DatabasesCreateOrUpdateOptionalParams
@@ -1430,7 +1432,8 @@ export interface ServerParametersListUpdateConfigurationsOptionalParams
 }
 
 /** Contains response data for the listUpdateConfigurations operation. */
-export type ServerParametersListUpdateConfigurationsResponse = ConfigurationListResult;
+export type ServerParametersListUpdateConfigurationsResponse =
+  ConfigurationListResult;
 
 /** Optional parameters. */
 export interface LogFilesListByServerOptionalParams
@@ -1458,7 +1461,8 @@ export interface LocationBasedPerformanceTierListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult;
+export type LocationBasedPerformanceTierListResponse =
+  PerformanceTierListResult;
 
 /** Optional parameters. */
 export interface CheckNameAvailabilityExecuteOptionalParams
@@ -1507,14 +1511,16 @@ export interface TopQueryStatisticsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type TopQueryStatisticsListByServerResponse = TopQueryStatisticsResultList;
+export type TopQueryStatisticsListByServerResponse =
+  TopQueryStatisticsResultList;
 
 /** Optional parameters. */
 export interface TopQueryStatisticsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type TopQueryStatisticsListByServerNextResponse = TopQueryStatisticsResultList;
+export type TopQueryStatisticsListByServerNextResponse =
+  TopQueryStatisticsResultList;
 
 /** Optional parameters. */
 export interface WaitStatisticsGetOptionalParams
@@ -1542,7 +1548,8 @@ export interface ResetQueryPerformanceInsightDataOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the resetQueryPerformanceInsightData operation. */
-export type ResetQueryPerformanceInsightDataResponse = QueryPerformanceInsightResetDataResult;
+export type ResetQueryPerformanceInsightDataResponse =
+  QueryPerformanceInsightResetDataResult;
 
 /** Optional parameters. */
 export interface CreateRecommendedActionSessionOptionalParams
@@ -1589,38 +1596,40 @@ export interface RecommendedActionsListByServerOptionalParams
 }
 
 /** Contains response data for the listByServer operation. */
-export type RecommendedActionsListByServerResponse = RecommendationActionsResultList;
+export type RecommendedActionsListByServerResponse =
+  RecommendationActionsResultList;
 
 /** Optional parameters. */
 export interface RecommendedActionsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The recommendation action session identifier. */
-  sessionId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type RecommendedActionsListByServerNextResponse = RecommendationActionsResultList;
+export type RecommendedActionsListByServerNextResponse =
+  RecommendationActionsResultList;
 
 /** Optional parameters. */
 export interface LocationBasedRecommendedActionSessionsOperationStatusGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type LocationBasedRecommendedActionSessionsOperationStatusGetResponse = RecommendedActionSessionsOperationStatus;
+export type LocationBasedRecommendedActionSessionsOperationStatusGetResponse =
+  RecommendedActionSessionsOperationStatus;
 
 /** Optional parameters. */
 export interface LocationBasedRecommendedActionSessionsResultListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type LocationBasedRecommendedActionSessionsResultListResponse = RecommendationActionsResultList;
+export type LocationBasedRecommendedActionSessionsResultListResponse =
+  RecommendationActionsResultList;
 
 /** Optional parameters. */
 export interface LocationBasedRecommendedActionSessionsResultListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type LocationBasedRecommendedActionSessionsResultListNextResponse = RecommendationActionsResultList;
+export type LocationBasedRecommendedActionSessionsResultListNextResponse =
+  RecommendationActionsResultList;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1639,7 +1648,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1660,28 +1670,32 @@ export interface PrivateEndpointConnectionsUpdateTagsOptionalParams
 }
 
 /** Contains response data for the updateTags operation. */
-export type PrivateEndpointConnectionsUpdateTagsResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateTagsResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateEndpointConnectionsListByServerNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -1695,7 +1709,8 @@ export interface PrivateLinkResourcesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerNextResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesGetOptionalParams
@@ -1714,21 +1729,24 @@ export interface ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ServerSecurityAlertPoliciesCreateOrUpdateResponse = ServerSecurityAlertPolicy;
+export type ServerSecurityAlertPoliciesCreateOrUpdateResponse =
+  ServerSecurityAlertPolicy;
 
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type ServerSecurityAlertPoliciesListByServerResponse = ServerSecurityAlertPolicyListResult;
+export type ServerSecurityAlertPoliciesListByServerResponse =
+  ServerSecurityAlertPolicyListResult;
 
 /** Optional parameters. */
 export interface ServerSecurityAlertPoliciesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type ServerSecurityAlertPoliciesListByServerNextResponse = ServerSecurityAlertPolicyListResult;
+export type ServerSecurityAlertPoliciesListByServerNextResponse =
+  ServerSecurityAlertPolicyListResult;
 
 /** Optional parameters. */
 export interface MariaDBManagementClientOptionalParams

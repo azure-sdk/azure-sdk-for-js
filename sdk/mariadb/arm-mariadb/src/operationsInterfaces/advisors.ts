@@ -11,7 +11,7 @@ import {
   Advisor,
   AdvisorsListByServerOptionalParams,
   AdvisorsGetOptionalParams,
-  AdvisorsGetResponse
+  AdvisorsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Advisors {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdvisorsListByServerOptionalParams
+    options?: AdvisorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Advisor>;
   /**
    * Get a recommendation action advisor.
@@ -39,6 +39,6 @@ export interface Advisors {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: AdvisorsGetOptionalParams
+    options?: AdvisorsGetOptionalParams,
   ): Promise<AdvisorsGetResponse>;
 }

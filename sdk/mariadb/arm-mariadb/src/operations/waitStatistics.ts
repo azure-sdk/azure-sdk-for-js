@@ -21,7 +21,7 @@ import {
   WaitStatisticsListByServerResponse,
   WaitStatisticsGetOptionalParams,
   WaitStatisticsGetResponse,
-  WaitStatisticsListByServerNextResponse
+  WaitStatisticsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,13 @@ export class WaitStatisticsImpl implements WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: WaitStatisticsInput,
-    options?: WaitStatisticsListByServerOptionalParams
+    options?: WaitStatisticsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<WaitStatistic> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +72,9 @@ export class WaitStatisticsImpl implements WaitStatistics {
           serverName,
           parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class WaitStatisticsImpl implements WaitStatistics {
     serverName: string,
     parameters: WaitStatisticsInput,
     options?: WaitStatisticsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WaitStatistic[]> {
     let result: WaitStatisticsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class WaitStatisticsImpl implements WaitStatistics {
         resourceGroupName,
         serverName,
         parameters,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +105,7 @@ export class WaitStatisticsImpl implements WaitStatistics {
         serverName,
         parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,13 +118,13 @@ export class WaitStatisticsImpl implements WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: WaitStatisticsInput,
-    options?: WaitStatisticsListByServerOptionalParams
+    options?: WaitStatisticsListByServerOptionalParams,
   ): AsyncIterableIterator<WaitStatistic> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
       parameters,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +141,11 @@ export class WaitStatisticsImpl implements WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     waitStatisticsId: string,
-    options?: WaitStatisticsGetOptionalParams
+    options?: WaitStatisticsGetOptionalParams,
   ): Promise<WaitStatisticsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, waitStatisticsId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class WaitStatisticsImpl implements WaitStatistics {
     resourceGroupName: string,
     serverName: string,
     parameters: WaitStatisticsInput,
-    options?: WaitStatisticsListByServerOptionalParams
+    options?: WaitStatisticsListByServerOptionalParams,
   ): Promise<WaitStatisticsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -181,11 +181,11 @@ export class WaitStatisticsImpl implements WaitStatistics {
     serverName: string,
     parameters: WaitStatisticsInput,
     nextLink: string,
-    options?: WaitStatisticsListByServerNextOptionalParams
+    options?: WaitStatisticsListByServerNextOptionalParams,
   ): Promise<WaitStatisticsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, parameters, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -193,16 +193,15 @@ export class WaitStatisticsImpl implements WaitStatistics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/waitStatistics/{waitStatisticsId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/waitStatistics/{waitStatisticsId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WaitStatistic
+      bodyMapper: Mappers.WaitStatistic,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -210,54 +209,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.waitStatisticsId
+    Parameters.waitStatisticsId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/waitStatistics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/waitStatistics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WaitStatisticsResultList
+      bodyMapper: Mappers.WaitStatisticsResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WaitStatisticsResultList
+      bodyMapper: Mappers.WaitStatisticsResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

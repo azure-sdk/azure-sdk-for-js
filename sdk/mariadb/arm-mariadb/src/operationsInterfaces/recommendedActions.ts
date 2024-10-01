@@ -11,7 +11,7 @@ import {
   RecommendationAction,
   RecommendedActionsListByServerOptionalParams,
   RecommendedActionsGetOptionalParams,
-  RecommendedActionsGetResponse
+  RecommendedActionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface RecommendedActions {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: RecommendedActionsListByServerOptionalParams
+    options?: RecommendedActionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RecommendationAction>;
   /**
    * Retrieve recommended actions from the advisor.
@@ -43,6 +43,6 @@ export interface RecommendedActions {
     serverName: string,
     advisorName: string,
     recommendedActionName: string,
-    options?: RecommendedActionsGetOptionalParams
+    options?: RecommendedActionsGetOptionalParams,
   ): Promise<RecommendedActionsGetResponse>;
 }

@@ -8,7 +8,7 @@
 
 import {
   RecoverableServersGetOptionalParams,
-  RecoverableServersGetResponse
+  RecoverableServersGetResponse,
 } from "../models";
 
 /** Interface representing a RecoverableServers. */
@@ -22,6 +22,6 @@ export interface RecoverableServers {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: RecoverableServersGetOptionalParams
+    options?: RecoverableServersGetOptionalParams,
   ): Promise<RecoverableServersGetResponse>;
 }

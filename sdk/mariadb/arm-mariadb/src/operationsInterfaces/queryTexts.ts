@@ -11,7 +11,7 @@ import {
   QueryText,
   QueryTextsListByServerOptionalParams,
   QueryTextsGetOptionalParams,
-  QueryTextsGetResponse
+  QueryTextsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryIds: string[],
-    options?: QueryTextsListByServerOptionalParams
+    options?: QueryTextsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<QueryText>;
   /**
    * Retrieve the Query-Store query texts for the queryId.
@@ -41,6 +41,6 @@ export interface QueryTexts {
     resourceGroupName: string,
     serverName: string,
     queryId: string,
-    options?: QueryTextsGetOptionalParams
+    options?: QueryTextsGetOptionalParams,
   ): Promise<QueryTextsGetResponse>;
 }

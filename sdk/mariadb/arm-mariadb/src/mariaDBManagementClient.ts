@@ -9,8 +9,12 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl";
 import {
   ServersImpl,
   ReplicasImpl,
@@ -34,7 +38,7 @@ import {
   LocationBasedRecommendedActionSessionsResultImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  ServerSecurityAlertPoliciesImpl
+  ServerSecurityAlertPoliciesImpl,
 } from "./operations";
 import {
   Servers,
@@ -59,7 +63,7 @@ import {
   LocationBasedRecommendedActionSessionsResult,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  ServerSecurityAlertPolicies
+  ServerSecurityAlertPolicies,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -67,7 +71,7 @@ import {
   MariaDBManagementClientOptionalParams,
   ResetQueryPerformanceInsightDataOptionalParams,
   ResetQueryPerformanceInsightDataResponse,
-  CreateRecommendedActionSessionOptionalParams
+  CreateRecommendedActionSessionOptionalParams,
 } from "./models";
 
 export class MariaDBManagementClient extends coreClient.ServiceClient {
@@ -83,7 +87,7 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MariaDBManagementClientOptionalParams
+    options?: MariaDBManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -98,10 +102,10 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
     }
     const defaults: MariaDBManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-mariadb/2.1.1`;
+    const packageDetails = `azsdk-js-arm-mariadb/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -111,20 +115,21 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -134,7 +139,7 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -144,9 +149,9 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -165,7 +170,7 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
     this.recoverableServers = new RecoverableServersImpl(this);
     this.serverBasedPerformanceTier = new ServerBasedPerformanceTierImpl(this);
     this.locationBasedPerformanceTier = new LocationBasedPerformanceTierImpl(
-      this
+      this,
     );
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.operations = new OperationsImpl(this);
@@ -174,16 +179,14 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
     this.waitStatistics = new WaitStatisticsImpl(this);
     this.advisors = new AdvisorsImpl(this);
     this.recommendedActions = new RecommendedActionsImpl(this);
-    this.locationBasedRecommendedActionSessionsOperationStatus = new LocationBasedRecommendedActionSessionsOperationStatusImpl(
-      this
-    );
-    this.locationBasedRecommendedActionSessionsResult = new LocationBasedRecommendedActionSessionsResultImpl(
-      this
-    );
+    this.locationBasedRecommendedActionSessionsOperationStatus =
+      new LocationBasedRecommendedActionSessionsOperationStatusImpl(this);
+    this.locationBasedRecommendedActionSessionsResult =
+      new LocationBasedRecommendedActionSessionsResultImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.serverSecurityAlertPolicies = new ServerSecurityAlertPoliciesImpl(
-      this
+      this,
     );
   }
 
@@ -196,11 +199,11 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
   resetQueryPerformanceInsightData(
     resourceGroupName: string,
     serverName: string,
-    options?: ResetQueryPerformanceInsightDataOptionalParams
+    options?: ResetQueryPerformanceInsightDataOptionalParams,
   ): Promise<ResetQueryPerformanceInsightDataResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      resetQueryPerformanceInsightDataOperationSpec
+      resetQueryPerformanceInsightDataOperationSpec,
     );
   }
 
@@ -217,25 +220,24 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
     serverName: string,
     advisorName: string,
     databaseName: string,
-    options?: CreateRecommendedActionSessionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CreateRecommendedActionSessionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -244,8 +246,8 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -253,19 +255,25 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, serverName, advisorName, databaseName, options },
-      createRecommendedActionSessionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serverName,
+        advisorName,
+        databaseName,
+        options,
+      },
+      spec: createRecommendedActionSessionOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -284,14 +292,14 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
     serverName: string,
     advisorName: string,
     databaseName: string,
-    options?: CreateRecommendedActionSessionOptionalParams
+    options?: CreateRecommendedActionSessionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCreateRecommendedActionSession(
       resourceGroupName,
       serverName,
       advisorName,
       databaseName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -323,31 +331,30 @@ export class MariaDBManagementClient extends coreClient.ServiceClient {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const resetQueryPerformanceInsightDataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/resetQueryPerformanceInsightData",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.QueryPerformanceInsightResetDataResult
+const resetQueryPerformanceInsightDataOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/resetQueryPerformanceInsightData",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.QueryPerformanceInsightResetDataResult,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.serverName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const createRecommendedActionSessionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/createRecommendedActionSession",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}/createRecommendedActionSession",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion, Parameters.databaseName1],
@@ -356,7 +363,7 @@ const createRecommendedActionSessionOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
-  serializer
+  serializer,
 };

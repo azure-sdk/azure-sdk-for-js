@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByServerOptionalParams,
@@ -18,7 +18,7 @@ import {
   PrivateEndpointConnectionsDeleteOptionalParams,
   TagsObject,
   PrivateEndpointConnectionsUpdateTagsOptionalParams,
-  PrivateEndpointConnectionsUpdateTagsResponse
+  PrivateEndpointConnectionsUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PrivateEndpointConnections {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: PrivateEndpointConnectionsListByServerOptionalParams
+    options?: PrivateEndpointConnectionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
@@ -61,10 +61,10 @@ export interface PrivateEndpointConnections {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface PrivateEndpointConnections {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -94,8 +94,8 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,7 +107,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     serverName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates private endpoint connection with the specified tags.
@@ -122,10 +122,10 @@ export interface PrivateEndpointConnections {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: TagsObject,
-    options?: PrivateEndpointConnectionsUpdateTagsOptionalParams
+    options?: PrivateEndpointConnectionsUpdateTagsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsUpdateTagsResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsUpdateTagsResponse>,
       PrivateEndpointConnectionsUpdateTagsResponse
     >
   >;
@@ -142,6 +142,6 @@ export interface PrivateEndpointConnections {
     serverName: string,
     privateEndpointConnectionName: string,
     parameters: TagsObject,
-    options?: PrivateEndpointConnectionsUpdateTagsOptionalParams
+    options?: PrivateEndpointConnectionsUpdateTagsOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateTagsResponse>;
 }

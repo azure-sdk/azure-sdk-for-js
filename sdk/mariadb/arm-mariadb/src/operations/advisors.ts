@@ -20,7 +20,7 @@ import {
   AdvisorsListByServerResponse,
   AdvisorsGetOptionalParams,
   AdvisorsGetResponse,
-  AdvisorsListByServerNextResponse
+  AdvisorsListByServerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class AdvisorsImpl implements Advisors {
   public listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdvisorsListByServerOptionalParams
+    options?: AdvisorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Advisor> {
     const iter = this.listByServerPagingAll(
       resourceGroupName,
       serverName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class AdvisorsImpl implements Advisors {
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class AdvisorsImpl implements Advisors {
     resourceGroupName: string,
     serverName: string,
     options?: AdvisorsListByServerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Advisor[]> {
     let result: AdvisorsListByServerResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class AdvisorsImpl implements Advisors {
         resourceGroupName,
         serverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +105,12 @@ export class AdvisorsImpl implements Advisors {
   private async *listByServerPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: AdvisorsListByServerOptionalParams
+    options?: AdvisorsListByServerOptionalParams,
   ): AsyncIterableIterator<Advisor> {
     for await (const page of this.listByServerPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class AdvisorsImpl implements Advisors {
     resourceGroupName: string,
     serverName: string,
     advisorName: string,
-    options?: AdvisorsGetOptionalParams
+    options?: AdvisorsGetOptionalParams,
   ): Promise<AdvisorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, advisorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class AdvisorsImpl implements Advisors {
   private _listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AdvisorsListByServerOptionalParams
+    options?: AdvisorsListByServerOptionalParams,
   ): Promise<AdvisorsListByServerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listByServerOperationSpec
+      listByServerOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class AdvisorsImpl implements Advisors {
     resourceGroupName: string,
     serverName: string,
     nextLink: string,
-    options?: AdvisorsListByServerNextOptionalParams
+    options?: AdvisorsListByServerNextOptionalParams,
   ): Promise<AdvisorsListByServerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, nextLink, options },
-      listByServerNextOperationSpec
+      listByServerNextOperationSpec,
     );
   }
 }
@@ -175,13 +175,12 @@ export class AdvisorsImpl implements Advisors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors/{advisorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Advisor
-    }
+      bodyMapper: Mappers.Advisor,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -189,46 +188,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.advisorName
+    Parameters.advisorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/advisors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdvisorsResultList
-    }
+      bodyMapper: Mappers.AdvisorsResultList,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AdvisorsResultList
-    }
+      bodyMapper: Mappers.AdvisorsResultList,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -15,13 +15,14 @@ import { MariaDBManagementClient } from "../mariaDBManagementClient";
 import {
   PerformanceTierProperties,
   ServerBasedPerformanceTierListOptionalParams,
-  ServerBasedPerformanceTierListResponse
+  ServerBasedPerformanceTierListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerBasedPerformanceTier operations. */
 export class ServerBasedPerformanceTierImpl
-  implements ServerBasedPerformanceTier {
+  implements ServerBasedPerformanceTier
+{
   private readonly client: MariaDBManagementClient;
 
   /**
@@ -41,7 +42,7 @@ export class ServerBasedPerformanceTierImpl
   public list(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBasedPerformanceTierListOptionalParams
+    options?: ServerBasedPerformanceTierListOptionalParams,
   ): PagedAsyncIterableIterator<PerformanceTierProperties> {
     const iter = this.listPagingAll(resourceGroupName, serverName, options);
     return {
@@ -59,9 +60,9 @@ export class ServerBasedPerformanceTierImpl
           resourceGroupName,
           serverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -69,7 +70,7 @@ export class ServerBasedPerformanceTierImpl
     resourceGroupName: string,
     serverName: string,
     options?: ServerBasedPerformanceTierListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PerformanceTierProperties[]> {
     let result: ServerBasedPerformanceTierListResponse;
     result = await this._list(resourceGroupName, serverName, options);
@@ -79,12 +80,12 @@ export class ServerBasedPerformanceTierImpl
   private async *listPagingAll(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBasedPerformanceTierListOptionalParams
+    options?: ServerBasedPerformanceTierListOptionalParams,
   ): AsyncIterableIterator<PerformanceTierProperties> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -99,11 +100,11 @@ export class ServerBasedPerformanceTierImpl
   private _list(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerBasedPerformanceTierListOptionalParams
+    options?: ServerBasedPerformanceTierListOptionalParams,
   ): Promise<ServerBasedPerformanceTierListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -111,24 +112,23 @@ export class ServerBasedPerformanceTierImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/performanceTiers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/performanceTiers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PerformanceTierListResult
+      bodyMapper: Mappers.PerformanceTierListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serverName
+    Parameters.serverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

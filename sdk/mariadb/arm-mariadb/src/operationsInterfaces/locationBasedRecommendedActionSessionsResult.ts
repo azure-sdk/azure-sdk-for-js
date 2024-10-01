@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RecommendationAction,
-  LocationBasedRecommendedActionSessionsResultListOptionalParams
+  LocationBasedRecommendedActionSessionsResultListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface LocationBasedRecommendedActionSessionsResult {
   list(
     locationName: string,
     operationId: string,
-    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams
+    options?: LocationBasedRecommendedActionSessionsResultListOptionalParams,
   ): PagedAsyncIterableIterator<RecommendationAction>;
 }

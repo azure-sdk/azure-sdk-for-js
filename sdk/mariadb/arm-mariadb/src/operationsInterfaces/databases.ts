@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Database,
   DatabasesListByServerOptionalParams,
@@ -15,7 +15,7 @@ import {
   DatabasesCreateOrUpdateResponse,
   DatabasesDeleteOptionalParams,
   DatabasesGetOptionalParams,
-  DatabasesGetResponse
+  DatabasesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Databases {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListByServerOptionalParams
+    options?: DatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Creates a new database or updates an existing database.
@@ -45,10 +45,10 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabasesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabasesCreateOrUpdateResponse>,
       DatabasesCreateOrUpdateResponse
     >
   >;
@@ -65,7 +65,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOrUpdateOptionalParams
+    options?: DatabasesCreateOrUpdateOptionalParams,
   ): Promise<DatabasesCreateOrUpdateResponse>;
   /**
    * Deletes a database.
@@ -78,8 +78,8 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DatabasesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -91,7 +91,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a database.
@@ -104,6 +104,6 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
 }

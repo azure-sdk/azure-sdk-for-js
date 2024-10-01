@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PerformanceTierProperties,
-  LocationBasedPerformanceTierListOptionalParams
+  LocationBasedPerformanceTierListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface LocationBasedPerformanceTier {
    */
   list(
     locationName: string,
-    options?: LocationBasedPerformanceTierListOptionalParams
+    options?: LocationBasedPerformanceTierListOptionalParams,
   ): PagedAsyncIterableIterator<PerformanceTierProperties>;
 }
