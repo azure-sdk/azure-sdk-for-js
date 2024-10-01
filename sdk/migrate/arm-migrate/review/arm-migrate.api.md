@@ -6,1350 +6,1124 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
-export interface AssessedDisk {
-    readonly displayName?: string;
-    readonly gigabytesForRecommendedDiskSize?: number;
-    readonly gigabytesProvisioned?: number;
-    readonly megabytesPerSecondOfRead?: number;
-    readonly megabytesPerSecondOfWrite?: number;
-    readonly monthlyStorageCost?: number;
-    readonly name?: string;
-    readonly numberOfReadOperationsPerSecond?: number;
-    readonly numberOfWriteOperationsPerSecond?: number;
-    readonly recommendedDiskSize?: AzureDiskSize;
-    readonly recommendedDiskType?: AzureDiskType;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureDiskSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureDiskSuitabilityExplanation;
+export interface ACRProperties {
+    registryName?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+    tenantId?: string;
 }
 
 // @public
-export interface AssessedMachine {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: AssessedMachineProperties;
-    readonly type?: string;
+export type ActionType = string;
+
+// @public
+export interface AKSDeploymentProperties {
+    aksClusterName?: string;
+    resourceGroup?: string;
+    subscriptionId?: string;
+    tenantId?: string;
 }
 
 // @public
-export interface AssessedMachineProperties {
-    readonly bootType?: MachineBootType;
-    readonly confidenceRatingInPercentage?: number;
-    readonly createdTimestamp?: Date;
-    readonly datacenterMachineArmId?: string;
-    readonly datacenterManagementServerArmId?: string;
-    readonly datacenterManagementServerName?: string;
-    readonly description?: string;
-    readonly disks?: {
-        [propertyName: string]: AssessedDisk;
-    };
-    readonly displayName?: string;
-    readonly megabytesOfMemory?: number;
-    readonly megabytesOfMemoryForRecommendedSize?: number;
-    readonly monthlyBandwidthCost?: number;
-    readonly monthlyComputeCostForRecommendedSize?: number;
-    readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
-    readonly monthlyStorageCost?: number;
-    readonly networkAdapters?: {
-        [propertyName: string]: AssessedNetworkAdapter;
-    };
-    readonly numberOfCores?: number;
-    readonly numberOfCoresForRecommendedSize?: number;
-    readonly operatingSystemName?: string;
-    readonly operatingSystemType?: string;
-    readonly operatingSystemVersion?: string;
-    readonly percentageCoresUtilization?: number;
-    readonly percentageMemoryUtilization?: number;
-    readonly recommendedSize?: AzureVmSize;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureVmSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureVmSuitabilityExplanation;
-    readonly updatedTimestamp?: Date;
+export interface AKSDeploymentSpecification {
+    kubernetesObjectsYaml?: string;
+    loadBalancerType?: LoadBalancerType;
+    replicaCount?: string;
 }
 
 // @public
-export interface AssessedMachineResultList {
+export interface ApacheTomcatAKSWorkloadDeployment {
+    automationArtifactProperties?: AutomationArtifact;
+    bindings?: Binding[];
+    buildContainerImages?: ContainerImageProperties[];
+    clusterProperties?: AKSDeploymentProperties;
+    configurations?: WebApplicationConfiguration[];
+    containerImageProperties?: ContainerImageProperties;
+    readonly deploymentHistory?: DeployedResourcesProperties[];
+    deploymentNamePrefix?: string;
+    deploymentSpec?: AKSDeploymentSpecification;
+    directories?: WebApplicationDirectory[];
+    limits?: ResourceRequirements;
+    monitoringProperties?: AppInsightMonitoringProperties;
+    requests?: ResourceRequirements;
+    targetPlatformIdentity?: string;
+}
+
+// @public
+export interface ApacheTomcatAKSWorkloadDeploymentModelCustomProperties extends WorkloadDeploymentModelCustomProperties {
+    apacheTomcatAksWorkloadDeploymentProperties?: ApacheTomcatAKSWorkloadDeployment;
+    instanceType: "ApacheTomcatAKSWorkloadDeploymentModelCustomProperties";
+}
+
+// @public
+export interface ApacheTomcatWebApplication {
+    applicationId?: string;
+    applicationName?: string;
+    applicationScratchPath?: string;
+    bindings?: Binding[];
+    configurations?: WebApplicationConfiguration[];
+    directories?: WebApplicationDirectory[];
+    discoveredFrameworks?: WebApplicationFramework[];
+    displayName?: string;
+    limits?: ResourceRequirements;
+    path?: DirectoryPath;
+    primaryFramework?: WebApplicationFramework;
+    requests?: ResourceRequirements;
+    webServerId?: string;
+    webServerName?: string;
+}
+
+// @public
+export interface ApacheTomcatWorkloadInstanceModelCustomProperties extends WorkloadInstanceModelCustomProperties {
+    apacheTomcatWebApplication?: ApacheTomcatWebApplication;
+    instanceType: "ApacheTomcatWorkloadInstanceModelCustomProperties";
+}
+
+// @public
+export interface AppInsightMonitoringProperties {
+    appInsightsName?: string;
+    isEnabled?: boolean;
+    region?: string;
+    resourceGroup?: string;
     // (undocumented)
-    nextLink?: string;
-    value?: AssessedMachine[];
+    secretStoreDetails?: SecretStoreDetails;
+    subscriptionId?: string;
 }
-
-// @public
-export interface AssessedMachines {
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, assessedMachineName: string, options?: AssessedMachinesGetOptionalParams): Promise<AssessedMachinesGetResponse>;
-    listByAssessment(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessedMachinesListByAssessmentOptionalParams): PagedAsyncIterableIterator<AssessedMachine>;
-}
-
-// @public
-export interface AssessedMachinesGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessedMachinesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesGetResponse = AssessedMachinesGetHeaders & AssessedMachine;
-
-// @public
-export interface AssessedMachinesListByAssessmentHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessedMachinesListByAssessmentNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessedMachinesListByAssessmentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentNextResponse = AssessedMachinesListByAssessmentNextHeaders & AssessedMachineResultList;
-
-// @public
-export interface AssessedMachinesListByAssessmentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessedMachinesListByAssessmentResponse = AssessedMachinesListByAssessmentHeaders & AssessedMachineResultList;
-
-// @public
-export interface AssessedNetworkAdapter {
-    readonly displayName?: string;
-    readonly ipAddresses?: string[];
-    readonly macAddress?: string;
-    readonly megabytesPerSecondReceived?: number;
-    readonly megabytesPerSecondTransmitted?: number;
-    readonly monthlyBandwidthCosts?: number;
-    netGigabytesTransmittedPerMonth?: number;
-    readonly suitability?: CloudSuitability;
-    readonly suitabilityDetail?: AzureNetworkAdapterSuitabilityDetail;
-    readonly suitabilityExplanation?: AzureNetworkAdapterSuitabilityExplanation;
-}
-
-// @public
-export interface Assessment {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface AssessmentOptions {
-    readonly id?: string;
-    readonly name?: string;
-    properties: AssessmentOptionsProperties;
-}
-
-// @public
-export interface AssessmentOptionsProperties {
-    readonly reservedInstanceSupportedCurrencies?: string[];
-    readonly reservedInstanceSupportedLocations?: string[];
-    readonly reservedInstanceSupportedOffers?: string[];
-    readonly reservedInstanceVmFamilies?: string[];
-    readonly vmFamilies?: VmFamily[];
-}
-
-// @public
-export interface AssessmentOptionsResultList {
-    value?: AssessmentOptions[];
-}
-
-// @public
-export interface AssessmentProperties {
-    azureDiskType: AzureDiskType;
-    azureHybridUseBenefit: AzureHybridUseBenefit;
-    azureLocation: AzureLocation;
-    azureOfferCode: AzureOfferCode;
-    azurePricingTier: AzurePricingTier;
-    azureStorageRedundancy: AzureStorageRedundancy;
-    azureVmFamilies: AzureVmFamily[];
-    readonly confidenceRatingInPercentage?: number;
-    readonly createdTimestamp?: Date;
-    currency: Currency;
-    discountPercentage: number;
-    readonly eaSubscriptionId?: string;
-    readonly monthlyBandwidthCost?: number;
-    readonly monthlyComputeCost?: number;
-    readonly monthlyPremiumStorageCost?: number;
-    readonly monthlyStandardSSDStorageCost?: number;
-    readonly monthlyStorageCost?: number;
-    readonly numberOfMachines?: number;
-    percentile: Percentile;
-    readonly perfDataEndTime?: Date;
-    readonly perfDataStartTime?: Date;
-    readonly pricesTimestamp?: Date;
-    reservedInstance: ReservedInstance;
-    scalingFactor: number;
-    sizingCriterion: AssessmentSizingCriterion;
-    stage: AssessmentStage;
-    readonly status?: AssessmentStatus;
-    timeRange: TimeRange;
-    readonly updatedTimestamp?: Date;
-    vmUptime: VmUptime;
-}
-
-// @public
-export interface AssessmentResultList {
-    value?: Assessment[];
-}
-
-// @public
-export interface Assessments {
-    create(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsCreateOptionalParams): Promise<AssessmentsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<AssessmentsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetOptionalParams): Promise<AssessmentsGetResponse>;
-    getReportDownloadUrl(resourceGroupName: string, projectName: string, groupName: string, assessmentName: string, options?: AssessmentsGetReportDownloadUrlOptionalParams): Promise<AssessmentsGetReportDownloadUrlResponse>;
-    listByGroup(resourceGroupName: string, projectName: string, groupName: string, options?: AssessmentsListByGroupOptionalParams): PagedAsyncIterableIterator<Assessment>;
-    listByProject(resourceGroupName: string, projectName: string, options?: AssessmentsListByProjectOptionalParams): PagedAsyncIterableIterator<Assessment>;
-}
-
-// @public
-export interface AssessmentsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsCreateOptionalParams extends coreClient.OperationOptions {
-    assessment?: Assessment;
-}
-
-// @public
-export type AssessmentsCreateResponse = AssessmentsCreateHeaders & Assessment;
-
-// @public
-export interface AssessmentsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsDeleteResponse = AssessmentsDeleteHeaders;
-
-// @public
-export interface AssessmentsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AssessmentsGetReportDownloadUrlHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsGetReportDownloadUrlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsGetReportDownloadUrlResponse = AssessmentsGetReportDownloadUrlHeaders & DownloadUrl;
-
-// @public
-export type AssessmentsGetResponse = AssessmentsGetHeaders & Assessment;
-
-// @public
-export type AssessmentSizingCriterion = string;
-
-// @public
-export interface AssessmentsListByGroupHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsListByGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsListByGroupResponse = AssessmentsListByGroupHeaders & AssessmentResultList;
-
-// @public
-export interface AssessmentsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface AssessmentsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssessmentsListByProjectResponse = AssessmentsListByProjectHeaders & AssessmentResultList;
-
-// @public
-export type AssessmentStage = string;
-
-// @public
-export type AssessmentStatus = string;
-
-// @public
-export type AzureDiskSize = string;
-
-// @public
-export type AzureDiskSuitabilityDetail = string;
-
-// @public
-export type AzureDiskSuitabilityExplanation = string;
-
-// @public
-export type AzureDiskType = string;
-
-// @public
-export type AzureHybridUseBenefit = string;
-
-// @public
-export type AzureLocation = string;
 
 // @public (undocumented)
-export class AzureMigrateV2 extends coreClient.ServiceClient {
+export interface AppServiceSettingSecretStoreProperties extends SecretStoreProperties {
+    // (undocumented)
+    appServiceName?: string;
+    // (undocumented)
+    resourceGroup?: string;
+    // (undocumented)
+    subscriptionId?: string;
+    // (undocumented)
+    tenantId?: string;
+}
+
+// @public
+export interface ArmError {
+    error?: ArmErrorInfo;
+}
+
+// @public
+export interface ArmErrorInfo {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface AutomationArtifact {
+    artifacts?: {
+        [propertyName: string]: string;
+    };
+    azureFileShareProfile?: AzureFileShareHydrationProfile;
+    status?: AutomationArtifactStatus;
+}
+
+// @public
+export type AutomationArtifactStatus = string;
+
+// @public
+export interface AzureFileShareHydrationProfile {
+    azureFileShareDirPath?: string;
+    azureFileShareName?: string;
+    azureFileShareResourceGroup?: string;
+    azureFileShareStorageAccount?: string;
+    azureFileShareSubscriptionId?: string;
+}
+
+// @public (undocumented)
+export class AzureMigrateEngineAPIs extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMigrateV2OptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, $host: string, options?: AzureMigrateEngineAPIsOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    assessedMachines: AssessedMachines;
+    deployedResource: DeployedResource;
     // (undocumented)
-    assessments: Assessments;
+    migrateAgent: MigrateAgent;
     // (undocumented)
-    groups: Groups;
+    migrateAgentOperationStatus: MigrateAgentOperationStatus;
     // (undocumented)
-    hyperVCollectors: HyperVCollectors;
+    modernizeProject: ModernizeProject;
     // (undocumented)
-    importCollectors: ImportCollectors;
+    modernizeProjectOperationStatus: ModernizeProjectOperationStatus;
     // (undocumented)
-    machines: Machines;
+    modernizeProjectStatistics: ModernizeProjectStatistics;
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
+    workflow: Workflow;
     // (undocumented)
-    privateLinkResourceOperations: PrivateLinkResourceOperations;
+    workflowOperationStatus: WorkflowOperationStatus;
     // (undocumented)
-    projects: Projects;
+    workloadDeployment: WorkloadDeployment;
     // (undocumented)
-    serverCollectors: ServerCollectors;
+    workloadDeploymentOperationStatus: WorkloadDeploymentOperationStatus;
     // (undocumented)
-    subscriptionId: string;
+    workloadInstance: WorkloadInstance;
     // (undocumented)
-    vMwareCollectors: VMwareCollectors;
+    workloadInstanceOperationStatus: WorkloadInstanceOperationStatus;
 }
 
 // @public
-export interface AzureMigrateV2OptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AzureMigrateEngineAPIsOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export type AzureNetworkAdapterSuitabilityDetail = string;
-
-// @public
-export type AzureNetworkAdapterSuitabilityExplanation = string;
-
-// @public
-export type AzureOfferCode = string;
-
-// @public
-export type AzurePricingTier = string;
-
-// @public
-export type AzureStorageRedundancy = string;
-
-// @public
-export type AzureVmFamily = string;
-
-// @public
-export type AzureVmSize = string;
-
-// @public
-export type AzureVmSuitabilityDetail = string;
-
-// @public
-export type AzureVmSuitabilityExplanation = string;
-
-// @public
-export interface CloudError {
-    error?: CloudErrorBody;
-}
-
-// @public
-export interface CloudErrorBody {
-    code?: string;
-    details?: CloudErrorBody[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export type CloudSuitability = string;
-
-// @public (undocumented)
-export interface CollectorAgentProperties {
+export interface Binding {
+    cert?: Cert;
+    hostName?: string;
     readonly id?: string;
-    readonly lastHeartbeatUtc?: Date;
-    // (undocumented)
-    spnDetails?: CollectorBodyAgentSpnProperties;
-    readonly version?: string;
-}
-
-// @public (undocumented)
-export interface CollectorBodyAgentSpnProperties {
-    applicationId?: string;
-    audience?: string;
-    authority?: string;
-    objectId?: string;
-    tenantId?: string;
-}
-
-// @public (undocumented)
-export interface CollectorProperties {
-    // (undocumented)
-    agentProperties?: CollectorAgentProperties;
-    readonly createdTimestamp?: string;
-    discoverySiteId?: string;
-    readonly updatedTimestamp?: string;
+    ipAddress?: string;
+    port?: string;
+    portMapping?: PortMapping;
+    protocol?: string;
 }
 
 // @public
-export type Currency = string;
+export interface BuildContainerImageModel {
+    properties?: ContainerImageProperties;
+}
 
 // @public
-export interface Disk {
+export interface BuildContainerImageWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+    readonly containerImageProperties?: BuildContainerImageWorkflowModelCustomPropertiesContainerImageProperties;
+    instanceType: "BuildContainerImageWorkflowModelCustomProperties";
+}
+
+// @public (undocumented)
+export interface BuildContainerImageWorkflowModelCustomPropertiesContainerImageProperties extends ContainerImageProperties {
+}
+
+// @public
+export interface Cert {
+    certData?: Uint8Array;
+    certNeeded?: boolean;
+    certProvided?: boolean;
+    secretStore?: SecretStoreType;
+}
+
+// @public
+export type ClientFacingMigrateStatus = string;
+
+// @public
+export type ClientFacingReplicationStatus = string;
+
+// @public
+export type ClientFacingTestMigrateStatus = string;
+
+// @public
+export type ConfigurationType = string;
+
+// @public
+export interface ContainerImageProperties {
+    dockerfile?: string;
+    readonly id?: string;
+    imageName?: string;
+    imageTag?: string;
+    registryProperties?: ACRProperties;
+    runId?: string;
+    runStatus?: string;
+}
+
+// @public
+export interface DeployedResource {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, deployedResourceName: string, options?: DeployedResourceGetOptionalParams): Promise<DeployedResourceGetResponse>;
+    list(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: DeployedResourceListOptionalParams): PagedAsyncIterableIterator<DeployedResourceModel>;
+}
+
+// @public
+export interface DeployedResourceGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeployedResourceGetResponse = DeployedResourceModel;
+
+// @public
+export interface DeployedResourceListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeployedResourceListNextResponse = DeployedResourceModelCollection;
+
+// @public
+export interface DeployedResourceListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeployedResourceListResponse = DeployedResourceModelCollection;
+
+// @public
+export interface DeployedResourceModel {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: DeployedResourceModelProperties;
+    readonly systemData?: DeployedResourceModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface DeployedResourceModelCollection {
+    nextLink?: string;
+    value?: DeployedResourceModel[];
+}
+
+// @public
+export interface DeployedResourceModelProperties {
+    readonly appIp?: string;
+    readonly containerRegistryId?: string;
+    customProperties?: {
+        [propertyName: string]: string;
+    };
+    readonly deploymentTimestamp?: Date;
     readonly displayName?: string;
-    readonly gigabytesAllocated?: number;
+    readonly imageName?: string;
+    readonly imageTag?: string;
+    resourcesDeployed?: {
+        [propertyName: string]: string;
+    };
+    secretStoreId?: string;
+    readonly targetAzureService?: WorkloadDeploymentTarget;
+    readonly workloadDeploymentId?: string;
+}
+
+// @public (undocumented)
+export interface DeployedResourceModelSystemData extends SystemDataModel {
 }
 
 // @public
-export interface DownloadUrl {
-    readonly assessmentReportUrl?: string;
-    readonly expirationTime?: Date;
+export interface DeployedResourcesProperties {
+    readonly context?: string;
+    readonly deployedResourceId?: string;
+    readonly deploymentTimestamp?: Date;
+    readonly displayName?: string;
+    readonly id?: string;
+    readonly isCleanUpDone?: boolean;
+    readonly isTestMigration?: boolean;
+    readonly status?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface DirectoryPath {
+    readonly id?: string;
+    physical?: string;
+    virtual?: string;
+}
+
+// @public
+export interface EnableReplicationWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+    instanceType: "EnableReplicationWorkflowModelCustomProperties";
+    readonly workloadInstanceProperties?: EnableReplicationWorkflowModelCustomPropertiesWorkloadInstanceProperties;
+}
+
+// @public (undocumented)
+export interface EnableReplicationWorkflowModelCustomPropertiesWorkloadInstanceProperties extends WorkloadInstanceModelProperties {
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorModel {
+    readonly causes?: string;
+    readonly code?: string;
+    readonly creationTime?: Date;
+    readonly id?: string;
+    readonly message?: string;
+    readonly recommendation?: string;
+    readonly severity?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export interface Group {
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties: GroupProperties;
-    readonly type?: string;
+export interface GmsaAuthenticationProperties {
+    adDomainControllerDns?: string;
+    adDomainFqdn?: string;
+    // (undocumented)
+    akvProperties?: KeyVaultSecretStoreProperties;
+    readonly configurationState?: GmsaConfigurationState;
+    domainAdminPassword?: string;
+    domainAdminUsername?: string;
+    domainControllerAddress?: string;
+    gmsaAccountName?: string;
+    readonly gmsaCredSpecName?: string;
+    readonly gmsaSecretName?: string;
+    gmsaUsername?: string;
+    gmsaUserPassword?: string;
 }
 
 // @public
-export interface GroupBodyProperties {
+export type GmsaConfigurationState = string;
+
+// @public
+export interface HealthErrorModel {
+    affectedResourceCorrelationIds?: string[];
+    affectedResourceType?: string;
+    readonly category?: string;
+    readonly causes?: string;
+    childErrors?: InnerHealthErrorModel[];
+    readonly code?: string;
+    readonly creationTime?: Date;
+    readonly healthCategory?: string;
+    readonly id?: string;
+    readonly isCustomerResolvable?: boolean;
+    readonly message?: string;
+    readonly recommendation?: string;
+    readonly severity?: string;
+    readonly source?: string;
+    readonly summary?: string;
+}
+
+// @public
+export type HealthStatus = string;
+
+// @public
+export interface IdentityModel {
+    aadAuthority?: string;
+    applicationId?: string;
+    audience?: string;
+    objectId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface IisaksWorkloadDeployment {
+    authenticationProperties?: GmsaAuthenticationProperties;
+    automationArtifactProperties?: AutomationArtifact;
+    bindings?: Binding[];
+    buildContainerImages?: ContainerImageProperties[];
+    clusterProperties?: AKSDeploymentProperties;
+    configurations?: WebApplicationConfiguration[];
+    containerImageProperties?: ContainerImageProperties;
+    readonly deploymentHistory?: DeployedResourcesProperties[];
+    deploymentNamePrefix?: string;
+    deploymentSpec?: AKSDeploymentSpecification;
+    directories?: WebApplicationDirectory[];
+    limits?: ResourceRequirements;
+    monitoringProperties?: AppInsightMonitoringProperties;
+    requests?: ResourceRequirements;
+    targetPlatformIdentity?: string;
+}
+
+// @public
+export interface IisaksWorkloadDeploymentModelCustomProperties extends WorkloadDeploymentModelCustomProperties {
+    iisAksWorkloadDeploymentProperties?: IisaksWorkloadDeployment;
+    instanceType: "IISAKSWorkloadDeploymentModelCustomProperties";
+}
+
+// @public
+export interface IISApplicationDetails {
+    applicationPoolName?: string;
+    directories?: DirectoryPath[];
+    enable32BitApiOnWin64?: boolean;
+    readonly id?: string;
+    managedPipelineMode?: string;
+    path?: DirectoryPath;
+    runtimeVersion?: string;
+}
+
+// @public
+export interface IISVirtualApplicationDetails {
+    directories?: DirectoryPath[];
+    readonly id?: string;
+    readonly isVirtualDirectory?: boolean;
+    path?: DirectoryPath;
+}
+
+// @public
+export interface IISWebApplication {
+    applicationId?: string;
+    applicationName?: string;
+    applications?: IISApplicationDetails[];
+    applicationScratchPath?: string;
+    bindings?: Binding[];
+    configurations?: WebApplicationConfiguration[];
+    directories?: WebApplicationDirectory[];
+    discoveredFrameworks?: WebApplicationFramework[];
+    displayName?: string;
+    iisWebServer?: IISWebServer;
+    limits?: ResourceRequirements;
+    path?: DirectoryPath;
+    primaryFramework?: WebApplicationFramework;
+    requests?: ResourceRequirements;
+    virtualApplications?: IISVirtualApplicationDetails[];
+    webServerId?: string;
+    webServerName?: string;
+}
+
+// @public
+export interface IISWebServer {
+    displayName?: string;
+    ipAddresses?: string[];
     machines?: string[];
-    operationType?: GroupUpdateOperation;
-}
-
-// @public
-export interface GroupProperties {
-    readonly areAssessmentsRunning?: boolean;
-    readonly assessments?: string[];
-    readonly createdTimestamp?: Date;
-    readonly groupStatus?: GroupStatus;
-    groupType?: string;
-    readonly machineCount?: number;
-    readonly updatedTimestamp?: Date;
-}
-
-// @public
-export interface GroupResultList {
-    value?: Group[];
-}
-
-// @public
-export interface Groups {
-    create(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsCreateOptionalParams): Promise<GroupsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsDeleteOptionalParams): Promise<GroupsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsGetOptionalParams): Promise<GroupsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: GroupsListByProjectOptionalParams): PagedAsyncIterableIterator<Group>;
-    updateMachines(resourceGroupName: string, projectName: string, groupName: string, options?: GroupsUpdateMachinesOptionalParams): Promise<GroupsUpdateMachinesResponse>;
-}
-
-// @public
-export interface GroupsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsCreateOptionalParams extends coreClient.OperationOptions {
-    group?: Group;
-}
-
-// @public
-export type GroupsCreateResponse = GroupsCreateHeaders & Group;
-
-// @public
-export interface GroupsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsDeleteResponse = GroupsDeleteHeaders;
-
-// @public
-export interface GroupsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsGetResponse = GroupsGetHeaders & Group;
-
-// @public
-export interface GroupsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GroupsListByProjectResponse = GroupsListByProjectHeaders & GroupResultList;
-
-// @public
-export type GroupStatus = string;
-
-// @public
-export interface GroupsUpdateMachinesHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface GroupsUpdateMachinesOptionalParams extends coreClient.OperationOptions {
-    groupUpdateProperties?: UpdateGroupBody;
-}
-
-// @public
-export type GroupsUpdateMachinesResponse = GroupsUpdateMachinesHeaders & Group;
-
-// @public
-export type GroupUpdateOperation = string;
-
-// @public (undocumented)
-export interface HyperVCollector {
     // (undocumented)
-    eTag?: string;
+    operatingSystemDetails?: OperatingSystemDetails;
+    rootConfigurationLocation?: string;
+    runAsAccountId?: string;
+    serverFqdn?: string;
+    serverId?: string;
+    serverName?: string;
+    version?: string;
+    webApplications?: string[];
+}
+
+// @public
+export interface IISWorkloadInstanceModelCustomProperties extends WorkloadInstanceModelCustomProperties {
+    containerName?: string;
+    fileshareName?: string;
+    iisWebApplication?: IISWebApplication;
+    instanceType: "IISWorkloadInstanceModelCustomProperties";
+}
+
+// @public
+export interface InnerHealthErrorModel {
+    readonly category?: string;
+    readonly causes?: string;
+    readonly code?: string;
+    readonly creationTime?: Date;
+    readonly healthCategory?: string;
     readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface HyperVCollectorList {
-    value?: HyperVCollector[];
-}
-
-// @public
-export interface HyperVCollectors {
-    create(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsCreateOptionalParams): Promise<HyperVCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsDeleteOptionalParams): Promise<HyperVCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, hyperVCollectorName: string, options?: HyperVCollectorsGetOptionalParams): Promise<HyperVCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: HyperVCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<HyperVCollector>;
-}
-
-// @public
-export interface HyperVCollectorsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: HyperVCollector;
-}
-
-// @public
-export type HyperVCollectorsCreateResponse = HyperVCollectorsCreateHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsDeleteResponse = HyperVCollectorsDeleteHeaders;
-
-// @public
-export interface HyperVCollectorsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsGetResponse = HyperVCollectorsGetHeaders & HyperVCollector;
-
-// @public
-export interface HyperVCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface HyperVCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type HyperVCollectorsListByProjectResponse = HyperVCollectorsListByProjectHeaders & HyperVCollectorList;
-
-// @public (undocumented)
-export interface ImportCollector {
-    // (undocumented)
-    eTag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    // (undocumented)
-    properties?: ImportCollectorProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface ImportCollectorList {
-    value?: ImportCollector[];
+    readonly isCustomerResolvable?: boolean;
+    readonly message?: string;
+    readonly recommendation?: string;
+    readonly severity?: string;
+    readonly source?: string;
+    readonly summary?: string;
 }
 
 // @public (undocumented)
-export interface ImportCollectorProperties {
-    readonly createdTimestamp?: string;
+export interface KeyVaultSecretStoreProperties extends SecretStoreProperties {
     // (undocumented)
-    discoverySiteId?: string;
-    readonly updatedTimestamp?: string;
+    keyvaultName?: string;
+    // (undocumented)
+    managedIdentityProperties?: ManagedIdentityProperties;
+    // (undocumented)
+    resourceGroup?: string;
+    // (undocumented)
+    subscriptionId?: string;
+    // (undocumented)
+    tenantId?: string;
 }
 
 // @public
-export interface ImportCollectors {
-    create(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsCreateOptionalParams): Promise<ImportCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsDeleteOptionalParams): Promise<ImportCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, importCollectorName: string, options?: ImportCollectorsGetOptionalParams): Promise<ImportCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ImportCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ImportCollector>;
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
-export interface ImportCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export enum KnownAutomationArtifactStatus {
+    Generated = "Generated",
+    NotGenerated = "NotGenerated"
 }
 
 // @public
-export interface ImportCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ImportCollector;
-}
-
-// @public
-export type ImportCollectorsCreateResponse = ImportCollectorsCreateHeaders & ImportCollector;
-
-// @public
-export interface ImportCollectorsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ImportCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportCollectorsDeleteResponse = ImportCollectorsDeleteHeaders;
-
-// @public
-export interface ImportCollectorsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ImportCollectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportCollectorsGetResponse = ImportCollectorsGetHeaders & ImportCollector;
-
-// @public
-export interface ImportCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ImportCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImportCollectorsListByProjectResponse = ImportCollectorsListByProjectHeaders & ImportCollectorList;
-
-// @public
-export enum KnownAssessmentSizingCriterion {
-    AsOnPremises = "AsOnPremises",
-    PerformanceBased = "PerformanceBased"
-}
-
-// @public
-export enum KnownAssessmentStage {
-    Approved = "Approved",
-    InProgress = "InProgress",
-    UnderReview = "UnderReview"
-}
-
-// @public
-export enum KnownAssessmentStatus {
-    Completed = "Completed",
-    Created = "Created",
-    Invalid = "Invalid",
-    OutDated = "OutDated",
-    OutOfSync = "OutOfSync",
-    Running = "Running",
-    Updated = "Updated"
-}
-
-// @public
-export enum KnownAzureDiskSize {
-    PremiumP10 = "Premium_P10",
-    PremiumP15 = "Premium_P15",
-    PremiumP20 = "Premium_P20",
-    PremiumP30 = "Premium_P30",
-    PremiumP4 = "Premium_P4",
-    PremiumP40 = "Premium_P40",
-    PremiumP50 = "Premium_P50",
-    PremiumP6 = "Premium_P6",
-    PremiumP60 = "Premium_P60",
-    PremiumP70 = "Premium_P70",
-    PremiumP80 = "Premium_P80",
-    StandardS10 = "Standard_S10",
-    StandardS15 = "Standard_S15",
-    StandardS20 = "Standard_S20",
-    StandardS30 = "Standard_S30",
-    StandardS4 = "Standard_S4",
-    StandardS40 = "Standard_S40",
-    StandardS50 = "Standard_S50",
-    StandardS6 = "Standard_S6",
-    StandardS60 = "Standard_S60",
-    StandardS70 = "Standard_S70",
-    StandardS80 = "Standard_S80",
-    StandardSSDE10 = "StandardSSD_E10",
-    StandardSSDE15 = "StandardSSD_E15",
-    StandardSSDE20 = "StandardSSD_E20",
-    StandardSSDE30 = "StandardSSD_E30",
-    StandardSSDE4 = "StandardSSD_E4",
-    StandardSSDE40 = "StandardSSD_E40",
-    StandardSSDE50 = "StandardSSD_E50",
-    StandardSSDE6 = "StandardSSD_E6",
-    StandardSSDE60 = "StandardSSD_E60",
-    StandardSSDE70 = "StandardSSD_E70",
-    StandardSSDE80 = "StandardSSD_E80",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureDiskSuitabilityDetail {
-    DiskGigabytesConsumedMissing = "DiskGigabytesConsumedMissing",
-    DiskGigabytesConsumedOutOfRange = "DiskGigabytesConsumedOutOfRange",
-    DiskGigabytesProvisionedMissing = "DiskGigabytesProvisionedMissing",
-    DiskGigabytesProvisionedOutOfRange = "DiskGigabytesProvisionedOutOfRange",
-    MegabytesPerSecondOfReadMissing = "MegabytesPerSecondOfReadMissing",
-    MegabytesPerSecondOfReadOutOfRange = "MegabytesPerSecondOfReadOutOfRange",
-    MegabytesPerSecondOfWriteMissing = "MegabytesPerSecondOfWriteMissing",
-    MegabytesPerSecondOfWriteOutOfRange = "MegabytesPerSecondOfWriteOutOfRange",
+export enum KnownClientFacingMigrateStatus {
+    Failed = "Failed",
+    ImageBuildFailed = "ImageBuildFailed",
+    ImageBuildInProgress = "ImageBuildInProgress",
+    ImageBuildPending = "ImageBuildPending",
+    Migrated = "Migrated",
+    Migrating = "Migrating",
     None = "None",
-    NumberOfReadOperationsPerSecondMissing = "NumberOfReadOperationsPerSecondMissing",
-    NumberOfReadOperationsPerSecondOutOfRange = "NumberOfReadOperationsPerSecondOutOfRange",
-    NumberOfWriteOperationsPerSecondMissing = "NumberOfWriteOperationsPerSecondMissing",
-    NumberOfWriteOperationsPerSecondOutOfRange = "NumberOfWriteOperationsPerSecondOutOfRange"
+    ReadyToMigrate = "ReadyToMigrate",
+    ReadyToTestMigrate = "ReadyToTestMigrate",
+    TestMigrateCleanupInProgress = "TestMigrateCleanupInProgress",
+    TestMigrated = "TestMigrated",
+    TestMigrating = "TestMigrating"
 }
 
 // @public
-export enum KnownAzureDiskSuitabilityExplanation {
-    DiskSizeGreaterThanSupported = "DiskSizeGreaterThanSupported",
-    InternalErrorOccurredForDiskEvaluation = "InternalErrorOccurredForDiskEvaluation",
-    NoDiskSizeFoundForSelectedRedundancy = "NoDiskSizeFoundForSelectedRedundancy",
-    NoDiskSizeFoundInSelectedLocation = "NoDiskSizeFoundInSelectedLocation",
-    NoEaPriceFoundForDiskSize = "NoEaPriceFoundForDiskSize",
-    NoSuitableDiskSizeForIops = "NoSuitableDiskSizeForIops",
-    NoSuitableDiskSizeForThroughput = "NoSuitableDiskSizeForThroughput",
-    NotApplicable = "NotApplicable",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureDiskType {
-    Premium = "Premium",
-    Standard = "Standard",
-    StandardOrPremium = "StandardOrPremium",
-    StandardSSD = "StandardSSD",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureHybridUseBenefit {
-    No = "No",
-    Unknown = "Unknown",
-    Yes = "Yes"
-}
-
-// @public
-export enum KnownAzureLocation {
-    AustraliaEast = "AustraliaEast",
-    AustraliaSoutheast = "AustraliaSoutheast",
-    BrazilSouth = "BrazilSouth",
-    CanadaCentral = "CanadaCentral",
-    CanadaEast = "CanadaEast",
-    CentralIndia = "CentralIndia",
-    CentralUs = "CentralUs",
-    ChinaEast = "ChinaEast",
-    ChinaNorth = "ChinaNorth",
-    EastAsia = "EastAsia",
-    EastUs = "EastUs",
-    EastUs2 = "EastUs2",
-    GermanyCentral = "GermanyCentral",
-    GermanyNortheast = "GermanyNortheast",
-    JapanEast = "JapanEast",
-    JapanWest = "JapanWest",
-    KoreaCentral = "KoreaCentral",
-    KoreaSouth = "KoreaSouth",
-    NorthCentralUs = "NorthCentralUs",
-    NorthEurope = "NorthEurope",
-    SouthCentralUs = "SouthCentralUs",
-    SoutheastAsia = "SoutheastAsia",
-    SouthIndia = "SouthIndia",
-    UkSouth = "UkSouth",
-    UkWest = "UkWest",
-    Unknown = "Unknown",
-    USDoDCentral = "USDoDCentral",
-    USDoDEast = "USDoDEast",
-    USGovArizona = "USGovArizona",
-    USGovIowa = "USGovIowa",
-    USGovTexas = "USGovTexas",
-    USGovVirginia = "USGovVirginia",
-    WestCentralUs = "WestCentralUs",
-    WestEurope = "WestEurope",
-    WestIndia = "WestIndia",
-    WestUs = "WestUs",
-    WestUs2 = "WestUs2"
-}
-
-// @public
-export enum KnownAzureNetworkAdapterSuitabilityDetail {
-    MegabytesOfDataTransmittedMissing = "MegabytesOfDataTransmittedMissing",
-    MegabytesOfDataTransmittedOutOfRange = "MegabytesOfDataTransmittedOutOfRange",
-    None = "None"
-}
-
-// @public
-export enum KnownAzureNetworkAdapterSuitabilityExplanation {
-    InternalErrorOccurred = "InternalErrorOccurred",
-    NotApplicable = "NotApplicable",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureOfferCode {
-    EA = "EA",
-    Msazr0003P = "MSAZR0003P",
-    Msazr0022P = "MSAZR0022P",
-    Msazr0023P = "MSAZR0023P",
-    Msazr0025P = "MSAZR0025P",
-    Msazr0029P = "MSAZR0029P",
-    Msazr0036P = "MSAZR0036P",
-    Msazr0044P = "MSAZR0044P",
-    Msazr0059P = "MSAZR0059P",
-    Msazr0060P = "MSAZR0060P",
-    Msazr0062P = "MSAZR0062P",
-    Msazr0063P = "MSAZR0063P",
-    Msazr0064P = "MSAZR0064P",
-    Msazr0111P = "MSAZR0111P",
-    Msazr0120P = "MSAZR0120P",
-    Msazr0121P = "MSAZR0121P",
-    Msazr0122P = "MSAZR0122P",
-    Msazr0123P = "MSAZR0123P",
-    Msazr0124P = "MSAZR0124P",
-    Msazr0125P = "MSAZR0125P",
-    Msazr0126P = "MSAZR0126P",
-    Msazr0127P = "MSAZR0127P",
-    Msazr0128P = "MSAZR0128P",
-    Msazr0129P = "MSAZR0129P",
-    Msazr0130P = "MSAZR0130P",
-    Msazr0144P = "MSAZR0144P",
-    Msazr0148P = "MSAZR0148P",
-    Msazr0149P = "MSAZR0149P",
-    Msazrde0003P = "MSAZRDE0003P",
-    Msazrde0044P = "MSAZRDE0044P",
-    Msazrusgov0003P = "MSAZRUSGOV0003P",
-    Msmcazr0044P = "MSMCAZR0044P",
-    Msmcazr0059P = "MSMCAZR0059P",
-    Msmcazr0060P = "MSMCAZR0060P",
-    Msmcazr0063P = "MSMCAZR0063P",
-    Msmcazr0120P = "MSMCAZR0120P",
-    Msmcazr0121P = "MSMCAZR0121P",
-    Msmcazr0125P = "MSMCAZR0125P",
-    Msmcazr0128P = "MSMCAZR0128P",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzurePricingTier {
-    Basic = "Basic",
-    Standard = "Standard"
-}
-
-// @public
-export enum KnownAzureStorageRedundancy {
-    GeoRedundant = "GeoRedundant",
-    LocallyRedundant = "LocallyRedundant",
-    ReadAccessGeoRedundant = "ReadAccessGeoRedundant",
-    Unknown = "Unknown",
-    ZoneRedundant = "ZoneRedundant"
-}
-
-// @public
-export enum KnownAzureVmFamily {
-    Av2Series = "Av2_series",
-    BasicA0A4 = "Basic_A0_A4",
-    DCSeries = "DC_Series",
-    DSeries = "D_series",
-    DSSeries = "DS_series",
-    DSv2Series = "DSv2_series",
-    Dsv3Series = "Dsv3_series",
-    Dv2Series = "Dv2_series",
-    Dv3Series = "Dv3_series",
-    Esv3Series = "Esv3_series",
-    Ev3Series = "Ev3_series",
-    FSeries = "F_series",
-    FsSeries = "Fs_series",
-    Fsv2Series = "Fsv2_series",
-    GSeries = "G_series",
-    GSSeries = "GS_series",
-    HSeries = "H_series",
-    LsSeries = "Ls_series",
-    MSeries = "M_series",
-    StandardA0A7 = "Standard_A0_A7",
-    StandardA8A11 = "Standard_A8_A11",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureVmSize {
-    BasicA0 = "Basic_A0",
-    BasicA1 = "Basic_A1",
-    BasicA2 = "Basic_A2",
-    BasicA3 = "Basic_A3",
-    BasicA4 = "Basic_A4",
-    StandardA0 = "Standard_A0",
-    StandardA1 = "Standard_A1",
-    StandardA10 = "Standard_A10",
-    StandardA11 = "Standard_A11",
-    StandardA1V2 = "Standard_A1_v2",
-    StandardA2 = "Standard_A2",
-    StandardA2MV2 = "Standard_A2m_v2",
-    StandardA2V2 = "Standard_A2_v2",
-    StandardA3 = "Standard_A3",
-    StandardA4 = "Standard_A4",
-    StandardA4MV2 = "Standard_A4m_v2",
-    StandardA4V2 = "Standard_A4_v2",
-    StandardA5 = "Standard_A5",
-    StandardA6 = "Standard_A6",
-    StandardA7 = "Standard_A7",
-    StandardA8 = "Standard_A8",
-    StandardA8MV2 = "Standard_A8m_v2",
-    StandardA8V2 = "Standard_A8_v2",
-    StandardA9 = "Standard_A9",
-    StandardD1 = "Standard_D1",
-    StandardD11 = "Standard_D11",
-    StandardD11V2 = "Standard_D11_v2",
-    StandardD12 = "Standard_D12",
-    StandardD12V2 = "Standard_D12_v2",
-    StandardD13 = "Standard_D13",
-    StandardD13V2 = "Standard_D13_v2",
-    StandardD14 = "Standard_D14",
-    StandardD14V2 = "Standard_D14_v2",
-    StandardD15V2 = "Standard_D15_v2",
-    StandardD16SV3 = "Standard_D16s_v3",
-    StandardD16V3 = "Standard_D16_v3",
-    StandardD1V2 = "Standard_D1_v2",
-    StandardD2 = "Standard_D2",
-    StandardD2SV3 = "Standard_D2s_v3",
-    StandardD2V2 = "Standard_D2_v2",
-    StandardD2V3 = "Standard_D2_v3",
-    StandardD3 = "Standard_D3",
-    StandardD32SV3 = "Standard_D32s_v3",
-    StandardD32V3 = "Standard_D32_v3",
-    StandardD3V2 = "Standard_D3_v2",
-    StandardD4 = "Standard_D4",
-    StandardD4SV3 = "Standard_D4s_v3",
-    StandardD4V2 = "Standard_D4_v2",
-    StandardD4V3 = "Standard_D4_v3",
-    StandardD5V2 = "Standard_D5_v2",
-    StandardD64SV3 = "Standard_D64s_v3",
-    StandardD64V3 = "Standard_D64_v3",
-    StandardD8SV3 = "Standard_D8s_v3",
-    StandardD8V3 = "Standard_D8_v3",
-    StandardDS1 = "Standard_DS1",
-    StandardDS11 = "Standard_DS11",
-    StandardDS11V2 = "Standard_DS11_v2",
-    StandardDS12 = "Standard_DS12",
-    StandardDS12V2 = "Standard_DS12_v2",
-    StandardDS13 = "Standard_DS13",
-    StandardDS13V2 = "Standard_DS13_v2",
-    StandardDS14 = "Standard_DS14",
-    StandardDS14V2 = "Standard_DS14_v2",
-    StandardDS15V2 = "Standard_DS15_v2",
-    StandardDS1V2 = "Standard_DS1_v2",
-    StandardDS2 = "Standard_DS2",
-    StandardDS2V2 = "Standard_DS2_v2",
-    StandardDS3 = "Standard_DS3",
-    StandardDS3V2 = "Standard_DS3_v2",
-    StandardDS4 = "Standard_DS4",
-    StandardDS4V2 = "Standard_DS4_v2",
-    StandardDS5V2 = "Standard_DS5_v2",
-    StandardE16SV3 = "Standard_E16s_v3",
-    StandardE16V3 = "Standard_E16_v3",
-    StandardE2SV3 = "Standard_E2s_v3",
-    StandardE2V3 = "Standard_E2_v3",
-    StandardE32SV3 = "Standard_E32s_v3",
-    StandardE32V3 = "Standard_E32_v3",
-    StandardE4SV3 = "Standard_E4s_v3",
-    StandardE4V3 = "Standard_E4_v3",
-    StandardE64SV3 = "Standard_E64s_v3",
-    StandardE64V3 = "Standard_E64_v3",
-    StandardE8SV3 = "Standard_E8s_v3",
-    StandardE8V3 = "Standard_E8_v3",
-    StandardF1 = "Standard_F1",
-    StandardF16 = "Standard_F16",
-    StandardF16S = "Standard_F16s",
-    StandardF16SV2 = "Standard_F16s_v2",
-    StandardF1S = "Standard_F1s",
-    StandardF2 = "Standard_F2",
-    StandardF2S = "Standard_F2s",
-    StandardF2SV2 = "Standard_F2s_v2",
-    StandardF32SV2 = "Standard_F32s_v2",
-    StandardF4 = "Standard_F4",
-    StandardF4S = "Standard_F4s",
-    StandardF4SV2 = "Standard_F4s_v2",
-    StandardF64SV2 = "Standard_F64s_v2",
-    StandardF72SV2 = "Standard_F72s_v2",
-    StandardF8 = "Standard_F8",
-    StandardF8S = "Standard_F8s",
-    StandardF8SV2 = "Standard_F8s_v2",
-    StandardG1 = "Standard_G1",
-    StandardG2 = "Standard_G2",
-    StandardG3 = "Standard_G3",
-    StandardG4 = "Standard_G4",
-    StandardG5 = "Standard_G5",
-    StandardGS1 = "Standard_GS1",
-    StandardGS2 = "Standard_GS2",
-    StandardGS3 = "Standard_GS3",
-    StandardGS4 = "Standard_GS4",
-    StandardGS5 = "Standard_GS5",
-    StandardH16 = "Standard_H16",
-    StandardH16M = "Standard_H16m",
-    StandardH16Mr = "Standard_H16mr",
-    StandardH16R = "Standard_H16r",
-    StandardH8 = "Standard_H8",
-    StandardH8M = "Standard_H8m",
-    StandardL16S = "Standard_L16s",
-    StandardL32S = "Standard_L32s",
-    StandardL4S = "Standard_L4s",
-    StandardL8S = "Standard_L8s",
-    StandardM128Ms = "Standard_M128ms",
-    StandardM128S = "Standard_M128s",
-    StandardM64Ms = "Standard_M64ms",
-    StandardM64S = "Standard_M64s",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownAzureVmSuitabilityDetail {
-    CannotReportBandwidthCosts = "CannotReportBandwidthCosts",
-    CannotReportComputeCost = "CannotReportComputeCost",
-    CannotReportStorageCost = "CannotReportStorageCost",
-    None = "None",
-    PercentageOfCoresUtilizedMissing = "PercentageOfCoresUtilizedMissing",
-    PercentageOfCoresUtilizedOutOfRange = "PercentageOfCoresUtilizedOutOfRange",
-    PercentageOfMemoryUtilizedMissing = "PercentageOfMemoryUtilizedMissing",
-    PercentageOfMemoryUtilizedOutOfRange = "PercentageOfMemoryUtilizedOutOfRange",
-    RecommendedSizeHasLessNetworkAdapters = "RecommendedSizeHasLessNetworkAdapters"
-}
-
-// @public
-export enum KnownAzureVmSuitabilityExplanation {
-    BootTypeNotSupported = "BootTypeNotSupported",
-    BootTypeUnknown = "BootTypeUnknown",
-    CheckCentOsVersion = "CheckCentOsVersion",
-    CheckCoreOsLinuxVersion = "CheckCoreOsLinuxVersion",
-    CheckDebianLinuxVersion = "CheckDebianLinuxVersion",
-    CheckOpenSuseLinuxVersion = "CheckOpenSuseLinuxVersion",
-    CheckOracleLinuxVersion = "CheckOracleLinuxVersion",
-    CheckRedHatLinuxVersion = "CheckRedHatLinuxVersion",
-    CheckSuseLinuxVersion = "CheckSuseLinuxVersion",
-    CheckUbuntuLinuxVersion = "CheckUbuntuLinuxVersion",
-    CheckWindowsServer2008R2Version = "CheckWindowsServer2008R2Version",
-    EndorsedWithConditionsLinuxDistributions = "EndorsedWithConditionsLinuxDistributions",
-    GuestOperatingSystemArchitectureNotSupported = "GuestOperatingSystemArchitectureNotSupported",
-    GuestOperatingSystemNotSupported = "GuestOperatingSystemNotSupported",
-    GuestOperatingSystemUnknown = "GuestOperatingSystemUnknown",
-    InternalErrorOccurredDuringComputeEvaluation = "InternalErrorOccurredDuringComputeEvaluation",
-    InternalErrorOccurredDuringNetworkEvaluation = "InternalErrorOccurredDuringNetworkEvaluation",
-    InternalErrorOccurredDuringStorageEvaluation = "InternalErrorOccurredDuringStorageEvaluation",
-    MoreDisksThanSupported = "MoreDisksThanSupported",
-    NoGuestOperatingSystemConditionallySupported = "NoGuestOperatingSystemConditionallySupported",
-    NoSuitableVmSizeFound = "NoSuitableVmSizeFound",
-    NotApplicable = "NotApplicable",
-    NoVmSizeForBasicPricingTier = "NoVmSizeForBasicPricingTier",
-    NoVmSizeForSelectedAzureLocation = "NoVmSizeForSelectedAzureLocation",
-    NoVmSizeForSelectedPricingTier = "NoVmSizeForSelectedPricingTier",
-    NoVmSizeForStandardPricingTier = "NoVmSizeForStandardPricingTier",
-    NoVmSizeSupportsNetworkPerformance = "NoVmSizeSupportsNetworkPerformance",
-    NoVmSizeSupportsStoragePerformance = "NoVmSizeSupportsStoragePerformance",
-    OneOrMoreAdaptersNotSuitable = "OneOrMoreAdaptersNotSuitable",
-    OneOrMoreDisksNotSuitable = "OneOrMoreDisksNotSuitable",
-    UnendorsedLinuxDistributions = "UnendorsedLinuxDistributions",
-    Unknown = "Unknown",
-    WindowsClientVersionsConditionallySupported = "WindowsClientVersionsConditionallySupported",
-    WindowsOSNoLongerUnderMSSupport = "WindowsOSNoLongerUnderMSSupport",
-    WindowsServerVersionConditionallySupported = "WindowsServerVersionConditionallySupported",
-    WindowsServerVersionsSupportedWithCaveat = "WindowsServerVersionsSupportedWithCaveat"
-}
-
-// @public
-export enum KnownCloudSuitability {
-    ConditionallySuitable = "ConditionallySuitable",
-    NotSuitable = "NotSuitable",
-    ReadinessUnknown = "ReadinessUnknown",
-    Suitable = "Suitable",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownCurrency {
-    ARS = "ARS",
-    AUD = "AUD",
-    BRL = "BRL",
-    CAD = "CAD",
-    CHF = "CHF",
-    CNY = "CNY",
-    DKK = "DKK",
-    EUR = "EUR",
-    GBP = "GBP",
-    HKD = "HKD",
-    IDR = "IDR",
-    INR = "INR",
-    JPY = "JPY",
-    KRW = "KRW",
-    MXN = "MXN",
-    MYR = "MYR",
-    NOK = "NOK",
-    NZD = "NZD",
-    RUB = "RUB",
-    SAR = "SAR",
-    SEK = "SEK",
-    TRY = "TRY",
-    TWD = "TWD",
-    Unknown = "Unknown",
-    USD = "USD",
-    ZAR = "ZAR"
-}
-
-// @public
-export enum KnownGroupStatus {
+export enum KnownClientFacingReplicationStatus {
     Completed = "Completed",
-    Created = "Created",
-    Invalid = "Invalid",
-    Running = "Running",
-    Updated = "Updated"
+    Failed = "Failed",
+    InitialSync = "InitialSync",
+    None = "None",
+    Scheduled = "Scheduled"
 }
 
 // @public
-export enum KnownGroupUpdateOperation {
-    Add = "Add",
-    Remove = "Remove"
+export enum KnownClientFacingTestMigrateStatus {
+    CleanedUp = "CleanedUp",
+    CleanupInProgress = "CleanupInProgress",
+    Failed = "Failed",
+    ImageBuildFailed = "ImageBuildFailed",
+    ImageBuildInProgress = "ImageBuildInProgress",
+    ImageBuildPending = "ImageBuildPending",
+    None = "None",
+    ReadyToTestMigrate = "ReadyToTestMigrate",
+    TestMigrated = "TestMigrated",
+    TestMigrationInProgress = "TestMigrationInProgress"
 }
 
 // @public
-export enum KnownMachineBootType {
-    Bios = "BIOS",
-    EFI = "EFI",
-    Unknown = "Unknown"
+export enum KnownConfigurationType {
+    ApacheTomcatContextResource = "ApacheTomcatContextResource",
+    IISAuthentication = "IISAuthentication",
+    IISConnectionString = "IISConnectionString"
 }
 
 // @public
-export enum KnownPercentile {
-    Percentile50 = "Percentile50",
-    Percentile90 = "Percentile90",
-    Percentile95 = "Percentile95",
-    Percentile99 = "Percentile99"
-}
-
-// @public
-export enum KnownPrivateEndpointConnectionPropertiesProvisioningState {
-    Accepted = "Accepted",
+export enum KnownGmsaConfigurationState {
+    Completed = "Completed",
     Failed = "Failed",
     InProgress = "InProgress",
-    Succeeded = "Succeeded"
+    NotApplicable = "NotApplicable",
+    Pending = "Pending"
 }
 
 // @public
-export enum KnownPrivateLinkServiceConnectionStateStatus {
-    Approved = "Approved",
-    Disconnected = "Disconnected",
-    Pending = "Pending",
-    Rejected = "Rejected"
+export enum KnownHealthStatus {
+    Critical = "Critical",
+    Normal = "Normal",
+    Warning = "Warning"
 }
 
 // @public
-export enum KnownProjectStatus {
-    Active = "Active",
-    Inactive = "Inactive"
+export enum KnownLoadBalancerType {
+    Private = "Private",
+    Public = "Public"
+}
+
+// @public
+export enum KnownOperatingSystemType {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProvisioningState {
-    Accepted = "Accepted",
+    Canceled = "Canceled",
     Creating = "Creating",
+    Deleted = "Deleted",
     Deleting = "Deleting",
     Failed = "Failed",
-    Moving = "Moving",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownResourceIdentityTypes {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownSecretStoreType {
+    AppServiceAppSettings = "AppServiceAppSettings",
+    KeyVaultSecret = "KeyVaultSecret",
+    KubeSecret = "KubeSecret",
+    None = "None"
+}
+
+// @public
+export enum KnownTargetHydrationStorageProviderType {
+    AzureFileShare = "AzureFileShare"
+}
+
+// @public
+export enum KnownTargetStorageAccessType {
+    Exclusive = "Exclusive",
+    Shared = "Shared"
+}
+
+// @public
+export enum KnownTargetStorageProjectionType {
+    ContainerFileSystem = "ContainerFileSystem",
+    PersistentVolume = "PersistentVolume"
+}
+
+// @public
+export enum KnownTaskState {
+    Cancelled = "Cancelled",
+    Failed = "Failed",
+    Pending = "Pending",
+    Skipped = "Skipped",
+    Started = "Started",
     Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownReservedInstance {
+export enum KnownWorkflowObjectType {
+    MigrateAgent = "MigrateAgent",
+    ModernizeProject = "ModernizeProject",
+    ReplicationPostAction = "ReplicationPostAction",
+    WorkloadDeployment = "WorkloadDeployment",
+    WorkloadInstance = "WorkloadInstance"
+}
+
+// @public
+export enum KnownWorkflowState {
+    Cancelled = "Cancelled",
+    Cancelling = "Cancelling",
+    CompletedWithErrors = "CompletedWithErrors",
+    CompletedWithInformation = "CompletedWithInformation",
+    CompletedWithWarnings = "CompletedWithWarnings",
+    Failed = "Failed",
+    Pending = "Pending",
+    Started = "Started",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownWorkflowType {
+    BuildContainerImageWorkflow = "BuildContainerImageWorkflow",
+    CompleteMigrationWorkflow = "CompleteMigrationWorkflow",
+    DisableReplicationWorkflow = "DisableReplicationWorkflow",
+    EnableReplicationWorkflow = "EnableReplicationWorkflow",
+    MigrateWorkflow = "MigrateWorkflow",
+    SampleWorkflow = "SampleWorkflow",
+    StopReplicationWorkflow = "StopReplicationWorkflow",
+    TestMigrateCleanupWorkflow = "TestMigrateCleanupWorkflow",
+    TestMigrateWorkflow = "TestMigrateWorkflow"
+}
+
+// @public
+export enum KnownWorkloadDeploymentTarget {
+    AzureAppServiceContainer = "AzureAppServiceContainer",
+    AzureAppServiceNative = "AzureAppServiceNative",
+    AzureKubernetesService = "AzureKubernetesService"
+}
+
+// @public
+export enum KnownWorkloadDeploymentType {
+    ApacheTomcatAKSWorkloadDeployment = "ApacheTomcatAKSWorkloadDeployment",
+    IisaksWorkloadDeployment = "IISAKSWorkloadDeployment"
+}
+
+// @public
+export enum KnownWorkloadScenario {
+    BuildContainerImage = "BuildContainerImage",
+    CompleteMigration = "CompleteMigration",
+    DisableReplication = "DisableReplication",
+    EnableReplication = "EnableReplication",
+    Migrate = "Migrate",
+    TestMigrate = "TestMigrate",
+    TestMigrateCleanup = "TestMigrateCleanup",
+    UpdateProperties = "UpdateProperties"
+}
+
+// @public
+export enum KnownWorkloadStatus {
+    CleanUpInProgress = "CleanUpInProgress",
+    CleanUpPending = "CleanUpPending",
+    ImageBuildFailed = "ImageBuildFailed",
+    ImageBuildInProgress = "ImageBuildInProgress",
+    ImageBuildPending = "ImageBuildPending",
+    InitialReplication = "InitialReplication",
+    Migrated = "Migrated",
+    Migrating = "Migrating",
+    MigrationFailed = "MigrationFailed",
     None = "None",
-    RI1Year = "RI1Year",
-    RI3Year = "RI3Year"
+    ReadyToMigrate = "ReadyToMigrate",
+    ReplicationFailed = "ReplicationFailed",
+    TestMigrating = "TestMigrating"
 }
 
 // @public
-export enum KnownTimeRange {
-    Custom = "Custom",
-    Day = "Day",
-    Month = "Month",
-    Week = "Week"
+export enum KnownWorkloadType {
+    ApacheTomcatWorkload = "ApacheTomcatWorkload",
+    IISWorkload = "IISWorkload"
+}
+
+// @public (undocumented)
+export interface KubeSecretStoreProperties extends SecretStoreProperties {
 }
 
 // @public
-export interface Machine {
-    eTag?: string;
+export type LoadBalancerType = string;
+
+// @public (undocumented)
+export interface ManagedIdentityProperties {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    managedIdentityName?: string;
+    // (undocumented)
+    principalId?: string;
+    // (undocumented)
+    resourceGroup?: string;
+    // (undocumented)
+    subscriptionId?: string;
+    // (undocumented)
+    tenantId?: string;
+}
+
+// @public
+export interface MigrateAgent {
+    beginDelete(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MigrateAgentDeleteResponse>, MigrateAgentDeleteResponse>>;
+    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentDeleteOptionalParams): Promise<MigrateAgentDeleteResponse>;
+    beginRefresh(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentRefreshOptionalParams): Promise<SimplePollerLike<OperationState<MigrateAgentRefreshResponse>, MigrateAgentRefreshResponse>>;
+    beginRefreshAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentRefreshOptionalParams): Promise<MigrateAgentRefreshResponse>;
+    create(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentCreateOptionalParams): Promise<MigrateAgentCreateResponse>;
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, options?: MigrateAgentGetOptionalParams): Promise<MigrateAgentGetResponse>;
+    list(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: MigrateAgentListOptionalParams): Promise<MigrateAgentListResponse>;
+}
+
+// @public
+export interface MigrateAgentCreateOptionalParams extends coreClient.OperationOptions {
+    body?: MigrateAgentModel;
+}
+
+// @public
+export type MigrateAgentCreateResponse = MigrateAgentModel;
+
+// @public
+export interface MigrateAgentDeleteHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface MigrateAgentDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MigrateAgentDeleteResponse = MigrateAgentDeleteHeaders;
+
+// @public
+export interface MigrateAgentGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MigrateAgentGetResponse = MigrateAgentModel;
+
+// @public
+export interface MigrateAgentListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MigrateAgentListResponse = MigrateAgentModelCollection;
+
+// @public
+export interface MigrateAgentModel {
     readonly id?: string;
     readonly name?: string;
-    properties?: MachineProperties;
+    properties?: MigrateAgentModelProperties;
+    readonly systemData?: MigrateAgentModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
     readonly type?: string;
 }
 
 // @public
-export type MachineBootType = string;
-
-// @public
-export interface MachineProperties {
-    readonly bootType?: MachineBootType;
-    readonly createdTimestamp?: Date;
-    readonly datacenterManagementServerArmId?: string;
-    readonly datacenterManagementServerName?: string;
-    readonly description?: string;
-    readonly discoveryMachineArmId?: string;
-    readonly disks?: {
-        [propertyName: string]: Disk;
-    };
-    readonly displayName?: string;
-    readonly groups?: string[];
-    readonly megabytesOfMemory?: number;
-    readonly networkAdapters?: {
-        [propertyName: string]: NetworkAdapter;
-    };
-    readonly numberOfCores?: number;
-    readonly operatingSystemName?: string;
-    readonly operatingSystemType?: string;
-    readonly operatingSystemVersion?: string;
-    readonly updatedTimestamp?: Date;
-}
-
-// @public
-export interface MachineResultList {
-    // (undocumented)
+export interface MigrateAgentModelCollection {
     nextLink?: string;
-    value?: Machine[];
+    value?: MigrateAgentModel[];
 }
 
 // @public
-export interface Machines {
-    get(resourceGroupName: string, projectName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: MachinesListByProjectOptionalParams): PagedAsyncIterableIterator<Machine>;
+export interface MigrateAgentModelCustomProperties {
+    instanceType: "VMwareMigrateAgentModelCustomProperties";
+}
+
+// @public (undocumented)
+export type MigrateAgentModelCustomPropertiesUnion = MigrateAgentModelCustomProperties | VMwareMigrateAgentModelCustomProperties;
+
+// @public
+export interface MigrateAgentModelProperties {
+    authenticationIdentity?: IdentityModel;
+    readonly correlationId?: string;
+    customProperties?: MigrateAgentModelCustomPropertiesUnion;
+    readonly healthErrors?: HealthErrorModel[];
+    readonly isResponsive?: boolean;
+    readonly lastHeartbeat?: Date;
+    machineId?: string;
+    machineName?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly versionNumber?: string;
+}
+
+// @public (undocumented)
+export interface MigrateAgentModelSystemData extends SystemDataModel {
 }
 
 // @public
-export interface MachinesGetHeaders {
-    xMsRequestId?: string;
+export interface MigrateAgentOperationStatus {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, agentName: string, operationId: string, options?: MigrateAgentOperationStatusGetOptionalParams): Promise<MigrateAgentOperationStatusGetResponse>;
 }
 
 // @public
-export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+export interface MigrateAgentOperationStatusGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type MachinesGetResponse = MachinesGetHeaders & Machine;
+export type MigrateAgentOperationStatusGetResponse = OperationStatus;
 
 // @public
-export interface MachinesListByProjectHeaders {
-    xMsRequestId?: string;
+export interface MigrateAgentRefreshHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export interface MachinesListByProjectNextHeaders {
-    xMsRequestId?: string;
+export interface MigrateAgentRefreshOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface MachinesListByProjectNextOptionalParams extends coreClient.OperationOptions {
+export type MigrateAgentRefreshResponse = MigrateAgentRefreshHeaders;
+
+// @public
+export interface MigrateWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+    readonly deployedResourcesProperties?: MigrateWorkflowModelCustomPropertiesDeployedResourcesProperties;
+    instanceType: "MigrateWorkflowModelCustomProperties";
+}
+
+// @public (undocumented)
+export interface MigrateWorkflowModelCustomPropertiesDeployedResourcesProperties extends DeployedResourcesProperties {
 }
 
 // @public
-export type MachinesListByProjectNextResponse = MachinesListByProjectNextHeaders & MachineResultList;
-
-// @public
-export interface MachinesListByProjectOptionalParams extends coreClient.OperationOptions {
+export interface MigrationConfiguration {
+    keyVaultResourceId?: string;
+    migrationSolutionResourceId?: string;
+    storageAccountResourceId?: string;
 }
 
 // @public
-export type MachinesListByProjectResponse = MachinesListByProjectHeaders & MachineResultList;
+export interface ModernizeProject {
+    beginDelete(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ModernizeProjectDeleteResponse>, ModernizeProjectDeleteResponse>>;
+    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectDeleteOptionalParams): Promise<ModernizeProjectDeleteResponse>;
+    beginUpdate(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ModernizeProjectUpdateResponse>, ModernizeProjectUpdateResponse>>;
+    beginUpdateAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectUpdateOptionalParams): Promise<ModernizeProjectUpdateResponse>;
+    create(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectCreateOptionalParams): Promise<ModernizeProjectCreateResponse>;
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectGetOptionalParams): Promise<ModernizeProjectGetResponse>;
+    list(subscriptionId: string, resourceGroupName: string, options?: ModernizeProjectListOptionalParams): PagedAsyncIterableIterator<ModernizeProjectModel>;
+    listBySubscription(subscriptionId: string, options?: ModernizeProjectListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ModernizeProjectModel>;
+}
 
 // @public
-export interface NetworkAdapter {
-    readonly displayName?: string;
-    readonly ipAddresses?: string[];
-    readonly macAddress?: string;
+export interface ModernizeProjectCreateOptionalParams extends coreClient.OperationOptions {
+    body?: ModernizeProjectModel;
 }
+
+// @public
+export type ModernizeProjectCreateResponse = ModernizeProjectModel;
+
+// @public
+export interface ModernizeProjectDeleteHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ModernizeProjectDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ModernizeProjectDeleteResponse = ModernizeProjectDeleteHeaders;
+
+// @public
+export interface ModernizeProjectGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModernizeProjectGetResponse = ModernizeProjectModel;
+
+// @public
+export interface ModernizeProjectListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModernizeProjectListBySubscriptionNextResponse = ModernizeProjectModelCollection;
+
+// @public
+export interface ModernizeProjectListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export type ModernizeProjectListBySubscriptionResponse = ModernizeProjectModelCollection;
+
+// @public
+export interface ModernizeProjectListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModernizeProjectListNextResponse = ModernizeProjectModelCollection;
+
+// @public
+export interface ModernizeProjectListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export type ModernizeProjectListResponse = ModernizeProjectModelCollection;
+
+// @public
+export interface ModernizeProjectModel {
+    readonly id?: string;
+    // (undocumented)
+    identity?: ResourceIdentity;
+    location?: string;
+    readonly name?: string;
+    properties?: ModernizeProjectModelProperties;
+    readonly systemData?: ModernizeProjectModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface ModernizeProjectModelCollection {
+    nextLink?: string;
+    value?: ModernizeProjectModel[];
+}
+
+// @public
+export interface ModernizeProjectModelProperties {
+    migrationConfiguration?: MigrationConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly serviceEndpoint?: string;
+    readonly serviceResourceId?: string;
+}
+
+// @public (undocumented)
+export interface ModernizeProjectModelSystemData extends SystemDataModel {
+}
+
+// @public
+export interface ModernizeProjectOperationStatus {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, operationId: string, options?: ModernizeProjectOperationStatusGetOptionalParams): Promise<ModernizeProjectOperationStatusGetResponse>;
+}
+
+// @public
+export interface ModernizeProjectOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+    operationType?: string;
+}
+
+// @public
+export type ModernizeProjectOperationStatusGetResponse = OperationStatus;
+
+// @public
+export interface ModernizeProjectStatistics {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: ModernizeProjectStatisticsGetOptionalParams): Promise<ModernizeProjectStatisticsGetResponse>;
+}
+
+// @public
+export interface ModernizeProjectStatisticsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ModernizeProjectStatisticsGetResponse = ModernizeProjectStatisticsModel;
+
+// @public
+export interface ModernizeProjectStatisticsModel {
+    properties?: ModernizeProjectStatisticsModelProperties;
+}
+
+// @public
+export interface ModernizeProjectStatisticsModelProperties {
+    readonly jobStatistics?: ModernizeProjectStatisticsModelPropertiesJobStatistics;
+    readonly modernizeProjectErrors?: HealthErrorModel[];
+    readonly workloadDeploymentStatistics?: ModernizeProjectStatisticsModelPropertiesWorkloadDeploymentStatistics;
+    readonly workloadInstanceStatistics?: ModernizeProjectStatisticsModelPropertiesWorkloadInstanceStatistics;
+}
+
+// @public (undocumented)
+export interface ModernizeProjectStatisticsModelPropertiesJobStatistics extends WorkflowStatisticsModel {
+}
+
+// @public (undocumented)
+export interface ModernizeProjectStatisticsModelPropertiesWorkloadDeploymentStatistics extends WorkloadDeploymentStatisticsModel {
+}
+
+// @public (undocumented)
+export interface ModernizeProjectStatisticsModelPropertiesWorkloadInstanceStatistics extends WorkloadInstanceStatisticsModel {
+}
+
+// @public
+export interface ModernizeProjectUpdateHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ModernizeProjectUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: UpdateModernizeProjectModel;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ModernizeProjectUpdateResponse = ModernizeProjectUpdateHeaders & ModernizeProjectModel;
+
+// @public (undocumented)
+export interface OperatingSystemDetails {
+    // (undocumented)
+    os?: OperatingSystemType;
+    // (undocumented)
+    osArchitecture?: string;
+    // (undocumented)
+    osName?: string;
+    // (undocumented)
+    osVersion?: string;
+}
+
+// @public
+export type OperatingSystemType = string;
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: string;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -1361,8 +1135,9 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationResultList {
-    value?: Operation[];
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -1371,510 +1146,724 @@ export interface Operations {
 }
 
 // @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationResultList;
+export type OperationsListResponse = OperationListResult;
 
 // @public
-export type Percentile = string;
-
-// @public
-export interface PrivateEndpointConnection {
-    eTag?: string;
+export interface OperationStatus {
+    readonly endTime?: string;
     readonly id?: string;
     readonly name?: string;
-    properties: PrivateEndpointConnectionProperties;
-    readonly type?: string;
+    readonly startTime?: string;
+    readonly status?: string;
 }
 
 // @public
-export interface PrivateEndpointConnectionCollection {
-    readonly nextLink?: string;
-    readonly value?: PrivateEndpointConnection[];
+export type Origin = string;
+
+// @public
+export interface PortMapping {
+    externalPort?: number;
+    internalPort?: number;
 }
-
-// @public
-export interface PrivateEndpointConnectionDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
-
-// @public
-export interface PrivateEndpointConnectionGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionGetHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionListByProjectResponse = PrivateEndpointConnectionListByProjectHeaders & PrivateEndpointConnectionCollection;
-
-// @public
-export interface PrivateEndpointConnectionOperations {
-    delete(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<PrivateEndpointConnectionDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionGetOptionalParams): Promise<PrivateEndpointConnectionGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateEndpointConnectionListByProjectOptionalParams): Promise<PrivateEndpointConnectionListByProjectResponse>;
-    update(resourceGroupName: string, projectName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionUpdateOptionalParams): Promise<PrivateEndpointConnectionUpdateResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionProperties {
-    readonly privateEndpoint?: ResourceId;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
-}
-
-// @public
-export type PrivateEndpointConnectionPropertiesProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnectionUpdateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-    privateEndpointConnectionBody?: PrivateEndpointConnection;
-}
-
-// @public
-export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnectionUpdateHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateLinkResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly properties?: PrivateLinkResourceProperties;
-    readonly type?: string;
-}
-
-// @public
-export interface PrivateLinkResourceCollection {
-    readonly nextLink?: string;
-    readonly value?: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResourceGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourceGetResponse = PrivateLinkResourceGetHeaders & PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourceListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface PrivateLinkResourceListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourceListByProjectResponse = PrivateLinkResourceListByProjectHeaders & PrivateLinkResourceCollection;
-
-// @public
-export interface PrivateLinkResourceOperations {
-    get(resourceGroupName: string, projectName: string, privateLinkResourceName: string, options?: PrivateLinkResourceGetOptionalParams): Promise<PrivateLinkResourceGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: PrivateLinkResourceListByProjectOptionalParams): Promise<PrivateLinkResourceListByProjectResponse>;
-}
-
-// @public
-export interface PrivateLinkResourceProperties {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    readonly requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateLinkServiceConnectionStateStatus;
-}
-
-// @public
-export type PrivateLinkServiceConnectionStateStatus = string;
-
-// @public
-export interface Project {
-    eTag?: string;
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    properties?: ProjectProperties;
-    tags?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ProjectProperties {
-    assessmentSolutionId?: string;
-    readonly createdTimestamp?: Date;
-    customerStorageAccountArmId?: string;
-    customerWorkspaceId?: string;
-    customerWorkspaceLocation?: string;
-    readonly lastAssessmentTimestamp?: Date;
-    readonly numberOfAssessments?: number;
-    readonly numberOfGroups?: number;
-    readonly numberOfMachines?: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    projectStatus?: ProjectStatus;
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: string;
-    readonly serviceEndpoint?: string;
-    readonly updatedTimestamp?: Date;
-}
-
-// @public
-export interface ProjectResultList {
-    // (undocumented)
-    nextLink?: string;
-    value?: Project[];
-}
-
-// @public
-export interface Projects {
-    assessmentOptions(resourceGroupName: string, projectName: string, assessmentOptionsName: string, options?: ProjectsAssessmentOptionsOptionalParams): Promise<ProjectsAssessmentOptionsResponse>;
-    create(resourceGroupName: string, projectName: string, options?: ProjectsCreateOptionalParams): Promise<ProjectsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<ProjectsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
-    list(resourceGroupName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
-    listAssessmentOptionsList(resourceGroupName: string, projectName: string, options?: ProjectsAssessmentOptionsListOptionalParams): PagedAsyncIterableIterator<AssessmentOptions>;
-    listBySubscription(options?: ProjectsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Project>;
-    update(resourceGroupName: string, projectName: string, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsAssessmentOptionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsListResponse = ProjectsAssessmentOptionsListHeaders & AssessmentOptionsResultList;
-
-// @public
-export interface ProjectsAssessmentOptionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsAssessmentOptionsResponse = ProjectsAssessmentOptionsHeaders & AssessmentOptions;
-
-// @public
-export interface ProjectsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsCreateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsCreateResponse = ProjectsCreateHeaders & Project;
-
-// @public
-export interface ProjectsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsDeleteResponse = ProjectsDeleteHeaders;
-
-// @public
-export interface ProjectsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsGetResponse = ProjectsGetHeaders & Project;
-
-// @public
-export interface ProjectsListBySubscriptionHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionNextResponse = ProjectsListBySubscriptionNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListBySubscriptionResponse = ProjectsListBySubscriptionHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListNextResponse = ProjectsListNextHeaders & ProjectResultList;
-
-// @public
-export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsListResponse = ProjectsListHeaders & ProjectResultList;
-
-// @public
-export type ProjectStatus = string;
-
-// @public
-export interface ProjectsUpdateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
-    project?: Project;
-}
-
-// @public
-export type ProjectsUpdateResponse = ProjectsUpdateHeaders & Project;
 
 // @public
 export type ProvisioningState = string;
 
-// @public
-export type ReservedInstance = string;
+// @public (undocumented)
+export interface ResourceIdentity {
+    // (undocumented)
+    principalId?: string;
+    // (undocumented)
+    tenantId?: string;
+    // (undocumented)
+    type?: ResourceIdentityTypes;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
 
 // @public
-export interface ResourceId {
-    readonly id?: string;
+export type ResourceIdentityTypes = string;
+
+// @public
+export interface ResourceRequirements {
+    cpu?: string;
+    memory?: string;
 }
 
 // @public (undocumented)
-export interface ServerCollector {
+export interface SecretStoreDetails {
+    secretStore?: SecretStoreType;
     // (undocumented)
-    eTag?: string;
+    secretStoreProperties?: SecretStoreProperties;
+}
+
+// @public (undocumented)
+export interface SecretStoreProperties {
+    readonly inputType?: string;
+    // (undocumented)
+    secretStoreId?: string;
+}
+
+// @public
+export type SecretStoreType = string;
+
+// @public
+export interface SystemDataModel {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: string;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: string;
+}
+
+// @public
+export type TargetHydrationStorageProviderType = string;
+
+// @public
+export type TargetStorageAccessType = string;
+
+// @public
+export interface TargetStorageProfile {
+    azureFileShareProfile?: AzureFileShareHydrationProfile;
+    hydrationStorageProviderType?: TargetHydrationStorageProviderType;
+    persistentVolumeId?: string;
+    storageAccessType?: TargetStorageAccessType;
+    storageProjectionType?: TargetStorageProjectionType;
+    targetName?: string;
+    targetSize?: string;
+}
+
+// @public
+export type TargetStorageProjectionType = string;
+
+// @public
+export interface TaskModel {
+    customProperties?: TaskModelCustomProperties;
+    readonly endTime?: Date;
+    readonly id?: string;
+    readonly startTime?: Date;
+    readonly state?: TaskState;
+    readonly taskName?: string;
+}
+
+// @public
+export interface TaskModelCustomProperties {
+    instanceType?: string;
+}
+
+// @public
+export type TaskState = string;
+
+// @public
+export interface TestMigrateCleanupWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+    readonly comments?: string;
+    instanceType: "TestMigrateCleanupWorkflowModelCustomProperties";
+}
+
+// @public
+export interface TestMigrateModel {
+    properties?: TestMigrateModelProperties;
+}
+
+// @public
+export interface TestMigrateModelProperties {
+    customProperties?: WorkloadDeploymentModelCustomPropertiesUnion;
+}
+
+// @public
+export interface TestMigrateWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+    readonly deployedResourcesProperties?: TestMigrateWorkflowModelCustomPropertiesDeployedResourcesProperties;
+    instanceType: "TestMigrateWorkflowModelCustomProperties";
+}
+
+// @public (undocumented)
+export interface TestMigrateWorkflowModelCustomPropertiesDeployedResourcesProperties extends DeployedResourcesProperties {
+}
+
+// @public
+export interface UpdateModernizeProjectModel {
+    // (undocumented)
+    identity?: ResourceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public (undocumented)
+export interface UserAssignedIdentity {
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    principalId?: string;
+}
+
+// @public
+export interface VMwareMigrateAgentModelCustomProperties extends MigrateAgentModelCustomProperties {
+    fabricFriendlyName?: string;
+    instanceType: "VMwareMigrateAgentModelCustomProperties";
+    vmwareSiteId?: string;
+}
+
+// @public
+export interface WebApplicationConfiguration {
+    filePath?: string;
+    readonly id?: string;
+    identifier?: string;
+    isDeploymentTimeEditable?: boolean;
+    localFilePath?: string;
+    name?: string;
+    // (undocumented)
+    secretStoreDetails?: SecretStoreDetails;
+    section?: string;
+    targetFilePath?: string;
+    type?: ConfigurationType;
+    value?: string;
+}
+
+// @public
+export interface WebApplicationDirectory {
+    readonly id?: string;
+    isEditable?: boolean;
+    sourcePaths?: string[];
+    sourceSize?: string;
+    storageProfile?: TargetStorageProfile;
+}
+
+// @public
+export interface WebApplicationFramework {
+    readonly id?: string;
+    name?: string;
+    version?: string;
+}
+
+// @public
+export interface Workflow {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workflowName: string, options?: WorkflowGetOptionalParams): Promise<WorkflowGetResponse>;
+    list(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: WorkflowListOptionalParams): PagedAsyncIterableIterator<WorkflowModel>;
+}
+
+// @public
+export interface WorkflowGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowGetResponse = WorkflowModel;
+
+// @public
+export interface WorkflowListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowListNextResponse = WorkflowModelCollection;
+
+// @public
+export interface WorkflowListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    filter?: string;
+}
+
+// @public
+export type WorkflowListResponse = WorkflowModelCollection;
+
+// @public
+export interface WorkflowModel {
     readonly id?: string;
     readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
+    properties?: WorkflowModelProperties;
+    readonly systemData?: WorkflowModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
     readonly type?: string;
 }
 
 // @public
-export interface ServerCollectorList {
-    value?: ServerCollector[];
+export interface WorkflowModelCollection {
+    nextLink?: string;
+    value?: WorkflowModel[];
 }
 
 // @public
-export interface ServerCollectors {
-    create(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsCreateOptionalParams): Promise<ServerCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsDeleteOptionalParams): Promise<ServerCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, serverCollectorName: string, options?: ServerCollectorsGetOptionalParams): Promise<ServerCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: ServerCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<ServerCollector>;
-}
-
-// @public
-export interface ServerCollectorsCreateHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: ServerCollector;
-}
-
-// @public
-export type ServerCollectorsCreateResponse = ServerCollectorsCreateHeaders & ServerCollector;
-
-// @public
-export interface ServerCollectorsDeleteHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServerCollectorsDeleteResponse = ServerCollectorsDeleteHeaders;
-
-// @public
-export interface ServerCollectorsGetHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerCollectorsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServerCollectorsGetResponse = ServerCollectorsGetHeaders & ServerCollector;
-
-// @public
-export interface ServerCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
-}
-
-// @public
-export interface ServerCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServerCollectorsListByProjectResponse = ServerCollectorsListByProjectHeaders & ServerCollectorList;
-
-// @public
-export type TimeRange = string;
-
-// @public
-export interface UpdateGroupBody {
-    eTag?: string;
-    properties?: GroupBodyProperties;
-}
-
-// @public
-export interface VmFamily {
-    readonly category?: string[];
-    readonly familyName?: string;
-    readonly targetLocations?: string[];
+export interface WorkflowModelCustomProperties {
+    readonly affectedObjectDetails?: {
+        [propertyName: string]: string;
+    };
+    instanceType: "BuildContainerImageWorkflowModelCustomProperties" | "EnableReplicationWorkflowModelCustomProperties" | "MigrateWorkflowModelCustomProperties" | "TestMigrateCleanupWorkflowModelCustomProperties" | "TestMigrateWorkflowModelCustomProperties";
 }
 
 // @public (undocumented)
-export interface VmUptime {
-    daysPerMonth?: number;
-    hoursPerDay?: number;
+export type WorkflowModelCustomPropertiesUnion = WorkflowModelCustomProperties | BuildContainerImageWorkflowModelCustomProperties | EnableReplicationWorkflowModelCustomProperties | MigrateWorkflowModelCustomProperties | TestMigrateCleanupWorkflowModelCustomProperties | TestMigrateWorkflowModelCustomProperties;
+
+// @public
+export interface WorkflowModelProperties {
+    readonly activityId?: string;
+    readonly allowedActions?: string[];
+    customProperties?: WorkflowModelCustomPropertiesUnion;
+    readonly displayName?: string;
+    readonly endTime?: Date;
+    readonly errors?: ErrorModel[];
+    readonly objectId?: string;
+    readonly objectInternalId?: string;
+    readonly objectInternalName?: string;
+    readonly objectName?: string;
+    readonly objectType?: WorkflowObjectType;
+    readonly startTime?: Date;
+    readonly state?: WorkflowState;
+    readonly tasks?: TaskModel[];
+    readonly workloadDeploymentProviderId?: string;
+    readonly workloadInstanceProviderId?: string;
 }
 
 // @public (undocumented)
-export interface VMwareCollector {
+export interface WorkflowModelSystemData extends SystemDataModel {
+}
+
+// @public
+export type WorkflowObjectType = string;
+
+// @public
+export interface WorkflowOperationStatus {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workflowName: string, operationId: string, options?: WorkflowOperationStatusGetOptionalParams): Promise<WorkflowOperationStatusGetResponse>;
+}
+
+// @public
+export interface WorkflowOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowOperationStatusGetResponse = OperationStatus;
+
+// @public
+export type WorkflowState = string;
+
+// @public
+export interface WorkflowStatisticsModel {
+    readonly categorizedCounts?: {
+        [propertyName: string]: number;
+    };
+    readonly count?: number;
+}
+
+// @public
+export type WorkflowType = string;
+
+// @public
+export interface WorkloadDeployment {
+    beginBuildContainerImage(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentBuildContainerImageOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadDeploymentBuildContainerImageResponse>, WorkloadDeploymentBuildContainerImageResponse>>;
+    beginBuildContainerImageAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentBuildContainerImageOptionalParams): Promise<WorkloadDeploymentBuildContainerImageResponse>;
+    beginDelete(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadDeploymentDeleteResponse>, WorkloadDeploymentDeleteResponse>>;
+    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentDeleteOptionalParams): Promise<WorkloadDeploymentDeleteResponse>;
+    beginMigrate(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentMigrateOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadDeploymentMigrateResponse>, WorkloadDeploymentMigrateResponse>>;
+    beginMigrateAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentMigrateOptionalParams): Promise<WorkloadDeploymentMigrateResponse>;
+    beginTestMigrate(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentTestMigrateOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadDeploymentTestMigrateResponse>, WorkloadDeploymentTestMigrateResponse>>;
+    beginTestMigrateAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentTestMigrateOptionalParams): Promise<WorkloadDeploymentTestMigrateResponse>;
+    beginTestMigrateCleanup(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentTestMigrateCleanupOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadDeploymentTestMigrateCleanupResponse>, WorkloadDeploymentTestMigrateCleanupResponse>>;
+    beginTestMigrateCleanupAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentTestMigrateCleanupOptionalParams): Promise<WorkloadDeploymentTestMigrateCleanupResponse>;
+    create(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentCreateOptionalParams): Promise<WorkloadDeploymentCreateResponse>;
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentGetOptionalParams): Promise<WorkloadDeploymentGetResponse>;
+    getSecretConfigurations(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, options?: WorkloadDeploymentGetSecretConfigurationsOptionalParams): Promise<WorkloadDeploymentGetSecretConfigurationsResponse>;
+    list(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: WorkloadDeploymentListOptionalParams): PagedAsyncIterableIterator<WorkloadDeploymentModel>;
+}
+
+// @public
+export interface WorkloadDeploymentBuildContainerImageHeaders {
+    azureAsyncOperation?: string;
     // (undocumented)
-    eTag?: string;
+    location?: string;
+}
+
+// @public
+export interface WorkloadDeploymentBuildContainerImageOptionalParams extends coreClient.OperationOptions {
+    body?: BuildContainerImageModel;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadDeploymentBuildContainerImageResponse = WorkloadDeploymentBuildContainerImageHeaders;
+
+// @public
+export interface WorkloadDeploymentCreateOptionalParams extends coreClient.OperationOptions {
+    body?: WorkloadDeploymentModel;
+}
+
+// @public
+export type WorkloadDeploymentCreateResponse = WorkloadDeploymentModel;
+
+// @public
+export interface WorkloadDeploymentDeleteHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkloadDeploymentDeleteOptionalParams extends coreClient.OperationOptions {
+    forceDelete?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadDeploymentDeleteResponse = WorkloadDeploymentDeleteHeaders;
+
+// @public
+export interface WorkloadDeploymentGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadDeploymentGetResponse = WorkloadDeploymentModel;
+
+// @public
+export interface WorkloadDeploymentGetSecretConfigurationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadDeploymentGetSecretConfigurationsResponse = WorkloadDeploymentModel;
+
+// @public
+export interface WorkloadDeploymentListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadDeploymentListNextResponse = WorkloadDeploymentModelCollection;
+
+// @public
+export interface WorkloadDeploymentListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadDeploymentListResponse = WorkloadDeploymentModelCollection;
+
+// @public
+export interface WorkloadDeploymentMigrateHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkloadDeploymentMigrateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadDeploymentMigrateResponse = WorkloadDeploymentMigrateHeaders;
+
+// @public
+export interface WorkloadDeploymentModel {
     readonly id?: string;
     readonly name?: string;
-    // (undocumented)
-    properties?: CollectorProperties;
+    properties?: WorkloadDeploymentModelProperties;
+    readonly systemData?: WorkloadDeploymentModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
     readonly type?: string;
 }
 
 // @public
-export interface VMwareCollectorList {
-    value?: VMwareCollector[];
+export interface WorkloadDeploymentModelCollection {
+    nextLink?: string;
+    value?: WorkloadDeploymentModel[];
 }
 
 // @public
-export interface VMwareCollectors {
-    create(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsCreateOptionalParams): Promise<VMwareCollectorsCreateResponse>;
-    delete(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsDeleteOptionalParams): Promise<VMwareCollectorsDeleteResponse>;
-    get(resourceGroupName: string, projectName: string, vmWareCollectorName: string, options?: VMwareCollectorsGetOptionalParams): Promise<VMwareCollectorsGetResponse>;
-    listByProject(resourceGroupName: string, projectName: string, options?: VMwareCollectorsListByProjectOptionalParams): PagedAsyncIterableIterator<VMwareCollector>;
+export interface WorkloadDeploymentModelCustomProperties {
+    instanceType: "ApacheTomcatAKSWorkloadDeploymentModelCustomProperties" | "IISAKSWorkloadDeploymentModelCustomProperties";
+}
+
+// @public (undocumented)
+export type WorkloadDeploymentModelCustomPropertiesUnion = WorkloadDeploymentModelCustomProperties | ApacheTomcatAKSWorkloadDeploymentModelCustomProperties | IisaksWorkloadDeploymentModelCustomProperties;
+
+// @public
+export interface WorkloadDeploymentModelProperties {
+    readonly allowedOperations?: WorkloadScenario[];
+    readonly correlationId?: string;
+    readonly currentJob?: WorkloadDeploymentModelPropertiesCurrentJob;
+    customProperties?: WorkloadDeploymentModelCustomPropertiesUnion;
+    displayName?: string;
+    readonly healthErrors?: HealthErrorModel[];
+    readonly lastSuccessfulMigrateTime?: Date;
+    readonly lastSuccessfulTestMigrateTime?: Date;
+    readonly migrationStatus?: ClientFacingMigrateStatus;
+    readonly migrationStatusDescription?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly status?: WorkloadStatus;
+    readonly statusDescription?: string;
+    targetPlatform?: WorkloadDeploymentTarget;
+    readonly testMigrationStatus?: ClientFacingTestMigrateStatus;
+    readonly testMigrationStatusDescription?: string;
+    workloadInstanceProperties?: WorkloadInstanceModelProperties;
+}
+
+// @public (undocumented)
+export interface WorkloadDeploymentModelPropertiesCurrentJob extends WorkloadJobProperties {
+}
+
+// @public (undocumented)
+export interface WorkloadDeploymentModelSystemData extends SystemDataModel {
 }
 
 // @public
-export interface VMwareCollectorsCreateHeaders {
-    xMsRequestId?: string;
+export interface WorkloadDeploymentOperationStatus {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadDeploymentName: string, operationId: string, options?: WorkloadDeploymentOperationStatusGetOptionalParams): Promise<WorkloadDeploymentOperationStatusGetResponse>;
 }
 
 // @public
-export interface VMwareCollectorsCreateOptionalParams extends coreClient.OperationOptions {
-    collectorBody?: VMwareCollector;
+export interface WorkloadDeploymentOperationStatusGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VMwareCollectorsCreateResponse = VMwareCollectorsCreateHeaders & VMwareCollector;
+export type WorkloadDeploymentOperationStatusGetResponse = OperationStatus;
 
 // @public
-export interface VMwareCollectorsDeleteHeaders {
-    xMsRequestId?: string;
+export interface WorkloadDeploymentStatisticsModel {
+    readonly categorizedCounts?: {
+        [propertyName: string]: number;
+    };
+    readonly count?: number;
+    readonly healthErrors?: HealthErrorModel[];
 }
 
 // @public
-export interface VMwareCollectorsDeleteOptionalParams extends coreClient.OperationOptions {
+export type WorkloadDeploymentTarget = string;
+
+// @public
+export interface WorkloadDeploymentTestMigrateCleanupHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export type VMwareCollectorsDeleteResponse = VMwareCollectorsDeleteHeaders;
-
-// @public
-export interface VMwareCollectorsGetHeaders {
-    xMsRequestId?: string;
+export interface WorkloadDeploymentTestMigrateCleanupOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface VMwareCollectorsGetOptionalParams extends coreClient.OperationOptions {
+export type WorkloadDeploymentTestMigrateCleanupResponse = WorkloadDeploymentTestMigrateCleanupHeaders;
+
+// @public
+export interface WorkloadDeploymentTestMigrateHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
 }
 
 // @public
-export type VMwareCollectorsGetResponse = VMwareCollectorsGetHeaders & VMwareCollector;
-
-// @public
-export interface VMwareCollectorsListByProjectHeaders {
-    xMsRequestId?: string;
+export interface WorkloadDeploymentTestMigrateOptionalParams extends coreClient.OperationOptions {
+    body?: TestMigrateModel;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface VMwareCollectorsListByProjectOptionalParams extends coreClient.OperationOptions {
+export type WorkloadDeploymentTestMigrateResponse = WorkloadDeploymentTestMigrateHeaders;
+
+// @public
+export type WorkloadDeploymentType = string;
+
+// @public
+export interface WorkloadInstance {
+    beginDelete(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadInstanceDeleteResponse>, WorkloadInstanceDeleteResponse>>;
+    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceDeleteOptionalParams): Promise<WorkloadInstanceDeleteResponse>;
+    beginMigrateComplete(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceMigrateCompleteOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadInstanceMigrateCompleteResponse>, WorkloadInstanceMigrateCompleteResponse>>;
+    beginMigrateCompleteAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceMigrateCompleteOptionalParams): Promise<WorkloadInstanceMigrateCompleteResponse>;
+    beginStopReplicate(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceStopReplicateOptionalParams): Promise<SimplePollerLike<OperationState<WorkloadInstanceStopReplicateResponse>, WorkloadInstanceStopReplicateResponse>>;
+    beginStopReplicateAndWait(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceStopReplicateOptionalParams): Promise<WorkloadInstanceStopReplicateResponse>;
+    create(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceCreateOptionalParams): Promise<WorkloadInstanceCreateResponse>;
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, options?: WorkloadInstanceGetOptionalParams): Promise<WorkloadInstanceGetResponse>;
+    list(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, options?: WorkloadInstanceListOptionalParams): PagedAsyncIterableIterator<WorkloadInstanceModel>;
 }
 
 // @public
-export type VMwareCollectorsListByProjectResponse = VMwareCollectorsListByProjectHeaders & VMwareCollectorList;
+export interface WorkloadInstanceCreateOptionalParams extends coreClient.OperationOptions {
+    body?: WorkloadInstanceModel;
+}
+
+// @public
+export type WorkloadInstanceCreateResponse = WorkloadInstanceModel;
+
+// @public
+export interface WorkloadInstanceDeleteHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkloadInstanceDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadInstanceDeleteResponse = WorkloadInstanceDeleteHeaders;
+
+// @public
+export interface WorkloadInstanceGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadInstanceGetResponse = WorkloadInstanceModel;
+
+// @public
+export interface WorkloadInstanceListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadInstanceListNextResponse = WorkloadInstanceModelCollection;
+
+// @public
+export interface WorkloadInstanceListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadInstanceListResponse = WorkloadInstanceModelCollection;
+
+// @public
+export interface WorkloadInstanceMigrateCompleteHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkloadInstanceMigrateCompleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadInstanceMigrateCompleteResponse = WorkloadInstanceMigrateCompleteHeaders;
+
+// @public
+export interface WorkloadInstanceModel {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: WorkloadInstanceModelProperties;
+    readonly systemData?: WorkloadInstanceModelSystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface WorkloadInstanceModelCollection {
+    nextLink?: string;
+    value?: WorkloadInstanceModel[];
+}
+
+// @public
+export interface WorkloadInstanceModelCustomProperties {
+    instanceType: "ApacheTomcatWorkloadInstanceModelCustomProperties" | "IISWorkloadInstanceModelCustomProperties";
+    webAppArmId?: string;
+    webAppSiteName?: string;
+}
+
+// @public (undocumented)
+export type WorkloadInstanceModelCustomPropertiesUnion = WorkloadInstanceModelCustomProperties | ApacheTomcatWorkloadInstanceModelCustomProperties | IISWorkloadInstanceModelCustomProperties;
+
+// @public
+export interface WorkloadInstanceModelProperties {
+    readonly allowedOperations?: string[];
+    readonly currentJob?: WorkloadInstanceModelPropertiesCurrentJob;
+    customProperties?: WorkloadInstanceModelCustomPropertiesUnion;
+    displayName?: string;
+    readonly healthErrors?: HealthErrorModel[];
+    readonly lastSuccessfulReplicationCycleTime?: Date;
+    masterSiteName?: string;
+    migrateAgentId?: string;
+    name?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly replicationHealth?: HealthStatus;
+    readonly replicationStatus?: ClientFacingReplicationStatus;
+    readonly replicationStatusDescription?: string;
+    sourceName?: string;
+    sourcePlatform?: string;
+}
+
+// @public (undocumented)
+export interface WorkloadInstanceModelPropertiesCurrentJob extends WorkloadJobProperties {
+}
+
+// @public (undocumented)
+export interface WorkloadInstanceModelSystemData extends SystemDataModel {
+}
+
+// @public
+export interface WorkloadInstanceOperationStatus {
+    get(subscriptionId: string, resourceGroupName: string, modernizeProjectName: string, workloadInstanceName: string, operationId: string, options?: WorkloadInstanceOperationStatusGetOptionalParams): Promise<WorkloadInstanceOperationStatusGetResponse>;
+}
+
+// @public
+export interface WorkloadInstanceOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadInstanceOperationStatusGetResponse = OperationStatus;
+
+// @public
+export interface WorkloadInstanceStatisticsModel {
+    readonly categorizedCounts?: {
+        [propertyName: string]: number;
+    };
+    readonly count?: number;
+    readonly healthErrors?: HealthErrorModel[];
+}
+
+// @public
+export interface WorkloadInstanceStopReplicateHeaders {
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface WorkloadInstanceStopReplicateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkloadInstanceStopReplicateResponse = WorkloadInstanceStopReplicateHeaders;
+
+// @public
+export interface WorkloadJobProperties {
+    readonly displayName?: string;
+    readonly endTime?: Date;
+    readonly id?: string;
+    readonly name?: string;
+    readonly scenarioName?: string;
+    readonly startTime?: Date;
+    readonly state?: string;
+}
+
+// @public
+export type WorkloadScenario = string;
+
+// @public
+export type WorkloadStatus = string;
+
+// @public
+export type WorkloadType = string;
 
 // (No @packageDocumentation comment for this package)
 
