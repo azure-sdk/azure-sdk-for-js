@@ -13998,7 +13998,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-HCORHKmsdswJ/9Rv77nWQWlJQFHjerRkQOnoCqD8pUw+Ismf8Zj0ucEgyFwI0vDvKAzlEeY6n9QvwWcWJw+URQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-i1B2eUbZwtk/ZJRYZCQOAXWfjNeIBJweyHlFviaaWNmfEQdr8s7OLpsNhRYF4ndB3HFvR+/0FX2ZfjEZaHr7yg==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
@@ -14017,9 +14017,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23188,7 +23189,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-micYqYdS28ldR3rNvKUud3F9dYcl1yW+GlumpMlyBCMTJR8ZK/Vjev6aUcPJehWHWMSAz5Wu4w2nnuYkXv39AA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-zIeUCSxRVQirkAneT1WpvUwFEvVNfzVfjtNLYPzF5owfu04F8QLNOnhMXaLCjQC3hNL9Ph8cWifX203WMorkUw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:

@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type AadEnabledEnum = string;
+
+// @public
 export type ActiveDirectoryAuth = string;
 
 // @public
@@ -23,6 +26,7 @@ export interface AuthConfig {
 
 // @public
 export interface Cluster extends TrackedResource {
+    readonly aadAuthEnabled?: AadEnabledEnum;
     readonly administratorLogin?: string;
     administratorLoginPassword?: string;
     authConfig?: AuthConfig;
@@ -32,16 +36,19 @@ export interface Cluster extends TrackedResource {
     coordinatorStorageQuotaInMb?: number;
     coordinatorVCores?: number;
     databaseName?: string;
+    dataEncryption?: DataEncryption;
     readonly earliestRestoreTime?: Date;
     enableGeoBackup?: boolean;
     enableHa?: boolean;
     enableShardsOnCoordinator?: boolean;
+    identity?: IdentityProperties;
     maintenanceWindow?: MaintenanceWindow;
     nodeCount?: number;
     nodeEnablePublicIpAccess?: boolean;
     nodeServerEdition?: string;
     nodeStorageQuotaInMb?: number;
     nodeVCores?: number;
+    readonly passwordEnabled?: PasswordEnabledEnum;
     pointInTimeUTC?: Date;
     postgresqlVersion?: string;
     preferredPrimaryZone?: string;
@@ -70,6 +77,7 @@ export interface ClusterForUpdate {
     coordinatorVCores?: number;
     enableHa?: boolean;
     enableShardsOnCoordinator?: boolean;
+    identity?: IdentityProperties;
     maintenanceWindow?: MaintenanceWindow;
     nodeCount?: number;
     readonly nodeEnablePublicIpAccess?: boolean;
@@ -445,6 +453,17 @@ export interface CosmosDBForPostgreSQLOptionalParams extends coreClient.ServiceC
 export type CreatedByType = string;
 
 // @public
+export interface DataEncryption {
+    primaryKeyUri?: string;
+    primaryUserAssignedIdentityId?: string;
+    // (undocumented)
+    type?: DataEncryptionType;
+}
+
+// @public
+export type DataEncryptionType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -538,6 +557,24 @@ export type FirewallRulesListByClusterResponse = FirewallRuleListResult;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface IdentityProperties {
+    // (undocumented)
+    type?: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type IdentityType = string;
+
+// @public
+export enum KnownAadEnabledEnum {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownActiveDirectoryAuth {
     Disabled = "disabled",
     Enabled = "enabled"
@@ -560,6 +597,18 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDataEncryptionType {
+    AzureKeyVault = "AzureKeyVault",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOperationOrigin {
     NotSpecified = "NotSpecified",
     System = "system",
@@ -568,6 +617,12 @@ export enum KnownOperationOrigin {
 
 // @public
 export enum KnownPasswordAuth {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownPasswordEnabledEnum {
     Disabled = "disabled",
     Enabled = "enabled"
 }
@@ -678,6 +733,9 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export type PasswordAuth = string;
+
+// @public
+export type PasswordEnabledEnum = string;
 
 // @public
 export type PrincipalType = string;
@@ -997,6 +1055,12 @@ export interface TrackedResource extends Resource {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
