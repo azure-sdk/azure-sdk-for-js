@@ -14,7 +14,7 @@ import {
   IotDpsResourceListByResourceGroupOptionalParams,
   IotDpsSkuDefinition,
   IotDpsResourceListValidSkusOptionalParams,
-  SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
+  SharedAccessSignatureAuthorizationRule,
   IotDpsResourceListKeysOptionalParams,
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetResponse,
@@ -43,7 +43,7 @@ import {
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
-  IotDpsResourceDeletePrivateEndpointConnectionResponse
+  IotDpsResourceDeletePrivateEndpointConnectionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export interface IotDpsResource {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IotDpsResourceListBySubscriptionOptionalParams
+    options?: IotDpsResourceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /**
    * Get a list of all provisioning services in the given resource group.
@@ -63,7 +63,7 @@ export interface IotDpsResource {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IotDpsResourceListByResourceGroupOptionalParams
+    options?: IotDpsResourceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /**
    * Gets the list of valid SKUs and tiers for a provisioning service.
@@ -74,7 +74,7 @@ export interface IotDpsResource {
   listValidSkus(
     provisioningServiceName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams
+    options?: IotDpsResourceListValidSkusOptionalParams,
   ): PagedAsyncIterableIterator<IotDpsSkuDefinition>;
   /**
    * List the primary and secondary keys for a provisioning service.
@@ -85,20 +85,18 @@ export interface IotDpsResource {
   listKeys(
     provisioningServiceName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListKeysOptionalParams
-  ): PagedAsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  >;
+    options?: IotDpsResourceListKeysOptionalParams,
+  ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule>;
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param resourceGroupName Resource group name.
    * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param resourceGroupName Resource group name.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceGetOptionalParams
+    resourceGroupName: string,
+    options?: IotDpsResourceGetOptionalParams,
   ): Promise<IotDpsResourceGetResponse>;
   /**
    * Create or update the metadata of the provisioning service. The usual pattern to modify a property is
@@ -113,7 +111,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceCreateOrUpdateResponse>,
@@ -133,7 +131,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdateResponse>;
   /**
    * Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
@@ -147,7 +145,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceUpdateResponse>,
@@ -166,29 +164,29 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<IotDpsResourceUpdateResponse>;
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName Resource group identifier.
    * @param options The options parameters.
    */
   beginDelete(
-    resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    resourceGroupName: string,
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
    * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName Resource group identifier.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    resourceGroupName: string,
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the status of a long running operation, such as create, update or delete a provisioning
@@ -206,7 +204,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     asyncinfo: string,
-    options?: IotDpsResourceGetOperationResultOptionalParams
+    options?: IotDpsResourceGetOperationResultOptionalParams,
   ): Promise<IotDpsResourceGetOperationResultResponse>;
   /**
    * Check if a provisioning service name is available. This will validate if the name is syntactically
@@ -217,7 +215,7 @@ export interface IotDpsResource {
    */
   checkProvisioningServiceNameAvailability(
     argumentsParam: OperationInputs,
-    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
+    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   ): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
   /**
    * List primary and secondary keys for a specific key name
@@ -230,7 +228,7 @@ export interface IotDpsResource {
     provisioningServiceName: string,
     keyName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListKeysForKeyNameOptionalParams
+    options?: IotDpsResourceListKeysForKeyNameOptionalParams,
   ): Promise<IotDpsResourceListKeysForKeyNameResponse>;
   /**
    * List private link resources for the given provisioning service
@@ -241,7 +239,7 @@ export interface IotDpsResource {
   listPrivateLinkResources(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams
+    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams,
   ): Promise<IotDpsResourceListPrivateLinkResourcesResponse>;
   /**
    * Get the specified private link resource for the given provisioning service
@@ -254,7 +252,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     resourceName: string,
     groupId: string,
-    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams
+    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams,
   ): Promise<IotDpsResourceGetPrivateLinkResourcesResponse>;
   /**
    * List private endpoint connection properties
@@ -265,7 +263,7 @@ export interface IotDpsResource {
   listPrivateEndpointConnections(
     resourceGroupName: string,
     resourceName: string,
-    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams
+    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   ): Promise<IotDpsResourceListPrivateEndpointConnectionsResponse>;
   /**
    * Get private endpoint connection properties
@@ -278,7 +276,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceGetPrivateEndpointConnectionResponse>;
   /**
    * Create or update the status of a private endpoint connection with the specified name
@@ -293,12 +291,10 @@ export interface IotDpsResource {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
-      >,
+      OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
     >
   >;
@@ -315,7 +311,7 @@ export interface IotDpsResource {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>;
   /**
    * Delete private endpoint connection with the specified name
@@ -328,7 +324,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
@@ -346,6 +342,6 @@ export interface IotDpsResource {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse>;
 }
