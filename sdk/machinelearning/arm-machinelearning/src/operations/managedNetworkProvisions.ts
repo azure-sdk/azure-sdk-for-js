@@ -10,7 +10,7 @@ import { ManagedNetworkProvisions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -24,20 +24,20 @@ import {
 
 /** Class containing ManagedNetworkProvisions operations. */
 export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class ManagedNetworkProvisions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetwork(
@@ -108,7 +108,7 @@ export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetworkAndWait(
@@ -147,7 +147,7 @@ const provisionManagedNetworkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body58,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
