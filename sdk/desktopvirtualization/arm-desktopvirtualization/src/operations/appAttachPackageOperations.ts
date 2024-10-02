@@ -173,7 +173,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Get an app attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   get(
@@ -190,7 +190,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Create or update an App Attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param appAttachPackage Object containing App Attach Package definitions.
    * @param options The options parameters.
    */
@@ -209,7 +209,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   delete(
@@ -226,7 +226,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Update an App Attach Package
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   update(
@@ -360,7 +360,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
