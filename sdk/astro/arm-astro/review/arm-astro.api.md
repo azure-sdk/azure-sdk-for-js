@@ -98,6 +98,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownRenewalMode {
+    Auto = "Auto",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -109,11 +115,6 @@ export enum KnownSingleSignOnStates {
     Disable = "Disable",
     Enable = "Enable",
     Initial = "Initial"
-}
-
-// @public
-export enum KnownVersions {
-    V1Preview = "2023-08-01"
 }
 
 // @public
@@ -145,16 +146,36 @@ export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
 // @public
 export interface LiftrBaseMarketplaceDetails {
     offerDetails: LiftrBaseOfferDetails;
-    subscriptionId: string;
+    subscriptionId?: string;
+    subscriptionStatus?: MarketplaceSubscriptionStatus;
+}
+
+// @public
+export interface LiftrBaseMarketplaceDetailsUpdate {
+    offerDetails?: LiftrBaseOfferDetailsUpdate;
+    subscriptionId?: string;
     subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
 // @public
 export interface LiftrBaseOfferDetails {
+    readonly endDate?: Date;
     offerId: string;
     planId: string;
     planName?: string;
     publisherId: string;
+    renewalMode?: RenewalMode;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
+export interface LiftrBaseOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    renewalMode?: RenewalMode;
     termId?: string;
     termUnit?: string;
 }
@@ -267,6 +288,7 @@ export interface OrganizationResourceUpdate {
 
 // @public
 export interface OrganizationResourceUpdateProperties {
+    marketplace?: LiftrBaseMarketplaceDetailsUpdate;
     partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationPropertiesUpdate;
     user?: LiftrBaseUserDetailsUpdate;
 }
@@ -367,6 +389,9 @@ export type OrganizationsUpdateResponse = OrganizationResource;
 export type Origin = string;
 
 // @public
+export type RenewalMode = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -403,9 +428,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 
