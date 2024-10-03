@@ -19,7 +19,7 @@ import {
   AccountPatchResource,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
-  AccountsDeleteOptionalParams
+  AccountsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface Accounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AccountResource>;
   /**
    * Returns list of accounts belonging to a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AccountResource>;
   /**
    * Returns account resource for a given name.
@@ -50,7 +50,7 @@ export interface Accounts {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: AccountsGetOptionalParams
+    options?: AccountsGetOptionalParams,
   ): Promise<AccountsGetResponse>;
   /**
    * Create or update account resource.
@@ -63,7 +63,7 @@ export interface Accounts {
     resourceGroupName: string,
     resourceName: string,
     accountResource: AccountResource,
-    options?: AccountsCreateAndUpdateOptionalParams
+    options?: AccountsCreateAndUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccountsCreateAndUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Accounts {
     resourceGroupName: string,
     resourceName: string,
     accountResource: AccountResource,
-    options?: AccountsCreateAndUpdateOptionalParams
+    options?: AccountsCreateAndUpdateOptionalParams,
   ): Promise<AccountsCreateAndUpdateResponse>;
   /**
    * Update account details.
@@ -94,7 +94,7 @@ export interface Accounts {
     resourceGroupName: string,
     resourceName: string,
     accountResource: AccountPatchResource,
-    options?: AccountsUpdateOptionalParams
+    options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse>;
   /**
    * Deletes a account resource.
@@ -105,6 +105,6 @@ export interface Accounts {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: AccountsDeleteOptionalParams
+    options?: AccountsDeleteOptionalParams,
   ): Promise<void>;
 }
