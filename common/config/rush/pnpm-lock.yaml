@@ -10659,7 +10659,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -13488,7 +13488,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-ltoqytPE1QVwr7Sob5PjXXoDsknShksZFG9vsodvBaEPOHz+3m3/LPQe1AZrhBRnbb6XWOeaDkSZnDkbfTZ86A==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-q7ZNp8T1O0obOch9s8Ghk+PEffombkTm70PePDEn4yQ9ec2ryJCu/fzcqXjlR7gbQh6329ttaS3qzMjRyeX+5Q==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13508,10 +13508,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
