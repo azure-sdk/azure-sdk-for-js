@@ -2395,6 +2395,9 @@ export interface GalleryApplicationsCreateOrUpdateOptionalParams extends coreCli
 export type GalleryApplicationsCreateOrUpdateResponse = GalleryApplication;
 
 // @public
+export type GalleryApplicationScriptRebootBehavior = string;
+
+// @public
 export interface GalleryApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -3413,6 +3416,12 @@ export enum KnownExtendedLocationTypes {
 export enum KnownFileFormat {
     VHD = "VHD",
     Vhdx = "VHDX"
+}
+
+// @public
+export enum KnownGalleryApplicationScriptRebootBehavior {
+    None = "None",
+    Rerun = "Rerun"
 }
 
 // @public
@@ -6038,6 +6047,7 @@ export interface UserArtifactManage {
 export interface UserArtifactSettings {
     configFileName?: string;
     packageFileName?: string;
+    scriptBehaviorAfterReboot?: GalleryApplicationScriptRebootBehavior;
 }
 
 // @public
