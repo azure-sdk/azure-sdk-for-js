@@ -10775,6 +10775,12 @@ export const UserArtifactSettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      scriptBehaviorAfterReboot: {
+        serializedName: "scriptBehaviorAfterReboot",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
