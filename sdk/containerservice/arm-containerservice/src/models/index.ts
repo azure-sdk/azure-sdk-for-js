@@ -713,12 +713,12 @@ export interface ContainerServiceNetworkProfile {
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
   serviceCidrs?: string[];
   /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: IpFamily[];
+  ipFamilies?: IPFamily[];
   /** Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. if not specified, the default is 'IMDS'. */
   podLinkLocalAccess?: PodLinkLocalAccess;
   /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
   kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
-  /** Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking. */
+  /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
   advancedNetworking?: AdvancedNetworking;
 }
 
@@ -814,8 +814,10 @@ export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
   udpTimeoutSeconds?: number;
 }
 
-/** Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking. */
+/** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
 export interface AdvancedNetworking {
+  /** Indicates the enablement of Advanced Networking functionalities of observability and security on AKS clusters. When this is set to true, all observability and security features will be set to enabled unless explicitly disabled. If not specified, the default is false. */
+  enabled?: boolean;
   /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
   observability?: AdvancedNetworkingObservability;
   /** Security profile to enable security features on cilium based cluster. */
@@ -826,18 +828,10 @@ export interface AdvancedNetworking {
 export interface AdvancedNetworkingObservability {
   /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
   enabled?: boolean;
-  /** Management of TLS certificates for querying network flow logs via the flow log endpoint for Advanced Networking observability clusters. If not specified, the default is Managed. For more information see aka.ms/acnstls. */
-  tlsManagement?: TLSManagement;
 }
 
 /** Security profile to enable security features on cilium based cluster. */
 export interface AdvancedNetworkingSecurity {
-  /** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
-  fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
-}
-
-/** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
-export interface AdvancedNetworkingFqdnPolicy {
   /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
   enabled?: boolean;
 }
@@ -1698,7 +1692,7 @@ export interface MachineIpAddress {
    * To determine if address belongs IPv4 or IPv6 family
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly family?: IpFamily;
+  readonly family?: IPFamily;
   /**
    * IPv4 or IPv6 address of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3352,8 +3346,8 @@ export enum KnownClusterServiceLoadBalancerHealthProbeMode {
  */
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
 
-/** Known values of {@link IpFamily} that the service accepts. */
-export enum KnownIpFamily {
+/** Known values of {@link IPFamily} that the service accepts. */
+export enum KnownIPFamily {
   /** IPv4 family */
   IPv4 = "IPv4",
   /** IPv6 family */
@@ -3361,14 +3355,14 @@ export enum KnownIpFamily {
 }
 
 /**
- * Defines values for IpFamily. \
- * {@link KnownIpFamily} can be used interchangeably with IpFamily,
+ * Defines values for IPFamily. \
+ * {@link KnownIPFamily} can be used interchangeably with IPFamily,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **IPv4**: IPv4 family \
  * **IPv6**: IPv6 family
  */
-export type IpFamily = string;
+export type IPFamily = string;
 
 /** Known values of {@link PodLinkLocalAccess} that the service accepts. */
 export enum KnownPodLinkLocalAccess {
@@ -3423,24 +3417,6 @@ export enum KnownIpvsScheduler {
  * **LeastConnection**: Least Connection
  */
 export type IpvsScheduler = string;
-
-/** Known values of {@link TLSManagement} that the service accepts. */
-export enum KnownTLSManagement {
-  /** Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. */
-  None = "None",
-  /** Enable TLS and cert rotation is managed by Azure. */
-  Managed = "Managed",
-}
-
-/**
- * Defines values for TLSManagement. \
- * {@link KnownTLSManagement} can be used interchangeably with TLSManagement,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. \
- * **Managed**: Enable TLS and cert rotation is managed by Azure.
- */
-export type TLSManagement = string;
 
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
