@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Pools } from "../operationsInterfaces";
+import { EncryptionSets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,31 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Pool,
-  PoolsListByProjectNextOptionalParams,
-  PoolsListByProjectOptionalParams,
-  PoolsListByProjectResponse,
-  PoolsGetOptionalParams,
-  PoolsGetResponse,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsCreateOrUpdateResponse,
-  PoolUpdate,
-  PoolsUpdateOptionalParams,
-  PoolsUpdateResponse,
-  PoolsDeleteOptionalParams,
-  PoolsDeleteResponse,
-  PoolsRunHealthChecksOptionalParams,
-  PoolsRunHealthChecksResponse,
-  PoolsListByProjectNextResponse,
+  DevCenterEncryptionSet,
+  EncryptionSetsListNextOptionalParams,
+  EncryptionSetsListOptionalParams,
+  EncryptionSetsListResponse,
+  EncryptionSetsGetOptionalParams,
+  EncryptionSetsGetResponse,
+  EncryptionSetsCreateOrUpdateOptionalParams,
+  EncryptionSetsCreateOrUpdateResponse,
+  EncryptionSetUpdate,
+  EncryptionSetsUpdateOptionalParams,
+  EncryptionSetsUpdateResponse,
+  EncryptionSetsDeleteOptionalParams,
+  EncryptionSetsDeleteResponse,
+  EncryptionSetsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Pools operations. */
-export class PoolsImpl implements Pools {
+/** Class containing EncryptionSets operations. */
+export class EncryptionSetsImpl implements EncryptionSets {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Pools class.
+   * Initialize a new instance of the class EncryptionSets class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -52,21 +50,17 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Lists pools for a project
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  public listByProject(
+  public list(
     resourceGroupName: string,
-    projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): PagedAsyncIterableIterator<Pool> {
-    const iter = this.listByProjectPagingAll(
-      resourceGroupName,
-      projectName,
-      options,
-    );
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): PagedAsyncIterableIterator<DevCenterEncryptionSet> {
+    const iter = this.listPagingAll(resourceGroupName, devCenterName, options);
     return {
       next() {
         return iter.next();
@@ -78,9 +72,9 @@ export class PoolsImpl implements Pools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProjectPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
-          projectName,
+          devCenterName,
           options,
           settings,
         );
@@ -88,29 +82,25 @@ export class PoolsImpl implements Pools {
     };
   }
 
-  private async *listByProjectPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    projectName: string,
-    options?: PoolsListByProjectOptionalParams,
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Pool[]> {
-    let result: PoolsListByProjectResponse;
+  ): AsyncIterableIterator<DevCenterEncryptionSet[]> {
+    let result: EncryptionSetsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProject(
-        resourceGroupName,
-        projectName,
-        options,
-      );
+      result = await this._list(resourceGroupName, devCenterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByProjectNext(
+      result = await this._listNext(
         resourceGroupName,
-        projectName,
+        devCenterName,
         continuationToken,
         options,
       );
@@ -121,14 +111,14 @@ export class PoolsImpl implements Pools {
     }
   }
 
-  private async *listByProjectPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): AsyncIterableIterator<Pool> {
-    for await (const page of this.listByProjectPagingPage(
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): AsyncIterableIterator<DevCenterEncryptionSet> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
-      projectName,
+      devCenterName,
       options,
     )) {
       yield* page;
@@ -136,65 +126,65 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Lists pools for a project
+   * Lists all encryption sets in the devcenter.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  private _listByProject(
+  private _list(
     resourceGroupName: string,
-    projectName: string,
-    options?: PoolsListByProjectOptionalParams,
-  ): Promise<PoolsListByProjectResponse> {
+    devCenterName: string,
+    options?: EncryptionSetsListOptionalParams,
+  ): Promise<EncryptionSetsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, options },
-      listByProjectOperationSpec,
+      { resourceGroupName, devCenterName, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets a machine pool
+   * Gets a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsGetOptionalParams,
-  ): Promise<PoolsGetResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsGetOptionalParams,
+  ): Promise<EncryptionSetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, options },
+      { resourceGroupName, devCenterName, encryptionSetName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a machine pool
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PoolsCreateOrUpdateResponse>,
-      PoolsCreateOrUpdateResponse
+      OperationState<EncryptionSetsCreateOrUpdateResponse>,
+      EncryptionSetsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PoolsCreateOrUpdateResponse> => {
+    ): Promise<EncryptionSetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -231,12 +221,18 @@ export class PoolsImpl implements Pools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, body, options },
+      args: {
+        resourceGroupName,
+        devCenterName,
+        encryptionSetName,
+        body,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      PoolsCreateOrUpdateResponse,
-      OperationState<PoolsCreateOrUpdateResponse>
+      EncryptionSetsCreateOrUpdateResponse,
+      OperationState<EncryptionSetsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -247,24 +243,24 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Creates or updates a machine pool
+   * Creates or updates a devcenter encryption set resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Represents a devcenter encryption set.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    body: Pool,
-    options?: PoolsCreateOrUpdateOptionalParams,
-  ): Promise<PoolsCreateOrUpdateResponse> {
+    devCenterName: string,
+    encryptionSetName: string,
+    body: DevCenterEncryptionSet,
+    options?: EncryptionSetsCreateOrUpdateOptionalParams,
+  ): Promise<EncryptionSetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
+      devCenterName,
+      encryptionSetName,
       body,
       options,
     );
@@ -272,216 +268,29 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Partially updates a machine pool
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<PoolsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, body, options },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      PoolsUpdateResponse,
-      OperationState<PoolsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Partially updates a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param body Represents a machine pool
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    body: PoolUpdate,
-    options?: PoolsUpdateOptionalParams,
-  ): Promise<PoolsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      projectName,
-      poolName,
-      body,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsDeleteResponse>, PoolsDeleteResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<PoolsDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      PoolsDeleteResponse,
-      OperationState<PoolsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a machine pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsDeleteOptionalParams,
-  ): Promise<PoolsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      projectName,
-      poolName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Triggers a refresh of the pool status.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param options The options parameters.
-   */
-  async beginRunHealthChecks(
-    resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams,
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<PoolsRunHealthChecksResponse>,
-      PoolsRunHealthChecksResponse
+      OperationState<EncryptionSetsUpdateResponse>,
+      EncryptionSetsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PoolsRunHealthChecksResponse> => {
+    ): Promise<EncryptionSetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -518,12 +327,18 @@ export class PoolsImpl implements Pools {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, options },
-      spec: runHealthChecksOperationSpec,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        encryptionSetName,
+        body,
+        options,
+      },
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      PoolsRunHealthChecksResponse,
-      OperationState<PoolsRunHealthChecksResponse>
+      EncryptionSetsUpdateResponse,
+      OperationState<EncryptionSetsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -534,55 +349,153 @@ export class PoolsImpl implements Pools {
   }
 
   /**
-   * Triggers a refresh of the pool status.
+   * Partially updates a devcenter encryption set.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param body Updatable devcenter encryption set properties.
    * @param options The options parameters.
    */
-  async beginRunHealthChecksAndWait(
+  async beginUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: PoolsRunHealthChecksOptionalParams,
-  ): Promise<PoolsRunHealthChecksResponse> {
-    const poller = await this.beginRunHealthChecks(
+    devCenterName: string,
+    encryptionSetName: string,
+    body: EncryptionSetUpdate,
+    options?: EncryptionSetsUpdateOptionalParams,
+  ): Promise<EncryptionSetsUpdateResponse> {
+    const poller = await this.beginUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
+      devCenterName,
+      encryptionSetName,
+      body,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByProjectNext
+   * Deletes a devcenter encryption set
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param nextLink The nextLink from the previous successful call to the ListByProject method.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
    * @param options The options parameters.
    */
-  private _listByProjectNext(
+  async beginDelete(
     resourceGroupName: string,
-    projectName: string,
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<EncryptionSetsDeleteResponse>,
+      EncryptionSetsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<EncryptionSetsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, encryptionSetName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      EncryptionSetsDeleteResponse,
+      OperationState<EncryptionSetsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a devcenter encryption set
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param encryptionSetName The name of the devcenter encryption set.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    devCenterName: string,
+    encryptionSetName: string,
+    options?: EncryptionSetsDeleteOptionalParams,
+  ): Promise<EncryptionSetsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      devCenterName,
+      encryptionSetName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    devCenterName: string,
     nextLink: string,
-    options?: PoolsListByProjectNextOptionalParams,
-  ): Promise<PoolsListByProjectNextResponse> {
+    options?: EncryptionSetsListNextOptionalParams,
+  ): Promise<EncryptionSetsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, nextLink, options },
-      listByProjectNextOperationSpec,
+      { resourceGroupName, devCenterName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByProjectOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PoolListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -593,17 +506,17 @@ const listByProjectOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -614,93 +527,93 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     201: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     202: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     204: {
-      bodyMapper: Mappers.Pool,
+      bodyMapper: Mappers.DevCenterEncryptionSet,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/encryptionSets/{encryptionSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PoolsDeleteHeaders,
+      headersMapper: Mappers.EncryptionSetsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -711,49 +624,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
+    Parameters.encryptionSetName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const runHealthChecksOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/runHealthChecks",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    201: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    202: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    204: {
-      headersMapper: Mappers.PoolsRunHealthChecksHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByProjectNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PoolListResult,
+      bodyMapper: Mappers.EncryptionSetListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -764,7 +646,7 @@ const listByProjectNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.projectName,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
