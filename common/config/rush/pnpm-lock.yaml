@@ -10782,7 +10782,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -12055,7 +12055,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-yKwDdyRmf+ngBuYLW09c8lzcreD+r9OC3ekRTRss1iQ6lZ86A4mr+We6b/6LJgXkmQCZ5GmCIsAdovjqR+m+gQ==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-Q6X9wbW7QeTbk4gw8qkRpVcIdIzZRS1jnI7Cx5WyrQMSFYlbQjNB7xrPeSoGlyGBOAkMmK9KMdV5ECIy0ebKfA==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -14039,7 +14039,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-SaSrVVISz1ZjPeO8jG5TiqvC+1hhhHv4PtTMZfzgDCxcfKp5zRXmcNRQ7CcRIjk4JPbWPLMwXELm78E9ykeRPw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-8a2fLFTxLQ0JMKVJzm8KpRI5LMacnO8+MDFHc7qv9Ig+Ji1oOd1vGYTeuOJNI83Ru14weGLDgXUpSB2HYbyVoQ==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -14058,9 +14058,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -21394,7 +21395,7 @@ packages:
     dev: false
 
   file:projects/create-microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-Y0Ilm/OrJbjbGM6pfER/LV17OHMPFnHOjhPnrexQiVTWZcYY/jbi3etI+5+ONzxy36/shS3+gd066AJkDyCM6g==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-B1PGNf3XJYeElEN9dW97Ai1Vx86+ak5xrU8tz9br+/CfWlEpae91H05L1u8F44dYwjgLhm4B67dNfTIc5twheA==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
     name: '@rush-temp/create-microsoft-playwright-testing'
     version: 0.0.0
     dependencies:
