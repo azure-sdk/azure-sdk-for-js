@@ -15,6 +15,7 @@ export interface AzureFileVolume {
     readOnly?: boolean;
     shareName: string;
     storageAccountKey?: string;
+    storageAccountKeyReference?: string;
     storageAccountName: string;
 }
 
@@ -158,6 +159,7 @@ export interface ContainerGroupProperties {
     encryptionProperties?: EncryptionProperties;
     extensions?: DeploymentExtensionSpec[];
     identity?: ContainerGroupIdentity;
+    identityAcls?: IdentityAcls;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
@@ -166,6 +168,7 @@ export interface ContainerGroupProperties {
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
+    secretReferences?: SecretReference[];
     sku?: ContainerGroupSku;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
@@ -429,6 +432,7 @@ export interface EncryptionProperties {
 export interface EnvironmentVariable {
     name: string;
     secureValue?: string;
+    secureValueReference?: string;
     value?: string;
 }
 
@@ -469,10 +473,26 @@ export interface HttpHeader {
 }
 
 // @public
+export interface IdentityAccessControl {
+    access?: IdentityAccessLevel;
+    identity?: string;
+}
+
+// @public
+export type IdentityAccessLevel = string;
+
+// @public
+export interface IdentityAcls {
+    acls?: IdentityAccessControl[];
+    defaultAccess?: IdentityAccessLevel;
+}
+
+// @public
 export interface ImageRegistryCredential {
     identity?: string;
     identityUrl?: string;
     password?: string;
+    passwordReference?: string;
     server: string;
     username?: string;
 }
@@ -564,6 +584,13 @@ export enum KnownGpuSku {
     K80 = "K80",
     P100 = "P100",
     V100 = "V100"
+}
+
+// @public
+export enum KnownIdentityAccessLevel {
+    All = "All",
+    System = "System",
+    User = "User"
 }
 
 // @public
@@ -735,6 +762,13 @@ export interface ResourceRequirements {
 export type Scheme = string;
 
 // @public
+export interface SecretReference {
+    identity: string;
+    name: string;
+    secretReferenceUri: string;
+}
+
+// @public
 export interface SecurityContextCapabilitiesDefinition {
     add?: string[];
     drop?: string[];
@@ -795,6 +829,9 @@ export interface Volume {
     gitRepo?: GitRepoVolume;
     name: string;
     secret?: {
+        [propertyName: string]: string;
+    };
+    secretReference?: {
         [propertyName: string]: string;
     };
 }

@@ -50,6 +50,8 @@ export interface ContainerGroupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /** The secret references that will be referenced within the container group. */
+  secretReferences?: SecretReference[];
   /** The containers within the container group. */
   containers: Container[];
   /** The image registry credentials by which the container group is created from. */
@@ -91,6 +93,8 @@ export interface ContainerGroupProperties {
   confidentialComputeProperties?: ConfidentialComputeProperties;
   /** The priority of the container group. */
   priority?: ContainerGroupPriority;
+  /** The access control levels of the identities. */
+  identityAcls?: IdentityAcls;
 }
 
 /** Identity for the container group. */
@@ -123,6 +127,16 @@ export interface UserAssignedIdentities {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+}
+
+/** A secret reference */
+export interface SecretReference {
+  /** The identifier of the secret reference */
+  name: string;
+  /** The ARM resource id of the managed identity that has access to the secret in the key vault */
+  identity: string;
+  /** The URI to the secret in key vault */
+  secretReferenceUri: string;
 }
 
 /** A container instance. */
@@ -170,6 +184,8 @@ export interface EnvironmentVariable {
   value?: string;
   /** The value of the secure environment variable. */
   secureValue?: string;
+  /** The reference of the secure environment variable. */
+  secureValueReference?: string;
 }
 
 /** The instance view of the container instance. Only valid in response. */
@@ -381,6 +397,8 @@ export interface ImageRegistryCredential {
   username?: string;
   /** The password for the private registry. */
   password?: string;
+  /** The reference for the private registry password. */
+  passwordReference?: string;
   /** The identity for the private registry. */
   identity?: string;
   /** The identity URL for the private registry. */
@@ -424,6 +442,8 @@ export interface Volume {
   emptyDir?: Record<string, unknown>;
   /** The secret volume. */
   secret?: { [propertyName: string]: string };
+  /** The secret reference volume. */
+  secretReference?: { [propertyName: string]: string };
   /** The git repo volume. */
   gitRepo?: GitRepoVolume;
 }
@@ -438,6 +458,8 @@ export interface AzureFileVolume {
   storageAccountName: string;
   /** The storage account access key used to access the Azure File share. */
   storageAccountKey?: string;
+  /** The reference to the storage account access key used to access the Azure File share. */
+  storageAccountKeyReference?: string;
 }
 
 /** Represents a volume that is populated with the contents of a git repository */
@@ -577,6 +599,22 @@ export interface DeploymentExtensionSpec {
 export interface ConfidentialComputeProperties {
   /** The base64 encoded confidential compute enforcement policy */
   ccePolicy?: string;
+}
+
+/** The access control levels of the identities. */
+export interface IdentityAcls {
+  /** The default access level. */
+  defaultAccess?: IdentityAccessLevel;
+  /** The access control levels for each identity. */
+  acls?: IdentityAccessControl[];
+}
+
+/** The access control for an identity */
+export interface IdentityAccessControl {
+  /** The access level of the identity. */
+  access?: IdentityAccessLevel;
+  /** An identity. */
+  identity?: string;
 }
 
 /** An error response from the Container Instance service. */
@@ -804,7 +842,7 @@ export enum KnownContainerNetworkProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -824,7 +862,7 @@ export enum KnownGpuSku {
   /** P100 */
   P100 = "P100",
   /** V100 */
-  V100 = "V100"
+  V100 = "V100",
 }
 
 /**
@@ -843,7 +881,7 @@ export enum KnownScheme {
   /** Http */
   Http = "http",
   /** Https */
-  Https = "https"
+  Https = "https",
 }
 
 /**
@@ -863,7 +901,7 @@ export enum KnownContainerGroupRestartPolicy {
   /** OnFailure */
   OnFailure = "OnFailure",
   /** Never */
-  Never = "Never"
+  Never = "Never",
 }
 
 /**
@@ -882,7 +920,7 @@ export enum KnownContainerGroupNetworkProtocol {
   /** TCP */
   TCP = "TCP",
   /** UDP */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -900,7 +938,7 @@ export enum KnownContainerGroupIpAddressType {
   /** Public */
   Public = "Public",
   /** Private */
-  Private = "Private"
+  Private = "Private",
 }
 
 /**
@@ -924,7 +962,7 @@ export enum KnownDnsNameLabelReusePolicy {
   /** ResourceGroupReuse */
   ResourceGroupReuse = "ResourceGroupReuse",
   /** Noreuse */
-  Noreuse = "Noreuse"
+  Noreuse = "Noreuse",
 }
 
 /**
@@ -945,7 +983,7 @@ export enum KnownOperatingSystemTypes {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -963,7 +1001,7 @@ export enum KnownLogAnalyticsLogType {
   /** ContainerInsights */
   ContainerInsights = "ContainerInsights",
   /** ContainerInstanceLogs */
-  ContainerInstanceLogs = "ContainerInstanceLogs"
+  ContainerInstanceLogs = "ContainerInstanceLogs",
 }
 
 /**
@@ -983,7 +1021,7 @@ export enum KnownContainerGroupSku {
   /** Dedicated */
   Dedicated = "Dedicated",
   /** Confidential */
-  Confidential = "Confidential"
+  Confidential = "Confidential",
 }
 
 /**
@@ -1002,7 +1040,7 @@ export enum KnownContainerGroupPriority {
   /** Regular */
   Regular = "Regular",
   /** Spot */
-  Spot = "Spot"
+  Spot = "Spot",
 }
 
 /**
@@ -1015,12 +1053,33 @@ export enum KnownContainerGroupPriority {
  */
 export type ContainerGroupPriority = string;
 
+/** Known values of {@link IdentityAccessLevel} that the service accepts. */
+export enum KnownIdentityAccessLevel {
+  /** All */
+  All = "All",
+  /** System */
+  System = "System",
+  /** User */
+  User = "User",
+}
+
+/**
+ * Defines values for IdentityAccessLevel. \
+ * {@link KnownIdentityAccessLevel} can be used interchangeably with IdentityAccessLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **System** \
+ * **User**
+ */
+export type IdentityAccessLevel = string;
+
 /** Known values of {@link ContainerInstanceOperationsOrigin} that the service accepts. */
 export enum KnownContainerInstanceOperationsOrigin {
   /** User */
   User = "User",
   /** System */
-  System = "System"
+  System = "System",
 }
 
 /**
@@ -1051,7 +1110,8 @@ export interface ContainerGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ContainerGroupsListByResourceGroupResponse = ContainerGroupListResult;
+export type ContainerGroupsListByResourceGroupResponse =
+  ContainerGroupListResult;
 
 /** Optional parameters. */
 export interface ContainerGroupsGetOptionalParams
@@ -1135,7 +1195,8 @@ export interface ContainerGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerGroupsListByResourceGroupNextResponse = ContainerGroupListResult;
+export type ContainerGroupsListByResourceGroupNextResponse =
+  ContainerGroupListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

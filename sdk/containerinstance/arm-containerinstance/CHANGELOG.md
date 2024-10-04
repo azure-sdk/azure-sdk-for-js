@@ -1,15 +1,23 @@
 # Release History
-
-## 9.1.1 (Unreleased)
-
+    
+## 9.2.0-beta.1 (2024-10-04)
+Compared with version 9.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface IdentityAccessControl
+  - Added Interface IdentityAcls
+  - Added Interface SecretReference
+  - Added Type Alias IdentityAccessLevel
+  - Interface AzureFileVolume has a new optional parameter storageAccountKeyReference
+  - Interface ContainerGroupProperties has a new optional parameter identityAcls
+  - Interface ContainerGroupProperties has a new optional parameter secretReferences
+  - Interface EnvironmentVariable has a new optional parameter secureValueReference
+  - Interface ImageRegistryCredential has a new optional parameter passwordReference
+  - Interface Volume has a new optional parameter secretReference
+  - Added Enum KnownIdentityAccessLevel
+    
+    
 ## 9.1.0 (2023-04-24)
     
 ### Features Added
@@ -89,4 +97,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
