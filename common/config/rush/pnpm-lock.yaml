@@ -1362,6 +1362,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.4.0:
+    resolution: {integrity: sha512-UmYG6dQ7p4MVHh/9UvVQDLlvMsA252EJKJBBeG1KkYsiKwwE1xxFbV5Mk0kt8lFe4h26ElnXXTe2B++u00ukoA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.8.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.17.0
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -12055,7 +12070,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-yKwDdyRmf+ngBuYLW09c8lzcreD+r9OC3ekRTRss1iQ6lZ86A4mr+We6b/6LJgXkmQCZ5GmCIsAdovjqR+m+gQ==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-Q6X9wbW7QeTbk4gw8qkRpVcIdIzZRS1jnI7Cx5WyrQMSFYlbQjNB7xrPeSoGlyGBOAkMmK9KMdV5ECIy0ebKfA==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -16929,10 +16944,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-EU8WPXxVnF2TP9sFdHD+Fhu0oD4WBj2gtulPY6pw393PtU2cp7IyaeETiBLyH2xxw4WRCyX1pjtNxADgOWpq1g==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-yRJ52NRKBnlVYe8bXW9j1oKkuRt/W/UpicsSs5FFjHUSTZESDVtLKDKSgdgD5b4iHS92Ij9ETMqSQUDowbu0qQ==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.4.0
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
       '@types/node': 18.19.54
@@ -17147,7 +17163,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-B/QAfq7A2656Gqn0xVUjwr3EfGi2mYGDRDy9Z/TC3jzxQVYXKTMJJ0X1MEkyypK20XmoJlVoqgNoNP/UbNx/Iw==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-fqHtZnW+Uo3Vyv6YJDCK8NDzrkQ8e5KbJDHXwqP8I2GVWL2KB0bMY05joo7wdt/QCB8sB5fKqyZ/A//7Lno2zg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -17166,10 +17182,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -21394,7 +21410,7 @@ packages:
     dev: false
 
   file:projects/create-microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-Y0Ilm/OrJbjbGM6pfER/LV17OHMPFnHOjhPnrexQiVTWZcYY/jbi3etI+5+ONzxy36/shS3+gd066AJkDyCM6g==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-B1PGNf3XJYeElEN9dW97Ai1Vx86+ak5xrU8tz9br+/CfWlEpae91H05L1u8F44dYwjgLhm4B67dNfTIc5twheA==, tarball: file:projects/create-microsoft-playwright-testing.tgz}
     name: '@rush-temp/create-microsoft-playwright-testing'
     version: 0.0.0
     dependencies:
