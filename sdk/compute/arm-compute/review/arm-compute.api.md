@@ -2330,6 +2330,7 @@ export type GalleriesUpdateResponse = Gallery;
 export interface Gallery extends Resource {
     description?: string;
     identifier?: GalleryIdentifier;
+    identity?: GalleryIdentity;
     readonly provisioningState?: GalleryProvisioningState;
     sharingProfile?: SharingProfile;
     readonly sharingStatus?: SharingStatus;
@@ -2608,6 +2609,16 @@ export interface GalleryIdentifier {
 }
 
 // @public
+export interface GalleryIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentitiesValue;
+    };
+}
+
+// @public
 export interface GalleryImage extends Resource {
     architecture?: Architecture;
     description?: string;
@@ -2872,6 +2883,7 @@ export interface GalleryTargetExtendedLocation {
 export interface GalleryUpdate extends UpdateResourceDefinition {
     description?: string;
     identifier?: GalleryIdentifier;
+    identity?: GalleryIdentity;
     readonly provisioningState?: GalleryProvisioningState;
     sharingProfile?: SharingProfile;
     readonly sharingStatus?: SharingStatus;
