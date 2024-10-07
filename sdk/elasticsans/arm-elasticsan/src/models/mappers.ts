@@ -487,6 +487,13 @@ export const ElasticSanProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      autoScaleProperties: {
+        serializedName: "autoScaleProperties",
+        type: {
+          name: "Composite",
+          className: "AutoScaleProperties",
+        },
+      },
     },
   },
 };
@@ -679,6 +686,55 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoScaleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoScaleProperties",
+    modelProperties: {
+      scaleUpProperties: {
+        serializedName: "scaleUpProperties",
+        type: {
+          name: "Composite",
+          className: "ScaleUpProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ScaleUpProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScaleUpProperties",
+    modelProperties: {
+      unusedSizeTiB: {
+        serializedName: "unusedSizeTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      increaseCapacityUnitByTiB: {
+        serializedName: "increaseCapacityUnitByTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      capacityUnitScaleUpLimitTiB: {
+        serializedName: "capacityUnitScaleUpLimitTiB",
+        type: {
+          name: "Number",
+        },
+      },
+      autoScalePolicyEnforcement: {
+        serializedName: "autoScalePolicyEnforcement",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ElasticSanUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -723,6 +779,13 @@ export const ElasticSanUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "publicNetworkAccess",
         type: {
           name: "String",
+        },
+      },
+      autoScaleProperties: {
+        serializedName: "autoScaleProperties",
+        type: {
+          name: "Composite",
+          className: "AutoScaleProperties",
         },
       },
     },
@@ -876,6 +939,13 @@ export const VolumeGroupProperties: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
+        },
+      },
     },
   },
 };
@@ -1010,6 +1080,30 @@ export const VirtualNetworkRule: coreClient.CompositeMapper = {
   },
 };
 
+export const DeleteRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteRetentionPolicy",
+    modelProperties: {
+      policyState: {
+        serializedName: "policyState",
+        type: {
+          name: "String",
+        },
+      },
+      retentionPeriodDays: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "retentionPeriodDays",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const VolumeGroupUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1068,6 +1162,13 @@ export const VolumeGroupUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "enforceDataIntegrityCheckForIscsi",
         type: {
           name: "Boolean",
+        },
+      },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
         },
       },
     },
@@ -1678,6 +1779,22 @@ export const VolumesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const ElasticSanManagementRestoreVolumeHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ElasticSanManagementRestoreVolumeHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
   {

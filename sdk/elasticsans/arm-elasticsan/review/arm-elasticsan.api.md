@@ -17,7 +17,25 @@ export type Action = string;
 export type ActionType = string;
 
 // @public
+export type AutoScalePolicyEnforcement = string;
+
+// @public
+export interface AutoScaleProperties {
+    scaleUpProperties?: ScaleUpProperties;
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface DeleteRetentionPolicy {
+    // (undocumented)
+    policyState?: PolicyState;
+    retentionPeriodDays?: number;
+}
+
+// @public
+export type DeleteType = string;
 
 // @public
 export interface ElasticSan extends TrackedResource {
@@ -37,6 +55,8 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ElasticSanManagementOptionalParams);
     // (undocumented)
     apiVersion: string;
+    beginRestoreVolume(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<SimplePollerLike<OperationState<RestoreVolumeResponse>, RestoreVolumeResponse>>;
+    beginRestoreVolumeAndWait(resourceGroupName: string, elasticSanName: string, volumeGroupName: string, volumeName: string, options?: RestoreVolumeOptionalParams): Promise<RestoreVolumeResponse>;
     // (undocumented)
     elasticSans: ElasticSans;
     // (undocumented)
@@ -65,7 +85,14 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
 }
 
 // @public
+export interface ElasticSanManagementRestoreVolumeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ElasticSanProperties {
+    autoScaleProperties?: AutoScaleProperties;
     availabilityZones?: string[];
     baseSizeTiB: number;
     extendedCapacitySizeTiB: number;
@@ -174,6 +201,7 @@ export interface ElasticSanUpdate {
 
 // @public
 export interface ElasticSanUpdateProperties {
+    autoScaleProperties?: AutoScaleProperties;
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -259,11 +287,23 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAutoScalePolicyEnforcement {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    None = "None"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDeleteType {
+    Permanent = "permanent"
 }
 
 // @public
@@ -299,6 +339,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPolicyState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Failed = "Failed",
@@ -310,10 +356,13 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 export enum KnownProvisioningStates {
     Canceled = "Canceled",
     Creating = "Creating",
+    Deleted = "Deleted",
     Deleting = "Deleting",
     Failed = "Failed",
     Invalid = "Invalid",
     Pending = "Pending",
+    Restoring = "Restoring",
+    SoftDeleting = "SoftDeleting",
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
@@ -348,6 +397,12 @@ export enum KnownVolumeCreateOption {
     DiskSnapshot = "DiskSnapshot",
     None = "None",
     VolumeSnapshot = "VolumeSnapshot"
+}
+
+// @public
+export enum KnownXMsAccessSoftDeletedResources {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -412,6 +467,9 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export type PolicyState = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -538,6 +596,23 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface RestoreVolumeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RestoreVolumeResponse = Volume;
+
+// @public
+export interface ScaleUpProperties {
+    autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
+    capacityUnitScaleUpLimitTiB?: number;
+    increaseCapacityUnitByTiB?: number;
+    unusedSizeTiB?: number;
 }
 
 // @public
@@ -678,6 +753,7 @@ export interface VolumeGroupList {
 
 // @public
 export interface VolumeGroupProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
@@ -716,6 +792,7 @@ export interface VolumeGroupsDeleteHeaders {
 
 // @public
 export interface VolumeGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    deleteType?: DeleteType;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -729,6 +806,7 @@ export type VolumeGroupsGetResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupsListByElasticSanNextOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -736,6 +814,7 @@ export type VolumeGroupsListByElasticSanNextResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupsListByElasticSanOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -764,6 +843,7 @@ export interface VolumeGroupUpdate {
 
 // @public
 export interface VolumeGroupUpdateProperties {
+    deleteRetentionPolicy?: DeleteRetentionPolicy;
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
     enforceDataIntegrityCheckForIscsi?: boolean;
@@ -816,6 +896,7 @@ export interface VolumesDeleteHeaders {
 
 // @public
 export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions {
+    deleteType?: DeleteType;
     resumeFrom?: string;
     updateIntervalInMs?: number;
     xMsDeleteSnapshots?: XMsDeleteSnapshots;
@@ -831,6 +912,7 @@ export type VolumesGetResponse = Volume;
 
 // @public
 export interface VolumesListByVolumeGroupNextOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -838,6 +920,7 @@ export type VolumesListByVolumeGroupNextResponse = VolumeList;
 
 // @public
 export interface VolumesListByVolumeGroupOptionalParams extends coreClient.OperationOptions {
+    xMsAccessSoftDeletedResources?: XMsAccessSoftDeletedResources;
 }
 
 // @public
@@ -921,6 +1004,9 @@ export interface VolumeUpdateProperties {
     managedBy?: ManagedByInfo;
     sizeGiB?: number;
 }
+
+// @public
+export type XMsAccessSoftDeletedResources = string;
 
 // @public
 export type XMsDeleteSnapshots = string;
