@@ -355,10 +355,10 @@ export interface AzureFileDatastore extends AzureDatastore, DatastoreProperties 
 }
 
 // @public (undocumented)
-export class AzureMachineLearningServicesManagementClient extends coreClient.ServiceClient {
+export class AzureMachineLearningServicesMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningServicesManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningServicesMgmtClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -462,7 +462,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
 }
 
 // @public
-export interface AzureMachineLearningServicesManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureMachineLearningServicesMgmtClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
@@ -2926,6 +2926,9 @@ export interface FeaturizationSettings {
 }
 
 // @public
+export type FirewallSku = string;
+
+// @public
 export interface FixedInputData extends MonitoringInputDataBase {
     inputDataType: "Fixed";
 }
@@ -4049,6 +4052,12 @@ export enum KnownFeaturizationMode {
 }
 
 // @public
+export enum KnownFirewallSku {
+    Basic = "Basic",
+    Standard = "Standard"
+}
+
+// @public
 export enum KnownForecastHorizonMode {
     Auto = "Auto",
     Custom = "Custom"
@@ -5067,6 +5076,7 @@ export interface ManagedNetworkProvisionStatus {
 
 // @public
 export interface ManagedNetworkSettings {
+    firewallSku?: FirewallSku;
     isolationMode?: IsolationMode;
     readonly networkId?: string;
     outboundRules?: {
@@ -8648,6 +8658,7 @@ export interface WorkspaceConnections {
     // (undocumented)
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceConnectionsListOptionalParams): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
     listSecrets(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsListSecretsOptionalParams): Promise<WorkspaceConnectionsListSecretsResponse>;
+    update(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsUpdateOptionalParams): Promise<WorkspaceConnectionsUpdateResponse>;
 }
 
 // @public
@@ -8706,6 +8717,19 @@ export interface WorkspaceConnectionsListSecretsOptionalParams extends coreClien
 
 // @public
 export type WorkspaceConnectionsListSecretsResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: WorkspaceConnectionUpdateParameter;
+}
+
+// @public
+export type WorkspaceConnectionsUpdateResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionUpdateParameter {
+    properties?: WorkspaceConnectionPropertiesV2Union;
+}
 
 // @public (undocumented)
 export interface WorkspaceConnectionUsernamePassword {

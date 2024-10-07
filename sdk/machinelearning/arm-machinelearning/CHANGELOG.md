@@ -1,5 +1,24 @@
 # Release History
     
+## 4.0.0 (2024-10-07)
+    
+### Features Added
+
+  - Added operation WorkspaceConnections.update
+  - Added Interface AzureMachineLearningServicesMgmtClientOptionalParams
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Class AzureMachineLearningServicesMgmtClient
+  - Added Type Alias FirewallSku
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Added Enum KnownFirewallSku
+
+### Breaking Changes
+
+  - Deleted Class AzureMachineLearningServicesManagementClient
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
