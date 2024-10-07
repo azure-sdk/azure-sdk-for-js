@@ -9,11 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfigData as ConfigDataMapper,
-  SuppressionContract as SuppressionContractMapper
+  SuppressionContract as SuppressionContractMapper,
+  PredictionRequest as PredictionRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -23,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -34,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const name: OperationURLParameter = {
@@ -46,21 +47,21 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-01-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -69,10 +70,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -81,9 +82,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -93,14 +94,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const configContract: OperationParameter = {
   parameterPath: "configContract",
-  mapper: ConfigDataMapper
+  mapper: ConfigDataMapper,
 };
 
 export const configurationName: OperationURLParameter = {
@@ -109,9 +110,9 @@ export const configurationName: OperationURLParameter = {
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroup: OperationURLParameter = {
@@ -120,9 +121,9 @@ export const resourceGroup: OperationURLParameter = {
     serializedName: "resourceGroup",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -131,9 +132,9 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -141,9 +142,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -151,9 +152,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -161,9 +162,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceUri: OperationURLParameter = {
@@ -172,9 +173,9 @@ export const resourceUri: OperationURLParameter = {
     serializedName: "resourceUri",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const recommendationId: OperationURLParameter = {
@@ -183,12 +184,17 @@ export const recommendationId: OperationURLParameter = {
     serializedName: "recommendationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
-  mapper: SuppressionContractMapper
+  mapper: SuppressionContractMapper,
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper,
 };
