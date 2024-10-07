@@ -1709,7 +1709,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -3767,6 +3767,26 @@ export interface RegionalSharingStatus {
   readonly state?: SharingState;
   /** Details of gallery regional sharing failure. */
   details?: string;
+}
+
+/** Identity for the virtual machine. */
+export interface GalleryIdentity {
+  /**
+   * The principal id of the gallery identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The AAD tenant id of the gallery identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the gallery. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove all identities from the gallery. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
 }
 
 /** The Update Resource model definition. */
@@ -5950,6 +5970,8 @@ export interface Snapshot extends Resource {
 
 /** Specifies information about the Shared Image Gallery that you want to create or update. */
 export interface Gallery extends Resource {
+  /** The identity of the gallery, if configured. */
+  identity?: GalleryIdentity;
   /** The description of this Shared Image Gallery resource. This property is updatable. */
   description?: string;
   /** Describes the gallery unique name. */
@@ -6003,7 +6025,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6619,6 +6641,8 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
 
 /** Specifies information about the Shared Image Gallery that you want to update. */
 export interface GalleryUpdate extends UpdateResourceDefinition {
+  /** The identity of the gallery, if configured. */
+  identity?: GalleryIdentity;
   /** The description of this Shared Image Gallery resource. This property is updatable. */
   description?: string;
   /** Describes the gallery unique name. */
@@ -6672,7 +6696,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6857,7 +6881,7 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6942,7 +6966,7 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;

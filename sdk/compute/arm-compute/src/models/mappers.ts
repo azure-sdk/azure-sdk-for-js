@@ -9904,6 +9904,53 @@ export const RegionalSharingStatus: coreClient.CompositeMapper = {
   },
 };
 
+export const GalleryIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GalleryIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None",
+          ],
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentitiesValue",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const UpdateResourceDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15347,6 +15394,13 @@ export const Gallery: coreClient.CompositeMapper = {
     className: "Gallery",
     modelProperties: {
       ...Resource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "GalleryIdentity",
+        },
+      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -17095,6 +17149,13 @@ export const GalleryUpdate: coreClient.CompositeMapper = {
     className: "GalleryUpdate",
     modelProperties: {
       ...UpdateResourceDefinition.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "GalleryIdentity",
+        },
+      },
       description: {
         serializedName: "properties.description",
         type: {
