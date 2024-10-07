@@ -43,7 +43,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-04-preview",
+    defaultValue: "2024-10-19",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -82,6 +82,20 @@ export const locationName: OperationURLParameter = {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-.]*$"),
     },
     serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
     required: true,
     type: {
       name: "String",

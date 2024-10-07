@@ -64,7 +64,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-devopsinfrastructure/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-devopsinfrastructure/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,7 +118,7 @@ export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-04-preview";
+    this.apiVersion = options.apiVersion || "2024-10-19";
     this.operations = new OperationsImpl(this);
     this.sku = new SkuImpl(this);
     this.subscriptionUsages = new SubscriptionUsagesImpl(this);
