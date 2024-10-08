@@ -72,7 +72,9 @@ export interface CertificateProfile extends ProxyResource {
   properties?: CertificateProfileProperties;
 }
 
-export function certificateProfileSerializer(item: CertificateProfile): Record<string, unknown> {
+export function certificateProfileSerializer(
+  item: CertificateProfile,
+): Record<string, unknown> {
   return {
     properties: !item.properties
       ? item.properties
@@ -84,36 +86,18 @@ export function certificateProfileSerializer(item: CertificateProfile): Record<s
 export interface CertificateProfileProperties {
   /** Profile type of the certificate. */
   profileType: ProfileType;
-  /** Used as CN in the certificate subject name. */
-  readonly commonName?: string;
-  /** Used as O in the certificate subject name. */
-  readonly organization?: string;
-  /** Used as OU in the private trust certificate subject name. */
-  readonly organizationUnit?: string;
-  /** Used as STREET in the certificate subject name. */
-  readonly streetAddress?: string;
   /** Whether to include STREET in the certificate subject name. */
   includeStreetAddress?: boolean;
-  /** Used as L in the certificate subject name. */
-  readonly city?: string;
   /** Whether to include L in the certificate subject name. Applicable only for private trust, private trust ci profile types */
   includeCity?: boolean;
-  /** Used as S in the certificate subject name. */
-  readonly state?: string;
   /** Whether to include S in the certificate subject name. Applicable only for private trust, private trust ci profile types */
   includeState?: boolean;
-  /** Used as C in the certificate subject name. */
-  readonly country?: string;
   /** Whether to include C in the certificate subject name. Applicable only for private trust, private trust ci profile types */
   includeCountry?: boolean;
-  /** Used as PC in the certificate subject name. */
-  readonly postalCode?: string;
   /** Whether to include PC in the certificate subject name. */
   includePostalCode?: boolean;
-  /** Enhanced key usage of the certificate. */
-  readonly enhancedKeyUsage?: string;
   /** Identity validation id used for the certificate subject name. */
-  identityValidationId?: string;
+  identityValidationId: string;
   /** Status of the current operation on certificate profile. */
   readonly provisioningState?: ProvisioningState;
   /** Status of the certificate profile. */
@@ -218,6 +202,8 @@ export type CertificateProfileStatus = string;
 export interface Certificate {
   /** Serial number of the certificate. */
   serialNumber?: string;
+  /** Enhanced key usage of the certificate. */
+  enhancedKeyUsage?: string;
   /** Subject name of the certificate. */
   subjectName?: string;
   /** Thumbprint of the certificate. */
@@ -290,6 +276,34 @@ export enum KnownRevocationStatus {
  */
 export type RevocationStatus = string;
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
 /** The response of a CertificateProfile list operation. */
 export interface _CertificateProfileListResult {
   /** The CertificateProfile items on this page */
@@ -312,7 +326,9 @@ export interface RevokeCertificate {
   remarks?: string;
 }
 
-export function revokeCertificateSerializer(item: RevokeCertificate): Record<string, unknown> {
+export function revokeCertificateSerializer(
+  item: RevokeCertificate,
+): Record<string, unknown> {
   return {
     serialNumber: item["serialNumber"],
     thumbprint: item["thumbprint"],
@@ -330,7 +346,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -343,7 +361,9 @@ export interface CodeSigningAccount extends TrackedResource {
   properties?: CodeSigningAccountProperties;
 }
 
-export function codeSigningAccountSerializer(item: CodeSigningAccount): Record<string, unknown> {
+export function codeSigningAccountSerializer(
+  item: CodeSigningAccount,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -377,7 +397,9 @@ export interface AccountSku {
   name: SkuName;
 }
 
-export function accountSkuSerializer(item: AccountSku): Record<string, unknown> {
+export function accountSkuSerializer(
+  item: AccountSku,
+): Record<string, unknown> {
   return {
     name: item["name"],
   };
@@ -423,14 +445,28 @@ export function codeSigningAccountPatchSerializer(
 /** Properties of the trusted signing account. */
 export interface CodeSigningAccountPatchProperties {
   /** SKU of the trusted signing account. */
-  sku?: AccountSku;
+  sku?: AccountSkuPatch;
 }
 
 export function codeSigningAccountPatchPropertiesSerializer(
   item: CodeSigningAccountPatchProperties,
 ): Record<string, unknown> {
   return {
-    sku: !item.sku ? item.sku : accountSkuSerializer(item.sku),
+    sku: !item.sku ? item.sku : accountSkuPatchSerializer(item.sku),
+  };
+}
+
+/** SKU of the trusted signing account. */
+export interface AccountSkuPatch {
+  /** Name of the SKU. */
+  name?: SkuName;
+}
+
+export function accountSkuPatchSerializer(
+  item: AccountSkuPatch,
+): Record<string, unknown> {
+  return {
+    name: item["name"],
   };
 }
 
@@ -521,11 +557,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  User = "user",
+  user = "user",
   /** system */
-  System = "system",
+  system = "system",
   /** user,system */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -553,3 +589,8 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+/** The available API versions. */
+export type Versions =
+  | "2024-02-05-preview"
+  | "2024-09-30-preview"
+  | "2024-11-15";
