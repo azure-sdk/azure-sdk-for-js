@@ -141,7 +141,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-12-01",
+    defaultValue: "2024-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -375,6 +375,18 @@ export const domainOwnershipIdentifier: OperationParameter = {
 export const agreementOption: OperationParameter = {
   parameterPath: "agreementOption",
   mapper: TopLevelDomainAgreementOptionMapper,
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const hostingEnvironmentEnvelope: OperationParameter = {

@@ -339,7 +339,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top1, Parameters.filter1],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.top1,
+    Parameters.filter1,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -362,7 +366,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -387,7 +391,7 @@ const resubmitOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

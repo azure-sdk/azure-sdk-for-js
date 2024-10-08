@@ -92,7 +92,7 @@ const getDeletedWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -117,7 +117,7 @@ const getDeletedWebAppSnapshotsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -136,7 +136,7 @@ const getSubscriptionOperationWithAsyncResponseOperationSpec: coreClient.Operati
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,

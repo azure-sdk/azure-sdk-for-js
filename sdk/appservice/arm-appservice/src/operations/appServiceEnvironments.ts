@@ -3986,7 +3986,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -4002,7 +4002,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4022,7 +4022,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4053,7 +4053,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.hostingEnvironmentEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4076,7 +4076,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
+  queryParameters: [Parameters.apiVersion1, Parameters.forceDelete],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4104,7 +4104,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.hostingEnvironmentEnvelope1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4126,7 +4126,7 @@ const listCapacitiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4147,7 +4147,7 @@ const getVipInfoOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4178,7 +4178,7 @@ const changeVnetOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.vnetInfo,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4201,7 +4201,7 @@ const getAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec 
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4224,7 +4224,7 @@ const updateAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSp
       },
     },
     requestBody: Parameters.customDnsSuffixConfiguration,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4254,7 +4254,7 @@ const deleteAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSp
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4275,7 +4275,7 @@ const getAseV3NetworkingConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4298,7 +4298,7 @@ const updateAseNetworkingConfigurationOperationSpec: coreClient.OperationSpec =
       },
     },
     requestBody: Parameters.aseNetworkingConfiguration,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4330,7 +4330,7 @@ const listDiagnosticsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4351,7 +4351,7 @@ const getDiagnosticsItemOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4374,7 +4374,7 @@ const getInboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationS
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4395,7 +4395,7 @@ const listMultiRolePoolsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4416,7 +4416,7 @@ const getMultiRolePoolOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4447,7 +4447,7 @@ const createOrUpdateMultiRolePoolOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.multiRolePoolEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4473,7 +4473,7 @@ const updateMultiRolePoolOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.multiRolePoolEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4496,7 +4496,7 @@ const listMultiRolePoolInstanceMetricDefinitionsOperationSpec: coreClient.Operat
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4518,7 +4518,7 @@ const listMultiRoleMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4539,7 +4539,7 @@ const listMultiRolePoolSkusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4559,7 +4559,7 @@ const testUpgradeAvailableNotificationOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4581,7 +4581,7 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4602,7 +4602,7 @@ const listMultiRoleUsagesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4628,7 +4628,7 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4650,7 +4650,7 @@ const getOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operation
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4672,7 +4672,7 @@ const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4693,7 +4693,7 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4726,7 +4726,7 @@ const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.Operatio
       },
     },
     requestBody: Parameters.privateEndpointWrapper,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -4766,7 +4766,7 @@ const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4788,7 +4788,7 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4807,7 +4807,7 @@ const rebootOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4837,7 +4837,7 @@ const resumeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4858,7 +4858,7 @@ const listAppServicePlansOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4879,7 +4879,7 @@ const listWebAppsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.propertiesToInclude],
+  queryParameters: [Parameters.apiVersion1, Parameters.propertiesToInclude],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4909,7 +4909,7 @@ const suspendOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4930,7 +4930,7 @@ const listUsagesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4951,7 +4951,7 @@ const listWorkerPoolsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4972,7 +4972,7 @@ const getWorkerPoolOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5004,7 +5004,7 @@ const createOrUpdateWorkerPoolOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.workerPoolEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5031,7 +5031,7 @@ const updateWorkerPoolOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.workerPoolEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5055,7 +5055,7 @@ const listWorkerPoolInstanceMetricDefinitionsOperationSpec: coreClient.Operation
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5078,7 +5078,7 @@ const listWebWorkerMetricDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5100,7 +5100,7 @@ const listWorkerPoolSkusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5122,7 +5122,7 @@ const listWebWorkerUsagesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

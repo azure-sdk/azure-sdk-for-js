@@ -456,7 +456,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -472,7 +472,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -492,7 +492,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -523,7 +523,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.kubeEnvironmentEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -546,7 +546,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -571,7 +571,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.kubeEnvironmentEnvelope1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

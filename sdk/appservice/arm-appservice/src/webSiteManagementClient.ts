@@ -8,11 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "./pagingHelper";
@@ -20,9 +15,9 @@ import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
@@ -52,9 +47,9 @@ import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
@@ -151,7 +146,6 @@ import {
 export class WebSiteManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId?: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
@@ -195,7 +189,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/16.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +243,6 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,9 +251,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
@@ -290,35 +283,6 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.workflowTriggers = new WorkflowTriggersImpl(this);
     this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
     this.workflowVersions = new WorkflowVersionsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
-  }
-
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      },
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -1090,9 +1054,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
@@ -1132,7 +1096,7 @@ const getPublishingUserOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1149,7 +1113,7 @@ const updatePublishingUserOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.userDetails,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1166,7 +1130,7 @@ const listSourceControlsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1182,7 +1146,7 @@ const getSourceControlOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.sourceControlType],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1199,7 +1163,7 @@ const updateSourceControlOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.requestMessage,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.sourceControlType],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1217,7 +1181,7 @@ const listBillingMetersOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.billingLocation,
     Parameters.osType,
   ],
@@ -1245,7 +1209,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     },
     mapper: { ...Mappers.ResourceNameAvailabilityRequest, required: true },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1262,7 +1226,7 @@ const listCustomHostNameSitesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.hostname],
+  queryParameters: [Parameters.apiVersion1, Parameters.hostname],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1279,7 +1243,7 @@ const getSubscriptionDeploymentLocationsOperationSpec: coreClient.OperationSpec 
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [Parameters.$host, Parameters.subscriptionId],
     headerParameters: [Parameters.accept],
     serializer,
@@ -1295,7 +1259,7 @@ const listAseRegionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1312,7 +1276,7 @@ const listGeoRegionsOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.sku,
     Parameters.linuxWorkersEnabled,
     Parameters.xenonWorkersEnabled,
@@ -1335,7 +1299,7 @@ const listSiteIdentifiersAssignedToHostNameOperationSpec: coreClient.OperationSp
       },
     },
     requestBody: Parameters.nameIdentifier,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [Parameters.$host, Parameters.subscriptionId],
     headerParameters: [Parameters.accept, Parameters.contentType],
     mediaType: "json",
@@ -1352,7 +1316,7 @@ const listPremierAddOnOffersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1368,7 +1332,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1385,7 +1349,7 @@ const verifyHostingEnvironmentVnetOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1401,7 +1365,7 @@ const moveOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.moveResourceEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1423,7 +1387,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.validateRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1443,7 +1407,7 @@ const validateMoveOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.moveResourceEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

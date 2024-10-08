@@ -823,7 +823,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter,
     Parameters.featured,
   ],
@@ -840,7 +840,7 @@ const resetAllFiltersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -855,7 +855,7 @@ const disableRecommendationForSubscriptionOperationSpec: coreClient.OperationSpe
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -877,7 +877,7 @@ const listHistoryForHostingEnvironmentOperationSpec: coreClient.OperationSpec =
       },
     },
     queryParameters: [
-      Parameters.apiVersion,
+      Parameters.apiVersion1,
       Parameters.filter,
       Parameters.expiredOnly,
     ],
@@ -903,7 +903,7 @@ const listRecommendedRulesForHostingEnvironmentOperationSpec: coreClient.Operati
       },
     },
     queryParameters: [
-      Parameters.apiVersion,
+      Parameters.apiVersion1,
       Parameters.filter,
       Parameters.featured,
     ],
@@ -925,7 +925,7 @@ const disableAllForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.environmentName],
+  queryParameters: [Parameters.apiVersion1, Parameters.environmentName],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -945,7 +945,7 @@ const resetAllFiltersForHostingEnvironmentOperationSpec: coreClient.OperationSpe
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion, Parameters.environmentName],
+    queryParameters: [Parameters.apiVersion1, Parameters.environmentName],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -968,7 +968,7 @@ const getRuleDetailsByHostingEnvironmentOperationSpec: coreClient.OperationSpec 
       },
     },
     queryParameters: [
-      Parameters.apiVersion,
+      Parameters.apiVersion1,
       Parameters.updateSeen,
       Parameters.recommendationId,
     ],
@@ -992,7 +992,7 @@ const disableRecommendationForHostingEnvironmentOperationSpec: coreClient.Operat
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion, Parameters.environmentName],
+    queryParameters: [Parameters.apiVersion1, Parameters.environmentName],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -1015,7 +1015,7 @@ const listHistoryForWebAppOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter,
     Parameters.expiredOnly,
   ],
@@ -1040,7 +1040,7 @@ const listRecommendedRulesForWebAppOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.filter,
     Parameters.featured,
   ],
@@ -1062,7 +1062,7 @@ const disableAllForWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1081,7 +1081,7 @@ const resetAllFiltersForWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1103,7 +1103,7 @@ const getRuleDetailsByWebAppOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion1,
     Parameters.updateSeen,
     Parameters.recommendationId,
   ],
@@ -1126,7 +1126,7 @@ const disableRecommendationForSiteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

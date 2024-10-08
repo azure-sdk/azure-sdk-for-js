@@ -4842,7 +4842,7 @@ const previewWorkflowOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSitesWorkflowPreviewRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4863,7 +4863,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -4879,7 +4879,7 @@ const getStaticSitesByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4899,7 +4899,7 @@ const getStaticSiteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4930,7 +4930,7 @@ const createOrUpdateStaticSiteOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4953,7 +4953,7 @@ const deleteStaticSiteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -4978,7 +4978,7 @@ const updateStaticSiteOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteEnvelope1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5000,7 +5000,7 @@ const listStaticSiteUsersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5020,7 +5020,7 @@ const deleteStaticSiteUserOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5044,7 +5044,7 @@ const updateStaticSiteUserOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteUserEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5068,7 +5068,7 @@ const getStaticSiteBuildsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5089,7 +5089,7 @@ const getStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5112,7 +5112,7 @@ const deleteStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5136,7 +5136,7 @@ const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: coreClient.Operatio
       },
     },
     requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5161,7 +5161,7 @@ const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.
       },
     },
     requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5184,7 +5184,7 @@ const getBuildDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5206,7 +5206,7 @@ const getBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5231,7 +5231,7 @@ const createOrUpdateBuildDatabaseConnectionOperationSpec: coreClient.OperationSp
       },
     },
     requestBody: Parameters.databaseConnectionRequestEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5254,7 +5254,7 @@ const deleteBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5278,7 +5278,7 @@ const updateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.databaseConnectionRequestEnvelope1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5303,7 +5303,7 @@ const getBuildDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSp
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5326,7 +5326,7 @@ const listStaticSiteBuildFunctionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5348,7 +5348,7 @@ const listStaticSiteBuildAppSettingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5371,7 +5371,7 @@ const listStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationS
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5394,7 +5394,7 @@ const getBuildDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationS
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5417,7 +5417,7 @@ const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: coreClient.Ope
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5440,7 +5440,7 @@ const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: coreClient.Oper
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5474,7 +5474,7 @@ const registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: coreClien
       },
     },
     requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
-    queryParameters: [Parameters.apiVersion, Parameters.isForced],
+    queryParameters: [Parameters.apiVersion1, Parameters.isForced],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5498,7 +5498,7 @@ const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: coreClient.
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5524,7 +5524,7 @@ const createZipDeploymentForStaticSiteBuildOperationSpec: coreClient.OperationSp
       },
     },
     requestBody: Parameters.staticSiteZipDeploymentEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5549,7 +5549,7 @@ const createOrUpdateStaticSiteAppSettingsOperationSpec: coreClient.OperationSpec
       },
     },
     requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5571,7 +5571,7 @@ const listBasicAuthOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5592,7 +5592,7 @@ const getBasicAuthOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5615,7 +5615,7 @@ const createOrUpdateBasicAuthOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.basicAuthEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5640,7 +5640,7 @@ const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: coreClient.Opera
       },
     },
     requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5663,7 +5663,7 @@ const createUserRolesInvitationLinkOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteUserRolesInvitationEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5685,7 +5685,7 @@ const listStaticSiteCustomDomainsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5706,7 +5706,7 @@ const getStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5739,7 +5739,7 @@ const createOrUpdateStaticSiteCustomDomainOperationSpec: coreClient.OperationSpe
       },
     },
     requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5763,7 +5763,7 @@ const deleteStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5788,7 +5788,7 @@ const validateCustomDomainCanBeAddedToStaticSiteOperationSpec: coreClient.Operat
       },
     },
     requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5811,7 +5811,7 @@ const getDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5832,7 +5832,7 @@ const getDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5856,7 +5856,7 @@ const createOrUpdateDatabaseConnectionOperationSpec: coreClient.OperationSpec =
       },
     },
     requestBody: Parameters.databaseConnectionRequestEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5878,7 +5878,7 @@ const deleteDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5901,7 +5901,7 @@ const updateDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.databaseConnectionRequestEnvelope1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5925,7 +5925,7 @@ const getDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -5948,7 +5948,7 @@ const detachStaticSiteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5969,7 +5969,7 @@ const listStaticSiteFunctionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -5990,7 +5990,7 @@ const listStaticSiteAppSettingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6011,7 +6011,7 @@ const listStaticSiteConfiguredRolesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6033,7 +6033,7 @@ const listStaticSiteFunctionAppSettingsOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6054,7 +6054,7 @@ const listStaticSiteSecretsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6076,7 +6076,7 @@ const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6097,7 +6097,7 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6130,7 +6130,7 @@ const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.Operatio
       },
     },
     requestBody: Parameters.privateEndpointWrapper,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6170,7 +6170,7 @@ const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6192,7 +6192,7 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6212,7 +6212,7 @@ const resetStaticSiteApiKeyOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.resetPropertiesEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6235,7 +6235,7 @@ const getDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6257,7 +6257,7 @@ const getUserProvidedFunctionAppsForStaticSiteOperationSpec: coreClient.Operatio
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6279,7 +6279,7 @@ const getUserProvidedFunctionAppForStaticSiteOperationSpec: coreClient.Operation
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6312,7 +6312,7 @@ const registerUserProvidedFunctionAppWithStaticSiteOperationSpec: coreClient.Ope
       },
     },
     requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
-    queryParameters: [Parameters.apiVersion, Parameters.isForced],
+    queryParameters: [Parameters.apiVersion1, Parameters.isForced],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6335,7 +6335,7 @@ const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: coreClient.Opera
         bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6360,7 +6360,7 @@ const createZipDeploymentForStaticSiteOperationSpec: coreClient.OperationSpec =
       },
     },
     requestBody: Parameters.staticSiteZipDeploymentEnvelope,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -6384,7 +6384,7 @@ const validateBackendOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteLinkedBackendEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6409,7 +6409,7 @@ const validateBackendForBuildOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteLinkedBackendEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6433,7 +6433,7 @@ const getLinkedBackendsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6454,7 +6454,7 @@ const getLinkedBackendsForBuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6476,7 +6476,7 @@ const getLinkedBackendOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6508,7 +6508,7 @@ const linkBackendOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteLinkedBackendEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6530,7 +6530,7 @@ const unlinkBackendOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.isCleaningAuthConfig],
+  queryParameters: [Parameters.apiVersion1, Parameters.isCleaningAuthConfig],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6552,7 +6552,7 @@ const getLinkedBackendForBuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6585,7 +6585,7 @@ const linkBackendToBuildOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.staticSiteLinkedBackendEnvelope,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -6608,7 +6608,7 @@ const unlinkBackendFromBuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.isCleaningAuthConfig],
+  queryParameters: [Parameters.apiVersion1, Parameters.isCleaningAuthConfig],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
