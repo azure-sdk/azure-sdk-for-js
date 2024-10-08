@@ -166,6 +166,48 @@ export const OsProfileForVmInstance: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      domainName: {
+        serializedName: "domainName",
+        type: {
+          name: "String",
+        },
+      },
+      domainUsername: {
+        serializedName: "domainUsername",
+        type: {
+          name: "String",
+        },
+      },
+      domainPassword: {
+        serializedName: "domainPassword",
+        type: {
+          name: "String",
+        },
+      },
+      workgroup: {
+        serializedName: "workgroup",
+        type: {
+          name: "String",
+        },
+      },
+      productKey: {
+        serializedName: "productKey",
+        type: {
+          name: "String",
+        },
+      },
+      timezone: {
+        serializedName: "timezone",
+        type: {
+          name: "Number",
+        },
+      },
+      runOnceCommands: {
+        serializedName: "runOnceCommands",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1181,6 +1223,12 @@ export const GuestAgentProperties: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      privateLinkScopeResourceId: {
+        serializedName: "privateLinkScopeResourceId",
         type: {
           name: "String",
         },
