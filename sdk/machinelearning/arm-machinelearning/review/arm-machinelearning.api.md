@@ -355,10 +355,10 @@ export interface AzureFileDatastore extends AzureDatastore, DatastoreProperties 
 }
 
 // @public (undocumented)
-export class AzureMachineLearningServicesManagementClient extends coreClient.ServiceClient {
+export class AzureMachineLearningServicesMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningServicesManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMachineLearningServicesMgmtClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -462,7 +462,7 @@ export class AzureMachineLearningServicesManagementClient extends coreClient.Ser
 }
 
 // @public
-export interface AzureMachineLearningServicesManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureMachineLearningServicesMgmtClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

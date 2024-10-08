@@ -1,5 +1,17 @@
 # Release History
     
+## 4.0.0 (2024-10-08)
+    
+### Features Added
+
+  - Added Interface AzureMachineLearningServicesMgmtClientOptionalParams
+  - Added Class AzureMachineLearningServicesMgmtClient
+
+### Breaking Changes
+
+  - Deleted Class AzureMachineLearningServicesManagementClient
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
