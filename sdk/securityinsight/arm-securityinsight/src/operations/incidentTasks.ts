@@ -8,32 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { EntityQueries } from "../operationsInterfaces";
+import { IncidentTasks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  EntityQueryUnion,
-  EntityQueriesListNextOptionalParams,
-  EntityQueriesListOptionalParams,
-  EntityQueriesListResponse,
-  EntityQueriesGetOptionalParams,
-  EntityQueriesGetResponse,
-  CustomEntityQueryUnion,
-  EntityQueriesCreateOrUpdateOptionalParams,
-  EntityQueriesCreateOrUpdateResponse,
-  EntityQueriesDeleteOptionalParams,
-  EntityQueriesListNextResponse
+  IncidentTask,
+  IncidentTasksListNextOptionalParams,
+  IncidentTasksListOptionalParams,
+  IncidentTasksListResponse,
+  IncidentTasksGetOptionalParams,
+  IncidentTasksGetResponse,
+  IncidentTasksCreateOrUpdateOptionalParams,
+  IncidentTasksCreateOrUpdateResponse,
+  IncidentTasksDeleteOptionalParams,
+  IncidentTasksListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EntityQueries operations. */
-export class EntityQueriesImpl implements EntityQueries {
+/** Class containing IncidentTasks operations. */
+export class IncidentTasksImpl implements IncidentTasks {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntityQueries class.
+   * Initialize a new instance of the class IncidentTasks class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -41,17 +40,24 @@ export class EntityQueriesImpl implements EntityQueries {
   }
 
   /**
-   * Gets all entity queries.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryUnion> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
+  ): PagedAsyncIterableIterator<IncidentTask> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      workspaceName,
+      incidentId,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -66,23 +72,30 @@ export class EntityQueriesImpl implements EntityQueries {
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
+          incidentId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<EntityQueryUnion[]> {
-    let result: EntityQueriesListResponse;
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<IncidentTask[]> {
+    let result: IncidentTasksListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, workspaceName, options);
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -92,8 +105,9 @@ export class EntityQueriesImpl implements EntityQueries {
       result = await this._listNext(
         resourceGroupName,
         workspaceName,
+        incidentId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,90 +119,107 @@ export class EntityQueriesImpl implements EntityQueries {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): AsyncIterableIterator<EntityQueryUnion> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
+  ): AsyncIterableIterator<IncidentTask> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      incidentId,
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets all entity queries.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): Promise<EntityQueriesListResponse> {
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
+  ): Promise<IncidentTasksListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      { resourceGroupName, workspaceName, incidentId, options },
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets an entity query.
+   * Gets an incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesGetOptionalParams
-  ): Promise<EntityQueriesGetResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksGetOptionalParams,
+  ): Promise<IncidentTasksGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, options },
-      getOperationSpec
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
+      getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates the entity query.
+   * Creates or updates the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
-   * @param entityQuery The entity query we want to create or update
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
+   * @param incidentTask The incident task
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    entityQuery: CustomEntityQueryUnion,
-    options?: EntityQueriesCreateOrUpdateOptionalParams
-  ): Promise<EntityQueriesCreateOrUpdateResponse> {
+    incidentId: string,
+    incidentTaskId: string,
+    incidentTask: IncidentTask,
+    options?: IncidentTasksCreateOrUpdateOptionalParams,
+  ): Promise<IncidentTasksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, entityQuery, options },
-      createOrUpdateOperationSpec
+      {
+        resourceGroupName,
+        workspaceName,
+        incidentId,
+        incidentTaskId,
+        incidentTask,
+        options,
+      },
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Delete the entity query.
+   * Delete the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesDeleteOptionalParams
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityQueryId, options },
-      deleteOperationSpec
+      { resourceGroupName, workspaceName, incidentId, incidentTaskId, options },
+      deleteOperationSpec,
     );
   }
 
@@ -196,18 +227,20 @@ export class EntityQueriesImpl implements EntityQueries {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     workspaceName: string,
+    incidentId: string,
     nextLink: string,
-    options?: EntityQueriesListNextOptionalParams
-  ): Promise<EntityQueriesListNextResponse> {
+    options?: IncidentTasksListNextOptionalParams,
+  ): Promise<IncidentTasksListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      { resourceGroupName, workspaceName, incidentId, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -215,38 +248,15 @@ export class EntityQueriesImpl implements EntityQueries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryList
+      bodyMapper: Mappers.IncidentTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.kind1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EntityQuery
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -254,49 +264,71 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityQueryId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IncidentTask,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.incidentId,
+    Parameters.incidentTaskId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQuery
+      bodyMapper: Mappers.IncidentTask,
     },
     201: {
-      bodyMapper: Mappers.EntityQuery
+      bodyMapper: Mappers.IncidentTask,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.entityQuery,
+  requestBody: Parameters.incidentTask,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityQueryId
+    Parameters.incidentId,
+    Parameters.incidentTaskId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entityQueries/{entityQueryId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/tasks/{incidentTaskId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -304,29 +336,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.entityQueryId
+    Parameters.incidentId,
+    Parameters.incidentTaskId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EntityQueryList
+      bodyMapper: Mappers.IncidentTaskList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

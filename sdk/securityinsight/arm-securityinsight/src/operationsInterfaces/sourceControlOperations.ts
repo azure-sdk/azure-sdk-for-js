@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Repo,
-  RepoType,
-  SourceControlListRepositoriesOptionalParams
+  RepositoryAccessProperties,
+  SourceControlListRepositoriesOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,13 +20,13 @@ export interface SourceControlOperations {
    * Gets a list of repositories metadata.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param repoType The repo type.
+   * @param repositoryAccess The repository access credentials.
    * @param options The options parameters.
    */
   listRepositories(
     resourceGroupName: string,
     workspaceName: string,
-    repoType: RepoType,
-    options?: SourceControlListRepositoriesOptionalParams
+    repositoryAccess: RepositoryAccessProperties,
+    options?: SourceControlListRepositoriesOptionalParams,
   ): PagedAsyncIterableIterator<Repo>;
 }
