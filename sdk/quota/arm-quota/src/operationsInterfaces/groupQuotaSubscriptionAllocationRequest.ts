@@ -68,7 +68,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -76,7 +75,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
   ): Promise<
@@ -95,7 +93,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -103,7 +100,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>;
@@ -119,7 +115,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -127,7 +122,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<
@@ -148,7 +142,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -156,7 +149,6 @@ export interface GroupQuotaSubscriptionAllocationRequest {
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse>;

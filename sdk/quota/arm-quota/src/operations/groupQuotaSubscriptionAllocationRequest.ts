@@ -13,7 +13,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   QuotaAllocationRequestStatus,
@@ -216,7 +220,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -224,7 +227,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
   ): Promise<
@@ -243,7 +245,8 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -276,7 +279,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
         managementGroupId,
         groupQuotaName,
         resourceProviderName,
-        resourceName,
         allocateQuotaRequest,
         options,
       },
@@ -304,7 +306,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -312,7 +313,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse> {
@@ -320,7 +320,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
       managementGroupId,
       groupQuotaName,
       resourceProviderName,
-      resourceName,
       allocateQuotaRequest,
       options,
     );
@@ -339,7 +338,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -347,7 +345,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<
@@ -366,7 +363,8 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -399,7 +397,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
         managementGroupId,
         groupQuotaName,
         resourceProviderName,
-        resourceName,
         allocateQuotaRequest,
         options,
       },
@@ -429,7 +426,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param allocateQuotaRequest Quota requests payload.
    * @param options The options parameters.
    */
@@ -437,7 +433,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     allocateQuotaRequest: QuotaAllocationRequestStatus,
     options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse> {
@@ -445,7 +440,6 @@ export class GroupQuotaSubscriptionAllocationRequestImpl
       managementGroupId,
       groupQuotaName,
       resourceProviderName,
-      resourceName,
       allocateQuotaRequest,
       options,
     );
@@ -529,8 +523,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
-  httpMethod: "PUT",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createAllocationRequest",
+  httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.QuotaAllocationRequestStatus,
@@ -556,14 +550,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupQuotaName,
     Parameters.subscriptionId,
     Parameters.resourceProviderName,
-    Parameters.resourceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/quotaAllocationRequests/{resourceName}",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/subscriptions/{subscriptionId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createAllocationRequest",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -590,7 +583,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupQuotaName,
     Parameters.subscriptionId,
     Parameters.resourceProviderName,
-    Parameters.resourceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

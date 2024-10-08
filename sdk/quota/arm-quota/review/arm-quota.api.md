@@ -215,10 +215,10 @@ export type GroupQuotaLimitsListResponse = GroupQuotaLimitList;
 
 // @public
 export interface GroupQuotaLimitsRequest {
-    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsRequestCreateOrUpdateResponse>, GroupQuotaLimitsRequestCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse>;
-    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, options?: GroupQuotaLimitsRequestUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsRequestUpdateResponse>, GroupQuotaLimitsRequestUpdateResponse>>;
-    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, options?: GroupQuotaLimitsRequestUpdateOptionalParams): Promise<GroupQuotaLimitsRequestUpdateResponse>;
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsRequestCreateOrUpdateResponse>, GroupQuotaLimitsRequestCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, options?: GroupQuotaLimitsRequestUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaLimitsRequestUpdateResponse>, GroupQuotaLimitsRequestUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, options?: GroupQuotaLimitsRequestUpdateOptionalParams): Promise<GroupQuotaLimitsRequestUpdateResponse>;
     get(managementGroupId: string, groupQuotaName: string, requestId: string, options?: GroupQuotaLimitsRequestGetOptionalParams): Promise<GroupQuotaLimitsRequestGetResponse>;
     list(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, filter: string, options?: GroupQuotaLimitsRequestListOptionalParams): PagedAsyncIterableIterator<SubmittedResourceRequestStatus>;
 }
@@ -361,6 +361,7 @@ export interface GroupQuotaRequestBaseProperties {
     limit?: number;
     readonly name?: GroupQuotaRequestBasePropertiesName;
     region?: string;
+    resourceName?: string;
 }
 
 // @public
@@ -507,10 +508,10 @@ export type GroupQuotaSubscriptionAllocationListResponse = SubscriptionQuotaAllo
 
 // @public
 export interface GroupQuotaSubscriptionAllocationRequest {
-    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>, GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>;
-    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>, GroupQuotaSubscriptionAllocationRequestUpdateResponse>>;
-    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, resourceName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse>;
+    beginCreateOrUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>, GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams): Promise<GroupQuotaSubscriptionAllocationRequestCreateOrUpdateResponse>;
+    beginUpdate(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GroupQuotaSubscriptionAllocationRequestUpdateResponse>, GroupQuotaSubscriptionAllocationRequestUpdateResponse>>;
+    beginUpdateAndWait(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, allocateQuotaRequest: QuotaAllocationRequestStatus, options?: GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams): Promise<GroupQuotaSubscriptionAllocationRequestUpdateResponse>;
     get(managementGroupId: string, groupQuotaName: string, allocationId: string, options?: GroupQuotaSubscriptionAllocationRequestGetOptionalParams): Promise<GroupQuotaSubscriptionAllocationRequestGetResponse>;
     list(managementGroupId: string, groupQuotaName: string, resourceProviderName: string, filter: string, options?: GroupQuotaSubscriptionAllocationRequestListOptionalParams): PagedAsyncIterableIterator<QuotaAllocationRequestStatus>;
 }
@@ -906,6 +907,7 @@ export interface QuotaAllocationRequestBaseProperties {
     limit?: number;
     readonly name?: QuotaAllocationRequestBasePropertiesName;
     region?: string;
+    resourceName?: string;
 }
 
 // @public

@@ -55,14 +55,12 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -82,14 +80,12 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse>;
   /**
@@ -104,14 +100,12 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   beginUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -131,14 +125,12 @@ export interface GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestUpdateResponse>;
   /**
