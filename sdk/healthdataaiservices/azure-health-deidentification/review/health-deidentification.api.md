@@ -72,7 +72,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidServicesClientOptions): DeidServicesClient;
 export default createClient;
 
 // @public (undocumented)
@@ -149,16 +149,6 @@ export interface CreateJobLogicalResponse extends HttpResponse {
 // @public (undocumented)
 export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
-export type DeidentificationClient = Client & {
-    path: Routes;
-};
-
-// @public
-export interface DeidentificationClientOptions extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface DeidentificationContent {
     dataType?: DocumentDataType;
@@ -233,6 +223,16 @@ export interface DeidentifyDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+
+// @public (undocumented)
+export type DeidServicesClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface DeidServicesClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public (undocumented)
 export interface DeleteJob204Headers {
