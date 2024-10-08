@@ -4,9 +4,6 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "paths": {
-      "@azure/arm-mongocluster": ["./src/index"]
-    },
     "skipLibCheck": true
   },
   "include": [
@@ -14,7 +11,6 @@
     "./src/**/*.mts",
     "./src/**/*.cts",
     "test/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
+    "./test/**/*.ts"
   ]
 }

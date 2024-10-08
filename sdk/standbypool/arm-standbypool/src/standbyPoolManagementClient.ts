@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getStandbyVirtualMachinePoolsOperations,
   StandbyVirtualMachinePoolsOperations,
@@ -56,19 +59,24 @@ export class StandbyPoolManagementClient {
       this._client,
       subscriptionId,
     );
-    this.standbyVirtualMachines = getStandbyVirtualMachinesOperations(this._client, subscriptionId);
-    this.standbyVirtualMachinePoolRuntimeViews = getStandbyVirtualMachinePoolRuntimeViewsOperations(
+    this.standbyVirtualMachines = getStandbyVirtualMachinesOperations(
       this._client,
       subscriptionId,
     );
+    this.standbyVirtualMachinePoolRuntimeViews =
+      getStandbyVirtualMachinePoolRuntimeViewsOperations(
+        this._client,
+        subscriptionId,
+      );
     this.standbyContainerGroupPools = getStandbyContainerGroupPoolsOperations(
       this._client,
       subscriptionId,
     );
-    this.standbyContainerGroupPoolRuntimeViews = getStandbyContainerGroupPoolRuntimeViewsOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.standbyContainerGroupPoolRuntimeViews =
+      getStandbyContainerGroupPoolRuntimeViewsOperations(
+        this._client,
+        subscriptionId,
+      );
   }
 
   /** The operation groups for Operations */
