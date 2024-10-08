@@ -42,6 +42,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -56,22 +76,21 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
-}
-
-// @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
 export enum KnownRefillPolicy {
-    Always = "always"
+    always = "always"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -128,7 +147,7 @@ export interface PoolResourceStateCount {
 }
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Deleting";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -144,6 +163,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StandbyPoolManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -401,6 +423,9 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export type Versions = "2023-12-01-preview" | "2024-03-01-preview" | "2024-03-01";
 
 // @public
 export interface VirtualMachineInstanceCountSummary {

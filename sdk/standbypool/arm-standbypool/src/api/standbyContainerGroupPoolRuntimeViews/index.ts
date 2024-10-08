@@ -73,11 +73,15 @@ export async function _standbyContainerGroupPoolRuntimeViewsGetDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          instanceCountSummary: result.body.properties?.["instanceCountSummary"].map((p: any) => {
+          instanceCountSummary: result.body.properties?.[
+            "instanceCountSummary"
+          ].map((p: any) => {
             return {
-              instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
-                return { state: p["state"], count: p["count"] };
-              }),
+              instanceCountsByState: p["instanceCountsByState"].map(
+                (p: any) => {
+                  return { state: p["state"], count: p["count"] };
+                },
+              ),
             };
           }),
           provisioningState: result.body.properties?.["provisioningState"],
@@ -159,13 +163,17 @@ export async function _standbyContainerGroupPoolRuntimeViewsListByStandbyPoolDes
         properties: !p.properties
           ? undefined
           : {
-              instanceCountSummary: p.properties?.["instanceCountSummary"].map((p: any) => {
-                return {
-                  instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
-                    return { state: p["state"], count: p["count"] };
-                  }),
-                };
-              }),
+              instanceCountSummary: p.properties?.["instanceCountSummary"].map(
+                (p: any) => {
+                  return {
+                    instanceCountsByState: p["instanceCountsByState"].map(
+                      (p: any) => {
+                        return { state: p["state"], count: p["count"] };
+                      },
+                    ),
+                  };
+                },
+              ),
               provisioningState: p.properties?.["provisioningState"],
             },
       };

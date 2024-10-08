@@ -11,7 +11,11 @@ export {
   StandbyContainerGroupPoolRuntimeViewResourceProperties,
   ContainerGroupInstanceCountSummary,
   PoolResourceStateCount,
-  KnownProvisioningState,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   TrackedResource,
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceProperties,
@@ -41,6 +45,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {
