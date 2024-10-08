@@ -40,11 +40,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  User = "user",
+  user = "user",
   /** system */
-  System = "system",
+  system = "system",
   /** user,system */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -72,6 +72,34 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -137,7 +165,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -152,7 +182,9 @@ export interface FabricCapacity extends TrackedResource {
   sku: RpSku;
 }
 
-export function fabricCapacitySerializer(item: FabricCapacity): Record<string, unknown> {
+export function fabricCapacitySerializer(
+  item: FabricCapacity,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -178,6 +210,27 @@ export function fabricCapacityPropertiesSerializer(
     administration: capacityAdministrationSerializer(item.administration),
   };
 }
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
@@ -395,33 +448,13 @@ export interface RpSkuDetailsForNewResource {
   /** The list of available locations for the SKU */
   locations: string[];
 }
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
-  Updating = "Updating",
-}
 
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **Provisioning** \
- * **Updating**
- */
+/** The available API versions. */
+export type Versions = "2023-11-01";
 /** Alias for ProvisioningState */
-export type ProvisioningState = string;
+export type ProvisioningState =
+  | ResourceProvisioningState
+  | "Deleting"
+  | "Provisioning"
+  | "Updating"
+  | string;

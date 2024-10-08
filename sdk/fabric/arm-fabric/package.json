@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-fabric",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for FabricClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -11,6 +11,7 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -63,8 +64,7 @@
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2",
     "@azure/core-lro": "^3.0.0",
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-paging": "^1.5.0"
+    "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
@@ -90,8 +90,8 @@
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
@@ -99,10 +99,10 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "dev-tool run typecheck --paths samples-dev/*.ts && dev-tool samples publish -f",
-    "check-format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "build:samples": "echo skipped",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "generate:client": "echo skipped",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
@@ -110,14 +110,6 @@
     "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
-  },
-  "//sampleConfiguration": {
-    "productName": "@azure/arm-fabric",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -141,6 +133,28 @@
         "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "source": "./src/api/index.ts",
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "source": "./src/api/index.ts",
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "source": "./src/api/index.ts",
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "source": "./src/api/index.ts",
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
       }
     },
     "./models": {
