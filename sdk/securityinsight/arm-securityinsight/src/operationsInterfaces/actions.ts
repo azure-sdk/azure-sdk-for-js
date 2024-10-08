@@ -15,7 +15,7 @@ import {
   ActionRequest,
   ActionsCreateOrUpdateOptionalParams,
   ActionsCreateOrUpdateResponse,
-  ActionsDeleteOptionalParams
+  ActionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Actions {
     resourceGroupName: string,
     workspaceName: string,
     ruleId: string,
-    options?: ActionsListByAlertRuleOptionalParams
+    options?: ActionsListByAlertRuleOptionalParams,
   ): PagedAsyncIterableIterator<ActionResponse>;
   /**
    * Gets the action of alert rule.
@@ -47,7 +47,7 @@ export interface Actions {
     workspaceName: string,
     ruleId: string,
     actionId: string,
-    options?: ActionsGetOptionalParams
+    options?: ActionsGetOptionalParams,
   ): Promise<ActionsGetResponse>;
   /**
    * Creates or updates the action of alert rule.
@@ -64,7 +64,7 @@ export interface Actions {
     ruleId: string,
     actionId: string,
     action: ActionRequest,
-    options?: ActionsCreateOrUpdateOptionalParams
+    options?: ActionsCreateOrUpdateOptionalParams,
   ): Promise<ActionsCreateOrUpdateResponse>;
   /**
    * Delete the action of alert rule.
@@ -79,6 +79,6 @@ export interface Actions {
     workspaceName: string,
     ruleId: string,
     actionId: string,
-    options?: ActionsDeleteOptionalParams
+    options?: ActionsDeleteOptionalParams,
   ): Promise<void>;
 }

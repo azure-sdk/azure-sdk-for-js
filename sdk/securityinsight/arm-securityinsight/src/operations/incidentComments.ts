@@ -23,7 +23,7 @@ import {
   IncidentCommentsCreateOrUpdateOptionalParams,
   IncidentCommentsCreateOrUpdateResponse,
   IncidentCommentsDeleteOptionalParams,
-  IncidentCommentsListNextResponse
+  IncidentCommentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export class IncidentCommentsImpl implements IncidentComments {
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -50,13 +50,13 @@ export class IncidentCommentsImpl implements IncidentComments {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentCommentsListOptionalParams
+    options?: IncidentCommentsListOptionalParams,
   ): PagedAsyncIterableIterator<IncidentComment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       incidentId,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class IncidentCommentsImpl implements IncidentComments {
           workspaceName,
           incidentId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class IncidentCommentsImpl implements IncidentComments {
     workspaceName: string,
     incidentId: string,
     options?: IncidentCommentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IncidentComment[]> {
     let result: IncidentCommentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class IncidentCommentsImpl implements IncidentComments {
         resourceGroupName,
         workspaceName,
         incidentId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class IncidentCommentsImpl implements IncidentComments {
         workspaceName,
         incidentId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,20 +120,20 @@ export class IncidentCommentsImpl implements IncidentComments {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentCommentsListOptionalParams
+    options?: IncidentCommentsListOptionalParams,
   ): AsyncIterableIterator<IncidentComment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       incidentId,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Gets all incident comments.
+   * Gets all comments for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -143,16 +143,16 @@ export class IncidentCommentsImpl implements IncidentComments {
     resourceGroupName: string,
     workspaceName: string,
     incidentId: string,
-    options?: IncidentCommentsListOptionalParams
+    options?: IncidentCommentsListOptionalParams,
   ): Promise<IncidentCommentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets an incident comment.
+   * Gets a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -164,7 +164,7 @@ export class IncidentCommentsImpl implements IncidentComments {
     workspaceName: string,
     incidentId: string,
     incidentCommentId: string,
-    options?: IncidentCommentsGetOptionalParams
+    options?: IncidentCommentsGetOptionalParams,
   ): Promise<IncidentCommentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -172,14 +172,14 @@ export class IncidentCommentsImpl implements IncidentComments {
         workspaceName,
         incidentId,
         incidentCommentId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates the incident comment.
+   * Creates or updates a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -193,7 +193,7 @@ export class IncidentCommentsImpl implements IncidentComments {
     incidentId: string,
     incidentCommentId: string,
     incidentComment: IncidentComment,
-    options?: IncidentCommentsCreateOrUpdateOptionalParams
+    options?: IncidentCommentsCreateOrUpdateOptionalParams,
   ): Promise<IncidentCommentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -202,14 +202,14 @@ export class IncidentCommentsImpl implements IncidentComments {
         incidentId,
         incidentCommentId,
         incidentComment,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Delete the incident comment.
+   * Deletes a comment for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -221,7 +221,7 @@ export class IncidentCommentsImpl implements IncidentComments {
     workspaceName: string,
     incidentId: string,
     incidentCommentId: string,
-    options?: IncidentCommentsDeleteOptionalParams
+    options?: IncidentCommentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -229,9 +229,9 @@ export class IncidentCommentsImpl implements IncidentComments {
         workspaceName,
         incidentId,
         incidentCommentId,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -248,11 +248,11 @@ export class IncidentCommentsImpl implements IncidentComments {
     workspaceName: string,
     incidentId: string,
     nextLink: string,
-    options?: IncidentCommentsListNextOptionalParams
+    options?: IncidentCommentsListNextOptionalParams,
   ): Promise<IncidentCommentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, incidentId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -260,45 +260,43 @@ export class IncidentCommentsImpl implements IncidentComments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentCommentList
+      bodyMapper: Mappers.IncidentCommentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
-    Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
+    Parameters.top1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentComment
+      bodyMapper: Mappers.IncidentComment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -307,25 +305,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.incidentId,
-    Parameters.incidentCommentId
+    Parameters.incidentCommentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentComment
+      bodyMapper: Mappers.IncidentComment,
     },
     201: {
-      bodyMapper: Mappers.IncidentComment
+      bodyMapper: Mappers.IncidentComment,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.incidentComment,
   queryParameters: [Parameters.apiVersion],
@@ -335,22 +332,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.incidentId,
-    Parameters.incidentCommentId
+    Parameters.incidentCommentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments/{incidentCommentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -359,21 +355,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.incidentId,
-    Parameters.incidentCommentId
+    Parameters.incidentCommentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IncidentCommentList
+      bodyMapper: Mappers.IncidentCommentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -381,8 +377,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.incidentId
+    Parameters.incidentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -8,28 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ThreatIntelligenceIndicators } from "../operationsInterfaces";
+import { ProductPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  ThreatIntelligenceInformationUnion,
-  ThreatIntelligenceIndicatorsListNextOptionalParams,
-  ThreatIntelligenceIndicatorsListOptionalParams,
-  ThreatIntelligenceIndicatorsListResponse,
-  ThreatIntelligenceIndicatorsListNextResponse,
+  ProductPackageModel,
+  ProductPackagesListNextOptionalParams,
+  ProductPackagesListOptionalParams,
+  ProductPackagesListResponse,
+  ProductPackagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ThreatIntelligenceIndicators operations. */
-export class ThreatIntelligenceIndicatorsImpl
-  implements ThreatIntelligenceIndicators
-{
+/** Class containing ProductPackages operations. */
+export class ProductPackagesImpl implements ProductPackages {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class ThreatIntelligenceIndicators class.
+   * Initialize a new instance of the class ProductPackages class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -37,7 +35,10 @@ export class ThreatIntelligenceIndicatorsImpl
   }
 
   /**
-   * Get all threat intelligence indicators.
+   * Gets all packages from the catalog.
+   * Expandable properties:
+   * - properties/installed
+   * - properties/packagedContent
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -45,8 +46,8 @@ export class ThreatIntelligenceIndicatorsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams,
-  ): PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion> {
+    options?: ProductPackagesListOptionalParams,
+  ): PagedAsyncIterableIterator<ProductPackageModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -72,10 +73,10 @@ export class ThreatIntelligenceIndicatorsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams,
+    options?: ProductPackagesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ThreatIntelligenceInformationUnion[]> {
-    let result: ThreatIntelligenceIndicatorsListResponse;
+  ): AsyncIterableIterator<ProductPackageModel[]> {
+    let result: ProductPackagesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, workspaceName, options);
@@ -101,8 +102,8 @@ export class ThreatIntelligenceIndicatorsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams,
-  ): AsyncIterableIterator<ThreatIntelligenceInformationUnion> {
+    options?: ProductPackagesListOptionalParams,
+  ): AsyncIterableIterator<ProductPackageModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -113,7 +114,10 @@ export class ThreatIntelligenceIndicatorsImpl
   }
 
   /**
-   * Get all threat intelligence indicators.
+   * Gets all packages from the catalog.
+   * Expandable properties:
+   * - properties/installed
+   * - properties/packagedContent
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -121,8 +125,8 @@ export class ThreatIntelligenceIndicatorsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorsListOptionalParams,
-  ): Promise<ThreatIntelligenceIndicatorsListResponse> {
+    options?: ProductPackagesListOptionalParams,
+  ): Promise<ProductPackagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec,
@@ -140,8 +144,8 @@ export class ThreatIntelligenceIndicatorsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ThreatIntelligenceIndicatorsListNextOptionalParams,
-  ): Promise<ThreatIntelligenceIndicatorsListNextResponse> {
+    options?: ProductPackagesListNextOptionalParams,
+  ): Promise<ProductPackagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec,
@@ -152,11 +156,11 @@ export class ThreatIntelligenceIndicatorsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/threatIntelligence/main/indicators",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentProductPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThreatIntelligenceInformationList,
+      bodyMapper: Mappers.ProductPackageList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -183,7 +187,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ThreatIntelligenceInformationList,
+      bodyMapper: Mappers.ProductPackageList,
     },
     default: {
       bodyMapper: Mappers.CloudError,
