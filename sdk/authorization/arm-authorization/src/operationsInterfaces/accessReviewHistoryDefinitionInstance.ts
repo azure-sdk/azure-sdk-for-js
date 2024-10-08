@@ -8,7 +8,7 @@
 
 import {
   AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
-  AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
+  AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse,
 } from "../models";
 
 /** Interface representing a AccessReviewHistoryDefinitionInstance. */
@@ -23,6 +23,6 @@ export interface AccessReviewHistoryDefinitionInstance {
   generateDownloadUri(
     historyDefinitionId: string,
     instanceId: string,
-    options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
+    options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
   ): Promise<AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse>;
 }

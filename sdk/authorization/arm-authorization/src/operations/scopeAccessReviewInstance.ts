@@ -17,12 +17,13 @@ import {
   ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams,
   ScopeAccessReviewInstanceResetDecisionsOptionalParams,
   ScopeAccessReviewInstanceApplyDecisionsOptionalParams,
-  ScopeAccessReviewInstanceSendRemindersOptionalParams
+  ScopeAccessReviewInstanceSendRemindersOptionalParams,
 } from "../models";
 
 /** Class containing ScopeAccessReviewInstance operations. */
 export class ScopeAccessReviewInstanceImpl
-  implements ScopeAccessReviewInstance {
+  implements ScopeAccessReviewInstance
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -44,11 +45,11 @@ export class ScopeAccessReviewInstanceImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceStopOptionalParams
+    options?: ScopeAccessReviewInstanceStopOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      stopOperationSpec
+      stopOperationSpec,
     );
   }
 
@@ -65,11 +66,11 @@ export class ScopeAccessReviewInstanceImpl
     scheduleDefinitionId: string,
     id: string,
     properties: RecordAllDecisionsProperties,
-    options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, properties, options },
-      recordAllDecisionsOperationSpec
+      recordAllDecisionsOperationSpec,
     );
   }
 
@@ -84,11 +85,11 @@ export class ScopeAccessReviewInstanceImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceResetDecisionsOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      resetDecisionsOperationSpec
+      resetDecisionsOperationSpec,
     );
   }
 
@@ -103,11 +104,11 @@ export class ScopeAccessReviewInstanceImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams
+    options?: ScopeAccessReviewInstanceApplyDecisionsOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      applyDecisionsOperationSpec
+      applyDecisionsOperationSpec,
     );
   }
 
@@ -122,11 +123,11 @@ export class ScopeAccessReviewInstanceImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceSendRemindersOptionalParams
+    options?: ScopeAccessReviewInstanceSendRemindersOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      sendRemindersOperationSpec
+      sendRemindersOperationSpec,
     );
   }
 }
@@ -134,34 +135,32 @@ export class ScopeAccessReviewInstanceImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/stop",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/stop",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const recordAllDecisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/recordAllDecisions",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/recordAllDecisions",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion3],
@@ -169,69 +168,66 @@ const recordAllDecisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resetDecisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/resetDecisions",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/resetDecisions",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const applyDecisionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/applyDecisions",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/applyDecisions",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const sendRemindersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/sendReminders",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/sendReminders",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

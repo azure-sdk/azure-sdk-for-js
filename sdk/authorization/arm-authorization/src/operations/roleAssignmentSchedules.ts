@@ -20,7 +20,7 @@ import {
   RoleAssignmentSchedulesListForScopeResponse,
   RoleAssignmentSchedulesGetOptionalParams,
   RoleAssignmentSchedulesGetResponse,
-  RoleAssignmentSchedulesListForScopeNextResponse
+  RoleAssignmentSchedulesListForScopeNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
    */
   public listForScope(
     scope: string,
-    options?: RoleAssignmentSchedulesListForScopeOptionalParams
+    options?: RoleAssignmentSchedulesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignmentSchedule> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -58,14 +58,14 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: RoleAssignmentSchedulesListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleAssignmentSchedule[]> {
     let result: RoleAssignmentSchedulesListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleAssignmentSchedulesListForScopeOptionalParams
+    options?: RoleAssignmentSchedulesListForScopeOptionalParams,
   ): AsyncIterableIterator<RoleAssignmentSchedule> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -103,11 +103,11 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
   get(
     scope: string,
     roleAssignmentScheduleName: string,
-    options?: RoleAssignmentSchedulesGetOptionalParams
+    options?: RoleAssignmentSchedulesGetOptionalParams,
   ): Promise<RoleAssignmentSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentScheduleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -118,11 +118,11 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
    */
   private _listForScope(
     scope: string,
-    options?: RoleAssignmentSchedulesListForScopeOptionalParams
+    options?: RoleAssignmentSchedulesListForScopeOptionalParams,
   ): Promise<RoleAssignmentSchedulesListForScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listForScopeOperationSpec
+      listForScopeOperationSpec,
     );
   }
 
@@ -135,11 +135,11 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleAssignmentSchedulesListForScopeNextOptionalParams
+    options?: RoleAssignmentSchedulesListForScopeNextOptionalParams,
   ): Promise<RoleAssignmentSchedulesListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -147,54 +147,53 @@ export class RoleAssignmentSchedulesImpl implements RoleAssignmentSchedules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules/{roleAssignmentScheduleName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules/{roleAssignmentScheduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentSchedule
+      bodyMapper: Mappers.RoleAssignmentSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleAssignmentScheduleName
+    Parameters.roleAssignmentScheduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentScheduleListResult
+      bodyMapper: Mappers.RoleAssignmentScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentScheduleListResult
+      bodyMapper: Mappers.RoleAssignmentScheduleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

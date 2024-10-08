@@ -14,7 +14,7 @@ import {
   AccessReviewInstanceMyDecisionsGetByIdResponse,
   AccessReviewDecisionProperties,
   AccessReviewInstanceMyDecisionsPatchOptionalParams,
-  AccessReviewInstanceMyDecisionsPatchResponse
+  AccessReviewInstanceMyDecisionsPatchResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface AccessReviewInstanceMyDecisions {
   list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceMyDecisionsListOptionalParams
+    options?: AccessReviewInstanceMyDecisionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewDecision>;
   /**
    * Get my single access review instance decision.
@@ -42,7 +42,7 @@ export interface AccessReviewInstanceMyDecisions {
     scheduleDefinitionId: string,
     id: string,
     decisionId: string,
-    options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams
+    options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsGetByIdResponse>;
   /**
    * Record a decision.
@@ -57,6 +57,6 @@ export interface AccessReviewInstanceMyDecisions {
     id: string,
     decisionId: string,
     properties: AccessReviewDecisionProperties,
-    options?: AccessReviewInstanceMyDecisionsPatchOptionalParams
+    options?: AccessReviewInstanceMyDecisionsPatchOptionalParams,
   ): Promise<AccessReviewInstanceMyDecisionsPatchResponse>;
 }

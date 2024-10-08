@@ -18,13 +18,14 @@ import {
   AccessReviewInstanceContactedReviewersListNextOptionalParams,
   AccessReviewInstanceContactedReviewersListOptionalParams,
   AccessReviewInstanceContactedReviewersListResponse,
-  AccessReviewInstanceContactedReviewersListNextResponse
+  AccessReviewInstanceContactedReviewersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccessReviewInstanceContactedReviewers operations. */
 export class AccessReviewInstanceContactedReviewersImpl
-  implements AccessReviewInstanceContactedReviewers {
+  implements AccessReviewInstanceContactedReviewers
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class AccessReviewInstanceContactedReviewersImpl
   public list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceContactedReviewersListOptionalParams
+    options?: AccessReviewInstanceContactedReviewersListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewContactedReviewer> {
     const iter = this.listPagingAll(scheduleDefinitionId, id, options);
     return {
@@ -59,7 +60,7 @@ export class AccessReviewInstanceContactedReviewersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scheduleDefinitionId, id, options, settings);
-      }
+      },
     };
   }
 
@@ -67,7 +68,7 @@ export class AccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     options?: AccessReviewInstanceContactedReviewersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewContactedReviewer[]> {
     let result: AccessReviewInstanceContactedReviewersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +84,7 @@ export class AccessReviewInstanceContactedReviewersImpl
         scheduleDefinitionId,
         id,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -95,12 +96,12 @@ export class AccessReviewInstanceContactedReviewersImpl
   private async *listPagingAll(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceContactedReviewersListOptionalParams
+    options?: AccessReviewInstanceContactedReviewersListOptionalParams,
   ): AsyncIterableIterator<AccessReviewContactedReviewer> {
     for await (const page of this.listPagingPage(
       scheduleDefinitionId,
       id,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -115,11 +116,11 @@ export class AccessReviewInstanceContactedReviewersImpl
   private _list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceContactedReviewersListOptionalParams
+    options?: AccessReviewInstanceContactedReviewersListOptionalParams,
   ): Promise<AccessReviewInstanceContactedReviewersListResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -134,11 +135,11 @@ export class AccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     nextLink: string,
-    options?: AccessReviewInstanceContactedReviewersListNextOptionalParams
+    options?: AccessReviewInstanceContactedReviewersListNextOptionalParams,
   ): Promise<AccessReviewInstanceContactedReviewersListNextResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -146,45 +147,44 @@ export class AccessReviewInstanceContactedReviewersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
