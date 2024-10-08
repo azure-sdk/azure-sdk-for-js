@@ -139,10 +139,18 @@ export function mongoClusterPropertiesSerializer(
     highAvailability: !item.highAvailability
       ? item.highAvailability
       : highAvailabilityPropertiesSerializer(item.highAvailability),
-    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
-    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
-    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
-    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
+    storage: !item.storage
+      ? item.storage
+      : storagePropertiesSerializer(item.storage),
+    sharding: !item.sharding
+      ? item.sharding
+      : shardingPropertiesSerializer(item.sharding),
+    compute: !item.compute
+      ? item.compute
+      : computePropertiesSerializer(item.compute),
+    backup: !item.backup
+      ? item.backup
+      : backupPropertiesSerializer(item.backup),
     previewFeatures: item["previewFeatures"],
   };
 }
@@ -221,6 +229,27 @@ export function administratorPropertiesSerializer(
     password: item["password"],
   };
 }
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
 
 /** Known values of {@link MongoClusterStatus} that the service accepts. */
 export enum KnownMongoClusterStatus {
@@ -314,7 +343,9 @@ export interface StorageProperties {
   sizeGb?: number;
 }
 
-export function storagePropertiesSerializer(item: StorageProperties): Record<string, unknown> {
+export function storagePropertiesSerializer(
+  item: StorageProperties,
+): Record<string, unknown> {
   return {
     sizeGb: item["sizeGb"],
   };
@@ -326,7 +357,9 @@ export interface ShardingProperties {
   shardCount?: number;
 }
 
-export function shardingPropertiesSerializer(item: ShardingProperties): Record<string, unknown> {
+export function shardingPropertiesSerializer(
+  item: ShardingProperties,
+): Record<string, unknown> {
   return {
     shardCount: item["shardCount"],
   };
@@ -338,7 +371,9 @@ export interface ComputeProperties {
   tier?: string;
 }
 
-export function computePropertiesSerializer(item: ComputeProperties): Record<string, unknown> {
+export function computePropertiesSerializer(
+  item: ComputeProperties,
+): Record<string, unknown> {
   return {
     tier: item["tier"],
   };
@@ -379,9 +414,10 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item.privateLinkServiceConnectionState,
+      ),
   };
 }
 
@@ -536,6 +572,34 @@ export enum KnownReplicationState {
  */
 export type ReplicationState = string;
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
 /** The response of a PrivateLinkResource list operation. */
 export interface _PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
@@ -590,7 +654,9 @@ export interface FirewallRule extends ProxyResource {
   properties?: FirewallRuleProperties;
 }
 
-export function firewallRuleSerializer(item: FirewallRule): Record<string, unknown> {
+export function firewallRuleSerializer(
+  item: FirewallRule,
+): Record<string, unknown> {
   return {
     properties: !item.properties
       ? item.properties
@@ -633,7 +699,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -646,7 +714,9 @@ export interface MongoCluster extends TrackedResource {
   properties?: MongoClusterProperties;
 }
 
-export function mongoClusterSerializer(item: MongoCluster): Record<string, unknown> {
+export function mongoClusterSerializer(
+  item: MongoCluster,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -664,7 +734,9 @@ export interface MongoClusterUpdate {
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): Record<string, unknown> {
+export function mongoClusterUpdateSerializer(
+  item: MongoClusterUpdate,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
@@ -707,10 +779,18 @@ export function mongoClusterUpdatePropertiesSerializer(
     highAvailability: !item.highAvailability
       ? item.highAvailability
       : highAvailabilityPropertiesSerializer(item.highAvailability),
-    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
-    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
-    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
-    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
+    storage: !item.storage
+      ? item.storage
+      : storagePropertiesSerializer(item.storage),
+    sharding: !item.sharding
+      ? item.sharding
+      : shardingPropertiesSerializer(item.sharding),
+    compute: !item.compute
+      ? item.compute
+      : computePropertiesSerializer(item.compute),
+    backup: !item.backup
+      ? item.backup
+      : backupPropertiesSerializer(item.backup),
     previewFeatures: item["previewFeatures"],
   };
 }
@@ -868,11 +948,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  User = "user",
+  user = "user",
   /** system */
-  System = "system",
+  system = "system",
   /** user,system */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -900,34 +980,15 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link ProvisioningState } that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Updating */
-  Updating = "Updating",
-  /** Dropping */
-  Dropping = "Dropping",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState } can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **InProgress** \
- * **Updating** \
- * **Dropping**
- */
-
-export type ProvisioningState = string;
+/** The available API versions. */
+export type Versions =
+  | "2024-03-01-preview"
+  | "2024-06-01-preview"
+  | "2024-07-01";
+/** Alias for ProvisioningState */
+export type ProvisioningState =
+  | string
+  | ResourceProvisioningState
+  | "InProgress"
+  | "Updating"
+  | "Dropping";
