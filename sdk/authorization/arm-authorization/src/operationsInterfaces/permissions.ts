@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Permission,
   PermissionsListForResourceGroupOptionalParams,
-  PermissionsListForResourceOptionalParams
+  PermissionsListForResourceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface Permissions {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: PermissionsListForResourceGroupOptionalParams
+    options?: PermissionsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Permission>;
   /**
    * Gets all permissions the caller has for a resource.
@@ -40,6 +40,6 @@ export interface Permissions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PermissionsListForResourceOptionalParams
+    options?: PermissionsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Permission>;
 }
