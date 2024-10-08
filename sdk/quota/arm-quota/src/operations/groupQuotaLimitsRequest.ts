@@ -13,7 +13,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   SubmittedResourceRequestStatus,
@@ -161,14 +165,12 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -186,7 +188,8 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -219,7 +222,6 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
         managementGroupId,
         groupQuotaName,
         resourceProviderName,
-        resourceName,
         options,
       },
       spec: createOrUpdateOperationSpec,
@@ -248,21 +250,18 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       managementGroupId,
       groupQuotaName,
       resourceProviderName,
-      resourceName,
       options,
     );
     return poller.pollUntilDone();
@@ -280,14 +279,12 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   async beginUpdate(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -305,7 +302,8 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -338,7 +336,6 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
         managementGroupId,
         groupQuotaName,
         resourceProviderName,
-        resourceName,
         options,
       },
       spec: updateOperationSpec,
@@ -367,21 +364,18 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
    *                       tenantId/MgId.
    * @param resourceProviderName The resource provider name, such as - Microsoft.Compute. Currently only
    *                             Microsoft.Compute resource provider supports this API.
-   * @param resourceName Resource name.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     managementGroupId: string,
     groupQuotaName: string,
     resourceProviderName: string,
-    resourceName: string,
     options?: GroupQuotaLimitsRequestUpdateOptionalParams,
   ): Promise<GroupQuotaLimitsRequestUpdateResponse> {
     const poller = await this.beginUpdate(
       managementGroupId,
       groupQuotaName,
       resourceProviderName,
-      resourceName,
       options,
     );
     return poller.pollUntilDone();
@@ -473,8 +467,8 @@ export class GroupQuotaLimitsRequestImpl implements GroupQuotaLimitsRequest {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaRequests/{resourceName}",
-  httpMethod: "PUT",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createLimitRequest",
+  httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.SubmittedResourceRequestStatus,
@@ -499,14 +493,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managementGroupId,
     Parameters.groupQuotaName,
     Parameters.resourceProviderName,
-    Parameters.resourceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/groupQuotaRequests/{resourceName}",
+  path: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Quota/groupQuotas/{groupQuotaName}/resourceProviders/{resourceProviderName}/createLimitRequest",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -532,7 +525,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.managementGroupId,
     Parameters.groupQuotaName,
     Parameters.resourceProviderName,
-    Parameters.resourceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

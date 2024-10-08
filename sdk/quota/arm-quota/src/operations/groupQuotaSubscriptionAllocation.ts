@@ -25,7 +25,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaSubscriptionAllocation operations. */
-export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscriptionAllocation {
+export class GroupQuotaSubscriptionAllocationImpl
+  implements GroupQuotaSubscriptionAllocation
+{
   private readonly client: AzureQuotaExtensionAPI;
 
   /**
@@ -58,7 +60,12 @@ export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscript
     filter: string,
     options?: GroupQuotaSubscriptionAllocationListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionQuotaAllocations> {
-    const iter = this.listPagingAll(managementGroupId, groupQuotaName, filter, options);
+    const iter = this.listPagingAll(
+      managementGroupId,
+      groupQuotaName,
+      filter,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -70,7 +77,13 @@ export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscript
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(managementGroupId, groupQuotaName, filter, options, settings);
+        return this.listPagingPage(
+          managementGroupId,
+          groupQuotaName,
+          filter,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -85,14 +98,24 @@ export class GroupQuotaSubscriptionAllocationImpl implements GroupQuotaSubscript
     let result: GroupQuotaSubscriptionAllocationListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(managementGroupId, groupQuotaName, filter, options);
+      result = await this._list(
+        managementGroupId,
+        groupQuotaName,
+        filter,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(managementGroupId, groupQuotaName, continuationToken, options);
+      result = await this._listNext(
+        managementGroupId,
+        groupQuotaName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
