@@ -19,14 +19,13 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ClientRequestIdHeaderOutput {
-}
+export type CommunicationMessageKind = string;
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
+export type CommunicationMessagesChannelOutput = string;
 
 // @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: MessagesServiceClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public
@@ -39,6 +38,7 @@ export interface GetMedia {
 
 // @public (undocumented)
 export interface GetMedia200Headers {
+    "content-type": "application/octet-stream";
     "x-ms-client-request-id"?: string;
 }
 
@@ -174,6 +174,11 @@ export type MessagesServiceClient = Client & {
 };
 
 // @public
+export interface MessagesServiceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface MessageTemplate {
     bindings?: MessageTemplateBindings;
     language: string;
@@ -185,9 +190,12 @@ export interface MessageTemplate {
 export type MessageTemplateBindings = MessageTemplateBindingsParent | WhatsAppMessageTemplateBindings;
 
 // @public
+export type MessageTemplateBindingsKind = string;
+
+// @public
 export interface MessageTemplateBindingsParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateBindingsKind;
 }
 
 // @public
@@ -212,10 +220,10 @@ export type MessageTemplateItemOutput = MessageTemplateItemOutputParent | WhatsA
 // @public
 export interface MessageTemplateItemOutputParent {
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessagesChannelOutput;
     language: string;
     readonly name: string;
-    status: string;
+    status: MessageTemplateStatusOutput;
 }
 
 // @public
@@ -235,6 +243,9 @@ export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
 }
 
 // @public
+export type MessageTemplateStatusOutput = string;
+
+// @public
 export interface MessageTemplateText extends MessageTemplateValueParent {
     kind: "text";
     text: string;
@@ -244,9 +255,12 @@ export interface MessageTemplateText extends MessageTemplateValueParent {
 export type MessageTemplateValue = MessageTemplateValueParent | MessageTemplateText | MessageTemplateImage | MessageTemplateDocument | MessageTemplateVideo | MessageTemplateLocation | MessageTemplateQuickAction;
 
 // @public
+export type MessageTemplateValueKind = string;
+
+// @public
 export interface MessageTemplateValueParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateValueKind;
     name: string;
 }
 
@@ -265,7 +279,7 @@ export type NotificationContent = NotificationContentParent | TextNotificationCo
 export interface NotificationContentParent {
     channelRegistrationId: string;
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessageKind;
     to: string[];
 }
 
@@ -288,14 +302,6 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export interface RepeatabilityRequestHeadersOutput {
-}
-
-// @public
-export interface RepeatabilityResponseHeadersOutput {
-}
-
-// @public
 export type RepeatabilityResultOutput = "accepted" | "rejected";
 
 // @public (undocumented)
@@ -307,7 +313,7 @@ export interface Routes {
 
 // @public (undocumented)
 export interface Send {
-    post(options?: SendParameters): StreamableMethod<Send202Response | SendDefaultResponse>;
+    post(options: SendParameters): StreamableMethod<Send202Response | SendDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -328,8 +334,7 @@ export interface Send202Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SendBodyParam {
-    // (undocumented)
-    body?: NotificationContent;
+    body: NotificationContent;
 }
 
 // @public (undocumented)
@@ -381,6 +386,9 @@ export interface TextNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export type WhatsAppMessageButtonSubType = string;
+
+// @public
 export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindingsParent {
     body?: Array<WhatsAppMessageTemplateBindingsComponent>;
     buttons?: Array<WhatsAppMessageTemplateBindingsButton>;
@@ -392,7 +400,7 @@ export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindings
 // @public
 export interface WhatsAppMessageTemplateBindingsButton {
     refValue: string;
-    subType: string;
+    subType: WhatsAppMessageButtonSubType;
 }
 
 // @public
