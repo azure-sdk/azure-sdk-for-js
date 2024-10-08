@@ -15,6 +15,7 @@ export interface AzureFileVolume {
     readOnly?: boolean;
     shareName: string;
     storageAccountKey?: string;
+    storageAccountKeyReference?: string;
     storageAccountName: string;
 }
 
@@ -166,6 +167,7 @@ export interface ContainerGroupProperties {
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
+    secretReferences?: SecretReference[];
     sku?: ContainerGroupSku;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
@@ -429,6 +431,7 @@ export interface EncryptionProperties {
 export interface EnvironmentVariable {
     name: string;
     secureValue?: string;
+    secureValueReference?: string;
     value?: string;
 }
 
@@ -473,6 +476,7 @@ export interface ImageRegistryCredential {
     identity?: string;
     identityUrl?: string;
     password?: string;
+    passwordReference?: string;
     server: string;
     username?: string;
 }
@@ -735,6 +739,13 @@ export interface ResourceRequirements {
 export type Scheme = string;
 
 // @public
+export interface SecretReference {
+    identity: string;
+    name: string;
+    secretReferenceUri: string;
+}
+
+// @public
 export interface SecurityContextCapabilitiesDefinition {
     add?: string[];
     drop?: string[];
@@ -795,6 +806,9 @@ export interface Volume {
     gitRepo?: GitRepoVolume;
     name: string;
     secret?: {
+        [propertyName: string]: string;
+    };
+    secretReference?: {
         [propertyName: string]: string;
     };
 }
