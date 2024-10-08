@@ -21,6 +21,9 @@ export {
   Revocation,
   KnownRevocationStatus,
   RevocationStatus,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   RevokeCertificate,
   TrackedResource,
   CodeSigningAccount,
@@ -30,6 +33,7 @@ export {
   SkuName,
   CodeSigningAccountPatch,
   CodeSigningAccountPatchProperties,
+  AccountSkuPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
   KnownNameUnavailabilityReason,
@@ -40,6 +44,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
 } from "./models.js";
 export {
   OperationsListOptionalParams,
