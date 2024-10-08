@@ -15,7 +15,7 @@ import {
 } from "../../static-helpers/pagingHelpers.js";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
-export function _listSend(
+export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -24,7 +24,7 @@ export function _listSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listDeserialize(
+export async function _operationsListDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
@@ -54,14 +54,14 @@ export async function _listDeserialize(
 }
 
 /** List the operations for the provider */
-export function list(
+export function operationsList(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Operation> {
   return buildPagedAsyncIterator(
     context,
-    () => _listSend(context, options),
-    _listDeserialize,
+    () => _operationsListSend(context, options),
+    _operationsListDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );

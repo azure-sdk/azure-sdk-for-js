@@ -34,7 +34,7 @@ import {
   CodeSigningAccountsCheckNameAvailabilityOptionalParams,
 } from "../../models/options.js";
 
-export function _getSend(
+export function _codeSigningAccountsGetSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -51,7 +51,9 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<CodeSigningAccount> {
+export async function _codeSigningAccountsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CodeSigningAccount> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -92,18 +94,24 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Co
 }
 
 /** Get a trusted Signing Account. */
-export async function get(
+export async function codeSigningAccountsGet(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   accountName: string,
   options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
 ): Promise<CodeSigningAccount> {
-  const result = await _getSend(context, subscriptionId, resourceGroupName, accountName, options);
-  return _getDeserialize(result);
+  const result = await _codeSigningAccountsGetSend(
+    context,
+    subscriptionId,
+    resourceGroupName,
+    accountName,
+    options,
+  );
+  return _codeSigningAccountsGetDeserialize(result);
 }
 
-export function _createSend(
+export function _codeSigningAccountsCreateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -121,7 +129,9 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -130,7 +140,7 @@ export function _createSend(
     });
 }
 
-export async function _createDeserialize(
+export async function _codeSigningAccountsCreateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CodeSigningAccount> {
   const expectedStatuses = ["200", "201"];
@@ -173,7 +183,7 @@ export async function _createDeserialize(
 }
 
 /** Create a trusted Signing Account. */
-export function create(
+export function codeSigningAccountsCreate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -181,16 +191,27 @@ export function create(
   resource: CodeSigningAccount,
   options: CodeSigningAccountsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createSend(context, subscriptionId, resourceGroupName, accountName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  return getLongRunningPoller(
+    context,
+    _codeSigningAccountsCreateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _codeSigningAccountsCreateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          accountName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
 
-export function _updateSend(
+export function _codeSigningAccountsUpdateSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -208,7 +229,9 @@ export function _updateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
           : codeSigningAccountPatchPropertiesSerializer(properties.properties),
@@ -216,7 +239,7 @@ export function _updateSend(
     });
 }
 
-export async function _updateDeserialize(
+export async function _codeSigningAccountsUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CodeSigningAccount> {
   const expectedStatuses = ["200", "202"];
@@ -259,7 +282,7 @@ export async function _updateDeserialize(
 }
 
 /** Update a trusted signing account. */
-export function update(
+export function codeSigningAccountsUpdate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -267,16 +290,27 @@ export function update(
   properties: CodeSigningAccountPatch,
   options: CodeSigningAccountsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, subscriptionId, resourceGroupName, accountName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
+  return getLongRunningPoller(
+    context,
+    _codeSigningAccountsUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _codeSigningAccountsUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          accountName,
+          properties,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
 
-export function _$deleteSend(
+export function _codeSigningAccountsDeleteSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -293,7 +327,9 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _codeSigningAccountsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -303,28 +339,33 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a trusted signing account. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export function $delete(
+export function codeSigningAccountsDelete(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   accountName: string,
   options: CodeSigningAccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, subscriptionId, resourceGroupName, accountName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _codeSigningAccountsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _codeSigningAccountsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          accountName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
-export function _listByResourceGroupSend(
+export function _codeSigningAccountsListByResourceGroupSend(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -341,7 +382,7 @@ export function _listByResourceGroupSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listByResourceGroupDeserialize(
+export async function _codeSigningAccountsListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_CodeSigningAccountListResult> {
   const expectedStatuses = ["200"];
@@ -377,7 +418,9 @@ export async function _listByResourceGroupDeserialize(
           ? undefined
           : {
               accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
+              sku: !p.properties?.sku
+                ? undefined
+                : { name: p.properties?.sku?.["name"] },
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -387,7 +430,7 @@ export async function _listByResourceGroupDeserialize(
 }
 
 /** Lists trusted signing accounts within a resource group. */
-export function listByResourceGroup(
+export function codeSigningAccountsListByResourceGroup(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -397,14 +440,20 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<CodeSigningAccount> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
-    _listByResourceGroupDeserialize,
+    () =>
+      _codeSigningAccountsListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
+    _codeSigningAccountsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _listBySubscriptionSend(
+export function _codeSigningAccountsListBySubscriptionSend(
   context: Client,
   subscriptionId: string,
   options: CodeSigningAccountsListBySubscriptionOptionalParams = {
@@ -419,7 +468,7 @@ export function _listBySubscriptionSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _listBySubscriptionDeserialize(
+export async function _codeSigningAccountsListBySubscriptionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_CodeSigningAccountListResult> {
   const expectedStatuses = ["200"];
@@ -455,7 +504,9 @@ export async function _listBySubscriptionDeserialize(
           ? undefined
           : {
               accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
+              sku: !p.properties?.sku
+                ? undefined
+                : { name: p.properties?.sku?.["name"] },
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -465,7 +516,7 @@ export async function _listBySubscriptionDeserialize(
 }
 
 /** Lists trusted signing accounts within a subscription. */
-export function listBySubscription(
+export function codeSigningAccountsListBySubscription(
   context: Client,
   subscriptionId: string,
   options: CodeSigningAccountsListBySubscriptionOptionalParams = {
@@ -474,14 +525,19 @@ export function listBySubscription(
 ): PagedAsyncIterableIterator<CodeSigningAccount> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, subscriptionId, options),
-    _listBySubscriptionDeserialize,
+    () =>
+      _codeSigningAccountsListBySubscriptionSend(
+        context,
+        subscriptionId,
+        options,
+      ),
+    _codeSigningAccountsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
 
-export function _checkNameAvailabilitySend(
+export function _codeSigningAccountsCheckNameAvailabilitySend(
   context: Client,
   subscriptionId: string,
   body: CheckNameAvailability,
@@ -500,7 +556,7 @@ export function _checkNameAvailabilitySend(
     });
 }
 
-export async function _checkNameAvailabilityDeserialize(
+export async function _codeSigningAccountsCheckNameAvailabilityDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CheckNameAvailabilityResult> {
   const expectedStatuses = ["200"];
@@ -516,7 +572,7 @@ export async function _checkNameAvailabilityDeserialize(
 }
 
 /** Checks that the trusted signing account name is valid and is not already in use. */
-export async function checkNameAvailability(
+export async function codeSigningAccountsCheckNameAvailability(
   context: Client,
   subscriptionId: string,
   body: CheckNameAvailability,
@@ -524,6 +580,11 @@ export async function checkNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResult> {
-  const result = await _checkNameAvailabilitySend(context, subscriptionId, body, options);
-  return _checkNameAvailabilityDeserialize(result);
+  const result = await _codeSigningAccountsCheckNameAvailabilitySend(
+    context,
+    subscriptionId,
+    body,
+    options,
+  );
+  return _codeSigningAccountsCheckNameAvailabilityDeserialize(result);
 }
