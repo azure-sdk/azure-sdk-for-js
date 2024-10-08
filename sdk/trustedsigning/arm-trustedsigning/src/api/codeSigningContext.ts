@@ -18,10 +18,13 @@ export function createCodeSigning(
   credential: TokenCredential,
   options: CodeSigningClientOptionalParams = {},
 ): CodeSigningContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions
+    ? `${prefixFromOptions} azsdk-js-api`
+    : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
@@ -32,7 +35,7 @@ export function createCodeSigning(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-02-05-preview";
+  const apiVersion = options.apiVersion ?? "2024-09-30-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

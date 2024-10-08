@@ -7,7 +7,10 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CodeSigningClient, CodeSigningClientOptionalParams } from "./codeSigningClient.js";
+export {
+  CodeSigningClient,
+  CodeSigningClientOptionalParams,
+} from "./codeSigningClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,
@@ -29,6 +32,9 @@ export {
   Revocation,
   KnownRevocationStatus,
   RevocationStatus,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   RevokeCertificate,
   TrackedResource,
   CodeSigningAccount,
@@ -38,6 +44,7 @@ export {
   SkuName,
   CodeSigningAccountPatch,
   CodeSigningAccountPatchProperties,
+  AccountSkuPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
   KnownNameUnavailabilityReason,
@@ -48,6 +55,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   OperationsListOptionalParams,
   CodeSigningAccountsGetOptionalParams,
   CodeSigningAccountsCreateOptionalParams,
