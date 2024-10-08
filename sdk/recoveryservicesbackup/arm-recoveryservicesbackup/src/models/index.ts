@@ -2372,66 +2372,88 @@ export interface AzureWorkloadContainerAutoProtectionIntent
 export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of RecoveryPoint resources */
 export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionPolicy resources */
 export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of Job resources */
 export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectedItem resources */
 export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of BackupEngineBase resources */
 export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectableContainer resources */
 export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadItem resources */
 export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadProtectableItem resources */
 export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionContainer resources */
 export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 export interface BackupResourceEncryptionConfigExtended
