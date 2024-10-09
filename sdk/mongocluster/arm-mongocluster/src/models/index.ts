@@ -14,7 +14,8 @@ export {
   MongoClusterRestoreParameters,
   MongoClusterReplicaParameters,
   AdministratorProperties,
-  KnownProvisioningState,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
   KnownMongoClusterStatus,
   MongoClusterStatus,
   KnownPublicNetworkAccess,
@@ -41,6 +42,9 @@ export {
   ReplicationRole,
   KnownReplicationState,
   ReplicationState,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   PrivateEndpointConnectionResource,
@@ -67,6 +71,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {
