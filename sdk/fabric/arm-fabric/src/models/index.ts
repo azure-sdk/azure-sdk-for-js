@@ -8,6 +8,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Resource,
   SystemData,
   KnownCreatedByType,
@@ -15,7 +18,8 @@ export {
   TrackedResource,
   FabricCapacity,
   FabricCapacityProperties,
-  KnownProvisioningState,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
   KnownResourceState,
   ResourceState,
   CapacityAdministration,
@@ -30,6 +34,7 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Versions,
   ProvisioningState,
 } from "./models.js";
 export {

@@ -16,6 +16,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Resource,
   SystemData,
   KnownCreatedByType,
@@ -23,7 +26,8 @@ export {
   TrackedResource,
   FabricCapacity,
   FabricCapacityProperties,
-  KnownProvisioningState,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
   KnownResourceState,
   ResourceState,
   CapacityAdministration,
@@ -38,6 +42,7 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Versions,
   ProvisioningState,
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
@@ -52,5 +57,8 @@ export {
   FabricCapacitiesListSkusOptionalParams,
   OperationsListOptionalParams,
 } from "./models/index.js";
-export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
+export {
+  FabricCapacitiesOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
