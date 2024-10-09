@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -53,11 +46,6 @@ export type AzureDevOpsPermissionType = string;
 export type CachingType = string;
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -71,23 +59,6 @@ export interface DataDisk {
 // @public
 export interface DevOpsAzureSku {
     name: string;
-}
-
-// @public (undocumented)
-export class DevOpsInfrastructureClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DevOpsInfrastructureClientOptionalParams);
-    readonly imageVersions: ImageVersionsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly pools: PoolsOperations;
-    readonly resourceDetails: ResourceDetailsOperations;
-    readonly sku: SkuOperations;
-    readonly subscriptionUsages: SubscriptionUsagesOperations;
-}
-
-// @public
-export interface DevOpsInfrastructureClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -142,11 +113,6 @@ export interface ImageVersionProperties {
 
 // @public
 export interface ImageVersionsListByImageOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ImageVersionsOperations {
-    listByImage: (resourceGroupName: string, imageName: string, options?: ImageVersionsListByImageOptionalParams) => PagedAsyncIterableIterator<ImageVersion>;
 }
 
 // @public
@@ -312,11 +278,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface Organization {
     parallelism?: number;
     projects?: string[];
@@ -341,18 +302,6 @@ export type OsDiskStorageAccountType = string;
 export interface OsProfile {
     logonType?: LogonType;
     secretsManagementSettings?: SecretsManagementSettings;
-}
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
 }
 
 // @public
@@ -399,16 +348,6 @@ export interface PoolsListByResourceGroupOptionalParams extends OperationOptions
 
 // @public
 export interface PoolsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PoolsOperations {
-    createOrUpdate: (resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
-    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) => Promise<Pool>;
-    listByResourceGroup: (resourceGroupName: string, options?: PoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Pool>;
-    listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Pool>;
-    update: (resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
 }
 
 // @public
@@ -480,11 +419,6 @@ export interface ResourceDetailsObjectProperties {
     image: string;
     imageVersion: string;
     status: ResourceStatus;
-}
-
-// @public
-export interface ResourceDetailsOperations {
-    listByPool: (resourceGroupName: string, poolName: string, options?: ResourceDetailsListByPoolOptionalParams) => PagedAsyncIterableIterator<ResourceDetailsObject>;
 }
 
 // @public
@@ -562,16 +496,6 @@ export interface ResourceSkuZoneDetails {
 export type ResourceStatus = string;
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DevOpsInfrastructureClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface SecretsManagementSettings {
     certificateStoreLocation?: string;
     keyExportable: boolean;
@@ -580,11 +504,6 @@ export interface SecretsManagementSettings {
 
 // @public
 export interface SkuListByLocationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SkuOperations {
-    listByLocation: (locationName: string, options?: SkuListByLocationOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
 // @public
@@ -606,11 +525,6 @@ export type StorageAccountType = string;
 export interface StorageProfile {
     dataDisks?: DataDisk[];
     osDiskStorageAccountType?: OsDiskStorageAccountType;
-}
-
-// @public
-export interface SubscriptionUsagesOperations {
-    usages: (location: string, options?: SubscriptionUsagesUsagesOptionalParams) => PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
