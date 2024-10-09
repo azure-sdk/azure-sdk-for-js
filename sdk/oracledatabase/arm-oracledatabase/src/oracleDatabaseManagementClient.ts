@@ -86,7 +86,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-oracledatabase/1.0.1`;
+    const packageDetails = `azsdk-js-arm-oracledatabase/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,7 +140,7 @@ export class OracleDatabaseManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01";
+    this.apiVersion = options.apiVersion || "2024-06-01";
     this.operations = new OperationsImpl(this);
     this.autonomousDatabases = new AutonomousDatabasesImpl(this);
     this.cloudExadataInfrastructures = new CloudExadataInfrastructuresImpl(
