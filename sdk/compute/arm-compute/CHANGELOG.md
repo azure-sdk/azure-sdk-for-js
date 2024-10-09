@@ -1,15 +1,16 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.2.0 (2024-10-09)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ExecutedValidation
+  - Added Interface PlatformAttribute
+  - Added Interface ValidationsProfile
+  - Interface GalleryImageVersion has a new optional parameter validationsProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +580,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 
