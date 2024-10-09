@@ -137,8 +137,8 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
 }
@@ -367,7 +367,7 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = "2024-02-28-preview";
+export type Versions = "2024-02-28-preview" | "2024-09-20";
 
 // (No @packageDocumentation comment for this package)
 
