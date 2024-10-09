@@ -1709,7 +1709,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -4034,6 +4034,35 @@ export interface UefiKey {
   value?: string[];
 }
 
+/** This is the validations profile of a Gallery Image Version. */
+export interface ValidationsProfile {
+  /** The published time of the image version */
+  validationEtag?: string;
+  executedValidations?: ExecutedValidation[];
+  /** This specifies the pub, offer, sku and version of the image version metadata */
+  platformAttributes?: PlatformAttribute[];
+}
+
+/** This is the executed Validation. */
+export interface ExecutedValidation {
+  /** This property specifies the type of image version validation. */
+  type?: string;
+  /** This property specifies the status of the validationProfile of the image version. */
+  status?: string;
+  /** This property specifies the valid version of the validation. */
+  version?: string;
+  /** This property specifies the starting timestamp. */
+  executionTime?: Date;
+}
+
+/** This is the platform attribute of the image version. */
+export interface PlatformAttribute {
+  /** This property specifies the name of the platformAttributes. It could be either source_image_publisher or source_image_offer or source_image_sku or source_image_version */
+  name?: string;
+  /** This property specifies the value of the corresponding name property. */
+  value?: string;
+}
+
 /** A custom action that can be performed with a Gallery Application Version. */
 export interface GalleryApplicationCustomAction {
   /** The name of the custom action.  Must be unique within the Gallery Application Version. */
@@ -6003,7 +6032,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6027,6 +6056,11 @@ export interface GalleryImageVersion extends Resource {
   readonly replicationStatus?: ReplicationStatus;
   /** The security profile of a gallery image version */
   securityProfile?: ImageVersionSecurityProfile;
+  /**
+   * This is the validations profile of a Gallery Image Version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationsProfile?: ValidationsProfile;
 }
 
 /** Specifies information about the gallery Application Definition that you want to create or update. */
@@ -6672,7 +6706,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6696,6 +6730,11 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
   readonly replicationStatus?: ReplicationStatus;
   /** The security profile of a gallery image version */
   securityProfile?: ImageVersionSecurityProfile;
+  /**
+   * This is the validations profile of a Gallery Image Version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationsProfile?: ValidationsProfile;
 }
 
 /** Specifies information about the gallery Application Definition that you want to update. */
@@ -6857,7 +6896,7 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6942,7 +6981,7 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;

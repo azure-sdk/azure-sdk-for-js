@@ -2217,6 +2217,14 @@ export interface EventGridAndResourceGraph {
 }
 
 // @public
+export interface ExecutedValidation {
+    executionTime?: Date;
+    status?: string;
+    type?: string;
+    version?: string;
+}
+
+// @public
 export type ExecutionState = string;
 
 // @public
@@ -2729,6 +2737,7 @@ export interface GalleryImageVersion extends Resource {
     safetyProfile?: GalleryImageVersionSafetyProfile;
     securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
+    readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
@@ -2826,6 +2835,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     safetyProfile?: GalleryImageVersionSafetyProfile;
     securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
+    readonly validationsProfile?: ValidationsProfile;
 }
 
 // @public
@@ -4468,6 +4478,12 @@ export interface Plan {
 }
 
 // @public
+export interface PlatformAttribute {
+    name?: string;
+    value?: string;
+}
+
+// @public
 export interface PolicyViolation {
     category?: PolicyViolationCategory;
     details?: string;
@@ -6060,6 +6076,14 @@ export interface UserInitiatedReboot {
 // @public
 export interface UserInitiatedRedeploy {
     automaticallyApprove?: boolean;
+}
+
+// @public
+export interface ValidationsProfile {
+    // (undocumented)
+    executedValidations?: ExecutedValidation[];
+    platformAttributes?: PlatformAttribute[];
+    validationEtag?: string;
 }
 
 // @public
