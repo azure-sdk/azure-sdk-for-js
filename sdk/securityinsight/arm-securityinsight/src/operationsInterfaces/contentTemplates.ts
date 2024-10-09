@@ -7,22 +7,23 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Relation, EntitiesRelationsListOptionalParams } from "../models";
+import { TemplateModel, ContentTemplatesListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a EntitiesRelations. */
-export interface EntitiesRelations {
+/** Interface representing a ContentTemplates. */
+export interface ContentTemplates {
   /**
-   * Gets all relations of an entity.
+   * Gets all installed templates.
+   * Expandable properties:
+   * - properties/mainTemplate
+   * - properties/dependantTemplates
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesRelationsListOptionalParams
-  ): PagedAsyncIterableIterator<Relation>;
+    options?: ContentTemplatesListOptionalParams,
+  ): PagedAsyncIterableIterator<TemplateModel>;
 }

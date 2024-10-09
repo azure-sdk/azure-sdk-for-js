@@ -6,7 +6,7 @@ API spec for Microsoft.SecurityInsights (Azure Security Insights) resource provi
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/securityinsight/arm-securityinsight) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-securityinsight) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

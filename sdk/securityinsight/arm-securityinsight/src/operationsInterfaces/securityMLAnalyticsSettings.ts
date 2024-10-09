@@ -14,7 +14,7 @@ import {
   SecurityMLAnalyticsSettingsGetResponse,
   SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams,
   SecurityMLAnalyticsSettingsCreateOrUpdateResponse,
-  SecurityMLAnalyticsSettingsDeleteOptionalParams
+  SecurityMLAnalyticsSettingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface SecurityMLAnalyticsSettings {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SecurityMLAnalyticsSettingsListOptionalParams
+    options?: SecurityMLAnalyticsSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityMLAnalyticsSettingUnion>;
   /**
    * Gets the Security ML Analytics Settings.
@@ -42,7 +42,7 @@ export interface SecurityMLAnalyticsSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsResourceName: string,
-    options?: SecurityMLAnalyticsSettingsGetOptionalParams
+    options?: SecurityMLAnalyticsSettingsGetOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsGetResponse>;
   /**
    * Creates or updates the Security ML Analytics Settings.
@@ -57,7 +57,7 @@ export interface SecurityMLAnalyticsSettings {
     workspaceName: string,
     settingsResourceName: string,
     securityMLAnalyticsSetting: SecurityMLAnalyticsSettingUnion,
-    options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+    options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsCreateOrUpdateResponse>;
   /**
    * Delete the Security ML Analytics Settings.
@@ -70,6 +70,6 @@ export interface SecurityMLAnalyticsSettings {
     resourceGroupName: string,
     workspaceName: string,
     settingsResourceName: string,
-    options?: SecurityMLAnalyticsSettingsDeleteOptionalParams
+    options?: SecurityMLAnalyticsSettingsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -22,7 +22,7 @@ import {
   ThreatIntelligenceAppendTags,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
-  ThreatIntelligenceIndicatorReplaceTagsResponse
+  ThreatIntelligenceIndicatorReplaceTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +40,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     threatIntelligenceFilteringCriteria: ThreatIntelligenceFilteringCriteria,
-    options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams
+    options?: ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
   ): PagedAsyncIterableIterator<ThreatIntelligenceInformationUnion>;
   /**
    * Create a new threat intelligence indicator.
@@ -54,7 +54,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
-    options?: ThreatIntelligenceIndicatorCreateIndicatorOptionalParams
+    options?: ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorCreateIndicatorResponse>;
   /**
    * View a threat intelligence indicator by name.
@@ -67,7 +67,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ThreatIntelligenceIndicatorGetOptionalParams
+    options?: ThreatIntelligenceIndicatorGetOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorGetResponse>;
   /**
    * Update a threat Intelligence indicator.
@@ -83,7 +83,7 @@ export interface ThreatIntelligenceIndicator {
     workspaceName: string,
     name: string,
     threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
-    options?: ThreatIntelligenceIndicatorCreateOptionalParams
+    options?: ThreatIntelligenceIndicatorCreateOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorCreateResponse>;
   /**
    * Delete a threat intelligence indicator.
@@ -96,7 +96,7 @@ export interface ThreatIntelligenceIndicator {
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: ThreatIntelligenceIndicatorDeleteOptionalParams
+    options?: ThreatIntelligenceIndicatorDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Append tags to a threat intelligence indicator.
@@ -111,7 +111,7 @@ export interface ThreatIntelligenceIndicator {
     workspaceName: string,
     name: string,
     threatIntelligenceAppendTags: ThreatIntelligenceAppendTags,
-    options?: ThreatIntelligenceIndicatorAppendTagsOptionalParams
+    options?: ThreatIntelligenceIndicatorAppendTagsOptionalParams,
   ): Promise<void>;
   /**
    * Replace tags added to a threat intelligence indicator.
@@ -126,6 +126,6 @@ export interface ThreatIntelligenceIndicator {
     workspaceName: string,
     name: string,
     threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel,
-    options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams
+    options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorReplaceTagsResponse>;
 }

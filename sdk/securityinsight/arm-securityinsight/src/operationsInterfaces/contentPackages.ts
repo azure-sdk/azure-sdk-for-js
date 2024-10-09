@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityQueryTemplateUnion,
-  EntityQueryTemplatesListOptionalParams,
-  EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse
+  PackageModel,
+  ContentPackagesListOptionalParams,
+  ContentPackagesGetOptionalParams,
+  ContentPackagesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a EntityQueryTemplates. */
-export interface EntityQueryTemplates {
+/** Interface representing a ContentPackages. */
+export interface ContentPackages {
   /**
-   * Gets all entity query templates.
+   * Gets all installed packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface EntityQueryTemplates {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryTemplateUnion>;
+    options?: ContentPackagesListOptionalParams,
+  ): PagedAsyncIterableIterator<PackageModel>;
   /**
-   * Gets an entity query.
+   * Gets an installed packages by its id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryTemplateId entity query template ID
+   * @param packageId package Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
-  ): Promise<EntityQueryTemplatesGetResponse>;
+    packageId: string,
+    options?: ContentPackagesGetOptionalParams,
+  ): Promise<ContentPackagesGetResponse>;
 }
