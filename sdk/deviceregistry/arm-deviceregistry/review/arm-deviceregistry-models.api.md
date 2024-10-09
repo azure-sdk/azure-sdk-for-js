@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -60,16 +53,6 @@ export interface AssetEndpointProfilesListByResourceGroupOptionalParams extends 
 
 // @public
 export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AssetEndpointProfilesOperations {
-    createOrReplace: (resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
-    delete: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesGetOptionalParams) => Promise<AssetEndpointProfile>;
-    listByResourceGroup: (resourceGroupName: string, options?: AssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
-    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
-    update: (resourceGroupName: string, assetEndpointProfileName: string, properties: AssetEndpointProfileUpdate, options?: AssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
 }
 
 // @public
@@ -150,16 +133,6 @@ export interface AssetsListByResourceGroupOptionalParams extends OperationOption
 
 // @public
 export interface AssetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AssetsOperations {
-    createOrReplace: (resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
-    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) => Promise<Asset>;
-    listByResourceGroup: (resourceGroupName: string, options?: AssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Asset>;
-    listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Asset>;
-    update: (resourceGroupName: string, assetName: string, properties: AssetUpdate, options?: AssetsUpdateOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
 }
 
 // @public
@@ -250,17 +223,6 @@ export interface BillingContainersListBySubscriptionOptionalParams extends Opera
 }
 
 // @public
-export interface BillingContainersOperations {
-    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) => Promise<BillingContainer>;
-    listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BillingContainer>;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -284,27 +246,6 @@ export interface Dataset {
     datasetConfiguration?: string;
     name: string;
     topic?: Topic;
-}
-
-// @public (undocumented)
-export class DeviceRegistryClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DeviceRegistryClientOptionalParams);
-    readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
-    readonly assets: AssetsOperations;
-    readonly billingContainers: BillingContainersOperations;
-    readonly discoveredAssetEndpointProfiles: DiscoveredAssetEndpointProfilesOperations;
-    readonly discoveredAssets: DiscoveredAssetsOperations;
-    readonly operations: OperationsOperations;
-    readonly operationStatus: OperationStatusOperations;
-    readonly pipeline: Pipeline;
-    readonly schemaRegistries: SchemaRegistriesOperations;
-    readonly schemas: SchemasOperations;
-    readonly schemaVersions: SchemaVersionsOperations;
-}
-
-// @public
-export interface DeviceRegistryClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -350,16 +291,6 @@ export interface DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParam
 
 // @public
 export interface DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetEndpointProfilesOperations {
-    createOrReplace: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, resource: DiscoveredAssetEndpointProfile, options?: DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
-    delete: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesGetOptionalParams) => Promise<DiscoveredAssetEndpointProfile>;
-    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
-    listBySubscription: (options?: DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
-    update: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, properties: DiscoveredAssetEndpointProfileUpdate, options?: DiscoveredAssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
 }
 
 // @public
@@ -424,16 +355,6 @@ export interface DiscoveredAssetsListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface DiscoveredAssetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiscoveredAssetsOperations {
-    createOrReplace: (resourceGroupName: string, discoveredAssetName: string, resource: DiscoveredAsset, options?: DiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
-    delete: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsGetOptionalParams) => Promise<DiscoveredAsset>;
-    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
-    listBySubscription: (options?: DiscoveredAssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
-    update: (resourceGroupName: string, discoveredAssetName: string, properties: DiscoveredAssetUpdate, options?: DiscoveredAssetsUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
 }
 
 // @public
@@ -638,17 +559,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OperationStatusGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationStatusOperations {
-    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
 }
 
 // @public
@@ -667,18 +578,6 @@ export interface OperationStatusResult {
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export type ProvisioningState = ResourceProvisioningState | "Accepted" | "Deleting" | string;
 
 // @public
@@ -695,16 +594,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistryClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface Schema extends ProxyResource {
@@ -742,16 +631,6 @@ export interface SchemaRegistriesListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface SchemaRegistriesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaRegistriesOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistry, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesGetOptionalParams) => Promise<SchemaRegistry>;
-    listByResourceGroup: (resourceGroupName: string, options?: SchemaRegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
-    listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
-    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
 }
 
 // @public
@@ -805,14 +684,6 @@ export interface SchemasListBySchemaRegistryOptionalParams extends OperationOpti
 }
 
 // @public
-export interface SchemasOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasGetOptionalParams) => Promise<Schema>;
-    listBySchemaRegistry: (resourceGroupName: string, schemaRegistryName: string, options?: SchemasListBySchemaRegistryOptionalParams) => PagedAsyncIterableIterator<Schema>;
-}
-
-// @public
 export type SchemaType = string;
 
 // @public
@@ -843,14 +714,6 @@ export interface SchemaVersionsGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SchemaVersionsOperations {
-    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
-    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams) => Promise<SchemaVersion>;
-    listBySchema: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams) => PagedAsyncIterableIterator<SchemaVersion>;
 }
 
 // @public
