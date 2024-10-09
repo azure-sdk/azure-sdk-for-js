@@ -1,13 +1,11 @@
-# AzureSphereManagement client library for JavaScript
+# AzureSphereProvider client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureSphereManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureSphereProvider client.
 
 Azure Sphere resource management API.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sphere/arm-sphere) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-sphere) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-sphere) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-sphere?view=azure-node-preview) |
 
 ## Getting started
 
@@ -24,16 +22,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-sphere` package
 
-Install the AzureSphereManagement client library for JavaScript with `npm`:
+Install the AzureSphereProvider client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-sphere
 ```
 
-### Create and authenticate a `AzureSphereManagementClient`
+### Create and authenticate a `AzureSphereClient`
 
-To create a client object to access the AzureSphereManagement API, you will need the `endpoint` of your AzureSphereManagement resource and a `credential`. The AzureSphereManagement client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your AzureSphereManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the AzureSphereProvider API, you will need the `endpoint` of your AzureSphereProvider resource and a `credential`. The AzureSphereProvider client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your AzureSphereProvider resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,25 +41,25 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to AzureSphereManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to AzureSphereProvider** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { AzureSphereManagementClient } = require("@azure/arm-sphere");
+const { AzureSphereClient } = require("@azure/arm-sphere");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureSphereManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new AzureSphereClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new AzureSphereManagementClient(credential, subscriptionId);
+// const client = new AzureSphereClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +68,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### AzureSphereManagementClient
+### AzureSphereClient
 
-`AzureSphereManagementClient` is the primary interface for developers using the AzureSphereManagement client library. Explore the methods on this client object to understand the different features of the AzureSphereManagement service that you can access.
+`AzureSphereClient` is the primary interface for developers using the AzureSphereProvider client library. Explore the methods on this client object to understand the different features of the AzureSphereProvider service that you can access.
 
 ## Troubleshooting
 
@@ -87,9 +85,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -99,10 +94,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsphere%2Farm-sphere%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
