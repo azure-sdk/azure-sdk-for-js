@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AwsCloudProfile {
@@ -22,11 +15,6 @@ export interface AwsCloudProfile {
 
 // @public
 export type CloudNativeType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -56,11 +44,6 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
-export interface GenerateAwsTemplateOperations {
-    post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<Record<string, any>>;
-}
-
-// @public
 export interface GenerateAwsTemplatePostOptionalParams extends OperationOptions {
 }
 
@@ -73,34 +56,12 @@ export interface GenerateAwsTemplateRequest {
 // @public
 export type HostType = string;
 
-// @public (undocumented)
-export class HybridConnectivityClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: HybridConnectivityClientOptionalParams);
-    readonly generateAwsTemplate: GenerateAwsTemplateOperations;
-    readonly inventory: InventoryOperations;
-    readonly pipeline: Pipeline;
-    readonly publicCloudConnectors: PublicCloudConnectorsOperations;
-    readonly solutionConfigurations: SolutionConfigurationsOperations;
-    readonly solutionTypes: SolutionTypesOperations;
-}
-
-// @public
-export interface HybridConnectivityClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface InventoryGetOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface InventoryListBySolutionConfigurationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface InventoryOperations {
-    get: (resourceUri: string, solutionConfiguration: string, inventoryId: string, options?: InventoryGetOptionalParams) => Promise<InventoryResource>;
-    listBySolutionConfiguration: (resourceUri: string, solutionConfiguration: string, options?: InventoryListBySolutionConfigurationOptionalParams) => PagedAsyncIterableIterator<InventoryResource>;
 }
 
 // @public
@@ -164,18 +125,6 @@ export interface OperationStatusResult {
 }
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -214,17 +163,6 @@ export interface PublicCloudConnectorsListBySubscriptionOptionalParams extends O
 }
 
 // @public
-export interface PublicCloudConnectorsOperations {
-    createOrUpdate: (resourceGroupName: string, publicCloudConnector: string, resource: PublicCloudConnector, options?: PublicCloudConnectorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PublicCloudConnector>, PublicCloudConnector>;
-    delete: (resourceGroupName: string, publicCloudConnector: string, options?: PublicCloudConnectorsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, publicCloudConnector: string, options?: PublicCloudConnectorsGetOptionalParams) => Promise<PublicCloudConnector>;
-    listByResourceGroup: (resourceGroupName: string, options?: PublicCloudConnectorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PublicCloudConnector>;
-    listBySubscription: (options?: PublicCloudConnectorsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PublicCloudConnector>;
-    testPermissions: (resourceGroupName: string, publicCloudConnector: string, options?: PublicCloudConnectorsTestPermissionsOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceGroupName: string, publicCloudConnector: string, properties: PublicCloudConnector, options?: PublicCloudConnectorsUpdateOptionalParams) => Promise<PublicCloudConnector>;
-}
-
-// @public
 export interface PublicCloudConnectorsTestPermissionsOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -243,16 +181,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HybridConnectivityClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface SolutionConfiguration extends ExtensionResource {
@@ -283,16 +211,6 @@ export interface SolutionConfigurationsGetOptionalParams extends OperationOption
 
 // @public
 export interface SolutionConfigurationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SolutionConfigurationsOperations {
-    createOrUpdate: (resourceUri: string, solutionConfiguration: string, resource: SolutionConfiguration, options?: SolutionConfigurationsCreateOrUpdateOptionalParams) => Promise<SolutionConfiguration>;
-    delete: (resourceUri: string, solutionConfiguration: string, options?: SolutionConfigurationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, solutionConfiguration: string, options?: SolutionConfigurationsGetOptionalParams) => Promise<SolutionConfiguration>;
-    list: (resourceUri: string, options?: SolutionConfigurationsListOptionalParams) => PagedAsyncIterableIterator<SolutionConfiguration>;
-    syncNow: (resourceUri: string, solutionConfiguration: string, options?: SolutionConfigurationsSyncNowOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceUri: string, solutionConfiguration: string, properties: SolutionConfiguration, options?: SolutionConfigurationsUpdateOptionalParams) => Promise<SolutionConfiguration>;
 }
 
 // @public
@@ -350,13 +268,6 @@ export interface SolutionTypesListByResourceGroupOptionalParams extends Operatio
 
 // @public
 export interface SolutionTypesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SolutionTypesOperations {
-    get: (resourceGroupName: string, solutionType: string, options?: SolutionTypesGetOptionalParams) => Promise<SolutionTypeResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: SolutionTypesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SolutionTypeResource>;
-    listBySubscription: (options?: SolutionTypesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SolutionTypeResource>;
 }
 
 // @public
