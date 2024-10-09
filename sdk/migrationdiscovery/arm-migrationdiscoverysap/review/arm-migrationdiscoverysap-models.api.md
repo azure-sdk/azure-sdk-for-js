@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ConfigurationData {
@@ -27,11 +20,6 @@ export interface ConfigurationData {
     readonly totalDiskIops?: number;
     readonly totalDiskSizeGB?: number;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -174,18 +162,6 @@ export interface OperationStatusResult {
 }
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface PerformanceData {
     dataSource: DataSource;
 }
@@ -206,16 +182,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkloadsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -257,17 +223,6 @@ export interface SAPDiscoverySitesListByResourceGroupOptionalParams extends Oper
 
 // @public
 export interface SAPDiscoverySitesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPDiscoverySitesOperations {
-    create: (resourceGroupName: string, sapDiscoverySiteName: string, resource: SAPDiscoverySite, options?: SAPDiscoverySitesCreateOptionalParams) => PollerLike<OperationState<SAPDiscoverySite>, SAPDiscoverySite>;
-    delete: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesGetOptionalParams) => Promise<SAPDiscoverySite>;
-    importEntities: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPDiscoverySitesImportEntitiesOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    listByResourceGroup: (resourceGroupName: string, options?: SAPDiscoverySitesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SAPDiscoverySite>;
-    listBySubscription: (options?: SAPDiscoverySitesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SAPDiscoverySite>;
-    update: (resourceGroupName: string, sapDiscoverySiteName: string, properties: SAPDiscoverySiteTagsUpdate, options?: SAPDiscoverySitesUpdateOptionalParams) => Promise<SAPDiscoverySite>;
 }
 
 // @public
@@ -313,15 +268,6 @@ export interface SAPInstancesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SAPInstancesListBySapDiscoverySiteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPInstancesOperations {
-    create: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, resource: SAPInstance, options?: SAPInstancesCreateOptionalParams) => PollerLike<OperationState<SAPInstance>, SAPInstance>;
-    delete: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SAPInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: SAPInstancesGetOptionalParams) => Promise<SAPInstance>;
-    listBySapDiscoverySite: (resourceGroupName: string, sapDiscoverySiteName: string, options?: SAPInstancesListBySapDiscoverySiteOptionalParams) => PagedAsyncIterableIterator<SAPInstance>;
-    update: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, properties: SAPInstanceTagsUpdate, options?: SAPInstancesUpdateOptionalParams) => Promise<SAPInstance>;
 }
 
 // @public
@@ -379,15 +325,6 @@ export interface ServerInstancesListBySapInstanceOptionalParams extends Operatio
 }
 
 // @public
-export interface ServerInstancesOperations {
-    create: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, resource: ServerInstance, options?: ServerInstancesCreateOptionalParams) => PollerLike<OperationState<ServerInstance>, ServerInstance>;
-    delete: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, options?: ServerInstancesGetOptionalParams) => Promise<ServerInstance>;
-    listBySapInstance: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, options?: ServerInstancesListBySapInstanceOptionalParams) => PagedAsyncIterableIterator<ServerInstance>;
-    update: (resourceGroupName: string, sapDiscoverySiteName: string, sapInstanceName: string, serverInstanceName: string, properties: UpdateServerInstanceRequest, options?: ServerInstancesUpdateOptionalParams) => Promise<ServerInstance>;
-}
-
-// @public
 export interface ServerInstancesUpdateOptionalParams extends OperationOptions {
 }
 
@@ -414,20 +351,6 @@ export interface UpdateServerInstanceRequest {
 
 // @public
 export type Versions = "2023-10-01-preview";
-
-// @public (undocumented)
-export class WorkloadsClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: WorkloadsClientOptionalParams);
-    readonly pipeline: Pipeline;
-    readonly sAPDiscoverySites: SAPDiscoverySitesOperations;
-    readonly sAPInstances: SAPInstancesOperations;
-    readonly serverInstances: ServerInstancesOperations;
-}
-
-// @public
-export interface WorkloadsClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // (No @packageDocumentation comment for this package)
 
