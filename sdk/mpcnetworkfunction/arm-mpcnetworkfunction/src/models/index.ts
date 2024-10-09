@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  TrackedResource,
+  NetworkFunctionResource,
+  NetworkFunctionResourceProperties,
+  KnownSkuDefinitions,
+  SkuDefinitions,
+  KnownNetworkFunctionType,
+  NetworkFunctionType,
+  KnownNetworkFunctionAdministrativeState,
+  NetworkFunctionAdministrativeState,
+  KnownNetworkFunctionOperationalStatus,
+  NetworkFunctionOperationalStatus,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  NetworkFunctionResourceTagsUpdate,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  Versions,
+  ProvisioningState,
+} from "./models.js";
+export {
+  OperationsListOptionalParams,
+  NetworkFunctionsGetOptionalParams,
+  NetworkFunctionsCreateOrUpdateOptionalParams,
+  NetworkFunctionsUpdateTagsOptionalParams,
+  NetworkFunctionsDeleteOptionalParams,
+  NetworkFunctionsListByResourceGroupOptionalParams,
+  NetworkFunctionsListBySubscriptionOptionalParams,
+} from "./options.js";
