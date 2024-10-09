@@ -7,26 +7,23 @@
  */
 
 import {
-  BookmarkExpandParameters,
-  BookmarkExpandOptionalParams,
-  BookmarkExpandOperationResponse
+  ProductPackageGetOptionalParams,
+  ProductPackageGetResponse,
 } from "../models";
 
-/** Interface representing a BookmarkOperations. */
-export interface BookmarkOperations {
+/** Interface representing a ProductPackage. */
+export interface ProductPackage {
   /**
-   * Expand an bookmark
+   * Gets a package by its identifier from the catalog.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param bookmarkId Bookmark ID
-   * @param parameters The parameters required to execute an expand operation on the given bookmark.
+   * @param packageId package Id
    * @param options The options parameters.
    */
-  expand(
+  get(
     resourceGroupName: string,
     workspaceName: string,
-    bookmarkId: string,
-    parameters: BookmarkExpandParameters,
-    options?: BookmarkExpandOptionalParams
-  ): Promise<BookmarkExpandOperationResponse>;
+    packageId: string,
+    options?: ProductPackageGetOptionalParams,
+  ): Promise<ProductPackageGetResponse>;
 }

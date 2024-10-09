@@ -15,7 +15,7 @@ import {
   AutomationRulesCreateOrUpdateOptionalParams,
   AutomationRulesCreateOrUpdateResponse,
   AutomationRulesDeleteOptionalParams,
-  AutomationRulesDeleteResponse
+  AutomationRulesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface AutomationRules {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AutomationRulesListOptionalParams
+    options?: AutomationRulesListOptionalParams,
   ): PagedAsyncIterableIterator<AutomationRule>;
   /**
    * Gets the automation rule.
@@ -43,7 +43,7 @@ export interface AutomationRules {
     resourceGroupName: string,
     workspaceName: string,
     automationRuleId: string,
-    options?: AutomationRulesGetOptionalParams
+    options?: AutomationRulesGetOptionalParams,
   ): Promise<AutomationRulesGetResponse>;
   /**
    * Creates or updates the automation rule.
@@ -56,7 +56,7 @@ export interface AutomationRules {
     resourceGroupName: string,
     workspaceName: string,
     automationRuleId: string,
-    options?: AutomationRulesCreateOrUpdateOptionalParams
+    options?: AutomationRulesCreateOrUpdateOptionalParams,
   ): Promise<AutomationRulesCreateOrUpdateResponse>;
   /**
    * Delete the automation rule.
@@ -69,6 +69,6 @@ export interface AutomationRules {
     resourceGroupName: string,
     workspaceName: string,
     automationRuleId: string,
-    options?: AutomationRulesDeleteOptionalParams
+    options?: AutomationRulesDeleteOptionalParams,
   ): Promise<AutomationRulesDeleteResponse>;
 }
