@@ -1,0 +1,4 @@
+directory: specification/mpcnetworkfunction/MpcNetworkFunction.Management
+commit: e61ff8e55ea3e12827199208ecde57a04050202c
+repo: ../azure-rest-api-specs
+additionalDirectories: 
