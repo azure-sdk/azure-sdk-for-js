@@ -6,11 +6,7 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { Paged } from '@azure/core-paging';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -22,9 +18,8 @@ export interface EdgeZonesClientOptionalParams extends ClientOptions {
 }
 
 // @public (undocumented)
-export type EdgeZonesContext = Client & {
-    path: Routes;
-};
+export interface EdgeZonesContext extends Client {
+}
 
 // @public
 export function extendedZonesGet(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesGetOptionalParams): Promise<ExtendedZone>;

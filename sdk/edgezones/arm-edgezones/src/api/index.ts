@@ -3,8 +3,8 @@
 
 export {
   createEdgeZones,
-  EdgeZonesClientOptionalParams,
   EdgeZonesContext,
+  EdgeZonesClientOptionalParams,
 } from "./edgeZonesContext.js";
 export {
   extendedZonesGet,
