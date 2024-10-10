@@ -67,6 +67,26 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -159,9 +179,9 @@ export enum KnownMongoClusterStatus {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -195,16 +215,6 @@ export enum KnownPromoteOption {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Dropping = "Dropping",
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -225,6 +235,13 @@ export enum KnownReplicationState {
     Provisioning = "Provisioning",
     Reconfiguring = "Reconfiguring",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -503,7 +520,7 @@ export interface PromoteReplicaRequest {
 }
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "InProgress" | "Updating" | "Dropping";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -548,6 +565,9 @@ export interface Resource {
 }
 
 // @public
+export type ResourceProvisioningState = string;
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
@@ -582,6 +602,9 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export type Versions = "2024-03-01-preview" | "2024-06-01-preview" | "2024-07-01";
 
 // (No @packageDocumentation comment for this package)
 
