@@ -6338,6 +6338,7 @@ export interface VirtualMachineImageFeature {
 
 // @public
 export interface VirtualMachineImageResource extends SubResource {
+    [property: string]: any;
     extendedLocation?: ExtendedLocation;
     location: string;
     name: string;

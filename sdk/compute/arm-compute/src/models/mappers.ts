@@ -12891,6 +12891,7 @@ export const VirtualMachineImageResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VirtualMachineImageResource",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...SubResource.type.modelProperties,
       name: {
@@ -17848,6 +17849,7 @@ export const VirtualMachineImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VirtualMachineImage",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...VirtualMachineImageResource.type.modelProperties,
       plan: {
