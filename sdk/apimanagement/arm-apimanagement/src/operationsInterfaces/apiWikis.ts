@@ -23,6 +23,6 @@ export interface ApiWikis {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: ApiWikisListOptionalParams
+    options?: ApiWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract>;
 }
