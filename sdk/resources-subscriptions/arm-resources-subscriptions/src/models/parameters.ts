@@ -9,11 +9,15 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  CheckZonePeersRequest as CheckZonePeersRequestMapper,
-  ResourceName as ResourceNameMapper
+  PolicyAssignment as PolicyAssignmentMapper,
+  PolicyAssignmentUpdate as PolicyAssignmentUpdateMapper,
+  PolicyDefinition as PolicyDefinitionMapper,
+  PolicyDefinitionVersion as PolicyDefinitionVersionMapper,
+  PolicySetDefinition as PolicySetDefinitionMapper,
+  PolicySetDefinitionVersion as PolicySetDefinitionVersionMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -23,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -34,55 +38,48 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const scope: OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const policyAssignmentName: OperationURLParameter = {
+  parameterPath: "policyAssignmentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>*%&:\\?.+/]*[^<>*%&:\\?.+/ ]+$"),
+    },
+    serializedName: "policyAssignmentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const includeExtendedLocations: OperationQueryParameter = {
-  parameterPath: ["options", "includeExtendedLocations"],
-  mapper: {
-    serializedName: "includeExtendedLocations",
-    type: {
-      name: "Boolean"
-    }
-  }
 };
 
 export const contentType: OperationParameter = {
@@ -92,17 +89,230 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckZonePeersRequestMapper
+  mapper: PolicyAssignmentMapper,
 };
 
-export const resourceNameDefinition: OperationParameter = {
-  parameterPath: ["options", "resourceNameDefinition"],
-  mapper: ResourceNameMapper
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyAssignmentUpdateMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMaximum: 1000,
+      InclusiveMinimum: 1,
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const resourceProviderNamespace: OperationURLParameter = {
+  parameterPath: "resourceProviderNamespace",
+  mapper: {
+    serializedName: "resourceProviderNamespace",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parentResourcePath: OperationURLParameter = {
+  parameterPath: "parentResourcePath",
+  mapper: {
+    serializedName: "parentResourcePath",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const resourceType: OperationURLParameter = {
+  parameterPath: "resourceType",
+  mapper: {
+    serializedName: "resourceType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.+$"),
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const managementGroupId: OperationURLParameter = {
+  parameterPath: "managementGroupId",
+  mapper: {
+    serializedName: "managementGroupId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const policyAssignmentId: OperationURLParameter = {
+  parameterPath: "policyAssignmentId",
+  mapper: {
+    serializedName: "policyAssignmentId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyDefinitionMapper,
+};
+
+export const policyDefinitionName: OperationURLParameter = {
+  parameterPath: "policyDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>*%&:\\?.+/]*[^<>*%&:\\?.+/ ]+$"),
+    },
+    serializedName: "policyDefinitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const managementGroupName: OperationURLParameter = {
+  parameterPath: "managementGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "managementGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyDefinitionVersionMapper,
+};
+
+export const policyDefinitionVersion: OperationURLParameter = {
+  parameterPath: "policyDefinitionVersion",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^\\d+\\.\\d+\\.\\d+$"),
+    },
+    serializedName: "policyDefinitionVersion",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicySetDefinitionMapper,
+};
+
+export const policySetDefinitionName: OperationURLParameter = {
+  parameterPath: "policySetDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>*%&:\\?.+/]*[^<>*%&:\\?.+/ ]+$"),
+    },
+    serializedName: "policySetDefinitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicySetDefinitionVersionMapper,
 };
