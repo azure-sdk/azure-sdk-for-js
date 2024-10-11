@@ -2438,7 +2438,6 @@ export const AutonomousDatabaseCharacterSetProperties: coreClient.CompositeMappe
           },
           serializedName: "characterSet",
           required: true,
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2489,7 +2488,6 @@ export const AutonomousDatabaseNationalCharacterSetProperties: coreClient.Compos
           },
           serializedName: "characterSet",
           required: true,
-          readOnly: true,
           type: {
             name: "String",
           },
@@ -2538,42 +2536,36 @@ export const AutonomousDbVersionProperties: coreClient.CompositeMapper = {
         },
         serializedName: "version",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       dbWorkload: {
         serializedName: "dbWorkload",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       isDefaultForFree: {
         serializedName: "isDefaultForFree",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isDefaultForPaid: {
         serializedName: "isDefaultForPaid",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isFreeTierEnabled: {
         serializedName: "isFreeTierEnabled",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       isPaidEnabled: {
         serializedName: "isPaidEnabled",
-        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -2621,7 +2613,6 @@ export const DbSystemShapeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "shapeFamily",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2629,133 +2620,114 @@ export const DbSystemShapeProperties: coreClient.CompositeMapper = {
       availableCoreCount: {
         serializedName: "availableCoreCount",
         required: true,
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minimumCoreCount: {
         serializedName: "minimumCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       runtimeMinimumCoreCount: {
         serializedName: "runtimeMinimumCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       coreCountIncrement: {
         serializedName: "coreCountIncrement",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minStorageCount: {
         serializedName: "minStorageCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       maxStorageCount: {
         serializedName: "maxStorageCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDataStoragePerServerInTbs: {
         serializedName: "availableDataStoragePerServerInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableMemoryPerNodeInGbs: {
         serializedName: "availableMemoryPerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDbNodePerNodeInGbs: {
         serializedName: "availableDbNodePerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minCoreCountPerNode: {
         serializedName: "minCoreCountPerNode",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableMemoryInGbs: {
         serializedName: "availableMemoryInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minMemoryPerNodeInGbs: {
         serializedName: "minMemoryPerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDbNodeStorageInGbs: {
         serializedName: "availableDbNodeStorageInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minDbNodeStoragePerNodeInGbs: {
         serializedName: "minDbNodeStoragePerNodeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableDataStorageInTbs: {
         serializedName: "availableDataStorageInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minDataStorageInTbs: {
         serializedName: "minDataStorageInTbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       minimumNodeCount: {
         serializedName: "minimumNodeCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       maximumNodeCount: {
         serializedName: "maximumNodeCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       availableCoreCountPerNode: {
         serializedName: "availableCoreCountPerNode",
-        readOnly: true,
         type: {
           name: "Number",
         },
@@ -2804,14 +2776,13 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       displayName: {
         serializedName: "displayName",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2819,14 +2790,13 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       isProtected: {
         serializedName: "isProtected",
         required: true,
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2834,7 +2804,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       self: {
         serializedName: "self",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2842,7 +2811,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       timeCreated: {
         serializedName: "timeCreated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -2850,7 +2818,6 @@ export const DnsPrivateViewProperties: coreClient.CompositeMapper = {
       timeUpdated: {
         serializedName: "timeUpdated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -2906,7 +2873,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2914,14 +2880,13 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       isProtected: {
         serializedName: "isProtected",
         required: true,
-        readOnly: true,
         type: {
           name: "Boolean",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
@@ -2929,7 +2894,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       self: {
         serializedName: "self",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2937,7 +2901,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       serial: {
         serializedName: "serial",
         required: true,
-        readOnly: true,
         type: {
           name: "Number",
         },
@@ -2945,7 +2908,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       version: {
         serializedName: "version",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2956,7 +2918,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "viewId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2964,7 +2925,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       zoneType: {
         serializedName: "zoneType",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -2972,7 +2932,6 @@ export const DnsPrivateZoneProperties: coreClient.CompositeMapper = {
       timeCreated: {
         serializedName: "timeCreated",
         required: true,
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -3028,7 +2987,6 @@ export const GiVersionProperties: coreClient.CompositeMapper = {
         },
         serializedName: "version",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -3073,7 +3031,6 @@ export const SystemVersionProperties: coreClient.CompositeMapper = {
       systemVersion: {
         serializedName: "systemVersion",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -3161,6 +3118,32 @@ export const OracleSubscriptionProperties: coreClient.CompositeMapper = {
       },
       intent: {
         serializedName: "intent",
+        type: {
+          name: "String",
+        },
+      },
+      azureSubscriptionIds: {
+        serializedName: "azureSubscriptionIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      addSubscriptionOperationState: {
+        serializedName: "addSubscriptionOperationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationStatusDetail: {
+        serializedName: "lastOperationStatusDetail",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -3288,6 +3271,27 @@ export const OracleSubscriptionUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "intent",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureSubscriptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureSubscriptions",
+    modelProperties: {
+      azureSubscriptionIds: {
+        serializedName: "azureSubscriptionIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -4515,14 +4519,12 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
         },
         serializedName: "ocid",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       additionalDetails: {
         serializedName: "additionalDetails",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4533,7 +4535,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupIpId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4544,7 +4545,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupVnic2Id",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4555,21 +4555,18 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "backupVnicId",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       cpuCoreCount: {
         serializedName: "cpuCoreCount",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       dbNodeStorageSizeInGbs: {
         serializedName: "dbNodeStorageSizeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
@@ -4580,7 +4577,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "dbServerId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4592,7 +4588,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
         },
         serializedName: "dbSystemId",
         required: true,
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4603,7 +4598,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "faultDomain",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4614,70 +4608,62 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "hostIpId",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       hostname: {
         serializedName: "hostname",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       lifecycleState: {
         serializedName: "lifecycleState",
-        readOnly: true,
+        required: true,
         type: {
           name: "String",
         },
       },
       lifecycleDetails: {
         serializedName: "lifecycleDetails",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       maintenanceType: {
         serializedName: "maintenanceType",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       memorySizeInGbs: {
         serializedName: "memorySizeInGbs",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       softwareStorageSizeInGb: {
         serializedName: "softwareStorageSizeInGb",
-        readOnly: true,
         type: {
           name: "Number",
         },
       },
       timeCreated: {
         serializedName: "timeCreated",
-        readOnly: true,
+        required: true,
         type: {
           name: "DateTime",
         },
       },
       timeMaintenanceWindowEnd: {
         serializedName: "timeMaintenanceWindowEnd",
-        readOnly: true,
         type: {
           name: "DateTime",
         },
       },
       timeMaintenanceWindowStart: {
         serializedName: "timeMaintenanceWindowStart",
-        readOnly: true,
         type: {
           name: "DateTime",
         },
@@ -4688,7 +4674,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "vnic2Id",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -4699,7 +4684,6 @@ export const DbNodeProperties: coreClient.CompositeMapper = {
           MinLength: 1,
         },
         serializedName: "vnicId",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -5778,6 +5762,28 @@ export const OracleSubscriptionsDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const OracleSubscriptionsAddAzureSubscriptionsHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "OracleSubscriptionsAddAzureSubscriptionsHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const OracleSubscriptionsListActivationLinksHeaders: coreClient.CompositeMapper =
   {
