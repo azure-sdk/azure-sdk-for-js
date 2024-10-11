@@ -1,8 +1,8 @@
-# Azure Feature client library for JavaScript
+# Azure Policy client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Feature client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Policy client.
 
-Azure Feature Exposure Control (AFEC) provides a mechanism for the resource providers to control feature exposure to users. Resource providers typically use this mechanism to provide public/private preview for new features prior to making them generally available. Users need to explicitly register for AFEC features to get access to such functionality.
+To manage and control access to your resources, you can define customized policies and assign them at a scope.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-features) |
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-features` package
 
-Install the Azure Feature client library for JavaScript with `npm`:
+Install the Azure Policy client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-features
 ```
 
-### Create and authenticate a `FeatureClient`
+### Create and authenticate a `PolicyClient`
 
-To create a client object to access the Azure Feature API, you will need the `endpoint` of your Azure Feature resource and a `credential`. The Azure Feature client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Feature resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure Policy API, you will need the `endpoint` of your Azure Policy resource and a `credential`. The Azure Policy client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure Policy resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,25 +43,25 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Feature** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure Policy** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { FeatureClient } = require("@azure/arm-features");
+const { PolicyClient } = require("@azure/arm-features");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new FeatureClient(new DefaultAzureCredential(), subscriptionId);
+const client = new PolicyClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new FeatureClient(credential, subscriptionId);
+// const client = new PolicyClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### FeatureClient
+### PolicyClient
 
-`FeatureClient` is the primary interface for developers using the Azure Feature client library. Explore the methods on this client object to understand the different features of the Azure Feature service that you can access.
+`PolicyClient` is the primary interface for developers using the Azure Policy client library. Explore the methods on this client object to understand the different features of the Azure Policy service that you can access.
 
 ## Troubleshooting
 
