@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { DeploymentStacksClient } from "./deploymentStacksClient";
+export { PolicyClient } from "./policyClient";
 export * from "./operationsInterfaces";
