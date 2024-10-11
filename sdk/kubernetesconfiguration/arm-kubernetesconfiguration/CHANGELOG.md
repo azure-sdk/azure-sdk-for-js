@@ -1,15 +1,20 @@
 # Release History
-
-## 6.1.1 (Unreleased)
-
+    
+## 7.0.0 (2024-10-11)
+    
 ### Features Added
+
+  - Added Type Alias AutoUpgradeMode
+  - Interface Extension has a new optional parameter autoUpgradeMode
+  - Interface PatchExtension has a new optional parameter autoUpgradeMode
+  - Added Enum KnownAutoUpgradeMode
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Extension no longer has parameter autoUpgradeMinorVersion
+  - Interface PatchExtension no longer has parameter autoUpgradeMinorVersion
+    
+    
 ## 6.1.0 (2023-09-06)
     
 ### Features Added
@@ -65,4 +70,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
