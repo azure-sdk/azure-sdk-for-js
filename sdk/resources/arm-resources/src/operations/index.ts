@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./deployments";
-export * from "./providers";
-export * from "./providerResourceTypes";
-export * from "./resources";
-export * from "./resourceGroups";
-export * from "./tagsOperations";
-export * from "./deploymentOperations";
+export * from "./policyAssignments";
+export * from "./policyDefinitions";
+export * from "./policyDefinitionVersions";
+export * from "./policySetDefinitions";
+export * from "./policySetDefinitionVersions";
