@@ -8,110 +8,168 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** List of Deployment stacks. */
-export interface DeploymentStackListResult {
-  /** An array of Deployment stacks. */
-  value?: DeploymentStack[];
+/** The policy assignment. */
+export interface PolicyAssignment {
+  /** Properties for the policy assignment. */
+  properties?: PolicyAssignmentProperties;
   /**
-   * The URL to use for getting the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Entity representing the reference to the template. */
-export interface DeploymentStacksTemplateLink {
-  /** The URI of the template to deploy. Use either the uri or id property, but not both. */
-  uri?: string;
-  /** The resourceId of a Template Spec. Use either the id or uri property, but not both. */
-  id?: string;
-  /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs. */
-  relativePath?: string;
-  /** The query string (for example, a SAS token) to be used with the templateLink URI. */
-  queryString?: string;
-  /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
-}
-
-/** Deployment parameter for the template. */
-export interface DeploymentParameter {
-  /** Input value to the parameter. */
-  value?: any;
-  /** Type of the value. */
-  type?: string;
-  /** Azure Key Vault parameter reference. */
-  reference?: KeyVaultParameterReference;
-}
-
-/** Azure Key Vault parameter reference. */
-export interface KeyVaultParameterReference {
-  /** Azure Key Vault reference. */
-  keyVault: KeyVaultReference;
-  /** Azure Key Vault secret name. */
-  secretName: string;
-  /** Azure Key Vault secret version. */
-  secretVersion?: string;
-}
-
-/** Azure Key Vault reference. */
-export interface KeyVaultReference {
-  /** Azure Key Vault resourceId. */
-  id: string;
-}
-
-/** Entity representing the reference to the deployment parameters. */
-export interface DeploymentStacksParametersLink {
-  /** The URI of the parameters file. */
-  uri: string;
-  /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
-}
-
-/** Defines the behavior of resources that are no longer managed after the stack is updated or deleted. */
-export interface ActionOnUnmanage {
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resources: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resourceGroups?: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  managementGroups?: DeploymentStacksDeleteDetachEnum;
-}
-
-/** The debug setting. */
-export interface DeploymentStacksDebugSetting {
-  /** Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information that is being passed in during deployment. By logging information about the request or response, sensitive data that is retrieved through the deployment operations could potentially be exposed. */
-  detailLevel?: string;
-}
-
-/** Defines how resources deployed by the Deployment stack are locked. */
-export interface DenySettings {
-  /** denySettings Mode that defines denied actions. */
-  mode: DenySettingsMode;
-  /** List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted. */
-  excludedPrincipals?: string[];
-  /** List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted. If the denySetting mode is set to 'denyWriteAndDelete', then the following actions are automatically appended to 'excludedActions': '*\/read' and 'Microsoft.Authorization/locks/delete'. If the denySetting mode is set to 'denyDelete', then the following actions are automatically appended to 'excludedActions': 'Microsoft.Authorization/locks/delete'. Duplicate actions will be removed. */
-  excludedActions?: string[];
-  /** DenySettings will be applied to child resource scopes of every managed resource with a deny assignment. */
-  applyToChildScopes?: boolean;
-}
-
-/** The resourceId model. */
-export interface ResourceReference {
-  /**
-   * The resourceId of a resource managed by the deployment stack.
+   * The ID of the policy assignment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
+  /**
+   * The type of the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The name of the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The location of the policy assignment. Only required when utilizing managed identity. */
+  location?: string;
+  /** The managed identity associated with the policy assignment. */
+  identity?: Identity;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** Deployment Stacks error response. */
-export interface DeploymentStacksError {
-  /** The error detail. */
-  error?: ErrorDetail;
+/** The policy assignment properties. */
+export interface PolicyAssignmentProperties {
+  /** The display name of the policy assignment. */
+  displayName?: string;
+  /** The ID of the policy definition or policy set definition being assigned. */
+  policyDefinitionId?: string;
+  /** The version of the policy definition to use. */
+  definitionVersion?: string;
+  /**
+   * The scope for the policy assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: string;
+  /** The policy's excluded scopes. */
+  notScopes?: string[];
+  /** The parameter values for the assigned policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterValuesValue };
+  /** This message will be part of response in case of policy violation. */
+  description?: string;
+  /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: Record<string, unknown>;
+  /** The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. */
+  enforcementMode?: EnforcementMode;
+  /** The messages that describe why a resource is non-compliant with the policy. */
+  nonComplianceMessages?: NonComplianceMessage[];
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The policy property value override. */
+  overrides?: Override[];
+  /** The type of policy assignment. Possible values are NotSpecified, System, SystemHidden, and Custom. Immutable. */
+  assignmentType?: AssignmentType;
 }
 
-/** The error detail. */
-export interface ErrorDetail {
+/** The value of a parameter. */
+export interface ParameterValuesValue {
+  /** The value of the parameter. */
+  value?: Record<string, unknown>;
+}
+
+/** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
+export interface NonComplianceMessage {
+  /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
+  message: string;
+  /** The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment. */
+  policyDefinitionReferenceId?: string;
+}
+
+/** The resource selector to filter policies by resource properties. */
+export interface ResourceSelector {
+  /** The name of the resource selector. */
+  name?: string;
+  /** The list of the selector expressions. */
+  selectors?: Selector[];
+}
+
+/** The selector expression. */
+export interface Selector {
+  /** The selector kind. */
+  kind?: SelectorKind;
+  /** The list of values to filter in. */
+  in?: string[];
+  /** The list of values to filter out. */
+  notIn?: string[];
+}
+
+/** The policy property value override. */
+export interface Override {
+  /** The override kind. */
+  kind?: OverrideKind;
+  /** The value to override the policy property. */
+  value?: string;
+  /** The list of the selector expressions. */
+  selectors?: Selector[];
+}
+
+/** Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity. */
+export interface Identity {
+  /**
+   * The principal ID of the resource identity.  This property will only be provided for a system assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the resource identity.  This property will only be provided for a system assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
+  type?: ResourceIdentityType;
+  /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
+}
+
+export interface UserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An error response from a policy operation. */
+export interface CloudError {
+  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+  error?: ErrorResponse;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorResponse {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -131,7 +189,7 @@ export interface ErrorDetail {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDetail[];
+  readonly details?: ErrorResponse[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -153,344 +211,391 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Common properties for all Azure resources. */
-export interface AzureResourceBase {
+/** The policy assignment for Patch request. */
+export interface PolicyAssignmentUpdate {
+  /** The policy assignment properties for Patch request. */
+  properties?: PolicyAssignmentUpdateProperties;
+  /** The location of the policy assignment. Only required when utilizing managed identity. */
+  location?: string;
+  /** The managed identity associated with the policy assignment. */
+  identity?: Identity;
+}
+
+/** The policy assignment properties for Patch request. */
+export interface PolicyAssignmentUpdateProperties {
+  /** The resource selector list to filter policies by resource properties. */
+  resourceSelectors?: ResourceSelector[];
+  /** The policy property value override. */
+  overrides?: Override[];
+}
+
+/** List of policy assignments. */
+export interface PolicyAssignmentListResult {
+  /** An array of policy assignments. */
+  value?: PolicyAssignment[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** The policy definition. */
+export interface PolicyDefinition {
+  /** The policy definition properties. */
+  properties?: PolicyDefinitionProperties;
   /**
-   * String Id used to locate any resource on Azure.
+   * The ID of the policy definition.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Name of this resource.
+   * The name of the policy definition.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Type of this resource.
+   * The type of the resource (Microsoft.Authorization/policyDefinitions).
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Export Template specific properties of the Deployment stack. */
-export interface DeploymentStackTemplateDefinition {
-  /** The template content. Use this element to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, unknown>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-}
-
-/** The Deployment stack validation result details. */
-export interface DeploymentStackValidateProperties {
-  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage?: ActionOnUnmanage;
-  /** The correlation id of the Deployment stack validate operation. It is in GUID format and is used for tracing. */
-  correlationId?: string;
-  /** The Deployment stack deny settings. */
-  denySettings?: DenySettings;
-  /** The Deployment stack deployment scope. */
-  deploymentScope?: string;
-  /** The Deployment stack validation description. */
+/** The policy definition properties. */
+export interface PolicyDefinitionProperties {
+  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data. */
+  mode?: string;
+  /** The display name of the policy definition. */
+  displayName?: string;
+  /** The policy definition description. */
   description?: string;
-  /** Deployment parameters. */
-  parameters?: { [propertyName: string]: DeploymentParameter };
-  /** The URI of the template. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** The array of resources that were validated. */
-  validatedResources?: ResourceReference[];
+  /** The policy rule. */
+  policyRule?: Record<string, unknown>;
+  /** The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: Record<string, unknown>;
+  /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** The policy definition version in #.#.# format. */
+  version?: string;
+  /** A list of available versions for this policy definition. */
+  versions?: string[];
 }
 
-/** The resourceId extended model. This is used to document failed resources with a resourceId and a corresponding error. */
-export interface ResourceReferenceExtended
-  extends ResourceReference,
-    DeploymentStacksError {}
-
-/** The managed resource model. */
-export interface ManagedResourceReference extends ResourceReference {
-  /** Current management state of the resource in the deployment stack. */
-  status?: ResourceStatusMode;
-  /** denyAssignment settings applied to the resource. */
-  denyStatus?: DenyStatusMode;
+/** The definition of a parameter that can be provided to the policy. */
+export interface ParameterDefinitionsValue {
+  /** The data type of the parameter. */
+  type?: ParameterType;
+  /** The allowed values for the parameter. */
+  allowedValues?: Record<string, unknown>[];
+  /** The default value for the parameter if no value is provided. */
+  defaultValue?: Record<string, unknown>;
+  /** Provides validation of parameter inputs during assignment using a self-defined JSON schema. This property is only supported for object-type parameters and follows the Json.NET Schema 2019-09 implementation. You can learn more about using schemas at https://json-schema.org/ and test draft schemas at https://www.jsonschemavalidator.net/. */
+  schema?: Record<string, unknown>;
+  /** General metadata for the parameter. */
+  metadata?: ParameterDefinitionsValueMetadata;
 }
 
-/** Deployment stack properties. */
-export interface DeploymentStackProperties extends DeploymentStacksError {
-  /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, unknown>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: { [propertyName: string]: DeploymentParameter };
-  /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: DeploymentStacksParametersLink;
-  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage: ActionOnUnmanage;
-  /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
-  /** Deployment stack description. Max length of 4096 characters. */
+/** General metadata for the parameter. */
+export interface ParameterDefinitionsValueMetadata {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The display name for the parameter. */
+  displayName?: string;
+  /** The description of the parameter. */
   description?: string;
-  /** Defines how resources deployed by the stack are locked. */
-  denySettings: DenySettings;
-  /**
-   * State of the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: DeploymentStackProvisioningState;
-  /**
-   * The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-  /**
-   * An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly detachedResources?: ResourceReference[];
-  /**
-   * An array of resources that were deleted during the most recent Deployment stack update. Deleted means that the resource was removed from the template and relevant deletion operations were specified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deletedResources?: ResourceReference[];
-  /**
-   * An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedResources?: ResourceReferenceExtended[];
-  /**
-   * An array of resources currently managed by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: ManagedResourceReference[];
-  /**
-   * The resourceId of the deployment resource created by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deploymentId?: string;
-  /**
-   * The outputs of the deployment resource created by the deployment stack.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outputs?: Record<string, unknown>;
-  /**
-   * The duration of the last successful Deployment stack update.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
+  /** Used when assigning the policy definition through the portal. Provides a context aware list of values for the user to choose from. */
+  strongType?: string;
+  /** Set to true to have Azure portal create role assignments on the resource ID or resource scope value of this parameter during policy assignment. This property is useful in case you wish to assign permissions outside the assignment scope. */
+  assignPermissions?: boolean;
 }
 
-/** The Deployment stack validation result. */
-export interface DeploymentStackValidateResult
-  extends AzureResourceBase,
-    DeploymentStacksError {
-  /** The validation result details. */
-  properties?: DeploymentStackValidateProperties;
+/** List of policy definitions. */
+export interface PolicyDefinitionListResult {
+  /** An array of policy definitions. */
+  value?: PolicyDefinition[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
 }
 
-/** Deployment stack object. */
-export interface DeploymentStack extends AzureResourceBase {
-  /** The location of the Deployment stack. It cannot be changed after creation. It must be one of the supported Azure locations. */
-  location?: string;
-  /** Deployment stack resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+/** List of policy definition versions. */
+export interface PolicyDefinitionVersionListResult {
+  /** An array of policy definitions versions. */
+  value?: PolicyDefinitionVersion[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
 }
 
-/** Defines headers for DeploymentStacks_deleteAtResourceGroup operation. */
-export interface DeploymentStacksDeleteAtResourceGroupHeaders {
-  location?: string;
+/** The ID of the policy definition version. */
+export interface PolicyDefinitionVersion {
+  /** The policy definition version properties. */
+  properties?: PolicyDefinitionVersionProperties;
+  /**
+   * The ID of the policy definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the policy definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/policyDefinitions/versions).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** Defines headers for DeploymentStacks_deleteAtSubscription operation. */
-export interface DeploymentStacksDeleteAtSubscriptionHeaders {
-  location?: string;
+/** The policy definition properties. */
+export interface PolicyDefinitionVersionProperties {
+  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data. */
+  mode?: string;
+  /** The display name of the policy definition. */
+  displayName?: string;
+  /** The policy definition description. */
+  description?: string;
+  /** The policy rule. */
+  policyRule?: Record<string, unknown>;
+  /** The policy definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: Record<string, unknown>;
+  /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** The policy definition version in #.#.# format. */
+  version?: string;
 }
 
-/** Defines headers for DeploymentStacks_deleteAtManagementGroup operation. */
-export interface DeploymentStacksDeleteAtManagementGroupHeaders {
-  location?: string;
+/** The policy set definition. */
+export interface PolicySetDefinition {
+  /** The policy set definition properties. */
+  properties?: PolicySetDefinitionProperties;
+  /**
+   * The ID of the policy set definition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the policy set definition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/policySetDefinitions).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
-/** Defines headers for DeploymentStacks_validateStackAtResourceGroup operation. */
-export interface DeploymentStacksValidateStackAtResourceGroupHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
+/** The policy set definition properties. */
+export interface PolicySetDefinitionProperties {
+  /** The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The display name of the policy set definition. */
+  displayName?: string;
+  /** The policy set definition description. */
+  description?: string;
+  /** The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: Record<string, unknown>;
+  /** The policy set definition parameters that can be used in policy definition references. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** An array of policy definition references. */
+  policyDefinitions: PolicyDefinitionReference[];
+  /** The metadata describing groups of policy definition references within the policy set definition. */
+  policyDefinitionGroups?: PolicyDefinitionGroup[];
+  /** The policy set definition version in #.#.# format. */
+  version?: string;
+  /** A list of available versions for this policy set definition. */
+  versions?: string[];
 }
 
-/** Defines headers for DeploymentStacks_validateStackAtSubscription operation. */
-export interface DeploymentStacksValidateStackAtSubscriptionHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
+/** The policy definition reference. */
+export interface PolicyDefinitionReference {
+  /** The ID of the policy definition or policy set definition. */
+  policyDefinitionId: string;
+  /** The version of the policy definition to use. */
+  definitionVersion?: string;
+  /** The parameter values for the referenced policy rule. The keys are the parameter names. */
+  parameters?: { [propertyName: string]: ParameterValuesValue };
+  /** A unique id (within the policy set definition) for this policy definition reference. */
+  policyDefinitionReferenceId?: string;
+  /** The name of the groups that this policy definition reference belongs to. */
+  groupNames?: string[];
 }
 
-/** Defines headers for DeploymentStacks_validateStackAtManagementGroup operation. */
-export interface DeploymentStacksValidateStackAtManagementGroupHeaders {
-  location?: string;
-  /** Number of seconds to wait before polling for status. */
-  retryAfter?: string;
+/** The policy definition group. */
+export interface PolicyDefinitionGroup {
+  /** The name of the group. */
+  name: string;
+  /** The group's display name. */
+  displayName?: string;
+  /** The group's category. */
+  category?: string;
+  /** The group's description. */
+  description?: string;
+  /** A resource ID of a resource that contains additional metadata about the group. */
+  additionalMetadataId?: string;
 }
 
-/** Known values of {@link DeploymentStacksDeleteDetachEnum} that the service accepts. */
-export enum KnownDeploymentStacksDeleteDetachEnum {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** List of policy set definitions. */
+export interface PolicySetDefinitionListResult {
+  /** An array of policy set definitions. */
+  value?: PolicySetDefinition[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** List of policy set definition versions. */
+export interface PolicySetDefinitionVersionListResult {
+  /** An array of policy set definition versions. */
+  value?: PolicySetDefinitionVersion[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** The policy set definition version. */
+export interface PolicySetDefinitionVersion {
+  /** The policy set definition version properties. */
+  properties?: PolicySetDefinitionVersionProperties;
+  /**
+   * The ID of the policy set definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the policy set definition version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/policySetDefinitions/versions).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The system metadata relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** The policy set definition properties. */
+export interface PolicySetDefinitionVersionProperties {
+  /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
+  policyType?: PolicyType;
+  /** The display name of the policy set definition. */
+  displayName?: string;
+  /** The policy set definition description. */
+  description?: string;
+  /** The policy set definition metadata.  Metadata is an open ended object and is typically a collection of key value pairs. */
+  metadata?: Record<string, unknown>;
+  /** The policy set definition parameters that can be used in policy definition references. */
+  parameters?: { [propertyName: string]: ParameterDefinitionsValue };
+  /** An array of policy definition references. */
+  policyDefinitions: PolicyDefinitionReference[];
+  /** The metadata describing groups of policy definition references within the policy set definition. */
+  policyDefinitionGroups?: PolicyDefinitionGroup[];
+  /** The policy set definition version in #.#.# format. */
+  version?: string;
+}
+
+/** Known values of {@link EnforcementMode} that the service accepts. */
+export enum KnownEnforcementMode {
+  /** The policy effect is enforced during resource creation or update. */
+  Default = "Default",
+  /** The policy effect is not enforced during resource creation or update. */
+  DoNotEnforce = "DoNotEnforce",
 }
 
 /**
- * Defines values for DeploymentStacksDeleteDetachEnum. \
- * {@link KnownDeploymentStacksDeleteDetachEnum} can be used interchangeably with DeploymentStacksDeleteDetachEnum,
+ * Defines values for EnforcementMode. \
+ * {@link KnownEnforcementMode} can be used interchangeably with EnforcementMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **Default**: The policy effect is enforced during resource creation or update. \
+ * **DoNotEnforce**: The policy effect is not enforced during resource creation or update.
  */
-export type DeploymentStacksDeleteDetachEnum = string;
+export type EnforcementMode = string;
 
-/** Known values of {@link DenySettingsMode} that the service accepts. */
-export enum KnownDenySettingsMode {
-  /** Authorized users are able to read and modify the resources, but cannot delete. */
-  DenyDelete = "denyDelete",
-  /** Authorized users can read from a resource, but cannot modify or delete it. */
-  DenyWriteAndDelete = "denyWriteAndDelete",
-  /** No denyAssignments have been applied. */
-  None = "none",
+/** Known values of {@link SelectorKind} that the service accepts. */
+export enum KnownSelectorKind {
+  /** The selector kind to filter policies by the resource location. */
+  ResourceLocation = "resourceLocation",
+  /** The selector kind to filter policies by the resource type. */
+  ResourceType = "resourceType",
+  /** The selector kind to filter policies by the resource without location. */
+  ResourceWithoutLocation = "resourceWithoutLocation",
+  /** The selector kind to filter policies by the policy definition reference ID. */
+  PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
 }
 
 /**
- * Defines values for DenySettingsMode. \
- * {@link KnownDenySettingsMode} can be used interchangeably with DenySettingsMode,
+ * Defines values for SelectorKind. \
+ * {@link KnownSelectorKind} can be used interchangeably with SelectorKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **denyDelete**: Authorized users are able to read and modify the resources, but cannot delete. \
- * **denyWriteAndDelete**: Authorized users can read from a resource, but cannot modify or delete it. \
- * **none**: No denyAssignments have been applied.
+ * **resourceLocation**: The selector kind to filter policies by the resource location. \
+ * **resourceType**: The selector kind to filter policies by the resource type. \
+ * **resourceWithoutLocation**: The selector kind to filter policies by the resource without location. \
+ * **policyDefinitionReferenceId**: The selector kind to filter policies by the policy definition reference ID.
  */
-export type DenySettingsMode = string;
+export type SelectorKind = string;
 
-/** Known values of {@link DeploymentStackProvisioningState} that the service accepts. */
-export enum KnownDeploymentStackProvisioningState {
-  /** Creating */
-  Creating = "creating",
-  /** Validating */
-  Validating = "validating",
-  /** Waiting */
-  Waiting = "waiting",
-  /** Deploying */
-  Deploying = "deploying",
-  /** Canceling */
-  Canceling = "canceling",
-  /** UpdatingDenyAssignments */
-  UpdatingDenyAssignments = "updatingDenyAssignments",
-  /** DeletingResources */
-  DeletingResources = "deletingResources",
-  /** Succeeded */
-  Succeeded = "succeeded",
-  /** Failed */
-  Failed = "failed",
-  /** Canceled */
-  Canceled = "canceled",
-  /** Deleting */
-  Deleting = "deleting",
+/** Known values of {@link OverrideKind} that the service accepts. */
+export enum KnownOverrideKind {
+  /** It will override the policy effect type. */
+  PolicyEffect = "policyEffect",
+  /** It will override the definition version property value of the policy assignment. */
+  DefinitionVersion = "definitionVersion",
 }
 
 /**
- * Defines values for DeploymentStackProvisioningState. \
- * {@link KnownDeploymentStackProvisioningState} can be used interchangeably with DeploymentStackProvisioningState,
+ * Defines values for OverrideKind. \
+ * {@link KnownOverrideKind} can be used interchangeably with OverrideKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **creating** \
- * **validating** \
- * **waiting** \
- * **deploying** \
- * **canceling** \
- * **updatingDenyAssignments** \
- * **deletingResources** \
- * **succeeded** \
- * **failed** \
- * **canceled** \
- * **deleting**
+ * **policyEffect**: It will override the policy effect type. \
+ * **definitionVersion**: It will override the definition version property value of the policy assignment.
  */
-export type DeploymentStackProvisioningState = string;
+export type OverrideKind = string;
 
-/** Known values of {@link ResourceStatusMode} that the service accepts. */
-export enum KnownResourceStatusMode {
-  /** This resource is managed by the deployment stack. */
-  Managed = "managed",
-  /** Unable to remove the deny assignment on resource. */
-  RemoveDenyFailed = "removeDenyFailed",
-  /** Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually. */
-  DeleteFailed = "deleteFailed",
+/** Known values of {@link AssignmentType} that the service accepts. */
+export enum KnownAssignmentType {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** System */
+  System = "System",
+  /** SystemHidden */
+  SystemHidden = "SystemHidden",
+  /** Custom */
+  Custom = "Custom",
 }
 
 /**
- * Defines values for ResourceStatusMode. \
- * {@link KnownResourceStatusMode} can be used interchangeably with ResourceStatusMode,
+ * Defines values for AssignmentType. \
+ * {@link KnownAssignmentType} can be used interchangeably with AssignmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **managed**: This resource is managed by the deployment stack. \
- * **removeDenyFailed**: Unable to remove the deny assignment on resource. \
- * **deleteFailed**: Unable to delete the resource from Azure. The delete will be retried on the next stack deployment, or can be deleted manually.
+ * **NotSpecified** \
+ * **System** \
+ * **SystemHidden** \
+ * **Custom**
  */
-export type ResourceStatusMode = string;
-
-/** Known values of {@link DenyStatusMode} that the service accepts. */
-export enum KnownDenyStatusMode {
-  /** Authorized users are able to read and modify the resources, but cannot delete. */
-  DenyDelete = "denyDelete",
-  /** Resource type does not support denyAssignments. */
-  NotSupported = "notSupported",
-  /** denyAssignments are not supported on resources outside the scope of the deployment stack. */
-  Inapplicable = "inapplicable",
-  /** Authorized users can only read from a resource, but cannot modify or delete it. */
-  DenyWriteAndDelete = "denyWriteAndDelete",
-  /** Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) */
-  RemovedBySystem = "removedBySystem",
-  /** No denyAssignments have been applied. */
-  None = "none",
-}
-
-/**
- * Defines values for DenyStatusMode. \
- * {@link KnownDenyStatusMode} can be used interchangeably with DenyStatusMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **denyDelete**: Authorized users are able to read and modify the resources, but cannot delete. \
- * **notSupported**: Resource type does not support denyAssignments. \
- * **inapplicable**: denyAssignments are not supported on resources outside the scope of the deployment stack. \
- * **denyWriteAndDelete**: Authorized users can only read from a resource, but cannot modify or delete it. \
- * **removedBySystem**: Deny assignment has been removed by Azure due to a resource management change (management group move, etc.) \
- * **none**: No denyAssignments have been applied.
- */
-export type DenyStatusMode = string;
+export type AssignmentType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -516,284 +621,672 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link UnmanageActionResourceMode} that the service accepts. */
-export enum KnownUnmanageActionResourceMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** Known values of {@link PolicyType} that the service accepts. */
+export enum KnownPolicyType {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** BuiltIn */
+  BuiltIn = "BuiltIn",
+  /** Custom */
+  Custom = "Custom",
+  /** Static */
+  Static = "Static",
 }
 
 /**
- * Defines values for UnmanageActionResourceMode. \
- * {@link KnownUnmanageActionResourceMode} can be used interchangeably with UnmanageActionResourceMode,
+ * Defines values for PolicyType. \
+ * {@link KnownPolicyType} can be used interchangeably with PolicyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **NotSpecified** \
+ * **BuiltIn** \
+ * **Custom** \
+ * **Static**
  */
-export type UnmanageActionResourceMode = string;
+export type PolicyType = string;
 
-/** Known values of {@link UnmanageActionResourceGroupMode} that the service accepts. */
-export enum KnownUnmanageActionResourceGroupMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
+/** Known values of {@link ParameterType} that the service accepts. */
+export enum KnownParameterType {
+  /** String */
+  String = "String",
+  /** Array */
+  Array = "Array",
+  /** Object */
+  Object = "Object",
+  /** Boolean */
+  Boolean = "Boolean",
+  /** Integer */
+  Integer = "Integer",
+  /** Float */
+  Float = "Float",
+  /** DateTime */
+  DateTime = "DateTime",
 }
 
 /**
- * Defines values for UnmanageActionResourceGroupMode. \
- * {@link KnownUnmanageActionResourceGroupMode} can be used interchangeably with UnmanageActionResourceGroupMode,
+ * Defines values for ParameterType. \
+ * {@link KnownParameterType} can be used interchangeably with ParameterType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete** \
- * **detach**
+ * **String** \
+ * **Array** \
+ * **Object** \
+ * **Boolean** \
+ * **Integer** \
+ * **Float** \
+ * **DateTime**
  */
-export type UnmanageActionResourceGroupMode = string;
-
-/** Known values of {@link UnmanageActionManagementGroupMode} that the service accepts. */
-export enum KnownUnmanageActionManagementGroupMode {
-  /** Delete */
-  Delete = "delete",
-  /** Detach */
-  Detach = "detach",
-}
-
-/**
- * Defines values for UnmanageActionManagementGroupMode. \
- * {@link KnownUnmanageActionManagementGroupMode} can be used interchangeably with UnmanageActionManagementGroupMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **delete** \
- * **detach**
- */
-export type UnmanageActionManagementGroupMode = string;
+export type ParameterType = string;
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtResourceGroupOptionalParams
+export interface PolicyAssignmentsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtResourceGroup operation. */
-export type DeploymentStacksListAtResourceGroupResponse =
-  DeploymentStackListResult;
+/** Contains response data for the delete operation. */
+export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtSubscriptionOptionalParams
+export interface PolicyAssignmentsCreateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtSubscription operation. */
-export type DeploymentStacksListAtSubscriptionResponse =
-  DeploymentStackListResult;
+/** Contains response data for the create operation. */
+export type PolicyAssignmentsCreateResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtManagementGroupOptionalParams
+export interface PolicyAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtManagementGroup operation. */
-export type DeploymentStacksListAtManagementGroupResponse =
-  DeploymentStackListResult;
+/** Contains response data for the get operation. */
+export type PolicyAssignmentsGetResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateAtResourceGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtResourceGroupResponse =
-  DeploymentStack;
-
-/** Optional parameters. */
-export interface DeploymentStacksGetAtResourceGroupOptionalParams
+export interface PolicyAssignmentsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getAtResourceGroup operation. */
-export type DeploymentStacksGetAtResourceGroupResponse = DeploymentStack;
+/** Contains response data for the update operation. */
+export type PolicyAssignmentsUpdateResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksDeleteAtResourceGroupOptionalParams
+export interface PolicyAssignmentsListForResourceGroupOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
+/** Contains response data for the listForResourceGroup operation. */
+export type PolicyAssignmentsListForResourceGroupResponse =
+  PolicyAssignmentListResult;
+
 /** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+export interface PolicyAssignmentsListForResourceOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
-/** Contains response data for the createOrUpdateAtSubscription operation. */
-export type DeploymentStacksCreateOrUpdateAtSubscriptionResponse =
-  DeploymentStack;
+/** Contains response data for the listForResource operation. */
+export type PolicyAssignmentsListForResourceResponse =
+  PolicyAssignmentListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksGetAtSubscriptionOptionalParams
+export interface PolicyAssignmentsListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type PolicyAssignmentsListForManagementGroupResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PolicyAssignmentsListResponse = PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsDeleteByIdOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getAtSubscription operation. */
-export type DeploymentStacksGetAtSubscriptionResponse = DeploymentStack;
+/** Contains response data for the deleteById operation. */
+export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksDeleteAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface PolicyAssignmentsCreateByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createById operation. */
+export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment;
 
 /** Optional parameters. */
-export interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+export interface PolicyAssignmentsGetByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getById operation. */
+export type PolicyAssignmentsGetByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsUpdateByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateById operation. */
+export type PolicyAssignmentsUpdateByIdResponse = PolicyAssignment;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForResourceGroupNext operation. */
+export type PolicyAssignmentsListForResourceGroupNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForResourceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForResourceNext operation. */
+export type PolicyAssignmentsListForResourceNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type PolicyAssignmentsListForManagementGroupNextResponse =
+  PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyAssignmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicyDefinitionsCreateOrUpdateResponse = PolicyDefinition;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PolicyDefinitionsGetResponse = PolicyDefinition;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicyDefinitionsGetBuiltInResponse = PolicyDefinition;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAtManagementGroup operation. */
-export type DeploymentStacksCreateOrUpdateAtManagementGroupResponse =
-  DeploymentStack;
+export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse =
+  PolicyDefinition;
 
 /** Optional parameters. */
-export interface DeploymentStacksGetAtManagementGroupOptionalParams
+export interface PolicyDefinitionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionsGetAtManagementGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAtManagementGroup operation. */
-export type DeploymentStacksGetAtManagementGroupResponse = DeploymentStack;
+export type PolicyDefinitionsGetAtManagementGroupResponse = PolicyDefinition;
 
 /** Optional parameters. */
-export interface DeploymentStacksDeleteAtManagementGroupOptionalParams
+export interface PolicyDefinitionsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: UnmanageActionResourceMode;
-  /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
-  /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
-/** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtResourceGroup operation. */
-export type DeploymentStacksExportTemplateAtResourceGroupResponse =
-  DeploymentStackTemplateDefinition;
+/** Contains response data for the list operation. */
+export type PolicyDefinitionsListResponse = PolicyDefinitionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtSubscription operation. */
-export type DeploymentStacksExportTemplateAtSubscriptionResponse =
-  DeploymentStackTemplateDefinition;
-
-/** Optional parameters. */
-export interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the exportTemplateAtManagementGroup operation. */
-export type DeploymentStacksExportTemplateAtManagementGroupResponse =
-  DeploymentStackTemplateDefinition;
-
-/** Optional parameters. */
-export interface DeploymentStacksValidateStackAtResourceGroupOptionalParams
+export interface PolicyDefinitionsListBuiltInOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
-/** Contains response data for the validateStackAtResourceGroup operation. */
-export type DeploymentStacksValidateStackAtResourceGroupResponse =
-  DeploymentStackValidateResult;
+/** Contains response data for the listBuiltIn operation. */
+export type PolicyDefinitionsListBuiltInResponse = PolicyDefinitionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksValidateStackAtSubscriptionOptionalParams
+export interface PolicyDefinitionsListByManagementGroupOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
-/** Contains response data for the validateStackAtSubscription operation. */
-export type DeploymentStacksValidateStackAtSubscriptionResponse =
-  DeploymentStackValidateResult;
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicyDefinitionsListByManagementGroupResponse =
+  PolicyDefinitionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksValidateStackAtManagementGroupOptionalParams
+export interface PolicyDefinitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicyDefinitionsListNextResponse = PolicyDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsListBuiltInNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicyDefinitionsListBuiltInNextResponse =
+  PolicyDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionsListByManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicyDefinitionsListByManagementGroupNextResponse =
+  PolicyDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllBuiltinsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBuiltins operation. */
+export type PolicyDefinitionVersionsListAllBuiltinsResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllAtManagementGroup operation. */
+export type PolicyDefinitionVersionsListAllAtManagementGroupResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type PolicyDefinitionVersionsListAllResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicyDefinitionVersionsCreateOrUpdateResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PolicyDefinitionVersionsGetResponse = PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicyDefinitionVersionsGetBuiltInResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type PolicyDefinitionVersionsGetAtManagementGroupResponse =
+  PolicyDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
 }
 
-/** Contains response data for the validateStackAtManagementGroup operation. */
-export type DeploymentStacksValidateStackAtManagementGroupResponse =
-  DeploymentStackValidateResult;
+/** Contains response data for the list operation. */
+export type PolicyDefinitionVersionsListResponse =
+  PolicyDefinitionVersionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtResourceGroupNextOptionalParams
+export interface PolicyDefinitionVersionsListBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listBuiltIn operation. */
+export type PolicyDefinitionVersionsListBuiltInResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListByManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicyDefinitionVersionsListByManagementGroupResponse =
+  PolicyDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyDefinitionVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtResourceGroupNext operation. */
-export type DeploymentStacksListAtResourceGroupNextResponse =
-  DeploymentStackListResult;
+/** Contains response data for the listNext operation. */
+export type PolicyDefinitionVersionsListNextResponse =
+  PolicyDefinitionVersionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtSubscriptionNextOptionalParams
+export interface PolicyDefinitionVersionsListBuiltInNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtSubscriptionNext operation. */
-export type DeploymentStacksListAtSubscriptionNextResponse =
-  DeploymentStackListResult;
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicyDefinitionVersionsListBuiltInNextResponse =
+  PolicyDefinitionVersionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksListAtManagementGroupNextOptionalParams
+export interface PolicyDefinitionVersionsListByManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAtManagementGroupNext operation. */
-export type DeploymentStacksListAtManagementGroupNextResponse =
-  DeploymentStackListResult;
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicyDefinitionVersionsListByManagementGroupNextResponse =
+  PolicyDefinitionVersionListResult;
 
 /** Optional parameters. */
-export interface DeploymentStacksClientOptionalParams
+export interface PolicySetDefinitionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicySetDefinitionsCreateOrUpdateResponse = PolicySetDefinition;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PolicySetDefinitionsGetResponse = PolicySetDefinition;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicySetDefinitionsGetBuiltInResponse = PolicySetDefinition;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PolicySetDefinitionsListResponse = PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listBuiltIn operation. */
+export type PolicySetDefinitionsListBuiltInResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse =
+  PolicySetDefinition;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type PolicySetDefinitionsGetAtManagementGroupResponse =
+  PolicySetDefinition;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListByManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
+  filter?: string;
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicySetDefinitionsListByManagementGroupResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicySetDefinitionsListNextResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListBuiltInNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicySetDefinitionsListBuiltInNextResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionsListByManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicySetDefinitionsListByManagementGroupNextResponse =
+  PolicySetDefinitionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllBuiltinsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllBuiltins operation. */
+export type PolicySetDefinitionVersionsListAllBuiltinsResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsListAllAtManagementGroupResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type PolicySetDefinitionVersionsListAllResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicySetDefinitionVersionsCreateOrUpdateResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PolicySetDefinitionVersionsGetResponse = PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type PolicySetDefinitionVersionsGetBuiltInResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type PolicySetDefinitionVersionsListResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListBuiltInOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listBuiltIn operation. */
+export type PolicySetDefinitionVersionsListBuiltInResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type PolicySetDefinitionVersionsGetAtManagementGroupResponse =
+  PolicySetDefinitionVersion;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListByManagementGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
+  top?: number;
+}
+
+/** Contains response data for the listByManagementGroup operation. */
+export type PolicySetDefinitionVersionsListByManagementGroupResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PolicySetDefinitionVersionsListNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListBuiltInNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInNext operation. */
+export type PolicySetDefinitionVersionsListBuiltInNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicySetDefinitionVersionsListByManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagementGroupNext operation. */
+export type PolicySetDefinitionVersionsListByManagementGroupNextResponse =
+  PolicySetDefinitionVersionListResult;
+
+/** Optional parameters. */
+export interface PolicyClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
