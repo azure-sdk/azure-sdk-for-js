@@ -21,24 +21,19 @@ export type AddonAutoscaling = string;
 
 // @public
 export interface AdvancedNetworking {
+    enabled?: boolean;
     observability?: AdvancedNetworkingObservability;
     security?: AdvancedNetworkingSecurity;
 }
 
 // @public
-export interface AdvancedNetworkingFqdnPolicy {
-    enabled?: boolean;
-}
-
-// @public
 export interface AdvancedNetworkingObservability {
     enabled?: boolean;
-    tlsManagement?: TLSManagement;
 }
 
 // @public
 export interface AdvancedNetworkingSecurity {
-    fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
+    enabled?: boolean;
 }
 
 // @public
@@ -443,7 +438,7 @@ export interface ContainerServiceLinuxProfile {
 export interface ContainerServiceNetworkProfile {
     advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
-    ipFamilies?: IpFamily[];
+    ipFamilies?: IPFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -604,7 +599,7 @@ export interface GuardrailsAvailableVersionsProperties {
 export type GuardrailsSupport = string;
 
 // @public
-export type IpFamily = string;
+export type IPFamily = string;
 
 // @public
 export interface IPTag {
@@ -766,7 +761,7 @@ export enum KnownGuardrailsSupport {
 }
 
 // @public
-export enum KnownIpFamily {
+export enum KnownIPFamily {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
 }
@@ -1008,6 +1003,12 @@ export enum KnownScaleSetPriority {
 }
 
 // @public
+export enum KnownSeccompDefault {
+    RuntimeDefault = "RuntimeDefault",
+    Unconfined = "Unconfined"
+}
+
+// @public
 export enum KnownServiceMeshMode {
     Disabled = "Disabled",
     Istio = "Istio"
@@ -1017,12 +1018,6 @@ export enum KnownServiceMeshMode {
 export enum KnownSnapshotType {
     ManagedCluster = "ManagedCluster",
     NodePool = "NodePool"
-}
-
-// @public
-export enum KnownTLSManagement {
-    Managed = "Managed",
-    None = "None"
 }
 
 // @public
@@ -1088,6 +1083,7 @@ export interface KubeletConfig {
     imageGcHighThreshold?: number;
     imageGcLowThreshold?: number;
     podMaxPids?: number;
+    seccompDefault?: SeccompDefault;
     topologyManagerPolicy?: string;
 }
 
@@ -1235,7 +1231,7 @@ export interface Machine extends SubResource {
 
 // @public
 export interface MachineIpAddress {
-    readonly family?: IpFamily;
+    readonly family?: IPFamily;
     readonly ip?: string;
 }
 
@@ -2824,6 +2820,9 @@ export interface Schedule {
 }
 
 // @public
+export type SeccompDefault = string;
+
+// @public
 export type ServiceMeshMode = string;
 
 // @public
@@ -2983,9 +2982,6 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
-
-// @public
-export type TLSManagement = string;
 
 // @public
 export interface TrackedResource extends Resource {
