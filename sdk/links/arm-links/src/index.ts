@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { ManagementLinkClient } from "./managementLinkClient";
+export { PolicyClient } from "./policyClient";
 export * from "./operationsInterfaces";
