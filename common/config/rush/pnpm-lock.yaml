@@ -10762,7 +10762,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -10780,7 +10780,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.2
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -16189,7 +16189,7 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-HfU8LcbWaeQjuFlsEZv2AS2lUHPe398ZrqDdxyTTWgfwkBSLOiiUPJZsLy2ORuueY9ENCIocUwqE8BqQieQErg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-c/QhkogAMbTGgwV1JZg0Ii/ClQyJKq9KnbH6cMKc9C9jD1BEYMAhg3Y6sVD4LZOPULF7t0RL0NmUFCMgzgN3uA==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
@@ -16208,9 +16208,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -24289,7 +24290,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-w38Mjm5jUF2PTGhMcbn7l4oi2JoQsExuPE8CUosRyZE2vvOnN2Mh4dLgJYINp6LOauPJD04a2yYwZeU4sAUA6g==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-TrzrBoWWVWkMCBbOxpsCcwtqDTSJKkdMiNaAt9UJ22xXfkxxtKiObwb3qfp+E0lcPlkAezHZmEJmqV/uuuBJQQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -24339,8 +24340,6 @@ packages:
       vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
-      - '@swc/core'
-      - '@swc/wasm'
       - '@vitest/ui'
       - bufferutil
       - happy-dom

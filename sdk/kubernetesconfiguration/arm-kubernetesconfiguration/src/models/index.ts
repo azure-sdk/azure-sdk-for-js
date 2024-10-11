@@ -174,8 +174,8 @@ export interface ErrorResponse {
 
 /** The Extension Patch Request object. */
 export interface PatchExtension {
-  /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
-  autoUpgradeMinorVersion?: boolean;
+  /** Defines extension automatic upgrades modes */
+  autoUpgradeMode?: AutoUpgradeMode;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
   releaseTrain?: string;
   /** Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'. */
@@ -656,8 +656,8 @@ export interface Extension extends ProxyResource {
   plan?: Plan;
   /** Type of the Extension, of which this resource is an instance of.  It must be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher. */
   extensionType?: string;
-  /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
-  autoUpgradeMinorVersion?: boolean;
+  /** Defines extension automatic upgrades modes */
+  autoUpgradeMode?: AutoUpgradeMode;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
   releaseTrain?: string;
   /** User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion must be 'false'. */
@@ -819,6 +819,27 @@ export interface SourceControlConfiguration extends ProxyResource {
   readonly complianceStatus?: ComplianceStatus;
 }
 
+/** Known values of {@link AutoUpgradeMode} that the service accepts. */
+export enum KnownAutoUpgradeMode {
+  /** None */
+  None = "none",
+  /** Patch */
+  Patch = "patch",
+  /** Compatible */
+  Compatible = "compatible",
+}
+
+/**
+ * Defines values for AutoUpgradeMode. \
+ * {@link KnownAutoUpgradeMode} can be used interchangeably with AutoUpgradeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none** \
+ * **patch** \
+ * **compatible**
+ */
+export type AutoUpgradeMode = string;
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Succeeded */
@@ -832,7 +853,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -856,7 +877,7 @@ export enum KnownLevelType {
   /** Warning */
   Warning = "Warning",
   /** Information */
-  Information = "Information"
+  Information = "Information",
 }
 
 /**
@@ -879,7 +900,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -899,7 +920,7 @@ export enum KnownScopeType {
   /** Cluster */
   Cluster = "cluster",
   /** Namespace */
-  Namespace = "namespace"
+  Namespace = "namespace",
 }
 
 /**
@@ -919,7 +940,7 @@ export enum KnownSourceKindType {
   /** Bucket */
   Bucket = "Bucket",
   /** AzureBlob */
-  AzureBlob = "AzureBlob"
+  AzureBlob = "AzureBlob",
 }
 
 /**
@@ -944,7 +965,7 @@ export enum KnownFluxComplianceState {
   /** Suspended */
   Suspended = "Suspended",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -963,7 +984,7 @@ export type FluxComplianceState = string;
 /** Known values of {@link OperatorType} that the service accepts. */
 export enum KnownOperatorType {
   /** Flux */
-  Flux = "Flux"
+  Flux = "Flux",
 }
 
 /**
@@ -980,7 +1001,7 @@ export enum KnownOperatorScopeType {
   /** Cluster */
   Cluster = "cluster",
   /** Namespace */
-  Namespace = "namespace"
+  Namespace = "namespace",
 }
 
 /**
@@ -1004,7 +1025,7 @@ export enum KnownProvisioningStateType {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1031,7 +1052,7 @@ export enum KnownComplianceStateType {
   /** Installed */
   Installed = "Installed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1054,7 +1075,7 @@ export enum KnownMessageLevelType {
   /** Warning */
   Warning = "Warning",
   /** Information */
-  Information = "Information"
+  Information = "Information",
 }
 
 /**
@@ -1075,7 +1096,7 @@ export enum KnownKustomizationValidationType {
   /** Client */
   Client = "client",
   /** Server */
-  Server = "server"
+  Server = "server",
 }
 
 /**
@@ -1243,7 +1264,8 @@ export interface SourceControlConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type SourceControlConfigurationsCreateOrUpdateResponse = SourceControlConfiguration;
+export type SourceControlConfigurationsCreateOrUpdateResponse =
+  SourceControlConfiguration;
 
 /** Optional parameters. */
 export interface SourceControlConfigurationsDeleteOptionalParams
@@ -1259,14 +1281,16 @@ export interface SourceControlConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SourceControlConfigurationsListResponse = SourceControlConfigurationList;
+export type SourceControlConfigurationsListResponse =
+  SourceControlConfigurationList;
 
 /** Optional parameters. */
 export interface SourceControlConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SourceControlConfigurationsListNextResponse = SourceControlConfigurationList;
+export type SourceControlConfigurationsListNextResponse =
+  SourceControlConfigurationList;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
