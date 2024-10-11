@@ -9,280 +9,965 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export interface AuthorizationProfile {
-    readonly approvedTime?: Date;
-    readonly approver?: string;
-    readonly requestedTime?: Date;
-    readonly requester?: string;
-    readonly requesterObjectId?: string;
+export type AssignmentType = string;
+
+// @public
+export interface CloudError {
+    error?: ErrorResponse;
 }
 
 // @public
-export interface ErrorDefinition {
-    readonly code?: string;
-    details?: ErrorDefinition[];
-    readonly message?: string;
+export type CreatedByType = string;
+
+// @public
+export type EnforcementMode = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorResponse {
-    error?: ErrorDefinition;
-}
-
-// @public (undocumented)
-export class FeatureClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    features: Features;
-    listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
-    // (undocumented)
-    subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
-    // (undocumented)
-    subscriptionId: string;
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorResponse[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
-export interface FeatureClientOptionalParams extends coreClient.ServiceClientOptions {
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentitiesValue;
+    };
+}
+
+// @public
+export enum KnownAssignmentType {
+    Custom = "Custom",
+    NotSpecified = "NotSpecified",
+    System = "System",
+    SystemHidden = "SystemHidden"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownEnforcementMode {
+    Default = "Default",
+    DoNotEnforce = "DoNotEnforce"
+}
+
+// @public
+export enum KnownOverrideKind {
+    DefinitionVersion = "definitionVersion",
+    PolicyEffect = "policyEffect"
+}
+
+// @public
+export enum KnownParameterType {
+    Array = "Array",
+    Boolean = "Boolean",
+    DateTime = "DateTime",
+    Float = "Float",
+    Integer = "Integer",
+    Object = "Object",
+    String = "String"
+}
+
+// @public
+export enum KnownPolicyType {
+    BuiltIn = "BuiltIn",
+    Custom = "Custom",
+    NotSpecified = "NotSpecified",
+    Static = "Static"
+}
+
+// @public
+export enum KnownSelectorKind {
+    PolicyDefinitionReferenceId = "policyDefinitionReferenceId",
+    ResourceLocation = "resourceLocation",
+    ResourceType = "resourceType",
+    ResourceWithoutLocation = "resourceWithoutLocation"
+}
+
+// @public
+export interface NonComplianceMessage {
+    message: string;
+    policyDefinitionReferenceId?: string;
+}
+
+// @public
+export interface Override {
+    kind?: OverrideKind;
+    selectors?: Selector[];
+    value?: string;
+}
+
+// @public
+export type OverrideKind = string;
+
+// @public
+export interface ParameterDefinitionsValue {
+    allowedValues?: Record<string, unknown>[];
+    defaultValue?: Record<string, unknown>;
+    metadata?: ParameterDefinitionsValueMetadata;
+    schema?: Record<string, unknown>;
+    type?: ParameterType;
+}
+
+// @public
+export interface ParameterDefinitionsValueMetadata {
+    [property: string]: any;
+    assignPermissions?: boolean;
+    description?: string;
+    displayName?: string;
+    strongType?: string;
+}
+
+// @public
+export type ParameterType = string;
+
+// @public
+export interface ParameterValuesValue {
+    value?: Record<string, unknown>;
+}
+
+// @public
+export interface PolicyAssignment {
+    assignmentType?: AssignmentType;
+    definitionVersion?: string;
+    description?: string;
+    displayName?: string;
+    enforcementMode?: EnforcementMode;
+    readonly id?: string;
+    identity?: Identity;
+    location?: string;
+    metadata?: Record<string, unknown>;
+    readonly name?: string;
+    nonComplianceMessages?: NonComplianceMessage[];
+    notScopes?: string[];
+    overrides?: Override[];
+    parameters?: {
+        [propertyName: string]: ParameterValuesValue;
+    };
+    policyDefinitionId?: string;
+    resourceSelectors?: ResourceSelector[];
+    readonly scope?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface PolicyAssignmentListResult {
+    nextLink?: string;
+    value?: PolicyAssignment[];
+}
+
+// @public
+export interface PolicyAssignments {
+    create(scope: string, policyAssignmentName: string, parameters: PolicyAssignment, options?: PolicyAssignmentsCreateOptionalParams): Promise<PolicyAssignmentsCreateResponse>;
+    createById(policyAssignmentId: string, parameters: PolicyAssignment, options?: PolicyAssignmentsCreateByIdOptionalParams): Promise<PolicyAssignmentsCreateByIdResponse>;
+    delete(scope: string, policyAssignmentName: string, options?: PolicyAssignmentsDeleteOptionalParams): Promise<PolicyAssignmentsDeleteResponse>;
+    deleteById(policyAssignmentId: string, options?: PolicyAssignmentsDeleteByIdOptionalParams): Promise<PolicyAssignmentsDeleteByIdResponse>;
+    get(scope: string, policyAssignmentName: string, options?: PolicyAssignmentsGetOptionalParams): Promise<PolicyAssignmentsGetResponse>;
+    getById(policyAssignmentId: string, options?: PolicyAssignmentsGetByIdOptionalParams): Promise<PolicyAssignmentsGetByIdResponse>;
+    list(options?: PolicyAssignmentsListOptionalParams): PagedAsyncIterableIterator<PolicyAssignment>;
+    listForManagementGroup(managementGroupId: string, options?: PolicyAssignmentsListForManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyAssignment>;
+    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PolicyAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<PolicyAssignment>;
+    listForResourceGroup(resourceGroupName: string, options?: PolicyAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<PolicyAssignment>;
+    update(scope: string, policyAssignmentName: string, parameters: PolicyAssignmentUpdate, options?: PolicyAssignmentsUpdateOptionalParams): Promise<PolicyAssignmentsUpdateResponse>;
+    updateById(policyAssignmentId: string, parameters: PolicyAssignmentUpdate, options?: PolicyAssignmentsUpdateByIdOptionalParams): Promise<PolicyAssignmentsUpdateByIdResponse>;
+}
+
+// @public
+export interface PolicyAssignmentsCreateByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsCreateByIdResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsCreateResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsDeleteByIdResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsDeleteResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsGetByIdResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsGetResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsListForManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsListForManagementGroupNextResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListForManagementGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyAssignmentsListForManagementGroupResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyAssignmentsListForResourceGroupResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListForResourceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyAssignmentsListForResourceResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyAssignmentsListResponse = PolicyAssignmentListResult;
+
+// @public
+export interface PolicyAssignmentsUpdateByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsUpdateByIdResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyAssignmentsUpdateResponse = PolicyAssignment;
+
+// @public
+export interface PolicyAssignmentUpdate {
+    identity?: Identity;
+    location?: string;
+    overrides?: Override[];
+    resourceSelectors?: ResourceSelector[];
+}
+
+// @public (undocumented)
+export class PolicyClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: PolicyClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    policyAssignments: PolicyAssignments;
+    // (undocumented)
+    policyDefinitions: PolicyDefinitions;
+    // (undocumented)
+    policyDefinitionVersions: PolicyDefinitionVersions;
+    // (undocumented)
+    policySetDefinitions: PolicySetDefinitions;
+    // (undocumented)
+    policySetDefinitionVersions: PolicySetDefinitionVersions;
+    // (undocumented)
+    subscriptionId?: string;
+}
+
+// @public
+export interface PolicyClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export interface FeatureOperationsListResult {
-    nextLink?: string;
-    value?: FeatureResult[];
-}
-
-// @public
-export interface FeatureProperties {
-    state?: string;
-}
-
-// @public
-export interface FeatureResult {
-    id?: string;
-    name?: string;
-    properties?: FeatureProperties;
-    type?: string;
-}
-
-// @public
-export interface Features {
-    get(resourceProviderNamespace: string, featureName: string, options?: FeaturesGetOptionalParams): Promise<FeaturesGetResponse>;
-    list(resourceProviderNamespace: string, options?: FeaturesListOptionalParams): PagedAsyncIterableIterator<FeatureResult>;
-    listAll(options?: FeaturesListAllOptionalParams): PagedAsyncIterableIterator<FeatureResult>;
-    register(resourceProviderNamespace: string, featureName: string, options?: FeaturesRegisterOptionalParams): Promise<FeaturesRegisterResponse>;
-    unregister(resourceProviderNamespace: string, featureName: string, options?: FeaturesUnregisterOptionalParams): Promise<FeaturesUnregisterResponse>;
-}
-
-// @public
-export interface FeaturesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesGetResponse = FeatureResult;
-
-// @public
-export interface FeaturesListAllNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListAllNextResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListAllOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListAllResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListNextResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesListResponse = FeatureOperationsListResult;
-
-// @public
-export interface FeaturesRegisterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesRegisterResponse = FeatureResult;
-
-// @public
-export interface FeaturesUnregisterOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeaturesUnregisterResponse = FeatureResult;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export enum KnownSubscriptionFeatureRegistrationApprovalType {
-    ApprovalRequired = "ApprovalRequired",
-    AutoApproval = "AutoApproval",
-    NotSpecified = "NotSpecified"
-}
-
-// @public
-export enum KnownSubscriptionFeatureRegistrationState {
-    NotRegistered = "NotRegistered",
-    NotSpecified = "NotSpecified",
-    Pending = "Pending",
-    Registered = "Registered",
-    Registering = "Registering",
-    Unregistered = "Unregistered",
-    Unregistering = "Unregistering"
-}
-
-// @public
-export interface ListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListOperationsNextResponse = OperationListResult;
-
-// @public
-export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ListOperationsResponse = OperationListResult;
-
-// @public
-export interface Operation {
-    display?: OperationDisplay;
-    name?: string;
-}
-
-// @public
-export interface OperationDisplay {
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    nextLink?: string;
-    value?: Operation[];
-}
-
-// @public
-export interface ProxyResource {
+export interface PolicyDefinition {
+    description?: string;
+    displayName?: string;
     readonly id?: string;
+    metadata?: Record<string, unknown>;
+    mode?: string;
     readonly name?: string;
+    parameters?: {
+        [propertyName: string]: ParameterDefinitionsValue;
+    };
+    policyRule?: Record<string, unknown>;
+    policyType?: PolicyType;
+    readonly systemData?: SystemData;
     readonly type?: string;
+    version?: string;
+    versions?: string[];
 }
 
 // @public
-export interface SubscriptionFeatureRegistration extends ProxyResource {
-    // (undocumented)
-    properties?: SubscriptionFeatureRegistrationProperties;
+export interface PolicyDefinitionGroup {
+    additionalMetadataId?: string;
+    category?: string;
+    description?: string;
+    displayName?: string;
+    name: string;
 }
 
 // @public
-export type SubscriptionFeatureRegistrationApprovalType = string;
-
-// @public
-export interface SubscriptionFeatureRegistrationList {
+export interface PolicyDefinitionListResult {
     nextLink?: string;
-    value?: SubscriptionFeatureRegistration[];
+    value?: PolicyDefinition[];
+}
+
+// @public
+export interface PolicyDefinitionReference {
+    definitionVersion?: string;
+    groupNames?: string[];
+    parameters?: {
+        [propertyName: string]: ParameterValuesValue;
+    };
+    policyDefinitionId: string;
+    policyDefinitionReferenceId?: string;
+}
+
+// @public
+export interface PolicyDefinitions {
+    createOrUpdate(policyDefinitionName: string, parameters: PolicyDefinition, options?: PolicyDefinitionsCreateOrUpdateOptionalParams): Promise<PolicyDefinitionsCreateOrUpdateResponse>;
+    createOrUpdateAtManagementGroup(managementGroupId: string, policyDefinitionName: string, parameters: PolicyDefinition, options?: PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams): Promise<PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+    delete(policyDefinitionName: string, options?: PolicyDefinitionsDeleteOptionalParams): Promise<void>;
+    deleteAtManagementGroup(managementGroupId: string, policyDefinitionName: string, options?: PolicyDefinitionsDeleteAtManagementGroupOptionalParams): Promise<void>;
+    get(policyDefinitionName: string, options?: PolicyDefinitionsGetOptionalParams): Promise<PolicyDefinitionsGetResponse>;
+    getAtManagementGroup(managementGroupId: string, policyDefinitionName: string, options?: PolicyDefinitionsGetAtManagementGroupOptionalParams): Promise<PolicyDefinitionsGetAtManagementGroupResponse>;
+    getBuiltIn(policyDefinitionName: string, options?: PolicyDefinitionsGetBuiltInOptionalParams): Promise<PolicyDefinitionsGetBuiltInResponse>;
+    list(options?: PolicyDefinitionsListOptionalParams): PagedAsyncIterableIterator<PolicyDefinition>;
+    listBuiltIn(options?: PolicyDefinitionsListBuiltInOptionalParams): PagedAsyncIterableIterator<PolicyDefinition>;
+    listByManagementGroup(managementGroupId: string, options?: PolicyDefinitionsListByManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyDefinition>;
+}
+
+// @public
+export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicyDefinition;
+
+// @public
+export interface PolicyDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsCreateOrUpdateResponse = PolicyDefinition;
+
+// @public
+export interface PolicyDefinitionsDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicyDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicyDefinitionsGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsGetAtManagementGroupResponse = PolicyDefinition;
+
+// @public
+export interface PolicyDefinitionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsGetBuiltInResponse = PolicyDefinition;
+
+// @public
+export interface PolicyDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsGetResponse = PolicyDefinition;
+
+// @public
+export interface PolicyDefinitionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsListBuiltInNextResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionsListBuiltInOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionsListBuiltInResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsListByManagementGroupNextResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionsListByManagementGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionsListByManagementGroupResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionsListNextResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionsListResponse = PolicyDefinitionListResult;
+
+// @public
+export interface PolicyDefinitionVersion {
+    description?: string;
+    displayName?: string;
+    readonly id?: string;
+    metadata?: Record<string, unknown>;
+    mode?: string;
+    readonly name?: string;
+    parameters?: {
+        [propertyName: string]: ParameterDefinitionsValue;
+    };
+    policyRule?: Record<string, unknown>;
+    policyType?: PolicyType;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+    version?: string;
+}
+
+// @public
+export interface PolicyDefinitionVersionListResult {
+    nextLink?: string;
+    value?: PolicyDefinitionVersion[];
+}
+
+// @public
+export interface PolicyDefinitionVersions {
+    createOrUpdate(policyDefinitionName: string, policyDefinitionVersion: string, parameters: PolicyDefinitionVersion, options?: PolicyDefinitionVersionsCreateOrUpdateOptionalParams): Promise<PolicyDefinitionVersionsCreateOrUpdateResponse>;
+    createOrUpdateAtManagementGroup(managementGroupName: string, policyDefinitionName: string, policyDefinitionVersion: string, parameters: PolicyDefinitionVersion, options?: PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams): Promise<PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse>;
+    delete(policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsDeleteOptionalParams): Promise<void>;
+    deleteAtManagementGroup(managementGroupName: string, policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams): Promise<void>;
+    get(policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsGetOptionalParams): Promise<PolicyDefinitionVersionsGetResponse>;
+    getAtManagementGroup(managementGroupName: string, policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsGetAtManagementGroupOptionalParams): Promise<PolicyDefinitionVersionsGetAtManagementGroupResponse>;
+    getBuiltIn(policyDefinitionName: string, policyDefinitionVersion: string, options?: PolicyDefinitionVersionsGetBuiltInOptionalParams): Promise<PolicyDefinitionVersionsGetBuiltInResponse>;
+    list(policyDefinitionName: string, options?: PolicyDefinitionVersionsListOptionalParams): PagedAsyncIterableIterator<PolicyDefinitionVersion>;
+    listAll(options?: PolicyDefinitionVersionsListAllOptionalParams): Promise<PolicyDefinitionVersionsListAllResponse>;
+    listAllAtManagementGroup(managementGroupName: string, options?: PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams): Promise<PolicyDefinitionVersionsListAllAtManagementGroupResponse>;
+    listAllBuiltins(options?: PolicyDefinitionVersionsListAllBuiltinsOptionalParams): Promise<PolicyDefinitionVersionsListAllBuiltinsResponse>;
+    listBuiltIn(policyDefinitionName: string, options?: PolicyDefinitionVersionsListBuiltInOptionalParams): PagedAsyncIterableIterator<PolicyDefinitionVersion>;
+    listByManagementGroup(managementGroupName: string, policyDefinitionName: string, options?: PolicyDefinitionVersionsListByManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicyDefinitionVersion>;
+}
+
+// @public
+export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse = PolicyDefinitionVersion;
+
+// @public
+export interface PolicyDefinitionVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsCreateOrUpdateResponse = PolicyDefinitionVersion;
+
+// @public
+export interface PolicyDefinitionVersionsDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicyDefinitionVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicyDefinitionVersionsGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsGetAtManagementGroupResponse = PolicyDefinitionVersion;
+
+// @public
+export interface PolicyDefinitionVersionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsGetBuiltInResponse = PolicyDefinitionVersion;
+
+// @public
+export interface PolicyDefinitionVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsGetResponse = PolicyDefinitionVersion;
+
+// @public
+export interface PolicyDefinitionVersionsListAllAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListAllAtManagementGroupResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListAllBuiltinsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListAllBuiltinsResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListAllResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListBuiltInNextResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListBuiltInOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionVersionsListBuiltInResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListByManagementGroupNextResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListByManagementGroupOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionVersionsListByManagementGroupResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicyDefinitionVersionsListNextResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicyDefinitionVersionsListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicyDefinitionVersionsListResponse = PolicyDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinition {
+    description?: string;
+    displayName?: string;
+    readonly id?: string;
+    metadata?: Record<string, unknown>;
+    readonly name?: string;
+    parameters?: {
+        [propertyName: string]: ParameterDefinitionsValue;
+    };
+    policyDefinitionGroups?: PolicyDefinitionGroup[];
+    policyDefinitions?: PolicyDefinitionReference[];
+    policyType?: PolicyType;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+    version?: string;
+    versions?: string[];
+}
+
+// @public
+export interface PolicySetDefinitionListResult {
+    nextLink?: string;
+    value?: PolicySetDefinition[];
+}
+
+// @public
+export interface PolicySetDefinitions {
+    createOrUpdate(policySetDefinitionName: string, parameters: PolicySetDefinition, options?: PolicySetDefinitionsCreateOrUpdateOptionalParams): Promise<PolicySetDefinitionsCreateOrUpdateResponse>;
+    createOrUpdateAtManagementGroup(managementGroupId: string, policySetDefinitionName: string, parameters: PolicySetDefinition, options?: PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams): Promise<PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>;
+    delete(policySetDefinitionName: string, options?: PolicySetDefinitionsDeleteOptionalParams): Promise<void>;
+    deleteAtManagementGroup(managementGroupId: string, policySetDefinitionName: string, options?: PolicySetDefinitionsDeleteAtManagementGroupOptionalParams): Promise<void>;
+    get(policySetDefinitionName: string, options?: PolicySetDefinitionsGetOptionalParams): Promise<PolicySetDefinitionsGetResponse>;
+    getAtManagementGroup(managementGroupId: string, policySetDefinitionName: string, options?: PolicySetDefinitionsGetAtManagementGroupOptionalParams): Promise<PolicySetDefinitionsGetAtManagementGroupResponse>;
+    getBuiltIn(policySetDefinitionName: string, options?: PolicySetDefinitionsGetBuiltInOptionalParams): Promise<PolicySetDefinitionsGetBuiltInResponse>;
+    list(options?: PolicySetDefinitionsListOptionalParams): PagedAsyncIterableIterator<PolicySetDefinition>;
+    listBuiltIn(options?: PolicySetDefinitionsListBuiltInOptionalParams): PagedAsyncIterableIterator<PolicySetDefinition>;
+    listByManagementGroup(managementGroupId: string, options?: PolicySetDefinitionsListByManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicySetDefinition>;
+}
+
+// @public
+export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse = PolicySetDefinition;
+
+// @public
+export interface PolicySetDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsCreateOrUpdateResponse = PolicySetDefinition;
+
+// @public
+export interface PolicySetDefinitionsDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicySetDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicySetDefinitionsGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsGetAtManagementGroupResponse = PolicySetDefinition;
+
+// @public
+export interface PolicySetDefinitionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsGetBuiltInResponse = PolicySetDefinition;
+
+// @public
+export interface PolicySetDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsGetResponse = PolicySetDefinition;
+
+// @public
+export interface PolicySetDefinitionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsListBuiltInNextResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionsListBuiltInOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionsListBuiltInResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsListByManagementGroupNextResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionsListByManagementGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionsListByManagementGroupResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionsListNextResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionsListResponse = PolicySetDefinitionListResult;
+
+// @public
+export interface PolicySetDefinitionVersion {
+    description?: string;
+    displayName?: string;
+    readonly id?: string;
+    metadata?: Record<string, unknown>;
+    readonly name?: string;
+    parameters?: {
+        [propertyName: string]: ParameterDefinitionsValue;
+    };
+    policyDefinitionGroups?: PolicyDefinitionGroup[];
+    policyDefinitions?: PolicyDefinitionReference[];
+    policyType?: PolicyType;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+    version?: string;
+}
+
+// @public
+export interface PolicySetDefinitionVersionListResult {
+    nextLink?: string;
+    value?: PolicySetDefinitionVersion[];
+}
+
+// @public
+export interface PolicySetDefinitionVersions {
+    createOrUpdate(policySetDefinitionName: string, policyDefinitionVersion: string, parameters: PolicySetDefinitionVersion, options?: PolicySetDefinitionVersionsCreateOrUpdateOptionalParams): Promise<PolicySetDefinitionVersionsCreateOrUpdateResponse>;
+    createOrUpdateAtManagementGroup(managementGroupName: string, policySetDefinitionName: string, policyDefinitionVersion: string, parameters: PolicySetDefinitionVersion, options?: PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams): Promise<PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse>;
+    delete(policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsDeleteOptionalParams): Promise<void>;
+    deleteAtManagementGroup(managementGroupName: string, policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsDeleteAtManagementGroupOptionalParams): Promise<void>;
+    get(policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsGetOptionalParams): Promise<PolicySetDefinitionVersionsGetResponse>;
+    getAtManagementGroup(managementGroupName: string, policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams): Promise<PolicySetDefinitionVersionsGetAtManagementGroupResponse>;
+    getBuiltIn(policySetDefinitionName: string, policyDefinitionVersion: string, options?: PolicySetDefinitionVersionsGetBuiltInOptionalParams): Promise<PolicySetDefinitionVersionsGetBuiltInResponse>;
+    list(policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListOptionalParams): PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
+    listAll(options?: PolicySetDefinitionVersionsListAllOptionalParams): Promise<PolicySetDefinitionVersionsListAllResponse>;
+    listAllAtManagementGroup(managementGroupName: string, options?: PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams): Promise<PolicySetDefinitionVersionsListAllAtManagementGroupResponse>;
+    listAllBuiltins(options?: PolicySetDefinitionVersionsListAllBuiltinsOptionalParams): Promise<PolicySetDefinitionVersionsListAllBuiltinsResponse>;
+    listBuiltIn(policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListBuiltInOptionalParams): PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
+    listByManagementGroup(managementGroupName: string, policySetDefinitionName: string, options?: PolicySetDefinitionVersionsListByManagementGroupOptionalParams): PagedAsyncIterableIterator<PolicySetDefinitionVersion>;
+}
+
+// @public
+export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse = PolicySetDefinitionVersion;
+
+// @public
+export interface PolicySetDefinitionVersionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsCreateOrUpdateResponse = PolicySetDefinitionVersion;
+
+// @public
+export interface PolicySetDefinitionVersionsDeleteAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicySetDefinitionVersionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PolicySetDefinitionVersionsGetAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsGetAtManagementGroupResponse = PolicySetDefinitionVersion;
+
+// @public
+export interface PolicySetDefinitionVersionsGetBuiltInOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsGetBuiltInResponse = PolicySetDefinitionVersion;
+
+// @public
+export interface PolicySetDefinitionVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsGetResponse = PolicySetDefinitionVersion;
+
+// @public
+export interface PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListAllAtManagementGroupResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListAllBuiltinsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListAllBuiltinsResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListAllOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListAllResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListBuiltInNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListBuiltInNextResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListBuiltInOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionVersionsListBuiltInResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListByManagementGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListByManagementGroupNextResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListByManagementGroupOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionVersionsListByManagementGroupResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PolicySetDefinitionVersionsListNextResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export interface PolicySetDefinitionVersionsListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type PolicySetDefinitionVersionsListResponse = PolicySetDefinitionVersionListResult;
+
+// @public
+export type PolicyType = string;
+
+// @public
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
+
+// @public
+export interface ResourceSelector {
+    name?: string;
+    selectors?: Selector[];
+}
+
+// @public
+export interface Selector {
+    in?: string[];
+    kind?: SelectorKind;
+    notIn?: string[];
+}
+
+// @public
+export type SelectorKind = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public (undocumented)
-export interface SubscriptionFeatureRegistrationProperties {
-    readonly approvalType?: SubscriptionFeatureRegistrationApprovalType;
-    authorizationProfile?: AuthorizationProfile;
-    description?: string;
-    readonly displayName?: string;
-    readonly documentationLink?: string;
-    readonly featureName?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    readonly providerNamespace?: string;
-    readonly registrationDate?: Date;
-    readonly releaseDate?: Date;
-    shouldFeatureDisplayInPortal?: boolean;
-    state?: SubscriptionFeatureRegistrationState;
-    readonly subscriptionId?: string;
-    readonly tenantId?: string;
+export interface UserAssignedIdentitiesValue {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
-
-// @public
-export interface SubscriptionFeatureRegistrations {
-    createOrUpdate(providerNamespace: string, featureName: string, options?: SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams): Promise<SubscriptionFeatureRegistrationsCreateOrUpdateResponse>;
-    delete(providerNamespace: string, featureName: string, options?: SubscriptionFeatureRegistrationsDeleteOptionalParams): Promise<void>;
-    get(providerNamespace: string, featureName: string, options?: SubscriptionFeatureRegistrationsGetOptionalParams): Promise<SubscriptionFeatureRegistrationsGetResponse>;
-    listAllBySubscription(options?: SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-    listBySubscription(providerNamespace: string, options?: SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SubscriptionFeatureRegistration>;
-}
-
-// @public
-export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    subscriptionFeatureRegistrationType?: SubscriptionFeatureRegistration;
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse = SubscriptionFeatureRegistration;
-
-// @public
-export interface SubscriptionFeatureRegistrationsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SubscriptionFeatureRegistrationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsGetResponse = SubscriptionFeatureRegistration;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = SubscriptionFeatureRegistrationList;
-
-// @public
-export type SubscriptionFeatureRegistrationState = string;
 
 // (No @packageDocumentation comment for this package)
 
