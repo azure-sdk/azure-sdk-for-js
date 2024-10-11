@@ -6,4 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./deploymentStacks";
+export * from "./policyAssignments";
+export * from "./policyDefinitions";
+export * from "./policyDefinitionVersions";
+export * from "./policySetDefinitions";
+export * from "./policySetDefinitionVersions";
