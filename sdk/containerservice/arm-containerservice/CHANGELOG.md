@@ -1,15 +1,20 @@
 # Release History
-
-## 21.2.0-beta.2 (Unreleased)
-
+    
+## 21.2.0 (2024-10-11)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AdvancedNetworking
+  - Added Interface AdvancedNetworkingObservability
+  - Added Interface AdvancedNetworkingSecurity
+  - Added Interface ManagedClusterNodeResourceGroupProfile
+  - Added Type Alias RestrictionLevel
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ContainerServiceNetworkProfile has a new optional parameter advancedNetworking
+  - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
+  - Added Enum KnownRestrictionLevel
+    
+    
 ## 21.2.0-beta.1 (2024-09-27)
 Compared with version 21.1.0
     
