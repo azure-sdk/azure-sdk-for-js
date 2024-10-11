@@ -8,8 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type EdgeDeviceUnion = EdgeDevice | HciEdgeDevice;
-
 /** List of ArcSetting proxy resources for the HCI cluster. */
 export interface ArcSettingList {
   /**
@@ -65,7 +63,7 @@ export interface DefaultExtensionDetails {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -213,181 +211,6 @@ export interface SoftwareAssuranceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastUpdated?: Date;
-}
-
-/** Log Collection properties of the cluster. */
-export interface LogCollectionProperties {
-  /**
-   * From DateTimeStamp from when logs need to be connected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fromDate?: Date;
-  /**
-   * To DateTimeStamp till when logs need to be connected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly toDate?: Date;
-  /**
-   * Recent DateTimeStamp where logs are successfully generated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastLogGenerated?: Date;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly logCollectionSessionDetails?: LogCollectionSession[];
-}
-
-/** Log Collection Session details of the cluster. */
-export interface LogCollectionSession {
-  /**
-   * Start Time of the logs when it was collected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logStartTime?: Date;
-  /**
-   * End Time of the logs when it was collected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logEndTime?: Date;
-  /**
-   * Duration of logs collected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCollected?: Date;
-  /**
-   * Size of the logs collected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logSize?: number;
-  /**
-   * LogCollection status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logCollectionStatus?: LogCollectionStatus;
-  /**
-   * LogCollection job type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logCollectionJobType?: LogCollectionJobType;
-  /**
-   * CorrelationId of the log collection
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-  /**
-   * End Time of the logs when it was collected
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTimeCollected?: Date;
-  /**
-   * Log Collection Error details of the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly logCollectionError?: LogCollectionError;
-}
-
-/** Log Collection Error details of the cluster. */
-export interface LogCollectionError {
-  /**
-   * Error Code of the log collection
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorCode?: string;
-  /**
-   * Error Message of the log collection
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-}
-
-/** Remote Support properties of the cluster. */
-export interface RemoteSupportProperties {
-  /**
-   * Remote Support Access Level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessLevel?: AccessLevel;
-  /**
-   * Expiration DateTimeStamp when Remote Support Access will be expired
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationTimeStamp?: Date;
-  /**
-   * Remote Support Type for cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly remoteSupportType?: RemoteSupportType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly remoteSupportNodeSettings?: RemoteSupportNodeSettings[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
-}
-
-/** Remote Support Node Settings of the cluster. */
-export interface RemoteSupportNodeSettings {
-  /**
-   * Arc ResourceId of the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly arcResourceId?: string;
-  /**
-   * Remote Support Access Connection State on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: string;
-  /**
-   * Remote Support Enablement Request Created TimeStamp on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * Remote Support Enablement Request Updated TimeStamp on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedAt?: Date;
-  /**
-   * Remote Support Access Connection Status on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionStatus?: string;
-  /**
-   * Remote Support Access Connection Error Message on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionErrorMessage?: string;
-  /**
-   * Remote Support Transcript location on the node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptLocation?: string;
-}
-
-/** Remote Support Node Session Details on the Node. */
-export interface PerNodeRemoteSupportSession {
-  /**
-   * Remote Support Session StartTime on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sessionStartTime?: Date;
-  /**
-   * Remote Support Session EndTime on the Node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sessionEndTime?: Date;
-  /**
-   * Name of the node
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeName?: string;
-  /**
-   * Duration of Remote Support Enablement
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: number;
-  /**
-   * Remote Support Access Level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessLevel?: AccessLevel;
 }
 
 /** Desired properties of the cluster. */
@@ -605,39 +428,6 @@ export interface SoftwareAssuranceChangeRequestProperties {
   softwareAssuranceIntent?: SoftwareAssuranceIntent;
 }
 
-/** Log Collection Request */
-export interface LogCollectionRequest {
-  /** Properties for Log Collection Request */
-  properties?: LogCollectionRequestProperties;
-}
-
-/** Properties for Log Collection Request */
-export interface LogCollectionRequestProperties {
-  /** From DateTimeStamp from when logs need to be connected */
-  fromDate: Date;
-  /** To DateTimeStamp till when logs need to be connected */
-  toDate: Date;
-}
-
-/** Remote Support Request */
-export interface RemoteSupportRequest {
-  /** Properties for Remote Support Request */
-  properties?: RemoteSupportRequestProperties;
-}
-
-/** Properties for Remote Support Request */
-export interface RemoteSupportRequestProperties {
-  /**
-   * Remote Support Access Level
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessLevel?: AccessLevel;
-  /** Expiration DateTimeStamp when Remote Support Access will be expired */
-  expirationTimeStamp?: Date;
-  /** Remote Support Type for cluster */
-  remoteSupportType?: RemoteSupportType;
-}
-
 /** The response of a DeploymentSetting list operation. */
 export interface DeploymentSettingListResult {
   /** The DeploymentSetting items on this page */
@@ -658,8 +448,6 @@ export interface DeploymentConfiguration {
 export interface ScaleUnits {
   /** Deployment Data to deploy AzureStackHCI Cluster. */
   deploymentData: DeploymentData;
-  /** Solution builder extension (SBE) partner properties */
-  sbePartnerInfo?: SbePartnerInfo;
 }
 
 /** The Deployment data of AzureStackHCI Cluster. */
@@ -681,15 +469,11 @@ export interface DeploymentData {
   /** list of physical nodes config to deploy AzureStackHCI Cluster. */
   physicalNodes?: PhysicalNodes[];
   /** HostNetwork config to deploy AzureStackHCI Cluster. */
-  hostNetwork?: DeploymentSettingHostNetwork;
-  /** SDN Integration config to deploy AzureStackHCI Cluster. */
-  sdnIntegration?: SdnIntegration;
+  hostNetwork?: HostNetwork;
   /** The path to the Active Directory Organizational Unit container object prepared for the deployment. */
   adouPath?: string;
-  /** Azure keyvault endpoint. This property is deprecated from 2023-12-01-preview. Please use secrets property instead. */
+  /** The URI to the keyvault / secret store. */
   secretsLocation?: string;
-  /** secrets used for cloud deployment. */
-  secrets?: EceDeploymentSecrets[];
   /** OptionalServices config to deploy AzureStackHCI Cluster. */
   optionalServices?: OptionalServices;
 }
@@ -779,11 +563,11 @@ export interface PhysicalNodes {
 }
 
 /** The HostNetwork of a cluster. */
-export interface DeploymentSettingHostNetwork {
+export interface HostNetwork {
   /** The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM. */
-  intents?: DeploymentSettingIntents[];
+  intents?: Intents[];
   /** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
-  storageNetworks?: DeploymentSettingStorageNetworks[];
+  storageNetworks?: StorageNetworks[];
   /** Defines how the storage adapters between nodes are connected either switch or switch less.. */
   storageConnectivitySwitchless?: boolean;
   /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
@@ -791,7 +575,7 @@ export interface DeploymentSettingHostNetwork {
 }
 
 /** The Intents of a cluster. */
-export interface DeploymentSettingIntents {
+export interface Intents {
   /** Name of the network intent you wish to create. */
   name?: string;
   /** List of network traffic types. Only allowed values are 'Compute', 'Storage', 'Management'. */
@@ -801,7 +585,7 @@ export interface DeploymentSettingIntents {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideVirtualSwitchConfiguration?: boolean;
   /** Set virtualSwitch ConfigurationOverrides for cluster. */
-  virtualSwitchConfigurationOverrides?: DeploymentSettingVirtualSwitchConfigurationOverrides;
+  virtualSwitchConfigurationOverrides?: VirtualSwitchConfigurationOverrides;
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideQosPolicy?: boolean;
   /** Set QoS PolicyOverrides for cluster. */
@@ -809,11 +593,11 @@ export interface DeploymentSettingIntents {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideAdapterProperty?: boolean;
   /** Set Adapter PropertyOverrides for cluster. */
-  adapterPropertyOverrides?: DeploymentSettingAdapterPropertyOverrides;
+  adapterPropertyOverrides?: AdapterPropertyOverrides;
 }
 
 /** The VirtualSwitchConfigurationOverrides of a cluster. */
-export interface DeploymentSettingVirtualSwitchConfigurationOverrides {
+export interface VirtualSwitchConfigurationOverrides {
   /** Enable IoV for Virtual Switch */
   enableIov?: string;
   /** Load Balancing Algorithm for Virtual Switch */
@@ -831,7 +615,7 @@ export interface QosPolicyOverrides {
 }
 
 /** The AdapterPropertyOverrides of a cluster. */
-export interface DeploymentSettingAdapterPropertyOverrides {
+export interface AdapterPropertyOverrides {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   jumboPacket?: string;
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
@@ -841,51 +625,13 @@ export interface DeploymentSettingAdapterPropertyOverrides {
 }
 
 /** The StorageNetworks of a cluster. */
-export interface DeploymentSettingStorageNetworks {
+export interface StorageNetworks {
   /** Name of the storage network. */
   name?: string;
   /** Name of the storage network adapter. */
   networkAdapterName?: string;
   /** ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic. */
   vlanId?: string;
-  /** List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster. */
-  storageAdapterIPInfo?: DeploymentSettingStorageAdapterIPInfo[];
-}
-
-/** The StorageAdapter physical nodes of a cluster. */
-export interface DeploymentSettingStorageAdapterIPInfo {
-  /** storage adapter physical node name. */
-  physicalNode?: string;
-  /** The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster. */
-  ipv4Address?: string;
-  /** The SubnetMask address assigned to each storage adapter physical node on your Azure Stack HCI cluster. */
-  subnetMask?: string;
-}
-
-/** SDN Integration config to deploy AzureStackHCI Cluster. */
-export interface SdnIntegration {
-  /** network controller config for SDN Integration to deploy AzureStackHCI Cluster. */
-  networkController?: NetworkController;
-}
-
-/** network controller config for SDN Integration to deploy AzureStackHCI Cluster. */
-export interface NetworkController {
-  /** macAddressPoolStart of network controller used for SDN Integration. */
-  macAddressPoolStart?: string;
-  /** macAddressPoolStop of network controller used for SDN Integration. */
-  macAddressPoolStop?: string;
-  /** NetworkVirtualizationEnabled of network controller used for SDN Integration. */
-  networkVirtualizationEnabled?: boolean;
-}
-
-/** Protected parameters list stored in keyvault. */
-export interface EceDeploymentSecrets {
-  /** Secret name stored in keyvault. */
-  secretName?: string;
-  /** Secret name expected for Enterprise Cloud Engine (ECE) deployment. */
-  eceSecretName?: EceSecrets;
-  /** Secret URI stored in keyvault. */
-  secretLocation?: string;
 }
 
 /** The OptionalServices of AzureStackHCI Cluster. */
@@ -894,66 +640,24 @@ export interface OptionalServices {
   customLocation?: string;
 }
 
-/** The solution builder extension (SBE) partner deployment info for cluster. */
-export interface SbePartnerInfo {
-  /** SBE package and manifest information for the solution Builder Extension staged for AzureStackHCI cluster deployment. */
-  sbeDeploymentInfo?: SbeDeploymentInfo;
-  /** List of SBE partner properties for AzureStackHCI cluster deployment. */
-  partnerProperties?: SbePartnerProperties[];
-  /** SBE credentials list for AzureStackHCI cluster deployment. */
-  credentialList?: SbeCredentials[];
-}
-
-/** Solution builder extension (SBE) package and manifest information for the solution builder extension staged for AzureStackHCI cluster deployment. */
-export interface SbeDeploymentInfo {
-  /** SBE package version. */
-  version?: string;
-  /** SBE family name. */
-  family?: string;
-  /** SBE manifest publisher. */
-  publisher?: string;
-  /** SBE Manifest Source. */
-  sbeManifestSource?: string;
-  /** SBE Manifest Creation Date. */
-  sbeManifestCreationDate?: Date;
-}
-
-/** Solution builder extension (SBE) partner properties object. */
-export interface SbePartnerProperties {
-  /** SBE partner property name. */
-  name?: string;
-  /** SBE partner property value. */
-  value?: string;
-}
-
-/** secrets used for solution builder extension (SBE) partner extensibility. */
-export interface SbeCredentials {
-  /** secret name stored in keyvault. */
-  secretName?: string;
-  /** secret name expected for Enterprise Cloud Engine (ECE). */
-  eceSecretName?: string;
-  /** secret URI stored in keyvault. */
-  secretLocation?: string;
-}
-
 /** The DeploymentStatus of AzureStackHCI Cluster. */
-export interface EceReportedProperties {
+export interface ReportedProperties {
   /**
    * validation status of AzureStackHCI Cluster Deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly validationStatus?: EceActionStatus;
+  readonly validationStatus?: ValidationStatus;
   /**
    * Deployment status of AzureStackHCI Cluster Deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly deploymentStatus?: EceActionStatus;
+  readonly deploymentStatus?: DeploymentStatus;
 }
 
-/** The ECE action plan deployment status for AzureStackHCI Cluster. */
-export interface EceActionStatus {
+/** The ValidationStatus of AzureStackHCI Cluster. */
+export interface ValidationStatus {
   /**
-   * Status of ECE action AzureStackHCI Cluster Deployment.
+   * Status of AzureStackHCI Cluster Deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
@@ -1008,19 +712,63 @@ export interface DeploymentStep {
   readonly exception?: string[];
 }
 
+/** The DeploymentStatus of AzureStackHCI Cluster. */
+export interface DeploymentStatus {
+  /**
+   * Status of AzureStackHCI Cluster Deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * List of steps of AzureStackHCI Cluster Deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly steps?: DeploymentStep[];
+}
+
 /** The response of a EdgeDevice list operation. */
 export interface EdgeDeviceListResult {
   /** The EdgeDevice items on this page */
-  value: EdgeDeviceUnion[];
+  value: EdgeDevice[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** The device Configuration of a device. */
+export interface DeviceConfiguration {
+  /** NIC Details of device */
+  nicDetails?: NicDetail[];
+  /** device metadata details. */
+  deviceMetadata?: string;
+}
+
+/** The NIC Detail of a device. */
+export interface NicDetail {
+  /** Adapter Name of NIC */
+  adapterName: string;
+  /** Interface Description of NIC */
+  interfaceDescription?: string;
+  /** Component Id of NIC */
+  componentId?: string;
+  /** Driver Version of NIC */
+  driverVersion?: string;
+  /** Subnet Mask of NIC */
+  ip4Address?: string;
+  /** Subnet Mask of NIC */
+  subnetMask?: string;
+  /** Default Gateway of NIC */
+  defaultGateway?: string;
+  /** DNS Servers for NIC */
+  dnsServers?: string[];
+  /** Default Isolation of Management NIC */
+  defaultIsolationId?: string;
 }
 
 /** The validate request for Edge Device. */
 export interface ValidateRequest {
   /** Node Ids against which, current node has to be validated. */
   edgeDeviceIds: string[];
-  /** Additional info required for validation. */
+  /** additional Info required for validation */
   additionalInfo?: string;
 }
 
@@ -1124,6 +872,304 @@ export interface ExtensionPatchParameters {
 export interface ExtensionUpgradeParameters {
   /** Extension Upgrade Target Version. */
   targetVersion?: string;
+}
+
+/** This is the gallery image definition identifier. */
+export interface GalleryImageIdentifier {
+  /** The name of the gallery image definition publisher. */
+  publisher: string;
+  /** The name of the gallery image definition offer. */
+  offer: string;
+  /** The name of the gallery image definition SKU. */
+  sku: string;
+}
+
+/** Specifies information about the gallery image version that you want to create or update. */
+export interface GalleryImageVersion {
+  /** This is the version of the gallery image. */
+  name?: string;
+  /** This is the storage profile of a Gallery Image Version. */
+  storageProfile?: GalleryImageVersionStorageProfile;
+}
+
+/** This is the storage profile of a Gallery Image Version. */
+export interface GalleryImageVersionStorageProfile {
+  /** This is the OS disk image. */
+  osDiskImage?: GalleryOSDiskImage;
+}
+
+/** This is the disk image base class. */
+export interface GalleryDiskImage {
+  /**
+   * This property indicates the size of the VHD to be created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeInMB?: number;
+}
+
+/** The observed state of gallery images */
+export interface GalleryImageStatus {
+  /** GalleryImage provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  provisioningStatus?: GalleryImageStatusProvisioningStatus;
+  /** The download status of the gallery image */
+  downloadStatus?: GalleryImageStatusDownloadStatus;
+  /** The progress of the operation in percentage */
+  progressPercentage?: number;
+}
+
+export interface GalleryImageStatusProvisioningStatus {
+  /** The ID of the operation performed on the gallery image */
+  operationId?: string;
+  /** The status of the operation performed on the gallery image [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The download status of the gallery image */
+export interface GalleryImageStatusDownloadStatus {
+  /** The downloaded sized of the image in MB */
+  downloadSizeInMB?: number;
+}
+
+/** The complex type of the extended location. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name?: string;
+  /** The type of the extended location. */
+  type?: ExtendedLocationTypes;
+}
+
+/** The gallery images resource patch definition. */
+export interface GalleryImagesUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** List of gallery images. */
+export interface GalleryImagesListResult {
+  value?: GalleryImages[];
+  /**
+   * Link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** DhcpOptions contains an array of DNS servers available to VMs deployed in the logical network. Standard DHCP option for a subnet overrides logical network DHCP options. */
+export interface LogicalNetworkPropertiesDhcpOptions {
+  /** The list of DNS servers IP addresses. */
+  dnsServers?: string[];
+}
+
+export interface Subnet {
+  /** Name - The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /** The address prefix for the subnet: Cidr for this subnet - IPv4, IPv6. */
+  addressPrefix?: string;
+  /** List of address prefixes for the subnet. */
+  addressPrefixes?: string[];
+  /** IPAllocationMethod - The IP address allocation method. Possible values include: 'Static', 'Dynamic' */
+  ipAllocationMethod?: IpAllocationMethodEnum;
+  /** IPConfigurationReferences - list of IPConfigurationReferences */
+  ipConfigurationReferences?: SubnetPropertiesFormatIpConfigurationReferencesItem[];
+  /** Route table resource. */
+  routeTable?: RouteTable;
+  /** network associated pool of IP Addresses */
+  ipPools?: IPPool[];
+  /** Vlan to use for the subnet */
+  vlan?: number;
+}
+
+/** IPConfigurationReference - Describes a IPConfiguration under the virtual network */
+export interface SubnetPropertiesFormatIpConfigurationReferencesItem {
+  /** IPConfigurationID */
+  id?: string;
+}
+
+/** Route table resource. */
+export interface RouteTable {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Collection of routes contained within a route table. */
+  routes?: Route[];
+}
+
+/** Route - Route resource. */
+export interface Route {
+  /** Name - name of the subnet */
+  name?: string;
+  /** The destination CIDR to which the route applies. */
+  addressPrefix?: string;
+  /** The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance. */
+  nextHopIpAddress?: string;
+}
+
+export interface IPPool {
+  /** Name of the IP-Pool */
+  name?: string;
+  /** Type of the IP Pool [vm, vippool] */
+  ipPoolType?: IPPoolTypeEnum;
+  /** Start of the IP address pool */
+  start?: string;
+  /** End of the IP address pool */
+  end?: string;
+  info?: IPPoolInfo;
+}
+
+export interface IPPoolInfo {
+  /**
+   * Number of IP addresses allocated from the IP Pool
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly used?: string;
+  /**
+   * Number of IP addresses available in the IP Pool
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly available?: string;
+}
+
+/** The observed state of logical networks */
+export interface LogicalNetworkStatus {
+  /** LogicalNetwork provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  provisioningStatus?: LogicalNetworkStatusProvisioningStatus;
+}
+
+export interface LogicalNetworkStatusProvisioningStatus {
+  /** The ID of the operation performed on the logical network */
+  operationId?: string;
+  /** The status of the operation performed on the logical network [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The logical network resource patch definition. */
+export interface LogicalNetworksUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface LogicalNetworksListResult {
+  value?: LogicalNetworks[];
+  nextLink?: string;
+}
+
+/** The observed state of marketplace gallery images */
+export interface MarketplaceGalleryImageStatus {
+  /** MarketplaceGalleryImage provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  provisioningStatus?: MarketplaceGalleryImageStatusProvisioningStatus;
+  /** The download status of the gallery image */
+  downloadStatus?: MarketplaceGalleryImageStatusDownloadStatus;
+  /** The progress of the operation in percentage */
+  progressPercentage?: number;
+}
+
+export interface MarketplaceGalleryImageStatusProvisioningStatus {
+  /** The ID of the operation performed on the gallery image */
+  operationId?: string;
+  /** The status of the operation performed on the gallery image [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The download status of the gallery image */
+export interface MarketplaceGalleryImageStatusDownloadStatus {
+  /** The downloaded sized of the image in MB */
+  downloadSizeInMB?: number;
+}
+
+/** The marketplace gallery image resource patch definition. */
+export interface MarketplaceGalleryImagesUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface MarketplaceGalleryImagesListResult {
+  value?: MarketplaceGalleryImages[];
+  nextLink?: string;
+}
+
+/** InterfaceIPConfiguration iPConfiguration in a network interface. */
+export interface IPConfiguration {
+  /** Name - The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /** InterfaceIPConfigurationPropertiesFormat properties of IP configuration. */
+  properties?: IPConfigurationProperties;
+}
+
+/** InterfaceIPConfigurationPropertiesFormat properties of IP configuration. */
+export interface IPConfigurationProperties {
+  /**
+   * Gateway for network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gateway?: string;
+  /**
+   * prefixLength for network interface
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prefixLength?: string;
+  /** PrivateIPAddress - Private IP address of the IP configuration. */
+  privateIPAddress?: string;
+  /** Subnet - Name of Subnet bound to the IP configuration. */
+  subnet?: IPConfigurationPropertiesSubnet;
+}
+
+/** Subnet - Name of Subnet bound to the IP configuration. */
+export interface IPConfigurationPropertiesSubnet {
+  /** ID - The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
+  id?: string;
+}
+
+export interface InterfaceDNSSettings {
+  /** List of DNS server IP Addresses for the interface */
+  dnsServers?: string[];
+}
+
+/** The observed state of network interfaces */
+export interface NetworkInterfaceStatus {
+  /** NetworkInterface provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  provisioningStatus?: NetworkInterfaceStatusProvisioningStatus;
+}
+
+export interface NetworkInterfaceStatusProvisioningStatus {
+  /** The ID of the operation performed on the network interface */
+  operationId?: string;
+  /** The status of the operation performed on the network interface [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The network interface resource patch definition. */
+export interface NetworkInterfacesUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface NetworkInterfacesListResult {
+  value?: NetworkInterfaces[];
+  nextLink?: string;
 }
 
 /** List of Offer proxy resources for the HCI cluster. */
@@ -1279,6 +1325,37 @@ export interface SkuList {
   readonly nextLink?: string;
 }
 
+/** The observed state of storage containers */
+export interface StorageContainerStatus {
+  /** StorageContainer provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** Amount of space available on the disk in MB */
+  availableSizeMB?: number;
+  /** Total size of the disk in MB */
+  containerSizeMB?: number;
+  provisioningStatus?: StorageContainerStatusProvisioningStatus;
+}
+
+export interface StorageContainerStatusProvisioningStatus {
+  /** The ID of the operation performed on the storage container */
+  operationId?: string;
+  /** The status of the operation performed on the storage container [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The storage container resource patch definition. */
+export interface StorageContainersUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface StorageContainersListResult {
+  value?: StorageContainers[];
+  nextLink?: string;
+}
+
 /** List of Update runs */
 export interface UpdateRunList {
   /** List of Update runs */
@@ -1306,8 +1383,6 @@ export interface Step {
   endTimeUtc?: Date;
   /** Completion time of this step or the last completed sub-step. */
   lastUpdatedTimeUtc?: Date;
-  /** Expected execution time of a given step. This is optionally authored in the update action plan and can be empty. */
-  expectedExecutionTime?: string;
   /** Recursive model for child steps of this step. */
   steps?: Step[];
 }
@@ -1340,8 +1415,6 @@ export interface PrecheckResult {
   displayName?: string;
   /** Key-value pairs that allow grouping/filtering individual tests. */
   tags?: PrecheckResultTags;
-  /** Key-value pairs that allow grouping/filtering individual tests. */
-  healthCheckTags?: Record<string, unknown>;
   /** User-facing name; one or more sentences indicating the direct issue. */
   title?: string;
   /** The status of the check running (i.e. Failed, Succeeded, In Progress). This answers whether the check ran, and passed or failed. */
@@ -1356,9 +1429,7 @@ export interface PrecheckResult {
   targetResourceID?: string;
   /** The name of the affected resource. */
   targetResourceName?: string;
-  /** The type of resource being referred to (well-known set of nouns in infrastructure, aligning with Monitoring). */
-  targetResourceType?: string;
-  /** The time in which the HealthCheck was called. */
+  /** The Time in which the HealthCheck was called. */
   timestamp?: Date;
   /** Property bag of key value pairs for additional information. */
   additionalData?: string;
@@ -1395,6 +1466,361 @@ export interface UpdatePrerequisite {
   packageName?: string;
 }
 
+/** The observed state of virtual hard disks */
+export interface VirtualHardDiskStatus {
+  /** VirtualHardDisk provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  provisioningStatus?: VirtualHardDiskStatusProvisioningStatus;
+}
+
+export interface VirtualHardDiskStatusProvisioningStatus {
+  /** The ID of the operation performed on the virtual hard disk */
+  operationId?: string;
+  /** The status of the operation performed on the virtual hard disk [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** The virtual hard disk resource patch definition. */
+export interface VirtualHardDisksUpdateRequest {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+export interface VirtualHardDisksListResult {
+  value?: VirtualHardDisks[];
+  nextLink?: string;
+}
+
+/** HardwareProfile - Specifies the hardware settings for the virtual machine instance. */
+export interface VirtualMachineInstancePropertiesHardwareProfile {
+  vmSize?: VmSizeEnum;
+  /** number of processors for the virtual machine instance */
+  processors?: number;
+  /** RAM in MB for the virtual machine instance */
+  memoryMB?: number;
+  dynamicMemoryConfig?: VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig;
+}
+
+export interface VirtualMachineInstancePropertiesHardwareProfileDynamicMemoryConfig {
+  maximumMemoryMB?: number;
+  minimumMemoryMB?: number;
+  /** Defines the amount of extra memory that should be reserved for a virtual machine instance at runtime, as a percentage of the total memory that the virtual machine instance is thought to need. This only applies to virtual systems with dynamic memory enabled. This property can be in the range of 5 to 2000. */
+  targetMemoryBuffer?: number;
+}
+
+/** NetworkProfile - describes the network configuration the virtual machine instance */
+export interface VirtualMachineInstancePropertiesNetworkProfile {
+  /** NetworkInterfaces - list of network interfaces to be attached to the virtual machine instance */
+  networkInterfaces?: VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem[];
+}
+
+export interface VirtualMachineInstancePropertiesNetworkProfileNetworkInterfacesItem {
+  /** ID - Resource Id of the network interface */
+  id?: string;
+}
+
+/** OsProfile - describes the configuration of the operating system and sets login data */
+export interface VirtualMachineInstancePropertiesOsProfile {
+  /** AdminPassword - admin password */
+  adminPassword?: string;
+  /** AdminUsername - admin username */
+  adminUsername?: string;
+  /** ComputerName - name of the compute */
+  computerName?: string;
+  /** LinuxConfiguration - linux specific configuration values for the virtual machine instance */
+  linuxConfiguration?: VirtualMachineInstancePropertiesOsProfileLinuxConfiguration;
+  /** Windows Configuration for the virtual machine instance */
+  windowsConfiguration?: VirtualMachineInstancePropertiesOsProfileWindowsConfiguration;
+}
+
+/** LinuxConfiguration - linux specific configuration values for the virtual machine instance */
+export interface VirtualMachineInstancePropertiesOsProfileLinuxConfiguration {
+  /** DisablePasswordAuthentication - whether password authentication should be disabled */
+  disablePasswordAuthentication?: boolean;
+  /** Specifies the ssh key configuration for a Linux OS. */
+  ssh?: SshConfiguration;
+  /** Used to indicate whether Arc for Servers agent onboarding should be triggered during the virtual machine instance creation process. */
+  provisionVMAgent?: boolean;
+  /** Used to indicate whether the VM Config Agent should be installed during the virtual machine creation process. */
+  provisionVMConfigAgent?: boolean;
+}
+
+/** SSH configuration for Linux based VMs running on Azure */
+export interface SshConfiguration {
+  /** The list of SSH public keys used to authenticate with linux based VMs. */
+  publicKeys?: SshPublicKey[];
+}
+
+/** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
+export interface SshPublicKey {
+  /** Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the specified key is appended to the file. Example: /home/user/.ssh/authorized_keys */
+  path?: string;
+  /** SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
+  keyData?: string;
+}
+
+/** Windows Configuration for the virtual machine instance */
+export interface VirtualMachineInstancePropertiesOsProfileWindowsConfiguration {
+  /** Whether to EnableAutomaticUpdates on the machine */
+  enableAutomaticUpdates?: boolean;
+  /** Specifies the ssh key configuration for Windows OS. */
+  ssh?: SshConfiguration;
+  /** TimeZone for the virtual machine instance */
+  timeZone?: string;
+  /** Used to indicate whether Arc for Servers agent onboarding should be triggered during the virtual machine instance creation process. */
+  provisionVMAgent?: boolean;
+  /** Used to indicate whether the VM Config Agent should be installed during the virtual machine creation process. */
+  provisionVMConfigAgent?: boolean;
+}
+
+/** SecurityProfile - Specifies the security settings for the virtual machine instance. */
+export interface VirtualMachineInstancePropertiesSecurityProfile {
+  enableTPM?: boolean;
+  uefiSettings?: VirtualMachineInstancePropertiesSecurityProfileUefiSettings;
+  /** Specifies the SecurityType of the virtual machine. EnableTPM and SecureBootEnabled must be set to true for SecurityType to function. */
+  securityType?: SecurityTypes;
+}
+
+export interface VirtualMachineInstancePropertiesSecurityProfileUefiSettings {
+  /** Specifies whether secure boot should be enabled on the virtual machine instance. */
+  secureBootEnabled?: boolean;
+}
+
+/** StorageProfile - contains information about the disks and storage information for the virtual machine instance */
+export interface VirtualMachineInstancePropertiesStorageProfile {
+  /** adds data disks to the virtual machine instance */
+  dataDisks?: VirtualMachineInstancePropertiesStorageProfileDataDisksItem[];
+  /** Which Image to use for the virtual machine instance */
+  imageReference?: VirtualMachineInstancePropertiesStorageProfileImageReference;
+  /** VHD to attach as OS disk */
+  osDisk?: VirtualMachineInstancePropertiesStorageProfileOsDisk;
+  /** Id of the storage container that hosts the VM configuration file */
+  vmConfigStoragePathId?: string;
+}
+
+export interface VirtualMachineInstancePropertiesStorageProfileDataDisksItem {
+  /** Resource ID of the data disk */
+  id?: string;
+}
+
+/** Which Image to use for the virtual machine instance */
+export interface VirtualMachineInstancePropertiesStorageProfileImageReference {
+  /** Resource ID of the image */
+  id?: string;
+}
+
+/** VHD to attach as OS disk */
+export interface VirtualMachineInstancePropertiesStorageProfileOsDisk {
+  /** Resource ID of the OS disk */
+  id?: string;
+  /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. Possible values are: **Windows,** **Linux.** */
+  osType?: OperatingSystemTypes;
+}
+
+/** HTTP Proxy configuration for the VM. */
+export interface HttpProxyConfiguration {
+  /** The HTTP proxy server endpoint to use. */
+  httpProxy?: string;
+  /** The HTTPS proxy server endpoint to use. */
+  httpsProxy?: string;
+  /** The endpoints that should not go through proxy. */
+  noProxy?: string[];
+  /** Alternative CA cert to use for connecting to proxy servers. */
+  trustedCa?: string;
+}
+
+/** The instance view of a virtual machine. */
+export interface VirtualMachineInstanceView {
+  /** The VM Config Agent running on the virtual machine. */
+  vmAgent?: VirtualMachineConfigAgentInstanceView;
+}
+
+/** The instance view of the VM Config Agent running on the virtual machine. */
+export interface VirtualMachineConfigAgentInstanceView {
+  /** The VM Config Agent full version. */
+  vmConfigAgentVersion?: string;
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** Instance view status. */
+export interface InstanceViewStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: StatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
+}
+
+/** The observed state of virtual machine instances */
+export interface VirtualMachineInstanceStatus {
+  /** VirtualMachine provisioning error code */
+  errorCode?: string;
+  /** Descriptive error message */
+  errorMessage?: string;
+  /** The power state of the virtual machine instance */
+  powerState?: PowerStateEnum;
+  provisioningStatus?: VirtualMachineInstanceStatusProvisioningStatus;
+}
+
+export interface VirtualMachineInstanceStatusProvisioningStatus {
+  /** The ID of the operation performed on the virtual machine instance */
+  operationId?: string;
+  /** The status of the operation performed on the virtual machine instance [Succeeded, Failed, InProgress] */
+  status?: Status;
+}
+
+/** Defines the status of a guest agent installation. */
+export interface GuestAgentInstallStatus {
+  /**
+   * Specifies the VM's unique SMBIOS ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmUuid?: string;
+  /**
+   * The installation status of the hybrid machine agent installation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: StatusTypes;
+  /**
+   * The time of the last status change.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStatusChange?: Date;
+  /**
+   * The hybrid machine agent full version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agentVersion?: string;
+  /**
+   * Details about the error state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorDetails?: ErrorDetail[];
+}
+
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: "SystemAssigned";
+}
+
+/** The virtual machine instance resource patch definition. */
+export interface VirtualMachineInstanceUpdateRequest {
+  /** Defines the resource properties for the update. */
+  properties?: VirtualMachineInstanceUpdateProperties;
+  /** Identity for the resource. */
+  identity?: Identity;
+}
+
+/** Defines the resource properties for the update. */
+export interface VirtualMachineInstanceUpdateProperties {
+  /** HardwareProfile - Specifies the hardware settings for the virtual machine instance. */
+  hardwareProfile?: HardwareProfileUpdate;
+  storageProfile?: StorageProfileUpdate;
+  /** NetworkProfile - describes the network update configuration the virtual machine instance */
+  networkProfile?: NetworkProfileUpdate;
+  /** OsProfile - describes the update configuration of the operating system */
+  osProfile?: OsProfileUpdate;
+}
+
+/** HardwareProfile - Specifies the hardware settings for the virtual machine instance. */
+export interface HardwareProfileUpdate {
+  vmSize?: VmSizeEnum;
+  /** number of processors for the virtual machine instance */
+  processors?: number;
+  /** RAM in MB for the virtual machine instance */
+  memoryMB?: number;
+}
+
+export interface StorageProfileUpdate {
+  /** adds data disks to the virtual machine instance for the update call */
+  dataDisks?: StorageProfileUpdateDataDisksItem[];
+}
+
+export interface StorageProfileUpdateDataDisksItem {
+  id?: string;
+}
+
+/** NetworkProfile - describes the network update configuration the virtual machine instance */
+export interface NetworkProfileUpdate {
+  /** NetworkInterfaces - list of network interfaces to be attached to the virtual machine instance */
+  networkInterfaces?: NetworkProfileUpdateNetworkInterfacesItem[];
+}
+
+export interface NetworkProfileUpdateNetworkInterfacesItem {
+  /** ID - Resource ID of the network interface */
+  id?: string;
+}
+
+/** OsProfile - describes the update configuration of the operating system */
+export interface OsProfileUpdate {
+  /** ComputerName - name of the computer */
+  computerName?: string;
+  linuxConfiguration?: OsProfileUpdateLinuxConfiguration;
+  windowsConfiguration?: OsProfileUpdateWindowsConfiguration;
+}
+
+export interface OsProfileUpdateLinuxConfiguration {
+  /** Used to indicate whether Arc for Servers agent onboarding should be triggered during the virtual machine instance creation process. */
+  provisionVMAgent?: boolean;
+  /** Used to indicate whether the VM Config Agent should be installed during the virtual machine creation process. */
+  provisionVMConfigAgent?: boolean;
+}
+
+export interface OsProfileUpdateWindowsConfiguration {
+  /** Used to indicate whether Arc for Servers agent onboarding should be triggered during the virtual machine instance creation process. */
+  provisionVMAgent?: boolean;
+  /** Used to indicate whether the VM Config Agent should be installed during the virtual machine creation process. */
+  provisionVMConfigAgent?: boolean;
+}
+
+export interface VirtualMachineInstanceListResult {
+  value?: VirtualMachineInstance[];
+  nextLink?: string;
+}
+
+/** List of HybridIdentityMetadata. */
+export interface HybridIdentityMetadataList {
+  /** Url to follow for getting next page of HybridIdentityMetadata. */
+  nextLink?: string;
+  /** Array of HybridIdentityMetadata */
+  value: HybridIdentityMetadata[];
+}
+
+/** Username / Password Credentials to connect to guest. */
+export interface GuestCredential {
+  /** The username to connect with the guest. */
+  username?: string;
+  /** The password to connect with the guest. */
+  password?: string;
+}
+
+/** List of GuestAgent. */
+export interface GuestAgentList {
+  /** Url to follow for getting next page of GuestAgent. */
+  nextLink?: string;
+  /** Array of GuestAgent */
+  value: GuestAgent[];
+}
+
 /** Connectivity related configuration required by arc server. */
 export interface ArcConnectivityProperties {
   /** True indicates ARC connectivity is enabled */
@@ -1411,471 +1837,6 @@ export interface ServiceConfiguration {
   port: number;
 }
 
-/** The AdapterPropertyOverrides of a cluster. */
-export interface HciEdgeDeviceAdapterPropertyOverrides {
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly jumboPacket?: string;
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkDirect?: string;
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. Expected values are 'iWARP', 'RoCEv2', 'RoCE'
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkDirectTechnology?: string;
-}
-
-/** The device Configuration for edge device. */
-export interface DeviceConfiguration {
-  /** NIC Details of device */
-  nicDetails?: NicDetail[];
-  /** Device metadata details. */
-  deviceMetadata?: string;
-}
-
-/** The NIC Detail of a device. */
-export interface NicDetail {
-  /** Adapter Name of NIC */
-  adapterName?: string;
-  /** Interface Description of NIC */
-  interfaceDescription?: string;
-  /** Component Id of NIC */
-  componentId?: string;
-  /** Driver Version of NIC */
-  driverVersion?: string;
-  /** Subnet Mask of NIC */
-  ip4Address?: string;
-  /** Subnet Mask of NIC */
-  subnetMask?: string;
-  /** Default Gateway of NIC */
-  defaultGateway?: string;
-  /** DNS Servers for NIC */
-  dnsServers?: string[];
-  /** Default Isolation of Management NIC */
-  defaultIsolationId?: string;
-}
-
-/** Edge Device properties */
-export interface EdgeDeviceProperties {
-  /** Device Configuration */
-  deviceConfiguration?: DeviceConfiguration;
-  /**
-   * Provisioning state of edgeDevice resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** details of validation failure */
-export interface HciValidationFailureDetail {
-  /**
-   * Exception details while installing extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exception?: string;
-}
-
-/** Arc extension installed on edge device. */
-export interface HciEdgeDeviceArcExtension {
-  /**
-   * Arc extension name installed on edge device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionName?: string;
-  /**
-   * Arc extension state from arc machine extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: ArcExtensionState;
-  /**
-   * Error details while installing Arc extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorDetails?: HciValidationFailureDetail[];
-  /**
-   * Arc Extension Azure resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionResourceId?: string;
-  /**
-   * Extension version installed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly typeHandlerVersion?: string;
-  /**
-   * Extension managed by user or Azure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedBy?: ExtensionManagedBy;
-}
-
-/** Extensions details for edge device. */
-export interface ExtensionProfile {
-  /**
-   * List of Arc extensions installed on edge device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensions?: HciEdgeDeviceArcExtension[];
-}
-
-/** The network profile of a device. */
-export interface HciNetworkProfile {
-  /**
-   * List of NIC Details of device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nicDetails?: HciNicDetail[];
-  /**
-   * List of switch details for edge device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly switchDetails?: SwitchDetail[];
-  /**
-   * HostNetwork config to deploy AzureStackHCI Cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostNetwork?: HciEdgeDeviceHostNetwork;
-}
-
-/** The NIC Detail of a device. */
-export interface HciNicDetail {
-  /**
-   * Adapter Name of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly adapterName?: string;
-  /**
-   * Interface Description of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly interfaceDescription?: string;
-  /**
-   * Component Id of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly componentId?: string;
-  /**
-   * Driver Version of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly driverVersion?: string;
-  /**
-   * Subnet Mask of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ip4Address?: string;
-  /**
-   * Subnet Mask of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnetMask?: string;
-  /**
-   * Default Gateway of NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultGateway?: string;
-  /**
-   * DNS Servers for NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dnsServers?: string[];
-  /**
-   * Default Isolation of Management NIC
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultIsolationId?: string;
-  /**
-   * MAC address information of NIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly macAddress?: string;
-  /**
-   * The slot attached to the NIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly slot?: string;
-  /**
-   * The switch attached to the NIC, if any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly switchName?: string;
-  /**
-   * The type of NIC, physical, virtual, management.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nicType?: string;
-  /**
-   * The VLAN ID of the physical NIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vlanId?: string;
-  /**
-   * The status of NIC, up, disconnected.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nicStatus?: string;
-}
-
-/** List of switch details for edge device. */
-export interface SwitchDetail {
-  /**
-   * The name of the switch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly switchName?: string;
-  /**
-   * The type of the switch. e.g. external, internal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly switchType?: string;
-  /**
-   * This represents extensions installed on virtualSwitch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensions?: SwitchExtension[];
-}
-
-/** This represents extensions installed on virtualSwitch. */
-export interface SwitchExtension {
-  /**
-   * Unique identifier for virtualSwitch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly switchId?: string;
-  /**
-   * This will show extension name for virtualSwitch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionName?: string;
-  /**
-   * This represents whether extension is enabled on virtualSwitch.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionEnabled?: boolean;
-}
-
-/** The HostNetwork of a cluster. */
-export interface HciEdgeDeviceHostNetwork {
-  /**
-   * The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intents?: HciEdgeDeviceIntents[];
-  /**
-   * List of StorageNetworks config to deploy AzureStackHCI Cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageNetworks?: HciEdgeDeviceStorageNetworks[];
-  /**
-   * Defines how the storage adapters between nodes are connected either switch or switch less.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageConnectivitySwitchless?: boolean;
-  /**
-   * Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enableStorageAutoIp?: boolean;
-}
-
-/** The Intents of a cluster. */
-export interface HciEdgeDeviceIntents {
-  /**
-   * Scope for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: number;
-  /**
-   * IntentType for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intentType?: number;
-  /**
-   * IsComputeIntentSet for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isComputeIntentSet?: boolean;
-  /**
-   * IsStorageIntentSet for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isStorageIntentSet?: boolean;
-  /**
-   * IntentType for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isOnlyStorage?: boolean;
-  /**
-   * IsManagementIntentSet for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isManagementIntentSet?: boolean;
-  /**
-   * IsStretchIntentSet for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isStretchIntentSet?: boolean;
-  /**
-   * IsOnlyStretch for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isOnlyStretch?: boolean;
-  /**
-   * IsNetworkIntentType for host network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isNetworkIntentType?: boolean;
-  /**
-   * Name of the network intent you wish to create.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intentName?: string;
-  /**
-   * Array of adapters used for the network intent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intentAdapters?: string[];
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly overrideVirtualSwitchConfiguration?: boolean;
-  /**
-   * Set virtualSwitch ConfigurationOverrides for cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualSwitchConfigurationOverrides?: HciEdgeDeviceVirtualSwitchConfigurationOverrides;
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly overrideQosPolicy?: boolean;
-  /**
-   * Set QoS PolicyOverrides for cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly qosPolicyOverrides?: QosPolicyOverrides;
-  /**
-   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly overrideAdapterProperty?: boolean;
-  /**
-   * Set Adapter PropertyOverrides for cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly adapterPropertyOverrides?: HciEdgeDeviceAdapterPropertyOverrides;
-}
-
-/** The VirtualSwitchConfigurationOverrides of a cluster. */
-export interface HciEdgeDeviceVirtualSwitchConfigurationOverrides {
-  /**
-   * Enable IoV for Virtual Switch
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enableIov?: string;
-  /**
-   * Load Balancing Algorithm for Virtual Switch
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loadBalancingAlgorithm?: string;
-}
-
-/** The StorageNetworks of a cluster. */
-export interface HciEdgeDeviceStorageNetworks {
-  /**
-   * Name of the storage network.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Name of the storage network adapter.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkAdapterName?: string;
-  /**
-   * ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageVlanId?: string;
-  /**
-   * List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageAdapterIPInfo?: HciEdgeDeviceStorageAdapterIPInfo[];
-}
-
-/** The StorageAdapter physical nodes of a cluster. */
-export interface HciEdgeDeviceStorageAdapterIPInfo {
-  /**
-   * storage adapter physical node name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly physicalNode?: string;
-  /**
-   * The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipv4Address?: string;
-  /**
-   * The SubnetMask address assigned to each storage adapter physical node on your Azure Stack HCI cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnetMask?: string;
-}
-
-/** OS configurations for HCI device. */
-export interface HciOsProfile {
-  /**
-   * The boot type of the device. e.g. UEFI, Legacy etc
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bootType?: string;
-  /**
-   * Version of assembly present on device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assemblyVersion?: string;
-}
-
-/** Solution builder extension (SBE) deployment package information. */
-export interface SbeDeploymentPackageInfo {
-  /**
-   * SBE deployment validation code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * A detailed message that explains the SBE package validation result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * This represents discovered update results for matching updates and store it as SBE manifest.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sbeManifest?: string;
-}
-
-/** Reported properties pushed from edge device. */
-export interface ReportedProperties {
-  /**
-   * edge device state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceState?: DeviceState;
-  /**
-   * Extensions details for edge device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensionProfile?: ExtensionProfile;
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
@@ -1887,33 +1848,8 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** properties for Arc-enabled edge device with HCI OS. */
-export interface HciEdgeDeviceProperties extends EdgeDeviceProperties {
-  /**
-   * The instance view of all current configurations on HCI device.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportedProperties?: HciReportedProperties;
-}
-
-/** The device Configuration for HCI device. */
-export interface HciReportedProperties extends ReportedProperties {
-  /**
-   * HCI device network information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkProfile?: HciNetworkProfile;
-  /**
-   * HCI device OS specific information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly osProfile?: HciOsProfile;
-  /**
-   * Solution builder extension (SBE) deployment package information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sbeDeploymentPackageInfo?: SbeDeploymentPackageInfo;
-}
+/** This is the OS disk image. */
+export interface GalleryOSDiskImage extends GalleryDiskImage {}
 
 /** ArcSetting details. */
 export interface ArcSetting extends ProxyResource {
@@ -1953,30 +1889,27 @@ export interface ArcSetting extends ProxyResource {
 
 /** Edge device resource */
 export interface DeploymentSetting extends ProxyResource {
-  /**
-   * DeploymentSetting provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** DeploymentSetting provisioning state */
+  provisioningState?: ProvisioningState;
   /** Azure resource ids of Arc machines to be part of cluster. */
   arcNodeResourceIds?: string[];
   /** The deployment mode for cluster deployment. */
   deploymentMode?: DeploymentMode;
-  /** The intended operation for a cluster. */
-  operationType?: OperationType;
   /** Scale units will contains list of deployment data */
   deploymentConfiguration?: DeploymentConfiguration;
   /**
    * Deployment Status reported from cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly reportedProperties?: EceReportedProperties;
+  readonly reportedProperties?: ReportedProperties;
 }
 
-/** Edge device resource. */
+/** Edge device resource */
 export interface EdgeDevice extends ProxyResource {
-  /** Device kind to support polymorphic resource. */
-  kind: DeviceKind;
+  /** Device Configuration */
+  deviceConfiguration?: DeviceConfiguration;
+  /** Provisioning state of edgeDevice resource */
+  provisioningState?: ProvisioningState;
 }
 
 /** Details of a particular extension in HCI Cluster. */
@@ -2049,10 +1982,6 @@ export interface Publisher extends ProxyResource {
 export interface SecuritySetting extends ProxyResource {
   /** Secured Core Compliance Assignment */
   securedCoreComplianceAssignment?: ComplianceAssignmentType;
-  /** WDAC Compliance Assignment */
-  wdacComplianceAssignment?: ComplianceAssignmentType;
-  /** SMB encryption for intra-cluster traffic Compliance Assignment */
-  smbEncryptionForIntraClusterTrafficComplianceAssignment?: ComplianceAssignmentType;
   /**
    * Security Compliance Status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2112,8 +2041,6 @@ export interface UpdateRun extends ProxyResource {
   endTimeUtc?: Date;
   /** Completion time of this step or the last completed sub-step. */
   lastUpdatedTimeUtc?: Date;
-  /** Expected execution time of a given step. This is optionally authored in the update action plan and can be empty. */
-  expectedExecutionTime?: string;
   /** Recursive model for child steps of this step. */
   steps?: Step[];
 }
@@ -2129,16 +2056,12 @@ export interface UpdateSummaries extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
   /** OEM family name. */
   oemFamily?: string;
-  /** Current OEM Version. */
-  currentOemVersion?: string;
   /** Name of the hardware model. */
   hardwareModel?: string;
   /** Current version of each updatable component. */
   packageVersions?: PackageVersionInfo[];
   /** Current Solution Bundle version of the stamp. */
   currentVersion?: string;
-  /** Current Sbe version of the stamp. */
-  currentSbeVersion?: string;
   /** Last time an update installation completed successfully. */
   lastUpdated?: Date;
   /** Last time the update service successfully checked for updates */
@@ -2166,8 +2089,6 @@ export interface Update extends ProxyResource {
   installedDate?: Date;
   /** Description of the update. */
   description?: string;
-  /** Minimum Sbe Version of the update. */
-  minSbeVersionRequired?: string;
   /** State of the update as it relates to this stamp. */
   state?: State;
   /** If update State is HasPrerequisite, this property contains an array of objects describing prerequisite updates before installing this update. Otherwise, it is empty. */
@@ -2205,6 +2126,86 @@ export interface Update extends ProxyResource {
   notifyMessage?: string;
 }
 
+/** The virtual machine instance resource definition. */
+export interface VirtualMachineInstance extends ProxyResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** Identity for the resource. */
+  identity?: Identity;
+  /** HardwareProfile - Specifies the hardware settings for the virtual machine instance. */
+  hardwareProfile?: VirtualMachineInstancePropertiesHardwareProfile;
+  /** NetworkProfile - describes the network configuration the virtual machine instance */
+  networkProfile?: VirtualMachineInstancePropertiesNetworkProfile;
+  /** OsProfile - describes the configuration of the operating system and sets login data */
+  osProfile?: VirtualMachineInstancePropertiesOsProfile;
+  /** SecurityProfile - Specifies the security settings for the virtual machine instance. */
+  securityProfile?: VirtualMachineInstancePropertiesSecurityProfile;
+  /** StorageProfile - contains information about the disks and storage information for the virtual machine instance */
+  storageProfile?: VirtualMachineInstancePropertiesStorageProfile;
+  /** HTTP Proxy configuration for the VM. */
+  httpProxyConfig?: HttpProxyConfiguration;
+  /**
+   * Provisioning state of the virtual machine instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * The virtual machine instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: VirtualMachineInstanceView;
+  /**
+   * The observed state of virtual machine instances
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: VirtualMachineInstanceStatus;
+  /** Guest agent install status. */
+  guestAgentInstallStatus?: GuestAgentInstallStatus;
+  /**
+   * Unique identifier for the vm resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmId?: string;
+  /** Unique identifier defined by ARC to identify the guest of the VM. */
+  resourceUid?: string;
+}
+
+/** Defines the HybridIdentityMetadata. */
+export interface HybridIdentityMetadata extends ProxyResource {
+  /** The unique identifier for the resource. */
+  resourceUid?: string;
+  /** The Public Key. */
+  publicKey?: string;
+  /**
+   * Identity for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identity?: Identity;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
+/** Defines the GuestAgent. */
+export interface GuestAgent extends ProxyResource {
+  /** Username / Password Credentials to provision guest agent. */
+  credentials?: GuestCredential;
+  /** The guest agent provisioning action. */
+  provisioningAction?: ProvisioningAction;
+  /**
+   * The guest agent status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** Cluster details. */
 export interface Cluster extends TrackedResource {
   /**
@@ -2239,10 +2240,6 @@ export interface Cluster extends TrackedResource {
   aadServicePrincipalObjectId?: string;
   /** Software Assurance properties of the cluster. */
   softwareAssuranceProperties?: SoftwareAssuranceProperties;
-  /** Log Collection properties of the cluster. */
-  logCollectionProperties?: LogCollectionProperties;
-  /** RemoteSupport properties of the cluster. */
-  remoteSupportProperties?: RemoteSupportProperties;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
   /**
@@ -2306,22 +2303,153 @@ export interface Cluster extends TrackedResource {
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/** Arc-enabled edge device with HCI OS. */
-export interface HciEdgeDevice extends EdgeDevice {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "HCI";
-  /** properties for Arc-enabled edge device with HCI OS. */
-  properties?: HciEdgeDeviceProperties;
+/** The gallery images resource definition. */
+export interface GalleryImages extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** Storage ContainerID of the storage container to be used for gallery image */
+  containerId?: string;
+  /** location of the image the gallery image should be created from */
+  imagePath?: string;
+  /** Operating system type that the gallery image uses [Windows, Linux] */
+  osType?: OperatingSystemTypes;
+  /** Datasource for the gallery image when provisioning with cloud-init [NoCloud, Azure] */
+  cloudInitDataSource?: CloudInitDataSource;
+  /** The hypervisor generation of the Virtual Machine [V1, V2] */
+  hyperVGeneration?: HyperVGeneration;
+  /** This is the gallery image definition identifier. */
+  identifier?: GalleryImageIdentifier;
+  /** Specifies information about the gallery image version that you want to create or update. */
+  version?: GalleryImageVersion;
+  /**
+   * Provisioning state of the gallery image.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * The observed state of gallery images
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: GalleryImageStatus;
 }
 
-/** Defines headers for Clusters_triggerLogCollection operation. */
-export interface ClustersTriggerLogCollectionHeaders {
-  location?: string;
+/** The logical network resource definition. */
+export interface LogicalNetworks extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** DhcpOptions contains an array of DNS servers available to VMs deployed in the logical network. Standard DHCP option for a subnet overrides logical network DHCP options. */
+  dhcpOptions?: LogicalNetworkPropertiesDhcpOptions;
+  /** Subnet - list of subnets under the logical network */
+  subnets?: Subnet[];
+  /**
+   * Provisioning state of the logical network.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** name of the network switch to be used for VMs */
+  vmSwitchName?: string;
+  /**
+   * The observed state of logical networks
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: LogicalNetworkStatus;
 }
 
-/** Defines headers for Clusters_configureRemoteSupport operation. */
-export interface ClustersConfigureRemoteSupportHeaders {
-  location?: string;
+/** The marketplace gallery image resource definition. */
+export interface MarketplaceGalleryImages extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** Storage ContainerID of the storage container to be used for marketplace gallery image */
+  containerId?: string;
+  /** Operating system type that the gallery image uses [Windows, Linux] */
+  osType?: OperatingSystemTypes;
+  /** Datasource for the gallery image when provisioning with cloud-init [NoCloud, Azure] */
+  cloudInitDataSource?: CloudInitDataSource;
+  /** The hypervisor generation of the Virtual Machine [V1, V2] */
+  hyperVGeneration?: HyperVGeneration;
+  /** This is the gallery image definition identifier. */
+  identifier?: GalleryImageIdentifier;
+  /** Specifies information about the gallery image version that you want to create or update. */
+  version?: GalleryImageVersion;
+  /**
+   * Provisioning state of the marketplace gallery image.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * The observed state of marketplace gallery images
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MarketplaceGalleryImageStatus;
+}
+
+/** The network interface resource definition. */
+export interface NetworkInterfaces extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** IPConfigurations - A list of IPConfigurations of the network interface. */
+  ipConfigurations?: IPConfiguration[];
+  /** MacAddress - The MAC address of the network interface. */
+  macAddress?: string;
+  /** DNS Settings for the interface */
+  dnsSettings?: InterfaceDNSSettings;
+  /**
+   * Provisioning state of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * The observed state of network interfaces
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: NetworkInterfaceStatus;
+}
+
+/** The storage container resource definition. */
+export interface StorageContainers extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  /** Path of the storage container on the disk */
+  path?: string;
+  /**
+   * Provisioning state of the storage container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /**
+   * The observed state of storage containers
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: StorageContainerStatus;
+}
+
+/** The virtual hard disk resource definition. */
+export interface VirtualHardDisks extends TrackedResource {
+  /** The extendedLocation of the resource. */
+  extendedLocation?: ExtendedLocation;
+  blockSizeBytes?: number;
+  /** Size of the disk in GB */
+  diskSizeGB?: number;
+  /** Boolean for enabling dynamic sizing on the virtual hard disk */
+  dynamic?: boolean;
+  logicalSectorBytes?: number;
+  physicalSectorBytes?: number;
+  /** The hypervisor generation of the Virtual Machine [V1, V2] */
+  hyperVGeneration?: HyperVGeneration;
+  /** The format of the actual VHD file [vhd, vhdx] */
+  diskFileFormat?: DiskFileFormat;
+  /**
+   * Provisioning state of the virtual hard disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStateEnum;
+  /** Storage ContainerID of the storage container to be used for VHD */
+  containerId?: string;
+  /**
+   * The observed state of virtual hard disks
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: VirtualHardDiskStatus;
 }
 
 /** Defines headers for DeploymentSettings_createOrUpdate operation. */
@@ -2360,6 +2488,46 @@ export interface EdgeDevicesValidateHeaders {
   location?: string;
 }
 
+/** Defines headers for GalleryImages_delete operation. */
+export interface GalleryImagesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for GalleryImages_update operation. */
+export interface GalleryImagesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for LogicalNetworks_delete operation. */
+export interface LogicalNetworksDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for LogicalNetworks_update operation. */
+export interface LogicalNetworksUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for MarketplaceGalleryImages_delete operation. */
+export interface MarketplaceGalleryImagesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for MarketplaceGalleryImages_update operation. */
+export interface MarketplaceGalleryImagesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for NetworkInterfaces_delete operation. */
+export interface NetworkInterfacesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NetworkInterfaces_update operation. */
+export interface NetworkInterfacesUpdateHeaders {
+  location?: string;
+}
+
 /** Defines headers for SecuritySettings_createOrUpdate operation. */
 export interface SecuritySettingsCreateOrUpdateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -2371,6 +2539,16 @@ export interface SecuritySettingsDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for StorageContainers_delete operation. */
+export interface StorageContainersDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for StorageContainers_update operation. */
+export interface StorageContainersUpdateHeaders {
   location?: string;
 }
 
@@ -2396,6 +2574,46 @@ export interface UpdatesPostHeaders {
 export interface UpdatesDeleteHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for VirtualHardDisks_delete operation. */
+export interface VirtualHardDisksDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualHardDisks_update operation. */
+export interface VirtualHardDisksUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_delete operation. */
+export interface VirtualMachineInstancesDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_update operation. */
+export interface VirtualMachineInstancesUpdateHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_start operation. */
+export interface VirtualMachineInstancesStartHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_stop operation. */
+export interface VirtualMachineInstancesStopHeaders {
+  location?: string;
+}
+
+/** Defines headers for VirtualMachineInstances_restart operation. */
+export interface VirtualMachineInstancesRestartHeaders {
+  location?: string;
+}
+
+/** Defines headers for GuestAgent_delete operation. */
+export interface GuestAgentDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -2767,84 +2985,6 @@ export enum KnownSoftwareAssuranceIntent {
  */
 export type SoftwareAssuranceIntent = string;
 
-/** Known values of {@link LogCollectionStatus} that the service accepts. */
-export enum KnownLogCollectionStatus {
-  /** None */
-  None = "None",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Failed */
-  Failed = "Failed",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-}
-
-/**
- * Defines values for LogCollectionStatus. \
- * {@link KnownLogCollectionStatus} can be used interchangeably with LogCollectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **InProgress** \
- * **Failed** \
- * **Succeeded**
- */
-export type LogCollectionStatus = string;
-
-/** Known values of {@link LogCollectionJobType} that the service accepts. */
-export enum KnownLogCollectionJobType {
-  /** OnDemand */
-  OnDemand = "OnDemand",
-  /** Scheduled */
-  Scheduled = "Scheduled",
-}
-
-/**
- * Defines values for LogCollectionJobType. \
- * {@link KnownLogCollectionJobType} can be used interchangeably with LogCollectionJobType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OnDemand** \
- * **Scheduled**
- */
-export type LogCollectionJobType = string;
-
-/** Known values of {@link AccessLevel} that the service accepts. */
-export enum KnownAccessLevel {
-  /** Diagnostics */
-  Diagnostics = "Diagnostics",
-  /** DiagnosticsAndRepair */
-  DiagnosticsAndRepair = "DiagnosticsAndRepair",
-}
-
-/**
- * Defines values for AccessLevel. \
- * {@link KnownAccessLevel} can be used interchangeably with AccessLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Diagnostics** \
- * **DiagnosticsAndRepair**
- */
-export type AccessLevel = string;
-
-/** Known values of {@link RemoteSupportType} that the service accepts. */
-export enum KnownRemoteSupportType {
-  /** Enable */
-  Enable = "Enable",
-  /** Revoke */
-  Revoke = "Revoke",
-}
-
-/**
- * Defines values for RemoteSupportType. \
- * {@link KnownRemoteSupportType} can be used interchangeably with RemoteSupportType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enable** \
- * **Revoke**
- */
-export type RemoteSupportType = string;
-
 /** Known values of {@link WindowsServerSubscription} that the service accepts. */
 export enum KnownWindowsServerSubscription {
   /** Disabled */
@@ -2940,9 +3080,9 @@ export type ImdsAttestation = string;
 
 /** Known values of {@link DeploymentMode} that the service accepts. */
 export enum KnownDeploymentMode {
-  /** Validate ECE action deployment for a cluster. */
+  /** Validate deployment settings for cluster. */
   Validate = "Validate",
-  /** Deploy ECE action deployment for a cluster. */
+  /** Deploy cluster using deployment settings. */
   Deploy = "Deploy",
 }
 
@@ -2951,67 +3091,10 @@ export enum KnownDeploymentMode {
  * {@link KnownDeploymentMode} can be used interchangeably with DeploymentMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Validate**: Validate ECE action deployment for a cluster. \
- * **Deploy**: Deploy ECE action deployment for a cluster.
+ * **Validate**: Validate deployment settings for cluster. \
+ * **Deploy**: Deploy cluster using deployment settings.
  */
 export type DeploymentMode = string;
-
-/** Known values of {@link OperationType} that the service accepts. */
-export enum KnownOperationType {
-  /** Cluster provisioning operation. */
-  ClusterProvisioning = "ClusterProvisioning",
-  /** Cluster upgrade operation. */
-  ClusterUpgrade = "ClusterUpgrade",
-}
-
-/**
- * Defines values for OperationType. \
- * {@link KnownOperationType} can be used interchangeably with OperationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ClusterProvisioning**: Cluster provisioning operation. \
- * **ClusterUpgrade**: Cluster upgrade operation.
- */
-export type OperationType = string;
-
-/** Known values of {@link EceSecrets} that the service accepts. */
-export enum KnownEceSecrets {
-  /** AzureStackLCMUserCredential used for LCM operations for AzureStackHCI cluster. */
-  AzureStackLCMUserCredential = "AzureStackLCMUserCredential",
-  /** DefaultARBApplication used to manage Azure Arc resource bridge (ARB) for AzureStackHCI cluster. */
-  DefaultARBApplication = "DefaultARBApplication",
-  /** LocalAdminCredential used for admin operations for AzureStackHCI cluster. */
-  LocalAdminCredential = "LocalAdminCredential",
-  /** WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster. */
-  WitnessStorageKey = "WitnessStorageKey",
-}
-
-/**
- * Defines values for EceSecrets. \
- * {@link KnownEceSecrets} can be used interchangeably with EceSecrets,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStackLCMUserCredential**: AzureStackLCMUserCredential used for LCM operations for AzureStackHCI cluster. \
- * **DefaultARBApplication**: DefaultARBApplication used to manage Azure Arc resource bridge (ARB) for AzureStackHCI cluster. \
- * **LocalAdminCredential**: LocalAdminCredential used for admin operations for AzureStackHCI cluster. \
- * **WitnessStorageKey**: WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster.
- */
-export type EceSecrets = string;
-
-/** Known values of {@link DeviceKind} that the service accepts. */
-export enum KnownDeviceKind {
-  /** Arc-enabled edge device with HCI OS. */
-  HCI = "HCI",
-}
-
-/**
- * Defines values for DeviceKind. \
- * {@link KnownDeviceKind} can be used interchangeably with DeviceKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **HCI**: Arc-enabled edge device with HCI OS.
- */
-export type DeviceKind = string;
 
 /** Known values of {@link ExtensionAggregateState} that the service accepts. */
 export enum KnownExtensionAggregateState {
@@ -3165,10 +3248,10 @@ export type StatusLevelTypes = string;
 
 /** Known values of {@link ExtensionManagedBy} that the service accepts. */
 export enum KnownExtensionManagedBy {
-  /** User */
-  User = "User",
   /** Azure */
   Azure = "Azure",
+  /** User */
+  User = "User",
 }
 
 /**
@@ -3176,10 +3259,109 @@ export enum KnownExtensionManagedBy {
  * {@link KnownExtensionManagedBy} can be used interchangeably with ExtensionManagedBy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Azure**
+ * **Azure** \
+ * **User**
  */
 export type ExtensionManagedBy = string;
+
+/** Known values of {@link CloudInitDataSource} that the service accepts. */
+export enum KnownCloudInitDataSource {
+  /** NoCloud */
+  NoCloud = "NoCloud",
+  /** Azure */
+  Azure = "Azure",
+}
+
+/**
+ * Defines values for CloudInitDataSource. \
+ * {@link KnownCloudInitDataSource} can be used interchangeably with CloudInitDataSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoCloud** \
+ * **Azure**
+ */
+export type CloudInitDataSource = string;
+
+/** Known values of {@link HyperVGeneration} that the service accepts. */
+export enum KnownHyperVGeneration {
+  /** V1 */
+  V1 = "V1",
+  /** V2 */
+  V2 = "V2",
+}
+
+/**
+ * Defines values for HyperVGeneration. \
+ * {@link KnownHyperVGeneration} can be used interchangeably with HyperVGeneration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2**
+ */
+export type HyperVGeneration = string;
+
+/** Known values of {@link ProvisioningStateEnum} that the service accepts. */
+export enum KnownProvisioningStateEnum {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ProvisioningStateEnum. \
+ * {@link KnownProvisioningStateEnum} can be used interchangeably with ProvisioningStateEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress** \
+ * **Accepted** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ProvisioningStateEnum = string;
+
+/** Known values of {@link ExtendedLocationTypes} that the service accepts. */
+export enum KnownExtendedLocationTypes {
+  /** CustomLocation */
+  CustomLocation = "CustomLocation",
+}
+
+/**
+ * Defines values for ExtendedLocationTypes. \
+ * {@link KnownExtendedLocationTypes} can be used interchangeably with ExtendedLocationTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomLocation**
+ */
+export type ExtendedLocationTypes = string;
+
+/** Known values of {@link IpAllocationMethodEnum} that the service accepts. */
+export enum KnownIpAllocationMethodEnum {
+  /** Dynamic */
+  Dynamic = "Dynamic",
+  /** Static */
+  Static = "Static",
+}
+
+/**
+ * Defines values for IpAllocationMethodEnum. \
+ * {@link KnownIpAllocationMethodEnum} can be used interchangeably with IpAllocationMethodEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dynamic** \
+ * **Static**
+ */
+export type IpAllocationMethodEnum = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -3481,6 +3663,198 @@ export enum KnownAvailabilityType {
  */
 export type AvailabilityType = string;
 
+/** Known values of {@link DiskFileFormat} that the service accepts. */
+export enum KnownDiskFileFormat {
+  /** Vhdx */
+  Vhdx = "vhdx",
+  /** Vhd */
+  Vhd = "vhd",
+}
+
+/**
+ * Defines values for DiskFileFormat. \
+ * {@link KnownDiskFileFormat} can be used interchangeably with DiskFileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **vhdx** \
+ * **vhd**
+ */
+export type DiskFileFormat = string;
+
+/** Known values of {@link VmSizeEnum} that the service accepts. */
+export enum KnownVmSizeEnum {
+  /** Default */
+  Default = "Default",
+  /** StandardA2V2 */
+  StandardA2V2 = "Standard_A2_v2",
+  /** StandardA4V2 */
+  StandardA4V2 = "Standard_A4_v2",
+  /** StandardD2SV3 */
+  StandardD2SV3 = "Standard_D2s_v3",
+  /** StandardD4SV3 */
+  StandardD4SV3 = "Standard_D4s_v3",
+  /** StandardD8SV3 */
+  StandardD8SV3 = "Standard_D8s_v3",
+  /** StandardD16SV3 */
+  StandardD16SV3 = "Standard_D16s_v3",
+  /** StandardD32SV3 */
+  StandardD32SV3 = "Standard_D32s_v3",
+  /** StandardDS2V2 */
+  StandardDS2V2 = "Standard_DS2_v2",
+  /** StandardDS3V2 */
+  StandardDS3V2 = "Standard_DS3_v2",
+  /** StandardDS4V2 */
+  StandardDS4V2 = "Standard_DS4_v2",
+  /** StandardDS5V2 */
+  StandardDS5V2 = "Standard_DS5_v2",
+  /** StandardDS13V2 */
+  StandardDS13V2 = "Standard_DS13_v2",
+  /** StandardK8SV1 */
+  StandardK8SV1 = "Standard_K8S_v1",
+  /** StandardK8S2V1 */
+  StandardK8S2V1 = "Standard_K8S2_v1",
+  /** StandardK8S3V1 */
+  StandardK8S3V1 = "Standard_K8S3_v1",
+  /** StandardK8S4V1 */
+  StandardK8S4V1 = "Standard_K8S4_v1",
+  /** StandardNK6 */
+  StandardNK6 = "Standard_NK6",
+  /** StandardNK12 */
+  StandardNK12 = "Standard_NK12",
+  /** StandardNV6 */
+  StandardNV6 = "Standard_NV6",
+  /** StandardNV12 */
+  StandardNV12 = "Standard_NV12",
+  /** StandardK8S5V1 */
+  StandardK8S5V1 = "Standard_K8S5_v1",
+  /** Custom */
+  Custom = "Custom",
+}
+
+/**
+ * Defines values for VmSizeEnum. \
+ * {@link KnownVmSizeEnum} can be used interchangeably with VmSizeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Standard_A2_v2** \
+ * **Standard_A4_v2** \
+ * **Standard_D2s_v3** \
+ * **Standard_D4s_v3** \
+ * **Standard_D8s_v3** \
+ * **Standard_D16s_v3** \
+ * **Standard_D32s_v3** \
+ * **Standard_DS2_v2** \
+ * **Standard_DS3_v2** \
+ * **Standard_DS4_v2** \
+ * **Standard_DS5_v2** \
+ * **Standard_DS13_v2** \
+ * **Standard_K8S_v1** \
+ * **Standard_K8S2_v1** \
+ * **Standard_K8S3_v1** \
+ * **Standard_K8S4_v1** \
+ * **Standard_NK6** \
+ * **Standard_NK12** \
+ * **Standard_NV6** \
+ * **Standard_NV12** \
+ * **Standard_K8S5_v1** \
+ * **Custom**
+ */
+export type VmSizeEnum = string;
+
+/** Known values of {@link SecurityTypes} that the service accepts. */
+export enum KnownSecurityTypes {
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch",
+  /** ConfidentialVM */
+  ConfidentialVM = "ConfidentialVM",
+}
+
+/**
+ * Defines values for SecurityTypes. \
+ * {@link KnownSecurityTypes} can be used interchangeably with SecurityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrustedLaunch** \
+ * **ConfidentialVM**
+ */
+export type SecurityTypes = string;
+
+/** Known values of {@link PowerStateEnum} that the service accepts. */
+export enum KnownPowerStateEnum {
+  /** Deallocated */
+  Deallocated = "Deallocated",
+  /** Deallocating */
+  Deallocating = "Deallocating",
+  /** Running */
+  Running = "Running",
+  /** Starting */
+  Starting = "Starting",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Stopping */
+  Stopping = "Stopping",
+  /** Unknown */
+  Unknown = "Unknown",
+}
+
+/**
+ * Defines values for PowerStateEnum. \
+ * {@link KnownPowerStateEnum} can be used interchangeably with PowerStateEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deallocated** \
+ * **Deallocating** \
+ * **Running** \
+ * **Starting** \
+ * **Stopped** \
+ * **Stopping** \
+ * **Unknown**
+ */
+export type PowerStateEnum = string;
+
+/** Known values of {@link StatusTypes} that the service accepts. */
+export enum KnownStatusTypes {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for StatusTypes. \
+ * {@link KnownStatusTypes} can be used interchangeably with StatusTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **InProgress** \
+ * **Failed**
+ */
+export type StatusTypes = string;
+
+/** Known values of {@link ProvisioningAction} that the service accepts. */
+export enum KnownProvisioningAction {
+  /** Install */
+  Install = "install",
+  /** Uninstall */
+  Uninstall = "uninstall",
+  /** Repair */
+  Repair = "repair",
+}
+
+/**
+ * Defines values for ProvisioningAction. \
+ * {@link KnownProvisioningAction} can be used interchangeably with ProvisioningAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **install** \
+ * **uninstall** \
+ * **repair**
+ */
+export type ProvisioningAction = string;
+
 /** Known values of {@link ServiceName} that the service accepts. */
 export enum KnownServiceName {
   /** WAC */
@@ -3495,84 +3869,10 @@ export enum KnownServiceName {
  * **WAC**
  */
 export type ServiceName = string;
-
-/** Known values of {@link ArcExtensionState} that the service accepts. */
-export enum KnownArcExtensionState {
-  /** Arc extension state is not specified. */
-  NotSpecified = "NotSpecified",
-  /** Arc extension state is Succeeded. */
-  Succeeded = "Succeeded",
-  /** Arc extension state is Failed. */
-  Failed = "Failed",
-  /** Arc extension state is Canceled. */
-  Canceled = "Canceled",
-  /** Arc extension state is Accepted when extension installation triggered. */
-  Accepted = "Accepted",
-  /** Arc extension is in Creating State. */
-  Creating = "Creating",
-  /** Arc extension is in Updating State. */
-  Updating = "Updating",
-  /** Arc extension is in Moving State. */
-  Moving = "Moving",
-  /** Arc extension is in Deleting State. */
-  Deleting = "Deleting",
-  /** Arc extension is in Deleted State. */
-  Deleted = "Deleted",
-}
-
-/**
- * Defines values for ArcExtensionState. \
- * {@link KnownArcExtensionState} can be used interchangeably with ArcExtensionState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified**: Arc extension state is not specified. \
- * **Succeeded**: Arc extension state is Succeeded. \
- * **Failed**: Arc extension state is Failed. \
- * **Canceled**: Arc extension state is Canceled. \
- * **Accepted**: Arc extension state is Accepted when extension installation triggered. \
- * **Creating**: Arc extension is in Creating State. \
- * **Updating**: Arc extension is in Updating State. \
- * **Moving**: Arc extension is in Moving State. \
- * **Deleting**: Arc extension is in Deleting State. \
- * **Deleted**: Arc extension is in Deleted State.
- */
-export type ArcExtensionState = string;
-
-/** Known values of {@link DeviceState} that the service accepts. */
-export enum KnownDeviceState {
-  /** The edge device state is not specified. */
-  NotSpecified = "NotSpecified",
-  /** The edge device state is in connected state. */
-  Connected = "Connected",
-  /** The edge device state is in disconnected state. */
-  Disconnected = "Disconnected",
-  /** The edge device state is in repairing state. */
-  Repairing = "Repairing",
-  /** The edge device state is in draining state. */
-  Draining = "Draining",
-  /** The edge device state is in maintenance state. */
-  InMaintenance = "InMaintenance",
-  /** The edge device state is in resuming state. */
-  Resuming = "Resuming",
-  /** The edge device state is in processing state. */
-  Processing = "Processing",
-}
-
-/**
- * Defines values for DeviceState. \
- * {@link KnownDeviceState} can be used interchangeably with DeviceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotSpecified**: The edge device state is not specified. \
- * **Connected**: The edge device state is in connected state. \
- * **Disconnected**: The edge device state is in disconnected state. \
- * **Repairing**: The edge device state is in repairing state. \
- * **Draining**: The edge device state is in draining state. \
- * **InMaintenance**: The edge device state is in maintenance state. \
- * **Resuming**: The edge device state is in resuming state. \
- * **Processing**: The edge device state is in processing state.
- */
-export type DeviceState = string;
+/** Defines values for OperatingSystemTypes. */
+export type OperatingSystemTypes = "Windows" | "Linux";
+/** Defines values for IPPoolTypeEnum. */
+export type IPPoolTypeEnum = "vm" | "vippool";
 
 /** Optional parameters. */
 export interface ArcSettingsListByClusterOptionalParams
@@ -3731,30 +4031,6 @@ export interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
 export type ClustersExtendSoftwareAssuranceBenefitResponse = Cluster;
 
 /** Optional parameters. */
-export interface ClustersTriggerLogCollectionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the triggerLogCollection operation. */
-export type ClustersTriggerLogCollectionResponse = Cluster;
-
-/** Optional parameters. */
-export interface ClustersConfigureRemoteSupportOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the configureRemoteSupport operation. */
-export type ClustersConfigureRemoteSupportResponse = Cluster;
-
-/** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3827,7 +4103,7 @@ export interface EdgeDevicesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type EdgeDevicesGetResponse = EdgeDeviceUnion;
+export type EdgeDevicesGetResponse = EdgeDevice;
 
 /** Optional parameters. */
 export interface EdgeDevicesCreateOrUpdateOptionalParams
@@ -3839,7 +4115,7 @@ export interface EdgeDevicesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type EdgeDevicesCreateOrUpdateResponse = EdgeDeviceUnion;
+export type EdgeDevicesCreateOrUpdateResponse = EdgeDevice;
 
 /** Optional parameters. */
 export interface EdgeDevicesDeleteOptionalParams
@@ -3934,6 +4210,296 @@ export interface ExtensionsListByArcSettingNextOptionalParams
 
 /** Contains response data for the listByArcSettingNext operation. */
 export type ExtensionsListByArcSettingNextResponse = ExtensionList;
+
+/** Optional parameters. */
+export interface GalleryImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GalleryImagesGetResponse = GalleryImages;
+
+/** Optional parameters. */
+export interface GalleryImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GalleryImagesCreateOrUpdateResponse = GalleryImages;
+
+/** Optional parameters. */
+export interface GalleryImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GalleryImagesDeleteResponse = GalleryImagesDeleteHeaders;
+
+/** Optional parameters. */
+export interface GalleryImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type GalleryImagesUpdateResponse = GalleryImages;
+
+/** Optional parameters. */
+export interface GalleryImagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GalleryImagesListResponse = GalleryImagesListResult;
+
+/** Optional parameters. */
+export interface GalleryImagesListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type GalleryImagesListAllResponse = GalleryImagesListResult;
+
+/** Optional parameters. */
+export interface GalleryImagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GalleryImagesListNextResponse = GalleryImagesListResult;
+
+/** Optional parameters. */
+export interface GalleryImagesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type GalleryImagesListAllNextResponse = GalleryImagesListResult;
+
+/** Optional parameters. */
+export interface LogicalNetworksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type LogicalNetworksGetResponse = LogicalNetworks;
+
+/** Optional parameters. */
+export interface LogicalNetworksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type LogicalNetworksCreateOrUpdateResponse = LogicalNetworks;
+
+/** Optional parameters. */
+export interface LogicalNetworksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type LogicalNetworksDeleteResponse = LogicalNetworksDeleteHeaders;
+
+/** Optional parameters. */
+export interface LogicalNetworksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type LogicalNetworksUpdateResponse = LogicalNetworks;
+
+/** Optional parameters. */
+export interface LogicalNetworksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LogicalNetworksListResponse = LogicalNetworksListResult;
+
+/** Optional parameters. */
+export interface LogicalNetworksListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type LogicalNetworksListAllResponse = LogicalNetworksListResult;
+
+/** Optional parameters. */
+export interface LogicalNetworksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type LogicalNetworksListNextResponse = LogicalNetworksListResult;
+
+/** Optional parameters. */
+export interface LogicalNetworksListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type LogicalNetworksListAllNextResponse = LogicalNetworksListResult;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MarketplaceGalleryImagesGetResponse = MarketplaceGalleryImages;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MarketplaceGalleryImagesCreateOrUpdateResponse =
+  MarketplaceGalleryImages;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MarketplaceGalleryImagesDeleteResponse =
+  MarketplaceGalleryImagesDeleteHeaders;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type MarketplaceGalleryImagesUpdateResponse = MarketplaceGalleryImages;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MarketplaceGalleryImagesListResponse =
+  MarketplaceGalleryImagesListResult;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type MarketplaceGalleryImagesListAllResponse =
+  MarketplaceGalleryImagesListResult;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MarketplaceGalleryImagesListNextResponse =
+  MarketplaceGalleryImagesListResult;
+
+/** Optional parameters. */
+export interface MarketplaceGalleryImagesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type MarketplaceGalleryImagesListAllNextResponse =
+  MarketplaceGalleryImagesListResult;
+
+/** Optional parameters. */
+export interface NetworkInterfacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkInterfacesGetResponse = NetworkInterfaces;
+
+/** Optional parameters. */
+export interface NetworkInterfacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NetworkInterfacesCreateOrUpdateResponse = NetworkInterfaces;
+
+/** Optional parameters. */
+export interface NetworkInterfacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type NetworkInterfacesDeleteResponse = NetworkInterfacesDeleteHeaders;
+
+/** Optional parameters. */
+export interface NetworkInterfacesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NetworkInterfacesUpdateResponse = NetworkInterfaces;
+
+/** Optional parameters. */
+export interface NetworkInterfacesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type NetworkInterfacesListResponse = NetworkInterfacesListResult;
+
+/** Optional parameters. */
+export interface NetworkInterfacesListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type NetworkInterfacesListAllResponse = NetworkInterfacesListResult;
+
+/** Optional parameters. */
+export interface NetworkInterfacesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NetworkInterfacesListNextResponse = NetworkInterfacesListResult;
+
+/** Optional parameters. */
+export interface NetworkInterfacesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type NetworkInterfacesListAllNextResponse = NetworkInterfacesListResult;
 
 /** Optional parameters. */
 export interface OffersListByPublisherOptionalParams
@@ -4079,6 +4645,77 @@ export interface SkusListByOfferNextOptionalParams
 export type SkusListByOfferNextResponse = SkuList;
 
 /** Optional parameters. */
+export interface StorageContainersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StorageContainersGetResponse = StorageContainers;
+
+/** Optional parameters. */
+export interface StorageContainersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type StorageContainersCreateOrUpdateResponse = StorageContainers;
+
+/** Optional parameters. */
+export interface StorageContainersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type StorageContainersDeleteResponse = StorageContainersDeleteHeaders;
+
+/** Optional parameters. */
+export interface StorageContainersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type StorageContainersUpdateResponse = StorageContainers;
+
+/** Optional parameters. */
+export interface StorageContainersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type StorageContainersListResponse = StorageContainersListResult;
+
+/** Optional parameters. */
+export interface StorageContainersListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type StorageContainersListAllResponse = StorageContainersListResult;
+
+/** Optional parameters. */
+export interface StorageContainersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type StorageContainersListNextResponse = StorageContainersListResult;
+
+/** Optional parameters. */
+export interface StorageContainersListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type StorageContainersListAllNextResponse = StorageContainersListResult;
+
+/** Optional parameters. */
 export interface UpdateRunsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4194,6 +4831,242 @@ export interface UpdatesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type UpdatesListNextResponse = UpdateList;
+
+/** Optional parameters. */
+export interface VirtualHardDisksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualHardDisksGetResponse = VirtualHardDisks;
+
+/** Optional parameters. */
+export interface VirtualHardDisksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualHardDisksCreateOrUpdateResponse = VirtualHardDisks;
+
+/** Optional parameters. */
+export interface VirtualHardDisksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VirtualHardDisksDeleteResponse = VirtualHardDisksDeleteHeaders;
+
+/** Optional parameters. */
+export interface VirtualHardDisksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualHardDisksUpdateResponse = VirtualHardDisks;
+
+/** Optional parameters. */
+export interface VirtualHardDisksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualHardDisksListResponse = VirtualHardDisksListResult;
+
+/** Optional parameters. */
+export interface VirtualHardDisksListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type VirtualHardDisksListAllResponse = VirtualHardDisksListResult;
+
+/** Optional parameters. */
+export interface VirtualHardDisksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualHardDisksListNextResponse = VirtualHardDisksListResult;
+
+/** Optional parameters. */
+export interface VirtualHardDisksListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type VirtualHardDisksListAllNextResponse = VirtualHardDisksListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineInstancesGetResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachineInstancesCreateOrUpdateResponse =
+  VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type VirtualMachineInstancesDeleteResponse =
+  VirtualMachineInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualMachineInstancesUpdateResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type VirtualMachineInstancesStartResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type VirtualMachineInstancesStopResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type VirtualMachineInstancesRestartResponse = VirtualMachineInstance;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineInstancesListResponse =
+  VirtualMachineInstanceListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualMachineInstancesListNextResponse =
+  VirtualMachineInstanceListResult;
+
+/** Optional parameters. */
+export interface HybridIdentityMetadataGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HybridIdentityMetadataGetResponse = HybridIdentityMetadata;
+
+/** Optional parameters. */
+export interface HybridIdentityMetadataListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type HybridIdentityMetadataListResponse = HybridIdentityMetadataList;
+
+/** Optional parameters. */
+export interface HybridIdentityMetadataListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type HybridIdentityMetadataListNextResponse = HybridIdentityMetadataList;
+
+/** Optional parameters. */
+export interface GuestAgentCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Request payload. */
+  body?: GuestAgent;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type GuestAgentCreateResponse = GuestAgent;
+
+/** Optional parameters. */
+export interface GuestAgentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GuestAgentGetResponse = GuestAgent;
+
+/** Optional parameters. */
+export interface GuestAgentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GuestAgentDeleteResponse = GuestAgentDeleteHeaders;
+
+/** Optional parameters. */
+export interface GuestAgentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GuestAgentsListResponse = GuestAgentList;
+
+/** Optional parameters. */
+export interface GuestAgentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type GuestAgentsListNextResponse = GuestAgentList;
 
 /** Optional parameters. */
 export interface AzureStackHCIClientOptionalParams
