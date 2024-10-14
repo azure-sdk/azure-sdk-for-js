@@ -9,7 +9,7 @@ export interface SubmitDeallocateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -18,7 +18,9 @@ export function submitDeallocateRequestSerializer(
 ): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -71,10 +73,14 @@ export interface ExecutionParameters {
   retryPolicy?: RetryPolicy;
 }
 
-export function executionParametersSerializer(item: ExecutionParameters): Record<string, unknown> {
+export function executionParametersSerializer(
+  item: ExecutionParameters,
+): Record<string, unknown> {
   return {
     optimizationPreference: item["optimizationPreference"],
-    retryPolicy: !item.retryPolicy ? item.retryPolicy : retryPolicySerializer(item.retryPolicy),
+    retryPolicy: !item.retryPolicy
+      ? item.retryPolicy
+      : retryPolicySerializer(item.retryPolicy),
   };
 }
 
@@ -107,7 +113,9 @@ export interface RetryPolicy {
   retryWindowInMinutes?: number;
 }
 
-export function retryPolicySerializer(item: RetryPolicy): Record<string, unknown> {
+export function retryPolicySerializer(
+  item: RetryPolicy,
+): Record<string, unknown> {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
@@ -247,6 +255,34 @@ export interface ResourceOperationError {
   errorDetails: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
 /** This is the request for hibernate */
 export interface SubmitHibernateRequest {
   /** The schedule for the request */
@@ -255,7 +291,7 @@ export interface SubmitHibernateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -264,7 +300,9 @@ export function submitHibernateRequestSerializer(
 ): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -290,14 +328,18 @@ export interface SubmitStartRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
-export function submitStartRequestSerializer(item: SubmitStartRequest): Record<string, unknown> {
+export function submitStartRequestSerializer(
+  item: SubmitStartRequest,
+): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -321,7 +363,7 @@ export interface ExecuteDeallocateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -329,7 +371,9 @@ export function executeDeallocateRequestSerializer(
   item: ExecuteDeallocateRequest,
 ): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -341,7 +385,7 @@ export interface ExecuteHibernateRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -349,7 +393,9 @@ export function executeHibernateRequestSerializer(
   item: ExecuteHibernateRequest,
 ): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -361,13 +407,17 @@ export interface ExecuteStartRequest {
   executionParameters: ExecutionParameters;
   /** The resources for the request */
   resources: Resources;
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
-export function executeStartRequestSerializer(item: ExecuteStartRequest): Record<string, unknown> {
+export function executeStartRequestSerializer(
+  item: ExecuteStartRequest,
+): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(item.executionParameters),
+    executionParameters: executionParametersSerializer(
+      item.executionParameters,
+    ),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -377,7 +427,7 @@ export function executeStartRequestSerializer(item: ExecuteStartRequest): Record
 export interface GetOperationStatusRequest {
   /** The list of operation ids to get the status of */
   operationIds: string[];
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -400,7 +450,7 @@ export interface GetOperationStatusResponse {
 export interface CancelOperationsRequest {
   /** The list of operation ids to cancel operations on */
   operationIds: string[];
-  /** Correlationid item */
+  /** CorrelationId item */
   correlationid: string;
 }
 
@@ -506,11 +556,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  User = "user",
+  user = "user",
   /** system */
-  System = "system",
+  system = "system",
   /** user,system */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -538,3 +588,5 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+/** ComputeSchedule API versions */
+export type Versions = "2024-08-15-preview";

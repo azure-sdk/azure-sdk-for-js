@@ -19,6 +19,9 @@ export {
   KnownOperationState,
   OperationState,
   ResourceOperationError,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   SubmitHibernateRequest,
   HibernateResourceOperationResponse,
   SubmitStartRequest,
@@ -40,6 +43,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
 } from "./models.js";
 export {
   OperationsListOptionalParams,
