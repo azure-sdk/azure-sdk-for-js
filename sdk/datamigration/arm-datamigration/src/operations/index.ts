@@ -6,9 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./databaseMigrationsMongoToCosmosDbRUMongo";
+export * from "./databaseMigrationsMongoToCosmosDbvCoreMongo";
+export * from "./databaseMigrationsSqlDb";
 export * from "./databaseMigrationsSqlMi";
 export * from "./databaseMigrationsSqlVm";
 export * from "./operations";
+export * from "./migrationServices";
 export * from "./sqlMigrationServices";
 export * from "./resourceSkus";
 export * from "./services";
