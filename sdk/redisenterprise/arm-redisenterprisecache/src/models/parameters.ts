@@ -52,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01-preview",
+    defaultValue: "2024-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -151,7 +151,7 @@ export const clusterName: OperationURLParameter = {
   parameterPath: "clusterName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9]{1,60}$"),
+      Pattern: new RegExp("^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"),
     },
     serializedName: "clusterName",
     required: true,
@@ -175,7 +175,7 @@ export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9]{1,60}$"),
+      Pattern: new RegExp("^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"),
     },
     serializedName: "databaseName",
     required: true,

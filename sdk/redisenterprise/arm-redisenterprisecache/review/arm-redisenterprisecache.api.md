@@ -88,14 +88,12 @@ export type CmkIdentityType = string;
 export interface Database extends ProxyResource {
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
-    deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
     geoReplication?: DatabasePropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
-    readonly redisVersion?: string;
     readonly resourceState?: ResourceState;
 }
 
@@ -131,8 +129,6 @@ export interface Databases {
     beginRegenerateKeyAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: RegenerateKeyParameters, options?: DatabasesRegenerateKeyOptionalParams): Promise<DatabasesRegenerateKeyResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, databaseName: string, parameters: DatabaseUpdate, options?: DatabasesUpdateOptionalParams): Promise<DatabasesUpdateResponse>;
-    beginUpgradeDBRedisVersion(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams): Promise<SimplePollerLike<OperationState<DatabasesUpgradeDBRedisVersionResponse>, DatabasesUpgradeDBRedisVersionResponse>>;
-    beginUpgradeDBRedisVersionAndWait(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesUpgradeDBRedisVersionOptionalParams): Promise<DatabasesUpgradeDBRedisVersionResponse>;
     get(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesGetOptionalParams): Promise<DatabasesGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: DatabasesListByClusterOptionalParams): PagedAsyncIterableIterator<Database>;
     listKeys(resourceGroupName: string, clusterName: string, databaseName: string, options?: DatabasesListKeysOptionalParams): Promise<DatabasesListKeysResponse>;
@@ -148,9 +144,21 @@ export interface DatabasesCreateOptionalParams extends coreClient.OperationOptio
 export type DatabasesCreateResponse = Database;
 
 // @public
+export interface DatabasesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface DatabasesExportHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -187,6 +195,12 @@ export interface DatabasesForceLinkToReplicationGroupOptionalParams extends core
 export type DatabasesForceLinkToReplicationGroupResponse = DatabasesForceLinkToReplicationGroupHeaders;
 
 // @public
+export interface DatabasesForceUnlinkHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesForceUnlinkOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -198,6 +212,12 @@ export interface DatabasesGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type DatabasesGetResponse = Database;
+
+// @public
+export interface DatabasesImportHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasesImportOptionalParams extends coreClient.OperationOptions {
@@ -227,6 +247,12 @@ export interface DatabasesListKeysOptionalParams extends coreClient.OperationOpt
 export type DatabasesListKeysResponse = AccessKeys;
 
 // @public
+export interface DatabasesRegenerateKeyHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface DatabasesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -234,6 +260,12 @@ export interface DatabasesRegenerateKeyOptionalParams extends coreClient.Operati
 
 // @public
 export type DatabasesRegenerateKeyResponse = AccessKeys;
+
+// @public
+export interface DatabasesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
 
 // @public
 export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -245,37 +277,17 @@ export interface DatabasesUpdateOptionalParams extends coreClient.OperationOptio
 export type DatabasesUpdateResponse = Database;
 
 // @public
-export interface DatabasesUpgradeDBRedisVersionHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-}
-
-// @public
-export interface DatabasesUpgradeDBRedisVersionOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DatabasesUpgradeDBRedisVersionResponse = DatabasesUpgradeDBRedisVersionHeaders;
-
-// @public
 export interface DatabaseUpdate {
     clientProtocol?: Protocol;
     clusteringPolicy?: ClusteringPolicy;
-    deferUpgrade?: DeferUpgradeSetting;
     evictionPolicy?: EvictionPolicy;
     geoReplication?: DatabasePropertiesGeoReplication;
     modules?: Module[];
     persistence?: Persistence;
     port?: number;
     readonly provisioningState?: ProvisioningState;
-    readonly redisVersion?: string;
     readonly resourceState?: ResourceState;
 }
-
-// @public
-export type DeferUpgradeSetting = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -293,8 +305,22 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorDetailAutoGenerated {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetailAutoGenerated[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+// @public
+export interface ErrorResponseAutoGenerated {
+    error?: ErrorDetailAutoGenerated;
 }
 
 // @public
@@ -350,12 +376,6 @@ export enum KnownClusteringPolicy {
 export enum KnownCmkIdentityType {
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAssignedIdentity = "userAssignedIdentity"
-}
-
-// @public
-export enum KnownDeferUpgradeSetting {
-    Deferred = "Deferred",
-    NotDeferred = "NotDeferred"
 }
 
 // @public
@@ -452,9 +472,12 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownSkuName {
+    EnterpriseE1 = "Enterprise_E1",
     EnterpriseE10 = "Enterprise_E10",
     EnterpriseE100 = "Enterprise_E100",
     EnterpriseE20 = "Enterprise_E20",
+    EnterpriseE200 = "Enterprise_E200",
+    EnterpriseE400 = "Enterprise_E400",
     EnterpriseE5 = "Enterprise_E5",
     EnterpriseE50 = "Enterprise_E50",
     EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
@@ -708,6 +731,12 @@ export interface RedisEnterpriseCreateOptionalParams extends coreClient.Operatio
 export type RedisEnterpriseCreateResponse = Cluster;
 
 // @public
+export interface RedisEnterpriseDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
 export interface RedisEnterpriseDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -776,6 +805,12 @@ export interface RedisEnterpriseManagementClientOptionalParams extends coreClien
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface RedisEnterpriseUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
