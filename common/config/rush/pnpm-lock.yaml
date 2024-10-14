@@ -13277,7 +13277,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-YrPT+stG81lMdx0nfCDWQHYsSL6aPAg6RKvOzky65HUZo/EwfmIHw+MHMnY1wqDHMz+KPMrEn2tebk4xoD3j3A==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-9Cexar97D0AF8vA5GjqVAiww30Vk6BkLtkGp/mhF4zkjUG7Mxu1px7L9hmueaEH0EJZU5qfQPeHUsGlMCN+3lw==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -13296,10 +13296,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
