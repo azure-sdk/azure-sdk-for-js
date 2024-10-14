@@ -10632,7 +10632,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -15053,7 +15053,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-V+vC8fskpaujJUOWdFIXTk0xzERVtMuxJolLTGi0U3C1MiSrGQPE5PujweesyfSlm+G+uNFfRAUV1Qv0hm+r8A==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-pMYnKtiEbMhnJxQJq+PxUW2vHLADYoAEwfTXo9wbkEyYbSEavsTyJR9LaSe6jIY1ZPCjPFqYhKordIk0lUQv9Q==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -15071,9 +15071,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
