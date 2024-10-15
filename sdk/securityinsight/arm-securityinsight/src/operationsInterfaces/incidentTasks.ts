@@ -8,69 +8,76 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityQueryUnion,
-  EntityQueriesListOptionalParams,
-  EntityQueriesGetOptionalParams,
-  EntityQueriesGetResponse,
-  CustomEntityQueryUnion,
-  EntityQueriesCreateOrUpdateOptionalParams,
-  EntityQueriesCreateOrUpdateResponse,
-  EntityQueriesDeleteOptionalParams
+  IncidentTask,
+  IncidentTasksListOptionalParams,
+  IncidentTasksGetOptionalParams,
+  IncidentTasksGetResponse,
+  IncidentTasksCreateOrUpdateOptionalParams,
+  IncidentTasksCreateOrUpdateResponse,
+  IncidentTasksDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a EntityQueries. */
-export interface EntityQueries {
+/** Interface representing a IncidentTasks. */
+export interface IncidentTasks {
   /**
-   * Gets all entity queries.
+   * Gets all incident tasks.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
+   * @param incidentId Incident ID
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: EntityQueriesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryUnion>;
+    incidentId: string,
+    options?: IncidentTasksListOptionalParams,
+  ): PagedAsyncIterableIterator<IncidentTask>;
   /**
-   * Gets an entity query.
+   * Gets an incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesGetOptionalParams
-  ): Promise<EntityQueriesGetResponse>;
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksGetOptionalParams,
+  ): Promise<IncidentTasksGetResponse>;
   /**
-   * Creates or updates the entity query.
+   * Creates or updates the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
-   * @param entityQuery The entity query we want to create or update
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
+   * @param incidentTask The incident task
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    entityQuery: CustomEntityQueryUnion,
-    options?: EntityQueriesCreateOrUpdateOptionalParams
-  ): Promise<EntityQueriesCreateOrUpdateResponse>;
+    incidentId: string,
+    incidentTaskId: string,
+    incidentTask: IncidentTask,
+    options?: IncidentTasksCreateOrUpdateOptionalParams,
+  ): Promise<IncidentTasksCreateOrUpdateResponse>;
   /**
-   * Delete the entity query.
+   * Delete the incident task.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryId entity query ID
+   * @param incidentId Incident ID
+   * @param incidentTaskId Incident task ID
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    entityQueryId: string,
-    options?: EntityQueriesDeleteOptionalParams
+    incidentId: string,
+    incidentTaskId: string,
+    options?: IncidentTasksDeleteOptionalParams,
   ): Promise<void>;
 }
