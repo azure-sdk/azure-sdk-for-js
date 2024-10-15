@@ -20,7 +20,7 @@ import {
   StorageContainersDeleteResponse,
   StorageContainersUpdateRequest,
   StorageContainersUpdateOptionalParams,
-  StorageContainersUpdateResponse
+  StorageContainersUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface StorageContainersOperations {
    */
   list(
     resourceGroupName: string,
-    options?: StorageContainersListOptionalParams
+    options?: StorageContainersListOptionalParams,
   ): PagedAsyncIterableIterator<StorageContainers>;
   /**
    * Lists all of the storage containers in the specified subscription. Use the nextLink property in the
@@ -42,7 +42,7 @@ export interface StorageContainersOperations {
    * @param options The options parameters.
    */
   listAll(
-    options?: StorageContainersListAllOptionalParams
+    options?: StorageContainersListAllOptionalParams,
   ): PagedAsyncIterableIterator<StorageContainers>;
   /**
    * Gets a storage container
@@ -53,7 +53,7 @@ export interface StorageContainersOperations {
   get(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersGetOptionalParams
+    options?: StorageContainersGetOptionalParams,
   ): Promise<StorageContainersGetResponse>;
   /**
    * The operation to create or update a storage container. Please note some properties can be set only
@@ -67,7 +67,7 @@ export interface StorageContainersOperations {
     resourceGroupName: string,
     storageContainerName: string,
     storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface StorageContainersOperations {
     resourceGroupName: string,
     storageContainerName: string,
     storageContainers: StorageContainers,
-    options?: StorageContainersCreateOrUpdateOptionalParams
+    options?: StorageContainersCreateOrUpdateOptionalParams,
   ): Promise<StorageContainersCreateOrUpdateResponse>;
   /**
    * The operation to delete a storage container.
@@ -97,7 +97,7 @@ export interface StorageContainersOperations {
   beginDelete(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersDeleteResponse>,
@@ -113,7 +113,7 @@ export interface StorageContainersOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     storageContainerName: string,
-    options?: StorageContainersDeleteOptionalParams
+    options?: StorageContainersDeleteOptionalParams,
   ): Promise<StorageContainersDeleteResponse>;
   /**
    * The operation to update a storage container.
@@ -126,7 +126,7 @@ export interface StorageContainersOperations {
     resourceGroupName: string,
     storageContainerName: string,
     storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
+    options?: StorageContainersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StorageContainersUpdateResponse>,
@@ -144,6 +144,6 @@ export interface StorageContainersOperations {
     resourceGroupName: string,
     storageContainerName: string,
     storageContainers: StorageContainersUpdateRequest,
-    options?: StorageContainersUpdateOptionalParams
+    options?: StorageContainersUpdateOptionalParams,
   ): Promise<StorageContainersUpdateResponse>;
 }
