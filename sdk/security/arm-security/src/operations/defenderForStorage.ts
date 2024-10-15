@@ -18,6 +18,12 @@ import {
   DefenderForStorageSetting,
   DefenderForStorageCreateOptionalParams,
   DefenderForStorageCreateResponse,
+  DefenderForStorageStartMalwareScanOptionalParams,
+  DefenderForStorageStartMalwareScanResponse,
+  DefenderForStorageCancelMalwareScanOptionalParams,
+  DefenderForStorageCancelMalwareScanResponse,
+  DefenderForStorageGetMalwareScanOptionalParams,
+  DefenderForStorageGetMalwareScanResponse,
 } from "../models";
 
 /** Class containing DefenderForStorage operations. */
@@ -67,6 +73,61 @@ export class DefenderForStorageImpl implements DefenderForStorage {
       createOperationSpec,
     );
   }
+
+  /**
+   * Initiate a Defender for Storage malware scan for the specified storage account.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param options The options parameters.
+   */
+  startMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    options?: DefenderForStorageStartMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageStartMalwareScanResponse> {
+    return this.client.sendOperationRequest(
+      { resourceId, settingName, options },
+      startMalwareScanOperationSpec,
+    );
+  }
+
+  /**
+   * Cancels a Defender for Storage malware scan for the specified storage account.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param scanId The identifier of the scan. Can be either 'latest' or a GUID.
+   * @param options The options parameters.
+   */
+  cancelMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    scanId: string,
+    options?: DefenderForStorageCancelMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageCancelMalwareScanResponse> {
+    return this.client.sendOperationRequest(
+      { resourceId, settingName, scanId, options },
+      cancelMalwareScanOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the Defender for Storage malware scan for the specified storage resource.
+   * @param resourceId The identifier of the resource.
+   * @param settingName Defender for Storage setting name.
+   * @param scanId The identifier of the scan. Can be either 'latest' or a GUID.
+   * @param options The options parameters.
+   */
+  getMalwareScan(
+    resourceId: string,
+    settingName: SettingName,
+    scanId: string,
+    options?: DefenderForStorageGetMalwareScanOptionalParams,
+  ): Promise<DefenderForStorageGetMalwareScanResponse> {
+    return this.client.sendOperationRequest(
+      { resourceId, settingName, scanId, options },
+      getMalwareScanOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -82,11 +143,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName1,
+    Parameters.settingName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -106,13 +167,75 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.defenderForStorageSetting,
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
-    Parameters.settingName1,
+    Parameters.settingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const startMalwareScanOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/startMalwareScan",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MalwareScan,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceId,
+    Parameters.settingName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const cancelMalwareScanOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}/cancelMalwareScan",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MalwareScan,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceId,
+    Parameters.settingName,
+    Parameters.scanId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getMalwareScanOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceId}/providers/Microsoft.Security/defenderForStorageSettings/{settingName}/malwareScans/{scanId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MalwareScan,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceId,
+    Parameters.settingName,
+    Parameters.scanId,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
