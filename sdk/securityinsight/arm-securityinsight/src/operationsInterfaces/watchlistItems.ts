@@ -14,31 +14,31 @@ import {
   WatchlistItemsGetResponse,
   WatchlistItemsDeleteOptionalParams,
   WatchlistItemsCreateOrUpdateOptionalParams,
-  WatchlistItemsCreateOrUpdateResponse
+  WatchlistItemsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WatchlistItems. */
 export interface WatchlistItems {
   /**
-   * Gets all watchlist Items.
+   * Get all watchlist Items.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
+   * @param watchlistAlias The watchlist alias
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workspaceName: string,
     watchlistAlias: string,
-    options?: WatchlistItemsListOptionalParams
+    options?: WatchlistItemsListOptionalParams,
   ): PagedAsyncIterableIterator<WatchlistItem>;
   /**
-   * Gets a watchlist, without its watchlist items.
+   * Get a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   get(
@@ -46,14 +46,14 @@ export interface WatchlistItems {
     workspaceName: string,
     watchlistAlias: string,
     watchlistItemId: string,
-    options?: WatchlistItemsGetOptionalParams
+    options?: WatchlistItemsGetOptionalParams,
   ): Promise<WatchlistItemsGetResponse>;
   /**
    * Delete a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param options The options parameters.
    */
   delete(
@@ -61,14 +61,14 @@ export interface WatchlistItems {
     workspaceName: string,
     watchlistAlias: string,
     watchlistItemId: string,
-    options?: WatchlistItemsDeleteOptionalParams
+    options?: WatchlistItemsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Creates or updates a watchlist item.
+   * Create or update a watchlist item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param watchlistAlias Watchlist Alias
-   * @param watchlistItemId Watchlist Item Id (GUID)
+   * @param watchlistAlias The watchlist alias
+   * @param watchlistItemId The watchlist item id (GUID)
    * @param watchlistItem The watchlist item
    * @param options The options parameters.
    */
@@ -78,6 +78,6 @@ export interface WatchlistItems {
     watchlistAlias: string,
     watchlistItemId: string,
     watchlistItem: WatchlistItem,
-    options?: WatchlistItemsCreateOrUpdateOptionalParams
+    options?: WatchlistItemsCreateOrUpdateOptionalParams,
   ): Promise<WatchlistItemsCreateOrUpdateResponse>;
 }

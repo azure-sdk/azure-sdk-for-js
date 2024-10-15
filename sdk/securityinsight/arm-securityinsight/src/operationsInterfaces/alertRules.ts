@@ -14,7 +14,7 @@ import {
   AlertRulesGetResponse,
   AlertRulesCreateOrUpdateOptionalParams,
   AlertRulesCreateOrUpdateResponse,
-  AlertRulesDeleteOptionalParams
+  AlertRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface AlertRules {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AlertRulesListOptionalParams
+    options?: AlertRulesListOptionalParams,
   ): PagedAsyncIterableIterator<AlertRuleUnion>;
   /**
    * Gets the alert rule.
@@ -42,7 +42,7 @@ export interface AlertRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleId: string,
-    options?: AlertRulesGetOptionalParams
+    options?: AlertRulesGetOptionalParams,
   ): Promise<AlertRulesGetResponse>;
   /**
    * Creates or updates the alert rule.
@@ -57,7 +57,7 @@ export interface AlertRules {
     workspaceName: string,
     ruleId: string,
     alertRule: AlertRuleUnion,
-    options?: AlertRulesCreateOrUpdateOptionalParams
+    options?: AlertRulesCreateOrUpdateOptionalParams,
   ): Promise<AlertRulesCreateOrUpdateResponse>;
   /**
    * Delete the alert rule.
@@ -70,6 +70,6 @@ export interface AlertRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleId: string,
-    options?: AlertRulesDeleteOptionalParams
+    options?: AlertRulesDeleteOptionalParams,
   ): Promise<void>;
 }
