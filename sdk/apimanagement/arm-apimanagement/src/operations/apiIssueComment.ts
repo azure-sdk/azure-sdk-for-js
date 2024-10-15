@@ -25,7 +25,7 @@ import {
   ApiIssueCommentCreateOrUpdateOptionalParams,
   ApiIssueCommentCreateOrUpdateResponse,
   ApiIssueCommentDeleteOptionalParams,
-  ApiIssueCommentListByServiceNextResponse
+  ApiIssueCommentListByServiceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,14 +54,14 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueCommentListByServiceOptionalParams
+    options?: ApiIssueCommentListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueCommentContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
       apiId,
       issueId,
-      options
+      options,
     );
     return {
       next() {
@@ -80,9 +80,9 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
           apiId,
           issueId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     apiId: string,
     issueId: string,
     options?: ApiIssueCommentListByServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IssueCommentContract[]> {
     let result: ApiIssueCommentListByServiceResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
         serviceName,
         apiId,
         issueId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
         apiId,
         issueId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -130,14 +130,14 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueCommentListByServiceOptionalParams
+    options?: ApiIssueCommentListByServiceOptionalParams,
   ): AsyncIterableIterator<IssueCommentContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
       apiId,
       issueId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,11 +156,11 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     serviceName: string,
     apiId: string,
     issueId: string,
-    options?: ApiIssueCommentListByServiceOptionalParams
+    options?: ApiIssueCommentListByServiceOptionalParams,
   ): Promise<ApiIssueCommentListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     apiId: string,
     issueId: string,
     commentId: string,
-    options?: ApiIssueCommentGetEntityTagOptionalParams
+    options?: ApiIssueCommentGetEntityTagOptionalParams,
   ): Promise<ApiIssueCommentGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, commentId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     apiId: string,
     issueId: string,
     commentId: string,
-    options?: ApiIssueCommentGetOptionalParams
+    options?: ApiIssueCommentGetOptionalParams,
   ): Promise<ApiIssueCommentGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, commentId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -227,7 +227,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     issueId: string,
     commentId: string,
     parameters: IssueCommentContract,
-    options?: ApiIssueCommentCreateOrUpdateOptionalParams
+    options?: ApiIssueCommentCreateOrUpdateOptionalParams,
   ): Promise<ApiIssueCommentCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -237,9 +237,9 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
         issueId,
         commentId,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -261,7 +261,7 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     issueId: string,
     commentId: string,
     ifMatch: string,
-    options?: ApiIssueCommentDeleteOptionalParams
+    options?: ApiIssueCommentDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -271,9 +271,9 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
         issueId,
         commentId,
         ifMatch,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -292,11 +292,11 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
     apiId: string,
     issueId: string,
     nextLink: string,
-    options?: ApiIssueCommentListByServiceNextOptionalParams
+    options?: ApiIssueCommentListByServiceNextOptionalParams,
   ): Promise<ApiIssueCommentListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, issueId, nextLink, options },
-      listByServiceNextOperationSpec
+      listByServiceNextOperationSpec,
     );
   }
 }
@@ -304,165 +304,160 @@ export class ApiIssueCommentImpl implements ApiIssueComment {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueCommentCollection
+      bodyMapper: Mappers.IssueCommentCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.issueId
+    Parameters.issueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ApiIssueCommentGetEntityTagHeaders
+      headersMapper: Mappers.ApiIssueCommentGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.commentId
+    Parameters.commentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.IssueCommentContract,
-      headersMapper: Mappers.ApiIssueCommentGetHeaders
+      headersMapper: Mappers.ApiIssueCommentGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.commentId
+    Parameters.commentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.IssueCommentContract,
-      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.IssueCommentContract,
-      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders
+      headersMapper: Mappers.ApiIssueCommentCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.commentId
+    Parameters.commentId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/issues/{issueId}/comments/{commentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.apiId1,
     Parameters.issueId,
-    Parameters.commentId
+    Parameters.commentId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IssueCommentCollection
+      bodyMapper: Mappers.IssueCommentCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.serviceName,
     Parameters.apiId1,
-    Parameters.issueId
+    Parameters.issueId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
