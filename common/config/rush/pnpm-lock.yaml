@@ -10702,7 +10702,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -12753,7 +12753,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-kjruBKXtbcRnhv5rZ5yMv5drqqlVMaNPSoprSVqXiQnlDSScQ7/Ioj9rsfDTgOzBnT26JM8ZjZY6tVwqLrXZeQ==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-lAB34jni0E5NxSCTVSAgCFPMJBNqFk6sxe0VRDA1j0VNVZyFgjh6I8gTCg2ziDmwWCX6yp2RVUEzepT2G0T0bw==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -12771,10 +12771,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -24237,7 +24237,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-SUsQnAA/geN3tUNpcVlFI+/vnrIcbnEYN/xfR5sWlu+qTJ6Hh0tqGofCusgJTlzfZyLSm/hv2GW6c3/Yj8iung==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-e+GSDtmAiZZkAHoCQZQAEWsR4wCqZTTbBfC85vnIBIVdlBTho8fI5YywC7VMtYylhd3J2SF/wWl7PGqbz/1MoA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
