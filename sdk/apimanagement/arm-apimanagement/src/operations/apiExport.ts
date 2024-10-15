@@ -15,7 +15,7 @@ import {
   ExportFormat,
   ExportApi,
   ApiExportGetOptionalParams,
-  ApiExportGetResponse
+  ApiExportGetResponse,
 } from "../models";
 
 /** Class containing ApiExport operations. */
@@ -38,7 +38,7 @@ export class ApiExportImpl implements ApiExport {
    * @param apiId API revision identifier. Must be unique in the current API Management service instance.
    *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param format Format in which to export the Api Details to the Storage Blob with Sas Key valid for 5
-   *               minutes.
+   *               minutes. New formats can be added in the future.
    * @param exportParam Query parameter required to export the API details.
    * @param options The options parameters.
    */
@@ -48,11 +48,11 @@ export class ApiExportImpl implements ApiExport {
     apiId: string,
     format: ExportFormat,
     exportParam: ExportApi,
-    options?: ApiExportGetOptionalParams
+    options?: ApiExportGetOptionalParams,
   ): Promise<ApiExportGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiId, format, exportParam, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -60,29 +60,28 @@ export class ApiExportImpl implements ApiExport {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiExportResult
+      bodyMapper: Mappers.ApiExportResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.format1,
-    Parameters.exportParam
+    Parameters.exportParam,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId
+    Parameters.serviceName,
+    Parameters.apiId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -14,7 +14,7 @@ import {
   NotificationGetOptionalParams,
   NotificationGetResponse,
   NotificationCreateOrUpdateOptionalParams,
-  NotificationCreateOrUpdateResponse
+  NotificationCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Notification {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NotificationListByServiceOptionalParams
+    options?: NotificationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NotificationContract>;
   /**
    * Gets the details of the Notification specified by its identifier.
@@ -42,7 +42,7 @@ export interface Notification {
     resourceGroupName: string,
     serviceName: string,
     notificationName: NotificationName,
-    options?: NotificationGetOptionalParams
+    options?: NotificationGetOptionalParams,
   ): Promise<NotificationGetResponse>;
   /**
    * Create or Update API Management publisher notification.
@@ -55,6 +55,6 @@ export interface Notification {
     resourceGroupName: string,
     serviceName: string,
     notificationName: NotificationName,
-    options?: NotificationCreateOrUpdateOptionalParams
+    options?: NotificationCreateOrUpdateOptionalParams,
   ): Promise<NotificationCreateOrUpdateResponse>;
 }
