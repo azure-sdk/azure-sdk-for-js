@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
   OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
-  OutboundNetworkDependenciesEndpointsListByServiceResponse
+  OutboundNetworkDependenciesEndpointsListByServiceResponse,
 } from "../models";
 
 /** Class containing OutboundNetworkDependenciesEndpoints operations. */
 export class OutboundNetworkDependenciesEndpointsImpl
-  implements OutboundNetworkDependenciesEndpoints {
+  implements OutboundNetworkDependenciesEndpoints
+{
   private readonly client: ApiManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class OutboundNetworkDependenciesEndpointsImpl
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
+    options?: OutboundNetworkDependenciesEndpointsListByServiceOptionalParams,
   ): Promise<OutboundNetworkDependenciesEndpointsListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
+      listByServiceOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class OutboundNetworkDependenciesEndpointsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/outboundNetworkDependenciesEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/outboundNetworkDependenciesEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointList
+      bodyMapper: Mappers.OutboundEnvironmentEndpointList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

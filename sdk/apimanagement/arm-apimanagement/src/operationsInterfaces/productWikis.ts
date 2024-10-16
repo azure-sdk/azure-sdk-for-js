@@ -23,6 +23,6 @@ export interface ProductWikis {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikisListOptionalParams
+    options?: ProductWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract>;
 }
