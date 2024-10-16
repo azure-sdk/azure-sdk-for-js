@@ -8,7 +8,7 @@
 
 import {
   ThreatIntelligenceIndicatorMetricsListOptionalParams,
-  ThreatIntelligenceIndicatorMetricsListResponse
+  ThreatIntelligenceIndicatorMetricsListResponse,
 } from "../models";
 
 /** Interface representing a ThreatIntelligenceIndicatorMetrics. */
@@ -22,6 +22,6 @@ export interface ThreatIntelligenceIndicatorMetrics {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ThreatIntelligenceIndicatorMetricsListOptionalParams
+    options?: ThreatIntelligenceIndicatorMetricsListOptionalParams,
   ): Promise<ThreatIntelligenceIndicatorMetricsListResponse>;
 }
