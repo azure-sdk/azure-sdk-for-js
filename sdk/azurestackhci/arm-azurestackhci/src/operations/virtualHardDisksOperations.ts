@@ -16,7 +16,7 @@ import { AzureStackHCIClient } from "../azureStackHCIClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,13 +37,14 @@ import {
   VirtualHardDisksUpdateOptionalParams,
   VirtualHardDisksUpdateResponse,
   VirtualHardDisksListNextResponse,
-  VirtualHardDisksListAllNextResponse
+  VirtualHardDisksListAllNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualHardDisksOperations operations. */
 export class VirtualHardDisksOperationsImpl
-  implements VirtualHardDisksOperations {
+  implements VirtualHardDisksOperations
+{
   private readonly client: AzureStackHCIClient;
 
   /**
@@ -62,7 +63,7 @@ export class VirtualHardDisksOperationsImpl
    */
   public list(
     resourceGroupName: string,
-    options?: VirtualHardDisksListOptionalParams
+    options?: VirtualHardDisksListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualHardDisks> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -77,14 +78,14 @@ export class VirtualHardDisksOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: VirtualHardDisksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualHardDisks[]> {
     let result: VirtualHardDisksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class VirtualHardDisksOperationsImpl
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,7 +111,7 @@ export class VirtualHardDisksOperationsImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: VirtualHardDisksListOptionalParams
+    options?: VirtualHardDisksListOptionalParams,
   ): AsyncIterableIterator<VirtualHardDisks> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -123,7 +124,7 @@ export class VirtualHardDisksOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: VirtualHardDisksListAllOptionalParams
+    options?: VirtualHardDisksListAllOptionalParams,
   ): PagedAsyncIterableIterator<VirtualHardDisks> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -138,13 +139,13 @@ export class VirtualHardDisksOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: VirtualHardDisksListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualHardDisks[]> {
     let result: VirtualHardDisksListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +166,7 @@ export class VirtualHardDisksOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: VirtualHardDisksListAllOptionalParams
+    options?: VirtualHardDisksListAllOptionalParams,
   ): AsyncIterableIterator<VirtualHardDisks> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -181,11 +182,11 @@ export class VirtualHardDisksOperationsImpl
   get(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksGetOptionalParams
+    options?: VirtualHardDisksGetOptionalParams,
   ): Promise<VirtualHardDisksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHardDiskName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,7 +202,7 @@ export class VirtualHardDisksOperationsImpl
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksCreateOrUpdateResponse>,
@@ -210,21 +211,20 @@ export class VirtualHardDisksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualHardDisksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -233,8 +233,8 @@ export class VirtualHardDisksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -242,8 +242,8 @@ export class VirtualHardDisksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -253,9 +253,9 @@ export class VirtualHardDisksOperationsImpl
         resourceGroupName,
         virtualHardDiskName,
         virtualHardDisks,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualHardDisksCreateOrUpdateResponse,
@@ -263,7 +263,7 @@ export class VirtualHardDisksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -281,13 +281,13 @@ export class VirtualHardDisksOperationsImpl
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisks,
-    options?: VirtualHardDisksCreateOrUpdateOptionalParams
+    options?: VirtualHardDisksCreateOrUpdateOptionalParams,
   ): Promise<VirtualHardDisksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualHardDiskName,
       virtualHardDisks,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -301,7 +301,7 @@ export class VirtualHardDisksOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksDeleteResponse>,
@@ -310,21 +310,20 @@ export class VirtualHardDisksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualHardDisksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -333,8 +332,8 @@ export class VirtualHardDisksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -342,15 +341,15 @@ export class VirtualHardDisksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualHardDiskName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualHardDisksDeleteResponse,
@@ -358,7 +357,7 @@ export class VirtualHardDisksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -373,12 +372,12 @@ export class VirtualHardDisksOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     virtualHardDiskName: string,
-    options?: VirtualHardDisksDeleteOptionalParams
+    options?: VirtualHardDisksDeleteOptionalParams,
   ): Promise<VirtualHardDisksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualHardDiskName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +393,7 @@ export class VirtualHardDisksOperationsImpl
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
+    options?: VirtualHardDisksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHardDisksUpdateResponse>,
@@ -403,21 +402,20 @@ export class VirtualHardDisksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VirtualHardDisksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +424,8 @@ export class VirtualHardDisksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,8 +433,8 @@ export class VirtualHardDisksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -446,9 +444,9 @@ export class VirtualHardDisksOperationsImpl
         resourceGroupName,
         virtualHardDiskName,
         virtualHardDisks,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       VirtualHardDisksUpdateResponse,
@@ -456,7 +454,7 @@ export class VirtualHardDisksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -473,13 +471,13 @@ export class VirtualHardDisksOperationsImpl
     resourceGroupName: string,
     virtualHardDiskName: string,
     virtualHardDisks: VirtualHardDisksUpdateRequest,
-    options?: VirtualHardDisksUpdateOptionalParams
+    options?: VirtualHardDisksUpdateOptionalParams,
   ): Promise<VirtualHardDisksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       virtualHardDiskName,
       virtualHardDisks,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -492,11 +490,11 @@ export class VirtualHardDisksOperationsImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: VirtualHardDisksListOptionalParams
+    options?: VirtualHardDisksListOptionalParams,
   ): Promise<VirtualHardDisksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -506,7 +504,7 @@ export class VirtualHardDisksOperationsImpl
    * @param options The options parameters.
    */
   private _listAll(
-    options?: VirtualHardDisksListAllOptionalParams
+    options?: VirtualHardDisksListAllOptionalParams,
   ): Promise<VirtualHardDisksListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -520,11 +518,11 @@ export class VirtualHardDisksOperationsImpl
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VirtualHardDisksListNextOptionalParams
+    options?: VirtualHardDisksListNextOptionalParams,
   ): Promise<VirtualHardDisksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -535,11 +533,11 @@ export class VirtualHardDisksOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: VirtualHardDisksListAllNextOptionalParams
+    options?: VirtualHardDisksListAllNextOptionalParams,
   ): Promise<VirtualHardDisksListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
@@ -547,47 +545,45 @@ export class VirtualHardDisksOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualHardDiskName
+    Parameters.virtualHardDiskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     201: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     202: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     204: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.virtualHardDisks,
   queryParameters: [Parameters.apiVersion],
@@ -595,63 +591,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualHardDiskName
+    Parameters.virtualHardDiskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.VirtualHardDisksDeleteHeaders
+      headersMapper: Mappers.VirtualHardDisksDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.VirtualHardDisksDeleteHeaders
+      headersMapper: Mappers.VirtualHardDisksDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.VirtualHardDisksDeleteHeaders
+      headersMapper: Mappers.VirtualHardDisksDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.VirtualHardDisksDeleteHeaders
+      headersMapper: Mappers.VirtualHardDisksDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualHardDiskName
+    Parameters.virtualHardDiskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks/{virtualHardDiskName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     201: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     202: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     204: {
-      bodyMapper: Mappers.VirtualHardDisks
+      bodyMapper: Mappers.VirtualHardDisks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.virtualHardDisks1,
   queryParameters: [Parameters.apiVersion],
@@ -659,86 +653,84 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualHardDiskName
+    Parameters.virtualHardDiskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisksListResult
+      bodyMapper: Mappers.VirtualHardDisksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisksListResult
+      bodyMapper: Mappers.VirtualHardDisksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisksListResult
+      bodyMapper: Mappers.VirtualHardDisksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualHardDisksListResult
+      bodyMapper: Mappers.VirtualHardDisksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

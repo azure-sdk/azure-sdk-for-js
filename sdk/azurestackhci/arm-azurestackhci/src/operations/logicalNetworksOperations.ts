@@ -16,7 +16,7 @@ import { AzureStackHCIClient } from "../azureStackHCIClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,13 +37,14 @@ import {
   LogicalNetworksUpdateOptionalParams,
   LogicalNetworksUpdateResponse,
   LogicalNetworksListNextResponse,
-  LogicalNetworksListAllNextResponse
+  LogicalNetworksListAllNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LogicalNetworksOperations operations. */
 export class LogicalNetworksOperationsImpl
-  implements LogicalNetworksOperations {
+  implements LogicalNetworksOperations
+{
   private readonly client: AzureStackHCIClient;
 
   /**
@@ -62,7 +63,7 @@ export class LogicalNetworksOperationsImpl
    */
   public list(
     resourceGroupName: string,
-    options?: LogicalNetworksListOptionalParams
+    options?: LogicalNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetworks> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -77,14 +78,14 @@ export class LogicalNetworksOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: LogicalNetworksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogicalNetworks[]> {
     let result: LogicalNetworksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class LogicalNetworksOperationsImpl
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,7 +111,7 @@ export class LogicalNetworksOperationsImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: LogicalNetworksListOptionalParams
+    options?: LogicalNetworksListOptionalParams,
   ): AsyncIterableIterator<LogicalNetworks> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -123,7 +124,7 @@ export class LogicalNetworksOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: LogicalNetworksListAllOptionalParams
+    options?: LogicalNetworksListAllOptionalParams,
   ): PagedAsyncIterableIterator<LogicalNetworks> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -138,13 +139,13 @@ export class LogicalNetworksOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: LogicalNetworksListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogicalNetworks[]> {
     let result: LogicalNetworksListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +166,7 @@ export class LogicalNetworksOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: LogicalNetworksListAllOptionalParams
+    options?: LogicalNetworksListAllOptionalParams,
   ): AsyncIterableIterator<LogicalNetworks> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -180,11 +181,11 @@ export class LogicalNetworksOperationsImpl
   get(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksGetOptionalParams
+    options?: LogicalNetworksGetOptionalParams,
   ): Promise<LogicalNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, logicalNetworkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -200,7 +201,7 @@ export class LogicalNetworksOperationsImpl
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksCreateOrUpdateResponse>,
@@ -209,21 +210,20 @@ export class LogicalNetworksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LogicalNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -232,8 +232,8 @@ export class LogicalNetworksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -241,15 +241,15 @@ export class LogicalNetworksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, logicalNetworkName, logicalNetworks, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       LogicalNetworksCreateOrUpdateResponse,
@@ -257,7 +257,7 @@ export class LogicalNetworksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -275,13 +275,13 @@ export class LogicalNetworksOperationsImpl
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworks,
-    options?: LogicalNetworksCreateOrUpdateOptionalParams
+    options?: LogicalNetworksCreateOrUpdateOptionalParams,
   ): Promise<LogicalNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       logicalNetworkName,
       logicalNetworks,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -295,7 +295,7 @@ export class LogicalNetworksOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksDeleteResponse>,
@@ -304,21 +304,20 @@ export class LogicalNetworksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LogicalNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -327,8 +326,8 @@ export class LogicalNetworksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -336,15 +335,15 @@ export class LogicalNetworksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, logicalNetworkName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       LogicalNetworksDeleteResponse,
@@ -352,7 +351,7 @@ export class LogicalNetworksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -367,12 +366,12 @@ export class LogicalNetworksOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     logicalNetworkName: string,
-    options?: LogicalNetworksDeleteOptionalParams
+    options?: LogicalNetworksDeleteOptionalParams,
   ): Promise<LogicalNetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       logicalNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -388,7 +387,7 @@ export class LogicalNetworksOperationsImpl
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
+    options?: LogicalNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LogicalNetworksUpdateResponse>,
@@ -397,21 +396,20 @@ export class LogicalNetworksOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LogicalNetworksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -420,8 +418,8 @@ export class LogicalNetworksOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -429,15 +427,15 @@ export class LogicalNetworksOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, logicalNetworkName, logicalNetworks, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       LogicalNetworksUpdateResponse,
@@ -445,7 +443,7 @@ export class LogicalNetworksOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -462,13 +460,13 @@ export class LogicalNetworksOperationsImpl
     resourceGroupName: string,
     logicalNetworkName: string,
     logicalNetworks: LogicalNetworksUpdateRequest,
-    options?: LogicalNetworksUpdateOptionalParams
+    options?: LogicalNetworksUpdateOptionalParams,
   ): Promise<LogicalNetworksUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       logicalNetworkName,
       logicalNetworks,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -481,11 +479,11 @@ export class LogicalNetworksOperationsImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: LogicalNetworksListOptionalParams
+    options?: LogicalNetworksListOptionalParams,
   ): Promise<LogicalNetworksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -495,7 +493,7 @@ export class LogicalNetworksOperationsImpl
    * @param options The options parameters.
    */
   private _listAll(
-    options?: LogicalNetworksListAllOptionalParams
+    options?: LogicalNetworksListAllOptionalParams,
   ): Promise<LogicalNetworksListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
@@ -509,11 +507,11 @@ export class LogicalNetworksOperationsImpl
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LogicalNetworksListNextOptionalParams
+    options?: LogicalNetworksListNextOptionalParams,
   ): Promise<LogicalNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -524,11 +522,11 @@ export class LogicalNetworksOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: LogicalNetworksListAllNextOptionalParams
+    options?: LogicalNetworksListAllNextOptionalParams,
   ): Promise<LogicalNetworksListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 }
@@ -536,47 +534,45 @@ export class LogicalNetworksOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.logicalNetworkName
+    Parameters.logicalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     201: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     202: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     204: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logicalNetworks,
   queryParameters: [Parameters.apiVersion],
@@ -584,63 +580,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.logicalNetworkName
+    Parameters.logicalNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.LogicalNetworksDeleteHeaders
+      headersMapper: Mappers.LogicalNetworksDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.LogicalNetworksDeleteHeaders
+      headersMapper: Mappers.LogicalNetworksDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.LogicalNetworksDeleteHeaders
+      headersMapper: Mappers.LogicalNetworksDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.LogicalNetworksDeleteHeaders
+      headersMapper: Mappers.LogicalNetworksDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.logicalNetworkName
+    Parameters.logicalNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     201: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     202: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     204: {
-      bodyMapper: Mappers.LogicalNetworks
+      bodyMapper: Mappers.LogicalNetworks,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logicalNetworks1,
   queryParameters: [Parameters.apiVersion],
@@ -648,86 +642,84 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.logicalNetworkName
+    Parameters.logicalNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworksListResult
+      bodyMapper: Mappers.LogicalNetworksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/logicalNetworks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/logicalNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworksListResult
+      bodyMapper: Mappers.LogicalNetworksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworksListResult
+      bodyMapper: Mappers.LogicalNetworksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogicalNetworksListResult
+      bodyMapper: Mappers.LogicalNetworksListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

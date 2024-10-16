@@ -13,7 +13,7 @@ import {
   GuestAgentGetOptionalParams,
   GuestAgentGetResponse,
   GuestAgentDeleteOptionalParams,
-  GuestAgentDeleteResponse
+  GuestAgentDeleteResponse,
 } from "../models";
 
 /** Interface representing a GuestAgentOperations. */
@@ -26,7 +26,7 @@ export interface GuestAgentOperations {
    */
   beginCreate(
     resourceUri: string,
-    options?: GuestAgentCreateOptionalParams
+    options?: GuestAgentCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GuestAgentCreateResponse>,
@@ -41,7 +41,7 @@ export interface GuestAgentOperations {
    */
   beginCreateAndWait(
     resourceUri: string,
-    options?: GuestAgentCreateOptionalParams
+    options?: GuestAgentCreateOptionalParams,
   ): Promise<GuestAgentCreateResponse>;
   /**
    * Implements GuestAgent GET method.
@@ -51,7 +51,7 @@ export interface GuestAgentOperations {
    */
   get(
     resourceUri: string,
-    options?: GuestAgentGetOptionalParams
+    options?: GuestAgentGetOptionalParams,
   ): Promise<GuestAgentGetResponse>;
   /**
    * Implements GuestAgent DELETE method.
@@ -61,7 +61,7 @@ export interface GuestAgentOperations {
    */
   beginDelete(
     resourceUri: string,
-    options?: GuestAgentDeleteOptionalParams
+    options?: GuestAgentDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GuestAgentDeleteResponse>,
@@ -76,6 +76,6 @@ export interface GuestAgentOperations {
    */
   beginDeleteAndWait(
     resourceUri: string,
-    options?: GuestAgentDeleteOptionalParams
+    options?: GuestAgentDeleteOptionalParams,
   ): Promise<GuestAgentDeleteResponse>;
 }

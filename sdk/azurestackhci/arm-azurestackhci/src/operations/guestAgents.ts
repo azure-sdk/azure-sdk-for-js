@@ -18,7 +18,7 @@ import {
   GuestAgentsListNextOptionalParams,
   GuestAgentsListOptionalParams,
   GuestAgentsListResponse,
-  GuestAgentsListNextResponse
+  GuestAgentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class GuestAgentsImpl implements GuestAgents {
    */
   public list(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListOptionalParams,
   ): PagedAsyncIterableIterator<GuestAgent> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -57,14 +57,14 @@ export class GuestAgentsImpl implements GuestAgents {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: GuestAgentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GuestAgent[]> {
     let result: GuestAgentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class GuestAgentsImpl implements GuestAgents {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListOptionalParams,
   ): AsyncIterableIterator<GuestAgent> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class GuestAgentsImpl implements GuestAgents {
    */
   private _list(
     resourceUri: string,
-    options?: GuestAgentsListOptionalParams
+    options?: GuestAgentsListOptionalParams,
   ): Promise<GuestAgentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -119,11 +119,11 @@ export class GuestAgentsImpl implements GuestAgents {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: GuestAgentsListNextOptionalParams
+    options?: GuestAgentsListNextOptionalParams,
   ): Promise<GuestAgentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -131,38 +131,37 @@ export class GuestAgentsImpl implements GuestAgents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
+  path: "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GuestAgentList
+      bodyMapper: Mappers.GuestAgentList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceUri
+    Parameters.resourceUri,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
