@@ -20,7 +20,7 @@ import {
   MarketplaceGalleryImagesDeleteResponse,
   MarketplaceGalleryImagesUpdateRequest,
   MarketplaceGalleryImagesUpdateOptionalParams,
-  MarketplaceGalleryImagesUpdateResponse
+  MarketplaceGalleryImagesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface MarketplaceGalleryImagesOperations {
    */
   list(
     resourceGroupName: string,
-    options?: MarketplaceGalleryImagesListOptionalParams
+    options?: MarketplaceGalleryImagesListOptionalParams,
   ): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
   /**
    * Lists all of the marketplace gallery images in the specified subscription. Use the nextLink property
@@ -42,7 +42,7 @@ export interface MarketplaceGalleryImagesOperations {
    * @param options The options parameters.
    */
   listAll(
-    options?: MarketplaceGalleryImagesListAllOptionalParams
+    options?: MarketplaceGalleryImagesListAllOptionalParams,
   ): PagedAsyncIterableIterator<MarketplaceGalleryImages>;
   /**
    * Gets a marketplace gallery image
@@ -53,7 +53,7 @@ export interface MarketplaceGalleryImagesOperations {
   get(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesGetOptionalParams
+    options?: MarketplaceGalleryImagesGetOptionalParams,
   ): Promise<MarketplaceGalleryImagesGetResponse>;
   /**
    * The operation to create or update a marketplace gallery image. Please note some properties can be
@@ -67,7 +67,7 @@ export interface MarketplaceGalleryImagesOperations {
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
     marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface MarketplaceGalleryImagesOperations {
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
     marketplaceGalleryImages: MarketplaceGalleryImages,
-    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams
+    options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams,
   ): Promise<MarketplaceGalleryImagesCreateOrUpdateResponse>;
   /**
    * The operation to delete a marketplace gallery image.
@@ -97,7 +97,7 @@ export interface MarketplaceGalleryImagesOperations {
   beginDelete(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesDeleteResponse>,
@@ -113,7 +113,7 @@ export interface MarketplaceGalleryImagesOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
-    options?: MarketplaceGalleryImagesDeleteOptionalParams
+    options?: MarketplaceGalleryImagesDeleteOptionalParams,
   ): Promise<MarketplaceGalleryImagesDeleteResponse>;
   /**
    * The operation to update a marketplace gallery image.
@@ -126,7 +126,7 @@ export interface MarketplaceGalleryImagesOperations {
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
     marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MarketplaceGalleryImagesUpdateResponse>,
@@ -144,6 +144,6 @@ export interface MarketplaceGalleryImagesOperations {
     resourceGroupName: string,
     marketplaceGalleryImageName: string,
     marketplaceGalleryImages: MarketplaceGalleryImagesUpdateRequest,
-    options?: MarketplaceGalleryImagesUpdateOptionalParams
+    options?: MarketplaceGalleryImagesUpdateOptionalParams,
   ): Promise<MarketplaceGalleryImagesUpdateResponse>;
 }
