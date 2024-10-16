@@ -8,29 +8,29 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  TargetComputeSize,
-  TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
+  ClusterRecoveryPoint,
+  ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a TargetComputeSizes. */
-export interface TargetComputeSizes {
+/** Interface representing a ClusterRecoveryPoints. */
+export interface ClusterRecoveryPoints {
   /**
-   * Lists the available target compute sizes for a replication protected item.
+   * The list of cluster recovery points.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
-   * @param protectionContainerName protection container name.
-   * @param replicatedProtectedItemName Replication protected item name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  listByReplicationProtectedItems(
+  listByReplicationProtectionCluster(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-  ): PagedAsyncIterableIterator<TargetComputeSize>;
+    replicationProtectionClusterName: string,
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
+  ): PagedAsyncIterableIterator<ClusterRecoveryPoint>;
 }
