@@ -3020,6 +3020,30 @@ export const HostPoolPatch: coreClient.CompositeMapper = {
           className: "AgentUpdatePatchProperties",
         },
       },
+      managedPrivateUDP: {
+        serializedName: "properties.managedPrivateUDP",
+        type: {
+          name: "String",
+        },
+      },
+      directUDP: {
+        serializedName: "properties.directUDP",
+        type: {
+          name: "String",
+        },
+      },
+      publicUDP: {
+        serializedName: "properties.publicUDP",
+        type: {
+          name: "String",
+        },
+      },
+      relayUDP: {
+        serializedName: "properties.relayUDP",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -4186,6 +4210,30 @@ export const HostPool: coreClient.CompositeMapper = {
               className: "PrivateEndpointConnection",
             },
           },
+        },
+      },
+      managedPrivateUDP: {
+        serializedName: "properties.managedPrivateUDP",
+        type: {
+          name: "String",
+        },
+      },
+      directUDP: {
+        serializedName: "properties.directUDP",
+        type: {
+          name: "String",
+        },
+      },
+      publicUDP: {
+        serializedName: "properties.publicUDP",
+        type: {
+          name: "String",
+        },
+      },
+      relayUDP: {
+        serializedName: "properties.relayUDP",
+        type: {
+          name: "String",
         },
       },
     },

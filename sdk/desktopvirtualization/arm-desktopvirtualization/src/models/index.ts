@@ -938,7 +938,7 @@ export interface ScalingPlanPooledSchedulePatch extends Resource {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 /** ApplicationGroup properties that can be patched. */
 export interface ApplicationGroupPatch extends Resource {
@@ -1070,6 +1070,14 @@ export interface HostPoolPatch extends Resource {
   publicNetworkAccess?: HostpoolPublicNetworkAccess;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
   agentUpdate?: AgentUpdatePatchProperties;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP;
 }
 
 /** Represents a UserSession definition. */
@@ -1233,15 +1241,15 @@ export interface AppAttachPackagePatch extends Resource {
   properties?: AppAttachPackagePatchProperties;
 }
 
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity { }
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
 
-export interface ResourceModelWithAllowedPropertySetSku extends Sku { }
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
 
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan { }
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionWithSystemData
-  extends PrivateEndpointConnection { }
+  extends PrivateEndpointConnection {}
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
 export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
@@ -1465,6 +1473,14 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP;
 }
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
@@ -1923,6 +1939,90 @@ export enum KnownSessionHostComponentUpdateType {
  */
 export type SessionHostComponentUpdateType = string;
 
+/** Known values of {@link ManagedPrivateUDP} that the service accepts. */
+export enum KnownManagedPrivateUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ManagedPrivateUDP. \
+ * {@link KnownManagedPrivateUDP} can be used interchangeably with ManagedPrivateUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ManagedPrivateUDP = string;
+
+/** Known values of {@link DirectUDP} that the service accepts. */
+export enum KnownDirectUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for DirectUDP. \
+ * {@link KnownDirectUDP} can be used interchangeably with DirectUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type DirectUDP = string;
+
+/** Known values of {@link PublicUDP} that the service accepts. */
+export enum KnownPublicUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for PublicUDP. \
+ * {@link KnownPublicUDP} can be used interchangeably with PublicUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicUDP = string;
+
+/** Known values of {@link RelayUDP} that the service accepts. */
+export enum KnownRelayUDP {
+  /** Default */
+  Default = "Default",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for RelayUDP. \
+ * {@link KnownRelayUDP} can be used interchangeably with RelayUDP,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type RelayUDP = string;
+
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
   /** RemoteApp */
@@ -2224,35 +2324,35 @@ export type DayOfWeek =
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ResourceProviderOperationList;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ResourceProviderOperationList;
 
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspacesGetResponse = Workspace;
 
 /** Optional parameters. */
 export interface WorkspacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type WorkspacesCreateOrUpdateResponse = Workspace;
 
 /** Optional parameters. */
 export interface WorkspacesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspacesUpdateOptionalParams
@@ -2280,28 +2380,28 @@ export type WorkspacesListByResourceGroupResponse = WorkspaceList;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type WorkspacesListBySubscriptionResponse = WorkspaceList;
 
 /** Optional parameters. */
 export interface WorkspacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
 
 /** Optional parameters. */
 export interface WorkspacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type WorkspacesListBySubscriptionNextResponse = WorkspaceList;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspace operation. */
 export type PrivateEndpointConnectionsListByWorkspaceResponse =
@@ -2309,7 +2409,7 @@ export type PrivateEndpointConnectionsListByWorkspaceResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByWorkspace operation. */
 export type PrivateEndpointConnectionsGetByWorkspaceResponse =
@@ -2317,11 +2417,11 @@ export type PrivateEndpointConnectionsGetByWorkspaceResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateByWorkspace operation. */
 export type PrivateEndpointConnectionsUpdateByWorkspaceResponse =
@@ -2344,7 +2444,7 @@ export type PrivateEndpointConnectionsListByHostPoolResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByHostPool operation. */
 export type PrivateEndpointConnectionsGetByHostPoolResponse =
@@ -2352,11 +2452,11 @@ export type PrivateEndpointConnectionsGetByHostPoolResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateByHostPool operation. */
 export type PrivateEndpointConnectionsUpdateByHostPoolResponse =
@@ -2364,7 +2464,7 @@ export type PrivateEndpointConnectionsUpdateByHostPoolResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type PrivateEndpointConnectionsListByWorkspaceNextResponse =
@@ -2372,7 +2472,7 @@ export type PrivateEndpointConnectionsListByWorkspaceNextResponse =
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
 export type PrivateEndpointConnectionsListByHostPoolNextResponse =
@@ -2410,7 +2510,7 @@ export type PrivateLinkResourcesListByHostPoolResponse =
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type PrivateLinkResourcesListByWorkspaceNextResponse =
@@ -2418,7 +2518,7 @@ export type PrivateLinkResourcesListByWorkspaceNextResponse =
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
 export type PrivateLinkResourcesListByHostPoolNextResponse =
@@ -2426,21 +2526,21 @@ export type PrivateLinkResourcesListByHostPoolNextResponse =
 
 /** Optional parameters. */
 export interface ScalingPlansGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScalingPlansGetResponse = ScalingPlan;
 
 /** Optional parameters. */
 export interface ScalingPlansCreateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type ScalingPlansCreateResponse = ScalingPlan;
 
 /** Optional parameters. */
 export interface ScalingPlansDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ScalingPlansUpdateOptionalParams
@@ -2496,35 +2596,35 @@ export type ScalingPlansListByHostPoolResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ScalingPlansListByResourceGroupNextResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ScalingPlansListBySubscriptionNextResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlansListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
 export type ScalingPlansListByHostPoolNextResponse = ScalingPlanList;
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScalingPlanPooledSchedulesGetResponse = ScalingPlanPooledSchedule;
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesCreateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type ScalingPlanPooledSchedulesCreateResponse =
@@ -2532,7 +2632,7 @@ export type ScalingPlanPooledSchedulesCreateResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesUpdateOptionalParams
@@ -2562,7 +2662,7 @@ export type ScalingPlanPooledSchedulesListResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPooledSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ScalingPlanPooledSchedulesListNextResponse =
@@ -2570,7 +2670,7 @@ export type ScalingPlanPooledSchedulesListNextResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScalingPlanPersonalSchedulesGetResponse =
@@ -2578,7 +2678,7 @@ export type ScalingPlanPersonalSchedulesGetResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesCreateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type ScalingPlanPersonalSchedulesCreateResponse =
@@ -2586,7 +2686,7 @@ export type ScalingPlanPersonalSchedulesCreateResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesUpdateOptionalParams
@@ -2616,7 +2716,7 @@ export type ScalingPlanPersonalSchedulesListResponse =
 
 /** Optional parameters. */
 export interface ScalingPlanPersonalSchedulesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ScalingPlanPersonalSchedulesListNextResponse =
@@ -2624,21 +2724,21 @@ export type ScalingPlanPersonalSchedulesListNextResponse =
 
 /** Optional parameters. */
 export interface ApplicationGroupsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApplicationGroupsGetResponse = ApplicationGroup;
 
 /** Optional parameters. */
 export interface ApplicationGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ApplicationGroupsCreateOrUpdateResponse = ApplicationGroup;
 
 /** Optional parameters. */
 export interface ApplicationGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationGroupsUpdateOptionalParams
@@ -2678,7 +2778,7 @@ export type ApplicationGroupsListBySubscriptionResponse = ApplicationGroupList;
 
 /** Optional parameters. */
 export interface ApplicationGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ApplicationGroupsListByResourceGroupNextResponse =
@@ -2686,7 +2786,7 @@ export type ApplicationGroupsListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface ApplicationGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ApplicationGroupsListBySubscriptionNextResponse =
@@ -2708,28 +2808,28 @@ export type StartMenuItemsListResponse = StartMenuItemList;
 
 /** Optional parameters. */
 export interface StartMenuItemsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StartMenuItemsListNextResponse = StartMenuItemList;
 
 /** Optional parameters. */
 export interface ApplicationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApplicationsGetResponse = Application;
 
 /** Optional parameters. */
 export interface ApplicationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ApplicationsCreateOrUpdateResponse = Application;
 
 /** Optional parameters. */
 export interface ApplicationsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApplicationsUpdateOptionalParams
@@ -2757,14 +2857,14 @@ export type ApplicationsListResponse = ApplicationList;
 
 /** Optional parameters. */
 export interface ApplicationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationsListNextResponse = ApplicationList;
 
 /** Optional parameters. */
 export interface DesktopsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DesktopsGetResponse = Desktop;
@@ -2795,21 +2895,21 @@ export type DesktopsListResponse = DesktopList;
 
 /** Optional parameters. */
 export interface DesktopsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DesktopsListNextResponse = DesktopList;
 
 /** Optional parameters. */
 export interface HostPoolsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HostPoolsGetResponse = HostPool;
 
 /** Optional parameters. */
 export interface HostPoolsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type HostPoolsCreateOrUpdateResponse = HostPool;
@@ -2861,28 +2961,28 @@ export type HostPoolsListResponse = HostPoolList;
 
 /** Optional parameters. */
 export interface HostPoolsRetrieveRegistrationTokenOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the retrieveRegistrationToken operation. */
 export type HostPoolsRetrieveRegistrationTokenResponse = RegistrationInfo;
 
 /** Optional parameters. */
 export interface HostPoolsListRegistrationTokensOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegistrationTokens operation. */
 export type HostPoolsListRegistrationTokensResponse = RegistrationTokenList;
 
 /** Optional parameters. */
 export interface HostPoolsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type HostPoolsListByResourceGroupNextResponse = HostPoolList;
 
 /** Optional parameters. */
 export interface HostPoolsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type HostPoolsListNextResponse = HostPoolList;
@@ -2905,7 +3005,7 @@ export type UserSessionsListByHostPoolResponse = UserSessionList;
 
 /** Optional parameters. */
 export interface UserSessionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type UserSessionsGetResponse = UserSession;
@@ -2933,7 +3033,7 @@ export type UserSessionsListResponse = UserSessionList;
 
 /** Optional parameters. */
 export interface UserSessionsDisconnectOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface UserSessionsSendMessageOptionalParams
@@ -2944,21 +3044,21 @@ export interface UserSessionsSendMessageOptionalParams
 
 /** Optional parameters. */
 export interface UserSessionsListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByHostPoolNext operation. */
 export type UserSessionsListByHostPoolNextResponse = UserSessionList;
 
 /** Optional parameters. */
 export interface UserSessionsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserSessionsListNextResponse = UserSessionList;
 
 /** Optional parameters. */
 export interface SessionHostsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SessionHostsGetResponse = SessionHost;
@@ -2998,28 +3098,28 @@ export type SessionHostsListResponse = SessionHostList;
 
 /** Optional parameters. */
 export interface SessionHostsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SessionHostsListNextResponse = SessionHostList;
 
 /** Optional parameters. */
 export interface MsixPackagesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MsixPackagesGetResponse = MsixPackage;
 
 /** Optional parameters. */
 export interface MsixPackagesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type MsixPackagesCreateOrUpdateResponse = MsixPackage;
 
 /** Optional parameters. */
 export interface MsixPackagesDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface MsixPackagesUpdateOptionalParams
@@ -3047,56 +3147,56 @@ export type MsixPackagesListResponse = MsixPackageList;
 
 /** Optional parameters. */
 export interface MsixPackagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MsixPackagesListNextResponse = MsixPackageList;
 
 /** Optional parameters. */
 export interface AppAttachPackageInfoImportOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the import operation. */
 export type AppAttachPackageInfoImportResponse = AppAttachPackageList;
 
 /** Optional parameters. */
 export interface AppAttachPackageInfoImportNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the importNext operation. */
 export type AppAttachPackageInfoImportNextResponse = AppAttachPackageList;
 
 /** Optional parameters. */
 export interface MsixImagesExpandOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the expand operation. */
 export type MsixImagesExpandResponse = ExpandMsixImageList;
 
 /** Optional parameters. */
 export interface MsixImagesExpandNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the expandNext operation. */
 export type MsixImagesExpandNextResponse = ExpandMsixImageList;
 
 /** Optional parameters. */
 export interface AppAttachPackageGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AppAttachPackageGetResponse = AppAttachPackage;
 
 /** Optional parameters. */
 export interface AppAttachPackageCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
 
 /** Optional parameters. */
 export interface AppAttachPackageDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AppAttachPackageUpdateOptionalParams
@@ -3130,7 +3230,7 @@ export type AppAttachPackageListBySubscriptionResponse = AppAttachPackageList;
 
 /** Optional parameters. */
 export interface AppAttachPackageListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AppAttachPackageListByResourceGroupNextResponse =
@@ -3138,7 +3238,7 @@ export type AppAttachPackageListByResourceGroupNextResponse =
 
 /** Optional parameters. */
 export interface AppAttachPackageListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AppAttachPackageListBySubscriptionNextResponse =
