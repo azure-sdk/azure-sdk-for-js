@@ -500,6 +500,9 @@ export interface DesktopVirtualizationAPIClientOptionalParams extends coreClient
 }
 
 // @public
+export type DirectUDP = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -564,16 +567,20 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     hostPoolType: HostPoolType;
     loadBalancerType: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType: PreferredAppGroupType;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfo;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
@@ -595,13 +602,17 @@ export interface HostPoolPatch extends Resource {
     agentUpdate?: AgentUpdatePatchProperties;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     loadBalancerType?: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfoPatch;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
@@ -760,6 +771,13 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDirectUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownFailHealthCheckOnStagingFailure {
     DoNotFail = "DoNotFail",
     NeedsAssistance = "NeedsAssistance",
@@ -812,6 +830,13 @@ export enum KnownLoadBalancerType {
 }
 
 // @public
+export enum KnownManagedPrivateUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownPackageTimestamped {
     NotTimestamped = "NotTimestamped",
     Timestamped = "Timestamped"
@@ -860,10 +885,24 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownPublicUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownRegistrationTokenOperation {
     Delete = "Delete",
     None = "None",
     Update = "Update"
+}
+
+// @public
+export enum KnownRelayUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -990,6 +1029,9 @@ export interface MaintenanceWindowProperties {
     dayOfWeek?: DayOfWeek;
     hour?: number;
 }
+
+// @public
+export type ManagedPrivateUDP = string;
 
 // @public
 export interface MsixImages {
@@ -1334,6 +1376,9 @@ export interface ProxyResource extends Resource {
 export type PublicNetworkAccess = string;
 
 // @public
+export type PublicUDP = string;
+
+// @public
 export interface RegistrationInfo {
     expirationTime?: Date;
     registrationTokenOperation?: RegistrationTokenOperation;
@@ -1360,6 +1405,9 @@ export interface RegistrationTokenMinimal {
 
 // @public
 export type RegistrationTokenOperation = string;
+
+// @public
+export type RelayUDP = string;
 
 // @public
 export type RemoteApplicationType = string;
