@@ -14,6 +14,7 @@ import {
 import {
   AutonomousDatabase as AutonomousDatabaseMapper,
   AutonomousDatabaseUpdate as AutonomousDatabaseUpdateMapper,
+  DisasterRecoveryConfigurationDetails as DisasterRecoveryConfigurationDetailsMapper,
   PeerDbDetails as PeerDbDetailsMapper,
   GenerateAutonomousDatabaseWalletDetails as GenerateAutonomousDatabaseWalletDetailsMapper,
   RestoreAutonomousDatabaseDetails as RestoreAutonomousDatabaseDetailsMapper,
@@ -25,6 +26,7 @@ import {
   PrivateIpAddressesFilter as PrivateIpAddressesFilterMapper,
   OracleSubscription as OracleSubscriptionMapper,
   OracleSubscriptionUpdate as OracleSubscriptionUpdateMapper,
+  AzureSubscriptions as AzureSubscriptionsMapper,
   AutonomousDatabaseBackup as AutonomousDatabaseBackupMapper,
   AutonomousDatabaseBackupUpdate as AutonomousDatabaseBackupUpdateMapper,
   DbNodeAction as DbNodeActionMapper,
@@ -58,7 +60,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2024-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -145,15 +147,20 @@ export const properties: OperationParameter = {
 
 export const body: OperationParameter = {
   parameterPath: "body",
-  mapper: PeerDbDetailsMapper,
+  mapper: DisasterRecoveryConfigurationDetailsMapper,
 };
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: GenerateAutonomousDatabaseWalletDetailsMapper,
+  mapper: PeerDbDetailsMapper,
 };
 
 export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: GenerateAutonomousDatabaseWalletDetailsMapper,
+};
+
+export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: RestoreAutonomousDatabaseDetailsMapper,
 };
@@ -206,12 +213,12 @@ export const properties2: OperationParameter = {
   mapper: CloudVmClusterUpdateMapper,
 };
 
-export const body3: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: "body",
   mapper: AddRemoveDbNodeMapper,
 };
 
-export const body4: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: "body",
   mapper: PrivateIpAddressesFilterMapper,
 };
@@ -354,6 +361,11 @@ export const properties3: OperationParameter = {
   mapper: OracleSubscriptionUpdateMapper,
 };
 
+export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: AzureSubscriptionsMapper,
+};
+
 export const adbbackupid: OperationURLParameter = {
   parameterPath: "adbbackupid",
   mapper: {
@@ -410,7 +422,7 @@ export const dbnodeocid: OperationURLParameter = {
   },
 };
 
-export const body5: OperationParameter = {
+export const body7: OperationParameter = {
   parameterPath: "body",
   mapper: DbNodeActionMapper,
 };
