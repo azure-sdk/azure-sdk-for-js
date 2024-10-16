@@ -10702,7 +10702,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -14369,7 +14369,7 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-pYRNi6Q5ttM4AIwcaH5n2LYmaE9kAykIbD1QyquHbqoyD3k4oFVASIZEwlqWPIyWpgrj/FtaKG9/EFT3n8D2kA==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-ArKbM5/gPGadcppupzlHfe9dkQy92WJJEqD2cQ+uQi3WpVFJqQ9PUHB4uOuUFGMoGPP+qNMLfTAF2Ab3V7ZmDw==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
@@ -14387,9 +14387,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22249,7 +22250,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-DdXQnyRk8xByapm+NgEvGSJDzUr7xjU9rkLXfiHq6a1HbRusOAvXUtjim5I6uoV7k80zpNFBGfW6+pOXBnSzwQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-I2Xr9P7ab6GgkrVV5N+LgvtTn6v/KiEwhiuxmg/t7Ixma5UjL9Q+v0TGLtZN9ThouU/GHBUKYIQH6vdVMbC+4g==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -24257,7 +24258,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-SUsQnAA/geN3tUNpcVlFI+/vnrIcbnEYN/xfR5sWlu+qTJ6Hh0tqGofCusgJTlzfZyLSm/hv2GW6c3/Yj8iung==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-e+GSDtmAiZZkAHoCQZQAEWsR4wCqZTTbBfC85vnIBIVdlBTho8fI5YywC7VMtYylhd3J2SF/wWl7PGqbz/1MoA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
