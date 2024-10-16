@@ -17286,7 +17286,7 @@ packages:
     dev: false
 
   file:projects/arm-oracledatabase.tgz:
-    resolution: {integrity: sha512-HZUyn2gZAaz1Pambusqc+xa/XX/mSlFW/Azm675ZTzqMSqcRjltj+YCxlk1WJQ5H5ZCRqCRkdvvJMFHgUJUTqA==, tarball: file:projects/arm-oracledatabase.tgz}
+    resolution: {integrity: sha512-DMUBA6OoxFmSFMk+8Mfzpb8Y+zyHtFYR06ZJoz6++1e7JfC6Rj3pmLGuhkCfxsVqGc1zMwi88Pjt/dNwLjpE0g==, tarball: file:projects/arm-oracledatabase.tgz}
     name: '@rush-temp/arm-oracledatabase'
     version: 0.0.0
     dependencies:
@@ -17304,10 +17304,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -19905,7 +19905,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-BoEaaH3sJLyt/JMQFr7Fw+iEtJ+73S+Ycef8OXgaLJZqUqrKFHONVPvT9PgnMKMm7Drv75jkfxY/yY18ZlOp8A==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-Wr6eM/yhM5LxsFiCMr1W/yKXpomNZSvt0OWPrqiCIvqFEbubo/2aP+ruDIOHPnrEyjzTNyg4ft7Ndb2Ko/UW7A==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -22266,7 +22266,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-I2Xr9P7ab6GgkrVV5N+LgvtTn6v/KiEwhiuxmg/t7Ixma5UjL9Q+v0TGLtZN9ThouU/GHBUKYIQH6vdVMbC+4g==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-fhIITLWXGA7iRET2+R9P9CniupXNlgz3yaD1f3uA9MeK2KwTSmNlz26rvRYGQn0G6OAWEVvxpaVbCEAGSKjA3A==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:

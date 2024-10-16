@@ -11,6 +11,8 @@ import * as coreClient from "@azure/core-client";
 export type AutonomousDatabaseBasePropertiesUnion =
   | AutonomousDatabaseBaseProperties
   | AutonomousDatabaseCloneProperties
+  | AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  | AutonomousDatabaseFromBackupTimestampProperties
   | AutonomousDatabaseProperties;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -137,7 +139,11 @@ export interface AutonomousDatabaseListResult {
 /** Autonomous Database base resource model. */
 export interface AutonomousDatabaseBaseProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataBaseType: "Clone" | "Regular";
+  dataBaseType:
+    | "Clone"
+    | "CrossRegionDisasterRecovery"
+    | "CloneFromBackupTimestamp"
+    | "Regular";
   /**
    * Admin password.
    * This value contains a credential. Consider obscuring before showing to users
@@ -170,7 +176,7 @@ export interface AutonomousDatabaseBaseProperties {
   /** Indicates if auto scaling is enabled for the Autonomous Database storage. */
   isAutoScalingForStorageEnabled?: boolean;
   /**
-   * The list of [OCIDs](https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for Autonomous Database Serverless instances, standby databases located in the same region as the source primary database do not have OCIDs.
+   * The list of Azure IDs of standby databases located in Autonomous Data Guard remote regions that are associated with the source database. Note that for Autonomous Database Serverless instances, standby databases located in the same region as the source primary database do not have Azure IDs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly peerDbIds?: string[];
@@ -188,6 +194,16 @@ export interface AutonomousDatabaseBaseProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly localDisasterRecoveryType?: DisasterRecoveryType;
+  /**
+   * The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeDisasterRecoveryRoleChanged?: Date;
+  /**
+   * Indicates remote disaster recovery configuration
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
   /**
    * Local Autonomous Disaster Recovery standby database details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -415,6 +431,18 @@ export interface AutonomousDatabaseBaseProperties {
 export interface CustomerContact {
   /** The email address used by Oracle to send notifications regarding databases and infrastructure. */
   email: string;
+}
+
+/** Configurations of a Disaster Recovery Details */
+export interface DisasterRecoveryConfigurationDetails {
+  /** Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
+  disasterRecoveryType?: DisasterRecoveryType;
+  /** Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database. */
+  timeSnapshotStandbyEnabledTill?: Date;
+  /** Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database. */
+  isSnapshotStandby?: boolean;
+  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
+  isReplicateAutomaticBackups?: boolean;
 }
 
 /** Autonomous Disaster Recovery standby database details. */
@@ -999,11 +1027,8 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 /** AutonomousDatabaseCharacterSet resource model */
 export interface AutonomousDatabaseCharacterSetProperties {
-  /**
-   * The Oracle Autonomous Database supported character sets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly characterSet: string;
+  /** The Oracle Autonomous Database supported character sets. */
+  characterSet: string;
 }
 
 /** The response of a AutonomousDatabaseNationalCharacterSet list operation. */
@@ -1016,11 +1041,8 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 /** AutonomousDatabaseNationalCharacterSet resource model */
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-  /**
-   * The Oracle Autonomous Database supported national character sets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly characterSet: string;
+  /** The Oracle Autonomous Database supported national character sets. */
+  characterSet: string;
 }
 
 /** The response of a AutonomousDbVersion list operation. */
@@ -1033,36 +1055,18 @@ export interface AutonomousDbVersionListResult {
 
 /** AutonomousDbVersion resource model */
 export interface AutonomousDbVersionProperties {
-  /**
-   * Supported Autonomous Db versions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
-  /**
-   * The Autonomous Database workload type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbWorkload?: WorkloadType;
-  /**
-   * True if this version of the Oracle Database software's default is free.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultForFree?: boolean;
-  /**
-   * True if this version of the Oracle Database software's default is paid.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDefaultForPaid?: boolean;
-  /**
-   * True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isFreeTierEnabled?: boolean;
-  /**
-   * True if this version of the Oracle Database software has payments enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isPaidEnabled?: boolean;
+  /** Supported Autonomous Db versions. */
+  version: string;
+  /** The Autonomous Database workload type */
+  dbWorkload?: WorkloadType;
+  /** True if this version of the Oracle Database software's default is free. */
+  isDefaultForFree?: boolean;
+  /** True if this version of the Oracle Database software's default is paid. */
+  isDefaultForPaid?: boolean;
+  /** True if this version of the Oracle Database software can be used for Always-Free Autonomous Databases. */
+  isFreeTierEnabled?: boolean;
+  /** True if this version of the Oracle Database software has payments enabled. */
+  isPaidEnabled?: boolean;
 }
 
 /** The response of a DbSystemShape list operation. */
@@ -1075,106 +1079,46 @@ export interface DbSystemShapeListResult {
 
 /** DbSystemShape resource model */
 export interface DbSystemShapeProperties {
-  /**
-   * The family of the shape used for the DB system.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly shapeFamily?: string;
-  /**
-   * The maximum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableCoreCount: number;
-  /**
-   * The minimum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimumCoreCount?: number;
-  /**
-   * The runtime minimum number of CPU cores that can be enabled on the DB system for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runtimeMinimumCoreCount?: number;
-  /**
-   * The discrete number by which the CPU core count for this shape can be increased or decreased.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly coreCountIncrement?: number;
-  /**
-   * The minimum number of Exadata storage servers available for the Exadata infrastructure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minStorageCount?: number;
-  /**
-   * The maximum number of Exadata storage servers available for the Exadata infrastructure.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxStorageCount?: number;
-  /**
-   * The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDataStoragePerServerInTbs?: number;
-  /**
-   * The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMemoryPerNodeInGbs?: number;
-  /**
-   * The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDbNodePerNodeInGbs?: number;
-  /**
-   * The minimum number of CPU cores that can be enabled per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minCoreCountPerNode?: number;
-  /**
-   * The maximum memory that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableMemoryInGbs?: number;
-  /**
-   * The minimum memory that need be allocated per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minMemoryPerNodeInGbs?: number;
-  /**
-   * The maximum Db Node storage that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDbNodeStorageInGbs?: number;
-  /**
-   * The minimum Db Node storage that need be allocated per node for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minDbNodeStoragePerNodeInGbs?: number;
-  /**
-   * The maximum DATA storage that can be enabled for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableDataStorageInTbs?: number;
-  /**
-   * The minimum data storage that need be allocated for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minDataStorageInTbs?: number;
-  /**
-   * The minimum number of database nodes available for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimumNodeCount?: number;
-  /**
-   * The maximum number of database nodes available for this shape.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximumNodeCount?: number;
-  /**
-   * The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableCoreCountPerNode?: number;
+  /** The family of the shape used for the DB system. */
+  shapeFamily?: string;
+  /** The maximum number of CPU cores that can be enabled on the DB system for this shape. */
+  availableCoreCount: number;
+  /** The minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  minimumCoreCount?: number;
+  /** The runtime minimum number of CPU cores that can be enabled on the DB system for this shape. */
+  runtimeMinimumCoreCount?: number;
+  /** The discrete number by which the CPU core count for this shape can be increased or decreased. */
+  coreCountIncrement?: number;
+  /** The minimum number of Exadata storage servers available for the Exadata infrastructure. */
+  minStorageCount?: number;
+  /** The maximum number of Exadata storage servers available for the Exadata infrastructure. */
+  maxStorageCount?: number;
+  /** The maximum data storage available per storage server for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDataStoragePerServerInTbs?: number;
+  /** The maximum memory available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage available per database node for this shape. Only applicable to ExaCC Elastic shapes. */
+  availableDbNodePerNodeInGbs?: number;
+  /** The minimum number of CPU cores that can be enabled per node for this shape. */
+  minCoreCountPerNode?: number;
+  /** The maximum memory that can be enabled for this shape. */
+  availableMemoryInGbs?: number;
+  /** The minimum memory that need be allocated per node for this shape. */
+  minMemoryPerNodeInGbs?: number;
+  /** The maximum Db Node storage that can be enabled for this shape. */
+  availableDbNodeStorageInGbs?: number;
+  /** The minimum Db Node storage that need be allocated per node for this shape. */
+  minDbNodeStoragePerNodeInGbs?: number;
+  /** The maximum DATA storage that can be enabled for this shape. */
+  availableDataStorageInTbs?: number;
+  /** The minimum data storage that need be allocated for this shape. */
+  minDataStorageInTbs?: number;
+  /** The minimum number of database nodes available for this shape. */
+  minimumNodeCount?: number;
+  /** The maximum number of database nodes available for this shape. */
+  maximumNodeCount?: number;
+  /** The maximum number of CPU cores per database node that can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic shapes. */
+  availableCoreCountPerNode?: number;
 }
 
 /** The response of a DnsPrivateView list operation. */
@@ -1187,41 +1131,20 @@ export interface DnsPrivateViewListResult {
 
 /** Views resource model */
 export interface DnsPrivateViewProperties {
-  /**
-   * The OCID of the view
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * The display name of the view resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProtected: boolean;
-  /**
-   * Views lifecycleState
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-  /**
-   * The canonical absolute URL of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self: string;
-  /**
-   * views timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated: Date;
-  /**
-   * views timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeUpdated: Date;
+  /** The OCID of the view */
+  ocid: string;
+  /** The display name of the view resource */
+  displayName: string;
+  /** A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. */
+  isProtected: boolean;
+  /** Views lifecycleState */
+  lifecycleState: DnsPrivateViewsLifecycleState;
+  /** The canonical absolute URL of the resource. */
+  self: string;
+  /** views timeCreated */
+  timeCreated: Date;
+  /** views timeUpdated */
+  timeUpdated: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1239,51 +1162,24 @@ export interface DnsPrivateZoneListResult {
 
 /** Zones resource model */
 export interface DnsPrivateZoneProperties {
-  /**
-   * The OCID of the Zone
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProtected: boolean;
-  /**
-   * Zones lifecycleState
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-  /**
-   * The canonical absolute URL of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self: string;
-  /**
-   * The current serial of the zone. As seen in the zone's SOA record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serial: number;
-  /**
-   * Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
-  /**
-   * The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly viewId?: string;
-  /**
-   * The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly zoneType: ZoneType;
-  /**
-   * Zones timeCreated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated: Date;
+  /** The OCID of the Zone */
+  ocid: string;
+  /** A Boolean flag indicating whether or not parts of the resource are unable to be explicitly managed. */
+  isProtected: boolean;
+  /** Zones lifecycleState */
+  lifecycleState: DnsPrivateZonesLifecycleState;
+  /** The canonical absolute URL of the resource. */
+  self: string;
+  /** The current serial of the zone. As seen in the zone's SOA record. */
+  serial: number;
+  /** Version is the never-repeating, totally-orderable, version of the zone, from which the serial field of the zone's SOA record is derived. */
+  version: string;
+  /** The OCID of the private view containing the zone. This value will be null for zones in the global DNS, which are publicly resolvable and not part of a private view. */
+  viewId?: string;
+  /** The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is only supported for GLOBAL zones. */
+  zoneType: ZoneType;
+  /** Zones timeCreated */
+  timeCreated: Date;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1301,11 +1197,8 @@ export interface GiVersionListResult {
 
 /** GiVersion resource model */
 export interface GiVersionProperties {
-  /**
-   * A valid Oracle Grid Infrastructure (GI) software version.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version: string;
+  /** A valid Oracle Grid Infrastructure (GI) software version. */
+  version: string;
 }
 
 /** The response of a SystemVersion list operation. */
@@ -1318,11 +1211,8 @@ export interface SystemVersionListResult {
 
 /** System Version Resource model */
 export interface SystemVersionProperties {
-  /**
-   * A valid Oracle System Version
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemVersion: string;
+  /** A valid Oracle System Version */
+  systemVersion: string;
 }
 
 /** The response of a OracleSubscription list operation. */
@@ -1361,6 +1251,21 @@ export interface OracleSubscriptionProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+  /**
+   * Azure subscriptions associated with this OracleSubscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureSubscriptionIds?: string[];
+  /**
+   * State of the add Azure subscription operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+  /**
+   * Status details of the last operation on Oracle subscription
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationStatusDetail?: string;
 }
 
 /** Plan for the resource. */
@@ -1381,7 +1286,7 @@ export interface Plan {
 export interface OracleSubscriptionUpdate {
   /** Details of the resource plan. */
   plan?: PlanUpdate;
-  /** The updatable properties of the OracleSubscription. */
+  /** The resource-specific properties for this resource. */
   properties?: OracleSubscriptionUpdateProperties;
 }
 
@@ -1405,6 +1310,12 @@ export interface OracleSubscriptionUpdateProperties {
   productCode?: string;
   /** Intent for the update operation */
   intent?: Intent;
+}
+
+/** Azure Subscriptions model */
+export interface AzureSubscriptions {
+  /** Azure Subscription Ids to be updated */
+  azureSubscriptionIds: string[];
 }
 
 /** Activation Links model */
@@ -1503,7 +1414,7 @@ export interface SaasSubscriptionDetails {
 export interface AutonomousDatabaseUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the AutonomousDatabase. */
+  /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseUpdateProperties;
 }
 
@@ -1628,7 +1539,7 @@ export interface AutonomousDatabaseBackupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lifecycleState?: AutonomousDatabaseBackupLifecycleState;
-  /** Retention period, in days, for long-term backups. */
+  /** Retention period, in days */
   retentionPeriodInDays?: number;
   /**
    * The backup size in terabytes (TB).
@@ -1664,20 +1575,24 @@ export interface AutonomousDatabaseBackupProperties {
 
 /** The type used for update operations of the AutonomousDatabaseBackup. */
 export interface AutonomousDatabaseBackupUpdate {
-  /** The updatable properties of the AutonomousDatabaseBackup. */
+  /** The resource-specific properties for this resource. */
   properties?: AutonomousDatabaseBackupUpdateProperties;
 }
 
 /** The updatable properties of the AutonomousDatabaseBackup. */
 export interface AutonomousDatabaseBackupUpdateProperties {
-  /** Retention period, in days, for long-term backups. */
+  /** Retention period, in days */
   retentionPeriodInDays?: number;
 }
 
 /** PeerDb Details */
 export interface PeerDbDetails {
-  /** The database OCID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  /** The Azure ID of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
   peerDbId?: string;
+  /** Ocid of the Disaster Recovery peer database, which is located in a different region from the current peer database. */
+  peerDbOcid?: string;
+  /** The location of the Disaster Recovery peer database. */
+  peerDbLocation?: string;
 }
 
 /** Autonomous Database Generate Wallet resource model. */
@@ -1711,7 +1626,7 @@ export interface CloudExadataInfrastructureUpdate {
   zones?: string[];
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudExadataInfrastructure. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudExadataInfrastructureUpdateProperties;
 }
 
@@ -1869,7 +1784,7 @@ export interface DbServerPatchingDetails {
 export interface CloudVmClusterUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the CloudVmCluster. */
+  /** The resource-specific properties for this resource. */
   properties?: CloudVmClusterUpdateProperties;
 }
 
@@ -1915,116 +1830,50 @@ export interface DbNodeListResult {
 
 /** The properties of DbNodeResource */
 export interface DbNodeProperties {
-  /**
-   * DbNode OCID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ocid: string;
-  /**
-   * Additional information about the planned maintenance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalDetails?: string;
-  /**
-   * The OCID of the backup IP address associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupIpId?: string;
-  /**
-   * The OCID of the second backup VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupVnic2Id?: string;
-  /**
-   * The OCID of the backup VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly backupVnicId?: string;
-  /**
-   * The number of CPU cores enabled on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cpuCoreCount?: number;
-  /**
-   * The allocated local node storage in GBs on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbNodeStorageSizeInGbs?: number;
-  /**
-   * The OCID of the Exacc Db server associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbServerId?: string;
-  /**
-   * The OCID of the DB system.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dbSystemId: string;
-  /**
-   * The name of the Fault Domain the instance is contained in.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly faultDomain?: string;
-  /**
-   * The OCID of the host IP address associated with the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostIpId?: string;
-  /**
-   * The host name for the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostname?: string;
-  /**
-   * The current state of the database node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleState?: DbNodeProvisioningState;
-  /**
-   * Lifecycle details of Db Node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lifecycleDetails?: string;
-  /**
-   * The type of database node maintenance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maintenanceType?: DbNodeMaintenanceType;
-  /**
-   * The allocated memory in GBs on the Db node.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly memorySizeInGbs?: number;
-  /**
-   * The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly softwareStorageSizeInGb?: number;
-  /**
-   * The date and time that the database node was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-  /**
-   * End date and time of maintenance window.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeMaintenanceWindowEnd?: Date;
-  /**
-   * Start date and time of maintenance window.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeMaintenanceWindowStart?: Date;
-  /**
-   * The OCID of the second VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vnic2Id?: string;
-  /**
-   * The OCID of the VNIC.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vnicId?: string;
+  /** DbNode OCID */
+  ocid: string;
+  /** Additional information about the planned maintenance. */
+  additionalDetails?: string;
+  /** The OCID of the backup IP address associated with the database node. */
+  backupIpId?: string;
+  /** The OCID of the second backup VNIC. */
+  backupVnic2Id?: string;
+  /** The OCID of the backup VNIC. */
+  backupVnicId?: string;
+  /** The number of CPU cores enabled on the Db node. */
+  cpuCoreCount?: number;
+  /** The allocated local node storage in GBs on the Db node. */
+  dbNodeStorageSizeInGbs?: number;
+  /** The OCID of the Exacc Db server associated with the database node. */
+  dbServerId?: string;
+  /** The OCID of the DB system. */
+  dbSystemId: string;
+  /** The name of the Fault Domain the instance is contained in. */
+  faultDomain?: string;
+  /** The OCID of the host IP address associated with the database node. */
+  hostIpId?: string;
+  /** The host name for the database node. */
+  hostname?: string;
+  /** The current state of the database node. */
+  lifecycleState: DbNodeProvisioningState;
+  /** Lifecycle details of Db Node. */
+  lifecycleDetails?: string;
+  /** The type of database node maintenance. */
+  maintenanceType?: DbNodeMaintenanceType;
+  /** The allocated memory in GBs on the Db node. */
+  memorySizeInGbs?: number;
+  /** The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems. */
+  softwareStorageSizeInGb?: number;
+  /** The date and time that the database node was created. */
+  timeCreated: Date;
+  /** End date and time of maintenance window. */
+  timeMaintenanceWindowEnd?: Date;
+  /** Start date and time of maintenance window. */
+  timeMaintenanceWindowStart?: Date;
+  /** The OCID of the second VNIC. */
+  vnic2Id?: string;
+  /** The OCID of the VNIC. */
+  vnicId: string;
   /**
    * Azure resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2167,6 +2016,42 @@ export interface AutonomousDatabaseCloneProperties
   timeUntilReconnectCloneEnabled?: string;
 }
 
+/** Autonomous Database Cross Region Disaster Recovery resource model. */
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties
+  extends AutonomousDatabaseBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataBaseType: "CrossRegionDisasterRecovery";
+  /** The source of the database. */
+  source: "CrossRegionDisasterRecovery";
+  /** The Azure ID of the source Autonomous Database that will be used to create a new peer database for the DR association. */
+  sourceId: string;
+  /** The name of the region where source Autonomous Database exists. */
+  sourceLocation?: string;
+  /** The source database ocid */
+  sourceOcid?: string;
+  /** Indicates the cross-region disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. */
+  remoteDisasterRecoveryType: DisasterRecoveryType;
+  /** If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database. */
+  isReplicateAutomaticBackups?: boolean;
+}
+
+/** Autonomous Database From Backup Timestamp resource model. */
+export interface AutonomousDatabaseFromBackupTimestampProperties
+  extends AutonomousDatabaseBaseProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataBaseType: "CloneFromBackupTimestamp";
+  /** The source of the database. */
+  source: "BackupFromTimestamp";
+  /** The ID of the source Autonomous Database that you will clone to create a new Autonomous Database. */
+  sourceId: string;
+  /** The Autonomous Database clone type. */
+  cloneType: CloneType;
+  /** The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past. */
+  timestamp?: Date;
+  /** Clone from latest available backup timestamp. */
+  useLatestAvailableBackupTimeStamp?: boolean;
+}
+
 /** Autonomous Database resource model. */
 export interface AutonomousDatabaseProperties
   extends AutonomousDatabaseBaseProperties {
@@ -2307,6 +2192,14 @@ export interface AutonomousDatabasesDeleteHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for AutonomousDatabases_changeDisasterRecoveryConfiguration operation. */
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
 /** Defines headers for AutonomousDatabases_failover operation. */
 export interface AutonomousDatabasesFailoverHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -2429,6 +2322,14 @@ export interface OracleSubscriptionsDeleteHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for OracleSubscriptions_addAzureSubscriptions operation. */
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
 /** Defines headers for OracleSubscriptions_listActivationLinks operation. */
 export interface OracleSubscriptionsListActivationLinksHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -2539,6 +2440,10 @@ export enum KnownDataBaseType {
   Regular = "Regular",
   /** Clone DB */
   Clone = "Clone",
+  /** Clone DB from backup timestamp */
+  CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
+  /** Cross Region Disaster Recovery */
+  CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
 }
 
 /**
@@ -2547,7 +2452,9 @@ export enum KnownDataBaseType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Regular**: Regular DB \
- * **Clone**: Clone DB
+ * **Clone**: Clone DB \
+ * **CloneFromBackupTimestamp**: Clone DB from backup timestamp \
+ * **CrossRegionDisasterRecovery**: Cross Region Disaster Recovery
  */
 export type DataBaseType = string;
 
@@ -3457,6 +3364,27 @@ export enum KnownIntent {
  */
 export type Intent = string;
 
+/** Known values of {@link AddSubscriptionOperationState} that the service accepts. */
+export enum KnownAddSubscriptionOperationState {
+  /** Succeeded - State when Add Subscription operation succeeded */
+  Succeeded = "Succeeded",
+  /** Updating - State when Add Subscription operation is being Updated */
+  Updating = "Updating",
+  /** Failed - State when Add Subscription operation failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AddSubscriptionOperationState. \
+ * {@link KnownAddSubscriptionOperationState} can be used interchangeably with AddSubscriptionOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Succeeded - State when Add Subscription operation succeeded \
+ * **Updating**: Updating - State when Add Subscription operation is being Updated \
+ * **Failed**: Failed - State when Add Subscription operation failed
+ */
+export type AddSubscriptionOperationState = string;
+
 /** Known values of {@link AutonomousDatabaseBackupLifecycleState} that the service accepts. */
 export enum KnownAutonomousDatabaseBackupLifecycleState {
   /** AutonomousDatabase backup is creating */
@@ -3884,6 +3812,19 @@ export interface AutonomousDatabasesDeleteOptionalParams
 /** Contains response data for the delete operation. */
 export type AutonomousDatabasesDeleteResponse =
   AutonomousDatabasesDeleteHeaders;
+
+/** Optional parameters. */
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeDisasterRecoveryConfiguration operation. */
+export type AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse =
+  AutonomousDatabase;
 
 /** Optional parameters. */
 export interface AutonomousDatabasesFailoverOptionalParams
@@ -4384,6 +4325,19 @@ export interface OracleSubscriptionsDeleteOptionalParams
 /** Contains response data for the delete operation. */
 export type OracleSubscriptionsDeleteResponse =
   OracleSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addAzureSubscriptions operation. */
+export type OracleSubscriptionsAddAzureSubscriptionsResponse =
+  OracleSubscriptionsAddAzureSubscriptionsHeaders;
 
 /** Optional parameters. */
 export interface OracleSubscriptionsListActivationLinksOptionalParams

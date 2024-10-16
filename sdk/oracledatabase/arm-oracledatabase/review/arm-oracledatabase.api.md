@@ -25,6 +25,9 @@ export interface AddRemoveDbNode {
 }
 
 // @public
+export type AddSubscriptionOperationState = string;
+
+// @public
 export interface AllConnectionStringType {
     high?: string;
     low?: string;
@@ -184,7 +187,7 @@ export interface AutonomousDatabaseBaseProperties {
     cpuCoreCount?: number;
     customerContacts?: CustomerContact[];
     databaseEdition?: DatabaseEditionType;
-    dataBaseType: "Clone" | "Regular";
+    dataBaseType: "Clone" | "CrossRegionDisasterRecovery" | "CloneFromBackupTimestamp" | "Regular";
     readonly dataSafeStatus?: DataSafeStatusType;
     dataStorageSizeInGbs?: number;
     dataStorageSizeInTbs?: number;
@@ -222,6 +225,7 @@ export interface AutonomousDatabaseBaseProperties {
     privateEndpointLabel?: string;
     readonly provisionableCpus?: number[];
     readonly provisioningState?: AzureResourceProvisioningState;
+    readonly remoteDisasterRecoveryConfiguration?: DisasterRecoveryConfigurationDetails;
     role?: RoleType;
     scheduledOperations?: ScheduledOperationsType;
     readonly serviceConsoleUrl?: string;
@@ -231,6 +235,7 @@ export interface AutonomousDatabaseBaseProperties {
     readonly timeCreated?: Date;
     readonly timeDataGuardRoleChanged?: string;
     readonly timeDeletionOfFreeAutonomousDatabase?: string;
+    readonly timeDisasterRecoveryRoleChanged?: Date;
     readonly timeLocalDataGuardEnabled?: string;
     readonly timeMaintenanceBegin?: Date;
     readonly timeMaintenanceEnd?: Date;
@@ -246,7 +251,7 @@ export interface AutonomousDatabaseBaseProperties {
 }
 
 // @public (undocumented)
-export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseBaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseProperties;
+export type AutonomousDatabaseBasePropertiesUnion = AutonomousDatabaseBaseProperties | AutonomousDatabaseCloneProperties | AutonomousDatabaseCrossRegionDisasterRecoveryProperties | AutonomousDatabaseFromBackupTimestampProperties | AutonomousDatabaseProperties;
 
 // @public
 export interface AutonomousDatabaseCharacterSet extends ProxyResource {
@@ -261,7 +266,7 @@ export interface AutonomousDatabaseCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
@@ -305,6 +310,27 @@ export interface AutonomousDatabaseCloneProperties extends AutonomousDatabaseBas
 }
 
 // @public
+export interface AutonomousDatabaseCrossRegionDisasterRecoveryProperties extends AutonomousDatabaseBaseProperties {
+    dataBaseType: "CrossRegionDisasterRecovery";
+    isReplicateAutomaticBackups?: boolean;
+    remoteDisasterRecoveryType: DisasterRecoveryType;
+    source: "CrossRegionDisasterRecovery";
+    sourceId: string;
+    sourceLocation?: string;
+    sourceOcid?: string;
+}
+
+// @public
+export interface AutonomousDatabaseFromBackupTimestampProperties extends AutonomousDatabaseBaseProperties {
+    cloneType: CloneType;
+    dataBaseType: "CloneFromBackupTimestamp";
+    source: "BackupFromTimestamp";
+    sourceId: string;
+    timestamp?: Date;
+    useLatestAvailableBackupTimeStamp?: boolean;
+}
+
+// @public
 export type AutonomousDatabaseLifecycleState = string;
 
 // @public
@@ -326,7 +352,7 @@ export interface AutonomousDatabaseNationalCharacterSetListResult {
 
 // @public
 export interface AutonomousDatabaseNationalCharacterSetProperties {
-    readonly characterSet: string;
+    characterSet: string;
 }
 
 // @public
@@ -363,6 +389,8 @@ export interface AutonomousDatabaseProperties extends AutonomousDatabaseBaseProp
 
 // @public
 export interface AutonomousDatabases {
+    beginChangeDisasterRecoveryConfiguration(resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>, AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>>;
+    beginChangeDisasterRecoveryConfigurationAndWait(resourceGroupName: string, autonomousdatabasename: string, body: DisasterRecoveryConfigurationDetails, options?: AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams): Promise<AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse>;
     beginCreateOrUpdate(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesCreateOrUpdateResponse>, AutonomousDatabasesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, autonomousdatabasename: string, resource: AutonomousDatabase, options?: AutonomousDatabasesCreateOrUpdateOptionalParams): Promise<AutonomousDatabasesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, autonomousdatabasename: string, options?: AutonomousDatabasesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AutonomousDatabasesDeleteResponse>, AutonomousDatabasesDeleteResponse>>;
@@ -382,6 +410,21 @@ export interface AutonomousDatabases {
     listByResourceGroup(resourceGroupName: string, options?: AutonomousDatabasesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AutonomousDatabase>;
     listBySubscription(options?: AutonomousDatabasesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AutonomousDatabase>;
 }
+
+// @public
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutonomousDatabasesChangeDisasterRecoveryConfigurationResponse = AutonomousDatabase;
 
 // @public
 export interface AutonomousDatabasesCreateOrUpdateHeaders {
@@ -618,12 +661,12 @@ export interface AutonomousDbVersionListResult {
 
 // @public
 export interface AutonomousDbVersionProperties {
-    readonly dbWorkload?: WorkloadType;
-    readonly isDefaultForFree?: boolean;
-    readonly isDefaultForPaid?: boolean;
-    readonly isFreeTierEnabled?: boolean;
-    readonly isPaidEnabled?: boolean;
-    readonly version: string;
+    dbWorkload?: WorkloadType;
+    isDefaultForFree?: boolean;
+    isDefaultForPaid?: boolean;
+    isFreeTierEnabled?: boolean;
+    isPaidEnabled?: boolean;
+    version: string;
 }
 
 // @public
@@ -631,6 +674,11 @@ export type AutonomousMaintenanceScheduleType = string;
 
 // @public
 export type AzureResourceProvisioningState = string;
+
+// @public
+export interface AzureSubscriptions {
+    azureSubscriptionIds: string[];
+}
 
 // @public
 export type CloneType = string;
@@ -1139,29 +1187,29 @@ export type DbNodeMaintenanceType = string;
 
 // @public
 export interface DbNodeProperties {
-    readonly additionalDetails?: string;
-    readonly backupIpId?: string;
-    readonly backupVnic2Id?: string;
-    readonly backupVnicId?: string;
-    readonly cpuCoreCount?: number;
-    readonly dbNodeStorageSizeInGbs?: number;
-    readonly dbServerId?: string;
-    readonly dbSystemId: string;
-    readonly faultDomain?: string;
-    readonly hostIpId?: string;
-    readonly hostname?: string;
-    readonly lifecycleDetails?: string;
-    readonly lifecycleState?: DbNodeProvisioningState;
-    readonly maintenanceType?: DbNodeMaintenanceType;
-    readonly memorySizeInGbs?: number;
-    readonly ocid: string;
+    additionalDetails?: string;
+    backupIpId?: string;
+    backupVnic2Id?: string;
+    backupVnicId?: string;
+    cpuCoreCount?: number;
+    dbNodeStorageSizeInGbs?: number;
+    dbServerId?: string;
+    dbSystemId: string;
+    faultDomain?: string;
+    hostIpId?: string;
+    hostname?: string;
+    lifecycleDetails?: string;
+    lifecycleState: DbNodeProvisioningState;
+    maintenanceType?: DbNodeMaintenanceType;
+    memorySizeInGbs?: number;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly softwareStorageSizeInGb?: number;
-    readonly timeCreated?: Date;
-    readonly timeMaintenanceWindowEnd?: Date;
-    readonly timeMaintenanceWindowStart?: Date;
-    readonly vnic2Id?: string;
-    readonly vnicId?: string;
+    softwareStorageSizeInGb?: number;
+    timeCreated: Date;
+    timeMaintenanceWindowEnd?: Date;
+    timeMaintenanceWindowStart?: Date;
+    vnic2Id?: string;
+    vnicId: string;
 }
 
 // @public
@@ -1300,26 +1348,26 @@ export interface DbSystemShapeListResult {
 
 // @public
 export interface DbSystemShapeProperties {
-    readonly availableCoreCount: number;
-    readonly availableCoreCountPerNode?: number;
-    readonly availableDataStorageInTbs?: number;
-    readonly availableDataStoragePerServerInTbs?: number;
-    readonly availableDbNodePerNodeInGbs?: number;
-    readonly availableDbNodeStorageInGbs?: number;
-    readonly availableMemoryInGbs?: number;
-    readonly availableMemoryPerNodeInGbs?: number;
-    readonly coreCountIncrement?: number;
-    readonly maximumNodeCount?: number;
-    readonly maxStorageCount?: number;
-    readonly minCoreCountPerNode?: number;
-    readonly minDataStorageInTbs?: number;
-    readonly minDbNodeStoragePerNodeInGbs?: number;
-    readonly minimumCoreCount?: number;
-    readonly minimumNodeCount?: number;
-    readonly minMemoryPerNodeInGbs?: number;
-    readonly minStorageCount?: number;
-    readonly runtimeMinimumCoreCount?: number;
-    readonly shapeFamily?: string;
+    availableCoreCount: number;
+    availableCoreCountPerNode?: number;
+    availableDataStorageInTbs?: number;
+    availableDataStoragePerServerInTbs?: number;
+    availableDbNodePerNodeInGbs?: number;
+    availableDbNodeStorageInGbs?: number;
+    availableMemoryInGbs?: number;
+    availableMemoryPerNodeInGbs?: number;
+    coreCountIncrement?: number;
+    maximumNodeCount?: number;
+    maxStorageCount?: number;
+    minCoreCountPerNode?: number;
+    minDataStorageInTbs?: number;
+    minDbNodeStoragePerNodeInGbs?: number;
+    minimumCoreCount?: number;
+    minimumNodeCount?: number;
+    minMemoryPerNodeInGbs?: number;
+    minStorageCount?: number;
+    runtimeMinimumCoreCount?: number;
+    shapeFamily?: string;
 }
 
 // @public
@@ -1350,6 +1398,14 @@ export interface DbSystemShapesListByLocationOptionalParams extends coreClient.O
 export type DbSystemShapesListByLocationResponse = DbSystemShapeListResult;
 
 // @public
+export interface DisasterRecoveryConfigurationDetails {
+    disasterRecoveryType?: DisasterRecoveryType;
+    isReplicateAutomaticBackups?: boolean;
+    isSnapshotStandby?: boolean;
+    timeSnapshotStandbyEnabledTill?: Date;
+}
+
+// @public
 export type DisasterRecoveryType = string;
 
 // @public
@@ -1368,14 +1424,14 @@ export interface DnsPrivateViewListResult {
 
 // @public
 export interface DnsPrivateViewProperties {
-    readonly displayName?: string;
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateViewsLifecycleState;
-    readonly ocid: string;
+    displayName: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateViewsLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly timeCreated: Date;
-    readonly timeUpdated: Date;
+    self: string;
+    timeCreated: Date;
+    timeUpdated: Date;
 }
 
 // @public
@@ -1421,16 +1477,16 @@ export interface DnsPrivateZoneListResult {
 
 // @public
 export interface DnsPrivateZoneProperties {
-    readonly isProtected: boolean;
-    readonly lifecycleState?: DnsPrivateZonesLifecycleState;
-    readonly ocid: string;
+    isProtected: boolean;
+    lifecycleState: DnsPrivateZonesLifecycleState;
+    ocid: string;
     readonly provisioningState?: ResourceProvisioningState;
-    readonly self: string;
-    readonly serial: number;
-    readonly timeCreated: Date;
-    readonly version: string;
-    readonly viewId?: string;
-    readonly zoneType: ZoneType;
+    self: string;
+    serial: number;
+    timeCreated: Date;
+    version: string;
+    viewId?: string;
+    zoneType: ZoneType;
 }
 
 // @public
@@ -1525,7 +1581,7 @@ export interface GiVersionListResult {
 
 // @public
 export interface GiVersionProperties {
-    readonly version: string;
+    version: string;
 }
 
 // @public
@@ -1567,6 +1623,13 @@ export type IormLifecycleState = string;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAddSubscriptionOperationState {
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -1691,6 +1754,8 @@ export enum KnownDatabaseEditionType {
 // @public
 export enum KnownDataBaseType {
     Clone = "Clone",
+    CloneFromBackupTimestamp = "CloneFromBackupTimestamp",
+    CrossRegionDisasterRecovery = "CrossRegionDisasterRecovery",
     Regular = "Regular"
 }
 
@@ -2158,9 +2223,12 @@ export interface OracleSubscriptionListResult {
 
 // @public
 export interface OracleSubscriptionProperties {
+    readonly addSubscriptionOperationState?: AddSubscriptionOperationState;
+    readonly azureSubscriptionIds?: string[];
     readonly cloudAccountId?: string;
     readonly cloudAccountState?: CloudAccountProvisioningState;
     intent?: Intent;
+    readonly lastOperationStatusDetail?: string;
     productCode?: string;
     readonly provisioningState?: OracleSubscriptionProvisioningState;
     readonly saasSubscriptionId?: string;
@@ -2172,6 +2240,8 @@ export type OracleSubscriptionProvisioningState = string;
 
 // @public
 export interface OracleSubscriptions {
+    beginAddAzureSubscriptions(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsAddAzureSubscriptionsResponse>, OracleSubscriptionsAddAzureSubscriptionsResponse>>;
+    beginAddAzureSubscriptionsAndWait(body: AzureSubscriptions, options?: OracleSubscriptionsAddAzureSubscriptionsOptionalParams): Promise<OracleSubscriptionsAddAzureSubscriptionsResponse>;
     beginCreateOrUpdate(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsCreateOrUpdateResponse>, OracleSubscriptionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resource: OracleSubscription, options?: OracleSubscriptionsCreateOrUpdateOptionalParams): Promise<OracleSubscriptionsCreateOrUpdateResponse>;
     beginDelete(options?: OracleSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<OracleSubscriptionsDeleteResponse>, OracleSubscriptionsDeleteResponse>>;
@@ -2187,6 +2257,21 @@ export interface OracleSubscriptions {
     get(options?: OracleSubscriptionsGetOptionalParams): Promise<OracleSubscriptionsGetResponse>;
     listBySubscription(options?: OracleSubscriptionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OracleSubscription>;
 }
+
+// @public
+export interface OracleSubscriptionsAddAzureSubscriptionsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OracleSubscriptionsAddAzureSubscriptionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type OracleSubscriptionsAddAzureSubscriptionsResponse = OracleSubscriptionsAddAzureSubscriptionsHeaders;
 
 // @public
 export interface OracleSubscriptionsCreateOrUpdateHeaders {
@@ -2319,6 +2404,8 @@ export type PatchingMode = string;
 // @public
 export interface PeerDbDetails {
     peerDbId?: string;
+    peerDbLocation?: string;
+    peerDbOcid?: string;
 }
 
 // @public
@@ -2476,7 +2563,7 @@ export interface SystemVersionListResult {
 
 // @public
 export interface SystemVersionProperties {
-    readonly systemVersion: string;
+    systemVersion: string;
 }
 
 // @public
