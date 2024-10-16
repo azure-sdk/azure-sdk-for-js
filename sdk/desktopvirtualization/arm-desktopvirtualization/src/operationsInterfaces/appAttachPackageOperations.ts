@@ -42,7 +42,7 @@ export interface AppAttachPackageOperations {
   /**
    * Get an app attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   get(
@@ -53,7 +53,7 @@ export interface AppAttachPackageOperations {
   /**
    * Create or update an App Attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param appAttachPackage Object containing App Attach Package definitions.
    * @param options The options parameters.
    */
@@ -66,7 +66,7 @@ export interface AppAttachPackageOperations {
   /**
    * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   delete(
@@ -77,7 +77,7 @@ export interface AppAttachPackageOperations {
   /**
    * Update an App Attach Package
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   update(
