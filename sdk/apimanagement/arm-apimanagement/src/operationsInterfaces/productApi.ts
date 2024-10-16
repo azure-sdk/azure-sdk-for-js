@@ -14,7 +14,7 @@ import {
   ProductApiCheckEntityExistsResponse,
   ProductApiCreateOrUpdateOptionalParams,
   ProductApiCreateOrUpdateResponse,
-  ProductApiDeleteOptionalParams
+  ProductApiDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ProductApi {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductApiListByProductOptionalParams
+    options?: ProductApiListByProductOptionalParams,
   ): PagedAsyncIterableIterator<ApiContract>;
   /**
    * Checks that API entity specified by identifier is associated with the Product entity.
@@ -47,7 +47,7 @@ export interface ProductApi {
     serviceName: string,
     productId: string,
     apiId: string,
-    options?: ProductApiCheckEntityExistsOptionalParams
+    options?: ProductApiCheckEntityExistsOptionalParams,
   ): Promise<ProductApiCheckEntityExistsResponse>;
   /**
    * Adds an API to the specified product.
@@ -63,7 +63,7 @@ export interface ProductApi {
     serviceName: string,
     productId: string,
     apiId: string,
-    options?: ProductApiCreateOrUpdateOptionalParams
+    options?: ProductApiCreateOrUpdateOptionalParams,
   ): Promise<ProductApiCreateOrUpdateResponse>;
   /**
    * Deletes the specified API from the specified product.
@@ -79,6 +79,6 @@ export interface ProductApi {
     serviceName: string,
     productId: string,
     apiId: string,
-    options?: ProductApiDeleteOptionalParams
+    options?: ProductApiDeleteOptionalParams,
   ): Promise<void>;
 }

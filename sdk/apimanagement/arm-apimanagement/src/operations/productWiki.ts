@@ -22,7 +22,7 @@ import {
   WikiUpdateContract,
   ProductWikiUpdateOptionalParams,
   ProductWikiUpdateResponse,
-  ProductWikiDeleteOptionalParams
+  ProductWikiDeleteOptionalParams,
 } from "../models";
 
 /** Class containing ProductWiki operations. */
@@ -48,11 +48,11 @@ export class ProductWikiImpl implements ProductWiki {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikiGetEntityTagOptionalParams
+    options?: ProductWikiGetEntityTagOptionalParams,
   ): Promise<ProductWikiGetEntityTagResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      getEntityTagOperationSpec
+      getEntityTagOperationSpec,
     );
   }
 
@@ -67,11 +67,11 @@ export class ProductWikiImpl implements ProductWiki {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikiGetOptionalParams
+    options?: ProductWikiGetOptionalParams,
   ): Promise<ProductWikiGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -88,11 +88,11 @@ export class ProductWikiImpl implements ProductWiki {
     serviceName: string,
     productId: string,
     parameters: WikiContract,
-    options?: ProductWikiCreateOrUpdateOptionalParams
+    options?: ProductWikiCreateOrUpdateOptionalParams,
   ): Promise<ProductWikiCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -112,7 +112,7 @@ export class ProductWikiImpl implements ProductWiki {
     productId: string,
     ifMatch: string,
     parameters: WikiUpdateContract,
-    options?: ProductWikiUpdateOptionalParams
+    options?: ProductWikiUpdateOptionalParams,
   ): Promise<ProductWikiUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -121,9 +121,9 @@ export class ProductWikiImpl implements ProductWiki {
         productId,
         ifMatch,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class ProductWikiImpl implements ProductWiki {
     serviceName: string,
     productId: string,
     ifMatch: string,
-    options?: ProductWikiDeleteOptionalParams
+    options?: ProductWikiDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, ifMatch, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -153,135 +153,130 @@ export class ProductWikiImpl implements ProductWiki {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.ProductWikiGetEntityTagHeaders
+      headersMapper: Mappers.ProductWikiGetEntityTagHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ProductWikiGetHeaders
+      headersMapper: Mappers.ProductWikiGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ProductWikiCreateOrUpdateHeaders
+      headersMapper: Mappers.ProductWikiCreateOrUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ProductWikiCreateOrUpdateHeaders
+      headersMapper: Mappers.ProductWikiCreateOrUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.WikiContract,
-      headersMapper: Mappers.ProductWikiUpdateHeaders
+      headersMapper: Mappers.ProductWikiUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch1
+    Parameters.accept,
+    Parameters.ifMatch1,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+  serializer,
 };
