@@ -10191,6 +10191,18 @@ export const TargetRegion: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      additionalReplicaSets: {
+        serializedName: "additionalReplicaSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdditionalReplicaSet",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -10253,6 +10265,27 @@ export const DiskImageEncryption: coreClient.CompositeMapper = {
         serializedName: "diskEncryptionSetId",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdditionalReplicaSet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdditionalReplicaSet",
+    modelProperties: {
+      storageAccountType: {
+        serializedName: "storageAccountType",
+        type: {
+          name: "String",
+        },
+      },
+      regionalReplicaCount: {
+        serializedName: "regionalReplicaCount",
+        type: {
+          name: "Number",
         },
       },
     },

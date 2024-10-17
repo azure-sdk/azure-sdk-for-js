@@ -26,6 +26,12 @@ export interface AdditionalCapabilities {
 }
 
 // @public
+export interface AdditionalReplicaSet {
+    regionalReplicaCount?: number;
+    storageAccountType?: StorageAccountType;
+}
+
+// @public
 export interface AdditionalUnattendContent {
     componentName?: "Microsoft-Windows-Shell-Setup";
     content?: string;
@@ -3768,6 +3774,7 @@ export enum KnownSshEncryptionTypes {
 // @public
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
+    PremiumV2LRS = "PremiumV2_LRS",
     StandardLRS = "Standard_LRS",
     StandardZRS = "Standard_ZRS"
 }
@@ -5882,6 +5889,7 @@ export interface SystemData {
 
 // @public
 export interface TargetRegion {
+    additionalReplicaSets?: AdditionalReplicaSet[];
     encryption?: EncryptionImages;
     excludeFromLatest?: boolean;
     name: string;
