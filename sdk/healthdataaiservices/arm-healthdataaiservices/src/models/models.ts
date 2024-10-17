@@ -1,19 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { serializeRecord } from "../helpers/serializerHelpers.js";
-import {
-  PrivateEndpointConnectionResource as PrivateEndpointConnectionResourceRest,
-  PrivateEndpointConnectionProperties as PrivateEndpointConnectionPropertiesRest,
-  PrivateLinkServiceConnectionState as PrivateLinkServiceConnectionStateRest,
-  TrackedResource as TrackedResourceRest,
-  DeidService as DeidServiceRest,
-  DeidServiceProperties as DeidServicePropertiesRest,
-  ManagedServiceIdentity as ManagedServiceIdentityRest,
-  DeidUpdate as DeidUpdateRest,
-  ManagedServiceIdentityUpdate as ManagedServiceIdentityUpdateRest,
-  DeidPropertiesUpdate as DeidPropertiesUpdateRest,
-} from "../rest/index.js";
 
 /** The response of a PrivateLinkResource list operation. */
 export interface _PrivateLinkResourceListResult {
@@ -138,7 +126,7 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 
 export function privateEndpointConnectionResourceSerializer(
   item: PrivateEndpointConnectionResource,
-): PrivateEndpointConnectionResourceRest {
+): Record<string, unknown> {
   return {
     properties: !item.properties
       ? item.properties
@@ -160,14 +148,15 @@ export interface PrivateEndpointConnectionProperties {
 
 export function privateEndpointConnectionPropertiesSerializer(
   item: PrivateEndpointConnectionProperties,
-): PrivateEndpointConnectionPropertiesRest {
+): Record<string, unknown> {
   return {
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item.privateLinkServiceConnectionState,
+      ),
   };
 }
 
@@ -193,7 +182,7 @@ export interface PrivateLinkServiceConnectionState {
 
 export function privateLinkServiceConnectionStateSerializer(
   item: PrivateLinkServiceConnectionState,
-): PrivateLinkServiceConnectionStateRest {
+): Record<string, unknown> {
   return {
     status: item["status"],
     description: item["description"],
@@ -262,7 +251,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -277,14 +268,18 @@ export interface DeidService extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
-export function deidServiceSerializer(item: DeidService): DeidServiceRest {
+export function deidServiceSerializer(
+  item: DeidService,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
     properties: !item.properties
       ? item.properties
       : deidServicePropertiesSerializer(item.properties),
-    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
+    identity: !item.identity
+      ? item.identity
+      : managedServiceIdentitySerializer(item.identity),
   };
 }
 
@@ -302,7 +297,7 @@ export interface DeidServiceProperties {
 
 export function deidServicePropertiesSerializer(
   item: DeidServiceProperties,
-): DeidServicePropertiesRest {
+): Record<string, unknown> {
   return {
     publicNetworkAccess: item["publicNetworkAccess"],
   };
@@ -352,7 +347,7 @@ export interface ManagedServiceIdentity {
 
 export function managedServiceIdentitySerializer(
   item: ManagedServiceIdentity,
-): ManagedServiceIdentityRest {
+): Record<string, unknown> {
   return {
     type: item["type"],
     userAssignedIdentities: !item.userAssignedIdentities
@@ -372,8 +367,8 @@ export enum KnownManagedServiceIdentityType {
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
   UserAssigned = "UserAssigned",
-  /** SystemAssigned,UserAssigned */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  /** SystemAndUserAssigned */
+  SystemAndUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -418,7 +413,9 @@ export interface DeidUpdate {
   properties?: DeidPropertiesUpdate;
 }
 
-export function deidUpdateSerializer(item: DeidUpdate): DeidUpdateRest {
+export function deidUpdateSerializer(
+  item: DeidUpdate,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     identity: !item.identity
@@ -440,7 +437,7 @@ export interface ManagedServiceIdentityUpdate {
 
 export function managedServiceIdentityUpdateSerializer(
   item: ManagedServiceIdentityUpdate,
-): ManagedServiceIdentityUpdateRest {
+): Record<string, unknown> {
   return {
     type: item["type"],
     userAssignedIdentities: !item.userAssignedIdentities
@@ -460,7 +457,7 @@ export interface DeidPropertiesUpdate {
 
 export function deidPropertiesUpdateSerializer(
   item: DeidPropertiesUpdate,
-): DeidPropertiesUpdateRest {
+): Record<string, unknown> {
   return {
     publicNetworkAccess: item["publicNetworkAccess"],
   };
