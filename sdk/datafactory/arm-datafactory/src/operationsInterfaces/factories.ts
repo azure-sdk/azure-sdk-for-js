@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Factory,
   FactoriesListOptionalParams,
-  FactoriesListByResourceGroupOptionalParams,
   FactoryRepoUpdate,
   FactoriesConfigureFactoryRepoOptionalParams,
   FactoriesConfigureFactoryRepoResponse,
@@ -39,15 +38,6 @@ export interface Factories {
    */
   list(
     options?: FactoriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Factory>;
-  /**
-   * Lists factories.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Factory>;
   /**
    * Updates a factory's repo information.
