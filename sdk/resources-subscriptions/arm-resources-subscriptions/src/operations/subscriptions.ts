@@ -26,7 +26,7 @@ import {
   CheckZonePeersRequest,
   SubscriptionsCheckZonePeersOptionalParams,
   SubscriptionsCheckZonePeersResponse,
-  SubscriptionsListNextResponse
+  SubscriptionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class SubscriptionsImpl implements Subscriptions {
    */
   public listLocations(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
   ): PagedAsyncIterableIterator<Location> {
     const iter = this.listLocationsPagingAll(subscriptionId, options);
     return {
@@ -65,14 +65,14 @@ export class SubscriptionsImpl implements Subscriptions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listLocationsPagingPage(subscriptionId, options, settings);
-      }
+      },
     };
   }
 
   private async *listLocationsPagingPage(
     subscriptionId: string,
     options?: SubscriptionsListLocationsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Location[]> {
     let result: SubscriptionsListLocationsResponse;
     result = await this._listLocations(subscriptionId, options);
@@ -81,11 +81,11 @@ export class SubscriptionsImpl implements Subscriptions {
 
   private async *listLocationsPagingAll(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
   ): AsyncIterableIterator<Location> {
     for await (const page of this.listLocationsPagingPage(
       subscriptionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -96,7 +96,7 @@ export class SubscriptionsImpl implements Subscriptions {
    * @param options The options parameters.
    */
   public list(
-    options?: SubscriptionsListOptionalParams
+    options?: SubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<Subscription> {
     const iter = this.listPagingAll(options);
     return {
@@ -111,13 +111,13 @@ export class SubscriptionsImpl implements Subscriptions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SubscriptionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Subscription[]> {
     let result: SubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -138,7 +138,7 @@ export class SubscriptionsImpl implements Subscriptions {
   }
 
   private async *listPagingAll(
-    options?: SubscriptionsListOptionalParams
+    options?: SubscriptionsListOptionalParams,
   ): AsyncIterableIterator<Subscription> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -153,11 +153,11 @@ export class SubscriptionsImpl implements Subscriptions {
    */
   private _listLocations(
     subscriptionId: string,
-    options?: SubscriptionsListLocationsOptionalParams
+    options?: SubscriptionsListLocationsOptionalParams,
   ): Promise<SubscriptionsListLocationsResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, options },
-      listLocationsOperationSpec
+      listLocationsOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class SubscriptionsImpl implements Subscriptions {
    */
   get(
     subscriptionId: string,
-    options?: SubscriptionsGetOptionalParams
+    options?: SubscriptionsGetOptionalParams,
   ): Promise<SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,7 +181,7 @@ export class SubscriptionsImpl implements Subscriptions {
    * @param options The options parameters.
    */
   private _list(
-    options?: SubscriptionsListOptionalParams
+    options?: SubscriptionsListOptionalParams,
   ): Promise<SubscriptionsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -195,11 +195,11 @@ export class SubscriptionsImpl implements Subscriptions {
   checkZonePeers(
     subscriptionId: string,
     parameters: CheckZonePeersRequest,
-    options?: SubscriptionsCheckZonePeersOptionalParams
+    options?: SubscriptionsCheckZonePeersOptionalParams,
   ): Promise<SubscriptionsCheckZonePeersResponse> {
     return this.client.sendOperationRequest(
       { subscriptionId, parameters, options },
-      checkZonePeersOperationSpec
+      checkZonePeersOperationSpec,
     );
   }
 
@@ -210,11 +210,11 @@ export class SubscriptionsImpl implements Subscriptions {
    */
   private _listNext(
     nextLink: string,
-    options?: SubscriptionsListNextOptionalParams
+    options?: SubscriptionsListNextOptionalParams,
   ): Promise<SubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -226,80 +226,79 @@ const listLocationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LocationListResult
+      bodyMapper: Mappers.LocationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeExtendedLocations],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Subscription
+      bodyMapper: Mappers.Subscription,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionListResult
+      bodyMapper: Mappers.SubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkZonePeersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/checkZonePeers/",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/checkZonePeers/",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckZonePeersResult
+      bodyMapper: Mappers.CheckZonePeersResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubscriptionListResult
+      bodyMapper: Mappers.SubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
