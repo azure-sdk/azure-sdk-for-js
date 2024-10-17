@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,9 @@ trigger:
   paths:
     include:
       - sdk/healthdataaiservices
-
+    exclude:
+      - sdk/healthdataaiservices/arm-healthdataaiservices
+      - sdk/healthdataaiservices/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -20,17 +22,16 @@ pr:
   paths:
     include:
       - sdk/healthdataaiservices
-
+    exclude:
+      - sdk/healthdataaiservices/arm-healthdataaiservices
+      - sdk/healthdataaiservices/ci.mgmt.yml
 parameters:
-  # Switch to canary to test canary 1es branch. 1es template validation will set this parameter
-  # to canary on run.
   - name: oneESTemplateTag
     type: string
     default: release
     values:
       - release
       - canary
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
