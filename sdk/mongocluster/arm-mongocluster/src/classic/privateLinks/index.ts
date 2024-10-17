@@ -17,7 +17,10 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: DocumentDBContext, subscriptionId: string) {
+export function getPrivateLinks(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
