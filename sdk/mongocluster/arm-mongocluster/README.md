@@ -7,6 +7,7 @@ The Microsoft Azure management API provides create, read, update, and delete fun
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mongocluster) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
@@ -29,7 +30,7 @@ Install the Azure MongoClusterManagement client library for JavaScript with `npm
 npm install @azure/arm-mongocluster
 ```
 
-### Create and authenticate a `MongoClusterManagementClient`
+### Create and authenticate a `MongoClusterManagementClientTest`
 
 To create a client object to access the Azure MongoClusterManagement API, you will need the `endpoint` of your Azure MongoClusterManagement resource and a `credential`. The Azure MongoClusterManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure MongoClusterManagement resource in the [Azure Portal][azure_portal].
@@ -48,19 +49,19 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { MongoClusterManagementClient } = require("@azure/arm-mongocluster");
+const { MongoClusterManagementClientTest } = require("@azure/arm-mongocluster");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new MongoClusterManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new MongoClusterManagementClientTest(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new MongoClusterManagementClient(credential, subscriptionId);
+// const client = new MongoClusterManagementClientTest(credential, subscriptionId);
 ```
 
 
@@ -69,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### MongoClusterManagementClient
+### MongoClusterManagementClientTest
 
-`MongoClusterManagementClient` is the primary interface for developers using the Azure MongoClusterManagement client library. Explore the methods on this client object to understand the different features of the Azure MongoClusterManagement service that you can access.
+`MongoClusterManagementClientTest` is the primary interface for developers using the Azure MongoClusterManagement client library. Explore the methods on this client object to understand the different features of the Azure MongoClusterManagement service that you can access.
 
 ## Troubleshooting
 
@@ -86,6 +87,9 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -95,6 +99,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmongocluster%2Farm-mongocluster%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
