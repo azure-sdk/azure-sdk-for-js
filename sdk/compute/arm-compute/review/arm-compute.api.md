@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
@@ -37,6 +35,9 @@ export interface AdditionalUnattendContent {
 
 // @public
 export type AggregatedReplicationState = string;
+
+// @public
+export type AllocationStrategy = string;
 
 // @public
 export interface AlternativeOption {
@@ -110,6 +111,7 @@ export interface AvailabilitySet extends Resource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
@@ -201,6 +203,7 @@ export interface AvailabilitySetUpdate extends UpdateResource {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
+    scheduledEventsPolicy?: ScheduledEventsPolicy;
     sku?: Sku;
     readonly statuses?: InstanceViewStatus[];
     virtualMachines?: SubResource[];
@@ -1129,8 +1132,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     logAnalytics: LogAnalytics;
     // (undocumented)
-    operations: Operations;
-    // (undocumented)
     proximityPlacementGroups: ProximityPlacementGroups;
     // (undocumented)
     resourceSkus: ResourceSkus;
@@ -1934,6 +1935,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
     readonly encryption?: Encryption;
     readonly familyId?: string;
     hyperVGeneration?: HyperVGeneration;
+    readonly logicalSectorSize?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
     readonly osType?: OperatingSystemTypes;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -3155,6 +3157,12 @@ export enum KnownAggregatedReplicationState {
 }
 
 // @public
+export enum KnownAllocationStrategy {
+    CapacityOptimized = "CapacityOptimized",
+    LowestPrice = "LowestPrice"
+}
+
+// @public
 export enum KnownAlternativeType {
     None = "None",
     Offer = "Offer",
@@ -4048,6 +4056,12 @@ export enum KnownWindowsVMGuestPatchMode {
 }
 
 // @public
+export enum KnownZonalPlatformFaultDomainAlignMode {
+    Aligned = "Aligned",
+    Unaligned = "Unaligned"
+}
+
+// @public
 export interface LastPatchInstallationSummary {
     readonly error?: ApiError;
     readonly excludedPatchCount?: number;
@@ -4248,18 +4262,6 @@ export type OperatingSystemType = string;
 
 // @public
 export type OperatingSystemTypes = "Windows" | "Linux";
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ComputeOperationValue>;
-}
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = ComputeOperationListResult;
 
 // @public
 export type OrchestrationMode = string;
@@ -5516,6 +5518,17 @@ export interface Sku {
     capacity?: number;
     name?: string;
     tier?: string;
+}
+
+// @public
+export interface SkuProfile {
+    allocationStrategy?: AllocationStrategy;
+    vmSizes?: SkuProfileVMSize[];
+}
+
+// @public
+export interface SkuProfileVMSize {
+    name?: string;
 }
 
 // @public
@@ -6788,11 +6801,13 @@ export interface VirtualMachineScaleSet extends Resource {
     scheduledEventsPolicy?: ScheduledEventsPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
+    skuProfile?: SkuProfile;
     spotRestorePolicy?: SpotRestorePolicy;
     readonly timeCreated?: Date;
     readonly uniqueId?: string;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
     zoneBalance?: boolean;
     zones?: string[];
 }
@@ -7431,9 +7446,12 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
+    skuProfile?: SkuProfile;
     spotRestorePolicy?: SpotRestorePolicy;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
+    zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+    zones?: string[];
 }
 
 // @public
@@ -8310,7 +8328,7 @@ export interface VMSizeProperties {
 export interface WindowsConfiguration {
     additionalUnattendContent?: AdditionalUnattendContent[];
     enableAutomaticUpdates?: boolean;
-    enableVMAgentPlatformUpdates?: boolean;
+    readonly enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettings;
     provisionVMAgent?: boolean;
     timeZone?: string;
@@ -8351,6 +8369,9 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
+
+// @public
+export type ZonalPlatformFaultDomainAlignMode = string;
 
 // (No @packageDocumentation comment for this package)
 

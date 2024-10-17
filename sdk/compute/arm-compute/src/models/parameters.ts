@@ -109,18 +109,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-03-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -129,6 +117,18 @@ export const location: OperationURLParameter = {
     },
     serializedName: "location",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-07-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -1008,7 +1008,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-02",
+    defaultValue: "2024-03-02",
     isConstant: true,
     serializedName: "api-version",
     type: {
