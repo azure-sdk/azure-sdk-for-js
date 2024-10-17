@@ -12,20 +12,8 @@ export interface DeidentificationJobOutput {
   sourceLocation: SourceStorageLocationOutput;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocationOutput;
-  /**
-   * Operation to perform on the input documents.
-   *
-   * Possible values: "Redact", "Surrogate", "Tag"
-   */
-  operation?: OperationTypeOutput;
-  /**
-   * Data type of the input documents.
-   *
-   * Possible values: "Plaintext"
-   */
-  dataType?: DocumentDataTypeOutput;
-  /** Format of the redacted output. Only valid when Operation is Redact. */
-  redactionFormat?: string;
+  /** Customization parameters to override default service behaviors. */
+  customizations?: CustomizationOptionsOutput;
   /**
    * Current status of a job.
    *
@@ -58,6 +46,14 @@ export interface SourceStorageLocationOutput {
   prefix: string;
   /** List of extensions to filter path by. */
   extensions?: string[];
+  /** Language and Locale that the service should use. */
+  locale?: string;
+  /**
+   * Data type of the input documents.
+   *
+   * Possible values: "Plaintext"
+   */
+  dataType?: DocumentDataTypeOutput;
 }
 
 /** Storage location. */
@@ -66,6 +62,22 @@ export interface TargetStorageLocationOutput {
   location: string;
   /** Prefix to filter path by. */
   prefix: string;
+  /** When set to true during a job, the service will overwrite the output location if it already exists. */
+  overwrite?: boolean;
+}
+
+/** Customizations options to override default service behaviors. */
+export interface CustomizationOptionsOutput {
+  /** Format of the redacted output. Only valid when Operation is Redact. */
+  redactionFormat?: string;
+  /** When set to true during a job, the service will surrogate all documents individually. */
+  disableConsistency?: boolean;
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
+  operation?: OperationTypeOutput;
 }
 
 /** Summary metrics of a job. */
@@ -162,10 +174,10 @@ export interface StringIndexOutput {
   codePoint: number;
 }
 
-/** Alias for OperationTypeOutput */
-export type OperationTypeOutput = string;
 /** Alias for DocumentDataTypeOutput */
 export type DocumentDataTypeOutput = string;
+/** Alias for OperationTypeOutput */
+export type OperationTypeOutput = string;
 /** Alias for JobStatusOutput */
 export type JobStatusOutput = string;
 /** Paged collection of DeidentificationJob items */
