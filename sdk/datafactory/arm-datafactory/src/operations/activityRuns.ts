@@ -73,7 +73,7 @@ const queryByPipelineRunOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.runId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
