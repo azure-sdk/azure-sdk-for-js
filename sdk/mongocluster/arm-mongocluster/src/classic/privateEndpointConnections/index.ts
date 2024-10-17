@@ -53,7 +53,10 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
+export function getPrivateEndpointConnections(
+  context: DocumentDBContext,
+  subscriptionId: string,
+) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
