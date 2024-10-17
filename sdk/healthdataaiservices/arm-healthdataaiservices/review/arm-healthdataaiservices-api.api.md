@@ -6,36 +6,31 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { Paged } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public
+// @public (undocumented)
 export function createHealthDataAIServices(credential: TokenCredential, options?: HealthDataAIServicesClientOptionalParams): HealthDataAIServicesContext;
 
 // @public
-export function deidServicesCreate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, resource: DeidService_2, options?: DeidServicesCreateOptionalParams): PollerLike<OperationState<DeidService_2>, DeidService_2>;
+export function deidServicesCreate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, resource: DeidService, options?: DeidServicesCreateOptionalParams): PollerLike<OperationState<DeidService>, DeidService>;
 
 // @public
 export function deidServicesDelete(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: DeidServicesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function deidServicesGet(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: DeidServicesGetOptionalParams): Promise<DeidService_2>;
+export function deidServicesGet(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: DeidServicesGetOptionalParams): Promise<DeidService>;
 
 // @public
-export function deidServicesListByResourceGroup(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, options?: DeidServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeidService_2>;
+export function deidServicesListByResourceGroup(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, options?: DeidServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeidService>;
 
 // @public
-export function deidServicesListBySubscription(context: HealthDataAIServicesContext, subscriptionId: string, options?: DeidServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeidService_2>;
+export function deidServicesListBySubscription(context: HealthDataAIServicesContext, subscriptionId: string, options?: DeidServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeidService>;
 
 // @public
-export function deidServicesUpdate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, properties: DeidUpdate_2, options?: DeidServicesUpdateOptionalParams): PollerLike<OperationState<DeidService_2>, DeidService_2>;
+export function deidServicesUpdate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, properties: DeidUpdate, options?: DeidServicesUpdateOptionalParams): PollerLike<OperationState<DeidService>, DeidService>;
 
 // @public
 export interface HealthDataAIServicesClientOptionalParams extends ClientOptions {
@@ -43,24 +38,23 @@ export interface HealthDataAIServicesClientOptionalParams extends ClientOptions 
 }
 
 // @public (undocumented)
-export type HealthDataAIServicesContext = Client & {
-    path: Routes;
-};
+export interface HealthDataAIServicesContext extends Client {
+}
 
 // @public
 export function operationsList(context: HealthDataAIServicesContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // @public
-export function privateEndpointConnectionsCreate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource_2, options?: PrivateEndpointConnectionsCreateOptionalParams): PollerLike<OperationState<PrivateEndpointConnectionResource_2>, PrivateEndpointConnectionResource_2>;
+export function privateEndpointConnectionsCreate(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams): PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
 
 // @public
 export function privateEndpointConnectionsDelete(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function privateEndpointConnectionsGet(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionResource_2>;
+export function privateEndpointConnectionsGet(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionResource>;
 
 // @public
-export function privateEndpointConnectionsListByDeidService(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource_2>;
+export function privateEndpointConnectionsListByDeidService(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 
 // @public
 export function privateLinksListByDeidService(context: HealthDataAIServicesContext, subscriptionId: string, resourceGroupName: string, deidServiceName: string, options?: PrivateLinksListByDeidServiceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;

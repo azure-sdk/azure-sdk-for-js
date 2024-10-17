@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import { PrivateLinkResource } from "../../models/models.js";
 import { privateLinksListByDeidService } from "../../api/privateLinks/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PrivateLinksListByDeidServiceOptionalParams } from "../../models/options.js";
 
 /** Interface representing a PrivateLinks operations. */
@@ -17,7 +17,10 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: HealthDataAIServicesContext, subscriptionId: string) {
+export function getPrivateLinks(
+  context: HealthDataAIServicesContext,
+  subscriptionId: string,
+) {
   return {
     listByDeidService: (
       resourceGroupName: string,
