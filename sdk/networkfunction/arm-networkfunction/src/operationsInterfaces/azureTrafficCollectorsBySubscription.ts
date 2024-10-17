@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AzureTrafficCollector,
-  AzureTrafficCollectorsBySubscriptionListOptionalParams
+  AzureTrafficCollectorsBySubscriptionListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface AzureTrafficCollectorsBySubscription {
    * @param options The options parameters.
    */
   list(
-    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams
+    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<AzureTrafficCollector>;
 }

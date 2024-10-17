@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CollectorPolicy,
   CollectorPoliciesListOptionalParams,
@@ -18,7 +18,7 @@ import {
   CollectorPoliciesDeleteOptionalParams,
   TagsObject,
   CollectorPoliciesUpdateTagsOptionalParams,
-  CollectorPoliciesUpdateTagsResponse
+  CollectorPoliciesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface CollectorPolicies {
   list(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: CollectorPoliciesListOptionalParams
+    options?: CollectorPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<CollectorPolicy>;
   /**
    * Gets the collector policy in a specified Traffic Collector
@@ -46,7 +46,7 @@ export interface CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesGetOptionalParams
+    options?: CollectorPoliciesGetOptionalParams,
   ): Promise<CollectorPoliciesGetResponse>;
   /**
    * Creates or updates a Collector Policy resource
@@ -61,10 +61,10 @@ export interface CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     location: string,
-    options?: CollectorPoliciesCreateOrUpdateOptionalParams
+    options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CollectorPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CollectorPoliciesCreateOrUpdateResponse>,
       CollectorPoliciesCreateOrUpdateResponse
     >
   >;
@@ -81,7 +81,7 @@ export interface CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     location: string,
-    options?: CollectorPoliciesCreateOrUpdateOptionalParams
+    options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ): Promise<CollectorPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes a specified Collector Policy resource.
@@ -94,8 +94,8 @@ export interface CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CollectorPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified Collector Policy resource.
    * @param resourceGroupName The name of the resource group.
@@ -107,7 +107,7 @@ export interface CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesDeleteOptionalParams
+    options?: CollectorPoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the specified Collector Policy tags.
@@ -122,6 +122,6 @@ export interface CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     parameters: TagsObject,
-    options?: CollectorPoliciesUpdateTagsOptionalParams
+    options?: CollectorPoliciesUpdateTagsOptionalParams,
   ): Promise<CollectorPoliciesUpdateTagsResponse>;
 }

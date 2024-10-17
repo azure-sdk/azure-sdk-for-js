@@ -1,15 +1,12 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
-### Features Added
-
+    
+## 3.0.0 (2024-10-17)
+    
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Class AzureTrafficCollectorClient has a new signature
+    
+    
 ## 2.0.0 (2022-11-24)
     
 ### Features Added
@@ -35,4 +32,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
