@@ -69,35 +69,23 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2018-06-01",
     isConstant: true,
     serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
     type: {
       name: "String",
     },
@@ -132,6 +120,11 @@ export const locationId: OperationURLParameter = {
   },
 };
 
+export const factory: OperationParameter = {
+  parameterPath: "factory",
+  mapper: FactoryMapper,
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -146,11 +139,6 @@ export const resourceGroupName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const factory: OperationParameter = {
-  parameterPath: "factory",
-  mapper: FactoryMapper,
 };
 
 export const factoryName: OperationURLParameter = {
@@ -202,6 +190,18 @@ export const gitHubAccessTokenRequest: OperationParameter = {
 export const policy: OperationParameter = {
   parameterPath: "policy",
   mapper: UserAccessPolicyMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const exposureControlRequest: OperationParameter = {

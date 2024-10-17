@@ -18,9 +18,6 @@ import {
   FactoriesListNextOptionalParams,
   FactoriesListOptionalParams,
   FactoriesListResponse,
-  FactoriesListByResourceGroupNextOptionalParams,
-  FactoriesListByResourceGroupOptionalParams,
-  FactoriesListByResourceGroupResponse,
   FactoryRepoUpdate,
   FactoriesConfigureFactoryRepoOptionalParams,
   FactoriesConfigureFactoryRepoResponse,
@@ -39,7 +36,6 @@ import {
   FactoriesGetDataPlaneAccessOptionalParams,
   FactoriesGetDataPlaneAccessResponse,
   FactoriesListNextResponse,
-  FactoriesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -110,75 +106,6 @@ export class FactoriesImpl implements Factories {
   }
 
   /**
-   * Lists factories.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Factory> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Factory[]> {
-    let result: FactoriesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Factory> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists factories under the specified subscription.
    * @param options The options parameters.
    */
@@ -202,21 +129,6 @@ export class FactoriesImpl implements Factories {
     return this.client.sendOperationRequest(
       { locationId, factoryRepoUpdate, options },
       configureFactoryRepoOperationSpec,
-    );
-  }
-
-  /**
-   * Lists factories.
-   * @param resourceGroupName The resource group name.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams,
-  ): Promise<FactoriesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
     );
   }
 
@@ -344,23 +256,6 @@ export class FactoriesImpl implements Factories {
       listNextOperationSpec,
     );
   }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The resource group name.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: FactoriesListByResourceGroupNextOptionalParams,
-  ): Promise<FactoriesListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -401,26 +296,6 @@ const configureFactoryRepoOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FactoryListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
@@ -574,28 +449,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FactoryListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
