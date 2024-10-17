@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import { VisualFeatures, ImageUrl } from "./models.js";
@@ -10,7 +10,11 @@ export interface AnalyzeFromImageDataBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AnalyzeFromImageDataQueryParamProperties {
