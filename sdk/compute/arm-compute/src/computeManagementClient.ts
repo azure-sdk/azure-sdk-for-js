@@ -10,7 +10,6 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
   UsageOperationsImpl,
   VirtualMachineSizesImpl,
   VirtualMachineScaleSetsImpl,
@@ -61,7 +60,6 @@ import {
   CloudServiceOperatingSystemsImpl,
 } from "./operations";
 import {
-  Operations,
   UsageOperations,
   VirtualMachineSizes,
   VirtualMachineScaleSets,
@@ -145,7 +143,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.0.1`;
+    const packageDetails = `azsdk-js-arm-compute/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -199,7 +197,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.operations = new OperationsImpl(this);
     this.usageOperations = new UsageOperationsImpl(this);
     this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
@@ -262,7 +259,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     );
   }
 
-  operations: Operations;
   usageOperations: UsageOperations;
   virtualMachineSizes: VirtualMachineSizes;
   virtualMachineScaleSets: VirtualMachineScaleSets;

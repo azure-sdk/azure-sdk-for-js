@@ -8,71 +8,85 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const ComputeOperationListResult: coreClient.CompositeMapper = {
+export const ListUsagesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComputeOperationListResult",
+    className: "ListUsagesResult",
     modelProperties: {
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ComputeOperationValue",
+              className: "Usage",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
   },
 };
 
-export const ComputeOperationValue: coreClient.CompositeMapper = {
+export const Usage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComputeOperationValue",
+    className: "Usage",
     modelProperties: {
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
+      unit: {
+        defaultValue: "Count",
+        isConstant: true,
+        serializedName: "unit",
         type: {
           name: "String",
+        },
+      },
+      currentValue: {
+        serializedName: "currentValue",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        required: true,
+        type: {
+          name: "Number",
         },
       },
       name: {
         serializedName: "name",
-        readOnly: true,
+        type: {
+          name: "Composite",
+          className: "UsageName",
+        },
+      },
+    },
+  },
+};
+
+export const UsageName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UsageName",
+    modelProperties: {
+      value: {
+        serializedName: "value",
         type: {
           name: "String",
         },
       },
-      operation: {
-        serializedName: "display.operation",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      resource: {
-        serializedName: "display.resource",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "display.description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provider: {
-        serializedName: "display.provider",
-        readOnly: true,
+      localizedValue: {
+        serializedName: "localizedValue",
         type: {
           name: "String",
         },
@@ -183,93 +197,6 @@ export const InnerError: coreClient.CompositeMapper = {
       },
       errordetail: {
         serializedName: "errordetail",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ListUsagesResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ListUsagesResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Usage",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const Usage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Usage",
-    modelProperties: {
-      unit: {
-        defaultValue: "Count",
-        isConstant: true,
-        serializedName: "unit",
-        type: {
-          name: "String",
-        },
-      },
-      currentValue: {
-        serializedName: "currentValue",
-        required: true,
-        type: {
-          name: "Number",
-        },
-      },
-      limit: {
-        serializedName: "limit",
-        required: true,
-        type: {
-          name: "Number",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "UsageName",
-        },
-      },
-    },
-  },
-};
-
-export const UsageName: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UsageName",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String",
-        },
-      },
-      localizedValue: {
-        serializedName: "localizedValue",
         type: {
           name: "String",
         },
@@ -936,6 +863,7 @@ export const WindowsConfiguration: coreClient.CompositeMapper = {
       },
       enableVMAgentPlatformUpdates: {
         serializedName: "enableVMAgentPlatformUpdates",
+        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -2556,6 +2484,48 @@ export const ResilientVMDeletionPolicy: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SkuProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SkuProfile",
+    modelProperties: {
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuProfileVMSize",
+            },
+          },
+        },
+      },
+      allocationStrategy: {
+        serializedName: "allocationStrategy",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SkuProfileVMSize: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SkuProfileVMSize",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
         },
       },
     },
@@ -12633,6 +12603,79 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const ComputeOperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeOperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeOperationValue",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ComputeOperationValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeOperationValue",
+    modelProperties: {
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "display.operation",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resource: {
+        serializedName: "display.resource",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "display.description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provider: {
+        serializedName: "display.provider",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const GalleryArtifactSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13523,6 +13566,19 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "ResiliencyPolicy",
         },
       },
+      zonalPlatformFaultDomainAlignMode: {
+        serializedName: "properties.zonalPlatformFaultDomainAlignMode",
+        type: {
+          name: "String",
+        },
+      },
+      skuProfile: {
+        serializedName: "properties.skuProfile",
+        type: {
+          name: "Composite",
+          className: "SkuProfile",
+        },
+      },
     },
   },
 };
@@ -14106,6 +14162,13 @@ export const AvailabilitySet: coreClient.CompositeMapper = {
               className: "InstanceViewStatus",
             },
           },
+        },
+      },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
         },
       },
     },
@@ -15618,6 +15681,17 @@ export const VirtualMachineScaleSetUpdate: coreClient.CompositeMapper = {
           className: "VirtualMachineScaleSetIdentity",
         },
       },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
       upgradePolicy: {
         serializedName: "properties.upgradePolicy",
         type: {
@@ -15697,6 +15771,19 @@ export const VirtualMachineScaleSetUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResiliencyPolicy",
+        },
+      },
+      zonalPlatformFaultDomainAlignMode: {
+        serializedName: "properties.zonalPlatformFaultDomainAlignMode",
+        type: {
+          name: "String",
+        },
+      },
+      skuProfile: {
+        serializedName: "properties.skuProfile",
+        type: {
+          name: "Composite",
+          className: "SkuProfile",
         },
       },
     },
@@ -16047,6 +16134,13 @@ export const AvailabilitySetUpdate: coreClient.CompositeMapper = {
               className: "InstanceViewStatus",
             },
           },
+        },
+      },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
         },
       },
     },
@@ -16982,6 +17076,13 @@ export const DiskRestorePoint: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiskSecurityProfile",
+        },
+      },
+      logicalSectorSize: {
+        serializedName: "properties.logicalSectorSize",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
