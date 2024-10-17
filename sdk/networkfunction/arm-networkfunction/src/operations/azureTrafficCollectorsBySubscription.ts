@@ -18,13 +18,14 @@ import {
   AzureTrafficCollectorsBySubscriptionListNextOptionalParams,
   AzureTrafficCollectorsBySubscriptionListOptionalParams,
   AzureTrafficCollectorsBySubscriptionListResponse,
-  AzureTrafficCollectorsBySubscriptionListNextResponse
+  AzureTrafficCollectorsBySubscriptionListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureTrafficCollectorsBySubscription operations. */
 export class AzureTrafficCollectorsBySubscriptionImpl
-  implements AzureTrafficCollectorsBySubscription {
+  implements AzureTrafficCollectorsBySubscription
+{
   private readonly client: AzureTrafficCollectorClient;
 
   /**
@@ -40,7 +41,7 @@ export class AzureTrafficCollectorsBySubscriptionImpl
    * @param options The options parameters.
    */
   public list(
-    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams
+    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<AzureTrafficCollector> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,13 +56,13 @@ export class AzureTrafficCollectorsBySubscriptionImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AzureTrafficCollectorsBySubscriptionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureTrafficCollector[]> {
     let result: AzureTrafficCollectorsBySubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
@@ -82,7 +83,7 @@ export class AzureTrafficCollectorsBySubscriptionImpl
   }
 
   private async *listPagingAll(
-    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams
+    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams,
   ): AsyncIterableIterator<AzureTrafficCollector> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,7 +95,7 @@ export class AzureTrafficCollectorsBySubscriptionImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams
+    options?: AzureTrafficCollectorsBySubscriptionListOptionalParams,
   ): Promise<AzureTrafficCollectorsBySubscriptionListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -106,11 +107,11 @@ export class AzureTrafficCollectorsBySubscriptionImpl
    */
   private _listNext(
     nextLink: string,
-    options?: AzureTrafficCollectorsBySubscriptionListNextOptionalParams
+    options?: AzureTrafficCollectorsBySubscriptionListNextOptionalParams,
   ): Promise<AzureTrafficCollectorsBySubscriptionListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -118,39 +119,37 @@ export class AzureTrafficCollectorsBySubscriptionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureTrafficCollectorListResult
+      bodyMapper: Mappers.AzureTrafficCollectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureTrafficCollectorListResult
+      bodyMapper: Mappers.AzureTrafficCollectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

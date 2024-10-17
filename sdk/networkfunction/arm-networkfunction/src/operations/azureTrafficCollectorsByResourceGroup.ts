@@ -18,13 +18,14 @@ import {
   AzureTrafficCollectorsByResourceGroupListNextOptionalParams,
   AzureTrafficCollectorsByResourceGroupListOptionalParams,
   AzureTrafficCollectorsByResourceGroupListResponse,
-  AzureTrafficCollectorsByResourceGroupListNextResponse
+  AzureTrafficCollectorsByResourceGroupListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureTrafficCollectorsByResourceGroup operations. */
 export class AzureTrafficCollectorsByResourceGroupImpl
-  implements AzureTrafficCollectorsByResourceGroup {
+  implements AzureTrafficCollectorsByResourceGroup
+{
   private readonly client: AzureTrafficCollectorClient;
 
   /**
@@ -42,7 +43,7 @@ export class AzureTrafficCollectorsByResourceGroupImpl
    */
   public list(
     resourceGroupName: string,
-    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams
+    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams,
   ): PagedAsyncIterableIterator<AzureTrafficCollector> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -57,14 +58,14 @@ export class AzureTrafficCollectorsByResourceGroupImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: AzureTrafficCollectorsByResourceGroupListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureTrafficCollector[]> {
     let result: AzureTrafficCollectorsByResourceGroupListResponse;
     let continuationToken = settings?.continuationToken;
@@ -79,7 +80,7 @@ export class AzureTrafficCollectorsByResourceGroupImpl
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -90,7 +91,7 @@ export class AzureTrafficCollectorsByResourceGroupImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams
+    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams,
   ): AsyncIterableIterator<AzureTrafficCollector> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class AzureTrafficCollectorsByResourceGroupImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams
+    options?: AzureTrafficCollectorsByResourceGroupListOptionalParams,
   ): Promise<AzureTrafficCollectorsByResourceGroupListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -121,11 +122,11 @@ export class AzureTrafficCollectorsByResourceGroupImpl
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AzureTrafficCollectorsByResourceGroupListNextOptionalParams
+    options?: AzureTrafficCollectorsByResourceGroupListNextOptionalParams,
   ): Promise<AzureTrafficCollectorsByResourceGroupListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -133,44 +134,42 @@ export class AzureTrafficCollectorsByResourceGroupImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureTrafficCollectorListResult
+      bodyMapper: Mappers.AzureTrafficCollectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureTrafficCollectorListResult
+      bodyMapper: Mappers.AzureTrafficCollectorListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

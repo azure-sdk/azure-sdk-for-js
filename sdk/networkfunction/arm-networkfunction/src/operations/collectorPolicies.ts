@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureTrafficCollectorClient } from "../azureTrafficCollectorClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CollectorPolicy,
   CollectorPoliciesListNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   TagsObject,
   CollectorPoliciesUpdateTagsOptionalParams,
   CollectorPoliciesUpdateTagsResponse,
-  CollectorPoliciesListNextResponse
+  CollectorPoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
   public list(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: CollectorPoliciesListOptionalParams
+    options?: CollectorPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<CollectorPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       azureTrafficCollectorName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
           resourceGroupName,
           azureTrafficCollectorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     options?: CollectorPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CollectorPolicy[]> {
     let result: CollectorPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +97,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
       result = await this._list(
         resourceGroupName,
         azureTrafficCollectorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +109,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         resourceGroupName,
         azureTrafficCollectorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +121,12 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
   private async *listPagingAll(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: CollectorPoliciesListOptionalParams
+    options?: CollectorPoliciesListOptionalParams,
   ): AsyncIterableIterator<CollectorPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       azureTrafficCollectorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +141,11 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
   private _list(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: CollectorPoliciesListOptionalParams
+    options?: CollectorPoliciesListOptionalParams,
   ): Promise<CollectorPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureTrafficCollectorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -156,16 +160,16 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesGetOptionalParams
+    options?: CollectorPoliciesGetOptionalParams,
   ): Promise<CollectorPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,30 +186,29 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     location: string,
-    options?: CollectorPoliciesCreateOrUpdateOptionalParams
+    options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CollectorPoliciesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CollectorPoliciesCreateOrUpdateResponse>,
       CollectorPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CollectorPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -214,8 +217,8 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -223,26 +226,29 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
         location,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CollectorPoliciesCreateOrUpdateResponse,
+      OperationState<CollectorPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,14 +267,14 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     location: string,
-    options?: CollectorPoliciesCreateOrUpdateOptionalParams
+    options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ): Promise<CollectorPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       azureTrafficCollectorName,
       collectorPolicyName,
       location,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,25 +290,24 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CollectorPoliciesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +316,8 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,25 +325,25 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -355,13 +360,13 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    options?: CollectorPoliciesDeleteOptionalParams
+    options?: CollectorPoliciesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       azureTrafficCollectorName,
       collectorPolicyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -379,7 +384,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
     parameters: TagsObject,
-    options?: CollectorPoliciesUpdateTagsOptionalParams
+    options?: CollectorPoliciesUpdateTagsOptionalParams,
   ): Promise<CollectorPoliciesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -387,9 +392,9 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         azureTrafficCollectorName,
         collectorPolicyName,
         parameters,
-        options
+        options,
       },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -404,11 +409,11 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     nextLink: string,
-    options?: CollectorPoliciesListNextOptionalParams
+    options?: CollectorPoliciesListNextOptionalParams,
   ): Promise<CollectorPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, azureTrafficCollectorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -416,38 +421,15 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CollectorPolicyListResult
+      bodyMapper: Mappers.CollectorPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.azureTrafficCollectorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -455,40 +437,60 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.azureTrafficCollectorName,
-    Parameters.collectorPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CollectorPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureTrafficCollectorName,
+    Parameters.collectorPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CollectorPolicy,
     },
     201: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CollectorPolicy,
     },
     202: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CollectorPolicy,
     },
     204: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CollectorPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: {
     parameterPath: {
       location: ["location"],
       tags: ["options", "tags"],
       ingestionPolicy: ["options", "ingestionPolicy"],
-      emissionPolicies: ["options", "emissionPolicies"]
+      emissionPolicies: ["options", "emissionPolicies"],
     },
-    mapper: { ...Mappers.CollectorPolicy, required: true }
+    mapper: { ...Mappers.CollectorPolicy, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -496,15 +498,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.azureTrafficCollectorName,
-    Parameters.collectorPolicyName
+    Parameters.collectorPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -512,8 +513,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -521,22 +522,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.azureTrafficCollectorName,
-    Parameters.collectorPolicyName
+    Parameters.collectorPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CollectorPolicy
+      bodyMapper: Mappers.CollectorPolicy,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -545,31 +545,30 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.azureTrafficCollectorName,
-    Parameters.collectorPolicyName
+    Parameters.collectorPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CollectorPolicyListResult
+      bodyMapper: Mappers.CollectorPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.azureTrafficCollectorName
+    Parameters.azureTrafficCollectorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

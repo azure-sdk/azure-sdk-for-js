@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   AzureTrafficCollector as AzureTrafficCollectorMapper,
   TagsObject as TagsObjectMapper,
-  CollectorPolicy as CollectorPolicyMapper
+  CollectorPolicy as CollectorPolicyMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -48,9 +48,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -59,9 +59,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -70,10 +70,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -82,9 +82,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const azureTrafficCollectorName: OperationURLParameter = {
@@ -93,9 +93,9 @@ export const azureTrafficCollectorName: OperationURLParameter = {
     serializedName: "azureTrafficCollectorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -105,29 +105,29 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationParameter = {
   parameterPath: "location",
-  mapper: AzureTrafficCollectorMapper
+  mapper: AzureTrafficCollectorMapper,
 };
 
 export const tags: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: AzureTrafficCollectorMapper
+  mapper: AzureTrafficCollectorMapper,
 };
 
 export const virtualHub: OperationParameter = {
   parameterPath: ["options", "virtualHub"],
-  mapper: AzureTrafficCollectorMapper
+  mapper: AzureTrafficCollectorMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
 export const collectorPolicyName: OperationURLParameter = {
@@ -136,27 +136,27 @@ export const collectorPolicyName: OperationURLParameter = {
     serializedName: "collectorPolicyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location1: OperationParameter = {
   parameterPath: "location",
-  mapper: CollectorPolicyMapper
+  mapper: CollectorPolicyMapper,
 };
 
 export const tags1: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: CollectorPolicyMapper
+  mapper: CollectorPolicyMapper,
 };
 
 export const ingestionPolicy: OperationParameter = {
   parameterPath: ["options", "ingestionPolicy"],
-  mapper: CollectorPolicyMapper
+  mapper: CollectorPolicyMapper,
 };
 
 export const emissionPolicies: OperationParameter = {
   parameterPath: ["options", "emissionPolicies"],
-  mapper: CollectorPolicyMapper
+  mapper: CollectorPolicyMapper,
 };

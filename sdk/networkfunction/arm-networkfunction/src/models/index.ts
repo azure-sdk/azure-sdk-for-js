@@ -237,7 +237,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -261,7 +261,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -279,7 +279,7 @@ export type CreatedByType = string;
 /** Known values of {@link IngestionType} that the service accepts. */
 export enum KnownIngestionType {
   /** Ipfix */
-  Ipfix = "IPFIX"
+  Ipfix = "IPFIX",
 }
 
 /**
@@ -294,7 +294,7 @@ export type IngestionType = string;
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
   /** Resource */
-  Resource = "Resource"
+  Resource = "Resource",
 }
 
 /**
@@ -309,7 +309,7 @@ export type SourceType = string;
 /** Known values of {@link EmissionType} that the service accepts. */
 export enum KnownEmissionType {
   /** Ipfix */
-  Ipfix = "IPFIX"
+  Ipfix = "IPFIX",
 }
 
 /**
@@ -324,7 +324,7 @@ export type EmissionType = string;
 /** Known values of {@link DestinationType} that the service accepts. */
 export enum KnownDestinationType {
   /** AzureMonitor */
-  AzureMonitor = "AzureMonitor"
+  AzureMonitor = "AzureMonitor",
 }
 
 /**
@@ -343,7 +343,7 @@ export enum KnownApiVersionParameter {
   /** TwoThousandTwentyTwo0801 */
   TwoThousandTwentyTwo0801 = "2022-08-01",
   /** TwoThousandTwentyTwo1101 */
-  TwoThousandTwentyTwo1101 = "2022-11-01"
+  TwoThousandTwentyTwo1101 = "2022-11-01",
 }
 
 /**
@@ -369,28 +369,32 @@ export interface AzureTrafficCollectorsBySubscriptionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AzureTrafficCollectorsBySubscriptionListResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsBySubscriptionListResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsBySubscriptionListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AzureTrafficCollectorsBySubscriptionListNextResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsBySubscriptionListNextResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsByResourceGroupListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AzureTrafficCollectorsByResourceGroupListResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsByResourceGroupListResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsByResourceGroupListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AzureTrafficCollectorsByResourceGroupListNextResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsByResourceGroupListNextResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsGetOptionalParams
@@ -413,7 +417,8 @@ export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AzureTrafficCollectorsCreateOrUpdateResponse = AzureTrafficCollector;
+export type AzureTrafficCollectorsCreateOrUpdateResponse =
+  AzureTrafficCollector;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsDeleteOptionalParams
