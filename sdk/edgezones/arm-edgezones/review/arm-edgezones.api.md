@@ -4,38 +4,19 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
 export type ActionType = string;
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
-
-// @public (undocumented)
-export class EdgeZonesClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeZonesClientOptionalParams);
-    readonly extendedZones: ExtendedZonesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface EdgeZonesClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
@@ -59,6 +40,12 @@ export interface ExtendedZone extends ProxyResource {
 }
 
 // @public
+export interface ExtendedZoneListResult {
+    nextLink?: string;
+    value: ExtendedZone[];
+}
+
+// @public
 export interface ExtendedZoneProperties {
     readonly displayName: string;
     readonly geography: string;
@@ -74,28 +61,50 @@ export interface ExtendedZoneProperties {
 }
 
 // @public
-export interface ExtendedZonesGetOptionalParams extends OperationOptions {
+export interface ExtendedZones {
+    get(extendedZoneName: string, options?: ExtendedZonesGetOptionalParams): Promise<ExtendedZonesGetResponse>;
+    listBySubscription(options?: ExtendedZonesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExtendedZone>;
+    register(extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams): Promise<ExtendedZonesRegisterResponse>;
+    unregister(extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams): Promise<ExtendedZonesUnregisterResponse>;
 }
 
 // @public
-export interface ExtendedZonesListBySubscriptionOptionalParams extends OperationOptions {
+export interface ExtendedZonesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ExtendedZonesOperations {
-    get: (extendedZoneName: string, options?: ExtendedZonesGetOptionalParams) => Promise<ExtendedZone>;
-    listBySubscription: (options?: ExtendedZonesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ExtendedZone>;
-    register: (extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams) => Promise<ExtendedZone>;
-    unregister: (extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams) => Promise<ExtendedZone>;
+export type ExtendedZonesGetResponse = ExtendedZone;
+
+// @public
+export interface ExtendedZonesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ExtendedZonesRegisterOptionalParams extends OperationOptions {
+export type ExtendedZonesListBySubscriptionNextResponse = ExtendedZoneListResult;
+
+// @public
+export interface ExtendedZonesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ExtendedZonesUnregisterOptionalParams extends OperationOptions {
+export type ExtendedZonesListBySubscriptionResponse = ExtendedZoneListResult;
+
+// @public
+export interface ExtendedZonesRegisterOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type ExtendedZonesRegisterResponse = ExtendedZone;
+
+// @public
+export interface ExtendedZonesUnregisterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtendedZonesUnregisterResponse = ExtendedZone;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
@@ -112,9 +121,20 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -125,17 +145,32 @@ export enum KnownRegistrationState {
     Registered = "Registered"
 }
 
+// @public (undocumented)
+export class MicrosoftEdgeZonesTest extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftEdgeZonesTestOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    extendedZones: ExtendedZones;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptionId: string;
+}
+
 // @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+export interface MicrosoftEdgeZonesTestOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -150,31 +185,35 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
-export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -190,9 +229,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface SystemData {
