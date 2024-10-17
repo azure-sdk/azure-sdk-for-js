@@ -328,8 +328,6 @@ export enum KnownSkuName {
 
 // @public
 export enum KnownTlsVersion {
-    One0 = "1.0",
-    One1 = "1.1",
     One2 = "1.2"
 }
 
@@ -337,6 +335,13 @@ export enum KnownTlsVersion {
 export enum KnownUpdateChannel {
     Preview = "Preview",
     Stable = "Stable"
+}
+
+// @public
+export enum KnownZonalAllocationPolicy {
+    Automatic = "Automatic",
+    NoZones = "NoZones",
+    UserDefined = "UserDefined"
 }
 
 // @public
@@ -687,6 +692,7 @@ export interface RedisCommonProperties {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
 // @public
@@ -742,6 +748,7 @@ export interface RedisCreateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
     zones?: string[];
 }
 
@@ -1043,6 +1050,7 @@ export interface RedisResource extends TrackedResource {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
     zones?: string[];
 }
 
@@ -1072,6 +1080,7 @@ export interface RedisUpdateParameters {
         [propertyName: string]: string;
     };
     updateChannel?: UpdateChannel;
+    zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
 // @public
@@ -1140,6 +1149,9 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type ZonalAllocationPolicy = string;
 
 // (No @packageDocumentation comment for this package)
 

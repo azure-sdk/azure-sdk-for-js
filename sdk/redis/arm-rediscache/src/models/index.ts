@@ -150,7 +150,7 @@ export interface RedisCreateParameters {
   tenantSettings?: { [propertyName: string]: string };
   /** The number of shards to be created on a Premium Cluster Cache. */
   shardCount?: number;
-  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
+  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.2') */
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -158,6 +158,8 @@ export interface RedisCreateParameters {
   updateChannel?: UpdateChannel;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
   disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -192,7 +194,7 @@ export interface RedisCommonProperties {
   tenantSettings?: { [propertyName: string]: string };
   /** The number of shards to be created on a Premium Cluster Cache. */
   shardCount?: number;
-  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
+  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.2') */
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -200,6 +202,8 @@ export interface RedisCommonProperties {
   updateChannel?: UpdateChannel;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
   disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
 }
 
 /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
@@ -402,7 +406,7 @@ export interface RedisUpdateParameters {
   tenantSettings?: { [propertyName: string]: string };
   /** The number of shards to be created on a Premium Cluster Cache. */
   shardCount?: number;
-  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
+  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.2') */
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -410,6 +414,8 @@ export interface RedisUpdateParameters {
   updateChannel?: UpdateChannel;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
   disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku?: Sku;
 }
@@ -749,7 +755,7 @@ export interface RedisResource extends TrackedResource {
   tenantSettings?: { [propertyName: string]: string };
   /** The number of shards to be created on a Premium Cluster Cache. */
   shardCount?: number;
-  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
+  /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.2') */
   minimumTlsVersion?: TlsVersion;
   /** Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled' */
   publicNetworkAccess?: PublicNetworkAccess;
@@ -757,6 +763,8 @@ export interface RedisResource extends TrackedResource {
   updateChannel?: UpdateChannel;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
   disableAccessKeyAuthentication?: boolean;
+  /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
+  zonalAllocationPolicy?: ZonalAllocationPolicy;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
@@ -947,10 +955,6 @@ export type SkuFamily = string;
 
 /** Known values of {@link TlsVersion} that the service accepts. */
 export enum KnownTlsVersion {
-  /** One0 */
-  One0 = "1.0",
-  /** One1 */
-  One1 = "1.1",
   /** One2 */
   One2 = "1.2",
 }
@@ -960,8 +964,6 @@ export enum KnownTlsVersion {
  * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **1.0** \
- * **1.1** \
  * **1.2**
  */
 export type TlsVersion = string;
@@ -1001,6 +1003,27 @@ export enum KnownUpdateChannel {
  * **Preview**
  */
 export type UpdateChannel = string;
+
+/** Known values of {@link ZonalAllocationPolicy} that the service accepts. */
+export enum KnownZonalAllocationPolicy {
+  /** Automatic */
+  Automatic = "Automatic",
+  /** UserDefined */
+  UserDefined = "UserDefined",
+  /** NoZones */
+  NoZones = "NoZones",
+}
+
+/**
+ * Defines values for ZonalAllocationPolicy. \
+ * {@link KnownZonalAllocationPolicy} can be used interchangeably with ZonalAllocationPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Automatic** \
+ * **UserDefined** \
+ * **NoZones**
+ */
+export type ZonalAllocationPolicy = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
