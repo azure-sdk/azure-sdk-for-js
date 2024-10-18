@@ -16856,13 +16856,13 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-C+Fh0CPft28MXX2huCTJ6UMZoBvu50cB2jlvAaHN0EsOCRHSgzeT3L7RkqgxlRsMypTy4aa3msN080B5T0KIiQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-BXIAXomfaj0HGoO/IHj9dJHOu8gYDLcYxd39Zad3at+CoR92nXmVq5sSEGfHyYuGdtkF9233viTra3eAsusgVw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
       '@types/node': 18.19.55
-      '@vitest/browser': 2.1.3(playwright@1.48.0)(typescript@5.6.3)(vitest@2.1.3)
+      '@vitest/browser': 2.1.3(playwright@1.48.0)(typescript@5.5.4)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       dotenv: 16.4.5
       eslint: 8.57.1
@@ -16870,9 +16870,9 @@ packages:
       playwright: 1.48.0
       prettier: 3.3.3
       rimraf: 5.0.10
-      tshy: 2.0.1
+      tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.3
+      typescript: 5.5.4
       vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
