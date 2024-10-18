@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getMongoClustersOperations,
   MongoClustersOperations,
@@ -16,8 +19,14 @@ import {
   getPrivateEndpointConnectionsOperations,
   PrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
-import { getReplicasOperations, ReplicasOperations } from "./classic/replicas/index.js";
+import {
+  getPrivateLinksOperations,
+  PrivateLinksOperations,
+} from "./classic/privateLinks/index.js";
+import {
+  getReplicasOperations,
+  ReplicasOperations,
+} from "./classic/replicas/index.js";
 import {
   createMongoClusterManagement,
   DocumentDBContext,
@@ -47,8 +56,14 @@ export class MongoClusterManagementClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.mongoClusters = getMongoClustersOperations(this._client, subscriptionId);
-    this.firewallRules = getFirewallRulesOperations(this._client, subscriptionId);
+    this.mongoClusters = getMongoClustersOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.firewallRules = getFirewallRulesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.privateEndpointConnections = getPrivateEndpointConnectionsOperations(
       this._client,
       subscriptionId,
