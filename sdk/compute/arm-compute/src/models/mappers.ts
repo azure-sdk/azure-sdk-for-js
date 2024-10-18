@@ -10919,6 +10919,34 @@ export const GalleryApplicationVersionList: coreClient.CompositeMapper = {
   },
 };
 
+export const GallerySoftDeletedResourceList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GallerySoftDeletedResourceList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GallerySoftDeletedResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const SharingUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15648,6 +15676,34 @@ export const GalleryApplicationVersion: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationStatus",
+        },
+      },
+    },
+  },
+};
+
+export const GallerySoftDeletedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GallerySoftDeletedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      resourceArmId: {
+        serializedName: "properties.resourceArmId",
+        type: {
+          name: "String",
+        },
+      },
+      softDeletedArtifactType: {
+        serializedName: "properties.softDeletedArtifactType",
+        type: {
+          name: "String",
+        },
+      },
+      softDeletedTime: {
+        serializedName: "properties.softDeletedTime",
+        type: {
+          name: "String",
         },
       },
     },

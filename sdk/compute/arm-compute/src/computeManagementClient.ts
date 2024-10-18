@@ -47,6 +47,7 @@ import {
   GalleryImageVersionsImpl,
   GalleryApplicationsImpl,
   GalleryApplicationVersionsImpl,
+  SoftDeleteImpl,
   GallerySharingProfileImpl,
   SharedGalleriesImpl,
   SharedGalleryImagesImpl,
@@ -98,6 +99,7 @@ import {
   GalleryImageVersions,
   GalleryApplications,
   GalleryApplicationVersions,
+  SoftDelete,
   GallerySharingProfile,
   SharedGalleries,
   SharedGalleryImages,
@@ -145,7 +147,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-compute/22.1.1`;
+    const packageDetails = `azsdk-js-arm-compute/22.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -244,6 +246,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.galleryImageVersions = new GalleryImageVersionsImpl(this);
     this.galleryApplications = new GalleryApplicationsImpl(this);
     this.galleryApplicationVersions = new GalleryApplicationVersionsImpl(this);
+    this.softDelete = new SoftDeleteImpl(this);
     this.gallerySharingProfile = new GallerySharingProfileImpl(this);
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
@@ -299,6 +302,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   galleryImageVersions: GalleryImageVersions;
   galleryApplications: GalleryApplications;
   galleryApplicationVersions: GalleryApplicationVersions;
+  softDelete: SoftDelete;
   gallerySharingProfile: GallerySharingProfile;
   sharedGalleries: SharedGalleries;
   sharedGalleryImages: SharedGalleryImages;
