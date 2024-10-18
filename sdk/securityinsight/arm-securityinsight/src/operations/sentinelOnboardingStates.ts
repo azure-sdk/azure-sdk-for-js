@@ -18,7 +18,7 @@ import {
   SentinelOnboardingStatesCreateResponse,
   SentinelOnboardingStatesDeleteOptionalParams,
   SentinelOnboardingStatesListOptionalParams,
-  SentinelOnboardingStatesListResponse
+  SentinelOnboardingStatesListResponse,
 } from "../models";
 
 /** Class containing SentinelOnboardingStates operations. */
@@ -44,16 +44,16 @@ export class SentinelOnboardingStatesImpl implements SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesGetOptionalParams
+    options?: SentinelOnboardingStatesGetOptionalParams,
   ): Promise<SentinelOnboardingStatesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         sentinelOnboardingStateName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -68,16 +68,16 @@ export class SentinelOnboardingStatesImpl implements SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesCreateOptionalParams
+    options?: SentinelOnboardingStatesCreateOptionalParams,
   ): Promise<SentinelOnboardingStatesCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         sentinelOnboardingStateName,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -92,16 +92,16 @@ export class SentinelOnboardingStatesImpl implements SentinelOnboardingStates {
     resourceGroupName: string,
     workspaceName: string,
     sentinelOnboardingStateName: string,
-    options?: SentinelOnboardingStatesDeleteOptionalParams
+    options?: SentinelOnboardingStatesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         sentinelOnboardingStateName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -114,11 +114,11 @@ export class SentinelOnboardingStatesImpl implements SentinelOnboardingStates {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SentinelOnboardingStatesListOptionalParams
+    options?: SentinelOnboardingStatesListOptionalParams,
   ): Promise<SentinelOnboardingStatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -126,16 +126,15 @@ export class SentinelOnboardingStatesImpl implements SentinelOnboardingStates {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SentinelOnboardingState
+      bodyMapper: Mappers.SentinelOnboardingState,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -143,25 +142,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sentinelOnboardingStateName
+    Parameters.sentinelOnboardingStateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SentinelOnboardingState
+      bodyMapper: Mappers.SentinelOnboardingState,
     },
     201: {
-      bodyMapper: Mappers.SentinelOnboardingState
+      bodyMapper: Mappers.SentinelOnboardingState,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.sentinelOnboardingStateParameter,
   queryParameters: [Parameters.apiVersion],
@@ -170,22 +168,21 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sentinelOnboardingStateName
+    Parameters.sentinelOnboardingStateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates/{sentinelOnboardingStateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -193,30 +190,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sentinelOnboardingStateName
+    Parameters.sentinelOnboardingStateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/onboardingStates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SentinelOnboardingStatesList
+      bodyMapper: Mappers.SentinelOnboardingStatesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
