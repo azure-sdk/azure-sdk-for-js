@@ -12,7 +12,7 @@ import { WorkspaceConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListNextOptionalParams,
@@ -23,6 +23,8 @@ import {
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
   WorkspaceConnectionsDeleteOptionalParams,
+  WorkspaceConnectionsUpdateOptionalParams,
+  WorkspaceConnectionsUpdateResponse,
   WorkspaceConnectionsListSecretsOptionalParams,
   WorkspaceConnectionsListSecretsResponse,
   WorkspaceConnectionsListNextResponse,
@@ -31,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceConnections operations. */
 export class WorkspaceConnectionsImpl implements WorkspaceConnections {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class WorkspaceConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
@@ -173,6 +175,25 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   }
 
   /**
+   * Update machine learning workspaces connections under the specified workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsUpdateOptionalParams,
+  ): Promise<WorkspaceConnectionsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -296,6 +317,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body35,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
   httpMethod: "GET",
@@ -312,6 +357,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.target,
     Parameters.category,
+    Parameters.includeAll,
   ],
   urlParameters: [
     Parameters.$host,
@@ -359,9 +405,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
