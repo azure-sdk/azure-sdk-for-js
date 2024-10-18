@@ -7,20 +7,8 @@ export interface DeidentificationJob {
   sourceLocation: SourceStorageLocation;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocation;
-  /**
-   * Operation to perform on the input documents.
-   *
-   * Possible values: "Redact", "Surrogate", "Tag"
-   */
-  operation?: OperationType;
-  /**
-   * Data type of the input documents.
-   *
-   * Possible values: "Plaintext"
-   */
-  dataType?: DocumentDataType;
-  /** Format of the redacted output. Only valid when Operation is Redact. */
-  redactionFormat?: string;
+  /** Customization parameters to override default service behaviors. */
+  customizations?: BatchCustomizationOptions;
 }
 
 /** Storage location. */
@@ -31,14 +19,45 @@ export interface SourceStorageLocation {
   prefix: string;
   /** List of extensions to filter path by. */
   extensions?: string[];
+  /**
+   * Data type of the input documents.
+   *
+   * Possible values: "Plaintext"
+   */
+  dataType?: DocumentDataType;
 }
 
 /** Storage location. */
 export interface TargetStorageLocation {
   /** URL to storage location. */
   location: string;
-  /** Prefix to filter path by. */
+  /**
+   * Replaces the input prefix of a file path with the output prefix, preserving the rest of the path structure.
+   *
+   * Example:
+   * File full path: documents/user/note.txt
+   * Input Prefix: "documents/user/"
+   * Output Prefix: "output_docs/"
+   *
+   * Output file: "output_docs/note.txt"
+   */
   prefix: string;
+  /** When set to true during a job, the service will overwrite the output location if it already exists. */
+  overwrite?: boolean;
+}
+
+/** Customizations options to override default service behaviors for job behavior. */
+export interface BatchCustomizationOptions {
+  /** Format of the redacted output. Only valid when Operation is Redact. */
+  redactionFormat?: string;
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
+  operation?: OperationType;
+  /** Locale in which the output surrogates are written. */
+  surrogateLocale?: string;
 }
 
 /** Summary metrics of a job. */
@@ -60,24 +79,32 @@ export interface DeidentificationContent {
   /** Input text to de-identify. */
   inputText: string;
   /**
-   * Operation to perform on the input.
-   *
-   * Possible values: "Redact", "Surrogate", "Tag"
-   */
-  operation?: OperationType;
-  /**
    * Data type of the input.
    *
    * Possible values: "Plaintext"
    */
   dataType?: DocumentDataType;
-  /** Format of the redacted output. Only valid when OperationType is "Redact". */
-  redactionFormat?: string;
+  /** Customization parameters to override default service behaviors. */
+  customizations?: RealtimeCustomizationOptions;
 }
 
-/** Alias for OperationType */
-export type OperationType = string;
+/** Customizations options to override default service behaviors for realtime behavior. */
+export interface RealtimeCustomizationOptions {
+  /** Format of the redacted output. Only valid when Operation is Redact. */
+  redactionFormat?: string;
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
+  operation?: OperationType;
+  /** Locale in which the output surrogates are written. */
+  surrogateLocale?: string;
+}
+
 /** Alias for DocumentDataType */
 export type DocumentDataType = string;
+/** Alias for OperationType */
+export type OperationType = string;
 /** Alias for JobStatus */
 export type JobStatus = string;
