@@ -797,6 +797,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-appconfiguration-rest':
+    specifier: file:./projects/azure-appconfiguration-rest.tgz
+    version: file:projects/azure-appconfiguration-rest.tgz
   '@rush-temp/batch':
     specifier: file:./projects/batch.tgz
     version: file:projects/batch.tgz
@@ -19724,6 +19727,46 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/azure-appconfiguration-rest.tgz:
+    resolution: {integrity: sha512-zjoQY9qjqiqvbUxCjP14JPhHwXuPJ0pqiASeHu6TZwUqdIV5EqWtInslUvYGq101jGruSKkFHYr2Vn8R5vp/xA==, tarball: file:projects/azure-appconfiguration-rest.tgz}
+    name: '@rush-temp/azure-appconfiguration-rest'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
+      '@types/node': 18.19.55
+      '@vitest/browser': 2.1.3(playwright@1.48.0)(typescript@5.5.4)(vitest@2.1.3)
+      '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      playwright: 1.48.0
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+      vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/batch.tgz:
     resolution: {integrity: sha512-ed24pRYe+m5nW118Ux5kuuHDi6kMlZ4Qm7V4d/RlZHUMZ7sRqJBQZOrbaTAeIvDardnSMcNixvohDhTKlovOPg==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
@@ -19905,7 +19948,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-BoEaaH3sJLyt/JMQFr7Fw+iEtJ+73S+Ycef8OXgaLJZqUqrKFHONVPvT9PgnMKMm7Drv75jkfxY/yY18ZlOp8A==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-Wr6eM/yhM5LxsFiCMr1W/yKXpomNZSvt0OWPrqiCIvqFEbubo/2aP+ruDIOHPnrEyjzTNyg4ft7Ndb2Ko/UW7A==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -20622,7 +20665,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-jFQh88yO9S1mDW8im/imluq1K8wK6vefKOWPXXUcn24FdVvLzlxhaeyhlA+Z7UNYSR1tJMo7CsBIZcQAC+eFNw==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-RZAaWHXxKCFv8sxtH7gUIXVSxB1fCbTOgDVDfCNhcHB82QY8tMKoSTPUCOskC8/KWJjvYUx+HqVC19qYMES5uw==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -20843,7 +20886,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-HX6qgpLR1ensAItzcq5VAZYfZEJ7RWGEBut7YApBUCR6bp344rcVvpRlnBWZHkqXn+g+Mgq7m5F08MbLBLqAEw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-oLtDVMidlOo+R29FiVr7BqT6W7wCy1kAiNr8RSDFkB9sTjTAtXSv5i9TkuIgNEhd0xCo7mITRVOyzvEkcQyMmg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21938,7 +21981,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-AQBiNaB80DZYZ60YqO0uJuMTvxymE/vTC0Xkl0NR0Im1FWTzBd5+ydSh7kye/jy0zHHltW+msY7EWtz+AlRW2A==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-1tahR+8G2KdUFKmtBN5ZaakniCNAyO2WKdC6v3oS7V5vo1gdIMXk13JF2gtAtE/3k438uLFdSgq2ezTtpsJ+wQ==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -22037,7 +22080,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-jG/nY9yv3aWJVO752420iBV6lAZ4+ro5mVuPj/DTqNsGbdaOrgDJ3w4lunNVUsgVKZ+qkLD5WLx81dsrkEXfrw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-+CgeC7Z8IxP8R7RNW+A2SORwc6oPEQSQ6ZcIqy16sO8U6v9Hw7oj/mTjbKxxcuESfdy6DFr1uaij89mUu5pGeQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -22266,7 +22309,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-I2Xr9P7ab6GgkrVV5N+LgvtTn6v/KiEwhiuxmg/t7Ixma5UjL9Q+v0TGLtZN9ThouU/GHBUKYIQH6vdVMbC+4g==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-fhIITLWXGA7iRET2+R9P9CniupXNlgz3yaD1f3uA9MeK2KwTSmNlz26rvRYGQn0G6OAWEVvxpaVbCEAGSKjA3A==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
