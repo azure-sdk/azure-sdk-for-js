@@ -12,7 +12,7 @@ import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import { AzureMachineLearningServicesMgmtClient } from "../azureMachineLearningServicesMgmtClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -49,13 +49,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComputeOperations operations. */
 export class ComputeOperationsImpl implements ComputeOperations {
-  private readonly client: AzureMachineLearningServicesManagementClient;
+  private readonly client: AzureMachineLearningServicesMgmtClient;
 
   /**
    * Initialize a new instance of the class ComputeOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningServicesManagementClient) {
+  constructor(client: AzureMachineLearningServicesMgmtClient) {
     this.client = client;
   }
 
@@ -982,7 +982,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1015,7 +1015,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1178,9 +1178,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1199,9 +1199,9 @@ const listNodesNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.computeName,
   ],
   headerParameters: [Parameters.accept],
