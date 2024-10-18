@@ -10079,6 +10079,12 @@ export const GalleryImageFeature: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      startsAtVersion: {
+        serializedName: "startsAtVersion",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -15501,6 +15507,12 @@ export const GalleryImage: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      allowUpdateImage: {
+        serializedName: "properties.allowUpdateImage",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -17247,6 +17259,12 @@ export const GalleryImageUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.architecture",
         type: {
           name: "String",
+        },
+      },
+      allowUpdateImage: {
+        serializedName: "properties.allowUpdateImage",
+        type: {
+          name: "Boolean",
         },
       },
     },
