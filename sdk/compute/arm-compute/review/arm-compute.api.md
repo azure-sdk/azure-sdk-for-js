@@ -2609,6 +2609,7 @@ export interface GalleryIdentifier {
 
 // @public
 export interface GalleryImage extends Resource {
+    allowUpdateImage?: boolean;
     architecture?: Architecture;
     description?: string;
     disallowed?: Disallowed;
@@ -2629,6 +2630,7 @@ export interface GalleryImage extends Resource {
 // @public
 export interface GalleryImageFeature {
     name?: string;
+    startsAtVersion?: string;
     value?: string;
 }
 
@@ -2704,6 +2706,7 @@ export type GalleryImagesUpdateResponse = GalleryImage;
 
 // @public
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
+    allowUpdateImage?: boolean;
     architecture?: Architecture;
     description?: string;
     disallowed?: Disallowed;
