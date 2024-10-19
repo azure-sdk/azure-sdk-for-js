@@ -14,6 +14,9 @@ dependencies:
   '@rush-temp/ai-anomaly-detector':
     specifier: file:./projects/ai-anomaly-detector.tgz
     version: file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-client':
+    specifier: file:./projects/ai-client.tgz
+    version: file:projects/ai-client.tgz
   '@rush-temp/ai-content-safety':
     specifier: file:./projects/ai-content-safety.tgz
     version: file:projects/ai-content-safety.tgz
@@ -3944,7 +3947,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 18.19.55
+      '@types/node': 22.7.5
     dev: false
 
   /@types/eslint-config-prettier@6.11.3:
@@ -10829,7 +10832,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -11933,6 +11936,25 @@ packages:
       - jiti
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-client.tgz:
+    resolution: {integrity: sha512-JDHtb68K4wAqu6GpZJXrPJbCZT6fJAaeCBEOMjPAMkoIV4saI4VmXCrnT0RjdJUv6lGo/hfXm7SrANJMmek/pA==, tarball: file:projects/ai-client.tgz}
+    name: '@rush-temp/ai-client'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
+      '@types/node': 18.19.55
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-content-safety.tgz:
