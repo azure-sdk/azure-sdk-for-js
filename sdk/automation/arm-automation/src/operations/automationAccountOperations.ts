@@ -31,13 +31,14 @@ import {
   AutomationAccountGetOptionalParams,
   AutomationAccountGetResponse,
   AutomationAccountListByResourceGroupNextResponse,
-  AutomationAccountListNextResponse
+  AutomationAccountListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AutomationAccountOperations operations. */
 export class AutomationAccountOperationsImpl
-  implements AutomationAccountOperations {
+  implements AutomationAccountOperations
+{
   private readonly client: AutomationClient;
 
   /**
@@ -55,7 +56,7 @@ export class AutomationAccountOperationsImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationAccountListByResourceGroupOptionalParams
+    options?: AutomationAccountListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutomationAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -72,16 +73,16 @@ export class AutomationAccountOperationsImpl
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AutomationAccountListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutomationAccount[]> {
     let result: AutomationAccountListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class AutomationAccountOperationsImpl
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,11 +108,11 @@ export class AutomationAccountOperationsImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AutomationAccountListByResourceGroupOptionalParams
+    options?: AutomationAccountListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AutomationAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,7 +123,7 @@ export class AutomationAccountOperationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: AutomationAccountListOptionalParams
+    options?: AutomationAccountListOptionalParams,
   ): PagedAsyncIterableIterator<AutomationAccount> {
     const iter = this.listPagingAll(options);
     return {
@@ -137,13 +138,13 @@ export class AutomationAccountOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AutomationAccountListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutomationAccount[]> {
     let result: AutomationAccountListResponse;
     let continuationToken = settings?.continuationToken;
@@ -164,7 +165,7 @@ export class AutomationAccountOperationsImpl
   }
 
   private async *listPagingAll(
-    options?: AutomationAccountListOptionalParams
+    options?: AutomationAccountListOptionalParams,
   ): AsyncIterableIterator<AutomationAccount> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -182,11 +183,11 @@ export class AutomationAccountOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AutomationAccountUpdateParameters,
-    options?: AutomationAccountUpdateOptionalParams
+    options?: AutomationAccountUpdateOptionalParams,
   ): Promise<AutomationAccountUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -201,11 +202,11 @@ export class AutomationAccountOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AutomationAccountCreateOrUpdateParameters,
-    options?: AutomationAccountCreateOrUpdateOptionalParams
+    options?: AutomationAccountCreateOrUpdateOptionalParams,
   ): Promise<AutomationAccountCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -218,11 +219,11 @@ export class AutomationAccountOperationsImpl
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AutomationAccountDeleteOptionalParams
+    options?: AutomationAccountDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -235,11 +236,11 @@ export class AutomationAccountOperationsImpl
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AutomationAccountGetOptionalParams
+    options?: AutomationAccountGetOptionalParams,
   ): Promise<AutomationAccountGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -250,11 +251,11 @@ export class AutomationAccountOperationsImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationAccountListByResourceGroupOptionalParams
+    options?: AutomationAccountListByResourceGroupOptionalParams,
   ): Promise<AutomationAccountListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -263,7 +264,7 @@ export class AutomationAccountOperationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: AutomationAccountListOptionalParams
+    options?: AutomationAccountListOptionalParams,
   ): Promise<AutomationAccountListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -277,11 +278,11 @@ export class AutomationAccountOperationsImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AutomationAccountListByResourceGroupNextOptionalParams
+    options?: AutomationAccountListByResourceGroupNextOptionalParams,
   ): Promise<AutomationAccountListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -292,11 +293,11 @@ export class AutomationAccountOperationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: AutomationAccountListNextOptionalParams
+    options?: AutomationAccountListNextOptionalParams,
   ): Promise<AutomationAccountListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -304,173 +305,167 @@ export class AutomationAccountOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccount
+      bodyMapper: Mappers.AutomationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters8,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccount
+      bodyMapper: Mappers.AutomationAccount,
     },
     201: {
-      bodyMapper: Mappers.AutomationAccount
+      bodyMapper: Mappers.AutomationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccount
+      bodyMapper: Mappers.AutomationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccountListResult
+      bodyMapper: Mappers.AutomationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/automationAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccountListResult
+      bodyMapper: Mappers.AutomationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccountListResult
+      bodyMapper: Mappers.AutomationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutomationAccountListResult
+      bodyMapper: Mappers.AutomationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

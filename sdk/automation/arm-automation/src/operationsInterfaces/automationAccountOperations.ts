@@ -19,7 +19,7 @@ import {
   AutomationAccountCreateOrUpdateResponse,
   AutomationAccountDeleteOptionalParams,
   AutomationAccountGetOptionalParams,
-  AutomationAccountGetResponse
+  AutomationAccountGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface AutomationAccountOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AutomationAccountListByResourceGroupOptionalParams
+    options?: AutomationAccountListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AutomationAccount>;
   /**
    * Retrieve a list of accounts within a given subscription.
    * @param options The options parameters.
    */
   list(
-    options?: AutomationAccountListOptionalParams
+    options?: AutomationAccountListOptionalParams,
   ): PagedAsyncIterableIterator<AutomationAccount>;
   /**
    * Update an automation account.
@@ -52,7 +52,7 @@ export interface AutomationAccountOperations {
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AutomationAccountUpdateParameters,
-    options?: AutomationAccountUpdateOptionalParams
+    options?: AutomationAccountUpdateOptionalParams,
   ): Promise<AutomationAccountUpdateResponse>;
   /**
    * Create or update automation account.
@@ -65,7 +65,7 @@ export interface AutomationAccountOperations {
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AutomationAccountCreateOrUpdateParameters,
-    options?: AutomationAccountCreateOrUpdateOptionalParams
+    options?: AutomationAccountCreateOrUpdateOptionalParams,
   ): Promise<AutomationAccountCreateOrUpdateResponse>;
   /**
    * Delete an automation account.
@@ -76,7 +76,7 @@ export interface AutomationAccountOperations {
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AutomationAccountDeleteOptionalParams
+    options?: AutomationAccountDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get information about an Automation Account.
@@ -87,6 +87,6 @@ export interface AutomationAccountOperations {
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AutomationAccountGetOptionalParams
+    options?: AutomationAccountGetOptionalParams,
   ): Promise<AutomationAccountGetResponse>;
 }

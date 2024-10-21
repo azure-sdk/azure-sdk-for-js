@@ -8,7 +8,7 @@
 
 import {
   DscCompilationJobStreamListByJobOptionalParams,
-  DscCompilationJobStreamListByJobResponse
+  DscCompilationJobStreamListByJobResponse,
 } from "../models";
 
 /** Interface representing a DscCompilationJobStream. */
@@ -24,6 +24,6 @@ export interface DscCompilationJobStream {
     resourceGroupName: string,
     automationAccountName: string,
     jobId: string,
-    options?: DscCompilationJobStreamListByJobOptionalParams
+    options?: DscCompilationJobStreamListByJobOptionalParams,
   ): Promise<DscCompilationJobStreamListByJobResponse>;
 }
