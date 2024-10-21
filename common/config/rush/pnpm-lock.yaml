@@ -10829,7 +10829,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -18091,7 +18091,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-8IG6+1nX75u3bM5sSZQ2zTo08+NX6HMQzy8ov9tNKFyi0L/TNSCGU9KPul+rWgQ/0BqnT81b//C6N1L7/Pt81A==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-oBq0mIlDkZVle8UQJujzj4ykyzaOlSHvY44yx/3l+svpIs/tNevfgCHwUkkba5CjVC6ckGFTu7W9Oz5ppng3wQ==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -18110,10 +18110,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
