@@ -10829,7 +10829,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -18973,7 +18973,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-JswK/xxfffuq6GqmLZ30PNB4b8XpPVWgYDG+myAsaxqKhXx1uKcRMLsaQr3tTTT0bRV2unkmbNG3Ey7BjBsnpQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-5qPdi/GjYe0YaGgWuSnDV+o76EMmjPW3FKRoMYKay980+T/r/A6gS3TvdnambadPePL11VVyPaYb66kFmiKMWw==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -18990,10 +18990,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'

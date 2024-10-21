@@ -1288,7 +1288,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -1302,7 +1304,9 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
@@ -1321,7 +1325,9 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
@@ -1339,7 +1345,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstance,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
@@ -1367,9 +1375,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.ManagedInstance,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters102,
+  requestBody: Parameters.parameters101,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1384,7 +1394,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1392,6 +1410,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
   ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -1410,9 +1429,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.ManagedInstance,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters103,
+  requestBody: Parameters.parameters102,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1427,7 +1448,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
 const failoverOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/failover",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.replicaType, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1435,6 +1464,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
   ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listOutboundNetworkDependenciesByManagedInstanceOperationSpec: coreClient.OperationSpec =
@@ -1445,7 +1475,9 @@ const listOutboundNetworkDependenciesByManagedInstanceOperationSpec: coreClient.
       200: {
         bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
       },
-      default: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
     queryParameters: [Parameters.apiVersion4],
     urlParameters: [
@@ -1503,7 +1535,9 @@ const startOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.ManagedInstance,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -1531,7 +1565,9 @@ const stopOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.ManagedInstance,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -1550,7 +1586,9 @@ const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TopQueriesListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion4,
@@ -1578,7 +1616,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1595,7 +1635,9 @@ const listByInstancePoolNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1614,7 +1656,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedInstanceListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1633,7 +1677,9 @@ const listOutboundNetworkDependenciesByManagedInstanceNextOperationSpec: coreCli
       200: {
         bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
       },
-      default: {},
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
     urlParameters: [
       Parameters.$host,
@@ -1652,7 +1698,9 @@ const listByManagedInstanceNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TopQueriesListResult,
     },
-    default: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
