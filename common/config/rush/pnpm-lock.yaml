@@ -10843,7 +10843,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -13221,7 +13221,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-K6jGyBr3usOzC03+mxBtCKmhQJesqtjVQTH02BgXZ/uWwOKAhJ0LBfMRIyH3FThk99UGvPvS6OMU5c9bVdvGHA==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-pomyFwssViSgXCIWCvhYfYIojp++lf+CHsEdqHZyoAUx95RNsHX1A1kDsylo2K6cKmtsNxhrn+FH6BYYwXAN6Q==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -13239,9 +13239,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
       tslib: 2.8.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
