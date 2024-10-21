@@ -12,20 +12,8 @@ export interface DeidentificationJobOutput {
   sourceLocation: SourceStorageLocationOutput;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocationOutput;
-  /**
-   * Operation to perform on the input documents.
-   *
-   * Possible values: "Redact", "Surrogate", "Tag"
-   */
-  operation?: OperationTypeOutput;
-  /**
-   * Data type of the input documents.
-   *
-   * Possible values: "Plaintext"
-   */
-  dataType?: DocumentDataTypeOutput;
-  /** Format of the redacted output. Only valid when Operation is Redact. */
-  redactionFormat?: string;
+  /** Customization parameters to override default service behaviors. */
+  customizations?: JobCustomizationOptionsOutput;
   /**
    * Current status of a job.
    *
@@ -58,14 +46,45 @@ export interface SourceStorageLocationOutput {
   prefix: string;
   /** List of extensions to filter path by. */
   extensions?: string[];
+  /**
+   * Data type of the input documents.
+   *
+   * Possible values: "Plaintext"
+   */
+  dataType?: DocumentDataTypeOutput;
 }
 
 /** Storage location. */
 export interface TargetStorageLocationOutput {
   /** URL to storage location. */
   location: string;
-  /** Prefix to filter path by. */
+  /**
+   * Replaces the input prefix of a file path with the output prefix, preserving the rest of the path structure.
+   *
+   * Example:
+   * File full path: documents/user/note.txt
+   * Input Prefix: "documents/user/"
+   * Output Prefix: "output_docs/"
+   *
+   * Output file: "output_docs/note.txt"
+   */
   prefix: string;
+  /** When set to true during a job, the service will overwrite the output location if it already exists. */
+  overwrite?: boolean;
+}
+
+/** Customizations options to override default service behaviors for job usage. */
+export interface JobCustomizationOptionsOutput {
+  /** Format of the redacted output. Only valid when Operation is Redact. */
+  redactionFormat?: string;
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
+  operation?: OperationTypeOutput;
+  /** Locale in which the output surrogates are written. */
+  surrogateLocale?: string;
 }
 
 /** Summary metrics of a job. */
@@ -120,10 +139,6 @@ export interface DeidentificationResultOutput {
 export interface PhiTaggerResultOutput {
   /** List of entities detected in the input. */
   entities: Array<PhiEntityOutput>;
-  /** Path to the document in storage. */
-  path?: string;
-  /** The entity tag for this resource. */
-  etag?: string;
 }
 
 /** PHI Entity tag in the input. */
@@ -162,10 +177,10 @@ export interface StringIndexOutput {
   codePoint: number;
 }
 
-/** Alias for OperationTypeOutput */
-export type OperationTypeOutput = string;
 /** Alias for DocumentDataTypeOutput */
 export type DocumentDataTypeOutput = string;
+/** Alias for OperationTypeOutput */
+export type OperationTypeOutput = string;
 /** Alias for JobStatusOutput */
 export type JobStatusOutput = string;
 /** Paged collection of DeidentificationJob items */
