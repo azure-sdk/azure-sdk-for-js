@@ -72,7 +72,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidServicesClientOptions): DeidServicesClient;
 export default createClient;
 
 // @public (undocumented)
@@ -149,29 +149,23 @@ export interface CreateJobLogicalResponse extends HttpResponse {
 // @public (undocumented)
 export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
-export type DeidentificationClient = Client & {
-    path: Routes;
-};
-
 // @public
-export interface DeidentificationClientOptions extends ClientOptions {
-    apiVersion?: string;
+export interface CustomizationOptions {
+    operation?: OperationType;
+    redactionFormat?: string;
+    surrogateLocale?: string;
 }
 
 // @public
 export interface DeidentificationContent {
+    customizations?: CustomizationOptions;
     dataType?: DocumentDataType;
     inputText: string;
-    operation?: OperationType;
-    redactionFormat?: string;
 }
 
 // @public
 export interface DeidentificationJob {
-    dataType?: DocumentDataType;
-    operation?: OperationType;
-    redactionFormat?: string;
+    customizations?: JobCustomizationOptions;
     sourceLocation: SourceStorageLocation;
     targetLocation: TargetStorageLocation;
 }
@@ -179,12 +173,10 @@ export interface DeidentificationJob {
 // @public
 export interface DeidentificationJobOutput {
     readonly createdAt: string;
-    dataType?: DocumentDataTypeOutput;
+    customizations?: JobCustomizationOptionsOutput;
     readonly error?: ErrorModel;
     readonly lastUpdatedAt: string;
     readonly name: string;
-    operation?: OperationTypeOutput;
-    redactionFormat?: string;
     sourceLocation: SourceStorageLocationOutput;
     readonly startedAt?: string;
     readonly status: JobStatusOutput;
@@ -233,6 +225,16 @@ export interface DeidentifyDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+
+// @public (undocumented)
+export type DeidServicesClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface DeidServicesClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public (undocumented)
 export interface DeleteJob204Headers {
@@ -380,6 +382,20 @@ export function isUnexpected(response: CancelJob200Response | CancelJobDefaultRe
 
 // @public (undocumented)
 export function isUnexpected(response: Deidentify200Response | DeidentifyDefaultResponse): response is DeidentifyDefaultResponse;
+
+// @public
+export interface JobCustomizationOptions {
+    operation?: OperationType;
+    redactionFormat?: string;
+    surrogateLocale?: string;
+}
+
+// @public
+export interface JobCustomizationOptionsOutput {
+    operation?: OperationTypeOutput;
+    redactionFormat?: string;
+    surrogateLocale?: string;
+}
 
 // @public
 export type JobStatus = string;
@@ -572,8 +588,6 @@ export interface PhiEntityOutput {
 // @public
 export interface PhiTaggerResultOutput {
     entities: Array<PhiEntityOutput>;
-    etag?: string;
-    path?: string;
 }
 
 // @public (undocumented)
@@ -609,6 +623,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 
 // @public
 export interface SourceStorageLocation {
+    dataType?: DocumentDataType;
     extensions?: string[];
     location: string;
     prefix: string;
@@ -616,6 +631,7 @@ export interface SourceStorageLocation {
 
 // @public
 export interface SourceStorageLocationOutput {
+    dataType?: DocumentDataTypeOutput;
     extensions?: string[];
     location: string;
     prefix: string;
@@ -631,12 +647,14 @@ export interface StringIndexOutput {
 // @public
 export interface TargetStorageLocation {
     location: string;
+    overwrite?: boolean;
     prefix: string;
 }
 
 // @public
 export interface TargetStorageLocationOutput {
     location: string;
+    overwrite?: boolean;
     prefix: string;
 }
 
