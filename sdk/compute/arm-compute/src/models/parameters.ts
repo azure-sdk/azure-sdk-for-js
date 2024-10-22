@@ -1169,7 +1169,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-03",
+    defaultValue: "2024-03-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1295,6 +1295,48 @@ export const galleryApplicationVersionName: OperationURLParameter = {
 export const galleryApplicationVersion1: OperationParameter = {
   parameterPath: "galleryApplicationVersion",
   mapper: GalleryApplicationVersionUpdateMapper,
+};
+
+export const galleryName1: OperationURLParameter = {
+  parameterPath: "galleryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "galleryName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const artifactType: OperationURLParameter = {
+  parameterPath: "artifactType",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "artifactType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const artifactName: OperationURLParameter = {
+  parameterPath: "artifactName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+([_]?[a-zA-Z0-9]+)*$"),
+    },
+    serializedName: "artifactName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const sharingUpdate: OperationParameter = {
