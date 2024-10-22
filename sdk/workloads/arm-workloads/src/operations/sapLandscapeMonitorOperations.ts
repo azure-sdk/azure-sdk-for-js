@@ -21,12 +21,13 @@ import {
   SapLandscapeMonitorUpdateOptionalParams,
   SapLandscapeMonitorUpdateResponse,
   SapLandscapeMonitorListOptionalParams,
-  SapLandscapeMonitorListResponse
+  SapLandscapeMonitorListResponse,
 } from "../models";
 
 /** Class containing SapLandscapeMonitorOperations operations. */
 export class SapLandscapeMonitorOperationsImpl
-  implements SapLandscapeMonitorOperations {
+  implements SapLandscapeMonitorOperations
+{
   private readonly client: WorkloadsClient;
 
   /**
@@ -47,11 +48,11 @@ export class SapLandscapeMonitorOperationsImpl
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorGetOptionalParams
+    options?: SapLandscapeMonitorGetOptionalParams,
   ): Promise<SapLandscapeMonitorGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -68,11 +69,11 @@ export class SapLandscapeMonitorOperationsImpl
     resourceGroupName: string,
     monitorName: string,
     sapLandscapeMonitorParameter: SapLandscapeMonitor,
-    options?: SapLandscapeMonitorCreateOptionalParams
+    options?: SapLandscapeMonitorCreateOptionalParams,
   ): Promise<SapLandscapeMonitorCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, sapLandscapeMonitorParameter, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -86,11 +87,11 @@ export class SapLandscapeMonitorOperationsImpl
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorDeleteOptionalParams
+    options?: SapLandscapeMonitorDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -107,11 +108,11 @@ export class SapLandscapeMonitorOperationsImpl
     resourceGroupName: string,
     monitorName: string,
     sapLandscapeMonitorParameter: SapLandscapeMonitor,
-    options?: SapLandscapeMonitorUpdateOptionalParams
+    options?: SapLandscapeMonitorUpdateOptionalParams,
   ): Promise<SapLandscapeMonitorUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, sapLandscapeMonitorParameter, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -125,11 +126,11 @@ export class SapLandscapeMonitorOperationsImpl
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SapLandscapeMonitorListOptionalParams
+    options?: SapLandscapeMonitorListOptionalParams,
   ): Promise<SapLandscapeMonitorListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -137,41 +138,39 @@ export class SapLandscapeMonitorOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SapLandscapeMonitor
+      bodyMapper: Mappers.SapLandscapeMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SapLandscapeMonitor
+      bodyMapper: Mappers.SapLandscapeMonitor,
     },
     201: {
-      bodyMapper: Mappers.SapLandscapeMonitor
+      bodyMapper: Mappers.SapLandscapeMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sapLandscapeMonitorParameter,
   queryParameters: [Parameters.apiVersion],
@@ -179,44 +178,42 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SapLandscapeMonitor
+      bodyMapper: Mappers.SapLandscapeMonitor,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sapLandscapeMonitorParameter,
   queryParameters: [Parameters.apiVersion],
@@ -224,31 +221,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/sapLandscapeMonitor",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SapLandscapeMonitorListResult
+      bodyMapper: Mappers.SapLandscapeMonitorListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
