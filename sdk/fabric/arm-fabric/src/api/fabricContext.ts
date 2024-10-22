@@ -17,10 +17,13 @@ export function createFabric(
   credential: TokenCredential,
   options: FabricClientOptionalParams = {},
 ): FabricContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions
+    ? `${prefixFromOptions} azsdk-js-api`
+    : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
