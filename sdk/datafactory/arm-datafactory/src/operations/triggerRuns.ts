@@ -156,7 +156,7 @@ const queryByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

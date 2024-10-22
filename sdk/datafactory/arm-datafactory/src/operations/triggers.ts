@@ -676,7 +676,7 @@ const queryByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -701,8 +701,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.triggerName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -895,10 +895,10 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

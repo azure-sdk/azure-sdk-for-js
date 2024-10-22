@@ -729,8 +729,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.integrationRuntimeName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -779,7 +779,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -892,7 +892,7 @@ const regenerateAuthKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1052,7 +1052,7 @@ const removeLinksOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1076,7 +1076,7 @@ const createLinkedIntegrationRuntimeOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1093,10 +1093,10 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

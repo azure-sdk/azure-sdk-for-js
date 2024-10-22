@@ -160,6 +160,7 @@ export type DatasetUnion =
   | XmlDataset
   | OrcDataset
   | BinaryDataset
+  | IcebergDataset
   | AzureBlobDataset
   | AzureTableDataset
   | AzureSqlTableDataset
@@ -360,7 +361,8 @@ export type FormatWriteSettingsUnion =
   | OrcWriteSettings
   | ParquetWriteSettings
   | DelimitedTextWriteSettings
-  | JsonWriteSettings;
+  | JsonWriteSettings
+  | IcebergWriteSettings;
 export type CopySourceUnion =
   | CopySource
   | AvroSource
@@ -419,6 +421,7 @@ export type CopySinkUnion =
   | AvroSink
   | ParquetSink
   | BinarySink
+  | IcebergSink
   | BlobSink
   | FileSystemSink
   | DocumentDbCollectionSink
@@ -580,116 +583,30 @@ export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
 
-/** A list of operations that can be performed by the Data Factory service. */
-export interface OperationListResponse {
-  /** List of Data Factory operations supported by the Data Factory resource provider. */
-  value?: Operation[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+/** Factory's git repo information. */
+export interface FactoryRepoUpdate {
+  /** The factory resource id. */
+  factoryResourceId?: string;
+  /** Git repo information of the factory. */
+  repoConfiguration?: FactoryRepoConfigurationUnion;
 }
 
-/** Azure Data Factory API operation definition. */
-export interface Operation {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The intended executor of the operation. */
-  origin?: string;
-  /** Metadata associated with the operation. */
-  display?: OperationDisplay;
-  /** Details about a service operation. */
-  serviceSpecification?: OperationServiceSpecification;
-}
-
-/** Metadata associated with the operation. */
-export interface OperationDisplay {
-  /** The description of the operation. */
-  description?: string;
-  /** The name of the provider. */
-  provider?: string;
-  /** The name of the resource type on which the operation is performed. */
-  resource?: string;
-  /** The type of operation: get, read, delete, etc. */
-  operation?: string;
-}
-
-/** Details about a service operation. */
-export interface OperationServiceSpecification {
-  /** Details about operations related to logs. */
-  logSpecifications?: OperationLogSpecification[];
-  /** Details about operations related to metrics. */
-  metricSpecifications?: OperationMetricSpecification[];
-}
-
-/** Details about an operation related to logs. */
-export interface OperationLogSpecification {
-  /** The name of the log category. */
-  name?: string;
-  /** Localized display name. */
-  displayName?: string;
-  /** Blobs created in the customer storage account, per hour. */
-  blobDuration?: string;
-}
-
-/** Details about an operation related to metrics. */
-export interface OperationMetricSpecification {
-  /** The name of the metric. */
-  name?: string;
-  /** Localized display name of the metric. */
-  displayName?: string;
-  /** The description of the metric. */
-  displayDescription?: string;
-  /** The unit that the metric is measured in. */
-  unit?: string;
-  /** The type of metric aggregation. */
-  aggregationType?: string;
-  /** Whether or not the service is using regional MDM accounts. */
-  enableRegionalMdmAccount?: string;
-  /** The name of the MDM account. */
-  sourceMdmAccount?: string;
-  /** The name of the MDM namespace. */
-  sourceMdmNamespace?: string;
-  /** Defines how often data for metrics becomes available. */
-  availabilities?: OperationMetricAvailability[];
-  /** Defines the metric dimension. */
-  dimensions?: OperationMetricDimension[];
-}
-
-/** Defines how often data for a metric becomes available. */
-export interface OperationMetricAvailability {
-  /** The granularity for the metric. */
-  timeGrain?: string;
-  /** Blob created in the customer storage account, per hour. */
-  blobDuration?: string;
-}
-
-/** Defines the metric dimension. */
-export interface OperationMetricDimension {
-  /** The name of the dimension for the metric. */
-  name?: string;
-  /** The display name of the metric dimension. */
-  displayName?: string;
-  /** Whether the dimension should be exported to Azure Monitor. */
-  toBeExportedForShoebox?: boolean;
-}
-
-/** The object that defines the structure of an Azure Data Factory error response. */
-export interface CloudError {
-  /** Error code. */
-  code: string;
-  /** Error message. */
-  message: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudError[];
-}
-
-/** A list of factory resources. */
-export interface FactoryListResponse {
-  /** List of factories. */
-  value: Factory[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+/** Factory's git repo information. */
+export interface FactoryRepoConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
+  /** Account name. */
+  accountName: string;
+  /** Repository name. */
+  repositoryName: string;
+  /** Collaboration branch. */
+  collaborationBranch: string;
+  /** Root folder. */
+  rootFolder: string;
+  /** Last commit id. */
+  lastCommitId?: string;
+  /** Disable manual publish operation in ADF studio to favor automated publish. */
+  disablePublish?: boolean;
 }
 
 /** Identity properties of the factory resource. */
@@ -714,24 +631,6 @@ export interface FactoryIdentity {
 export interface PurviewConfiguration {
   /** Purview resource id. */
   purviewResourceId?: string;
-}
-
-/** Factory's git repo information. */
-export interface FactoryRepoConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FactoryVSTSConfiguration" | "FactoryGitHubConfiguration";
-  /** Account name. */
-  accountName: string;
-  /** Repository name. */
-  repositoryName: string;
-  /** Collaboration branch. */
-  collaborationBranch: string;
-  /** Root folder. */
-  rootFolder: string;
-  /** Last commit id. */
-  lastCommitId?: string;
-  /** Disable manual publish operation in ADF studio to favor automated publish. */
-  disablePublish?: boolean;
 }
 
 /** Definition of a single parameter for an entity. */
@@ -788,12 +687,16 @@ export interface Resource {
   readonly eTag?: string;
 }
 
-/** Factory's git repo information. */
-export interface FactoryRepoUpdate {
-  /** The factory resource id. */
-  factoryResourceId?: string;
-  /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfigurationUnion;
+/** The object that defines the structure of an Azure Data Factory error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
 }
 
 /** The exposure control request. */
@@ -828,6 +731,14 @@ export interface ExposureControlBatchRequest {
 export interface ExposureControlBatchResponse {
   /** List of exposure control feature values. */
   exposureControlResponses: ExposureControlResponse[];
+}
+
+/** A list of factory resources. */
+export interface FactoryListResponse {
+  /** List of factories. */
+  value: Factory[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
 }
 
 /** Parameters for updating a factory resource. */
@@ -1454,6 +1365,7 @@ export interface Dataset {
     | "Xml"
     | "Orc"
     | "Binary"
+    | "Iceberg"
     | "AzureBlob"
     | "AzureTable"
     | "AzureSqlTable"
@@ -2591,6 +2503,98 @@ export interface DatasetReference {
   parameters?: { [propertyName: string]: any };
 }
 
+/** A list of operations that can be performed by the Data Factory service. */
+export interface OperationListResponse {
+  /** List of Data Factory operations supported by the Data Factory resource provider. */
+  value?: Operation[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Azure Data Factory API operation definition. */
+export interface Operation {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The intended executor of the operation. */
+  origin?: string;
+  /** Metadata associated with the operation. */
+  display?: OperationDisplay;
+  /** Details about a service operation. */
+  serviceSpecification?: OperationServiceSpecification;
+}
+
+/** Metadata associated with the operation. */
+export interface OperationDisplay {
+  /** The description of the operation. */
+  description?: string;
+  /** The name of the provider. */
+  provider?: string;
+  /** The name of the resource type on which the operation is performed. */
+  resource?: string;
+  /** The type of operation: get, read, delete, etc. */
+  operation?: string;
+}
+
+/** Details about a service operation. */
+export interface OperationServiceSpecification {
+  /** Details about operations related to logs. */
+  logSpecifications?: OperationLogSpecification[];
+  /** Details about operations related to metrics. */
+  metricSpecifications?: OperationMetricSpecification[];
+}
+
+/** Details about an operation related to logs. */
+export interface OperationLogSpecification {
+  /** The name of the log category. */
+  name?: string;
+  /** Localized display name. */
+  displayName?: string;
+  /** Blobs created in the customer storage account, per hour. */
+  blobDuration?: string;
+}
+
+/** Details about an operation related to metrics. */
+export interface OperationMetricSpecification {
+  /** The name of the metric. */
+  name?: string;
+  /** Localized display name of the metric. */
+  displayName?: string;
+  /** The description of the metric. */
+  displayDescription?: string;
+  /** The unit that the metric is measured in. */
+  unit?: string;
+  /** The type of metric aggregation. */
+  aggregationType?: string;
+  /** Whether or not the service is using regional MDM accounts. */
+  enableRegionalMdmAccount?: string;
+  /** The name of the MDM account. */
+  sourceMdmAccount?: string;
+  /** The name of the MDM namespace. */
+  sourceMdmNamespace?: string;
+  /** Defines how often data for metrics becomes available. */
+  availabilities?: OperationMetricAvailability[];
+  /** Defines the metric dimension. */
+  dimensions?: OperationMetricDimension[];
+}
+
+/** Defines how often data for a metric becomes available. */
+export interface OperationMetricAvailability {
+  /** The granularity for the metric. */
+  timeGrain?: string;
+  /** Blob created in the customer storage account, per hour. */
+  blobDuration?: string;
+}
+
+/** Defines the metric dimension. */
+export interface OperationMetricDimension {
+  /** The name of the dimension for the metric. */
+  name?: string;
+  /** The display name of the metric dimension. */
+  displayName?: string;
+  /** Whether the dimension should be exported to Azure Monitor. */
+  toBeExportedForShoebox?: boolean;
+}
+
 /** Response body structure for get data factory operation status. */
 export interface GetDataFactoryOperationStatusResponse {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3258,7 +3262,8 @@ export interface FormatWriteSettings {
     | "OrcWriteSettings"
     | "ParquetWriteSettings"
     | "DelimitedTextWriteSettings"
-    | "JsonWriteSettings";
+    | "JsonWriteSettings"
+    | "IcebergWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -3401,6 +3406,7 @@ export interface CopySink {
     | "AvroSink"
     | "ParquetSink"
     | "BinarySink"
+    | "IcebergSink"
     | "BlobSink"
     | "FileSystemSink"
     | "DocumentDbCollectionSink"
@@ -5168,6 +5174,8 @@ export interface PostgreSqlV2LinkedService extends LinkedService {
   username: any;
   /** Database name for connection. Type: string. */
   database: any;
+  /** The authentication type to use. Type: string. */
+  authenticationType: any;
   /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
   sslMode: any;
   /** Sets the schema search path. Type: string. */
@@ -6356,7 +6364,7 @@ export interface MagentoLinkedService extends LinkedService {
 export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
-  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. The legacy driver is scheduled for deprecation by October 2024. */
   driverVersion?: any;
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
@@ -6368,6 +6376,10 @@ export interface MariaDBLinkedService extends LinkedService {
   username?: any;
   /** Database name for connection. Type: string. */
   database?: any;
+  /** This option specifies whether the driver uses TLS encryption and verification when connecting to MariaDB. E.g., SSLMode=<0/1/2/3/4>. Options: DISABLED (0) / PREFERRED (1) (Default) / REQUIRED (2) / VERIFY_CA (3) / VERIFY_IDENTITY (4), REQUIRED (2) is recommended to only allow connections encrypted with SSL/TLS. */
+  sslMode?: any;
+  /** This option specifies whether to use a CA certificate from the system trust store, or from a specified PEM file. E.g. UseSystemTrustStore=<0/1>; Options: Enabled (1) / Disabled (0) (Default) */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
@@ -7081,6 +7093,8 @@ export interface SnowflakeV2LinkedService extends LinkedService {
   privateKey?: SecretBaseUnion;
   /** The Azure key vault secret reference of private key password for KeyPair auth with encrypted private key. */
   privateKeyPassphrase?: SecretBaseUnion;
+  /** The host name of the Snowflake account. */
+  host?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -7356,6 +7370,14 @@ export interface BinaryDataset extends Dataset {
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
   compression?: DatasetCompression;
+}
+
+/** Iceberg dataset. */
+export interface IcebergDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Iceberg";
+  /** The location of the iceberg storage. Setting a file name is not allowed for iceberg format. */
+  location?: DatasetLocationUnion;
 }
 
 /** The Azure Blob storage. */
@@ -9482,6 +9504,12 @@ export interface JsonWriteSettings extends FormatWriteSettings {
   filePattern?: any;
 }
 
+/** Iceberg write settings. */
+export interface IcebergWriteSettings extends FormatWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergWriteSettings";
+}
+
 /** A copy activity Avro source. */
 export interface AvroSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10169,6 +10197,16 @@ export interface BinarySink extends CopySink {
   type: "BinarySink";
   /** Binary store settings. */
   storeSettings?: StoreWriteSettingsUnion;
+}
+
+/** A copy activity Iceberg sink. */
+export interface IcebergSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergSink";
+  /** Iceberg store settings. */
+  storeSettings?: StoreWriteSettingsUnion;
+  /** Iceberg format settings. */
+  formatSettings?: IcebergWriteSettings;
 }
 
 /** A copy activity Azure Blob sink. */
@@ -12011,6 +12049,8 @@ export interface SalesforceV2Source extends TabularSource {
   query?: any;
   /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
   includeDeletedObjects?: any;
+  /** Page size for each http request, too large pageSize will caused timeout, default 300,000. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
 }
 
 /** A copy activity ServiceNowV2 server source. */
@@ -12019,6 +12059,8 @@ export interface ServiceNowV2Source extends TabularSource {
   type: "ServiceNowV2Source";
   /** Expression to filter data from source. */
   expression?: ExpressionV2;
+  /** Page size of the result. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
 }
 
 /** Referenced tumbling window trigger dependency. */
@@ -14781,27 +14823,6 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResponse;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResponse;
-
-/** Optional parameters. */
-export interface FactoriesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type FactoriesListResponse = FactoryListResponse;
-
-/** Optional parameters. */
 export interface FactoriesConfigureFactoryRepoOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14859,13 +14880,6 @@ export interface FactoriesGetDataPlaneAccessOptionalParams
 
 /** Contains response data for the getDataPlaneAccess operation. */
 export type FactoriesGetDataPlaneAccessResponse = AccessPolicyResponse;
-
-/** Optional parameters. */
-export interface FactoriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type FactoriesListNextResponse = FactoryListResponse;
 
 /** Optional parameters. */
 export interface FactoriesListByResourceGroupNextOptionalParams

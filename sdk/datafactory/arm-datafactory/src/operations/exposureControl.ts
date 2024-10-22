@@ -110,7 +110,7 @@ const getFeatureValueOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.locationId,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -133,7 +133,7 @@ const getFeatureValueByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -156,7 +156,7 @@ const queryFeatureValuesByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
