@@ -8,7 +8,7 @@
 
 import {
   PolicyDescriptionListByServiceOptionalParams,
-  PolicyDescriptionListByServiceResponse
+  PolicyDescriptionListByServiceResponse,
 } from "../models";
 
 /** Interface representing a PolicyDescription. */
@@ -22,6 +22,6 @@ export interface PolicyDescription {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: PolicyDescriptionListByServiceOptionalParams
+    options?: PolicyDescriptionListByServiceOptionalParams,
   ): Promise<PolicyDescriptionListByServiceResponse>;
 }
