@@ -16,7 +16,7 @@ import { WorkloadsClient } from "../workloadsClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   ProviderInstancesCreateResponse,
   ProviderInstancesDeleteOptionalParams,
   ProviderInstancesDeleteResponse,
-  ProviderInstancesListNextResponse
+  ProviderInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderInstance> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -74,9 +74,9 @@ export class ProviderInstancesImpl implements ProviderInstances {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     options?: ProviderInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProviderInstance[]> {
     let result: ProviderInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): AsyncIterableIterator<ProviderInstance> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class ProviderInstancesImpl implements ProviderInstances {
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: ProviderInstancesListOptionalParams
+    options?: ProviderInstancesListOptionalParams,
   ): Promise<ProviderInstancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesGetOptionalParams
+    options?: ProviderInstancesGetOptionalParams,
   ): Promise<ProviderInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, providerInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     monitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProviderInstancesCreateResponse>,
@@ -184,21 +184,20 @@ export class ProviderInstancesImpl implements ProviderInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProviderInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +206,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +215,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,16 +227,16 @@ export class ProviderInstancesImpl implements ProviderInstances {
         monitorName,
         providerInstanceName,
         providerInstanceParameter,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ProviderInstancesCreateResponse,
       OperationState<ProviderInstancesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -257,14 +256,14 @@ export class ProviderInstancesImpl implements ProviderInstances {
     monitorName: string,
     providerInstanceName: string,
     providerInstanceParameter: ProviderInstance,
-    options?: ProviderInstancesCreateOptionalParams
+    options?: ProviderInstancesCreateOptionalParams,
   ): Promise<ProviderInstancesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       monitorName,
       providerInstanceName,
       providerInstanceParameter,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +280,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProviderInstancesDeleteResponse>,
@@ -290,21 +289,20 @@ export class ProviderInstancesImpl implements ProviderInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProviderInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +311,8 @@ export class ProviderInstancesImpl implements ProviderInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,15 +320,15 @@ export class ProviderInstancesImpl implements ProviderInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, providerInstanceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ProviderInstancesDeleteResponse,
@@ -338,7 +336,7 @@ export class ProviderInstancesImpl implements ProviderInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -356,13 +354,13 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     providerInstanceName: string,
-    options?: ProviderInstancesDeleteOptionalParams
+    options?: ProviderInstancesDeleteOptionalParams,
   ): Promise<ProviderInstancesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       monitorName,
       providerInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -378,11 +376,11 @@ export class ProviderInstancesImpl implements ProviderInstances {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: ProviderInstancesListNextOptionalParams
+    options?: ProviderInstancesListNextOptionalParams,
   ): Promise<ProviderInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -390,38 +388,15 @@ export class ProviderInstancesImpl implements ProviderInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstanceListResult
+      bodyMapper: Mappers.ProviderInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -429,31 +404,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.providerInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProviderInstance,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.providerInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     201: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     202: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     204: {
-      bodyMapper: Mappers.ProviderInstance
+      bodyMapper: Mappers.ProviderInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.providerInstanceParameter,
   queryParameters: [Parameters.apiVersion],
@@ -462,32 +457,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.providerInstanceName
+    Parameters.providerInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances/{providerInstanceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -495,29 +489,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.providerInstanceName
+    Parameters.providerInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderInstanceListResult
+      bodyMapper: Mappers.ProviderInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ import { WorkloadsClient } from "../workloadsClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   SAPDatabaseInstancesStartInstanceResponse,
   SAPDatabaseInstancesStopInstanceOptionalParams,
   SAPDatabaseInstancesStopInstanceResponse,
-  SAPDatabaseInstancesListNextResponse
+  SAPDatabaseInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,12 +61,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   public list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams
+    options?: SAPDatabaseInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPDatabaseInstance> {
     const iter = this.listPagingAll(
       resourceGroupName,
       sapVirtualInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
           resourceGroupName,
           sapVirtualInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,7 +93,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     options?: SAPDatabaseInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SAPDatabaseInstance[]> {
     let result: SAPDatabaseInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       result = await this._list(
         resourceGroupName,
         sapVirtualInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,12 +125,12 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams
+    options?: SAPDatabaseInstancesListOptionalParams,
   ): AsyncIterableIterator<SAPDatabaseInstance> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       sapVirtualInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,16 +148,16 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesGetOptionalParams
+    options?: SAPDatabaseInstancesGetOptionalParams,
   ): Promise<SAPDatabaseInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams
+    options?: SAPDatabaseInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesCreateResponse>,
@@ -183,21 +183,20 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SAPDatabaseInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,16 +225,16 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       SAPDatabaseInstancesCreateResponse,
       OperationState<SAPDatabaseInstancesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -254,13 +253,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams
+    options?: SAPDatabaseInstancesCreateOptionalParams,
   ): Promise<SAPDatabaseInstancesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -277,7 +276,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
+    options?: SAPDatabaseInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesUpdateResponse>,
@@ -286,21 +285,20 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SAPDatabaseInstancesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -309,8 +307,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -318,8 +316,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -329,16 +327,16 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SAPDatabaseInstancesUpdateResponse,
       OperationState<SAPDatabaseInstancesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -356,13 +354,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams
+    options?: SAPDatabaseInstancesUpdateOptionalParams,
   ): Promise<SAPDatabaseInstancesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -380,7 +378,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams
+    options?: SAPDatabaseInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesDeleteResponse>,
@@ -389,21 +387,20 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SAPDatabaseInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -412,8 +409,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -421,8 +418,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -432,9 +429,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       SAPDatabaseInstancesDeleteResponse,
@@ -442,7 +439,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -461,13 +458,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams
+    options?: SAPDatabaseInstancesDeleteOptionalParams,
   ): Promise<SAPDatabaseInstancesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -481,11 +478,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   private _list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams
+    options?: SAPDatabaseInstancesListOptionalParams,
   ): Promise<SAPDatabaseInstancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapVirtualInstanceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -501,7 +498,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams
+    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesStartInstanceResponse>,
@@ -510,21 +507,20 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SAPDatabaseInstancesStartInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -533,8 +529,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -542,8 +538,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -553,9 +549,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      spec: startInstanceOperationSpec
+      spec: startInstanceOperationSpec,
     });
     const poller = await createHttpPoller<
       SAPDatabaseInstancesStartInstanceResponse,
@@ -563,7 +559,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -581,13 +577,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams
+    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
   ): Promise<SAPDatabaseInstancesStartInstanceResponse> {
     const poller = await this.beginStartInstance(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -604,7 +600,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams
+    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPDatabaseInstancesStopInstanceResponse>,
@@ -613,21 +609,20 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SAPDatabaseInstancesStopInstanceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -636,8 +631,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -645,8 +640,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -656,9 +651,9 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        options
+        options,
       },
-      spec: stopInstanceOperationSpec
+      spec: stopInstanceOperationSpec,
     });
     const poller = await createHttpPoller<
       SAPDatabaseInstancesStopInstanceResponse,
@@ -666,7 +661,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -684,13 +679,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams
+    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
   ): Promise<SAPDatabaseInstancesStopInstanceResponse> {
     const poller = await this.beginStopInstance(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -706,11 +701,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     nextLink: string,
-    options?: SAPDatabaseInstancesListNextOptionalParams
+    options?: SAPDatabaseInstancesListNextOptionalParams,
   ): Promise<SAPDatabaseInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapVirtualInstanceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -718,16 +713,15 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -735,31 +729,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
+    Parameters.databaseInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     201: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     202: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     204: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -768,32 +761,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
+    Parameters.databaseInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     201: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     202: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     204: {
-      bodyMapper: Mappers.SAPDatabaseInstance
+      bodyMapper: Mappers.SAPDatabaseInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -802,32 +794,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
+    Parameters.databaseInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -835,53 +826,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
+    Parameters.databaseInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstanceList
+      bodyMapper: Mappers.SAPDatabaseInstanceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.sapVirtualInstanceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const startInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/start",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.OperationStatusResult
-    },
-    202: {
-      bodyMapper: Mappers.OperationStatusResult
-    },
-    204: {
-      bodyMapper: Mappers.OperationStatusResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -889,31 +848,60 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const stopInstanceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/stop",
+const startInstanceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapVirtualInstanceName,
+    Parameters.databaseInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const stopInstanceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/stop",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -922,30 +910,30 @@ const stopInstanceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.databaseInstanceName
+    Parameters.databaseInstanceName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstanceList
+      bodyMapper: Mappers.SAPDatabaseInstanceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.sapVirtualInstanceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

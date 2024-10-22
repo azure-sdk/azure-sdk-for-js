@@ -23,7 +23,7 @@ import {
   SAPVirtualInstancesStartOptionalParams,
   SAPVirtualInstancesStartResponse,
   SAPVirtualInstancesStopOptionalParams,
-  SAPVirtualInstancesStopResponse
+  SAPVirtualInstancesStopResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,14 +36,14 @@ export interface SAPVirtualInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SAPVirtualInstancesListByResourceGroupOptionalParams
+    options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SAPVirtualInstance>;
   /**
    * Gets all Virtual Instances for SAP solutions resources in a Subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SAPVirtualInstancesListBySubscriptionOptionalParams
+    options?: SAPVirtualInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SAPVirtualInstance>;
   /**
    * Creates a Virtual Instance for SAP solutions (VIS) resource
@@ -54,7 +54,7 @@ export interface SAPVirtualInstances {
   beginCreate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesCreateOptionalParams
+    options?: SAPVirtualInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPVirtualInstancesCreateResponse>,
@@ -70,7 +70,7 @@ export interface SAPVirtualInstances {
   beginCreateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesCreateOptionalParams
+    options?: SAPVirtualInstancesCreateOptionalParams,
   ): Promise<SAPVirtualInstancesCreateResponse>;
   /**
    * Gets a Virtual Instance for SAP solutions resource
@@ -81,7 +81,7 @@ export interface SAPVirtualInstances {
   get(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesGetOptionalParams
+    options?: SAPVirtualInstancesGetOptionalParams,
   ): Promise<SAPVirtualInstancesGetResponse>;
   /**
    * Updates a Virtual Instance for SAP solutions resource
@@ -92,7 +92,7 @@ export interface SAPVirtualInstances {
   update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesUpdateOptionalParams
+    options?: SAPVirtualInstancesUpdateOptionalParams,
   ): Promise<SAPVirtualInstancesUpdateResponse>;
   /**
    * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
@@ -104,7 +104,7 @@ export interface SAPVirtualInstances {
   beginDelete(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesDeleteOptionalParams
+    options?: SAPVirtualInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPVirtualInstancesDeleteResponse>,
@@ -121,7 +121,7 @@ export interface SAPVirtualInstances {
   beginDeleteAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesDeleteOptionalParams
+    options?: SAPVirtualInstancesDeleteOptionalParams,
   ): Promise<SAPVirtualInstancesDeleteResponse>;
   /**
    * Starts the SAP application, that is the Central Services instance and Application server instances.
@@ -132,7 +132,7 @@ export interface SAPVirtualInstances {
   beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStartOptionalParams
+    options?: SAPVirtualInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPVirtualInstancesStartResponse>,
@@ -148,7 +148,7 @@ export interface SAPVirtualInstances {
   beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStartOptionalParams
+    options?: SAPVirtualInstancesStartOptionalParams,
   ): Promise<SAPVirtualInstancesStartResponse>;
   /**
    * Stops the SAP Application, that is the Application server instances and Central Services instance.
@@ -159,7 +159,7 @@ export interface SAPVirtualInstances {
   beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStopOptionalParams
+    options?: SAPVirtualInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPVirtualInstancesStopResponse>,
@@ -175,6 +175,6 @@ export interface SAPVirtualInstances {
   beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStopOptionalParams
+    options?: SAPVirtualInstancesStopOptionalParams,
   ): Promise<SAPVirtualInstancesStopResponse>;
 }
