@@ -43,6 +43,7 @@ export * from "./galleryImages";
 export * from "./galleryImageVersions";
 export * from "./galleryApplications";
 export * from "./galleryApplicationVersions";
+export * from "./softDeletedResource";
 export * from "./gallerySharingProfile";
 export * from "./sharedGalleries";
 export * from "./sharedGalleryImages";

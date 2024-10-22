@@ -1709,7 +1709,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview**. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -4125,6 +4125,14 @@ export interface GalleryApplicationVersionList {
   nextLink?: string;
 }
 
+/** The List Soft-deleted Resources operation response. */
+export interface GallerySoftDeletedResourceList {
+  /** A list of soft-deleted resources. */
+  value: GallerySoftDeletedResource[];
+  /** The uri to fetch the next page of soft-deleted resources. Call ListNext() with this to fetch the next page of soft-deleted resources. */
+  nextLink?: string;
+}
+
 /** Specifies information about the gallery sharing profile update. */
 export interface SharingUpdate {
   /** This property allows you to specify the operation type of gallery sharing update. Possible values are: **Add,** **Remove,** **Reset.** */
@@ -6003,7 +6011,7 @@ export interface GalleryImage extends Resource {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6063,6 +6071,16 @@ export interface GalleryApplicationVersion extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationStatus?: ReplicationStatus;
+}
+
+/** The details information of soft-deleted resource. */
+export interface GallerySoftDeletedResource extends Resource {
+  /** arm id of the soft-deleted resource */
+  resourceArmId?: string;
+  /** artifact type of the soft-deleted resource */
+  softDeletedArtifactType?: string;
+  /** The timestamp for when the resource is soft-deleted. */
+  softDeletedTime?: string;
 }
 
 /** Describes a Virtual Machine Scale Set. */
@@ -6672,7 +6690,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
   readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 }
 
@@ -6857,7 +6875,7 @@ export interface CommunityGalleryImage extends PirCommunityGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement URI for the current community gallery image. */
   privacyStatementUri?: string;
@@ -6942,7 +6960,7 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
   /** Privacy statement uri for the current community gallery image. */
   privacyStatementUri?: string;
@@ -12537,6 +12555,22 @@ export interface GalleryApplicationVersionsListByGalleryApplicationNextOptionalP
 /** Contains response data for the listByGalleryApplicationNext operation. */
 export type GalleryApplicationVersionsListByGalleryApplicationNextResponse =
   GalleryApplicationVersionList;
+
+/** Optional parameters. */
+export interface SoftDeletedResourceListByArtifactNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByArtifactName operation. */
+export type SoftDeletedResourceListByArtifactNameResponse =
+  GallerySoftDeletedResourceList;
+
+/** Optional parameters. */
+export interface SoftDeletedResourceListByArtifactNameNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByArtifactNameNext operation. */
+export type SoftDeletedResourceListByArtifactNameNextResponse =
+  GallerySoftDeletedResourceList;
 
 /** Optional parameters. */
 export interface GallerySharingProfileUpdateOptionalParams

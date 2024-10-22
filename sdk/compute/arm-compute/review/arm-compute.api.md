@@ -1150,6 +1150,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     snapshots: Snapshots;
     // (undocumented)
+    softDeletedResource: SoftDeletedResource;
+    // (undocumented)
     sshPublicKeys: SshPublicKeys;
     // (undocumented)
     subscriptionId: string;
@@ -2858,6 +2860,19 @@ export interface GallerySharingProfileUpdateOptionalParams extends coreClient.Op
 
 // @public
 export type GallerySharingProfileUpdateResponse = SharingUpdate;
+
+// @public
+export interface GallerySoftDeletedResource extends Resource {
+    resourceArmId?: string;
+    softDeletedArtifactType?: string;
+    softDeletedTime?: string;
+}
+
+// @public
+export interface GallerySoftDeletedResourceList {
+    nextLink?: string;
+    value: GallerySoftDeletedResource[];
+}
 
 // @public (undocumented)
 export interface GalleryTargetExtendedLocation {
@@ -5698,6 +5713,25 @@ export interface SnapshotUpdate {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export interface SoftDeletedResource {
+    listByArtifactName(resourceGroupName: string, galleryName: string, artifactType: string, artifactName: string, options?: SoftDeletedResourceListByArtifactNameOptionalParams): PagedAsyncIterableIterator<GallerySoftDeletedResource>;
+}
+
+// @public
+export interface SoftDeletedResourceListByArtifactNameNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SoftDeletedResourceListByArtifactNameNextResponse = GallerySoftDeletedResourceList;
+
+// @public
+export interface SoftDeletedResourceListByArtifactNameOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SoftDeletedResourceListByArtifactNameResponse = GallerySoftDeletedResourceList;
 
 // @public
 export interface SoftDeletePolicy {
