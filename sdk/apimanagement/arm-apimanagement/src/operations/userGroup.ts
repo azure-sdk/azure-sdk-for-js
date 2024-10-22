@@ -18,7 +18,7 @@ import {
   UserGroupListNextOptionalParams,
   UserGroupListOptionalParams,
   UserGroupListResponse,
-  UserGroupListNextResponse
+  UserGroupListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,13 +45,13 @@ export class UserGroupImpl implements UserGroup {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGroupListOptionalParams
+    options?: UserGroupListOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class UserGroupImpl implements UserGroup {
           serviceName,
           userId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class UserGroupImpl implements UserGroup {
     serviceName: string,
     userId: string,
     options?: UserGroupListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GroupContract[]> {
     let result: UserGroupListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class UserGroupImpl implements UserGroup {
         resourceGroupName,
         serviceName,
         userId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class UserGroupImpl implements UserGroup {
         serviceName,
         userId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class UserGroupImpl implements UserGroup {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGroupListOptionalParams
+    options?: UserGroupListOptionalParams,
   ): AsyncIterableIterator<GroupContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       userId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class UserGroupImpl implements UserGroup {
     resourceGroupName: string,
     serviceName: string,
     userId: string,
-    options?: UserGroupListOptionalParams
+    options?: UserGroupListOptionalParams,
   ): Promise<UserGroupListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class UserGroupImpl implements UserGroup {
     serviceName: string,
     userId: string,
     nextLink: string,
-    options?: UserGroupListNextOptionalParams
+    options?: UserGroupListNextOptionalParams,
   ): Promise<UserGroupListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, userId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,52 +171,51 @@ export class UserGroupImpl implements UserGroup {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/groups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/groups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupCollection
+      bodyMapper: Mappers.GroupCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupCollection
+      bodyMapper: Mappers.GroupCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.userId
+    Parameters.serviceName,
+    Parameters.userId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

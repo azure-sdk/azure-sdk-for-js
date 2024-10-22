@@ -16,7 +16,7 @@ import {
   QuotaByPeriodKeysGetResponse,
   QuotaCounterValueUpdateContract,
   QuotaByPeriodKeysUpdateOptionalParams,
-  QuotaByPeriodKeysUpdateResponse
+  QuotaByPeriodKeysUpdateResponse,
 } from "../models";
 
 /** Class containing QuotaByPeriodKeys operations. */
@@ -48,7 +48,7 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
     serviceName: string,
     quotaCounterKey: string,
     quotaPeriodKey: string,
-    options?: QuotaByPeriodKeysGetOptionalParams
+    options?: QuotaByPeriodKeysGetOptionalParams,
   ): Promise<QuotaByPeriodKeysGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -56,9 +56,9 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
         serviceName,
         quotaCounterKey,
         quotaPeriodKey,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -80,7 +80,7 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
     quotaCounterKey: string,
     quotaPeriodKey: string,
     parameters: QuotaCounterValueUpdateContract,
-    options?: QuotaByPeriodKeysUpdateOptionalParams
+    options?: QuotaByPeriodKeysUpdateOptionalParams,
   ): Promise<QuotaByPeriodKeysUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -89,9 +89,9 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
         quotaCounterKey,
         quotaPeriodKey,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -99,52 +99,50 @@ export class QuotaByPeriodKeysImpl implements QuotaByPeriodKeys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaCounterContract
+      bodyMapper: Mappers.QuotaCounterContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.quotaCounterKey,
-    Parameters.quotaPeriodKey
+    Parameters.quotaPeriodKey,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/quotas/{quotaCounterKey}/periods/{quotaPeriodKey}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaCounterContract
+      bodyMapper: Mappers.QuotaCounterContract,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
+    Parameters.serviceName,
     Parameters.quotaCounterKey,
-    Parameters.quotaPeriodKey
+    Parameters.quotaPeriodKey,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
