@@ -31,10 +31,7 @@ export type CommunicationMessageKind = string;
 export type CommunicationMessagesChannelOutput = string;
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
-
-// @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: MessagesServiceClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public

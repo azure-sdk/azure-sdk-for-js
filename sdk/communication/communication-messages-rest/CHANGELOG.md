@@ -1,39 +1,29 @@
-# Release History
-
-## 2.0.0 (2024-10-23)
-
+## 1.0.0-beta.1 (2024-10-23)
+    
 ### Features Added
 
-- Added ImageNotificationContent to send image messgae.
-- Added DocumentNotificationContent to send document message.
-- Added VideoNotificationContent to send video message.
-- Added AudioNotificationContent to  send audio message.
-- Deprecated MediaNotificationContent.
+  - Added Interface AudioNotificationContent
+  - Added Interface DocumentNotificationContent
+  - Added Interface ImageNotificationContent
+  - Added Interface MessagesServiceClientOptions
+  - Added Interface VideoNotificationContent
+  - Added Type Alias CommunicationMessageKind
+  - Added Type Alias CommunicationMessagesChannelOutput
+  - Added Type Alias MessageTemplateBindingsKind
+  - Added Type Alias MessageTemplateStatusOutput
+  - Added Type Alias MessageTemplateValueKind
+  - Added Type Alias WhatsAppMessageButtonSubType
 
 ### Breaking Changes
 
-- MediaNotificationContent interface kind field is update with value "image_v0" from "image".
-
-## 1.0.1 (2024-03-07)
-
-Using MessagesServiceClient:
-
-- Send WhatsApp messages.
-- Get Template List.
-- Download media file from WhatsApp server for incoming media message.
-
-### Other Changes
-
-- Fixed CI pipeline to publish MS doc.
-
-## 1.0.0 (2024-02-29)
-
-### Features Added
-
-This is the initial release of the @azure-rest version of Azure Communication Messages Services.
-
-Using MessagesServiceClient:
-
-- Send WhatsApp messages.
-- Get Template List.
-- Download media file from WhatsApp server for incoming media message.
+  - Operation Send.post has a new signature
+  - Interface GetMedia200Headers has a new required parameter content-type
+  - Parameter body of interface SendBodyParam is now required
+  - Type of parameter kind of interface MediaNotificationContent is changed from "image" to "image_v0"
+  - Type of parameter kind of interface MessageTemplateBindingsParent is changed from string to MessageTemplateBindingsKind
+  - Type of parameter kind of interface MessageTemplateItemOutputParent is changed from string to CommunicationMessagesChannelOutput
+  - Type of parameter status of interface MessageTemplateItemOutputParent is changed from string to MessageTemplateStatusOutput
+  - Type of parameter kind of interface MessageTemplateValueParent is changed from string to MessageTemplateValueKind
+  - Type of parameter kind of interface NotificationContentParent is changed from string to CommunicationMessageKind
+  - Type of parameter subType of interface WhatsAppMessageTemplateBindingsButton is changed from string to WhatsAppMessageButtonSubType
+    
