@@ -13,11 +13,11 @@ import {
   PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRulesGetOptionalParams,
@@ -195,7 +195,6 @@ export function firewallRulesCreateOrUpdate(
           resource,
           options,
         ),
-      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
@@ -239,20 +238,24 @@ export function firewallRulesDelete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _firewallRulesDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        firewallRuleName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _firewallRulesDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _firewallRulesDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          firewallRuleName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _firewallRulesListByMongoClusterSend(
