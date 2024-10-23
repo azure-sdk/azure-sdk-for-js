@@ -8,7 +8,7 @@
 
 import {
   FluxConfigOperationStatusGetOptionalParams,
-  FluxConfigOperationStatusGetResponse
+  FluxConfigOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a FluxConfigOperationStatus. */
@@ -32,6 +32,6 @@ export interface FluxConfigOperationStatus {
     clusterName: string,
     fluxConfigurationName: string,
     operationId: string,
-    options?: FluxConfigOperationStatusGetOptionalParams
+    options?: FluxConfigOperationStatusGetOptionalParams,
   ): Promise<FluxConfigOperationStatusGetResponse>;
 }
