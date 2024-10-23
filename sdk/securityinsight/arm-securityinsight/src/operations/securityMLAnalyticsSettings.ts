@@ -23,13 +23,14 @@ import {
   SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams,
   SecurityMLAnalyticsSettingsCreateOrUpdateResponse,
   SecurityMLAnalyticsSettingsDeleteOptionalParams,
-  SecurityMLAnalyticsSettingsListNextResponse
+  SecurityMLAnalyticsSettingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityMLAnalyticsSettings operations. */
 export class SecurityMLAnalyticsSettingsImpl
-  implements SecurityMLAnalyticsSettings {
+  implements SecurityMLAnalyticsSettings
+{
   private readonly client: SecurityInsights;
 
   /**
@@ -49,7 +50,7 @@ export class SecurityMLAnalyticsSettingsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SecurityMLAnalyticsSettingsListOptionalParams
+    options?: SecurityMLAnalyticsSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityMLAnalyticsSettingUnion> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -67,9 +68,9 @@ export class SecurityMLAnalyticsSettingsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +78,7 @@ export class SecurityMLAnalyticsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: SecurityMLAnalyticsSettingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityMLAnalyticsSettingUnion[]> {
     let result: SecurityMLAnalyticsSettingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +94,7 @@ export class SecurityMLAnalyticsSettingsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +106,12 @@ export class SecurityMLAnalyticsSettingsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SecurityMLAnalyticsSettingsListOptionalParams
+    options?: SecurityMLAnalyticsSettingsListOptionalParams,
   ): AsyncIterableIterator<SecurityMLAnalyticsSettingUnion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +126,11 @@ export class SecurityMLAnalyticsSettingsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SecurityMLAnalyticsSettingsListOptionalParams
+    options?: SecurityMLAnalyticsSettingsListOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -144,11 +145,11 @@ export class SecurityMLAnalyticsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     settingsResourceName: string,
-    options?: SecurityMLAnalyticsSettingsGetOptionalParams
+    options?: SecurityMLAnalyticsSettingsGetOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, settingsResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,7 +166,7 @@ export class SecurityMLAnalyticsSettingsImpl
     workspaceName: string,
     settingsResourceName: string,
     securityMLAnalyticsSetting: SecurityMLAnalyticsSettingUnion,
-    options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+    options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +174,9 @@ export class SecurityMLAnalyticsSettingsImpl
         workspaceName,
         settingsResourceName,
         securityMLAnalyticsSetting,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -190,11 +191,11 @@ export class SecurityMLAnalyticsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     settingsResourceName: string,
-    options?: SecurityMLAnalyticsSettingsDeleteOptionalParams
+    options?: SecurityMLAnalyticsSettingsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, settingsResourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -209,11 +210,11 @@ export class SecurityMLAnalyticsSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: SecurityMLAnalyticsSettingsListNextOptionalParams
+    options?: SecurityMLAnalyticsSettingsListNextOptionalParams,
   ): Promise<SecurityMLAnalyticsSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -221,38 +222,15 @@ export class SecurityMLAnalyticsSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityMLAnalyticsSettingsList
+      bodyMapper: Mappers.SecurityMLAnalyticsSettingsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecurityMLAnalyticsSetting
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -260,25 +238,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsResourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SecurityMLAnalyticsSetting,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.settingsResourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityMLAnalyticsSetting
+      bodyMapper: Mappers.SecurityMLAnalyticsSetting,
     },
     201: {
-      bodyMapper: Mappers.SecurityMLAnalyticsSetting
+      bodyMapper: Mappers.SecurityMLAnalyticsSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.securityMLAnalyticsSetting,
   queryParameters: [Parameters.apiVersion],
@@ -287,22 +285,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsResourceName
+    Parameters.settingsResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/securityMLAnalyticsSettings/{settingsResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -310,29 +307,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.settingsResourceName
+    Parameters.settingsResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityMLAnalyticsSettingsList
+      bodyMapper: Mappers.SecurityMLAnalyticsSettingsList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
