@@ -48,8 +48,6 @@ import {
   DatabasesForceLinkToReplicationGroupResponse,
   FlushParameters,
   DatabasesFlushOptionalParams,
-  DatabasesUpgradeDBRedisVersionOptionalParams,
-  DatabasesUpgradeDBRedisVersionResponse,
   DatabasesListByClusterNextResponse,
 } from "../models";
 
@@ -67,9 +65,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified Redis Enterprise cluster.
+   * Gets all databases in the specified RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   public listByCluster(
@@ -151,9 +151,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified Redis Enterprise cluster.
+   * Gets all databases in the specified RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   private _listByCluster(
@@ -170,7 +172,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Parameters supplied to the create or update database operation.
    * @param options The options parameters.
@@ -251,7 +255,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Creates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Parameters supplied to the create or update database operation.
    * @param options The options parameters.
@@ -276,7 +282,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Parameters supplied to the create or update database operation.
    * @param options The options parameters.
@@ -357,7 +365,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Updates a database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Parameters supplied to the create or update database operation.
    * @param options The options parameters.
@@ -380,9 +390,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets information about a database in a Redis Enterprise cluster.
+   * Gets information about a database in a RedisEnterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -401,7 +413,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Deletes a single database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -466,7 +480,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Deletes a single database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -486,9 +502,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Retrieves the access keys for the Redis Enterprise database.
+   * Retrieves the access keys for the RedisEnterprise database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param options The options parameters.
    */
@@ -505,9 +523,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the Redis Enterprise database's access keys.
+   * Regenerates the RedisEnterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Specifies which key to regenerate.
    * @param options The options parameters.
@@ -586,9 +606,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the Redis Enterprise database's access keys.
+   * Regenerates the RedisEnterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Specifies which key to regenerate.
    * @param options The options parameters.
@@ -613,7 +635,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Imports database files to target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Storage information for importing into the cluster
    * @param options The options parameters.
@@ -686,7 +710,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Imports database files to target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Storage information for importing into the cluster
    * @param options The options parameters.
@@ -711,7 +737,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Exports a database file from target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Storage information for exporting into the cluster
    * @param options The options parameters.
@@ -784,7 +812,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Exports a database file from target database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Storage information for exporting into the cluster
    * @param options The options parameters.
@@ -809,7 +839,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Forcibly removes the link to the specified database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the database to be unlinked.
    * @param options The options parameters.
@@ -882,7 +914,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Forcibly removes the link to the specified database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the database to be unlinked.
    * @param options The options parameters.
@@ -909,7 +943,9 @@ export class DatabasesImpl implements Databases {
    * replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database
    * will temporarily be unavailable while rejoining the replication group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the database to be unlinked.
    * @param options The options parameters.
@@ -992,7 +1028,9 @@ export class DatabasesImpl implements Databases {
    * replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database
    * will temporarily be unavailable while rejoining the replication group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the database to be unlinked.
    * @param options The options parameters.
@@ -1017,7 +1055,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Flushes all the keys in this database and also from its linked databases.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the databases to be flushed
    * @param options The options parameters.
@@ -1090,7 +1130,9 @@ export class DatabasesImpl implements Databases {
   /**
    * Flushes all the keys in this database and also from its linked databases.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param databaseName The name of the Redis Enterprise database.
    * @param parameters Information identifying the databases to be flushed
    * @param options The options parameters.
@@ -1113,104 +1155,11 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Upgrades the database Redis version to the latest available.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param databaseName The name of the Redis Enterprise database.
-   * @param options The options parameters.
-   */
-  async beginUpgradeDBRedisVersion(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: DatabasesUpgradeDBRedisVersionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpgradeDBRedisVersionResponse>,
-      DatabasesUpgradeDBRedisVersionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DatabasesUpgradeDBRedisVersionResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, clusterName, databaseName, options },
-      spec: upgradeDBRedisVersionOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DatabasesUpgradeDBRedisVersionResponse,
-      OperationState<DatabasesUpgradeDBRedisVersionResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Upgrades the database Redis version to the latest available.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param databaseName The name of the Redis Enterprise database.
-   * @param options The options parameters.
-   */
-  async beginUpgradeDBRedisVersionAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    options?: DatabasesUpgradeDBRedisVersionOptionalParams,
-  ): Promise<DatabasesUpgradeDBRedisVersionResponse> {
-    const poller = await this.beginUpgradeDBRedisVersion(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
@@ -1508,7 +1457,7 @@ const forceLinkToReplicationGroupOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.DatabasesForceLinkToReplicationGroupHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   requestBody: Parameters.parameters8,
@@ -1547,37 +1496,6 @@ const flushOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const upgradeDBRedisVersionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/upgradeDBRedisVersion",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.DatabasesUpgradeDBRedisVersionHeaders,
-    },
-    201: {
-      headersMapper: Mappers.DatabasesUpgradeDBRedisVersionHeaders,
-    },
-    202: {
-      headersMapper: Mappers.DatabasesUpgradeDBRedisVersionHeaders,
-    },
-    204: {
-      headersMapper: Mappers.DatabasesUpgradeDBRedisVersionHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
