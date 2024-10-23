@@ -263,7 +263,8 @@ export interface VirtualMachineScaleSets {
   /**
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
-   * and avoid charges.
+   * and avoid charges. Additionally, this operation is not allowed on a VM scale set with a deallocated
+   * virtual machine.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
@@ -276,7 +277,8 @@ export interface VirtualMachineScaleSets {
   /**
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
-   * and avoid charges.
+   * and avoid charges. Additionally, this operation is not allowed on a VM scale set with a deallocated
+   * virtual machine.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
