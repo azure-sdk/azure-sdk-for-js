@@ -26,7 +26,7 @@ import {
   MetadataPatch,
   MetadataUpdateOptionalParams,
   MetadataUpdateResponse,
-  MetadataListNextResponse
+  MetadataListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class MetadataImpl implements Metadata {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
+    options?: MetadataListOptionalParams,
   ): PagedAsyncIterableIterator<MetadataModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -69,9 +69,9 @@ export class MetadataImpl implements Metadata {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class MetadataImpl implements Metadata {
     resourceGroupName: string,
     workspaceName: string,
     options?: MetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MetadataModel[]> {
     let result: MetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class MetadataImpl implements Metadata {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class MetadataImpl implements Metadata {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
+    options?: MetadataListOptionalParams,
   ): AsyncIterableIterator<MetadataModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class MetadataImpl implements Metadata {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MetadataListOptionalParams
+    options?: MetadataListOptionalParams,
   ): Promise<MetadataListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class MetadataImpl implements Metadata {
     resourceGroupName: string,
     workspaceName: string,
     metadataName: string,
-    options?: MetadataGetOptionalParams
+    options?: MetadataGetOptionalParams,
   ): Promise<MetadataGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, metadataName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class MetadataImpl implements Metadata {
     resourceGroupName: string,
     workspaceName: string,
     metadataName: string,
-    options?: MetadataDeleteOptionalParams
+    options?: MetadataDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, metadataName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -186,11 +186,11 @@ export class MetadataImpl implements Metadata {
     workspaceName: string,
     metadataName: string,
     metadata: MetadataModel,
-    options?: MetadataCreateOptionalParams
+    options?: MetadataCreateOptionalParams,
   ): Promise<MetadataCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, metadataName, metadata, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -207,7 +207,7 @@ export class MetadataImpl implements Metadata {
     workspaceName: string,
     metadataName: string,
     metadataPatch: MetadataPatch,
-    options?: MetadataUpdateOptionalParams
+    options?: MetadataUpdateOptionalParams,
   ): Promise<MetadataUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -215,9 +215,9 @@ export class MetadataImpl implements Metadata {
         workspaceName,
         metadataName,
         metadataPatch,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -232,11 +232,11 @@ export class MetadataImpl implements Metadata {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: MetadataListNextOptionalParams
+    options?: MetadataListNextOptionalParams,
   ): Promise<MetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -244,44 +244,42 @@ export class MetadataImpl implements Metadata {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataList
+      bodyMapper: Mappers.MetadataList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby,
-    Parameters.top,
-    Parameters.skip
+    Parameters.top1,
+    Parameters.skip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.MetadataModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -289,21 +287,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.metadataName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -311,25 +308,24 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.metadataName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.MetadataModel,
     },
     201: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.MetadataModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.metadata,
   queryParameters: [Parameters.apiVersion],
@@ -338,23 +334,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.metadataName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataModel
+      bodyMapper: Mappers.MetadataModel,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.metadataPatch,
   queryParameters: [Parameters.apiVersion],
@@ -363,30 +358,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.metadataName
+    Parameters.metadataName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataList
+      bodyMapper: Mappers.MetadataList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
