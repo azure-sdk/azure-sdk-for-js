@@ -7,21 +7,23 @@
  */
 
 import {
-  DomainWhoisGetOptionalParams,
-  DomainWhoisGetResponse
+  ProductTemplateGetOptionalParams,
+  ProductTemplateGetResponse,
 } from "../models";
 
-/** Interface representing a DomainWhois. */
-export interface DomainWhois {
+/** Interface representing a ProductTemplate. */
+export interface ProductTemplate {
   /**
-   * Get whois information for a single domain name
+   * Gets a template by its identifier.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param domain Domain name to be enriched
+   * @param workspaceName The name of the workspace.
+   * @param templateId template Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    domain: string,
-    options?: DomainWhoisGetOptionalParams
-  ): Promise<DomainWhoisGetResponse>;
+    workspaceName: string,
+    templateId: string,
+    options?: ProductTemplateGetOptionalParams,
+  ): Promise<ProductTemplateGetResponse>;
 }
