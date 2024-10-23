@@ -68,6 +68,24 @@ export interface AudioNotificationContent extends NotificationContentParent {
   mediaUri: string;
 }
 
+/** A request to send a Reaction notification. */
+export interface ReactionNotificationContent extends NotificationContentParent {
+  /** Message notification type is reaction. */
+  kind: "reaction";
+  /** emoji content like \uD83D\uDE00. */
+  emoji: string;
+  /** ID of the previous message you want to reply to. */
+  messageId: string;
+}
+
+/** A request to send a Sticker notification. */
+export interface StickerNotificationContent extends NotificationContentParent {
+  /** Message notification type is sticker. */
+  kind: "sticker";
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
 /** A request to send a template notification. */
 export interface TemplateNotificationContent extends NotificationContentParent {
   /** Message notification type is template. */
@@ -210,6 +228,8 @@ export type NotificationContent =
   | DocumentNotificationContent
   | VideoNotificationContent
   | AudioNotificationContent
+  | ReactionNotificationContent
+  | StickerNotificationContent
   | TemplateNotificationContent;
 /** The class describes a parameter of a template. */
 export type MessageTemplateValue =

@@ -31,10 +31,7 @@ export type CommunicationMessageKind = string;
 export type CommunicationMessagesChannelOutput = string;
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
-
-// @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: MessagesServiceClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public
@@ -297,7 +294,7 @@ export interface MessageTemplateVideo extends MessageTemplateValueParent {
 }
 
 // @public
-export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | TemplateNotificationContent;
+export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | ReactionNotificationContent | StickerNotificationContent | TemplateNotificationContent;
 
 // @public
 export interface NotificationContentParent {
@@ -323,6 +320,13 @@ export type PaginateReturn<TResult> = TResult extends {
 // @public
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
+}
+
+// @public
+export interface ReactionNotificationContent extends NotificationContentParent {
+    emoji: string;
+    kind: "reaction";
+    messageId: string;
 }
 
 // @public
@@ -396,6 +400,12 @@ export interface SendMessageResultOutput {
 
 // @public (undocumented)
 export type SendParameters = SendHeaderParam & SendBodyParam & RequestParameters;
+
+// @public
+export interface StickerNotificationContent extends NotificationContentParent {
+    kind: "sticker";
+    mediaUri: string;
+}
 
 // @public
 export interface TemplateNotificationContent extends NotificationContentParent {
