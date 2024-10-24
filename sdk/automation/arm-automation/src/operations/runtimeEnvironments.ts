@@ -8,35 +8,34 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ConnectionOperations } from "../operationsInterfaces";
+import { RuntimeEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  Connection,
-  ConnectionListByAutomationAccountNextOptionalParams,
-  ConnectionListByAutomationAccountOptionalParams,
-  ConnectionListByAutomationAccountResponse,
-  ConnectionDeleteOptionalParams,
-  ConnectionGetOptionalParams,
-  ConnectionGetResponse,
-  ConnectionCreateOrUpdateParameters,
-  ConnectionCreateOrUpdateOptionalParams,
-  ConnectionCreateOrUpdateResponse,
-  ConnectionUpdateParameters,
-  ConnectionUpdateOptionalParams,
-  ConnectionUpdateResponse,
-  ConnectionListByAutomationAccountNextResponse,
+  RuntimeEnvironment,
+  RuntimeEnvironmentsListByAutomationAccountNextOptionalParams,
+  RuntimeEnvironmentsListByAutomationAccountOptionalParams,
+  RuntimeEnvironmentsListByAutomationAccountResponse,
+  RuntimeEnvironmentUpdateParameters,
+  RuntimeEnvironmentsUpdateOptionalParams,
+  RuntimeEnvironmentsUpdateResponse,
+  RuntimeEnvironmentsCreateOptionalParams,
+  RuntimeEnvironmentsCreateResponse,
+  RuntimeEnvironmentsDeleteOptionalParams,
+  RuntimeEnvironmentsGetOptionalParams,
+  RuntimeEnvironmentsGetResponse,
+  RuntimeEnvironmentsListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ConnectionOperations operations. */
-export class ConnectionOperationsImpl implements ConnectionOperations {
+/** Class containing RuntimeEnvironments operations. */
+export class RuntimeEnvironmentsImpl implements RuntimeEnvironments {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class ConnectionOperations class.
+   * Initialize a new instance of the class RuntimeEnvironments class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +43,7 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Retrieve a list of connections.
+   * Retrieve a list of RuntimeEnvironments.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +51,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Connection> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<RuntimeEnvironment> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +82,10 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Connection[]> {
-    let result: ConnectionListByAutomationAccountResponse;
+  ): AsyncIterableIterator<RuntimeEnvironment[]> {
+    let result: RuntimeEnvironmentsListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +115,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Connection> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams,
+  ): AsyncIterableIterator<RuntimeEnvironment> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,90 +127,25 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Delete the connection.
+   * Update an Runtime Environment.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionName The name of connection.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    automationAccountName: string,
-    connectionName: string,
-    options?: ConnectionDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, connectionName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Retrieve the connection identified by connection name.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param connectionName The name of connection.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    automationAccountName: string,
-    connectionName: string,
-    options?: ConnectionGetOptionalParams,
-  ): Promise<ConnectionGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, connectionName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Create or update a connection.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param connectionName The parameters supplied to the create or update connection operation.
-   * @param parameters The parameters supplied to the create or update connection operation.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    automationAccountName: string,
-    connectionName: string,
-    parameters: ConnectionCreateOrUpdateParameters,
-    options?: ConnectionCreateOrUpdateOptionalParams,
-  ): Promise<ConnectionCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        automationAccountName,
-        connectionName,
-        parameters,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Update a connection.
-   * @param resourceGroupName Name of an Azure Resource group.
-   * @param automationAccountName The name of the automation account.
-   * @param connectionName The parameters supplied to the update a connection operation.
-   * @param parameters The parameters supplied to the update a connection operation.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param parameters Parameters supplied to the Runtime Environment
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    connectionName: string,
-    parameters: ConnectionUpdateParameters,
-    options?: ConnectionUpdateOptionalParams,
-  ): Promise<ConnectionUpdateResponse> {
+    runtimeEnvironmentName: string,
+    parameters: RuntimeEnvironmentUpdateParameters,
+    options?: RuntimeEnvironmentsUpdateOptionalParams,
+  ): Promise<RuntimeEnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        connectionName,
+        runtimeEnvironmentName,
         parameters,
         options,
       },
@@ -220,7 +154,82 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Retrieve a list of connections.
+   * Create or update Runtime Environment
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param parameters Parameters supplied to the create  the runtime environment.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runtimeEnvironmentName: string,
+    parameters: RuntimeEnvironment,
+    options?: RuntimeEnvironmentsCreateOptionalParams,
+  ): Promise<RuntimeEnvironmentsCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        parameters,
+        options,
+      },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Delete the Runtime Environment.
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runtimeEnvironmentName: string,
+    options?: RuntimeEnvironmentsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Get information about the Runtime Environment
+   * @param resourceGroupName Name of an Azure Resource group.
+   * @param automationAccountName The name of the automation account.
+   * @param runtimeEnvironmentName The name of the Runtime Environment.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    automationAccountName: string,
+    runtimeEnvironmentName: string,
+    options?: RuntimeEnvironmentsGetOptionalParams,
+  ): Promise<RuntimeEnvironmentsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        automationAccountName,
+        runtimeEnvironmentName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieve a list of RuntimeEnvironments.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +237,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): Promise<ConnectionListByAutomationAccountResponse> {
+    options?: RuntimeEnvironmentsListByAutomationAccountOptionalParams,
+  ): Promise<RuntimeEnvironmentsListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -248,8 +257,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: ConnectionListByAutomationAccountNextOptionalParams,
-  ): Promise<ConnectionListByAutomationAccountNextResponse> {
+    options?: RuntimeEnvironmentsListByAutomationAccountNextOptionalParams,
+  ): Promise<RuntimeEnvironmentsListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -259,8 +268,59 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RuntimeEnvironment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters29,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.runtimeEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RuntimeEnvironment,
+    },
+    201: {
+      bodyMapper: Mappers.RuntimeEnvironment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters30,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
+    Parameters.runtimeEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -275,17 +335,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments/{runtimeEnvironmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Connection,
+      bodyMapper: Mappers.RuntimeEnvironment,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -297,68 +357,17 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.runtimeEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Connection,
-    },
-    201: {
-      bodyMapper: Mappers.Connection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.subscriptionId,
-    Parameters.connectionName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Connection,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.subscriptionId,
-    Parameters.connectionName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runtimeEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionListResult,
+      bodyMapper: Mappers.RuntimeEnvironmentListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -379,7 +388,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionListResult,
+      bodyMapper: Mappers.RuntimeEnvironmentListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
