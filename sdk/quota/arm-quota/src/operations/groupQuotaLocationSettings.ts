@@ -13,7 +13,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   GroupQuotasEnforcementResponse,
@@ -31,7 +35,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaLocationSettings operations. */
-export class GroupQuotaLocationSettingsImpl implements GroupQuotaLocationSettings {
+export class GroupQuotaLocationSettingsImpl
+  implements GroupQuotaLocationSettings
+{
   private readonly client: AzureQuotaExtensionAPI;
 
   /**
@@ -97,7 +103,12 @@ export class GroupQuotaLocationSettingsImpl implements GroupQuotaLocationSetting
     let result: GroupQuotaLocationSettingsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(managementGroupId, groupQuotaName, resourceProviderName, options);
+      result = await this._list(
+        managementGroupId,
+        groupQuotaName,
+        resourceProviderName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -175,7 +186,8 @@ export class GroupQuotaLocationSettingsImpl implements GroupQuotaLocationSetting
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -301,7 +313,8 @@ export class GroupQuotaLocationSettingsImpl implements GroupQuotaLocationSetting
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
