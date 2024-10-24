@@ -15,25 +15,29 @@ export type ActionType = string;
 
 // @public
 export interface Api extends ProxyResource {
-    properties?: ApiProperties;
+    contacts?: Contact[];
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    externalDocumentation?: ExternalDocumentation[];
+    kind?: ApiKind;
+    license?: License;
+    readonly lifecycleStage?: LifecycleStage;
+    summary?: string;
+    termsOfService?: TermsOfService;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinition extends ProxyResource {
-    properties?: ApiDefinitionProperties;
+    description?: string;
+    readonly specification?: ApiDefinitionPropertiesSpecification;
+    title?: string;
 }
 
 // @public
 export interface ApiDefinitionListResult {
     readonly nextLink?: string;
     readonly value: ApiDefinition[];
-}
-
-// @public
-export interface ApiDefinitionProperties {
-    description?: string;
-    readonly specification?: ApiDefinitionPropertiesSpecification;
-    title: string;
 }
 
 // @public
@@ -144,17 +148,12 @@ export interface ApiListResult {
 }
 
 // @public
-export interface ApiProperties {
-    contacts?: Contact[];
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    externalDocumentation?: ExternalDocumentation[];
-    kind: ApiKind;
-    license?: License;
-    readonly lifecycleStage?: LifecycleStage;
-    summary?: string;
-    termsOfService?: TermsOfService;
-    title: string;
+export interface ApimSource {
+    readonly linkState?: LinkState;
+    msiResourceId?: string;
+    resourceId: string;
+    targetEnvironmentId?: string;
+    targetLifecycleStage?: LifecycleStage;
 }
 
 // @public
@@ -219,6 +218,79 @@ export interface ApisListOptionalParams extends coreClient.OperationOptions {
 export type ApisListResponse = ApiListResult;
 
 // @public
+export interface ApiSource extends ProxyResource {
+    apimSource?: ApimSource;
+    shouldImportSpec?: ShouldImportSpec;
+}
+
+// @public
+export interface ApiSourceListResult {
+    readonly nextLink?: string;
+    readonly value: ApiSource[];
+}
+
+// @public
+export interface ApiSources {
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, resource: ApiSource, options?: ApiSourcesCreateOrUpdateOptionalParams): Promise<ApiSourcesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesGetOptionalParams): Promise<ApiSourcesGetResponse>;
+    head(resourceGroupName: string, serviceName: string, workspaceName: string, apiSourceName: string, options?: ApiSourcesHeadOptionalParams): Promise<ApiSourcesHeadResponse>;
+    list(resourceGroupName: string, serviceName: string, workspaceName: string, options?: ApiSourcesListOptionalParams): PagedAsyncIterableIterator<ApiSource>;
+}
+
+// @public
+export interface ApiSourcesCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface ApiSourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesCreateOrUpdateResponse = ApiSourcesCreateOrUpdateHeaders & ApiSource;
+
+// @public
+export interface ApiSourcesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApiSourcesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface ApiSourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesGetResponse = ApiSourcesGetHeaders & ApiSource;
+
+// @public
+export interface ApiSourcesHeadOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesHeadResponse = {
+    body: boolean;
+};
+
+// @public
+export interface ApiSourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiSourcesListNextResponse = ApiSourceListResult;
+
+// @public
+export interface ApiSourcesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ApiSourcesListResponse = ApiSourceListResult;
+
+// @public
 export interface ApiSpecExportResult {
     format?: ApiSpecExportResultFormat;
     value?: string;
@@ -245,19 +317,14 @@ export type ApiSpecImportSourceFormat = string;
 
 // @public
 export interface ApiVersion extends ProxyResource {
-    properties?: ApiVersionProperties;
+    lifecycleStage?: LifecycleStage;
+    title?: string;
 }
 
 // @public
 export interface ApiVersionListResult {
     readonly nextLink?: string;
     readonly value: ApiVersion[];
-}
-
-// @public
-export interface ApiVersionProperties {
-    lifecycleStage: LifecycleStage;
-    title: string;
 }
 
 // @public
@@ -331,9 +398,13 @@ export class AzureAPICenter extends coreClient.ServiceClient {
     // (undocumented)
     apis: Apis;
     // (undocumented)
+    apiSources: ApiSources;
+    // (undocumented)
     apiVersion: string;
     // (undocumented)
     apiVersions: ApiVersions;
+    // (undocumented)
+    deletedServices: DeletedServices;
     // (undocumented)
     deployments: Deployments;
     // (undocumented)
@@ -368,18 +439,72 @@ export interface Contact {
 export type CreatedByType = string;
 
 // @public
-export interface Deployment extends ProxyResource {
-    properties?: DeploymentProperties;
+export interface DeletedService extends ProxyResource {
+    scheduledPurgeDate?: Date;
+    softDeletionDate?: Date;
 }
 
 // @public
-export interface DeploymentListResult {
+export interface DeletedServiceListResult {
     readonly nextLink?: string;
-    readonly value: Deployment[];
+    readonly value: DeletedService[];
 }
 
 // @public
-export interface DeploymentProperties {
+export interface DeletedServices {
+    delete(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, deletedServiceName: string, options?: DeletedServicesGetOptionalParams): Promise<DeletedServicesGetResponse>;
+    list(resourceGroupName: string, options?: DeletedServicesListOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+    listBySubscription(options?: DeletedServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeletedService>;
+}
+
+// @public
+export interface DeletedServicesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface DeletedServicesGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface DeletedServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesGetResponse = DeletedServicesGetHeaders & DeletedService;
+
+// @public
+export interface DeletedServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListBySubscriptionResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeletedServicesListNextResponse = DeletedServiceListResult;
+
+// @public
+export interface DeletedServicesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DeletedServicesListResponse = DeletedServiceListResult;
+
+// @public
+export interface Deployment extends ProxyResource {
     customProperties?: Record<string, unknown>;
     definitionId?: string;
     description?: string;
@@ -387,6 +512,12 @@ export interface DeploymentProperties {
     server?: DeploymentServer;
     state?: DeploymentState;
     title?: string;
+}
+
+// @public
+export interface DeploymentListResult {
+    readonly nextLink?: string;
+    readonly value: Deployment[];
 }
 
 // @public
@@ -460,7 +591,12 @@ export type DeploymentState = string;
 
 // @public
 export interface Environment extends ProxyResource {
-    properties?: EnvironmentProperties;
+    customProperties?: Record<string, unknown>;
+    description?: string;
+    kind?: EnvironmentKind;
+    onboarding?: Onboarding;
+    server?: EnvironmentServer;
+    title?: string;
 }
 
 // @public
@@ -470,16 +606,6 @@ export type EnvironmentKind = string;
 export interface EnvironmentListResult {
     readonly nextLink?: string;
     readonly value: Environment[];
-}
-
-// @public
-export interface EnvironmentProperties {
-    customProperties?: Record<string, unknown>;
-    description?: string;
-    kind: EnvironmentKind;
-    onboarding?: Onboarding;
-    server?: EnvironmentServer;
-    title: string;
 }
 
 // @public
@@ -581,6 +707,18 @@ export interface ExternalDocumentation {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface ImportFromApimRequest {
+    sourceResourceIds?: string[];
+}
+
+// @public
+export interface ImportFromApimSuccessResult {
+    endTime?: Date;
+    startTime: Date;
+    status: string;
+}
 
 // @public
 export enum KnownActionType {
@@ -689,8 +827,10 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V20240301 = "2024-03-01"
+export enum KnownShouldImportSpec {
+    Always = "always",
+    Never = "never",
+    OnDemand = "ondemand"
 }
 
 // @public
@@ -702,6 +842,13 @@ export interface License {
 
 // @public
 export type LifecycleStage = string;
+
+// @public
+export interface LinkState {
+    lastUpdatedOn: Date;
+    message?: string;
+    state?: string;
+}
 
 // @public
 export interface ManagedServiceIdentity {
@@ -728,7 +875,8 @@ export type MetadataAssignmentEntity = string;
 
 // @public
 export interface MetadataSchema extends ProxyResource {
-    properties?: MetadataSchemaProperties;
+    assignedTo?: MetadataAssignment[];
+    schema?: string;
 }
 
 // @public
@@ -749,12 +897,6 @@ export interface MetadataSchemaExportResult {
 export interface MetadataSchemaListResult {
     readonly nextLink?: string;
     readonly value: MetadataSchema[];
-}
-
-// @public
-export interface MetadataSchemaProperties {
-    assignedTo?: MetadataAssignment[];
-    schema: string;
 }
 
 // @public
@@ -887,7 +1029,8 @@ export interface Resource {
 // @public
 export interface Service extends TrackedResource {
     identity?: ManagedServiceIdentity;
-    properties?: ServiceProperties;
+    readonly provisioningState?: ProvisioningState;
+    restore?: boolean;
 }
 
 // @public
@@ -897,14 +1040,11 @@ export interface ServiceListResult {
 }
 
 // @public
-export interface ServiceProperties {
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
 export interface Services {
     beginExportMetadataSchema(resourceGroupName: string, serviceName: string, body: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<SimplePollerLike<OperationState<ServicesExportMetadataSchemaResponse>, ServicesExportMetadataSchemaResponse>>;
     beginExportMetadataSchemaAndWait(resourceGroupName: string, serviceName: string, body: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<ServicesExportMetadataSchemaResponse>;
+    beginImportFromApim(resourceGroupName: string, serviceName: string, body: ImportFromApimRequest, options?: ServicesImportFromApimOptionalParams): Promise<SimplePollerLike<OperationState<ServicesImportFromApimResponse>, ServicesImportFromApimResponse>>;
+    beginImportFromApimAndWait(resourceGroupName: string, serviceName: string, body: ImportFromApimRequest, options?: ServicesImportFromApimOptionalParams): Promise<ServicesImportFromApimResponse>;
     createOrUpdate(resourceGroupName: string, serviceName: string, resource: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
@@ -947,6 +1087,21 @@ export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
 export type ServicesGetResponse = Service;
 
 // @public
+export interface ServicesImportFromApimHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ServicesImportFromApimOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServicesImportFromApimResponse = ImportFromApimSuccessResult;
+
+// @public
 export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -984,10 +1139,14 @@ export type ServicesUpdateResponse = Service;
 // @public
 export interface ServiceUpdate {
     identity?: ManagedServiceIdentity;
+    restore?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type ShouldImportSpec = string;
 
 // @public
 export interface SystemData {
@@ -1019,23 +1178,15 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = string;
-
-// @public
 export interface Workspace extends ProxyResource {
-    properties?: WorkspaceProperties;
+    description?: string;
+    title?: string;
 }
 
 // @public
 export interface WorkspaceListResult {
     readonly nextLink?: string;
     readonly value: Workspace[];
-}
-
-// @public
-export interface WorkspaceProperties {
-    description?: string;
-    title: string;
 }
 
 // @public

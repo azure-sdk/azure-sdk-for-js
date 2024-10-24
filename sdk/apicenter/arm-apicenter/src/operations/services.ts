@@ -38,6 +38,9 @@ import {
   MetadataSchemaExportRequest,
   ServicesExportMetadataSchemaOptionalParams,
   ServicesExportMetadataSchemaResponse,
+  ImportFromApimRequest,
+  ServicesImportFromApimOptionalParams,
+  ServicesImportFromApimResponse,
   ServicesListBySubscriptionNextResponse,
   ServicesListByResourceGroupNextResponse,
 } from "../models";
@@ -374,6 +377,101 @@ export class ServicesImpl implements Services {
   }
 
   /**
+   * Imports APIs from Azure API Management.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportFromApim(
+    resourceGroupName: string,
+    serviceName: string,
+    body: ImportFromApimRequest,
+    options?: ServicesImportFromApimOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesImportFromApimResponse>,
+      ServicesImportFromApimResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ServicesImportFromApimResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, body, options },
+      spec: importFromApimOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesImportFromApimResponse,
+      OperationState<ServicesImportFromApimResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Imports APIs from Azure API Management.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  async beginImportFromApimAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    body: ImportFromApimRequest,
+    options?: ServicesImportFromApimOptionalParams,
+  ): Promise<ServicesImportFromApimResponse> {
+    const poller = await this.beginImportFromApim(
+      resourceGroupName,
+      serviceName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -555,6 +653,38 @@ const exportMetadataSchemaOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const importFromApimOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/importFromApim",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportFromApimSuccessResult,
+    },
+    201: {
+      bodyMapper: Mappers.ImportFromApimSuccessResult,
+    },
+    202: {
+      bodyMapper: Mappers.ImportFromApimSuccessResult,
+    },
+    204: {
+      bodyMapper: Mappers.ImportFromApimSuccessResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
