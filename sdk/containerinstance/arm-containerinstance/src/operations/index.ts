@@ -11,3 +11,6 @@ export * from "./operations";
 export * from "./location";
 export * from "./containers";
 export * from "./subnetServiceAssociationLink";
+export * from "./nGroupsSkus";
+export * from "./nGroups";
+export * from "./containerGroupProfileOperations";

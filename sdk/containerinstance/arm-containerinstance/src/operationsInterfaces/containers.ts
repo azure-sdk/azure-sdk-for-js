@@ -13,7 +13,7 @@ import {
   ContainersExecuteCommandOptionalParams,
   ContainersExecuteCommandResponse,
   ContainersAttachOptionalParams,
-  ContainersAttachResponse
+  ContainersAttachResponse,
 } from "../models";
 
 /** Interface representing a Containers. */
@@ -29,7 +29,7 @@ export interface Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersListLogsOptionalParams
+    options?: ContainersListLogsOptionalParams,
   ): Promise<ContainersListLogsResponse>;
   /**
    * Executes a command for a specific container instance in a specified resource group and container
@@ -45,7 +45,7 @@ export interface Containers {
     containerGroupName: string,
     containerName: string,
     containerExecRequest: ContainerExecRequest,
-    options?: ContainersExecuteCommandOptionalParams
+    options?: ContainersExecuteCommandOptionalParams,
   ): Promise<ContainersExecuteCommandResponse>;
   /**
    * Attach to the output stream of a specific container instance in a specified resource group and
@@ -59,6 +59,6 @@ export interface Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersAttachOptionalParams
+    options?: ContainersAttachOptionalParams,
   ): Promise<ContainersAttachResponse>;
 }

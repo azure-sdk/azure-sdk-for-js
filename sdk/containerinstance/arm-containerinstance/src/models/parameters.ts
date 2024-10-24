@@ -9,12 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ContainerGroup as ContainerGroupMapper,
   Resource as ResourceMapper,
-  ContainerExecRequest as ContainerExecRequestMapper
+  ContainerExecRequest as ContainerExecRequestMapper,
+  NGroup as NGroupMapper,
+  ContainerGroupProfile as ContainerGroupProfileMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -47,21 +49,21 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -70,9 +72,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const containerGroupName: OperationURLParameter = {
@@ -81,9 +83,9 @@ export const containerGroupName: OperationURLParameter = {
     serializedName: "containerGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -93,19 +95,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const containerGroup: OperationParameter = {
   parameterPath: "containerGroup",
-  mapper: ContainerGroupMapper
+  mapper: ContainerGroupMapper,
 };
 
 export const resource: OperationParameter = {
   parameterPath: "resource",
-  mapper: ResourceMapper
+  mapper: ResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -114,10 +116,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const location: OperationURLParameter = {
@@ -126,9 +128,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const containerName: OperationURLParameter = {
@@ -137,9 +139,9 @@ export const containerName: OperationURLParameter = {
     serializedName: "containerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tail: OperationQueryParameter = {
@@ -147,9 +149,9 @@ export const tail: OperationQueryParameter = {
   mapper: {
     serializedName: "tail",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const timestamps: OperationQueryParameter = {
@@ -157,14 +159,14 @@ export const timestamps: OperationQueryParameter = {
   mapper: {
     serializedName: "timestamps",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const containerExecRequest: OperationParameter = {
   parameterPath: "containerExecRequest",
-  mapper: ContainerExecRequestMapper
+  mapper: ContainerExecRequestMapper,
 };
 
 export const virtualNetworkName: OperationURLParameter = {
@@ -173,9 +175,9 @@ export const virtualNetworkName: OperationURLParameter = {
     serializedName: "virtualNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subnetName: OperationURLParameter = {
@@ -184,7 +186,58 @@ export const subnetName: OperationURLParameter = {
     serializedName: "subnetName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const ngroupsName: OperationURLParameter = {
+  parameterPath: "ngroupsName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "ngroupsName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nGroup: OperationParameter = {
+  parameterPath: "nGroup",
+  mapper: NGroupMapper,
+};
+
+export const containerGroupProfile: OperationParameter = {
+  parameterPath: "containerGroupProfile",
+  mapper: ContainerGroupProfileMapper,
+};
+
+export const containerGroupProfileName: OperationURLParameter = {
+  parameterPath: "containerGroupProfileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "containerGroupProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const containerGroupProfile1: OperationParameter = {
+  parameterPath: ["options", "containerGroupProfile"],
+  mapper: ResourceMapper,
 };
