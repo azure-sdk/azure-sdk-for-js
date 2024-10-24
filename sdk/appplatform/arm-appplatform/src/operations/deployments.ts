@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -50,7 +50,7 @@ import {
   DeploymentsGenerateThreadDumpOptionalParams,
   DeploymentsStartJFROptionalParams,
   DeploymentsListNextResponse,
-  DeploymentsListForClusterNextResponse
+  DeploymentsListForClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -78,13 +78,13 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       appName,
-      options
+      options,
     );
     return {
       next() {
@@ -102,9 +102,9 @@ export class DeploymentsImpl implements Deployments {
           serviceName,
           appName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -113,7 +113,7 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     options?: DeploymentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeploymentResource[]> {
     let result: DeploymentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -122,7 +122,7 @@ export class DeploymentsImpl implements Deployments {
         resourceGroupName,
         serviceName,
         appName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -135,7 +135,7 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -148,13 +148,13 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): AsyncIterableIterator<DeploymentResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       appName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -170,12 +170,12 @@ export class DeploymentsImpl implements Deployments {
   public listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: DeploymentsListForClusterOptionalParams
+    options?: DeploymentsListForClusterOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentResource> {
     const iter = this.listForClusterPagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -192,9 +192,9 @@ export class DeploymentsImpl implements Deployments {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -202,7 +202,7 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     serviceName: string,
     options?: DeploymentsListForClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeploymentResource[]> {
     let result: DeploymentsListForClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -210,7 +210,7 @@ export class DeploymentsImpl implements Deployments {
       result = await this._listForCluster(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -222,7 +222,7 @@ export class DeploymentsImpl implements Deployments {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -234,12 +234,12 @@ export class DeploymentsImpl implements Deployments {
   private async *listForClusterPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: DeploymentsListForClusterOptionalParams
+    options?: DeploymentsListForClusterOptionalParams,
   ): AsyncIterableIterator<DeploymentResource> {
     for await (const page of this.listForClusterPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -259,11 +259,11 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, deploymentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -283,7 +283,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -292,21 +292,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -315,8 +314,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -324,8 +323,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,16 +336,16 @@ export class DeploymentsImpl implements Deployments {
         appName,
         deploymentName,
         deploymentResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsCreateOrUpdateResponse,
       OperationState<DeploymentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -368,7 +367,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -376,7 +375,7 @@ export class DeploymentsImpl implements Deployments {
       appName,
       deploymentName,
       deploymentResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -395,25 +394,24 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -422,8 +420,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -431,8 +429,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -443,13 +441,13 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -469,14 +467,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -497,7 +495,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsUpdateResponse>,
@@ -506,21 +504,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -529,8 +526,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -538,8 +535,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -551,16 +548,16 @@ export class DeploymentsImpl implements Deployments {
         appName,
         deploymentName,
         deploymentResource,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsUpdateResponse,
       OperationState<DeploymentsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -582,7 +579,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     deploymentResource: DeploymentResource,
-    options?: DeploymentsUpdateOptionalParams
+    options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -590,7 +587,7 @@ export class DeploymentsImpl implements Deployments {
       appName,
       deploymentName,
       deploymentResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -607,11 +604,11 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: DeploymentsListOptionalParams
+    options?: DeploymentsListOptionalParams,
   ): Promise<DeploymentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -625,11 +622,11 @@ export class DeploymentsImpl implements Deployments {
   private _listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: DeploymentsListForClusterOptionalParams
+    options?: DeploymentsListForClusterOptionalParams,
   ): Promise<DeploymentsListForClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listForClusterOperationSpec
+      listForClusterOperationSpec,
     );
   }
 
@@ -647,25 +644,24 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStartOptionalParams
+    options?: DeploymentsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -674,8 +670,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -683,8 +679,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -695,13 +691,13 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: startOperationSpec
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -721,14 +717,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStartOptionalParams
+    options?: DeploymentsStartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStart(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -747,25 +743,24 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStopOptionalParams
+    options?: DeploymentsStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -774,8 +769,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -783,8 +778,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -795,13 +790,13 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: stopOperationSpec
+      spec: stopOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -821,14 +816,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsStopOptionalParams
+    options?: DeploymentsStopOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStop(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -847,25 +842,24 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsRestartOptionalParams
+    options?: DeploymentsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -874,8 +868,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -883,8 +877,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -895,13 +889,13 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -921,14 +915,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsRestartOptionalParams
+    options?: DeploymentsRestartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRestart(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -947,7 +941,7 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsEnableRemoteDebuggingResponse>,
@@ -956,21 +950,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsEnableRemoteDebuggingResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -979,8 +972,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -988,8 +981,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1000,16 +993,16 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: enableRemoteDebuggingOperationSpec
+      spec: enableRemoteDebuggingOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsEnableRemoteDebuggingResponse,
       OperationState<DeploymentsEnableRemoteDebuggingResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1029,14 +1022,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams,
   ): Promise<DeploymentsEnableRemoteDebuggingResponse> {
     const poller = await this.beginEnableRemoteDebugging(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1055,7 +1048,7 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsDisableRemoteDebuggingResponse>,
@@ -1064,21 +1057,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsDisableRemoteDebuggingResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1087,8 +1079,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1096,8 +1088,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1108,16 +1100,16 @@ export class DeploymentsImpl implements Deployments {
         serviceName,
         appName,
         deploymentName,
-        options
+        options,
       },
-      spec: disableRemoteDebuggingOperationSpec
+      spec: disableRemoteDebuggingOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsDisableRemoteDebuggingResponse,
       OperationState<DeploymentsDisableRemoteDebuggingResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1137,14 +1129,14 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams,
   ): Promise<DeploymentsDisableRemoteDebuggingResponse> {
     const poller = await this.beginDisableRemoteDebugging(
       resourceGroupName,
       serviceName,
       appName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1163,11 +1155,11 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams
+    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams,
   ): Promise<DeploymentsGetRemoteDebuggingConfigResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, deploymentName, options },
-      getRemoteDebuggingConfigOperationSpec
+      getRemoteDebuggingConfigOperationSpec,
     );
   }
 
@@ -1185,11 +1177,11 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     deploymentName: string,
-    options?: DeploymentsGetLogFileUrlOptionalParams
+    options?: DeploymentsGetLogFileUrlOptionalParams,
   ): Promise<DeploymentsGetLogFileUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, deploymentName, options },
-      getLogFileUrlOperationSpec
+      getLogFileUrlOperationSpec,
     );
   }
 
@@ -1209,25 +1201,24 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
+    options?: DeploymentsGenerateHeapDumpOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1236,8 +1227,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1245,8 +1236,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1258,13 +1249,13 @@ export class DeploymentsImpl implements Deployments {
         appName,
         deploymentName,
         diagnosticParameters,
-        options
+        options,
       },
-      spec: generateHeapDumpOperationSpec
+      spec: generateHeapDumpOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1286,7 +1277,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
+    options?: DeploymentsGenerateHeapDumpOptionalParams,
   ): Promise<void> {
     const poller = await this.beginGenerateHeapDump(
       resourceGroupName,
@@ -1294,7 +1285,7 @@ export class DeploymentsImpl implements Deployments {
       appName,
       deploymentName,
       diagnosticParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1315,25 +1306,24 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
+    options?: DeploymentsGenerateThreadDumpOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1342,8 +1332,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1351,8 +1341,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1364,13 +1354,13 @@ export class DeploymentsImpl implements Deployments {
         appName,
         deploymentName,
         diagnosticParameters,
-        options
+        options,
       },
-      spec: generateThreadDumpOperationSpec
+      spec: generateThreadDumpOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1392,7 +1382,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
+    options?: DeploymentsGenerateThreadDumpOptionalParams,
   ): Promise<void> {
     const poller = await this.beginGenerateThreadDump(
       resourceGroupName,
@@ -1400,7 +1390,7 @@ export class DeploymentsImpl implements Deployments {
       appName,
       deploymentName,
       diagnosticParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1421,25 +1411,24 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
+    options?: DeploymentsStartJFROptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1448,8 +1437,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1457,8 +1446,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1470,13 +1459,13 @@ export class DeploymentsImpl implements Deployments {
         appName,
         deploymentName,
         diagnosticParameters,
-        options
+        options,
       },
-      spec: startJFROperationSpec
+      spec: startJFROperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1498,7 +1487,7 @@ export class DeploymentsImpl implements Deployments {
     appName: string,
     deploymentName: string,
     diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
+    options?: DeploymentsStartJFROptionalParams,
   ): Promise<void> {
     const poller = await this.beginStartJFR(
       resourceGroupName,
@@ -1506,7 +1495,7 @@ export class DeploymentsImpl implements Deployments {
       appName,
       deploymentName,
       diagnosticParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1525,11 +1514,11 @@ export class DeploymentsImpl implements Deployments {
     serviceName: string,
     appName: string,
     nextLink: string,
-    options?: DeploymentsListNextOptionalParams
+    options?: DeploymentsListNextOptionalParams,
   ): Promise<DeploymentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, appName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -1545,11 +1534,11 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: DeploymentsListForClusterNextOptionalParams
+    options?: DeploymentsListForClusterNextOptionalParams,
   ): Promise<DeploymentsListForClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listForClusterNextOperationSpec
+      listForClusterNextOperationSpec,
     );
   }
 }
@@ -1557,16 +1546,15 @@ export class DeploymentsImpl implements Deployments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1575,31 +1563,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     201: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     202: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     204: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.deploymentResource,
   queryParameters: [Parameters.apiVersion],
@@ -1609,15 +1596,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1625,8 +1611,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1635,31 +1621,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     201: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     202: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     204: {
-      bodyMapper: Mappers.DeploymentResource
+      bodyMapper: Mappers.DeploymentResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.deploymentResource,
   queryParameters: [Parameters.apiVersion],
@@ -1669,64 +1654,65 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResourceCollection
+      bodyMapper: Mappers.DeploymentResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.version],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentResourceCollection
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.version,
-    Parameters.expand
+    Parameters.expand,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listForClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentResourceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.version,
+    Parameters.expand,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1734,8 +1720,8 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1744,14 +1730,13 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1759,8 +1744,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1769,14 +1754,13 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/restart",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1784,8 +1768,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1794,31 +1778,30 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/enableRemoteDebugging",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/enableRemoteDebugging",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     201: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     202: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     204: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.remoteDebuggingPayload,
   queryParameters: [Parameters.apiVersion],
@@ -1828,32 +1811,31 @@ const enableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const disableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/disableRemoteDebugging",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/disableRemoteDebugging",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     201: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     202: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     204: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1862,22 +1844,21 @@ const disableRemoteDebuggingOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getRemoteDebuggingConfigOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/getRemoteDebuggingConfig",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/getRemoteDebuggingConfig",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteDebugging
+      bodyMapper: Mappers.RemoteDebugging,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1886,23 +1867,22 @@ const getRemoteDebuggingConfigOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getLogFileUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/getLogFileUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/getLogFileUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LogFileUrlResponse
+      bodyMapper: Mappers.LogFileUrlResponse,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1911,14 +1891,13 @@ const getLogFileUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateHeapDumpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateHeapDump",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateHeapDump",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1926,8 +1905,8 @@ const generateHeapDumpOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.diagnosticParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1937,15 +1916,14 @@ const generateHeapDumpOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const generateThreadDumpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateThreadDump",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateThreadDump",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1953,8 +1931,8 @@ const generateThreadDumpOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.diagnosticParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1964,15 +1942,14 @@ const generateThreadDumpOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startJFROperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/startJFR",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/startJFR",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1980,8 +1957,8 @@ const startJFROperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.diagnosticParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1991,22 +1968,22 @@ const startJFROperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.appName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResourceCollection
+      bodyMapper: Mappers.DeploymentResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -2014,29 +1991,29 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.appName
+    Parameters.appName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentResourceCollection
+      bodyMapper: Mappers.DeploymentResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

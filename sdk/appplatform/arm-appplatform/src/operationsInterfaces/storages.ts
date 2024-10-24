@@ -15,7 +15,7 @@ import {
   StoragesGetResponse,
   StoragesCreateOrUpdateOptionalParams,
   StoragesCreateOrUpdateResponse,
-  StoragesDeleteOptionalParams
+  StoragesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Storages {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: StoragesListOptionalParams
+    options?: StoragesListOptionalParams,
   ): PagedAsyncIterableIterator<StorageResource>;
   /**
    * Get the storage resource.
@@ -45,7 +45,7 @@ export interface Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesGetOptionalParams
+    options?: StoragesGetOptionalParams,
   ): Promise<StoragesGetResponse>;
   /**
    * Create or update storage resource.
@@ -61,7 +61,7 @@ export interface Storages {
     serviceName: string,
     storageName: string,
     storageResource: StorageResource,
-    options?: StoragesCreateOrUpdateOptionalParams
+    options?: StoragesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StoragesCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface Storages {
     serviceName: string,
     storageName: string,
     storageResource: StorageResource,
-    options?: StoragesCreateOrUpdateOptionalParams
+    options?: StoragesCreateOrUpdateOptionalParams,
   ): Promise<StoragesCreateOrUpdateResponse>;
   /**
    * Delete the storage resource.
@@ -96,7 +96,7 @@ export interface Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesDeleteOptionalParams
+    options?: StoragesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the storage resource.
@@ -110,6 +110,6 @@ export interface Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesDeleteOptionalParams
+    options?: StoragesDeleteOptionalParams,
   ): Promise<void>;
 }

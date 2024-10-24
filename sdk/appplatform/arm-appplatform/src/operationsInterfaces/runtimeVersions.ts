@@ -8,7 +8,7 @@
 
 import {
   RuntimeVersionsListRuntimeVersionsOptionalParams,
-  RuntimeVersionsListRuntimeVersionsResponse
+  RuntimeVersionsListRuntimeVersionsResponse,
 } from "../models";
 
 /** Interface representing a RuntimeVersions. */
@@ -18,6 +18,6 @@ export interface RuntimeVersions {
    * @param options The options parameters.
    */
   listRuntimeVersions(
-    options?: RuntimeVersionsListRuntimeVersionsOptionalParams
+    options?: RuntimeVersionsListRuntimeVersionsOptionalParams,
   ): Promise<RuntimeVersionsListRuntimeVersionsResponse>;
 }

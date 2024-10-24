@@ -14,7 +14,7 @@ import {
   MonitoringSettingsUpdatePutOptionalParams,
   MonitoringSettingsUpdatePutResponse,
   MonitoringSettingsUpdatePatchOptionalParams,
-  MonitoringSettingsUpdatePatchResponse
+  MonitoringSettingsUpdatePatchResponse,
 } from "../models";
 
 /** Interface representing a MonitoringSettings. */
@@ -29,7 +29,7 @@ export interface MonitoringSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: MonitoringSettingsGetOptionalParams
+    options?: MonitoringSettingsGetOptionalParams,
   ): Promise<MonitoringSettingsGetResponse>;
   /**
    * Update the Monitoring Setting.
@@ -43,7 +43,7 @@ export interface MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams
+    options?: MonitoringSettingsUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoringSettingsUpdatePutResponse>,
@@ -62,7 +62,7 @@ export interface MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams
+    options?: MonitoringSettingsUpdatePutOptionalParams,
   ): Promise<MonitoringSettingsUpdatePutResponse>;
   /**
    * Update the Monitoring Setting.
@@ -76,7 +76,7 @@ export interface MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams
+    options?: MonitoringSettingsUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoringSettingsUpdatePatchResponse>,
@@ -95,6 +95,6 @@ export interface MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams
+    options?: MonitoringSettingsUpdatePatchOptionalParams,
   ): Promise<MonitoringSettingsUpdatePatchResponse>;
 }
