@@ -98,17 +98,13 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
-    image: ImageData_2;
-    outputType?: string;
+    categories?: ImageCategory[];
+    image: ImageData;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
-export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
-    image: ImageDataOutput;
-    outputType?: string;
-}
+export type AnalyzeImageOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -154,20 +150,14 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
-export interface AnalyzeTextOptionsOutput {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
-    text: string;
-}
+export type AnalyzeTextOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
@@ -184,7 +174,12 @@ export type ContentSafetyClient = Client & {
 };
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ContentSafetyClient;
+export interface ContentSafetyClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
@@ -254,6 +249,52 @@ export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteTextBlocklistParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterial {
+    post(options: DetectTextProtectedMaterialParameters): StreamableMethod<DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse>;
+}
+
+// @public
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+    // (undocumented)
+    body: DetectTextProtectedMaterialResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialBodyParam {
+    body: DetectTextProtectedMaterialOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface DetectTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public (undocumented)
+export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam & RequestParameters;
+
+// @public
+export interface DetectTextProtectedMaterialResultOutput {
+    protectedMaterialAnalysis: TextProtectedMaterialAnalysisResultOutput;
+}
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -330,28 +371,30 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
 
 // @public
-interface ImageData_2 {
-    blobUrl?: string;
-    content?: string;
-}
-export { ImageData_2 as ImageData }
+export type ImageCategory = string;
 
 // @public
-export interface ImageDataOutput {
+export type ImageCategoryOutput = string;
+
+// @public
+export interface ImageData {
     blobUrl?: string;
     content?: string;
 }
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
+export function isUnexpected(response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse): response is DetectTextProtectedMaterialDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;
@@ -514,8 +557,9 @@ export interface RemoveTextBlocklistItemsOptions {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/text:analyze"): AnalyzeText;
     (path: "/image:analyze"): AnalyzeImage;
+    (path: "/text:analyze"): AnalyzeText;
+    (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
     (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
     (path: "/text/blocklists"): ListTextBlocklists;
     (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): AddOrUpdateBlocklistItems;
@@ -533,6 +577,7 @@ export interface TextBlocklist {
 // @public
 export interface TextBlocklistItem {
     description?: string;
+    isRegex?: boolean;
     text: string;
 }
 
@@ -540,6 +585,7 @@ export interface TextBlocklistItem {
 export interface TextBlocklistItemOutput {
     readonly blocklistItemId: string;
     description?: string;
+    isRegex?: boolean;
     text: string;
 }
 
@@ -561,8 +607,19 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
+}
+
+// @public
+export type TextCategory = string;
+
+// @public
+export type TextCategoryOutput = string;
+
+// @public
+export interface TextProtectedMaterialAnalysisResultOutput {
+    detected: boolean;
 }
 
 // (No @packageDocumentation comment for this package)
