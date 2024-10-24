@@ -27,7 +27,7 @@ import {
   CredentialUpdateParameters,
   CredentialUpdateOptionalParams,
   CredentialUpdateResponse,
-  CredentialListByAutomationAccountNextResponse
+  CredentialListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class CredentialOperationsImpl implements CredentialOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
+    options?: CredentialListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Credential> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class CredentialOperationsImpl implements CredentialOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: CredentialListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Credential[]> {
     let result: CredentialListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +116,12 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
+    options?: CredentialListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Credential> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     credentialName: string,
-    options?: CredentialDeleteOptionalParams
+    options?: CredentialDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, credentialName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     credentialName: string,
-    options?: CredentialGetOptionalParams
+    options?: CredentialGetOptionalParams,
   ): Promise<CredentialGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, credentialName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +178,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     automationAccountName: string,
     credentialName: string,
     parameters: CredentialCreateOrUpdateParameters,
-    options?: CredentialCreateOrUpdateOptionalParams
+    options?: CredentialCreateOrUpdateOptionalParams,
   ): Promise<CredentialCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -186,9 +186,9 @@ export class CredentialOperationsImpl implements CredentialOperations {
         automationAccountName,
         credentialName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -205,7 +205,7 @@ export class CredentialOperationsImpl implements CredentialOperations {
     automationAccountName: string,
     credentialName: string,
     parameters: CredentialUpdateParameters,
-    options?: CredentialUpdateOptionalParams
+    options?: CredentialUpdateOptionalParams,
   ): Promise<CredentialUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -213,9 +213,9 @@ export class CredentialOperationsImpl implements CredentialOperations {
         automationAccountName,
         credentialName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -228,11 +228,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
+    options?: CredentialListByAutomationAccountOptionalParams,
   ): Promise<CredentialListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -248,11 +248,11 @@ export class CredentialOperationsImpl implements CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: CredentialListByAutomationAccountNextOptionalParams
+    options?: CredentialListByAutomationAccountNextOptionalParams,
   ): Promise<CredentialListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -260,136 +260,131 @@ export class CredentialOperationsImpl implements CredentialOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.subscriptionId,
+    Parameters.credentialName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Credential,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.subscriptionId,
+    Parameters.credentialName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Credential,
     },
     201: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Credential,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.subscriptionId,
+    Parameters.credentialName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials/{credentialName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Credential
+      bodyMapper: Mappers.Credential,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.credentialName
+    Parameters.subscriptionId,
+    Parameters.credentialName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/credentials",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResult
-    }
+      bodyMapper: Mappers.CredentialListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CredentialListResult
-    }
+      bodyMapper: Mappers.CredentialListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

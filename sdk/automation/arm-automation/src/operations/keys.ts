@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
   KeysListByAutomationAccountOptionalParams,
-  KeysListByAutomationAccountResponse
+  KeysListByAutomationAccountResponse,
 } from "../models";
 
 /** Class containing Keys operations. */
@@ -37,11 +37,11 @@ export class KeysImpl implements Keys {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: KeysListByAutomationAccountOptionalParams
+    options?: KeysListByAutomationAccountOptionalParams,
   ): Promise<KeysListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class KeysImpl implements Keys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyListResult
+      bodyMapper: Mappers.KeyListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

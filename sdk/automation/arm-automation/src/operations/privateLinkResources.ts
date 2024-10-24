@@ -15,7 +15,7 @@ import { AutomationClient } from "../automationClient";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesAutomationOptionalParams,
-  PrivateLinkResourcesAutomationResponse
+  PrivateLinkResourcesAutomationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listAutomation(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: PrivateLinkResourcesAutomationOptionalParams
+    options?: PrivateLinkResourcesAutomationOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.automationPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +72,13 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     automationAccountName: string,
     options?: PrivateLinkResourcesAutomationOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesAutomationResponse;
     result = await this._automation(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,12 +86,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *automationPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: PrivateLinkResourcesAutomationOptionalParams
+    options?: PrivateLinkResourcesAutomationOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.automationPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _automation(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: PrivateLinkResourcesAutomationOptionalParams
+    options?: PrivateLinkResourcesAutomationOptionalParams,
   ): Promise<PrivateLinkResourcesAutomationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      automationOperationSpec
+      automationOperationSpec,
     );
   }
 }
@@ -118,21 +118,20 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const automationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
-    }
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

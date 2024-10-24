@@ -11,7 +11,7 @@ import {
   SourceControlSyncJobStream,
   SourceControlSyncJobStreamsListBySyncJobOptionalParams,
   SourceControlSyncJobStreamsGetOptionalParams,
-  SourceControlSyncJobStreamsGetResponse
+  SourceControlSyncJobStreamsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SourceControlSyncJobStreams {
     automationAccountName: string,
     sourceControlName: string,
     sourceControlSyncJobId: string,
-    options?: SourceControlSyncJobStreamsListBySyncJobOptionalParams
+    options?: SourceControlSyncJobStreamsListBySyncJobOptionalParams,
   ): PagedAsyncIterableIterator<SourceControlSyncJobStream>;
   /**
    * Retrieve a sync job stream identified by stream id.
@@ -47,6 +47,6 @@ export interface SourceControlSyncJobStreams {
     sourceControlName: string,
     sourceControlSyncJobId: string,
     streamId: string,
-    options?: SourceControlSyncJobStreamsGetOptionalParams
+    options?: SourceControlSyncJobStreamsGetOptionalParams,
   ): Promise<SourceControlSyncJobStreamsGetResponse>;
 }

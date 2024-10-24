@@ -6,7 +6,7 @@ Automation Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/automation/arm-automation) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-automation) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-automation?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-automation) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
