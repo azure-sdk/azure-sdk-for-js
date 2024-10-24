@@ -7,7 +7,8 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Service } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper";
+import { ChaosFault } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,24 +20,24 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ServiceResource,
-  ServiceListOptionalParams,
-  ServiceListResponse,
-  ServiceResourceCreateUpdateParameters,
-  ServiceCreateOptionalParams,
-  ServiceCreateResponse,
-  ServiceGetOptionalParams,
-  ServiceGetResponse,
-  ServiceDeleteOptionalParams,
+  ChaosFaultResource,
+  ChaosFaultListNextOptionalParams,
+  ChaosFaultListOptionalParams,
+  ChaosFaultListOperationResponse,
+  ChaosFaultEnableDisableOptionalParams,
+  ChaosFaultEnableDisableResponse,
+  ChaosFaultGetOptionalParams,
+  ChaosFaultGetResponse,
+  ChaosFaultListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Service operations. */
-export class ServiceImpl implements Service {
+/** Class containing ChaosFault operations. */
+export class ChaosFaultImpl implements ChaosFault {
   private readonly client: CosmosDBManagementClient;
 
   /**
-   * Initialize a new instance of the class Service class.
+   * Initialize a new instance of the class ChaosFault class.
    * @param client Reference to the service client
    */
   constructor(client: CosmosDBManagementClient) {
@@ -44,7 +45,7 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Gets the status of service.
+   * List Chaos Faults for CosmosDB account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
@@ -52,8 +53,8 @@ export class ServiceImpl implements Service {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): PagedAsyncIterableIterator<ServiceResource> {
+    options?: ChaosFaultListOptionalParams,
+  ): PagedAsyncIterableIterator<ChaosFaultResource> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
@@ -79,19 +80,37 @@ export class ServiceImpl implements Service {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<ServiceResource[]> {
-    let result: ServiceListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
+    options?: ChaosFaultListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ChaosFaultResource[]> {
+    let result: ChaosFaultListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): AsyncIterableIterator<ServiceResource> {
+    options?: ChaosFaultListOptionalParams,
+  ): AsyncIterableIterator<ChaosFaultResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
@@ -102,7 +121,7 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Gets the status of service.
+   * List Chaos Faults for CosmosDB account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
@@ -110,8 +129,8 @@ export class ServiceImpl implements Service {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): Promise<ServiceListResponse> {
+    options?: ChaosFaultListOptionalParams,
+  ): Promise<ChaosFaultListOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec,
@@ -119,29 +138,29 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Creates a service.
+   * Enable, disable Chaos Fault in a CosmosDB account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
+   * @param chaosFault The name of the ChaosFault.
+   * @param chaosFaultRequest A request object to enable/disable the chaos fault.
    * @param options The options parameters.
    */
-  async beginCreate(
+  async beginEnableDisable(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams,
+    chaosFault: string,
+    chaosFaultRequest: ChaosFaultResource,
+    options?: ChaosFaultEnableDisableOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ServiceCreateResponse>,
-      ServiceCreateResponse
+      OperationState<ChaosFaultEnableDisableResponse>,
+      ChaosFaultEnableDisableResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ServiceCreateResponse> => {
+    ): Promise<ChaosFaultEnableDisableResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -181,162 +200,96 @@ export class ServiceImpl implements Service {
       args: {
         resourceGroupName,
         accountName,
-        serviceName,
-        createUpdateParameters,
+        chaosFault,
+        chaosFaultRequest,
         options,
       },
-      spec: createOperationSpec,
+      spec: enableDisableOperationSpec,
     });
     const poller = await createHttpPoller<
-      ServiceCreateResponse,
-      OperationState<ServiceCreateResponse>
+      ChaosFaultEnableDisableResponse,
+      OperationState<ChaosFaultEnableDisableResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a service.
+   * Enable, disable Chaos Fault in a CosmosDB account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
+   * @param chaosFault The name of the ChaosFault.
+   * @param chaosFaultRequest A request object to enable/disable the chaos fault.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginEnableDisableAndWait(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams,
-  ): Promise<ServiceCreateResponse> {
-    const poller = await this.beginCreate(
+    chaosFault: string,
+    chaosFaultRequest: ChaosFaultResource,
+    options?: ChaosFaultEnableDisableOptionalParams,
+  ): Promise<ChaosFaultEnableDisableResponse> {
+    const poller = await this.beginEnableDisable(
       resourceGroupName,
       accountName,
-      serviceName,
-      createUpdateParameters,
+      chaosFault,
+      chaosFaultRequest,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets the status of service.
+   * Get Chaos Fault for a CosmosdB account for a particular Chaos Fault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param chaosFault The name of the ChaosFault.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceGetOptionalParams,
-  ): Promise<ServiceGetResponse> {
+    chaosFault: string,
+    options?: ChaosFaultGetOptionalParams,
+  ): Promise<ChaosFaultGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, serviceName, options },
+      { resourceGroupName, accountName, chaosFault, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Deletes service with the given serviceName.
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  async beginDelete(
+  private _listNext(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, accountName, serviceName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes service with the given serviceName.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      serviceName,
-      options,
+    nextLink: string,
+    options?: ChaosFaultListNextOptionalParams,
+  ): Promise<ChaosFaultListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listNextOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/chaosFaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResourceListResult,
+      bodyMapper: Mappers.ChaosFaultListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -352,45 +305,45 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
+const enableDisableOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/chaosFaults/{chaosFault}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResource,
+      bodyMapper: Mappers.ChaosFaultResource,
     },
     201: {
-      bodyMapper: Mappers.ServiceResource,
+      bodyMapper: Mappers.ChaosFaultResource,
     },
     202: {
-      bodyMapper: Mappers.ServiceResource,
+      bodyMapper: Mappers.ChaosFaultResource,
     },
     204: {
-      bodyMapper: Mappers.ServiceResource,
+      bodyMapper: Mappers.ChaosFaultResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.createUpdateParameters1,
+  requestBody: Parameters.chaosFaultRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.serviceName,
+    Parameters.chaosFault,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/chaosFaults/{chaosFault}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResource,
+      bodyMapper: Mappers.ChaosFaultResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -402,30 +355,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.serviceName,
+    Parameters.chaosFault,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
-  httpMethod: "DELETE",
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ChaosFaultListResponse,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.serviceName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
