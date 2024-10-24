@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Service } from "../operationsInterfaces";
+import { GraphResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,24 +19,24 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ServiceResource,
-  ServiceListOptionalParams,
-  ServiceListResponse,
-  ServiceResourceCreateUpdateParameters,
-  ServiceCreateOptionalParams,
-  ServiceCreateResponse,
-  ServiceGetOptionalParams,
-  ServiceGetResponse,
-  ServiceDeleteOptionalParams,
+  GraphResourceGetResults,
+  GraphResourcesListGraphsOptionalParams,
+  GraphResourcesListGraphsResponse,
+  GraphResourcesGetGraphOptionalParams,
+  GraphResourcesGetGraphResponse,
+  GraphResourceCreateUpdateParameters,
+  GraphResourcesCreateUpdateGraphOptionalParams,
+  GraphResourcesCreateUpdateGraphResponse,
+  GraphResourcesDeleteGraphResourceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Service operations. */
-export class ServiceImpl implements Service {
+/** Class containing GraphResources operations. */
+export class GraphResourcesImpl implements GraphResources {
   private readonly client: CosmosDBManagementClient;
 
   /**
-   * Initialize a new instance of the class Service class.
+   * Initialize a new instance of the class GraphResources class.
    * @param client Reference to the service client
    */
   constructor(client: CosmosDBManagementClient) {
@@ -44,17 +44,21 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Gets the status of service.
+   * Lists the graphs under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
    */
-  public list(
+  public listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): PagedAsyncIterableIterator<ServiceResource> {
-    const iter = this.listPagingAll(resourceGroupName, accountName, options);
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): PagedAsyncIterableIterator<GraphResourceGetResults> {
+    const iter = this.listGraphsPagingAll(
+      resourceGroupName,
+      accountName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -66,7 +70,7 @@ export class ServiceImpl implements Service {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listGraphsPagingPage(
           resourceGroupName,
           accountName,
           options,
@@ -76,23 +80,23 @@ export class ServiceImpl implements Service {
     };
   }
 
-  private async *listPagingPage(
+  private async *listGraphsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
+    options?: GraphResourcesListGraphsOptionalParams,
     _settings?: PageSettings,
-  ): AsyncIterableIterator<ServiceResource[]> {
-    let result: ServiceListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
+  ): AsyncIterableIterator<GraphResourceGetResults[]> {
+    let result: GraphResourcesListGraphsResponse;
+    result = await this._listGraphs(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
-  private async *listPagingAll(
+  private async *listGraphsPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): AsyncIterableIterator<ServiceResource> {
-    for await (const page of this.listPagingPage(
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): AsyncIterableIterator<GraphResourceGetResults> {
+    for await (const page of this.listGraphsPagingPage(
       resourceGroupName,
       accountName,
       options,
@@ -102,46 +106,65 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Gets the status of service.
+   * Lists the graphs under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The options parameters.
    */
-  private _list(
+  private _listGraphs(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams,
-  ): Promise<ServiceListResponse> {
+    options?: GraphResourcesListGraphsOptionalParams,
+  ): Promise<GraphResourcesListGraphsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec,
+      listGraphsOperationSpec,
     );
   }
 
   /**
-   * Creates a service.
+   * Gets the Graph resource under an existing Azure Cosmos DB database account with the provided name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  async beginCreate(
+  getGraph(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams,
+    graphName: string,
+    options?: GraphResourcesGetGraphOptionalParams,
+  ): Promise<GraphResourcesGetGraphResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, graphName, options },
+      getGraphOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update an Azure Cosmos DB Graph.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param graphName Cosmos DB graph resource name.
+   * @param createUpdateGraphParameters The parameters to provide for the current graph.
+   * @param options The options parameters.
+   */
+  async beginCreateUpdateGraph(
+    resourceGroupName: string,
+    accountName: string,
+    graphName: string,
+    createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ServiceCreateResponse>,
-      ServiceCreateResponse
+      OperationState<GraphResourcesCreateUpdateGraphResponse>,
+      GraphResourcesCreateUpdateGraphResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ServiceCreateResponse> => {
+    ): Promise<GraphResourcesCreateUpdateGraphResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -181,15 +204,15 @@ export class ServiceImpl implements Service {
       args: {
         resourceGroupName,
         accountName,
-        serviceName,
-        createUpdateParameters,
+        graphName,
+        createUpdateGraphParameters,
         options,
       },
-      spec: createOperationSpec,
+      spec: createUpdateGraphOperationSpec,
     });
     const poller = await createHttpPoller<
-      ServiceCreateResponse,
-      OperationState<ServiceCreateResponse>
+      GraphResourcesCreateUpdateGraphResponse,
+      OperationState<GraphResourcesCreateUpdateGraphResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -199,61 +222,42 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Creates a service.
+   * Create or update an Azure Cosmos DB Graph.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param createUpdateParameters The Service resource parameters.
+   * @param graphName Cosmos DB graph resource name.
+   * @param createUpdateGraphParameters The parameters to provide for the current graph.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateUpdateGraphAndWait(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    createUpdateParameters: ServiceResourceCreateUpdateParameters,
-    options?: ServiceCreateOptionalParams,
-  ): Promise<ServiceCreateResponse> {
-    const poller = await this.beginCreate(
+    graphName: string,
+    createUpdateGraphParameters: GraphResourceCreateUpdateParameters,
+    options?: GraphResourcesCreateUpdateGraphOptionalParams,
+  ): Promise<GraphResourcesCreateUpdateGraphResponse> {
+    const poller = await this.beginCreateUpdateGraph(
       resourceGroupName,
       accountName,
-      serviceName,
-      createUpdateParameters,
+      graphName,
+      createUpdateGraphParameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets the status of service.
+   * Deletes an existing Azure Cosmos DB Graph Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  get(
+  async beginDeleteGraphResource(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceGetOptionalParams,
-  ): Promise<ServiceGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, serviceName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes service with the given serviceName.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams,
+    graphName: string,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -295,8 +299,8 @@ export class ServiceImpl implements Service {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, accountName, serviceName, options },
-      spec: deleteOperationSpec,
+      args: { resourceGroupName, accountName, graphName, options },
+      spec: deleteGraphResourceOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
@@ -307,22 +311,22 @@ export class ServiceImpl implements Service {
   }
 
   /**
-   * Deletes service with the given serviceName.
+   * Deletes an existing Azure Cosmos DB Graph Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
-   * @param serviceName Cosmos DB service name.
+   * @param graphName Cosmos DB graph resource name.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginDeleteGraphResourceAndWait(
     resourceGroupName: string,
     accountName: string,
-    serviceName: string,
-    options?: ServiceDeleteOptionalParams,
+    graphName: string,
+    options?: GraphResourcesDeleteGraphResourceOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
+    const poller = await this.beginDeleteGraphResource(
       resourceGroupName,
       accountName,
-      serviceName,
+      graphName,
       options,
     );
     return poller.pollUntilDone();
@@ -331,15 +335,12 @@ export class ServiceImpl implements Service {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services",
+const listGraphsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResourceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.GraphResourcesListResult,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -352,81 +353,66 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
-  httpMethod: "PUT",
+const getGraphOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceResource,
-    },
-    201: {
-      bodyMapper: Mappers.ServiceResource,
-    },
-    202: {
-      bodyMapper: Mappers.ServiceResource,
-    },
-    204: {
-      bodyMapper: Mappers.ServiceResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.GraphResourceGetResults,
     },
   },
-  requestBody: Parameters.createUpdateParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.serviceName,
+    Parameters.graphName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createUpdateGraphOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GraphResourceGetResults,
+    },
+    201: {
+      bodyMapper: Mappers.GraphResourceGetResults,
+    },
+    202: {
+      bodyMapper: Mappers.GraphResourceGetResults,
+    },
+    204: {
+      bodyMapper: Mappers.GraphResourceGetResults,
+    },
+  },
+  requestBody: Parameters.createUpdateGraphParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.graphName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.serviceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}",
+const deleteGraphResourceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.serviceName,
+    Parameters.graphName,
   ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
