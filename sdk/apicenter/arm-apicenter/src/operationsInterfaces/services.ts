@@ -23,6 +23,9 @@ import {
   MetadataSchemaExportRequest,
   ServicesExportMetadataSchemaOptionalParams,
   ServicesExportMetadataSchemaResponse,
+  ImportFromApimRequest,
+  ServicesImportFromApimOptionalParams,
+  ServicesImportFromApimResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -123,4 +126,35 @@ export interface Services {
     body: MetadataSchemaExportRequest,
     options?: ServicesExportMetadataSchemaOptionalParams,
   ): Promise<ServicesExportMetadataSchemaResponse>;
+  /**
+   * Imports APIs from Azure API Management.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportFromApim(
+    resourceGroupName: string,
+    serviceName: string,
+    body: ImportFromApimRequest,
+    options?: ServicesImportFromApimOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesImportFromApimResponse>,
+      ServicesImportFromApimResponse
+    >
+  >;
+  /**
+   * Imports APIs from Azure API Management.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportFromApimAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    body: ImportFromApimRequest,
+    options?: ServicesImportFromApimOptionalParams,
+  ): Promise<ServicesImportFromApimResponse>;
 }

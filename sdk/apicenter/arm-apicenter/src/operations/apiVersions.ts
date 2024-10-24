@@ -384,7 +384,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource5,
+  requestBody: Parameters.resource6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

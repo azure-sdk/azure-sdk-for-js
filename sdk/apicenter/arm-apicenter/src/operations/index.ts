@@ -7,9 +7,11 @@
  */
 
 export * from "./operations";
+export * from "./deletedServices";
 export * from "./services";
 export * from "./metadataSchemas";
 export * from "./workspaces";
+export * from "./apiSources";
 export * from "./apis";
 export * from "./deployments";
 export * from "./apiVersions";
