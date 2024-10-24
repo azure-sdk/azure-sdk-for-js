@@ -6,15 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  CreateResourceSupportedResponse,
   CreationSupportedListOptionalParams,
+  CreationSupportedListResponse,
   CreationSupportedGetOptionalParams,
-  CreationSupportedGetResponse
+  CreationSupportedGetResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a CreationSupported. */
 export interface CreationSupported {
   /**
@@ -24,8 +22,8 @@ export interface CreationSupported {
    */
   list(
     datadogOrganizationId: string,
-    options?: CreationSupportedListOptionalParams
-  ): PagedAsyncIterableIterator<CreateResourceSupportedResponse>;
+    options?: CreationSupportedListOptionalParams,
+  ): Promise<CreationSupportedListResponse>;
   /**
    * Informs if the current subscription is being already monitored for selected Datadog organization.
    * @param datadogOrganizationId Datadog Organization Id
@@ -33,6 +31,6 @@ export interface CreationSupported {
    */
   get(
     datadogOrganizationId: string,
-    options?: CreationSupportedGetOptionalParams
+    options?: CreationSupportedGetOptionalParams,
   ): Promise<CreationSupportedGetResponse>;
 }

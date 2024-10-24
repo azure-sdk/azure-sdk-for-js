@@ -6,21 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  MonitoredSubscriptionProperties,
   MonitoredSubscriptionsListOptionalParams,
+  MonitoredSubscriptionsListResponse,
   MonitoredSubscriptionsGetOptionalParams,
   MonitoredSubscriptionsGetResponse,
   MonitoredSubscriptionsCreateorUpdateOptionalParams,
   MonitoredSubscriptionsCreateorUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
-  MonitoredSubscriptionsDeleteOptionalParams
+  MonitoredSubscriptionsDeleteOptionalParams,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a MonitoredSubscriptions. */
 export interface MonitoredSubscriptions {
   /**
@@ -32,8 +30,8 @@ export interface MonitoredSubscriptions {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
-  ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): Promise<MonitoredSubscriptionsListResponse>;
   /**
    * List the subscriptions currently being monitored by the Datadog monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -45,7 +43,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsGetOptionalParams
+    options?: MonitoredSubscriptionsGetOptionalParams,
   ): Promise<MonitoredSubscriptionsGetResponse>;
   /**
    * Add the subscriptions that should be monitored by the Datadog monitor resource.
@@ -58,7 +56,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
@@ -76,7 +74,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -89,7 +87,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsUpdateResponse>,
@@ -107,7 +105,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -120,7 +118,7 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
@@ -133,6 +131,6 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
 }

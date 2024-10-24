@@ -16,7 +16,7 @@ import { MicrosoftDatadogClient } from "../microsoftDatadogClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -28,13 +28,14 @@ import {
   SingleSignOnConfigurationsCreateOrUpdateResponse,
   SingleSignOnConfigurationsGetOptionalParams,
   SingleSignOnConfigurationsGetResponse,
-  SingleSignOnConfigurationsListNextResponse
+  SingleSignOnConfigurationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SingleSignOnConfigurations operations. */
 export class SingleSignOnConfigurationsImpl
-  implements SingleSignOnConfigurations {
+  implements SingleSignOnConfigurations
+{
   private readonly client: MicrosoftDatadogClient;
 
   /**
@@ -54,7 +55,7 @@ export class SingleSignOnConfigurationsImpl
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogSingleSignOnResource> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -72,9 +73,9 @@ export class SingleSignOnConfigurationsImpl
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +83,7 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     options?: SingleSignOnConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatadogSingleSignOnResource[]> {
     let result: SingleSignOnConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class SingleSignOnConfigurationsImpl
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +111,12 @@ export class SingleSignOnConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): AsyncIterableIterator<DatadogSingleSignOnResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +131,11 @@ export class SingleSignOnConfigurationsImpl
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): Promise<SingleSignOnConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,7 +150,7 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
@@ -158,21 +159,20 @@ export class SingleSignOnConfigurationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +181,8 @@ export class SingleSignOnConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,15 +190,15 @@ export class SingleSignOnConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, configurationName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SingleSignOnConfigurationsCreateOrUpdateResponse,
@@ -206,7 +206,7 @@ export class SingleSignOnConfigurationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -223,13 +223,13 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -245,11 +245,11 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsGetOptionalParams
+    options?: SingleSignOnConfigurationsGetOptionalParams,
   ): Promise<SingleSignOnConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -264,11 +264,11 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: SingleSignOnConfigurationsListNextOptionalParams
+    options?: SingleSignOnConfigurationsListNextOptionalParams,
   ): Promise<SingleSignOnConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -276,47 +276,45 @@ export class SingleSignOnConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
+      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     201: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     202: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     204: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -325,23 +323,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -349,29 +346,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
+      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
