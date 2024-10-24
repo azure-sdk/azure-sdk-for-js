@@ -1,0 +1,4 @@
+directory: specification/symphony/Symphony.Management
+commit: 41b846c44df6c296c163d25a9f37dc655cf3d6ec
+repo: ../azure-rest-api-specs
+additionalDirectories: 
