@@ -26,8 +26,14 @@ import {
   LicenseProfilesImpl,
   MachineExtensionsImpl,
   ExtensionMetadataImpl,
+  ExtensionMetadataV2Impl,
+  ExtensionTypeOperationsImpl,
+  ExtensionPublisherOperationsImpl,
   OperationsImpl,
   NetworkProfileOperationsImpl,
+  MachineRunCommandsImpl,
+  GatewaysImpl,
+  SettingsOperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
@@ -39,8 +45,14 @@ import {
   LicenseProfiles,
   MachineExtensions,
   ExtensionMetadata,
+  ExtensionMetadataV2,
+  ExtensionTypeOperations,
+  ExtensionPublisherOperations,
   Operations,
   NetworkProfileOperations,
+  MachineRunCommands,
+  Gateways,
+  SettingsOperations,
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections,
@@ -52,12 +64,15 @@ import {
   HybridComputeManagementClientOptionalParams,
   MachineExtensionUpgrade,
   UpgradeExtensionsOptionalParams,
+  MachineExtensionSetup,
+  SetupExtensionsOptionalParams,
+  SetupExtensionsResponse,
 } from "./models";
 
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HybridComputeManagementClient class.
@@ -69,12 +84,28 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: HybridComputeManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: HybridComputeManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | HybridComputeManagementClientOptionalParams
+      | string,
+    options?: HybridComputeManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -86,7 +117,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/5.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,14 +171,22 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-07-10";
+    this.apiVersion = options.apiVersion || "2024-09-10-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
     this.licenseProfiles = new LicenseProfilesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);
+    this.extensionMetadataV2 = new ExtensionMetadataV2Impl(this);
+    this.extensionTypeOperations = new ExtensionTypeOperationsImpl(this);
+    this.extensionPublisherOperations = new ExtensionPublisherOperationsImpl(
+      this,
+    );
     this.operations = new OperationsImpl(this);
     this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
+    this.machineRunCommands = new MachineRunCommandsImpl(this);
+    this.gateways = new GatewaysImpl(this);
+    this.settingsOperations = new SettingsOperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -275,13 +314,113 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     return poller.pollUntilDone();
   }
 
+  /**
+   * The operation to Setup Machine Extensions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName The name of the hybrid machine.
+   * @param extensionSetupBody Parameters supplied to the Setup Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginSetupExtensions(
+    resourceGroupName: string,
+    machineName: string,
+    extensionSetupBody: MachineExtensionSetup,
+    options?: SetupExtensionsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SetupExtensionsResponse>,
+      SetupExtensionsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SetupExtensionsResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, machineName, extensionSetupBody, options },
+      spec: setupExtensionsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SetupExtensionsResponse,
+      OperationState<SetupExtensionsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to Setup Machine Extensions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName The name of the hybrid machine.
+   * @param extensionSetupBody Parameters supplied to the Setup Extensions operation.
+   * @param options The options parameters.
+   */
+  async beginSetupExtensionsAndWait(
+    resourceGroupName: string,
+    machineName: string,
+    extensionSetupBody: MachineExtensionSetup,
+    options?: SetupExtensionsOptionalParams,
+  ): Promise<SetupExtensionsResponse> {
+    const poller = await this.beginSetupExtensions(
+      resourceGroupName,
+      machineName,
+      extensionSetupBody,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
   licenses: Licenses;
   machines: Machines;
   licenseProfiles: LicenseProfiles;
   machineExtensions: MachineExtensions;
   extensionMetadata: ExtensionMetadata;
+  extensionMetadataV2: ExtensionMetadataV2;
+  extensionTypeOperations: ExtensionTypeOperations;
+  extensionPublisherOperations: ExtensionPublisherOperations;
   operations: Operations;
   networkProfileOperations: NetworkProfileOperations;
+  machineRunCommands: MachineRunCommands;
+  gateways: Gateways;
+  settingsOperations: SettingsOperations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
@@ -303,6 +442,38 @@ const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.extensionUpgradeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.machineName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const setupExtensionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/setupExtensions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MachineExtensionSetup,
+    },
+    201: {
+      bodyMapper: Mappers.MachineExtensionSetup,
+    },
+    202: {
+      bodyMapper: Mappers.MachineExtensionSetup,
+    },
+    204: {
+      bodyMapper: Mappers.MachineExtensionSetup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.extensionSetupBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
