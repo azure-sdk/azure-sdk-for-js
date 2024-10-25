@@ -32,7 +32,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   public list(
@@ -73,7 +73,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
   private _list(
