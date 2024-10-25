@@ -13,7 +13,7 @@ import {
   NodeReportsGetOptionalParams,
   NodeReportsGetResponse,
   NodeReportsGetContentOptionalParams,
-  NodeReportsGetContentResponse
+  NodeReportsGetContentResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NodeReports {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: NodeReportsListByNodeOptionalParams
+    options?: NodeReportsListByNodeOptionalParams,
   ): PagedAsyncIterableIterator<DscNodeReport>;
   /**
    * Retrieve the Dsc node report data by node id and report id.
@@ -45,7 +45,7 @@ export interface NodeReports {
     automationAccountName: string,
     nodeId: string,
     reportId: string,
-    options?: NodeReportsGetOptionalParams
+    options?: NodeReportsGetOptionalParams,
   ): Promise<NodeReportsGetResponse>;
   /**
    * Retrieve the Dsc node reports by node id and report id.
@@ -60,6 +60,6 @@ export interface NodeReports {
     automationAccountName: string,
     nodeId: string,
     reportId: string,
-    options?: NodeReportsGetContentOptionalParams
+    options?: NodeReportsGetContentOptionalParams,
   ): Promise<NodeReportsGetContentResponse>;
 }

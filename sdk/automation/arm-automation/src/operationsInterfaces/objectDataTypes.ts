@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TypeField,
   ObjectDataTypesListFieldsByModuleAndTypeOptionalParams,
-  ObjectDataTypesListFieldsByTypeOptionalParams
+  ObjectDataTypesListFieldsByTypeOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ObjectDataTypes {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: ObjectDataTypesListFieldsByModuleAndTypeOptionalParams
+    options?: ObjectDataTypesListFieldsByModuleAndTypeOptionalParams,
   ): PagedAsyncIterableIterator<TypeField>;
   /**
    * Retrieve a list of fields of a given type across all accessible modules.
@@ -42,6 +42,6 @@ export interface ObjectDataTypes {
     resourceGroupName: string,
     automationAccountName: string,
     typeName: string,
-    options?: ObjectDataTypesListFieldsByTypeOptionalParams
+    options?: ObjectDataTypesListFieldsByTypeOptionalParams,
   ): PagedAsyncIterableIterator<TypeField>;
 }

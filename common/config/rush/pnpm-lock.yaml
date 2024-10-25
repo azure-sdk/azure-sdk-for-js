@@ -13228,7 +13228,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-ovqSsjmpanZlHE7jGFez0QtgBczzu0h9Pf3OSDOX0DA7Z5emiI30khpmZWzastRte9PYiRrh0JOxjGKvM36YOg==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-pomyFwssViSgXCIWCvhYfYIojp++lf+CHsEdqHZyoAUx95RNsHX1A1kDsylo2K6cKmtsNxhrn+FH6BYYwXAN6Q==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -13246,9 +13246,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
       tslib: 2.8.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14229,7 +14230,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-2v6rqNsp3P65qn1zTQugNY4WpyjrpSlNV4fJiakvfiwyCdgDP7roXWbcXGfrp3KDJXH0soobfEehPV8zfDfWJw==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-isHxEpq7bScszTE3o6ML/F7FgseAxz0jzQ3QvL06v/O+x7cW+0eSKoIxnFy0qGk4DvUqGJylr2FtoVBmAKGmvA==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -15247,7 +15248,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-dy6sMLYtkbQs07JJoBu5N5PkTJ7i0fVLW3Gdl894VJaww9EFAYc9pCrMLhsOSBLvmfzgwpyAY2L1DGg7h5Yi4Q==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-5/gwmooleUnum1LJ7BaIOssENX8rSEtb6cy1TK3nh1CCzNlXIH+G5QF16/KPT4+OH6+WdAwLjrATGxX/caI6gg==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
