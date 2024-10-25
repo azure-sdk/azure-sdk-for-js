@@ -1,5 +1,46 @@
 # Release History
     
+## 9.2.0-beta.2 (2024-10-25)
+Compared with version 9.1.0
+    
+### Features Added
+
+  - Added operation group ContainerGroupProfileOperations
+  - Added operation group ContainerGroupProfiles
+  - Added Interface ConfigMap
+  - Added Interface ContainerGroupProfile
+  - Added Interface ContainerGroupProfileGetByRevisionNumberOptionalParams
+  - Added Interface ContainerGroupProfileListAllRevisionsNextOptionalParams
+  - Added Interface ContainerGroupProfileListAllRevisionsOptionalParams
+  - Added Interface ContainerGroupProfileListResult
+  - Added Interface ContainerGroupProfilePatch
+  - Added Interface ContainerGroupProfileProperties
+  - Added Interface ContainerGroupProfileReferenceDefinition
+  - Added Interface ContainerGroupProfilesCreateOrUpdateOptionalParams
+  - Added Interface ContainerGroupProfilesDeleteOptionalParams
+  - Added Interface ContainerGroupProfilesGetOptionalParams
+  - Added Interface ContainerGroupProfilesListByResourceGroupNextOptionalParams
+  - Added Interface ContainerGroupProfilesListByResourceGroupOptionalParams
+  - Added Interface ContainerGroupProfilesListNextOptionalParams
+  - Added Interface ContainerGroupProfilesListOptionalParams
+  - Added Interface ContainerGroupProfilesPatchOptionalParams
+  - Added Interface StandbyPoolProfileDefinition
+  - Added Type Alias ContainerGroupProfileGetByRevisionNumberResponse
+  - Added Type Alias ContainerGroupProfileListAllRevisionsNextResponse
+  - Added Type Alias ContainerGroupProfileListAllRevisionsResponse
+  - Added Type Alias ContainerGroupProfilesCreateOrUpdateResponse
+  - Added Type Alias ContainerGroupProfilesGetResponse
+  - Added Type Alias ContainerGroupProfilesListByResourceGroupNextResponse
+  - Added Type Alias ContainerGroupProfilesListByResourceGroupResponse
+  - Added Type Alias ContainerGroupProfilesListNextResponse
+  - Added Type Alias ContainerGroupProfilesListResponse
+  - Added Type Alias ContainerGroupProfilesPatchResponse
+  - Interface Container has a new optional parameter configMap
+  - Interface ContainerGroupProperties has a new optional parameter containerGroupProfile
+  - Interface ContainerGroupProperties has a new optional parameter isCreatedFromStandbyPool
+  - Interface ContainerGroupProperties has a new optional parameter standbyPoolProfile
+    
+    
 ## 9.2.0-beta.1 (2024-10-18)
 Compared with version 9.1.0
     
