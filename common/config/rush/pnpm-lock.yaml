@@ -12897,7 +12897,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-UbyyHFu8AAkdsh3DvfJrpsBBwrJqrNDPcqC+VQ8NQn3A+HjF/JREqyJjG7O2YXKmL4eaifjSBs+X31r845XcGg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-lAB34jni0E5NxSCTVSAgCFPMJBNqFk6sxe0VRDA1j0VNVZyFgjh6I8gTCg2ziDmwWCX6yp2RVUEzepT2G0T0bw==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -12915,10 +12915,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14226,7 +14226,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-2v6rqNsp3P65qn1zTQugNY4WpyjrpSlNV4fJiakvfiwyCdgDP7roXWbcXGfrp3KDJXH0soobfEehPV8zfDfWJw==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-isHxEpq7bScszTE3o6ML/F7FgseAxz0jzQ3QvL06v/O+x7cW+0eSKoIxnFy0qGk4DvUqGJylr2FtoVBmAKGmvA==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
