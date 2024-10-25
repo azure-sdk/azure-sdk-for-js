@@ -14,7 +14,7 @@ import {
   SourceControlSyncJobCreateOptionalParams,
   SourceControlSyncJobCreateResponse,
   SourceControlSyncJobGetOptionalParams,
-  SourceControlSyncJobGetResponse
+  SourceControlSyncJobGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface SourceControlSyncJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlSyncJobListByAutomationAccountOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<SourceControlSyncJob>;
   /**
    * Creates the sync job for a source control.
@@ -48,7 +48,7 @@ export interface SourceControlSyncJobOperations {
     sourceControlName: string,
     sourceControlSyncJobId: string,
     parameters: SourceControlSyncJobCreateParameters,
-    options?: SourceControlSyncJobCreateOptionalParams
+    options?: SourceControlSyncJobCreateOptionalParams,
   ): Promise<SourceControlSyncJobCreateResponse>;
   /**
    * Retrieve the source control sync job identified by job id.
@@ -63,6 +63,6 @@ export interface SourceControlSyncJobOperations {
     automationAccountName: string,
     sourceControlName: string,
     sourceControlSyncJobId: string,
-    options?: SourceControlSyncJobGetOptionalParams
+    options?: SourceControlSyncJobGetOptionalParams,
   ): Promise<SourceControlSyncJobGetResponse>;
 }
