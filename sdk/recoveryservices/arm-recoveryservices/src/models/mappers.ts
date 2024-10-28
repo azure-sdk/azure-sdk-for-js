@@ -596,6 +596,252 @@ export const CapabilitiesResponseProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const DeletedVaultList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVaultList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeletedVault",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedVault: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVault",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeletedVaultProperties",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVaultProperties",
+    modelProperties: {
+      vaultId: {
+        serializedName: "vaultId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      vaultDeletionTime: {
+        serializedName: "vaultDeletionTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      purgeAt: {
+        serializedName: "purgeAt",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedVaultUndeleteInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVaultUndeleteInput",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeletedVaultUndeleteInputProperties",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedVaultUndeleteInputProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVaultUndeleteInputProperties",
+    modelProperties: {
+      recoveryResourceGroupId: {
+        serializedName: "recoveryResourceGroupId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const OperationResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationResource",
+    modelProperties: {
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel",
+        },
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const VaultList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1610,26 +1856,26 @@ export const ClientDiscoveryForLogSpecification: coreClient.CompositeMapper = {
   },
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const ErrorResponseAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "ErrorResponseAutoGenerated",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail",
+          className: "ErrorDetailAutoGenerated",
         },
       },
     },
   },
 };
 
-export const ErrorDetail: coreClient.CompositeMapper = {
+export const ErrorDetailAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorDetail",
+    className: "ErrorDetailAutoGenerated",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -1660,7 +1906,7 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail",
+              className: "ErrorDetailAutoGenerated",
             },
           },
         },
@@ -1676,52 +1922,6 @@ export const ErrorDetail: coreClient.CompositeMapper = {
               className: "ErrorAdditionalInfo",
             },
           },
-        },
-      },
-    },
-  },
-};
-
-export const OperationResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationResource",
-    modelProperties: {
-      endTime: {
-        serializedName: "endTime",
-        type: {
-          name: "DateTime",
-        },
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorModel",
-        },
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String",
-        },
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime",
         },
       },
     },
@@ -2111,6 +2311,27 @@ export const PatchVault: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IdentityData",
+        },
+      },
+    },
+  },
+};
+
+export const DeletedVaultsUndeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeletedVaultsUndeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
