@@ -1,5 +1,29 @@
 # Release History
     
+## 4.0.0 (2024-10-28)
+    
+### Features Added
+
+  - Added operation WorkspaceConnections.update
+  - Added Interface AzureMachineLearningServicesMgmtClientOptionalParams
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacesDeleteHeaders
+  - Added Class AzureMachineLearningServicesMgmtClient
+  - Added Type Alias FirewallSku
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Added Enum KnownFirewallSku
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value Pinecone
+
+### Breaking Changes
+
+  - Deleted Class AzureMachineLearningServicesManagementClient
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
