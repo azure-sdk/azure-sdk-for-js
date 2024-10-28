@@ -16,7 +16,7 @@ import { DashboardManagementClient } from "../dashboardManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
   ManagedPrivateEndpointsDeleteOptionalParams,
-  ManagedPrivateEndpointsListNextResponse
+  ManagedPrivateEndpointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpointModel> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -76,9 +76,9 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     options?: ManagedPrivateEndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedPrivateEndpointModel[]> {
     let result: ManagedPrivateEndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): AsyncIterableIterator<ManagedPrivateEndpointModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): Promise<ManagedPrivateEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -151,25 +151,24 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   async beginRefresh(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams
+    options?: ManagedPrivateEndpointsRefreshOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -178,8 +177,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -187,20 +186,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, workspaceName, options },
-      spec: refreshOperationSpec
+      spec: refreshOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -215,12 +214,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   async beginRefreshAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagedPrivateEndpointsRefreshOptionalParams
+    options?: ManagedPrivateEndpointsRefreshOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRefresh(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -236,11 +235,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, managedPrivateEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -257,7 +256,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsCreateResponse>,
@@ -266,21 +265,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedPrivateEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -289,8 +287,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -298,8 +296,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -310,9 +308,9 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         workspaceName,
         managedPrivateEndpointName,
         requestBodyParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedPrivateEndpointsCreateResponse,
@@ -320,7 +318,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri"
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -339,14 +337,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointModel,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       managedPrivateEndpointName,
       requestBodyParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -364,7 +362,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsUpdateResponse>,
@@ -373,21 +371,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -396,8 +393,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -405,8 +402,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -417,9 +414,9 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         workspaceName,
         managedPrivateEndpointName,
         requestBodyParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedPrivateEndpointsUpdateResponse,
@@ -427,7 +424,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -446,14 +443,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     workspaceName: string,
     managedPrivateEndpointName: string,
     requestBodyParameters: ManagedPrivateEndpointUpdateParameters,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
       managedPrivateEndpointName,
       requestBodyParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -469,25 +466,24 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -496,8 +492,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -505,8 +501,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -516,14 +512,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         resourceGroupName,
         workspaceName,
         managedPrivateEndpointName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -540,13 +536,13 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       managedPrivateEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -562,11 +558,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: ManagedPrivateEndpointsListNextOptionalParams
+    options?: ManagedPrivateEndpointsListNextOptionalParams,
   ): Promise<ManagedPrivateEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -574,61 +570,15 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse
+      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -636,31 +586,73 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const refreshOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/refreshManagedPrivateEndpoints",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.managedPrivateEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.requestBodyParameters2,
   queryParameters: [Parameters.apiVersion],
@@ -669,32 +661,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModel
+      bodyMapper: Mappers.ManagedPrivateEndpointModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.requestBodyParameters3,
   queryParameters: [Parameters.apiVersion],
@@ -703,15 +694,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -719,8 +709,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -728,29 +718,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse
+      bodyMapper: Mappers.ManagedPrivateEndpointModelListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

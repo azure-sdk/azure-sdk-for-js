@@ -14323,7 +14323,7 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-AQdEGMOmG+da3EgEHy1EDI6NlL3lOW/uQg+07iib2ogcNbXmKgyxQTXeVqgOy6+VNZ3SSLG7UH+zECieR6JzwA==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-PJaIyamxMjL3wf+panxiOOCtSRO3/B0Xf3iMJT6Xk7VZJcpeNEkTP6BY5g6RSbXKxbzOjyBvyCuKM5iOA0oH6g==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
@@ -14341,9 +14341,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
       tslib: 2.8.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
