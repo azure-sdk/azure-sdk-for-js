@@ -25374,6 +25374,13 @@ export const NetworkInterface: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      defaultOutboundConnectivityEnabled: {
+        serializedName: "properties.defaultOutboundConnectivityEnabled",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
       enableAcceleratedNetworking: {
         serializedName: "properties.enableAcceleratedNetworking",
         type: {

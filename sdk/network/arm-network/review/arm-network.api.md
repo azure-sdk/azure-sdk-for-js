@@ -8946,6 +8946,7 @@ export interface NetworkIntentPolicyConfiguration {
 export interface NetworkInterface extends Resource {
     auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
     auxiliarySku?: NetworkInterfaceAuxiliarySku;
+    readonly defaultOutboundConnectivityEnabled?: boolean;
     disableTcpStateTracking?: boolean;
     dnsSettings?: NetworkInterfaceDnsSettings;
     readonly dscpConfiguration?: SubResource;

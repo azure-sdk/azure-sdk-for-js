@@ -9385,6 +9385,11 @@ export interface NetworkInterface extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vnetEncryptionSupported?: boolean;
+  /**
+   * Whether default outbound connectivity for nic was configured or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultOutboundConnectivityEnabled?: boolean;
   /** If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking. */
   enableAcceleratedNetworking?: boolean;
   /** Indicates whether to disable tcp state tracking. */

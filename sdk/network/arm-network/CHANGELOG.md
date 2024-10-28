@@ -1,15 +1,12 @@
 # Release History
-
-## 33.4.1 (Unreleased)
-
+    
+## 33.5.0 (2024-10-28)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NetworkInterface has a new optional parameter defaultOutboundConnectivityEnabled
+    
+    
 ## 33.4.0 (2024-09-13)
     
 ### Features Added
