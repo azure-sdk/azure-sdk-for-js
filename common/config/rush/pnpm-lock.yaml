@@ -17250,7 +17250,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-wssqp1hy41p86dFx8Wt35Y3FsDi1X0o50lWG45nfOetr6bV/xFnrNWjGKmNwHRa2Qf+YJTkTWOXYeKwYdRL2AA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-zUcqo9eS8yHlnnRxKXCDDrRlZXNCsuJJ+ZWLjHOKBoR/WG3QZjIegs3fpjTHqw0o9Mxs6PUy2FS3Tdk9V3shSw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -17268,9 +17268,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
       tslib: 2.8.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
