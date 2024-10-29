@@ -12,6 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   ConnectedEnvironmentsStoragesListOptionalParams,
   ConnectedEnvironmentsStoragesListResponse,
   ConnectedEnvironmentsStoragesGetOptionalParams,
@@ -20,6 +26,7 @@ import {
   ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
   ConnectedEnvironmentsStoragesDeleteOptionalParams,
+  ConnectedEnvironmentsStoragesDeleteResponse,
 } from "../models";
 
 /** Class containing ConnectedEnvironmentsStorages operations. */
@@ -80,23 +87,102 @@ export class ConnectedEnvironmentsStoragesImpl
    * @param storageEnvelope Configuration details of storage.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
     storageEnvelope: ConnectedEnvironmentStorage,
     options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
-  ): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>,
+      ConnectedEnvironmentsStoragesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         connectedEnvironmentName,
         storageName,
         storageEnvelope,
         options,
       },
-      createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
+      OperationState<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update storage for a connectedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param storageEnvelope Configuration details of storage.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    storageName: string,
+    storageEnvelope: ConnectedEnvironmentStorage,
+    options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
+  ): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      connectedEnvironmentName,
+      storageName,
+      storageEnvelope,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -106,16 +192,97 @@ export class ConnectedEnvironmentsStoragesImpl
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
     options?: ConnectedEnvironmentsStoragesDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, storageName, options },
-      deleteOperationSpec,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsStoragesDeleteResponse>,
+      ConnectedEnvironmentsStoragesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsStoragesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        connectedEnvironmentName,
+        storageName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsStoragesDeleteResponse,
+      OperationState<ConnectedEnvironmentsStoragesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete storage for a connectedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    storageName: string,
+    options?: ConnectedEnvironmentsStoragesDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsStoragesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      connectedEnvironmentName,
+      storageName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
@@ -171,8 +338,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ConnectedEnvironmentStorage,
     },
+    201: {
+      bodyMapper: Mappers.ConnectedEnvironmentStorage,
+    },
+    202: {
+      bodyMapper: Mappers.ConnectedEnvironmentStorage,
+    },
+    204: {
+      bodyMapper: Mappers.ConnectedEnvironmentStorage,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.storageEnvelope,
@@ -192,10 +368,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/storages/{storageName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ConnectedEnvironmentsStoragesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ConnectedEnvironmentsStoragesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ConnectedEnvironmentsStoragesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ConnectedEnvironmentsStoragesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
