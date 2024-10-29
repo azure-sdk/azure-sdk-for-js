@@ -368,7 +368,7 @@ export enum KnownResourceIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -384,7 +384,7 @@ export type ResourceIdentityType = string;
 /** Known values of {@link HostType} that the service accepts. */
 export enum KnownHostType {
   /** Kubernetes */
-  Kubernetes = "Kubernetes"
+  Kubernetes = "Kubernetes",
 }
 
 /**
@@ -405,7 +405,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -425,21 +425,24 @@ export interface CustomLocationsListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type CustomLocationsListOperationsResponse = CustomLocationOperationsList;
+export type CustomLocationsListOperationsResponse =
+  CustomLocationOperationsList;
 
 /** Optional parameters. */
 export interface CustomLocationsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CustomLocationsListBySubscriptionResponse = CustomLocationListResult;
+export type CustomLocationsListBySubscriptionResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CustomLocationsListByResourceGroupResponse = CustomLocationListResult;
+export type CustomLocationsListByResourceGroupResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsGetOptionalParams
@@ -500,49 +503,56 @@ export interface CustomLocationsListEnabledResourceTypesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnabledResourceTypes operation. */
-export type CustomLocationsListEnabledResourceTypesResponse = EnabledResourceTypesListResult;
+export type CustomLocationsListEnabledResourceTypesResponse =
+  EnabledResourceTypesListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsFindTargetResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the findTargetResourceGroup operation. */
-export type CustomLocationsFindTargetResourceGroupResponse = CustomLocationFindTargetResourceGroupResult;
+export type CustomLocationsFindTargetResourceGroupResponse =
+  CustomLocationFindTargetResourceGroupResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type CustomLocationsListOperationsNextResponse = CustomLocationOperationsList;
+export type CustomLocationsListOperationsNextResponse =
+  CustomLocationOperationsList;
 
 /** Optional parameters. */
 export interface CustomLocationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CustomLocationsListBySubscriptionNextResponse = CustomLocationListResult;
+export type CustomLocationsListBySubscriptionNextResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CustomLocationsListByResourceGroupNextResponse = CustomLocationListResult;
+export type CustomLocationsListByResourceGroupNextResponse =
+  CustomLocationListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsListEnabledResourceTypesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEnabledResourceTypesNext operation. */
-export type CustomLocationsListEnabledResourceTypesNextResponse = EnabledResourceTypesListResult;
+export type CustomLocationsListEnabledResourceTypesNextResponse =
+  EnabledResourceTypesListResult;
 
 /** Optional parameters. */
 export interface ResourceSyncRulesListByCustomLocationIDOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomLocationID operation. */
-export type ResourceSyncRulesListByCustomLocationIDResponse = ResourceSyncRuleListResult;
+export type ResourceSyncRulesListByCustomLocationIDResponse =
+  ResourceSyncRuleListResult;
 
 /** Optional parameters. */
 export interface ResourceSyncRulesGetOptionalParams
@@ -592,7 +602,8 @@ export interface ResourceSyncRulesListByCustomLocationIDNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomLocationIDNext operation. */
-export type ResourceSyncRulesListByCustomLocationIDNextResponse = ResourceSyncRuleListResult;
+export type ResourceSyncRulesListByCustomLocationIDNextResponse =
+  ResourceSyncRuleListResult;
 
 /** Optional parameters. */
 export interface CustomLocationsManagementClientOptionalParams
