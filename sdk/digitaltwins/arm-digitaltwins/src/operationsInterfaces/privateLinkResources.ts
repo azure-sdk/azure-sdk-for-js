@@ -10,7 +10,7 @@ import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
@@ -24,7 +24,7 @@ export interface PrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): Promise<PrivateLinkResourcesListResponse>;
   /**
    * Get the specified private link resource for the given Digital Twin.
@@ -37,6 +37,6 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     resourceId: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

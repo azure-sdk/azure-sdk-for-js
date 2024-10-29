@@ -16,7 +16,7 @@ import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,7 @@ import {
   DigitalTwinsCheckNameAvailabilityOptionalParams,
   DigitalTwinsCheckNameAvailabilityResponse,
   DigitalTwinsListNextResponse,
-  DigitalTwinsListByResourceGroupNextResponse
+  DigitalTwinsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
    * @param options The options parameters.
    */
   public list(
-    options?: DigitalTwinsListOptionalParams
+    options?: DigitalTwinsListOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsDescription> {
     const iter = this.listPagingAll(options);
     return {
@@ -76,13 +76,13 @@ export class DigitalTwinsImpl implements DigitalTwins {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DigitalTwinsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DigitalTwinsDescription[]> {
     let result: DigitalTwinsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
   }
 
   private async *listPagingAll(
-    options?: DigitalTwinsListOptionalParams
+    options?: DigitalTwinsListOptionalParams,
   ): AsyncIterableIterator<DigitalTwinsDescription> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -117,7 +117,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DigitalTwinsListByResourceGroupOptionalParams
+    options?: DigitalTwinsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsDescription> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -134,16 +134,16 @@ export class DigitalTwinsImpl implements DigitalTwins {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DigitalTwinsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DigitalTwinsDescription[]> {
     let result: DigitalTwinsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,7 +158,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -169,11 +169,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DigitalTwinsListByResourceGroupOptionalParams
+    options?: DigitalTwinsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DigitalTwinsDescription> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -188,11 +188,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsGetOptionalParams
+    options?: DigitalTwinsGetOptionalParams,
   ): Promise<DigitalTwinsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -209,7 +209,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsCreate: DigitalTwinsDescription,
-    options?: DigitalTwinsCreateOrUpdateOptionalParams
+    options?: DigitalTwinsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsCreateOrUpdateResponse>,
@@ -218,21 +218,20 @@ export class DigitalTwinsImpl implements DigitalTwins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DigitalTwinsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -241,8 +240,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -250,22 +249,22 @@ export class DigitalTwinsImpl implements DigitalTwins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, digitalTwinsCreate, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DigitalTwinsCreateOrUpdateResponse,
       OperationState<DigitalTwinsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -284,13 +283,13 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsCreate: DigitalTwinsDescription,
-    options?: DigitalTwinsCreateOrUpdateOptionalParams
+    options?: DigitalTwinsCreateOrUpdateOptionalParams,
   ): Promise<DigitalTwinsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       digitalTwinsCreate,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -306,7 +305,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsUpdateResponse>,
@@ -315,21 +314,20 @@ export class DigitalTwinsImpl implements DigitalTwins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DigitalTwinsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -338,8 +336,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -347,8 +345,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -358,16 +356,16 @@ export class DigitalTwinsImpl implements DigitalTwins {
         resourceGroupName,
         resourceName,
         digitalTwinsPatchDescription,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DigitalTwinsUpdateResponse,
       OperationState<DigitalTwinsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -384,13 +382,13 @@ export class DigitalTwinsImpl implements DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<DigitalTwinsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
       digitalTwinsPatchDescription,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -404,7 +402,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsDeleteOptionalParams
+    options?: DigitalTwinsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsDeleteResponse>,
@@ -413,21 +411,20 @@ export class DigitalTwinsImpl implements DigitalTwins {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DigitalTwinsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -436,8 +433,8 @@ export class DigitalTwinsImpl implements DigitalTwins {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -445,22 +442,22 @@ export class DigitalTwinsImpl implements DigitalTwins {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DigitalTwinsDeleteResponse,
       OperationState<DigitalTwinsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -475,12 +472,12 @@ export class DigitalTwinsImpl implements DigitalTwins {
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsDeleteOptionalParams
+    options?: DigitalTwinsDeleteOptionalParams,
   ): Promise<DigitalTwinsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -490,7 +487,7 @@ export class DigitalTwinsImpl implements DigitalTwins {
    * @param options The options parameters.
    */
   private _list(
-    options?: DigitalTwinsListOptionalParams
+    options?: DigitalTwinsListOptionalParams,
   ): Promise<DigitalTwinsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -502,11 +499,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DigitalTwinsListByResourceGroupOptionalParams
+    options?: DigitalTwinsListByResourceGroupOptionalParams,
   ): Promise<DigitalTwinsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -520,11 +517,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   checkNameAvailability(
     location: string,
     digitalTwinsInstanceCheckName: CheckNameRequest,
-    options?: DigitalTwinsCheckNameAvailabilityOptionalParams
+    options?: DigitalTwinsCheckNameAvailabilityOptionalParams,
   ): Promise<DigitalTwinsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, digitalTwinsInstanceCheckName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -535,11 +532,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
    */
   private _listNext(
     nextLink: string,
-    options?: DigitalTwinsListNextOptionalParams
+    options?: DigitalTwinsListNextOptionalParams,
   ): Promise<DigitalTwinsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -552,11 +549,11 @@ export class DigitalTwinsImpl implements DigitalTwins {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DigitalTwinsListByResourceGroupNextOptionalParams
+    options?: DigitalTwinsListByResourceGroupNextOptionalParams,
   ): Promise<DigitalTwinsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -564,47 +561,45 @@ export class DigitalTwinsImpl implements DigitalTwins {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     201: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     202: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     204: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.digitalTwinsCreate,
   queryParameters: [Parameters.apiVersion],
@@ -612,32 +607,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     201: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     202: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     204: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.digitalTwinsPatchDescription,
   queryParameters: [Parameters.apiVersion],
@@ -645,140 +639,136 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     201: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     202: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     204: {
-      bodyMapper: Mappers.DigitalTwinsDescription
+      bodyMapper: Mappers.DigitalTwinsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescriptionListResult
+      bodyMapper: Mappers.DigitalTwinsDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescriptionListResult
+      bodyMapper: Mappers.DigitalTwinsDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DigitalTwins/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.digitalTwinsInstanceCheckName,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescriptionListResult
+      bodyMapper: Mappers.DigitalTwinsDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsDescriptionListResult
+      bodyMapper: Mappers.DigitalTwinsDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
