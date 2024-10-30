@@ -4759,7 +4759,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -15866,7 +15866,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-hrAyt26um0EgmCvkkIOiEgP4jSNyHw9N+i8zfHs31IJ7D7vmDcrAQyE8NnmbZ0qlrbkHiO73WQ6VH1oPKqzdtA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-/Fo5TkvPV/zztOAZd8DhkBRmQnJLWQksq5yV/Y7xnk8va1L6JU11KuAS/djtGrbuK65i7qHx06ccuIW5CsxTPQ==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -15874,17 +15874,20 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.60)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.60
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      mkdirp: 3.0.1
       mocha: 10.7.3
-      ts-node: 10.9.2(@types/node@18.19.60)(typescript@5.6.3)
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.60)(typescript@5.5.4)
       tslib: 2.8.0
       tsx: 4.19.2
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
