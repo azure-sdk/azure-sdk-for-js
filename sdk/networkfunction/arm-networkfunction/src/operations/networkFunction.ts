@@ -15,7 +15,7 @@ import { AzureTrafficCollectorClient } from "../azureTrafficCollectorClient";
 import {
   Operation,
   NetworkFunctionListOperationsOptionalParams,
-  NetworkFunctionListOperationsResponse
+  NetworkFunctionListOperationsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export class NetworkFunctionImpl implements NetworkFunction {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: NetworkFunctionListOperationsOptionalParams
+    options?: NetworkFunctionListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -51,13 +51,13 @@ export class NetworkFunctionImpl implements NetworkFunction {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: NetworkFunctionListOperationsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: NetworkFunctionListOperationsResponse;
     result = await this._listOperations(options);
@@ -65,7 +65,7 @@ export class NetworkFunctionImpl implements NetworkFunction {
   }
 
   private async *listOperationsPagingAll(
-    options?: NetworkFunctionListOperationsOptionalParams
+    options?: NetworkFunctionListOperationsOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -77,11 +77,11 @@ export class NetworkFunctionImpl implements NetworkFunction {
    * @param options The options parameters.
    */
   private _listOperations(
-    options?: NetworkFunctionListOperationsOptionalParams
+    options?: NetworkFunctionListOperationsOptionalParams,
   ): Promise<NetworkFunctionListOperationsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listOperationsOperationSpec
+      listOperationsOperationSpec,
     );
   }
 }
@@ -93,14 +93,14 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

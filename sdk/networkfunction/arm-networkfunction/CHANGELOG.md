@@ -1,15 +1,22 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0 (2024-10-30)
+    
 ### Features Added
+
+  - Interface AzureTrafficCollector has a new optional parameter dataSubnet
+  - Interface AzureTrafficCollector has a new optional parameter managementSubnet
+  - Interface AzureTrafficCollectorsCreateOrUpdateOptionalParams has a new optional parameter dataSubnet
+  - Interface AzureTrafficCollectorsCreateOrUpdateOptionalParams has a new optional parameter managementSubnet
+  - Enum KnownApiVersionParameter has a new value TwoThousandTwentyFour1201
+  - Enum KnownEmissionType has a new value FlowLogs
+  - Enum KnownIngestionType has a new value VirtualTap
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Class AzureTrafficCollectorClient has a new signature
+    
+    
 ## 2.0.0 (2022-11-24)
     
 ### Features Added
@@ -35,4 +42,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-networkfunction is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

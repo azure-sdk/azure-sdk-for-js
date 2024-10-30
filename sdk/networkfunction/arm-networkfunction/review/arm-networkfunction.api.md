@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ApiVersionParameter = string;
@@ -16,7 +16,9 @@ export type ApiVersionParameter = string;
 // @public
 export interface AzureTrafficCollector extends TrackedResource {
     readonly collectorPolicies?: ResourceReference[];
+    dataSubnet?: ResourceReference;
     readonly etag?: string;
+    managementSubnet?: ResourceReference;
     readonly provisioningState?: ProvisioningState;
     virtualHub?: ResourceReference;
 }
@@ -26,6 +28,7 @@ export class AzureTrafficCollectorClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureTrafficCollectorClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AzureTrafficCollectorClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -39,7 +42,7 @@ export class AzureTrafficCollectorClient extends coreClient.ServiceClient {
     // (undocumented)
     networkFunction: NetworkFunction;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -57,9 +60,9 @@ export interface AzureTrafficCollectorListResult {
 
 // @public
 export interface AzureTrafficCollectors {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>, AzureTrafficCollectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AzureTrafficCollectorsCreateOrUpdateResponse>, AzureTrafficCollectorsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsGetOptionalParams): Promise<AzureTrafficCollectorsGetResponse>;
     updateTags(resourceGroupName: string, azureTrafficCollectorName: string, parameters: TagsObject, options?: AzureTrafficCollectorsUpdateTagsOptionalParams): Promise<AzureTrafficCollectorsUpdateTagsResponse>;
@@ -105,6 +108,8 @@ export type AzureTrafficCollectorsBySubscriptionListResponse = AzureTrafficColle
 
 // @public
 export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    dataSubnet?: ResourceReference;
+    managementSubnet?: ResourceReference;
     resumeFrom?: string;
     tags?: {
         [propertyName: string]: string;
@@ -151,9 +156,9 @@ export interface CloudErrorBody {
 
 // @public
 export interface CollectorPolicies {
-    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CollectorPoliciesCreateOrUpdateResponse>, CollectorPoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CollectorPoliciesCreateOrUpdateResponse>, CollectorPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams): Promise<CollectorPoliciesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesGetOptionalParams): Promise<CollectorPoliciesGetResponse>;
     list(resourceGroupName: string, azureTrafficCollectorName: string, options?: CollectorPoliciesListOptionalParams): PagedAsyncIterableIterator<CollectorPolicy>;
@@ -262,6 +267,7 @@ export type IngestionType = string;
 
 // @public
 export enum KnownApiVersionParameter {
+    TwoThousandTwentyFour1201 = "2024-12-01",
     TwoThousandTwentyTwo0501 = "2022-05-01",
     TwoThousandTwentyTwo0801 = "2022-08-01",
     TwoThousandTwentyTwo1101 = "2022-11-01"
@@ -282,12 +288,14 @@ export enum KnownDestinationType {
 
 // @public
 export enum KnownEmissionType {
+    FlowLogs = "FlowLogs",
     Ipfix = "IPFIX"
 }
 
 // @public
 export enum KnownIngestionType {
-    Ipfix = "IPFIX"
+    Ipfix = "IPFIX",
+    VirtualTap = "VirtualTap"
 }
 
 // @public
@@ -349,7 +357,7 @@ export interface ProxyResource {
 
 // @public
 export interface ResourceReference {
-    readonly id?: string;
+    id?: string;
 }
 
 // @public

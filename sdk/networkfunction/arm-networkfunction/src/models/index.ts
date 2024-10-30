@@ -71,11 +71,8 @@ export interface AzureTrafficCollectorListResult {
 
 /** Resource reference properties. */
 export interface ResourceReference {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
+  /** Resource ID. */
+  id?: string;
 }
 
 /** Common resource representation. */
@@ -200,6 +197,10 @@ export interface AzureTrafficCollector extends TrackedResource {
   readonly collectorPolicies?: ResourceReference[];
   /** The virtualHub to which the Azure Traffic Collector belongs. */
   virtualHub?: ResourceReference;
+  /** Reference to the data subnet resource. This resource must be named 'atcDataSubnet'. */
+  dataSubnet?: ResourceReference;
+  /** Reference to the management subnet resource. This resource must be named 'atcManagementSubnet'. */
+  managementSubnet?: ResourceReference;
   /**
    * The provisioning state of the application rule collection resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -237,7 +238,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -261,7 +262,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -279,7 +280,9 @@ export type CreatedByType = string;
 /** Known values of {@link IngestionType} that the service accepts. */
 export enum KnownIngestionType {
   /** Ipfix */
-  Ipfix = "IPFIX"
+  Ipfix = "IPFIX",
+  /** VirtualTap */
+  VirtualTap = "VirtualTap",
 }
 
 /**
@@ -287,14 +290,15 @@ export enum KnownIngestionType {
  * {@link KnownIngestionType} can be used interchangeably with IngestionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IPFIX**
+ * **IPFIX** \
+ * **VirtualTap**
  */
 export type IngestionType = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
   /** Resource */
-  Resource = "Resource"
+  Resource = "Resource",
 }
 
 /**
@@ -309,7 +313,9 @@ export type SourceType = string;
 /** Known values of {@link EmissionType} that the service accepts. */
 export enum KnownEmissionType {
   /** Ipfix */
-  Ipfix = "IPFIX"
+  Ipfix = "IPFIX",
+  /** FlowLogs */
+  FlowLogs = "FlowLogs",
 }
 
 /**
@@ -317,14 +323,15 @@ export enum KnownEmissionType {
  * {@link KnownEmissionType} can be used interchangeably with EmissionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IPFIX**
+ * **IPFIX** \
+ * **FlowLogs**
  */
 export type EmissionType = string;
 
 /** Known values of {@link DestinationType} that the service accepts. */
 export enum KnownDestinationType {
   /** AzureMonitor */
-  AzureMonitor = "AzureMonitor"
+  AzureMonitor = "AzureMonitor",
 }
 
 /**
@@ -343,7 +350,9 @@ export enum KnownApiVersionParameter {
   /** TwoThousandTwentyTwo0801 */
   TwoThousandTwentyTwo0801 = "2022-08-01",
   /** TwoThousandTwentyTwo1101 */
-  TwoThousandTwentyTwo1101 = "2022-11-01"
+  TwoThousandTwentyTwo1101 = "2022-11-01",
+  /** TwoThousandTwentyFour1201 */
+  TwoThousandTwentyFour1201 = "2024-12-01",
 }
 
 /**
@@ -353,7 +362,8 @@ export enum KnownApiVersionParameter {
  * ### Known values supported by the service
  * **2022-05-01** \
  * **2022-08-01** \
- * **2022-11-01**
+ * **2022-11-01** \
+ * **2024-12-01**
  */
 export type ApiVersionParameter = string;
 
@@ -369,28 +379,32 @@ export interface AzureTrafficCollectorsBySubscriptionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AzureTrafficCollectorsBySubscriptionListResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsBySubscriptionListResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsBySubscriptionListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AzureTrafficCollectorsBySubscriptionListNextResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsBySubscriptionListNextResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsByResourceGroupListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AzureTrafficCollectorsByResourceGroupListResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsByResourceGroupListResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsByResourceGroupListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AzureTrafficCollectorsByResourceGroupListNextResponse = AzureTrafficCollectorListResult;
+export type AzureTrafficCollectorsByResourceGroupListNextResponse =
+  AzureTrafficCollectorListResult;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsGetOptionalParams
@@ -406,6 +420,10 @@ export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams
   tags?: { [propertyName: string]: string };
   /** The virtualHub to which the Azure Traffic Collector belongs. */
   virtualHub?: ResourceReference;
+  /** Reference to the data subnet resource. This resource must be named 'atcDataSubnet'. */
+  dataSubnet?: ResourceReference;
+  /** Reference to the management subnet resource. This resource must be named 'atcManagementSubnet'. */
+  managementSubnet?: ResourceReference;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -413,7 +431,8 @@ export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AzureTrafficCollectorsCreateOrUpdateResponse = AzureTrafficCollector;
+export type AzureTrafficCollectorsCreateOrUpdateResponse =
+  AzureTrafficCollector;
 
 /** Optional parameters. */
 export interface AzureTrafficCollectorsDeleteOptionalParams

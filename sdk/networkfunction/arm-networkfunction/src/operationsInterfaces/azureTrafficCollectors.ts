@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureTrafficCollectorsGetOptionalParams,
   AzureTrafficCollectorsGetResponse,
@@ -15,7 +15,7 @@ import {
   AzureTrafficCollectorsDeleteOptionalParams,
   TagsObject,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
-  AzureTrafficCollectorsUpdateTagsResponse
+  AzureTrafficCollectorsUpdateTagsResponse,
 } from "../models";
 
 /** Interface representing a AzureTrafficCollectors. */
@@ -29,7 +29,7 @@ export interface AzureTrafficCollectors {
   get(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: AzureTrafficCollectorsGetOptionalParams
+    options?: AzureTrafficCollectorsGetOptionalParams,
   ): Promise<AzureTrafficCollectorsGetResponse>;
   /**
    * Creates or updates a Azure Traffic Collector resource
@@ -42,10 +42,10 @@ export interface AzureTrafficCollectors {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     location: string,
-    options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
+    options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureTrafficCollectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AzureTrafficCollectorsCreateOrUpdateResponse>,
       AzureTrafficCollectorsCreateOrUpdateResponse
     >
   >;
@@ -60,7 +60,7 @@ export interface AzureTrafficCollectors {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     location: string,
-    options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams
+    options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   ): Promise<AzureTrafficCollectorsCreateOrUpdateResponse>;
   /**
    * Deletes a specified Azure Traffic Collector resource.
@@ -71,8 +71,8 @@ export interface AzureTrafficCollectors {
   beginDelete(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: AzureTrafficCollectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: AzureTrafficCollectorsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified Azure Traffic Collector resource.
    * @param resourceGroupName The name of the resource group.
@@ -82,7 +82,7 @@ export interface AzureTrafficCollectors {
   beginDeleteAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: AzureTrafficCollectorsDeleteOptionalParams
+    options?: AzureTrafficCollectorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the specified Azure Traffic Collector tags.
@@ -95,6 +95,6 @@ export interface AzureTrafficCollectors {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     parameters: TagsObject,
-    options?: AzureTrafficCollectorsUpdateTagsOptionalParams
+    options?: AzureTrafficCollectorsUpdateTagsOptionalParams,
   ): Promise<AzureTrafficCollectorsUpdateTagsResponse>;
 }
