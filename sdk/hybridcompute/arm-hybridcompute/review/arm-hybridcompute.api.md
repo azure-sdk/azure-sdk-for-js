@@ -50,6 +50,19 @@ export interface AgentUpgrade {
 }
 
 // @public
+export interface AgentVersion {
+    agentVersion?: string;
+    downloadLink?: string;
+    osType?: string;
+}
+
+// @public
+export interface AgentVersionsList {
+    nextLink?: string;
+    value?: AgentVersion[];
+}
+
+// @public
 export type ArcKindEnum = string;
 
 // @public
@@ -92,6 +105,17 @@ export interface ConnectionDetail {
 export type CreatedByType = string;
 
 // @public
+export interface Disk {
+    diskType?: string;
+    generatedId?: string;
+    id?: string;
+    maxSizeInBytes?: number;
+    name?: string;
+    path?: string;
+    usedSpaceInBytes?: number;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -125,6 +149,9 @@ export type EsuKeyState = string;
 
 // @public
 export type EsuServerType = string;
+
+// @public
+export type ExecutionState = string;
 
 // @public
 export interface ExtensionMetadata {
@@ -176,7 +203,129 @@ export interface ExtensionValueListResult {
 }
 
 // @public
+export interface FirmwareProfile {
+    readonly serialNumber?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface Gateway extends TrackedResource {
+    allowedFeatures?: string[];
+    readonly gatewayEndpoint?: string;
+    readonly gatewayId?: string;
+    gatewayType?: GatewayType;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface Gateways {
+    beginCreateOrUpdate(resourceGroupName: string, gatewayName: string, parameters: Gateway, options?: GatewaysCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<GatewaysCreateOrUpdateResponse>, GatewaysCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, gatewayName: string, parameters: Gateway, options?: GatewaysCreateOrUpdateOptionalParams): Promise<GatewaysCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<SimplePollerLike<OperationState<GatewaysDeleteResponse>, GatewaysDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<GatewaysDeleteResponse>;
+    get(resourceGroupName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: GatewaysListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Gateway>;
+    listBySubscription(options?: GatewaysListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Gateway>;
+    update(resourceGroupName: string, gatewayName: string, parameters: GatewayUpdate, options?: GatewaysUpdateOptionalParams): Promise<GatewaysUpdateResponse>;
+}
+
+// @public
+export interface GatewaysCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GatewaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewaysCreateOrUpdateResponse = Gateway;
+
+// @public
+export interface GatewaysDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface GatewaysDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewaysDeleteResponse = GatewaysDeleteHeaders;
+
+// @public
+export interface GatewaysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysGetResponse = Gateway;
+
+// @public
+export interface GatewaysListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListByResourceGroupNextResponse = GatewaysListResult;
+
+// @public
+export interface GatewaysListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListByResourceGroupResponse = GatewaysListResult;
+
+// @public
+export interface GatewaysListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListBySubscriptionNextResponse = GatewaysListResult;
+
+// @public
+export interface GatewaysListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListBySubscriptionResponse = GatewaysListResult;
+
+// @public
+export interface GatewaysListResult {
+    nextLink?: string;
+    value: Gateway[];
+}
+
+// @public
+export interface GatewaysUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysUpdateResponse = Gateway;
+
+// @public
+export type GatewayType = string;
+
+// @public
+export interface GatewayUpdate extends ResourceUpdate {
+    allowedFeatures?: string[];
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface HardwareProfile {
+    readonly numberOfCpuSockets?: number;
+    readonly processors?: Processor[];
+    readonly totalPhysicalMemoryInBytes?: number;
+}
 
 // @public
 export type HotpatchEnablementStatus = string;
@@ -188,16 +337,22 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HybridComputeManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    beginSetupExtensions(resourceGroupName: string, machineName: string, extensions: SetupExtensionRequest, options?: SetupExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<SetupExtensionsResponse>, SetupExtensionsResponse>>;
+    beginSetupExtensionsAndWait(resourceGroupName: string, machineName: string, extensions: SetupExtensionRequest, options?: SetupExtensionsOptionalParams): Promise<SetupExtensionsResponse>;
     beginUpgradeExtensions(resourceGroupName: string, machineName: string, extensionUpgradeParameters: MachineExtensionUpgrade, options?: UpgradeExtensionsOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeExtensionsAndWait(resourceGroupName: string, machineName: string, extensionUpgradeParameters: MachineExtensionUpgrade, options?: UpgradeExtensionsOptionalParams): Promise<void>;
     // (undocumented)
     extensionMetadata: ExtensionMetadata;
+    // (undocumented)
+    gateways: Gateways;
     // (undocumented)
     licenseProfiles: LicenseProfiles;
     // (undocumented)
     licenses: Licenses;
     // (undocumented)
     machineExtensions: MachineExtensions;
+    // (undocumented)
+    machineRunCommands: MachineRunCommands;
     // (undocumented)
     machines: Machines;
     // (undocumented)
@@ -213,6 +368,8 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkScopes: PrivateLinkScopes;
     // (undocumented)
+    settingsOperations: SettingsOperations;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -221,6 +378,13 @@ export interface HybridComputeManagementClientOptionalParams extends coreClient.
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface HybridComputeManagementClientSetupExtensionsHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -248,6 +412,19 @@ export interface HybridComputePrivateLinkScopeProperties {
     readonly privateLinkScopeId?: string;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccessType;
+}
+
+// @public
+export interface HybridIdentityMetadata extends ProxyResource {
+    readonly identity?: Identity;
+    publicKey?: string;
+    vmId?: string;
+}
+
+// @public
+export interface HybridIdentityMetadataList {
+    nextLink?: string;
+    value: HybridIdentityMetadata[];
 }
 
 // @public
@@ -341,6 +518,22 @@ export enum KnownEsuKeyState {
 export enum KnownEsuServerType {
     Datacenter = "Datacenter",
     Standard = "Standard"
+}
+
+// @public
+export enum KnownExecutionState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Pending = "Pending",
+    Running = "Running",
+    Succeeded = "Succeeded",
+    TimedOut = "TimedOut",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownGatewayType {
+    Public = "Public"
 }
 
 // @public
@@ -899,6 +1092,8 @@ export interface Machine extends TrackedResource {
     readonly domainName?: string;
     readonly errorDetails?: ErrorDetail[];
     extensions?: MachineExtensionInstanceView[];
+    readonly firmwareProfile?: FirmwareProfile;
+    readonly hardwareProfile?: HardwareProfile;
     identity?: Identity;
     kind?: ArcKindEnum;
     readonly lastStatusChange?: Date;
@@ -919,6 +1114,7 @@ export interface Machine extends TrackedResource {
     readonly resources?: MachineExtension[];
     serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
+    readonly storageProfile?: StorageProfile;
     vmId?: string;
     readonly vmUuid?: string;
 }
@@ -1112,6 +1308,117 @@ export interface MachineListResult {
 }
 
 // @public
+export interface MachineRunCommand extends TrackedResource {
+    asyncExecution?: boolean;
+    errorBlobManagedIdentity?: RunCommandManagedIdentity;
+    errorBlobUri?: string;
+    readonly instanceView?: MachineRunCommandInstanceView;
+    outputBlobManagedIdentity?: RunCommandManagedIdentity;
+    outputBlobUri?: string;
+    parameters?: RunCommandInputParameter[];
+    protectedParameters?: RunCommandInputParameter[];
+    readonly provisioningState?: string;
+    runAsPassword?: string;
+    runAsUser?: string;
+    source?: MachineRunCommandScriptSource;
+    timeoutInSeconds?: number;
+}
+
+// @public
+export interface MachineRunCommandInstanceView {
+    endTime?: Date;
+    error?: string;
+    executionMessage?: string;
+    executionState?: ExecutionState;
+    exitCode?: number;
+    output?: string;
+    startTime?: Date;
+    statuses?: ExtensionsResourceStatus[];
+}
+
+// @public
+export interface MachineRunCommands {
+    beginCreateOrUpdate(resourceGroupName: string, machineName: string, runCommandName: string, runCommandProperties: MachineRunCommand, options?: MachineRunCommandsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MachineRunCommandsCreateOrUpdateResponse>, MachineRunCommandsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, machineName: string, runCommandName: string, runCommandProperties: MachineRunCommand, options?: MachineRunCommandsCreateOrUpdateOptionalParams): Promise<MachineRunCommandsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MachineRunCommandsDeleteResponse>, MachineRunCommandsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsDeleteOptionalParams): Promise<MachineRunCommandsDeleteResponse>;
+    get(resourceGroupName: string, machineName: string, runCommandName: string, options?: MachineRunCommandsGetOptionalParams): Promise<MachineRunCommandsGetResponse>;
+    list(resourceGroupName: string, machineName: string, options?: MachineRunCommandsListOptionalParams): PagedAsyncIterableIterator<MachineRunCommand>;
+}
+
+// @public
+export interface MachineRunCommandsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MachineRunCommandsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MachineRunCommandsCreateOrUpdateResponse = MachineRunCommand;
+
+// @public
+export interface MachineRunCommandScriptSource {
+    commandId?: string;
+    script?: string;
+    scriptUri?: string;
+    scriptUriManagedIdentity?: RunCommandManagedIdentity;
+}
+
+// @public
+export interface MachineRunCommandsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface MachineRunCommandsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MachineRunCommandsDeleteResponse = MachineRunCommandsDeleteHeaders;
+
+// @public
+export interface MachineRunCommandsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachineRunCommandsGetResponse = MachineRunCommand;
+
+// @public
+export interface MachineRunCommandsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachineRunCommandsListNextResponse = MachineRunCommandsListResult;
+
+// @public
+export interface MachineRunCommandsListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type MachineRunCommandsListResponse = MachineRunCommandsListResult;
+
+// @public
+export interface MachineRunCommandsListResult {
+    nextLink?: string;
+    value?: MachineRunCommand[];
+}
+
+// @public
+export interface MachineRunCommandUpdate extends ResourceUpdate {
+}
+
+// @public
 export interface Machines {
     beginAssessPatches(resourceGroupName: string, name: string, options?: MachinesAssessPatchesOptionalParams): Promise<SimplePollerLike<OperationState<MachinesAssessPatchesResponse>, MachinesAssessPatchesResponse>>;
     beginAssessPatchesAndWait(resourceGroupName: string, name: string, options?: MachinesAssessPatchesOptionalParams): Promise<MachinesAssessPatchesResponse>;
@@ -1204,9 +1511,21 @@ export interface MachineUpdate extends ResourceUpdate {
     privateLinkScopeResourceId?: string;
 }
 
+// @public (undocumented)
+export interface NetworkConfiguration extends ProxyResource {
+    readonly keyProperties?: KeyProperties;
+    location?: string;
+    networkConfigurationScopeId?: string;
+    networkConfigurationScopeResourceId?: string;
+    readonly tenantId?: string;
+}
+
 // @public
 export interface NetworkInterface {
+    id?: string;
     ipAddresses?: IpAddress[];
+    macAddress?: string;
+    name?: string;
 }
 
 // @public
@@ -1388,7 +1707,7 @@ export interface PatchSettingsStatus {
 }
 
 // @public
-export interface PrivateEndpointConnection extends ProxyResourceAutoGenerated {
+export interface PrivateEndpointConnection extends ProxyResource {
     properties?: PrivateEndpointConnectionProperties;
 }
 
@@ -1473,7 +1792,7 @@ export interface PrivateEndpointProperty {
 }
 
 // @public
-export interface PrivateLinkResource extends ProxyResourceAutoGenerated {
+export interface PrivateLinkResource extends ProxyResource {
     properties?: PrivateLinkResourceProperties;
 }
 
@@ -1632,6 +1951,12 @@ export interface PrivateLinkServiceConnectionStateProperty {
 }
 
 // @public
+export interface Processor {
+    readonly name?: string;
+    readonly numberOfCores?: number;
+}
+
+// @public
 export interface ProductFeature {
     readonly billingEndDate?: Date;
     readonly billingStartDate?: Date;
@@ -1671,11 +1996,7 @@ export type ProvisioningIssueType = string;
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource extends ResourceAutoGenerated {
-}
-
-// @public
-export interface ProxyResourceAutoGenerated extends Resource {
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1696,18 +2017,22 @@ export interface ResourceAssociation {
 }
 
 // @public
-export interface ResourceAutoGenerated {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
-}
-
-// @public
 export interface ResourceUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface RunCommandInputParameter {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface RunCommandManagedIdentity {
+    clientId?: string;
+    objectId?: string;
 }
 
 // @public
@@ -1722,11 +2047,64 @@ export interface ServiceStatuses {
     guestConfigurationService?: ServiceStatus;
 }
 
+// @public (undocumented)
+export interface Settings extends ProxyResource {
+    gatewayResourceId?: string;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface SettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SettingsGetResponse = Settings;
+
+// @public
+export interface SettingsOperations {
+    get(resourceGroupName: string, baseProvider: string, baseResourceType: string, baseResourceName: string, settingsResourceName: string, options?: SettingsGetOptionalParams): Promise<SettingsGetResponse>;
+    patch(resourceGroupName: string, baseProvider: string, baseResourceType: string, baseResourceName: string, settingsResourceName: string, parameters: Settings, options?: SettingsPatchOptionalParams): Promise<SettingsPatchResponse>;
+    update(resourceGroupName: string, baseProvider: string, baseResourceType: string, baseResourceName: string, settingsResourceName: string, parameters: Settings, options?: SettingsUpdateOptionalParams): Promise<SettingsUpdateResponse>;
+}
+
+// @public
+export interface SettingsPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SettingsPatchResponse = Settings;
+
+// @public
+export interface SettingsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SettingsUpdateResponse = Settings;
+
+// @public (undocumented)
+export interface SetupExtensionRequest {
+    extensions?: MachineExtensionProperties[];
+}
+
+// @public
+export interface SetupExtensionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SetupExtensionsResponse = SetupExtensionRequest;
+
 // @public
 export type StatusLevelTypes = string;
 
 // @public
 export type StatusTypes = string;
+
+// @public
+export interface StorageProfile {
+    disks?: Disk[];
+}
 
 // @public
 export interface Subnet {
