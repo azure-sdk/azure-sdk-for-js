@@ -98,17 +98,13 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
-    image: ImageData_2;
-    outputType?: string;
+    categories?: ImageCategory[];
+    image: ImageData;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
-export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
-    image: ImageDataOutput;
-    outputType?: string;
-}
+export type AnalyzeImageOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -154,20 +150,14 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
-export interface AnalyzeTextOptionsOutput {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
-    text: string;
-}
+export type AnalyzeTextOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
@@ -175,7 +165,6 @@ export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
 // @public
 export interface AnalyzeTextResultOutput {
     blocklistsMatch?: Array<TextBlocklistMatchOutput>;
-    categoriesAnalysis: Array<TextCategoriesAnalysisOutput>;
 }
 
 // @public (undocumented)
@@ -184,7 +173,12 @@ export type ContentSafetyClient = Client & {
 };
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ContentSafetyClient;
+export interface ContentSafetyClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
@@ -254,6 +248,57 @@ export interface DeleteTextBlocklistDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteTextBlocklistParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterial {
+    post(options: DetectTextProtectedMaterialParameters): StreamableMethod<DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse>;
+}
+
+// @public
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+    // (undocumented)
+    body: DetectTextProtectedMaterialResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialBodyParam {
+    body: DetectTextProtectedMaterialOptions;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface DetectTextProtectedMaterialOptions {
+    text: string;
+}
+
+// @public (undocumented)
+export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam & RequestParameters;
+
+// @public
+export interface DetectTextProtectedMaterialResultOutput {
+    protectedMaterialAnalysis: TextProtectedMaterialAnalysisResultOutput;
+}
+
+// @public
+export interface DocumentInjectionAnalysisResultOutput {
+    attackDetected: boolean;
+}
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -330,28 +375,33 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
 
 // @public
-interface ImageData_2 {
-    blobUrl?: string;
-    content?: string;
-}
-export { ImageData_2 as ImageData }
+export type ImageCategory = string;
 
 // @public
-export interface ImageDataOutput {
+export type ImageCategoryOutput = string;
+
+// @public
+export interface ImageData {
     blobUrl?: string;
     content?: string;
 }
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
+export function isUnexpected(response: ShieldPrompt200Response | ShieldPromptDefaultResponse): response is ShieldPromptDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse): response is DetectTextProtectedMaterialDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;
@@ -514,14 +564,64 @@ export interface RemoveTextBlocklistItemsOptions {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/text:analyze"): AnalyzeText;
     (path: "/image:analyze"): AnalyzeImage;
+    (path: "/text:analyze"): AnalyzeText;
+    (path: "/text:shieldPrompt"): ShieldPrompt;
+    (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
     (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
     (path: "/text/blocklists"): ListTextBlocklists;
     (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): AddOrUpdateBlocklistItems;
     (path: "/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName: string): RemoveBlocklistItems;
     (path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName: string, blocklistItemId: string): GetTextBlocklistItem;
     (path: "/text/blocklists/{blocklistName}/blocklistItems", blocklistName: string): ListTextBlocklistItems;
+}
+
+// @public (undocumented)
+export interface ShieldPrompt {
+    post(options: ShieldPromptParameters): StreamableMethod<ShieldPrompt200Response | ShieldPromptDefaultResponse>;
+}
+
+// @public
+export interface ShieldPrompt200Response extends HttpResponse {
+    // (undocumented)
+    body: ShieldPromptResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ShieldPromptBodyParam {
+    body: ShieldPromptOptions;
+}
+
+// @public (undocumented)
+export interface ShieldPromptDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ShieldPromptDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ShieldPromptDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface ShieldPromptOptions {
+    documents?: string[];
+    userPrompt?: string;
+}
+
+// @public (undocumented)
+export type ShieldPromptParameters = ShieldPromptBodyParam & RequestParameters;
+
+// @public
+export interface ShieldPromptResultOutput {
+    documentsAnalysis?: Array<DocumentInjectionAnalysisResultOutput>;
+    userPromptAnalysis?: UserPromptInjectionAnalysisResultOutput;
 }
 
 // @public
@@ -533,6 +633,7 @@ export interface TextBlocklist {
 // @public
 export interface TextBlocklistItem {
     description?: string;
+    isRegex?: boolean;
     text: string;
 }
 
@@ -540,13 +641,13 @@ export interface TextBlocklistItem {
 export interface TextBlocklistItemOutput {
     readonly blocklistItemId: string;
     description?: string;
+    isRegex?: boolean;
     text: string;
 }
 
 // @public
 export interface TextBlocklistMatchOutput {
     blocklistItemId: string;
-    blocklistItemText: string;
     blocklistName: string;
 }
 
@@ -560,9 +661,16 @@ export interface TextBlocklistOutput {
 export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
-export interface TextCategoriesAnalysisOutput {
-    category: string;
-    severity?: number;
+export type TextCategory = string;
+
+// @public
+export interface TextProtectedMaterialAnalysisResultOutput {
+    detected: boolean;
+}
+
+// @public
+export interface UserPromptInjectionAnalysisResultOutput {
+    attackDetected: boolean;
 }
 
 // (No @packageDocumentation comment for this package)
