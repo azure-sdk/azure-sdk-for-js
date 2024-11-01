@@ -14,7 +14,13 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  DaprComponent,
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  ConnectedEnvironmentDaprComponent,
   ConnectedEnvironmentsDaprComponentsListNextOptionalParams,
   ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ConnectedEnvironmentsDaprComponentsListResponse,
@@ -23,6 +29,7 @@ import {
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
   ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ConnectedEnvironmentsDaprComponentsDeleteResponse,
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsResponse,
   ConnectedEnvironmentsDaprComponentsListNextResponse,
@@ -53,7 +60,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<DaprComponent> {
+  ): PagedAsyncIterableIterator<ConnectedEnvironmentDaprComponent> {
     const iter = this.listPagingAll(
       resourceGroupName,
       connectedEnvironmentName,
@@ -85,7 +92,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DaprComponent[]> {
+  ): AsyncIterableIterator<ConnectedEnvironmentDaprComponent[]> {
     let result: ConnectedEnvironmentsDaprComponentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -117,7 +124,7 @@ export class ConnectedEnvironmentsDaprComponentsImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): AsyncIterableIterator<DaprComponent> {
+  ): AsyncIterableIterator<ConnectedEnvironmentDaprComponent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       connectedEnvironmentName,
@@ -171,23 +178,102 @@ export class ConnectedEnvironmentsDaprComponentsImpl
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: DaprComponent,
+    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
-  ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>,
+      ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         connectedEnvironmentName,
         componentName,
         daprComponentEnvelope,
         options,
       },
-      createOrUpdateOperationSpec,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
+      OperationState<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a Dapr Component in a connected environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the connected environment.
+   * @param componentName Name of the Dapr Component.
+   * @param daprComponentEnvelope Configuration details of the Dapr Component.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    componentName: string,
+    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
+  ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      connectedEnvironmentName,
+      componentName,
+      daprComponentEnvelope,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -197,16 +283,97 @@ export class ConnectedEnvironmentsDaprComponentsImpl
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
     options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, componentName, options },
-      deleteOperationSpec,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsDaprComponentsDeleteResponse>,
+      ConnectedEnvironmentsDaprComponentsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsDaprComponentsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        connectedEnvironmentName,
+        componentName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsDaprComponentsDeleteResponse,
+      OperationState<ConnectedEnvironmentsDaprComponentsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Dapr Component from a connected environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the connected environment.
+   * @param componentName Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    componentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsDaprComponentsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      connectedEnvironmentName,
+      componentName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -255,7 +422,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection,
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponentsCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -276,7 +443,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponent,
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -298,10 +465,19 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponent,
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+    },
+    201: {
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+    },
+    202: {
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
+    },
+    204: {
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponent,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.daprComponentEnvelope,
@@ -321,10 +497,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents/{componentName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ConnectedEnvironmentsDaprComponentsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ConnectedEnvironmentsDaprComponentsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ConnectedEnvironmentsDaprComponentsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ConnectedEnvironmentsDaprComponentsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -365,7 +551,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection,
+      bodyMapper: Mappers.ConnectedEnvironmentDaprComponentsCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
