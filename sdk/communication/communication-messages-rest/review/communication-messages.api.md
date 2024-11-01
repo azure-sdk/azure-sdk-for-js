@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
+import { KeyCredential } from '@azure/core-auth';
 import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -16,7 +16,7 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AudioNotificationContent extends NotificationContentParent {
@@ -31,10 +31,7 @@ export type CommunicationMessageKind = string;
 export type CommunicationMessagesChannelOutput = string;
 
 // @public
-function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
-
-// @public
-function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: MessagesServiceClientOptions): MessagesServiceClient;
 export default createClient;
 
 // @public
