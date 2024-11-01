@@ -41,6 +41,9 @@ dependencies:
   '@rush-temp/ai-metrics-advisor':
     specifier: file:./projects/ai-metrics-advisor.tgz
     version: file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-projects':
+    specifier: file:./projects/ai-projects.tgz
+    version: file:projects/ai-projects.tgz
   '@rush-temp/ai-text-analytics':
     specifier: file:./projects/ai-text-analytics.tgz
     version: file:projects/ai-text-analytics.tgz
@@ -3801,13 +3804,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3835,7 +3838,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3849,7 +3852,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/debug@4.1.12:
@@ -3861,7 +3864,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/deep-eql@4.0.2:
@@ -3892,7 +3895,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3911,7 +3914,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3928,7 +3931,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3938,19 +3941,19 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
     resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/linkify-it@5.0.0:
@@ -3997,13 +4000,13 @@ packages:
   /@types/mysql@2.15.26:
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       form-data: 4.0.1
     dev: false
 
@@ -4042,7 +4045,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       pg-protocol: 1.7.0
       pg-types: 2.2.0
     dev: false
@@ -4069,7 +4072,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4088,14 +4091,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       '@types/send': 0.17.4
     dev: false
 
@@ -4120,13 +4123,13 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4156,13 +4159,13 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/ws@8.5.12:
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
 
   /@types/yargs-parser@21.0.3:
@@ -4179,7 +4182,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
     dev: false
     optional: true
 
@@ -4759,7 +4762,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -5954,7 +5957,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -9301,7 +9304,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.60
+      '@types/node': 20.17.2
       long: 5.2.3
     dev: false
 
@@ -12105,6 +12108,25 @@ packages:
       - jiti
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-projects.tgz:
+    resolution: {integrity: sha512-baYj/pbVU7In8iM+9i/Xd76Z2RFXT2RRmvu+eoQ6f1u4c+8iJLgTBAXIjZIYICYmH/Z6jElcs328K2PJx5pqRg==, tarball: file:projects/ai-projects.tgz}
+    name: '@rush-temp/ai-projects'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.60)
+      '@types/node': 18.19.60
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.8.0
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-text-analytics.tgz:
@@ -22057,7 +22079,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-HkkRUizRaOlpop0fq+/U++wYFe5iDv35zb3pwyLvCaYPja0tga3qIa8yKCYBUhipRbNhIXnnnjeWuSElJ2KTKg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-q8yL4hV7Lzv4J8wDJcNBuIaeZfVGGpNfDhqQ+EuTzX4zXlJbks7OBa24nIgQAkW+Og1E5nsP2X+UnHrabKJq2g==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -22105,7 +22127,6 @@ packages:
       - less
       - lightningcss
       - msw
-      - rollup
       - safaridriver
       - sass
       - sass-embedded
