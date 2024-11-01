@@ -53,7 +53,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all Redis Enterprise clusters in a resource group.
+   * Lists all RedisEnterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all Redis Enterprise clusters in the specified subscription.
+   * Gets all RedisEnterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   public list(
@@ -178,8 +178,10 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
+   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -251,8 +253,10 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   /**
    * Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Create Redis Enterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
+   * @param parameters Parameters supplied to the Create RedisEnterprise operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -271,10 +275,12 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Updates an existing Redis Enterprise cluster
+   * Updates an existing RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
+   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -344,10 +350,12 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Updates an existing Redis Enterprise cluster
+   * Updates an existing RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
-   * @param parameters Parameters supplied to the Update Redis Enterprise operation.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
+   * @param parameters Parameters supplied to the Update RedisEnterprise operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -366,9 +374,11 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Deletes a Redis Enterprise cache cluster.
+   * Deletes a RedisEnterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   async beginDelete(
@@ -429,9 +439,11 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Deletes a Redis Enterprise cache cluster.
+   * Deletes a RedisEnterprise cache cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -448,9 +460,11 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Gets information about a Redis Enterprise cluster
+   * Gets information about a RedisEnterprise cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the Redis Enterprise cluster.
+   * @param clusterName The name of the Redis Enterprise cluster. Name must be 1-60 characters long.
+   *                    Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+   *                    consecutive hyphens
    * @param options The options parameters.
    */
   get(
@@ -465,7 +479,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all Redis Enterprise clusters in a resource group.
+   * Lists all RedisEnterprise clusters in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -480,7 +494,7 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
   }
 
   /**
-   * Lists all Redis Enterprise clusters in the specified subscription.
+   * Gets all RedisEnterprise clusters in the specified subscription.
    * @param options The options parameters.
    */
   private _list(
