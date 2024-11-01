@@ -4,23 +4,23 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
-import type { ErrorModel } from '@azure-rest/core-client';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { ErrorModel } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { Paged } from '@azure/core-paging';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface CancelJob {
@@ -72,7 +72,7 @@ export interface CancelJobHeaders {
 export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidServicesClientOptions): DeidServicesClient;
 export default createClient;
 
 // @public (undocumented)
@@ -149,16 +149,6 @@ export interface CreateJobLogicalResponse extends HttpResponse {
 // @public (undocumented)
 export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
-// @public (undocumented)
-export type DeidentificationClient = Client & {
-    path: Routes;
-};
-
-// @public
-export interface DeidentificationClientOptions extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface DeidentificationContent {
     dataType?: DocumentDataType;
@@ -233,6 +223,16 @@ export interface DeidentifyDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+
+// @public (undocumented)
+export type DeidServicesClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface DeidServicesClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public (undocumented)
 export interface DeleteJob204Headers {
