@@ -452,7 +452,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.version1,
     Parameters.description,
     Parameters.tags1,
-    Parameters.properties1,
+    Parameters.properties,
   ],
   urlParameters: [
     Parameters.$host,
@@ -531,7 +531,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -556,7 +556,7 @@ const createOrGetStartPendingUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -584,8 +584,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.modelName,
   ],
