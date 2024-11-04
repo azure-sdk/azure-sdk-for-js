@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+import { ErrorModel } from "@azure-rest/core-client";
 
 /** Translation job Status Response */
 export interface TranslationsStatusOutput {
@@ -14,7 +13,7 @@ export interface TranslationsStatusOutput {
 
 /** Translation job status response */
 export interface TranslationStatusOutput {
-  /** Id of the operation. */
+  /** Id of the translation operation. */
   id: string;
   /** Operation created date time */
   createdDateTimeUtc: string;
@@ -30,69 +29,9 @@ export interface TranslationStatusOutput {
    * This contains an outer error with error code, message, details, target and an
    * inner error with more descriptive details.
    */
-  error?: TranslationErrorOutput;
+  error?: ErrorModel;
   /** Status Summary */
   summary: StatusSummaryOutput;
-}
-
-/**
- * This contains an outer error with error code, message, details, target and an
- * inner error with more descriptive details.
- */
-export interface TranslationErrorOutput {
-  /**
-   * Enums containing high level error codes.
-   *
-   * Possible values: "InvalidRequest", "InvalidArgument", "InternalServerError", "ServiceUnavailable", "ResourceNotFound", "Unauthorized", "RequestRateTooHigh"
-   */
-  code: TranslationErrorCodeOutput;
-  /** Gets high level error message. */
-  message: string;
-  /**
-   * Gets the source of the error.
-   * For example it would be "documents" or
-   * "document id" in case of invalid document.
-   */
-  readonly target?: string;
-  /**
-   * New Inner Error format which conforms to Cognitive Services API Guidelines
-   * which is available at
-   * https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
-   * This
-   * contains required properties ErrorCode, message and optional properties target,
-   * details(key value pair), inner error(this can be nested).
-   */
-  innerError?: InnerTranslationErrorOutput;
-}
-
-/**
- * New Inner Error format which conforms to Cognitive Services API Guidelines
- * which is available at
- * https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
- * This
- * contains required properties ErrorCode, message and optional properties target,
- * details(key value pair), inner error(this can be nested).
- */
-export interface InnerTranslationErrorOutput {
-  /** Gets code error string. */
-  code: string;
-  /** Gets high level error message. */
-  message: string;
-  /**
-   * Gets the source of the error.
-   * For example it would be "documents" or
-   * "document id" in case of invalid document.
-   */
-  readonly target?: string;
-  /**
-   * New Inner Error format which conforms to Cognitive Services API Guidelines
-   * which is available at
-   * https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
-   * This
-   * contains required properties ErrorCode, message and optional properties target,
-   * details(key value pair), inner error(this can be nested).
-   */
-  innerError?: InnerTranslationErrorOutput;
 }
 
 /** Status Summary */
@@ -135,7 +74,7 @@ export interface DocumentStatusOutput {
    * This contains an outer error with error code, message, details, target and an
    * inner error with more descriptive details.
    */
-  error?: TranslationErrorOutput;
+  error?: ErrorModel;
   /** Progress of the translation if available */
   progress: number;
   /** Document Id */
@@ -170,11 +109,15 @@ export interface FileFormatOutput {
   defaultVersion?: string;
   /** Supported Version */
   versions?: string[];
-  /** Supported Type for this format */
-  type?: string;
+  /**
+   * Supported Type for this format
+   *
+   * Possible values: "document", "glossary"
+   */
+  type?: FileFormatTypeOutput;
 }
 
 /** Alias for StatusOutput */
 export type StatusOutput = string;
-/** Alias for TranslationErrorCodeOutput */
-export type TranslationErrorCodeOutput = string;
+/** Alias for FileFormatTypeOutput */
+export type FileFormatTypeOutput = string;
