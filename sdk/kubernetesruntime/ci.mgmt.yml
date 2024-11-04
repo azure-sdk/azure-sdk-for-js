@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -29,4 +29,6 @@ extends:
     ServiceDirectory: kubernetesruntime
     Artifacts:
       - name: azure-arm-containerorchestratorruntime
+        safeName: azurearmkubernetesruntime
+      - name: azure-arm-kubernetesruntime
         safeName: azurearmkubernetesruntime
