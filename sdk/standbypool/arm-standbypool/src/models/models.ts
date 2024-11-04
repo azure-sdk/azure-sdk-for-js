@@ -63,7 +63,8 @@ export type CreatedByType = string;
 export interface ProxyResource extends Resource {}
 
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
-export interface StandbyContainerGroupPoolRuntimeViewResource extends ProxyResource {
+export interface StandbyContainerGroupPoolRuntimeViewResource
+  extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
 }
@@ -90,6 +91,55 @@ export interface PoolResourceStateCount {
   count: number;
 }
 
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
 /** The response of a StandbyContainerGroupPoolRuntimeViewResource list operation. */
 export interface _StandbyContainerGroupPoolRuntimeViewResourceListResult {
   /** The StandbyContainerGroupPoolRuntimeViewResource items on this page */
@@ -106,7 +156,9 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -145,8 +197,12 @@ export function standbyContainerGroupPoolResourcePropertiesSerializer(
   item: StandbyContainerGroupPoolResourceProperties,
 ): Record<string, unknown> {
   return {
-    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
-    containerGroupProperties: containerGroupPropertiesSerializer(item.containerGroupProperties),
+    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(
+      item.elasticityProfile,
+    ),
+    containerGroupProperties: containerGroupPropertiesSerializer(
+      item.containerGroupProperties,
+    ),
   };
 }
 
@@ -170,7 +226,7 @@ export function standbyContainerGroupPoolElasticityProfileSerializer(
 /** Known values of {@link RefillPolicy} that the service accepts. */
 export enum KnownRefillPolicy {
   /** always */
-  Always = "always",
+  always = "always",
 }
 
 /**
@@ -194,9 +250,13 @@ export function containerGroupPropertiesSerializer(
   item: ContainerGroupProperties,
 ): Record<string, unknown> {
   return {
-    containerGroupProfile: containerGroupProfileSerializer(item.containerGroupProfile),
+    containerGroupProfile: containerGroupProfileSerializer(
+      item.containerGroupProfile,
+    ),
     subnetIds:
-      item["subnetIds"] === undefined ? item["subnetIds"] : item["subnetIds"].map(subnetSerializer),
+      item["subnetIds"] === undefined
+        ? item["subnetIds"]
+        : item["subnetIds"].map(subnetSerializer),
   };
 }
 
@@ -244,7 +304,9 @@ export function standbyContainerGroupPoolResourceUpdateSerializer(
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
       ? item.properties
-      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(item.properties),
+      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
+          item.properties,
+        ),
   };
 }
 
@@ -262,7 +324,9 @@ export function standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
+      : standbyContainerGroupPoolElasticityProfileSerializer(
+          item.elasticityProfile,
+        ),
     containerGroupProperties: !item.containerGroupProperties
       ? item.containerGroupProperties
       : containerGroupPropertiesSerializer(item.containerGroupProperties),
@@ -278,7 +342,8 @@ export interface _StandbyContainerGroupPoolResourceListResult {
 }
 
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
-export interface StandbyVirtualMachinePoolRuntimeViewResource extends ProxyResource {
+export interface StandbyVirtualMachinePoolRuntimeViewResource
+  extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
 }
@@ -374,7 +439,9 @@ export function standbyVirtualMachinePoolResourcePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(
+          item.elasticityProfile,
+        ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -430,7 +497,9 @@ export function standbyVirtualMachinePoolResourceUpdateSerializer(
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
       ? item.properties
-      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(item.properties),
+      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
+          item.properties,
+        ),
   };
 }
 
@@ -450,7 +519,9 @@ export function standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(
+          item.elasticityProfile,
+        ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -501,11 +572,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  User = "user",
+  user = "user",
   /** system */
-  System = "system",
+  system = "system",
   /** user,system */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -533,29 +604,10 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting**
- */
+/** Supported API Versions for Microsoft.StandbyPool */
+export type Versions =
+  | "2023-12-01-preview"
+  | "2024-03-01-preview"
+  | "2024-03-01";
 /** Alias for ProvisioningState */
-
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Deleting";
