@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 /** Translation job Status Response */
 export interface TranslationsStatusOutput {
   /** The summary status of individual operation */
@@ -14,7 +11,7 @@ export interface TranslationsStatusOutput {
 
 /** Translation job status response */
 export interface TranslationStatusOutput {
-  /** Id of the operation. */
+  /** Id of the translation operation. */
   id: string;
   /** Operation created date time */
   createdDateTimeUtc: string;
@@ -170,11 +167,17 @@ export interface FileFormatOutput {
   defaultVersion?: string;
   /** Supported Version */
   versions?: string[];
-  /** Supported Type for this format */
-  type?: string;
+  /**
+   * Supported Type for this format
+   *
+   * Possible values: "document", "glossary"
+   */
+  type?: FileFormatTypeOutput;
 }
 
 /** Alias for StatusOutput */
 export type StatusOutput = string;
 /** Alias for TranslationErrorCodeOutput */
 export type TranslationErrorCodeOutput = string;
+/** Alias for FileFormatTypeOutput */
+export type FileFormatTypeOutput = string;
