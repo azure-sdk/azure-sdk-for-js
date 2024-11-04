@@ -3,8 +3,8 @@
 
 export {
   createHealthDataAIServices,
-  HealthDataAIServicesClientOptionalParams,
   HealthDataAIServicesContext,
+  HealthDataAIServicesClientOptionalParams,
 } from "./healthDataAIServicesContext.js";
 export {
   deidServicesGet,

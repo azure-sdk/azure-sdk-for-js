@@ -10,11 +10,6 @@ import { OperationOptions } from '@azure-rest/core-client';
 export type ActionType = string;
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -105,8 +100,8 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
 }
@@ -180,18 +175,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export interface PrivateEndpoint {
@@ -307,7 +290,7 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type Versions = "2024-02-28-preview";
+export type Versions = "2024-02-28-preview" | "2024-09-20";
 
 // (No @packageDocumentation comment for this package)
 
