@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { DataflowProfileResource } from "../../models/models.js";
 import {
   dataflowProfileGet,
   dataflowProfileCreateOrUpdate,
   dataflowProfileDelete,
   dataflowProfileListByResourceGroup,
 } from "../../api/dataflowProfile/index.js";
-import { DataflowProfileResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   DataflowProfileCreateOrUpdateOptionalParams,
   DataflowProfileDeleteOptionalParams,
   DataflowProfileListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a DataflowProfile operations. */
 export interface DataflowProfileOperations {
@@ -34,7 +34,10 @@ export interface DataflowProfileOperations {
     dataflowProfileName: string,
     resource: DataflowProfileResource,
     options?: DataflowProfileCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<DataflowProfileResource>, DataflowProfileResource>;
+  ) => PollerLike<
+    OperationState<DataflowProfileResource>,
+    DataflowProfileResource
+  >;
   /** Delete a DataflowProfileResource */
   delete: (
     resourceGroupName: string,
@@ -50,7 +53,10 @@ export interface DataflowProfileOperations {
   ) => PagedAsyncIterableIterator<DataflowProfileResource>;
 }
 
-export function getDataflowProfile(context: IoTOperationsContext, subscriptionId: string) {
+export function getDataflowProfile(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

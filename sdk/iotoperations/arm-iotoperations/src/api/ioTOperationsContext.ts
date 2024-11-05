@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { logger } from "../logger.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
+import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
+import { logger } from "../logger.js";
 
-/** Microsoft.IoTOperations Resource Provider management API. */
 export interface IoTOperationsContext extends Client {}
 
 /** Optional parameters for the client. */
@@ -19,13 +18,13 @@ export function createIoTOperations(
   credential: TokenCredential,
   options: IoTOperationsClientOptionalParams = {},
 ): IoTOperationsContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-iotoperations/1.0.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+    ? `${prefixFromOptions} azsdk-js-api`
+    : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
@@ -36,7 +35,7 @@ export function createIoTOperations(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-09-15-preview";
+  const apiVersion = options.apiVersion ?? "2024-11-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

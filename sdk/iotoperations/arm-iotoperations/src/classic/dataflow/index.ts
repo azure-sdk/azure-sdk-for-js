@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { DataflowResource } from "../../models/models.js";
 import {
   dataflowGet,
   dataflowCreateOrUpdate,
   dataflowDelete,
   dataflowListByResourceGroup,
 } from "../../api/dataflow/index.js";
-import { DataflowResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   DataflowCreateOrUpdateOptionalParams,
   DataflowDeleteOptionalParams,
   DataflowListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a Dataflow operations. */
 export interface DataflowOperations {
@@ -54,7 +54,10 @@ export interface DataflowOperations {
   ) => PagedAsyncIterableIterator<DataflowResource>;
 }
 
-export function getDataflow(context: IoTOperationsContext, subscriptionId: string) {
+export function getDataflow(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

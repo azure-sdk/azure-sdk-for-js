@@ -2,31 +2,30 @@
 // Licensed under the MIT License.
 
 import {
-  BrokerAuthorizationCreateOrUpdateOptionalParams,
-  BrokerAuthorizationDeleteOptionalParams,
-  BrokerAuthorizationGetOptionalParams,
-  BrokerAuthorizationListByResourceGroupOptionalParams,
-  IoTOperationsContext as Client,
-} from "../index.js";
-import {
+  extendedLocationSerializer,
+  brokerAuthorizationPropertiesSerializer,
   BrokerAuthorizationResource,
-  brokerAuthorizationResourceSerializer,
-  brokerAuthorizationResourceDeserializer,
   _BrokerAuthorizationResourceListResult,
-  _brokerAuthorizationResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { IoTOperationsContext as Client } from "../index.js";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  BrokerAuthorizationGetOptionalParams,
+  BrokerAuthorizationCreateOrUpdateOptionalParams,
+  BrokerAuthorizationDeleteOptionalParams,
+  BrokerAuthorizationListByResourceGroupOptionalParams,
+} from "../../models/options.js";
 
 export function _brokerAuthorizationGetSend(
   context: Client,
@@ -57,7 +56,71 @@ export async function _brokerAuthorizationGetDeserialize(
     throw createRestError(result);
   }
 
-  return brokerAuthorizationResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          authorizationPolicies: {
+            cache: result.body.properties?.authorizationPolicies["cache"],
+            rules:
+              result.body.properties?.authorizationPolicies["rules"] ===
+              undefined
+                ? result.body.properties?.authorizationPolicies["rules"]
+                : result.body.properties?.authorizationPolicies["rules"].map(
+                    (p: any) => {
+                      return {
+                        brokerResources: p["brokerResources"].map((p: any) => {
+                          return {
+                            method: p["method"],
+                            clientIds: p["clientIds"],
+                            topics: p["topics"],
+                          };
+                        }),
+                        principals: {
+                          attributes: p.principals["attributes"],
+                          clientIds: p.principals["clientIds"],
+                          usernames: p.principals["usernames"],
+                        },
+                        stateStoreResources:
+                          p["stateStoreResources"] === undefined
+                            ? p["stateStoreResources"]
+                            : p["stateStoreResources"].map((p: any) => {
+                                return {
+                                  keyType: p["keyType"],
+                                  keys: p["keys"],
+                                  method: p["method"],
+                                };
+                              }),
+                      };
+                    },
+                  ),
+          },
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Get a BrokerAuthorizationResource */
@@ -105,7 +168,12 @@ export function _brokerAuthorizationCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: brokerAuthorizationResourceSerializer(resource),
+      body: {
+        properties: !resource.properties
+          ? resource.properties
+          : brokerAuthorizationPropertiesSerializer(resource.properties),
+        extendedLocation: extendedLocationSerializer(resource.extendedLocation),
+      },
     });
 }
 
@@ -117,7 +185,71 @@ export async function _brokerAuthorizationCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return brokerAuthorizationResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          authorizationPolicies: {
+            cache: result.body.properties?.authorizationPolicies["cache"],
+            rules:
+              result.body.properties?.authorizationPolicies["rules"] ===
+              undefined
+                ? result.body.properties?.authorizationPolicies["rules"]
+                : result.body.properties?.authorizationPolicies["rules"].map(
+                    (p: any) => {
+                      return {
+                        brokerResources: p["brokerResources"].map((p: any) => {
+                          return {
+                            method: p["method"],
+                            clientIds: p["clientIds"],
+                            topics: p["topics"],
+                          };
+                        }),
+                        principals: {
+                          attributes: p.principals["attributes"],
+                          clientIds: p.principals["clientIds"],
+                          usernames: p.principals["usernames"],
+                        },
+                        stateStoreResources:
+                          p["stateStoreResources"] === undefined
+                            ? p["stateStoreResources"]
+                            : p["stateStoreResources"].map((p: any) => {
+                                return {
+                                  keyType: p["keyType"],
+                                  keys: p["keys"],
+                                  method: p["method"],
+                                };
+                              }),
+                      };
+                    },
+                  ),
+          },
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Create a BrokerAuthorizationResource */
@@ -132,7 +264,10 @@ export function brokerAuthorizationCreateOrUpdate(
   options: BrokerAuthorizationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource> {
+): PollerLike<
+  OperationState<BrokerAuthorizationResource>,
+  BrokerAuthorizationResource
+> {
   return getLongRunningPoller(
     context,
     _brokerAuthorizationCreateOrUpdateDeserialize,
@@ -151,9 +286,11 @@ export function brokerAuthorizationCreateOrUpdate(
           resource,
           options,
         ),
-      resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
+  ) as PollerLike<
+    OperationState<BrokerAuthorizationResource>,
+    BrokerAuthorizationResource
+  >;
 }
 
 export function _brokerAuthorizationDeleteSend(
@@ -215,7 +352,6 @@ export function brokerAuthorizationDelete(
           authorizationName,
           options,
         ),
-      resourceLocationConfig: "location",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -249,7 +385,77 @@ export async function _brokerAuthorizationListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return _brokerAuthorizationResourceListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              authorizationPolicies: {
+                cache: p.properties?.authorizationPolicies["cache"],
+                rules:
+                  p.properties?.authorizationPolicies["rules"] === undefined
+                    ? p.properties?.authorizationPolicies["rules"]
+                    : p.properties?.authorizationPolicies["rules"].map(
+                        (p: any) => {
+                          return {
+                            brokerResources: p["brokerResources"].map(
+                              (p: any) => {
+                                return {
+                                  method: p["method"],
+                                  clientIds: p["clientIds"],
+                                  topics: p["topics"],
+                                };
+                              },
+                            ),
+                            principals: {
+                              attributes: p.principals["attributes"],
+                              clientIds: p.principals["clientIds"],
+                              usernames: p.principals["usernames"],
+                            },
+                            stateStoreResources:
+                              p["stateStoreResources"] === undefined
+                                ? p["stateStoreResources"]
+                                : p["stateStoreResources"].map((p: any) => {
+                                    return {
+                                      keyType: p["keyType"],
+                                      keys: p["keys"],
+                                      method: p["method"],
+                                    };
+                                  }),
+                          };
+                        },
+                      ),
+              },
+              provisioningState: p.properties?.["provisioningState"],
+            },
+        extendedLocation: {
+          name: p.extendedLocation["name"],
+          type: p.extendedLocation["type"],
+        },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List BrokerAuthorizationResource resources by BrokerResource */

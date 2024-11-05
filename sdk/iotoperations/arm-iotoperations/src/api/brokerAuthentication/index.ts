@@ -2,31 +2,30 @@
 // Licensed under the MIT License.
 
 import {
-  BrokerAuthenticationCreateOrUpdateOptionalParams,
-  BrokerAuthenticationDeleteOptionalParams,
-  BrokerAuthenticationGetOptionalParams,
-  BrokerAuthenticationListByResourceGroupOptionalParams,
-  IoTOperationsContext as Client,
-} from "../index.js";
-import {
+  extendedLocationSerializer,
+  brokerAuthenticationPropertiesSerializer,
   BrokerAuthenticationResource,
-  brokerAuthenticationResourceSerializer,
-  brokerAuthenticationResourceDeserializer,
   _BrokerAuthenticationResourceListResult,
-  _brokerAuthenticationResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { IoTOperationsContext as Client } from "../index.js";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  BrokerAuthenticationGetOptionalParams,
+  BrokerAuthenticationCreateOrUpdateOptionalParams,
+  BrokerAuthenticationDeleteOptionalParams,
+  BrokerAuthenticationListByResourceGroupOptionalParams,
+} from "../../models/options.js";
 
 export function _brokerAuthenticationGetSend(
   context: Client,
@@ -57,7 +56,69 @@ export async function _brokerAuthenticationGetDeserialize(
     throw createRestError(result);
   }
 
-  return brokerAuthenticationResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          authenticationMethods: result.body.properties?.[
+            "authenticationMethods"
+          ].map((p: any) => {
+            return {
+              method: p["method"],
+              customSettings: !p.customSettings
+                ? undefined
+                : {
+                    auth: !p.customSettings?.auth
+                      ? undefined
+                      : {
+                          x509: {
+                            secretRef:
+                              p.customSettings?.auth?.x509["secretRef"],
+                          },
+                        },
+                    caCertConfigMap: p.customSettings?.["caCertConfigMap"],
+                    endpoint: p.customSettings?.["endpoint"],
+                    headers: p.customSettings?.["headers"],
+                  },
+              serviceAccountTokenSettings: !p.serviceAccountTokenSettings
+                ? undefined
+                : { audiences: p.serviceAccountTokenSettings?.["audiences"] },
+              x509Settings: !p.x509Settings
+                ? undefined
+                : {
+                    authorizationAttributes:
+                      p.x509Settings?.["authorizationAttributes"],
+                    trustedClientCaCert:
+                      p.x509Settings?.["trustedClientCaCert"],
+                  },
+            };
+          }),
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Get a BrokerAuthenticationResource */
@@ -105,7 +166,12 @@ export function _brokerAuthenticationCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: brokerAuthenticationResourceSerializer(resource),
+      body: {
+        properties: !resource.properties
+          ? resource.properties
+          : brokerAuthenticationPropertiesSerializer(resource.properties),
+        extendedLocation: extendedLocationSerializer(resource.extendedLocation),
+      },
     });
 }
 
@@ -117,7 +183,69 @@ export async function _brokerAuthenticationCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return brokerAuthenticationResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          authenticationMethods: result.body.properties?.[
+            "authenticationMethods"
+          ].map((p: any) => {
+            return {
+              method: p["method"],
+              customSettings: !p.customSettings
+                ? undefined
+                : {
+                    auth: !p.customSettings?.auth
+                      ? undefined
+                      : {
+                          x509: {
+                            secretRef:
+                              p.customSettings?.auth?.x509["secretRef"],
+                          },
+                        },
+                    caCertConfigMap: p.customSettings?.["caCertConfigMap"],
+                    endpoint: p.customSettings?.["endpoint"],
+                    headers: p.customSettings?.["headers"],
+                  },
+              serviceAccountTokenSettings: !p.serviceAccountTokenSettings
+                ? undefined
+                : { audiences: p.serviceAccountTokenSettings?.["audiences"] },
+              x509Settings: !p.x509Settings
+                ? undefined
+                : {
+                    authorizationAttributes:
+                      p.x509Settings?.["authorizationAttributes"],
+                    trustedClientCaCert:
+                      p.x509Settings?.["trustedClientCaCert"],
+                  },
+            };
+          }),
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Create a BrokerAuthenticationResource */
@@ -132,7 +260,10 @@ export function brokerAuthenticationCreateOrUpdate(
   options: BrokerAuthenticationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource> {
+): PollerLike<
+  OperationState<BrokerAuthenticationResource>,
+  BrokerAuthenticationResource
+> {
   return getLongRunningPoller(
     context,
     _brokerAuthenticationCreateOrUpdateDeserialize,
@@ -151,9 +282,11 @@ export function brokerAuthenticationCreateOrUpdate(
           resource,
           options,
         ),
-      resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+  ) as PollerLike<
+    OperationState<BrokerAuthenticationResource>,
+    BrokerAuthenticationResource
+  >;
 }
 
 export function _brokerAuthenticationDeleteSend(
@@ -215,7 +348,6 @@ export function brokerAuthenticationDelete(
           authenticationName,
           options,
         ),
-      resourceLocationConfig: "location",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -249,7 +381,76 @@ export async function _brokerAuthenticationListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return _brokerAuthenticationResourceListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              authenticationMethods: p.properties?.[
+                "authenticationMethods"
+              ].map((p: any) => {
+                return {
+                  method: p["method"],
+                  customSettings: !p.customSettings
+                    ? undefined
+                    : {
+                        auth: !p.customSettings?.auth
+                          ? undefined
+                          : {
+                              x509: {
+                                secretRef:
+                                  p.customSettings?.auth?.x509["secretRef"],
+                              },
+                            },
+                        caCertConfigMap: p.customSettings?.["caCertConfigMap"],
+                        endpoint: p.customSettings?.["endpoint"],
+                        headers: p.customSettings?.["headers"],
+                      },
+                  serviceAccountTokenSettings: !p.serviceAccountTokenSettings
+                    ? undefined
+                    : {
+                        audiences: p.serviceAccountTokenSettings?.["audiences"],
+                      },
+                  x509Settings: !p.x509Settings
+                    ? undefined
+                    : {
+                        authorizationAttributes:
+                          p.x509Settings?.["authorizationAttributes"],
+                        trustedClientCaCert:
+                          p.x509Settings?.["trustedClientCaCert"],
+                      },
+                };
+              }),
+              provisioningState: p.properties?.["provisioningState"],
+            },
+        extendedLocation: {
+          name: p.extendedLocation["name"],
+          type: p.extendedLocation["type"],
+        },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List BrokerAuthenticationResource resources by BrokerResource */

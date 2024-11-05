@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { BrokerResource } from "../../models/models.js";
 import {
   brokerGet,
   brokerCreateOrUpdate,
   brokerDelete,
   brokerListByResourceGroup,
 } from "../../api/broker/index.js";
-import { BrokerResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   BrokerCreateOrUpdateOptionalParams,
   BrokerDeleteOptionalParams,
   BrokerListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a Broker operations. */
 export interface BrokerOperations {
@@ -50,14 +50,25 @@ export interface BrokerOperations {
   ) => PagedAsyncIterableIterator<BrokerResource>;
 }
 
-export function getBroker(context: IoTOperationsContext, subscriptionId: string) {
+export function getBroker(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       instanceName: string,
       brokerName: string,
       options?: BrokerGetOptionalParams,
-    ) => brokerGet(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
+    ) =>
+      brokerGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       instanceName: string,
@@ -80,13 +91,26 @@ export function getBroker(context: IoTOperationsContext, subscriptionId: string)
       brokerName: string,
       options?: BrokerDeleteOptionalParams,
     ) =>
-      brokerDelete(context, subscriptionId, resourceGroupName, instanceName, brokerName, options),
+      brokerDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       instanceName: string,
       options?: BrokerListByResourceGroupOptionalParams,
     ) =>
-      brokerListByResourceGroup(context, subscriptionId, resourceGroupName, instanceName, options),
+      brokerListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        options,
+      ),
   };
 }
 

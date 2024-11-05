@@ -4,6 +4,8 @@
 
 ```ts
 
+import { OperationOptions } from '@azure-rest/core-client';
+
 // @public
 export type AccessTokenMethod = string;
 
@@ -44,6 +46,24 @@ export interface BackendChain {
 export interface BatchingConfiguration {
     latencySeconds?: number;
     maxMessages?: number;
+}
+
+// @public
+export interface BrokerAuthenticationCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerAuthenticationDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerAuthenticationGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BrokerAuthenticationListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -100,6 +120,24 @@ export interface BrokerAuthenticatorMethodX509Attributes {
 }
 
 // @public
+export interface BrokerAuthorizationCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerAuthorizationDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerAuthorizationGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BrokerAuthorizationListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BrokerAuthorizationProperties {
     authorizationPolicies: AuthorizationConfig;
     readonly provisioningState?: ProvisioningState;
@@ -112,11 +150,47 @@ export interface BrokerAuthorizationResource extends ProxyResource {
 }
 
 // @public
+export interface BrokerCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface BrokerDiagnostics {
     logs?: DiagnosticsLogs;
     metrics?: Metrics;
     selfCheck?: SelfCheck;
     traces?: Traces;
+}
+
+// @public
+export interface BrokerGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BrokerListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BrokerListenerCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerListenerDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BrokerListenerGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BrokerListenerListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -260,6 +334,16 @@ export interface DataflowBuiltInTransformationSettings {
 }
 
 // @public
+export interface DataflowCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataflowDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface DataflowDestinationOperationSettings {
     dataDestination: string;
     endpointRef: string;
@@ -302,6 +386,11 @@ export interface DataflowEndpointAuthenticationX509 {
 }
 
 // @public
+export interface DataflowEndpointCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface DataflowEndpointDataExplorer {
     authentication: DataflowEndpointDataExplorerAuthentication;
     batching?: BatchingConfiguration;
@@ -332,6 +421,11 @@ export interface DataflowEndpointDataLakeStorageAuthentication {
 }
 
 // @public
+export interface DataflowEndpointDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface DataflowEndpointFabricOneLake {
     authentication: DataflowEndpointFabricOneLakeAuthentication;
     batching?: BatchingConfiguration;
@@ -355,6 +449,10 @@ export interface DataflowEndpointFabricOneLakeNames {
 
 // @public
 export type DataflowEndpointFabricPathType = string;
+
+// @public
+export interface DataflowEndpointGetOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface DataflowEndpointKafka {
@@ -395,6 +493,10 @@ export type DataflowEndpointKafkaCompression = string;
 
 // @public
 export type DataflowEndpointKafkaPartitionStrategy = string;
+
+// @public
+export interface DataflowEndpointListByResourceGroupOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface DataflowEndpointLocalStorage {
@@ -444,6 +546,14 @@ export interface DataflowEndpointResource extends ProxyResource {
 }
 
 // @public
+export interface DataflowGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DataflowListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
 export type DataflowMappingType = string;
 
 // @public
@@ -453,6 +563,24 @@ export interface DataflowOperation {
     name?: string;
     operationType: OperationType;
     sourceSettings?: DataflowSourceOperationSettings;
+}
+
+// @public
+export interface DataflowProfileCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataflowProfileDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataflowProfileGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DataflowProfileListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -509,6 +637,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -535,6 +683,28 @@ export interface GenerateResourceLimits {
 }
 
 // @public
+export interface InstanceCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InstanceDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InstanceGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InstanceListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InstanceListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface InstancePatchModel {
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
@@ -553,6 +723,10 @@ export interface InstanceResource extends TrackedResource {
     extendedLocation: ExtendedLocation;
     identity?: ManagedServiceIdentity;
     properties?: InstanceProperties;
+}
+
+// @public
+export interface InstanceUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -695,8 +869,8 @@ export enum KnownManagedIdentityMethod {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -729,9 +903,9 @@ export enum KnownOperatorValues {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -752,14 +926,10 @@ export enum KnownPrivateKeyRotationPolicy {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Accepted = "Accepted",
+export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
-    Deleting = "Deleting",
     Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -893,6 +1063,10 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
 export type OperationType = string;
 
 // @public
@@ -921,7 +1095,7 @@ export interface ProfileDiagnostics {
 }
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -934,6 +1108,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export interface SanForCert {
@@ -1041,6 +1218,9 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type Versions = "2024-11-01";
 
 // @public
 export interface VolumeClaimResourceRequirements {

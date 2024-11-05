@@ -2,31 +2,30 @@
 // Licensed under the MIT License.
 
 import {
-  IoTOperationsContext as Client,
-  DataflowCreateOrUpdateOptionalParams,
-  DataflowDeleteOptionalParams,
-  DataflowGetOptionalParams,
-  DataflowListByResourceGroupOptionalParams,
-} from "../index.js";
-import {
+  extendedLocationSerializer,
+  dataflowPropertiesSerializer,
   DataflowResource,
-  dataflowResourceSerializer,
-  dataflowResourceDeserializer,
   _DataflowResourceListResult,
-  _dataflowResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { IoTOperationsContext as Client } from "../index.js";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  DataflowGetOptionalParams,
+  DataflowCreateOrUpdateOptionalParams,
+  DataflowDeleteOptionalParams,
+  DataflowListByResourceGroupOptionalParams,
+} from "../../models/options.js";
 
 export function _dataflowGetSend(
   context: Client,
@@ -57,7 +56,108 @@ export async function _dataflowGetDeserialize(
     throw createRestError(result);
   }
 
-  return dataflowResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          mode: result.body.properties?.["mode"],
+          operations: result.body.properties?.["operations"].map((p: any) => {
+            return {
+              operationType: p["operationType"],
+              name: p["name"],
+              sourceSettings: !p.sourceSettings
+                ? undefined
+                : {
+                    endpointRef: p.sourceSettings?.["endpointRef"],
+                    assetRef: p.sourceSettings?.["assetRef"],
+                    serializationFormat:
+                      p.sourceSettings?.["serializationFormat"],
+                    schemaRef: p.sourceSettings?.["schemaRef"],
+                    dataSources: p.sourceSettings?.["dataSources"],
+                  },
+              builtInTransformationSettings: !p.builtInTransformationSettings
+                ? undefined
+                : {
+                    serializationFormat:
+                      p.builtInTransformationSettings?.["serializationFormat"],
+                    schemaRef: p.builtInTransformationSettings?.["schemaRef"],
+                    datasets:
+                      p.builtInTransformationSettings?.["datasets"] ===
+                      undefined
+                        ? p.builtInTransformationSettings?.["datasets"]
+                        : p.builtInTransformationSettings?.["datasets"].map(
+                            (p: any) => {
+                              return {
+                                key: p["key"],
+                                description: p["description"],
+                                schemaRef: p["schemaRef"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                              };
+                            },
+                          ),
+                    filter:
+                      p.builtInTransformationSettings?.["filter"] === undefined
+                        ? p.builtInTransformationSettings?.["filter"]
+                        : p.builtInTransformationSettings?.["filter"].map(
+                            (p: any) => {
+                              return {
+                                type: p["type"],
+                                description: p["description"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                              };
+                            },
+                          ),
+                    map:
+                      p.builtInTransformationSettings?.["map"] === undefined
+                        ? p.builtInTransformationSettings?.["map"]
+                        : p.builtInTransformationSettings?.["map"].map(
+                            (p: any) => {
+                              return {
+                                type: p["type"],
+                                description: p["description"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                                output: p["output"],
+                              };
+                            },
+                          ),
+                  },
+              destinationSettings: !p.destinationSettings
+                ? undefined
+                : {
+                    endpointRef: p.destinationSettings?.["endpointRef"],
+                    dataDestination: p.destinationSettings?.["dataDestination"],
+                  },
+            };
+          }),
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Get a DataflowResource */
@@ -103,7 +203,12 @@ export function _dataflowCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: dataflowResourceSerializer(resource),
+      body: {
+        properties: !resource.properties
+          ? resource.properties
+          : dataflowPropertiesSerializer(resource.properties),
+        extendedLocation: extendedLocationSerializer(resource.extendedLocation),
+      },
     });
 }
 
@@ -115,7 +220,108 @@ export async function _dataflowCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return dataflowResourceDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          mode: result.body.properties?.["mode"],
+          operations: result.body.properties?.["operations"].map((p: any) => {
+            return {
+              operationType: p["operationType"],
+              name: p["name"],
+              sourceSettings: !p.sourceSettings
+                ? undefined
+                : {
+                    endpointRef: p.sourceSettings?.["endpointRef"],
+                    assetRef: p.sourceSettings?.["assetRef"],
+                    serializationFormat:
+                      p.sourceSettings?.["serializationFormat"],
+                    schemaRef: p.sourceSettings?.["schemaRef"],
+                    dataSources: p.sourceSettings?.["dataSources"],
+                  },
+              builtInTransformationSettings: !p.builtInTransformationSettings
+                ? undefined
+                : {
+                    serializationFormat:
+                      p.builtInTransformationSettings?.["serializationFormat"],
+                    schemaRef: p.builtInTransformationSettings?.["schemaRef"],
+                    datasets:
+                      p.builtInTransformationSettings?.["datasets"] ===
+                      undefined
+                        ? p.builtInTransformationSettings?.["datasets"]
+                        : p.builtInTransformationSettings?.["datasets"].map(
+                            (p: any) => {
+                              return {
+                                key: p["key"],
+                                description: p["description"],
+                                schemaRef: p["schemaRef"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                              };
+                            },
+                          ),
+                    filter:
+                      p.builtInTransformationSettings?.["filter"] === undefined
+                        ? p.builtInTransformationSettings?.["filter"]
+                        : p.builtInTransformationSettings?.["filter"].map(
+                            (p: any) => {
+                              return {
+                                type: p["type"],
+                                description: p["description"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                              };
+                            },
+                          ),
+                    map:
+                      p.builtInTransformationSettings?.["map"] === undefined
+                        ? p.builtInTransformationSettings?.["map"]
+                        : p.builtInTransformationSettings?.["map"].map(
+                            (p: any) => {
+                              return {
+                                type: p["type"],
+                                description: p["description"],
+                                inputs: p["inputs"],
+                                expression: p["expression"],
+                                output: p["output"],
+                              };
+                            },
+                          ),
+                  },
+              destinationSettings: !p.destinationSettings
+                ? undefined
+                : {
+                    endpointRef: p.destinationSettings?.["endpointRef"],
+                    dataDestination: p.destinationSettings?.["dataDestination"],
+                  },
+            };
+          }),
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+    extendedLocation: {
+      name: result.body.extendedLocation["name"],
+      type: result.body.extendedLocation["type"],
+    },
+  };
 }
 
 /** Create a DataflowResource */
@@ -129,22 +335,26 @@ export function dataflowCreateOrUpdate(
   resource: DataflowResource,
   options: DataflowCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DataflowResource>, DataflowResource> {
-  return getLongRunningPoller(context, _dataflowCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _dataflowCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        dataflowName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
+  return getLongRunningPoller(
+    context,
+    _dataflowCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _dataflowCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          dataflowProfileName,
+          dataflowName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
 }
 
 export function _dataflowDeleteSend(
@@ -168,7 +378,9 @@ export function _dataflowDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _dataflowDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _dataflowDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -187,21 +399,25 @@ export function dataflowDelete(
   dataflowName: string,
   options: DataflowDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _dataflowDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _dataflowDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        dataflowName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _dataflowDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _dataflowDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          dataflowProfileName,
+          dataflowName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _dataflowListByResourceGroupSend(
@@ -231,7 +447,120 @@ export async function _dataflowListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return _dataflowResourceListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              mode: p.properties?.["mode"],
+              operations: p.properties?.["operations"].map((p: any) => {
+                return {
+                  operationType: p["operationType"],
+                  name: p["name"],
+                  sourceSettings: !p.sourceSettings
+                    ? undefined
+                    : {
+                        endpointRef: p.sourceSettings?.["endpointRef"],
+                        assetRef: p.sourceSettings?.["assetRef"],
+                        serializationFormat:
+                          p.sourceSettings?.["serializationFormat"],
+                        schemaRef: p.sourceSettings?.["schemaRef"],
+                        dataSources: p.sourceSettings?.["dataSources"],
+                      },
+                  builtInTransformationSettings:
+                    !p.builtInTransformationSettings
+                      ? undefined
+                      : {
+                          serializationFormat:
+                            p.builtInTransformationSettings?.[
+                              "serializationFormat"
+                            ],
+                          schemaRef:
+                            p.builtInTransformationSettings?.["schemaRef"],
+                          datasets:
+                            p.builtInTransformationSettings?.["datasets"] ===
+                            undefined
+                              ? p.builtInTransformationSettings?.["datasets"]
+                              : p.builtInTransformationSettings?.[
+                                  "datasets"
+                                ].map((p: any) => {
+                                  return {
+                                    key: p["key"],
+                                    description: p["description"],
+                                    schemaRef: p["schemaRef"],
+                                    inputs: p["inputs"],
+                                    expression: p["expression"],
+                                  };
+                                }),
+                          filter:
+                            p.builtInTransformationSettings?.["filter"] ===
+                            undefined
+                              ? p.builtInTransformationSettings?.["filter"]
+                              : p.builtInTransformationSettings?.["filter"].map(
+                                  (p: any) => {
+                                    return {
+                                      type: p["type"],
+                                      description: p["description"],
+                                      inputs: p["inputs"],
+                                      expression: p["expression"],
+                                    };
+                                  },
+                                ),
+                          map:
+                            p.builtInTransformationSettings?.["map"] ===
+                            undefined
+                              ? p.builtInTransformationSettings?.["map"]
+                              : p.builtInTransformationSettings?.["map"].map(
+                                  (p: any) => {
+                                    return {
+                                      type: p["type"],
+                                      description: p["description"],
+                                      inputs: p["inputs"],
+                                      expression: p["expression"],
+                                      output: p["output"],
+                                    };
+                                  },
+                                ),
+                        },
+                  destinationSettings: !p.destinationSettings
+                    ? undefined
+                    : {
+                        endpointRef: p.destinationSettings?.["endpointRef"],
+                        dataDestination:
+                          p.destinationSettings?.["dataDestination"],
+                      },
+                };
+              }),
+              provisioningState: p.properties?.["provisioningState"],
+            },
+        extendedLocation: {
+          name: p.extendedLocation["name"],
+          type: p.extendedLocation["type"],
+        },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List DataflowResource resources by DataflowProfileResource */

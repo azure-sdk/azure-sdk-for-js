@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { InstanceResource, InstancePatchModel } from "../../models/models.js";
 import {
   instanceGet,
   instanceCreateOrUpdate,
@@ -10,7 +11,6 @@ import {
   instanceListByResourceGroup,
   instanceListBySubscription,
 } from "../../api/instance/index.js";
-import { InstanceResource, InstancePatchModel } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -20,7 +20,7 @@ import {
   InstanceDeleteOptionalParams,
   InstanceListByResourceGroupOptionalParams,
   InstanceListBySubscriptionOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a Instance operations. */
 export interface InstanceOperations {
@@ -61,10 +61,23 @@ export interface InstanceOperations {
   ) => PagedAsyncIterableIterator<InstanceResource>;
 }
 
-export function getInstance(context: IoTOperationsContext, subscriptionId: string) {
+export function getInstance(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
-    get: (resourceGroupName: string, instanceName: string, options?: InstanceGetOptionalParams) =>
-      instanceGet(context, subscriptionId, resourceGroupName, instanceName, options),
+    get: (
+      resourceGroupName: string,
+      instanceName: string,
+      options?: InstanceGetOptionalParams,
+    ) =>
+      instanceGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       instanceName: string,
@@ -85,16 +98,36 @@ export function getInstance(context: IoTOperationsContext, subscriptionId: strin
       properties: InstancePatchModel,
       options?: InstanceUpdateOptionalParams,
     ) =>
-      instanceUpdate(context, subscriptionId, resourceGroupName, instanceName, properties, options),
+      instanceUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        properties,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       instanceName: string,
       options?: InstanceDeleteOptionalParams,
-    ) => instanceDelete(context, subscriptionId, resourceGroupName, instanceName, options),
+    ) =>
+      instanceDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: InstanceListByResourceGroupOptionalParams,
-    ) => instanceListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      instanceListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     listBySubscription: (options?: InstanceListBySubscriptionOptionalParams) =>
       instanceListBySubscription(context, subscriptionId, options),
   };

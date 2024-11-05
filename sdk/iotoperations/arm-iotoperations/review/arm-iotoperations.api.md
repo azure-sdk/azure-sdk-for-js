@@ -705,6 +705,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -947,8 +967,8 @@ export enum KnownManagedIdentityMethod {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -981,9 +1001,9 @@ export enum KnownOperatorValues {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -1004,14 +1024,10 @@ export enum KnownPrivateKeyRotationPolicy {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Accepted = "Accepted",
+export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
-    Deleting = "Deleting",
     Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1194,7 +1210,7 @@ export interface ProfileDiagnostics {
 }
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -1207,6 +1223,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IoTOperationsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -1324,6 +1343,9 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
+
+// @public
+export type Versions = "2024-11-01";
 
 // @public
 export interface VolumeClaimResourceRequirements {

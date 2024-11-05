@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { BrokerAuthenticationResource } from "../../models/models.js";
 import {
   brokerAuthenticationGet,
   brokerAuthenticationCreateOrUpdate,
   brokerAuthenticationDelete,
   brokerAuthenticationListByResourceGroup,
 } from "../../api/brokerAuthentication/index.js";
-import { BrokerAuthenticationResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   BrokerAuthenticationCreateOrUpdateOptionalParams,
   BrokerAuthenticationDeleteOptionalParams,
   BrokerAuthenticationListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a BrokerAuthentication operations. */
 export interface BrokerAuthenticationOperations {
@@ -36,7 +36,10 @@ export interface BrokerAuthenticationOperations {
     authenticationName: string,
     resource: BrokerAuthenticationResource,
     options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+  ) => PollerLike<
+    OperationState<BrokerAuthenticationResource>,
+    BrokerAuthenticationResource
+  >;
   /** Delete a BrokerAuthenticationResource */
   delete: (
     resourceGroupName: string,
@@ -54,7 +57,10 @@ export interface BrokerAuthenticationOperations {
   ) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
 }
 
-export function getBrokerAuthentication(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerAuthentication(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { BrokerListenerResource } from "../../models/models.js";
 import {
   brokerListenerGet,
   brokerListenerCreateOrUpdate,
   brokerListenerDelete,
   brokerListenerListByResourceGroup,
 } from "../../api/brokerListener/index.js";
-import { BrokerListenerResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   BrokerListenerCreateOrUpdateOptionalParams,
   BrokerListenerDeleteOptionalParams,
   BrokerListenerListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a BrokerListener operations. */
 export interface BrokerListenerOperations {
@@ -36,7 +36,10 @@ export interface BrokerListenerOperations {
     listenerName: string,
     resource: BrokerListenerResource,
     options?: BrokerListenerCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
+  ) => PollerLike<
+    OperationState<BrokerListenerResource>,
+    BrokerListenerResource
+  >;
   /** Delete a BrokerListenerResource */
   delete: (
     resourceGroupName: string,
@@ -54,7 +57,10 @@ export interface BrokerListenerOperations {
   ) => PagedAsyncIterableIterator<BrokerListenerResource>;
 }
 
-export function getBrokerListener(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerListener(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,

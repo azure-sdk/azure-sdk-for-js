@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { DataflowEndpointResource } from "../../models/models.js";
 import {
   dataflowEndpointGet,
   dataflowEndpointCreateOrUpdate,
   dataflowEndpointDelete,
   dataflowEndpointListByResourceGroup,
 } from "../../api/dataflowEndpoint/index.js";
-import { DataflowEndpointResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   DataflowEndpointCreateOrUpdateOptionalParams,
   DataflowEndpointDeleteOptionalParams,
   DataflowEndpointListByResourceGroupOptionalParams,
-} from "../../api/options.js";
+} from "../../models/options.js";
 
 /** Interface representing a DataflowEndpoint operations. */
 export interface DataflowEndpointOperations {
@@ -34,7 +34,10 @@ export interface DataflowEndpointOperations {
     dataflowEndpointName: string,
     resource: DataflowEndpointResource,
     options?: DataflowEndpointCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
+  ) => PollerLike<
+    OperationState<DataflowEndpointResource>,
+    DataflowEndpointResource
+  >;
   /** Delete a DataflowEndpointResource */
   delete: (
     resourceGroupName: string,
@@ -50,7 +53,10 @@ export interface DataflowEndpointOperations {
   ) => PagedAsyncIterableIterator<DataflowEndpointResource>;
 }
 
-export function getDataflowEndpoint(context: IoTOperationsContext, subscriptionId: string) {
+export function getDataflowEndpoint(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
