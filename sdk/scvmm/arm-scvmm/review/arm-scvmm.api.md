@@ -346,6 +346,7 @@ export interface GuestAgentProperties {
     credentials?: GuestCredential;
     readonly customResourceName?: string;
     httpProxyConfig?: HttpProxyConfiguration;
+    privateLinkScopeResourceId?: string;
     provisioningAction?: ProvisioningAction;
     readonly provisioningState?: ProvisioningState;
     readonly status?: string;
@@ -727,9 +728,16 @@ export type Origin = string;
 export interface OsProfileForVmInstance {
     adminPassword?: string;
     computerName?: string;
+    domainName?: string;
+    domainPassword?: string;
+    domainUsername?: string;
     readonly osSku?: string;
     readonly osType?: OsType;
     readonly osVersion?: string;
+    productKey?: string;
+    runOnceCommands?: string;
+    timezone?: number;
+    workgroup?: string;
 }
 
 // @public
@@ -925,8 +933,8 @@ export interface VirtualMachineInstances {
     beginRestoreCheckpointAndWait(resourceUri: string, body: VirtualMachineRestoreCheckpoint, options?: VirtualMachineInstancesRestoreCheckpointOptionalParams): Promise<VirtualMachineInstancesRestoreCheckpointResponse>;
     beginStart(resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesStartResponse>, VirtualMachineInstancesStartResponse>>;
     beginStartAndWait(resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): Promise<VirtualMachineInstancesStartResponse>;
-    beginStop(resourceUri: string, body: StopVirtualMachineOptions, options?: VirtualMachineInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesStopResponse>, VirtualMachineInstancesStopResponse>>;
-    beginStopAndWait(resourceUri: string, body: StopVirtualMachineOptions, options?: VirtualMachineInstancesStopOptionalParams): Promise<VirtualMachineInstancesStopResponse>;
+    beginStop(resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesStopResponse>, VirtualMachineInstancesStopResponse>>;
+    beginStopAndWait(resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): Promise<VirtualMachineInstancesStopResponse>;
     beginUpdate(resourceUri: string, properties: VirtualMachineInstanceUpdate, options?: VirtualMachineInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineInstancesUpdateResponse>, VirtualMachineInstancesUpdateResponse>>;
     beginUpdateAndWait(resourceUri: string, properties: VirtualMachineInstanceUpdate, options?: VirtualMachineInstancesUpdateOptionalParams): Promise<VirtualMachineInstancesUpdateResponse>;
     get(resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams): Promise<VirtualMachineInstancesGetResponse>;
@@ -1068,6 +1076,7 @@ export interface VirtualMachineInstancesStopHeaders {
 
 // @public
 export interface VirtualMachineInstancesStopOptionalParams extends coreClient.OperationOptions {
+    body?: StopVirtualMachineOptions;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
