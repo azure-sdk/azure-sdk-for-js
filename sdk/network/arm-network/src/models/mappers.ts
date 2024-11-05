@@ -23247,6 +23247,13 @@ export const VirtualNetworkGatewayIPConfiguration: coreClient.CompositeMapper =
             name: "String",
           },
         },
+        privateIPv6Address: {
+          serializedName: "properties.privateIPv6Address",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
         provisioningState: {
           serializedName: "properties.provisioningState",
           readOnly: true,

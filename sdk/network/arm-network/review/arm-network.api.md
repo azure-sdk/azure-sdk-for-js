@@ -14839,6 +14839,7 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
     name?: string;
     readonly privateIPAddress?: string;
     privateIPAllocationMethod?: IPAllocationMethod;
+    readonly privateIPv6Address?: string;
     readonly provisioningState?: ProvisioningState;
     publicIPAddress?: SubResource;
     subnet?: SubResource;

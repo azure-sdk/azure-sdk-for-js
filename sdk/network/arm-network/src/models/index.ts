@@ -8510,6 +8510,11 @@ export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
    */
   readonly privateIPAddress?: string;
   /**
+   * Private IP Address for this gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateIPv6Address?: string;
+  /**
    * The provisioning state of the virtual network gateway IP configuration resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */

@@ -1,15 +1,12 @@
 # Release History
-
-## 33.4.1 (Unreleased)
-
+    
+## 33.5.0 (2024-11-05)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface VirtualNetworkGatewayIPConfiguration has a new optional parameter privateIPv6Address
+    
+    
 ## 33.4.0 (2024-09-13)
     
 ### Features Added
