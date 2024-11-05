@@ -1,15 +1,523 @@
 # Release History
-
-## 6.0.1 (Unreleased)
-
+    
+## 7.0.0 (2024-11-05)
+    
 ### Features Added
+
+  - Added operation group WorkloadNetworkDhcpConfigurationsOperations
+  - Added operation group WorkloadNetworkDnsServicesOperations
+  - Added operation group WorkloadNetworkDnsZonesOperations
+  - Added operation group WorkloadNetworkGatewaysOperations
+  - Added operation group WorkloadNetworkPortMirroringProfilesOperations
+  - Added operation group WorkloadNetworkPublicIpsOperations
+  - Added operation group WorkloadNetworkSegmentsOperations
+  - Added operation group WorkloadNetworkVirtualMachinesOperations
+  - Added operation group WorkloadNetworkVmGroupsOperations
+  - Added operation AddonsOperations.createOrUpdate
+  - Added operation AddonsOperations.delete
+  - Added operation AuthorizationsOperations.createOrUpdate
+  - Added operation AuthorizationsOperations.delete
+  - Added operation CloudLinksOperations.createOrUpdate
+  - Added operation CloudLinksOperations.delete
+  - Added operation ClustersOperations.createOrUpdate
+  - Added operation ClustersOperations.delete
+  - Added operation ClustersOperations.update
+  - Added operation DatastoresOperations.createOrUpdate
+  - Added operation DatastoresOperations.delete
+  - Added operation GlobalReachConnectionsOperations.createOrUpdate
+  - Added operation GlobalReachConnectionsOperations.delete
+  - Added operation IscsiPathsOperations.createOrUpdate
+  - Added operation IscsiPathsOperations.delete
+  - Added operation PlacementPoliciesOperations.createOrUpdate
+  - Added operation PlacementPoliciesOperations.delete
+  - Added operation PlacementPoliciesOperations.update
+  - Added operation PrivateCloudsOperations.createOrUpdate
+  - Added operation PrivateCloudsOperations.delete
+  - Added operation PrivateCloudsOperations.rotateNsxtPassword
+  - Added operation PrivateCloudsOperations.rotateVcenterPassword
+  - Added operation PrivateCloudsOperations.update
+  - Added operation ScriptExecutionsOperations.createOrUpdate
+  - Added operation ScriptExecutionsOperations.delete
+  - Added operation VirtualMachinesOperations.restrictMovement
+  - Added Interface AzureVMwareSolutionAPIClientOptionalParams
+  - Added Interface CloudLinkProperties
+  - Added Interface ClusterProperties
+  - Added Interface ClusterUpdateProperties
+  - Added Interface DatastoreProperties
+  - Added Interface ExpressRouteAuthorizationProperties
+  - Added Interface GlobalReachConnectionProperties
+  - Added Interface HcxEnterpriseSiteProperties
+  - Added Interface IscsiPathProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PlacementPolicyUpdateProperties
+  - Added Interface PrivateCloudProperties
+  - Added Interface PrivateCloudUpdateProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ScriptCmdletProperties
+  - Added Interface ScriptExecutionProperties
+  - Added Interface ScriptPackageProperties
+  - Added Interface SystemAssignedServiceIdentity
+  - Added Interface VirtualMachineProperties
+  - Added Interface VmVmPlacementPolicyProperties
+  - Added Interface WorkloadNetworkDhcpConfigurationsCreateOptionalParams
+  - Added Interface WorkloadNetworkDhcpConfigurationsDeleteOptionalParams
+  - Added Interface WorkloadNetworkDhcpConfigurationsGetOptionalParams
+  - Added Interface WorkloadNetworkDhcpConfigurationsListOptionalParams
+  - Added Interface WorkloadNetworkDhcpConfigurationsUpdateOptionalParams
+  - Added Interface WorkloadNetworkDnsServiceProperties
+  - Added Interface WorkloadNetworkDnsServicesCreateOptionalParams
+  - Added Interface WorkloadNetworkDnsServicesDeleteOptionalParams
+  - Added Interface WorkloadNetworkDnsServicesGetOptionalParams
+  - Added Interface WorkloadNetworkDnsServicesListOptionalParams
+  - Added Interface WorkloadNetworkDnsServicesUpdateOptionalParams
+  - Added Interface WorkloadNetworkDnsZoneProperties
+  - Added Interface WorkloadNetworkDnsZonesCreateOptionalParams
+  - Added Interface WorkloadNetworkDnsZonesDeleteOptionalParams
+  - Added Interface WorkloadNetworkDnsZonesGetOptionalParams
+  - Added Interface WorkloadNetworkDnsZonesListOptionalParams
+  - Added Interface WorkloadNetworkDnsZonesUpdateOptionalParams
+  - Added Interface WorkloadNetworkGatewayProperties
+  - Added Interface WorkloadNetworkGatewaysGetOptionalParams
+  - Added Interface WorkloadNetworkGatewaysListOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProfilesCreateOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProfilesDeleteOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProfilesGetOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProfilesListOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProfilesUpdateOptionalParams
+  - Added Interface WorkloadNetworkPortMirroringProperties
+  - Added Interface WorkloadNetworkProperties
+  - Added Interface WorkloadNetworkPublicIPProperties
+  - Added Interface WorkloadNetworkPublicIpsCreateOptionalParams
+  - Added Interface WorkloadNetworkPublicIpsDeleteOptionalParams
+  - Added Interface WorkloadNetworkPublicIpsGetOptionalParams
+  - Added Interface WorkloadNetworkPublicIpsListOptionalParams
+  - Added Interface WorkloadNetworkSegmentProperties
+  - Added Interface WorkloadNetworkSegmentsCreateOptionalParams
+  - Added Interface WorkloadNetworkSegmentsDeleteSegmentOptionalParams
+  - Added Interface WorkloadNetworkSegmentsGetOptionalParams
+  - Added Interface WorkloadNetworkSegmentsListOptionalParams
+  - Added Interface WorkloadNetworkSegmentsUpdateOptionalParams
+  - Added Interface WorkloadNetworkVirtualMachineProperties
+  - Added Interface WorkloadNetworkVirtualMachinesGetOptionalParams
+  - Added Interface WorkloadNetworkVirtualMachinesListOptionalParams
+  - Added Interface WorkloadNetworkVMGroupProperties
+  - Added Interface WorkloadNetworkVmGroupsCreateOptionalParams
+  - Added Interface WorkloadNetworkVmGroupsDeleteOptionalParams
+  - Added Interface WorkloadNetworkVmGroupsGetOptionalParams
+  - Added Interface WorkloadNetworkVmGroupsListOptionalParams
+  - Added Interface WorkloadNetworkVmGroupsUpdateOptionalParams
+  - Added Class AzureVMwareSolutionAPIClient
+  - Added Type Alias ContinuablePage
+  - Added Type Alias ResourceProvisioningState
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Type Alias Versions
+  - Interface CloudLink has a new optional parameter properties
+  - Interface Cluster has a new optional parameter properties
+  - Interface ClusterUpdate has a new optional parameter properties
+  - Interface Datastore has a new optional parameter properties
+  - Interface ExpressRouteAuthorization has a new optional parameter properties
+  - Interface GlobalReachConnection has a new optional parameter properties
+  - Interface HcxEnterpriseSite has a new optional parameter properties
+  - Interface IscsiPath has a new optional parameter properties
+  - Interface PlacementPolicyUpdate has a new optional parameter properties
+  - Interface PrivateCloud has a new optional parameter properties
+  - Interface PrivateCloudUpdate has a new optional parameter properties
+  - Interface ScriptCmdlet has a new optional parameter properties
+  - Interface ScriptExecution has a new optional parameter properties
+  - Interface ScriptPackage has a new optional parameter properties
+  - Interface VirtualMachine has a new optional parameter properties
+  - Interface WorkloadNetwork has a new optional parameter properties
+  - Interface WorkloadNetworkDnsService has a new optional parameter properties
+  - Interface WorkloadNetworkDnsZone has a new optional parameter properties
+  - Interface WorkloadNetworkGateway has a new optional parameter properties
+  - Interface WorkloadNetworkPortMirroring has a new optional parameter properties
+  - Interface WorkloadNetworkPublicIP has a new optional parameter properties
+  - Interface WorkloadNetworkSegment has a new optional parameter properties
+  - Interface WorkloadNetworkVirtualMachine has a new optional parameter properties
+  - Interface WorkloadNetworkVMGroup has a new optional parameter properties
+  - Added Enum KnownResourceProvisioningState
+  - Added Enum KnownSkuTier
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Enum KnownDhcpTypeEnum has a new value RELAY
+  - Enum KnownDhcpTypeEnum has a new value SERVER
+  - Enum KnownDnsServiceLogLevelEnum has a new value DEBUG
+  - Enum KnownDnsServiceLogLevelEnum has a new value ERROR
+  - Enum KnownDnsServiceLogLevelEnum has a new value FATAL
+  - Enum KnownDnsServiceLogLevelEnum has a new value INFO
+  - Enum KnownDnsServiceLogLevelEnum has a new value WARNING
+  - Enum KnownDnsServiceStatusEnum has a new value FAILURE
+  - Enum KnownDnsServiceStatusEnum has a new value SUCCESS
+  - Enum KnownMountOptionEnum has a new value ATTACH
+  - Enum KnownMountOptionEnum has a new value MOUNT
+  - Enum KnownOrigin has a new value "user,system"
+  - Enum KnownOrigin has a new value system
+  - Enum KnownOrigin has a new value user
+  - Enum KnownPortMirroringDirectionEnum has a new value BIDIRECTIONAL
+  - Enum KnownPortMirroringDirectionEnum has a new value EGRESS
+  - Enum KnownPortMirroringDirectionEnum has a new value INGRESS
+  - Enum KnownPortMirroringStatusEnum has a new value FAILURE
+  - Enum KnownPortMirroringStatusEnum has a new value SUCCESS
+  - Enum KnownSegmentStatusEnum has a new value FAILURE
+  - Enum KnownSegmentStatusEnum has a new value SUCCESS
+  - Enum KnownVMGroupStatusEnum has a new value FAILURE
+  - Enum KnownVMGroupStatusEnum has a new value SUCCESS
+  - Enum KnownVMTypeEnum has a new value EDGE
+  - Enum KnownVMTypeEnum has a new value REGULAR
+  - Enum KnownVMTypeEnum has a new value SERVICE
+  - Added function restorePoller
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Addons.beginCreateOrUpdate
+  - Removed operation Addons.beginCreateOrUpdateAndWait
+  - Removed operation Addons.beginDelete
+  - Removed operation Addons.beginDeleteAndWait
+  - Removed operation Authorizations.beginCreateOrUpdate
+  - Removed operation Authorizations.beginCreateOrUpdateAndWait
+  - Removed operation Authorizations.beginDelete
+  - Removed operation Authorizations.beginDeleteAndWait
+  - Removed operation CloudLinks.beginCreateOrUpdate
+  - Removed operation CloudLinks.beginCreateOrUpdateAndWait
+  - Removed operation CloudLinks.beginDelete
+  - Removed operation CloudLinks.beginDeleteAndWait
+  - Removed operation Clusters.beginCreateOrUpdate
+  - Removed operation Clusters.beginCreateOrUpdateAndWait
+  - Removed operation Clusters.beginDelete
+  - Removed operation Clusters.beginDeleteAndWait
+  - Removed operation Clusters.beginUpdate
+  - Removed operation Clusters.beginUpdateAndWait
+  - Removed operation Datastores.beginCreateOrUpdate
+  - Removed operation Datastores.beginCreateOrUpdateAndWait
+  - Removed operation Datastores.beginDelete
+  - Removed operation Datastores.beginDeleteAndWait
+  - Removed operation GlobalReachConnections.beginCreateOrUpdate
+  - Removed operation GlobalReachConnections.beginCreateOrUpdateAndWait
+  - Removed operation GlobalReachConnections.beginDelete
+  - Removed operation GlobalReachConnections.beginDeleteAndWait
+  - Removed operation IscsiPaths.beginCreateOrUpdate
+  - Removed operation IscsiPaths.beginCreateOrUpdateAndWait
+  - Removed operation IscsiPaths.beginDelete
+  - Removed operation IscsiPaths.beginDeleteAndWait
+  - Removed operation PlacementPolicies.beginCreateOrUpdate
+  - Removed operation PlacementPolicies.beginCreateOrUpdateAndWait
+  - Removed operation PlacementPolicies.beginDelete
+  - Removed operation PlacementPolicies.beginDeleteAndWait
+  - Removed operation PlacementPolicies.beginUpdate
+  - Removed operation PlacementPolicies.beginUpdateAndWait
+  - Removed operation PrivateClouds.beginCreateOrUpdate
+  - Removed operation PrivateClouds.beginCreateOrUpdateAndWait
+  - Removed operation PrivateClouds.beginDelete
+  - Removed operation PrivateClouds.beginDeleteAndWait
+  - Removed operation PrivateClouds.beginRotateNsxtPassword
+  - Removed operation PrivateClouds.beginRotateNsxtPasswordAndWait
+  - Removed operation PrivateClouds.beginRotateVcenterPassword
+  - Removed operation PrivateClouds.beginRotateVcenterPasswordAndWait
+  - Removed operation PrivateClouds.beginUpdate
+  - Removed operation PrivateClouds.beginUpdateAndWait
+  - Removed operation ScriptExecutions.beginCreateOrUpdate
+  - Removed operation ScriptExecutions.beginCreateOrUpdateAndWait
+  - Removed operation ScriptExecutions.beginDelete
+  - Removed operation ScriptExecutions.beginDeleteAndWait
+  - Removed operation VirtualMachines.beginRestrictMovement
+  - Removed operation VirtualMachines.beginRestrictMovementAndWait
+  - Removed operation WorkloadNetworks.beginCreateDhcp
+  - Removed operation WorkloadNetworks.beginCreateDhcpAndWait
+  - Removed operation WorkloadNetworks.beginCreateDnsService
+  - Removed operation WorkloadNetworks.beginCreateDnsServiceAndWait
+  - Removed operation WorkloadNetworks.beginCreateDnsZone
+  - Removed operation WorkloadNetworks.beginCreateDnsZoneAndWait
+  - Removed operation WorkloadNetworks.beginCreatePortMirroring
+  - Removed operation WorkloadNetworks.beginCreatePortMirroringAndWait
+  - Removed operation WorkloadNetworks.beginCreatePublicIP
+  - Removed operation WorkloadNetworks.beginCreatePublicIPAndWait
+  - Removed operation WorkloadNetworks.beginCreateSegments
+  - Removed operation WorkloadNetworks.beginCreateSegmentsAndWait
+  - Removed operation WorkloadNetworks.beginCreateVMGroup
+  - Removed operation WorkloadNetworks.beginCreateVMGroupAndWait
+  - Removed operation WorkloadNetworks.beginDeleteDhcp
+  - Removed operation WorkloadNetworks.beginDeleteDhcpAndWait
+  - Removed operation WorkloadNetworks.beginDeleteDnsService
+  - Removed operation WorkloadNetworks.beginDeleteDnsServiceAndWait
+  - Removed operation WorkloadNetworks.beginDeleteDnsZone
+  - Removed operation WorkloadNetworks.beginDeleteDnsZoneAndWait
+  - Removed operation WorkloadNetworks.beginDeletePortMirroring
+  - Removed operation WorkloadNetworks.beginDeletePortMirroringAndWait
+  - Removed operation WorkloadNetworks.beginDeletePublicIP
+  - Removed operation WorkloadNetworks.beginDeletePublicIPAndWait
+  - Removed operation WorkloadNetworks.beginDeleteSegment
+  - Removed operation WorkloadNetworks.beginDeleteSegmentAndWait
+  - Removed operation WorkloadNetworks.beginDeleteVMGroup
+  - Removed operation WorkloadNetworks.beginDeleteVMGroupAndWait
+  - Removed operation WorkloadNetworks.beginUpdateDhcp
+  - Removed operation WorkloadNetworks.beginUpdateDhcpAndWait
+  - Removed operation WorkloadNetworks.beginUpdateDnsService
+  - Removed operation WorkloadNetworks.beginUpdateDnsServiceAndWait
+  - Removed operation WorkloadNetworks.beginUpdateDnsZone
+  - Removed operation WorkloadNetworks.beginUpdateDnsZoneAndWait
+  - Removed operation WorkloadNetworks.beginUpdatePortMirroring
+  - Removed operation WorkloadNetworks.beginUpdatePortMirroringAndWait
+  - Removed operation WorkloadNetworks.beginUpdateSegments
+  - Removed operation WorkloadNetworks.beginUpdateSegmentsAndWait
+  - Removed operation WorkloadNetworks.beginUpdateVMGroup
+  - Removed operation WorkloadNetworks.beginUpdateVMGroupAndWait
+  - Removed operation WorkloadNetworks.getDhcp
+  - Removed operation WorkloadNetworks.getDnsService
+  - Removed operation WorkloadNetworks.getDnsZone
+  - Removed operation WorkloadNetworks.getGateway
+  - Removed operation WorkloadNetworks.getPortMirroring
+  - Removed operation WorkloadNetworks.getPublicIP
+  - Removed operation WorkloadNetworks.getSegment
+  - Removed operation WorkloadNetworks.getVirtualMachine
+  - Removed operation WorkloadNetworks.getVMGroup
+  - Removed operation WorkloadNetworks.listDhcp
+  - Removed operation WorkloadNetworks.listDnsServices
+  - Removed operation WorkloadNetworks.listDnsZones
+  - Removed operation WorkloadNetworks.listGateways
+  - Removed operation WorkloadNetworks.listPortMirroring
+  - Removed operation WorkloadNetworks.listPublicIPs
+  - Removed operation WorkloadNetworks.listSegments
+  - Removed operation WorkloadNetworks.listVirtualMachines
+  - Removed operation WorkloadNetworks.listVMGroups
+  - Deleted Class AzureVMwareSolutionAPI
+  - Interface AddonsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface AddonsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface AuthorizationsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface AuthorizationsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface CloudLink no longer has parameter linkedCloud
+  - Interface CloudLink no longer has parameter provisioningState
+  - Interface CloudLink no longer has parameter status
+  - Interface CloudLinksCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface CloudLinksDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface Cluster no longer has parameter clusterId
+  - Interface Cluster no longer has parameter clusterSize
+  - Interface Cluster no longer has parameter hosts
+  - Interface Cluster no longer has parameter provisioningState
+  - Interface Cluster no longer has parameter vsanDatastoreName
+  - Interface ClustersCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface ClustersDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface ClustersUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface ClustersUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface ClusterUpdate no longer has parameter clusterSize
+  - Interface ClusterUpdate no longer has parameter hosts
+  - Interface Datastore no longer has parameter diskPoolVolume
+  - Interface Datastore no longer has parameter elasticSanVolume
+  - Interface Datastore no longer has parameter netAppVolume
+  - Interface Datastore no longer has parameter provisioningState
+  - Interface Datastore no longer has parameter status
+  - Interface DatastoresCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface DatastoresDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface ExpressRouteAuthorization no longer has parameter expressRouteAuthorizationId
+  - Interface ExpressRouteAuthorization no longer has parameter expressRouteAuthorizationKey
+  - Interface ExpressRouteAuthorization no longer has parameter expressRouteId
+  - Interface ExpressRouteAuthorization no longer has parameter provisioningState
+  - Interface GlobalReachConnection no longer has parameter addressPrefix
+  - Interface GlobalReachConnection no longer has parameter authorizationKey
+  - Interface GlobalReachConnection no longer has parameter circuitConnectionStatus
+  - Interface GlobalReachConnection no longer has parameter expressRouteId
+  - Interface GlobalReachConnection no longer has parameter peerExpressRouteCircuit
+  - Interface GlobalReachConnection no longer has parameter provisioningState
+  - Interface GlobalReachConnectionsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface GlobalReachConnectionsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface HcxEnterpriseSite no longer has parameter activationKey
+  - Interface HcxEnterpriseSite no longer has parameter provisioningState
+  - Interface HcxEnterpriseSite no longer has parameter status
+  - Interface IscsiPath no longer has parameter networkBlock
+  - Interface IscsiPath no longer has parameter provisioningState
+  - Interface IscsiPathsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface IscsiPathsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface LocationsCheckTrialAvailabilityOptionalParams no longer has parameter sku
+  - Interface PlacementPoliciesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface PlacementPoliciesDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface PlacementPoliciesUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface PlacementPoliciesUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface PlacementPolicyUpdate no longer has parameter affinityStrength
+  - Interface PlacementPolicyUpdate no longer has parameter azureHybridBenefitType
+  - Interface PlacementPolicyUpdate no longer has parameter hostMembers
+  - Interface PlacementPolicyUpdate no longer has parameter state
+  - Interface PlacementPolicyUpdate no longer has parameter vmMembers
+  - Interface PrivateCloud no longer has parameter availability
+  - Interface PrivateCloud no longer has parameter circuit
+  - Interface PrivateCloud no longer has parameter dnsZoneType
+  - Interface PrivateCloud no longer has parameter encryption
+  - Interface PrivateCloud no longer has parameter endpoints
+  - Interface PrivateCloud no longer has parameter extendedNetworkBlocks
+  - Interface PrivateCloud no longer has parameter externalCloudLinks
+  - Interface PrivateCloud no longer has parameter identitySources
+  - Interface PrivateCloud no longer has parameter internet
+  - Interface PrivateCloud no longer has parameter managementCluster
+  - Interface PrivateCloud no longer has parameter managementNetwork
+  - Interface PrivateCloud no longer has parameter networkBlock
+  - Interface PrivateCloud no longer has parameter nsxPublicIpQuotaRaised
+  - Interface PrivateCloud no longer has parameter nsxtCertificateThumbprint
+  - Interface PrivateCloud no longer has parameter nsxtPassword
+  - Interface PrivateCloud no longer has parameter provisioningNetwork
+  - Interface PrivateCloud no longer has parameter provisioningState
+  - Interface PrivateCloud no longer has parameter secondaryCircuit
+  - Interface PrivateCloud no longer has parameter vcenterCertificateThumbprint
+  - Interface PrivateCloud no longer has parameter vcenterPassword
+  - Interface PrivateCloud no longer has parameter virtualNetworkId
+  - Interface PrivateCloud no longer has parameter vmotionNetwork
+  - Interface PrivateCloudsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateCloudsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateCloudsRotateNsxtPasswordOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateCloudsRotateVcenterPasswordOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateCloudsUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface PrivateCloudsUpdateOptionalParams no longer has parameter updateIntervalInMs
+  - Interface PrivateCloudUpdate no longer has parameter availability
+  - Interface PrivateCloudUpdate no longer has parameter dnsZoneType
+  - Interface PrivateCloudUpdate no longer has parameter encryption
+  - Interface PrivateCloudUpdate no longer has parameter extendedNetworkBlocks
+  - Interface PrivateCloudUpdate no longer has parameter identitySources
+  - Interface PrivateCloudUpdate no longer has parameter internet
+  - Interface PrivateCloudUpdate no longer has parameter managementCluster
+  - Interface ScriptCmdlet no longer has parameter audience
+  - Interface ScriptCmdlet no longer has parameter description
+  - Interface ScriptCmdlet no longer has parameter parameters
+  - Interface ScriptCmdlet no longer has parameter provisioningState
+  - Interface ScriptCmdlet no longer has parameter timeout
+  - Interface ScriptExecution no longer has parameter errors
+  - Interface ScriptExecution no longer has parameter failureReason
+  - Interface ScriptExecution no longer has parameter finishedAt
+  - Interface ScriptExecution no longer has parameter hiddenParameters
+  - Interface ScriptExecution no longer has parameter information
+  - Interface ScriptExecution no longer has parameter namedOutputs
+  - Interface ScriptExecution no longer has parameter output
+  - Interface ScriptExecution no longer has parameter parameters
+  - Interface ScriptExecution no longer has parameter provisioningState
+  - Interface ScriptExecution no longer has parameter retention
+  - Interface ScriptExecution no longer has parameter scriptCmdletId
+  - Interface ScriptExecution no longer has parameter startedAt
+  - Interface ScriptExecution no longer has parameter submittedAt
+  - Interface ScriptExecution no longer has parameter timeout
+  - Interface ScriptExecution no longer has parameter warnings
+  - Interface ScriptExecutionsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
+  - Interface ScriptExecutionsDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface ScriptExecutionsGetExecutionLogsOptionalParams no longer has parameter scriptOutputStreamType
+  - Interface ScriptPackage no longer has parameter company
+  - Interface ScriptPackage no longer has parameter description
+  - Interface ScriptPackage no longer has parameter provisioningState
+  - Interface ScriptPackage no longer has parameter uri
+  - Interface ScriptPackage no longer has parameter version
+  - Interface VirtualMachine no longer has parameter displayName
+  - Interface VirtualMachine no longer has parameter folderPath
+  - Interface VirtualMachine no longer has parameter moRefId
+  - Interface VirtualMachine no longer has parameter provisioningState
+  - Interface VirtualMachine no longer has parameter restrictMovement
+  - Interface VirtualMachinesRestrictMovementOptionalParams no longer has parameter resumeFrom
+  - Interface WorkloadNetwork no longer has parameter provisioningState
+  - Interface WorkloadNetworkDnsService no longer has parameter defaultDnsZone
+  - Interface WorkloadNetworkDnsService no longer has parameter displayName
+  - Interface WorkloadNetworkDnsService no longer has parameter dnsServiceIp
+  - Interface WorkloadNetworkDnsService no longer has parameter fqdnZones
+  - Interface WorkloadNetworkDnsService no longer has parameter logLevel
+  - Interface WorkloadNetworkDnsService no longer has parameter provisioningState
+  - Interface WorkloadNetworkDnsService no longer has parameter revision
+  - Interface WorkloadNetworkDnsService no longer has parameter status
+  - Interface WorkloadNetworkDnsZone no longer has parameter displayName
+  - Interface WorkloadNetworkDnsZone no longer has parameter dnsServerIps
+  - Interface WorkloadNetworkDnsZone no longer has parameter dnsServices
+  - Interface WorkloadNetworkDnsZone no longer has parameter domain
+  - Interface WorkloadNetworkDnsZone no longer has parameter provisioningState
+  - Interface WorkloadNetworkDnsZone no longer has parameter revision
+  - Interface WorkloadNetworkDnsZone no longer has parameter sourceIp
+  - Interface WorkloadNetworkGateway no longer has parameter displayName
+  - Interface WorkloadNetworkGateway no longer has parameter path
+  - Interface WorkloadNetworkGateway no longer has parameter provisioningState
+  - Interface WorkloadNetworkPortMirroring no longer has parameter destination
+  - Interface WorkloadNetworkPortMirroring no longer has parameter direction
+  - Interface WorkloadNetworkPortMirroring no longer has parameter displayName
+  - Interface WorkloadNetworkPortMirroring no longer has parameter provisioningState
+  - Interface WorkloadNetworkPortMirroring no longer has parameter revision
+  - Interface WorkloadNetworkPortMirroring no longer has parameter source
+  - Interface WorkloadNetworkPortMirroring no longer has parameter status
+  - Interface WorkloadNetworkPublicIP no longer has parameter displayName
+  - Interface WorkloadNetworkPublicIP no longer has parameter numberOfPublicIPs
+  - Interface WorkloadNetworkPublicIP no longer has parameter provisioningState
+  - Interface WorkloadNetworkPublicIP no longer has parameter publicIPBlock
+  - Interface WorkloadNetworkSegment no longer has parameter connectedGateway
+  - Interface WorkloadNetworkSegment no longer has parameter displayName
+  - Interface WorkloadNetworkSegment no longer has parameter portVif
+  - Interface WorkloadNetworkSegment no longer has parameter provisioningState
+  - Interface WorkloadNetworkSegment no longer has parameter revision
+  - Interface WorkloadNetworkSegment no longer has parameter status
+  - Interface WorkloadNetworkSegment no longer has parameter subnet
+  - Interface WorkloadNetworkVirtualMachine no longer has parameter displayName
+  - Interface WorkloadNetworkVirtualMachine no longer has parameter provisioningState
+  - Interface WorkloadNetworkVirtualMachine no longer has parameter vmType
+  - Interface WorkloadNetworkVMGroup no longer has parameter displayName
+  - Interface WorkloadNetworkVMGroup no longer has parameter members
+  - Interface WorkloadNetworkVMGroup no longer has parameter provisioningState
+  - Interface WorkloadNetworkVMGroup no longer has parameter revision
+  - Interface WorkloadNetworkVMGroup no longer has parameter status
+  - Type of parameter addonType of interface AddonProperties is changed from "Arc" | "HCX" | "SRM" | "VR" to AddonType
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Type of parameter type of interface PlacementPolicyProperties is changed from "VmHost" | "VmVm" to PlacementPolicyType
+  - Type of parameter identity of interface PrivateCloud is changed from PrivateCloudIdentity to SystemAssignedServiceIdentity
+  - Type of parameter identity of interface PrivateCloudUpdate is changed from PrivateCloudIdentity to SystemAssignedServiceIdentity
+  - Type of parameter tags of interface PrivateCloudUpdate is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter hostsRemaining of interface Quota is changed from {
+        [propertyName: string]: number;
+    } to Record<string, number>
+  - Type of parameter type of interface ScriptExecutionParameter is changed from "Credential" | "SecureValue" | "Value" to ScriptExecutionParameterType
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter dhcpType of interface WorkloadNetworkDhcpEntity is changed from "RELAY" | "SERVER" to DhcpTypeEnum
+  - Removed Enum KnownAddonProvisioningState
+  - Removed Enum KnownCloudLinkProvisioningState
+  - Removed Enum KnownClusterProvisioningState
+  - Removed Enum KnownDatastoreProvisioningState
+  - Removed Enum KnownExpressRouteAuthorizationProvisioningState
+  - Removed Enum KnownGlobalReachConnectionProvisioningState
+  - Removed Enum KnownHcxEnterpriseSiteProvisioningState
+  - Removed Enum KnownIscsiPathProvisioningState
+  - Removed Enum KnownPlacementPolicyProvisioningState
+  - Removed Enum KnownPrivateCloudProvisioningState
+  - Removed Enum KnownResourceIdentityType
+  - Removed Enum KnownScriptCmdletProvisioningState
+  - Removed Enum KnownScriptExecutionProvisioningState
+  - Removed Enum KnownScriptPackageProvisioningState
+  - Removed Enum KnownVirtualMachineProvisioningState
+  - Removed Enum KnownWorkloadNetworkDhcpProvisioningState
+  - Removed Enum KnownWorkloadNetworkDnsServiceProvisioningState
+  - Removed Enum KnownWorkloadNetworkDnsZoneProvisioningState
+  - Removed Enum KnownWorkloadNetworkPortMirroringProvisioningState
+  - Removed Enum KnownWorkloadNetworkProvisioningState
+  - Removed Enum KnownWorkloadNetworkPublicIPProvisioningState
+  - Removed Enum KnownWorkloadNetworkSegmentProvisioningState
+  - Removed Enum KnownWorkloadNetworkVMGroupProvisioningState
+  - Enum KnownDhcpTypeEnum no longer has value Relay
+  - Enum KnownDhcpTypeEnum no longer has value Server
+  - Enum KnownDnsServiceLogLevelEnum no longer has value Debug
+  - Enum KnownDnsServiceLogLevelEnum no longer has value Error
+  - Enum KnownDnsServiceLogLevelEnum no longer has value Fatal
+  - Enum KnownDnsServiceLogLevelEnum no longer has value Info
+  - Enum KnownDnsServiceLogLevelEnum no longer has value Warning
+  - Enum KnownDnsServiceStatusEnum no longer has value Failure
+  - Enum KnownDnsServiceStatusEnum no longer has value Success
+  - Enum KnownMountOptionEnum no longer has value Attach
+  - Enum KnownMountOptionEnum no longer has value Mount
+  - Enum KnownOrigin no longer has value System
+  - Enum KnownOrigin no longer has value User
+  - Enum KnownOrigin no longer has value UserSystem
+  - Enum KnownPortMirroringDirectionEnum no longer has value Bidirectional
+  - Enum KnownPortMirroringDirectionEnum no longer has value Egress
+  - Enum KnownPortMirroringDirectionEnum no longer has value Ingress
+  - Enum KnownPortMirroringStatusEnum no longer has value Failure
+  - Enum KnownPortMirroringStatusEnum no longer has value Success
+  - Enum KnownSegmentStatusEnum no longer has value Failure
+  - Enum KnownSegmentStatusEnum no longer has value Success
+  - Enum KnownVMGroupStatusEnum no longer has value Failure
+  - Enum KnownVMGroupStatusEnum no longer has value Success
+  - Enum KnownVMTypeEnum no longer has value Edge
+  - Enum KnownVMTypeEnum no longer has value Regular
+  - Enum KnownVMTypeEnum no longer has value Service
+  - Removed function getContinuationToken
+    
+    
 ## 6.0.0 (2024-09-19)
     
 ### Features Added
