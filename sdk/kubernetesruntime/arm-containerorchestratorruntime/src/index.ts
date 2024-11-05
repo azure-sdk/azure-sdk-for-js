@@ -7,18 +7,24 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { KubernetesRuntimeClient } from "./kubernetesRuntimeClient.js";
+export {
+  KubernetesRuntimeClient,
+  KubernetesRuntimeClientOptionalParams,
+} from "./kubernetesRuntimeClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  ServiceResource,
-  ServiceProperties,
-  ProvisioningState,
-  KnownProvisioningState,
-  ExtensionResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ExtensionResource,
+  ServiceResource,
+  ServiceProperties,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   BgpPeer,
   BgpPeerProperties,
   LoadBalancer,
@@ -46,9 +52,6 @@ export {
   KnownPerformanceTier,
   PerformanceTier,
   StorageClassTypeProperties,
-  StorageClassTypePropertiesUnion,
-  KnownSCType,
-  SCType,
   NativeStorageClassTypeProperties,
   RwxStorageClassTypeProperties,
   BlobStorageClassTypeProperties,
@@ -56,12 +59,14 @@ export {
   KnownNfsDirectoryActionOnVolumeDeletion,
   NfsDirectoryActionOnVolumeDeletion,
   SmbStorageClassTypeProperties,
+  KnownSCType,
+  SCType,
   StorageClassResourceUpdate,
   StorageClassPropertiesUpdate,
   StorageClassTypePropertiesUpdate,
-} from "./models/index.js";
-export {
-  KubernetesRuntimeClientOptionalParams,
+  Versions,
+  ProvisioningState,
+  StorageClassTypePropertiesUnion,
   StorageClassGetOptionalParams,
   StorageClassCreateOrUpdateOptionalParams,
   StorageClassUpdateOptionalParams,
@@ -80,7 +85,7 @@ export {
   ServicesCreateOrUpdateOptionalParams,
   ServicesDeleteOptionalParams,
   ServicesListOptionalParams,
-} from "./api/index.js";
+} from "./models/index.js";
 export {
   BgpPeersOperations,
   LoadBalancersOperations,

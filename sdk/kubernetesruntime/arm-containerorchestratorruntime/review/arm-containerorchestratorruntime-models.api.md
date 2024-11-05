@@ -4,6 +4,8 @@
 
 ```ts
 
+import { OperationOptions } from '@azure-rest/core-client';
+
 // @public
 export type AccessMode = string;
 
@@ -27,6 +29,23 @@ export interface BgpPeerProperties {
 }
 
 // @public
+export interface BgpPeersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BgpPeersDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BgpPeersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BgpPeersListOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface BlobStorageClassTypeProperties extends StorageClassTypeProperties {
     azureStorageAccountKey: string;
     azureStorageAccountName: string;
@@ -38,6 +57,26 @@ export type CreatedByType = string;
 
 // @public
 export type DataResilienceTier = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface ExtensionResource extends Resource {
@@ -94,9 +133,9 @@ export enum KnownNfsDirectoryActionOnVolumeDeletion {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -109,14 +148,10 @@ export enum KnownPerformanceTier {
 }
 
 // @public
-export enum KnownProvisioningState {
-    Accepted = "Accepted",
+export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
-    Deleting = "Deleting",
     Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -155,6 +190,23 @@ export interface LoadBalancerProperties {
 }
 
 // @public
+export interface LoadBalancersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LoadBalancersDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LoadBalancersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface LoadBalancersListOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface NativeStorageClassTypeProperties extends StorageClassTypeProperties {
     type: "Native";
 }
@@ -190,13 +242,17 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
 export type Origin = string;
 
 // @public
 export type PerformanceTier = string;
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
 
 // @public
 export interface Resource {
@@ -205,6 +261,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export interface RwxStorageClassTypeProperties extends StorageClassTypeProperties {
@@ -227,6 +286,22 @@ export interface ServiceResource extends ExtensionResource {
 }
 
 // @public
+export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServicesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServicesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServicesListOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface SmbStorageClassTypeProperties extends StorageClassTypeProperties {
     domain?: string;
     password?: string;
@@ -234,6 +309,24 @@ export interface SmbStorageClassTypeProperties extends StorageClassTypePropertie
     subDir?: string;
     type: "SMB";
     username?: string;
+}
+
+// @public
+export interface StorageClassCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageClassDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StorageClassGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface StorageClassListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -300,6 +393,11 @@ export interface StorageClassTypePropertiesUpdate {
 }
 
 // @public
+export interface StorageClassUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -308,6 +406,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type Versions = "2023-10-01-preview" | "2024-03-01";
 
 // @public
 export type VolumeBindingMode = string;

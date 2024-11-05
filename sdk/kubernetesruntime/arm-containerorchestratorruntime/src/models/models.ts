@@ -1,113 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
-export interface ServiceResource extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
-}
-
-export function serviceResourceSerializer(item: ServiceResource): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : servicePropertiesSerializer(item["properties"]),
-  };
-}
-
-export function serviceResourceDeserializer(item: any): ServiceResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : servicePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties for the service resource */
-export interface ServiceProperties {
-  /** The object id of the service principal of the RP provisioned in the tenant */
-  readonly rpObjectId?: string;
-  /** Resource provision state */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function servicePropertiesSerializer(item: ServiceProperties): any {
-  return item;
-}
-
-export function servicePropertiesDeserializer(item: any): ServiceProperties {
-  return {
-    rpObjectId: item["rpObjectId"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Accepted */
-  Accepted = "Accepted",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Provisioning** \
- * **Updating** \
- * **Deleting** \
- * **Accepted**
- */
-export type ProvisioningState = string;
-
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
-
-/** The base extension resource. */
-export interface ExtensionResource extends Resource {}
-
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
-}
-
-export function extensionResourceDeserializer(item: any): ExtensionResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
+import { serializeRecord } from "../helpers/serializerHelpers.js";
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -121,19 +15,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
+export function resourceSerializer(item: Resource) {
+  return item as any;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -152,42 +35,113 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
+/** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** The entity was created by a user. */
+  /** User */
   User = "User",
-  /** The entity was created by an application. */
+  /** Application */
   Application = "Application",
-  /** The entity was created by a managed identity. */
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
+  /** Key */
   Key = "Key",
 }
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
 export type CreatedByType = string;
+
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(item: ExtensionResource) {
+  return item as any;
+}
+
+/** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
+export interface ServiceResource extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ServiceProperties;
+}
+
+export function serviceResourceSerializer(
+  item: ServiceResource,
+): Record<string, unknown> {
+  return {
+    properties: !item.properties
+      ? item.properties
+      : servicePropertiesSerializer(item.properties),
+  };
+}
+
+/** Properties for the service resource */
+export interface ServiceProperties {
+  /** The object id of the service principal of the RP provisioned in the tenant */
+  readonly rpObjectId?: string;
+  /** Resource provision state */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function servicePropertiesSerializer(item: ServiceProperties) {
+  return item as any;
+}
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
 
 /** The response of a ServiceResource list operation. */
 export interface _ServiceResourceListResult {
@@ -197,50 +151,17 @@ export interface _ServiceResourceListResult {
   nextLink?: string;
 }
 
-export function _serviceResourceListResultDeserializer(item: any): _ServiceResourceListResult {
-  return {
-    value: serviceResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function serviceResourceArraySerializer(result: Array<ServiceResource>): any[] {
-  return result.map((item) => {
-    return serviceResourceSerializer(item);
-  });
-}
-
-export function serviceResourceArrayDeserializer(result: Array<ServiceResource>): any[] {
-  return result.map((item) => {
-    return serviceResourceDeserializer(item);
-  });
-}
-
 /** A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface BgpPeer extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: BgpPeerProperties;
 }
 
-export function bgpPeerSerializer(item: BgpPeer): any {
+export function bgpPeerSerializer(item: BgpPeer): Record<string, unknown> {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bgpPeerPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function bgpPeerDeserializer(item: any): BgpPeer {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : bgpPeerPropertiesDeserializer(item["properties"]),
+    properties: !item.properties
+      ? item.properties
+      : bgpPeerPropertiesSerializer(item.properties),
   };
 }
 
@@ -256,22 +177,13 @@ export interface BgpPeerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function bgpPeerPropertiesSerializer(item: BgpPeerProperties): any {
+export function bgpPeerPropertiesSerializer(
+  item: BgpPeerProperties,
+): Record<string, unknown> {
   return {
     myAsn: item["myAsn"],
     peerAsn: item["peerAsn"],
     peerAddress: item["peerAddress"],
-  };
-}
-
-export function bgpPeerPropertiesDeserializer(item: any): BgpPeerProperties {
-  return {
-    myAsn: item["myAsn"],
-    peerAsn: item["peerAsn"],
-    peerAddress: item["peerAddress"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
   };
 }
 
@@ -283,50 +195,19 @@ export interface _BgpPeerListResult {
   nextLink?: string;
 }
 
-export function _bgpPeerListResultDeserializer(item: any): _BgpPeerListResult {
-  return {
-    value: bgpPeerArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function bgpPeerArraySerializer(result: Array<BgpPeer>): any[] {
-  return result.map((item) => {
-    return bgpPeerSerializer(item);
-  });
-}
-
-export function bgpPeerArrayDeserializer(result: Array<BgpPeer>): any[] {
-  return result.map((item) => {
-    return bgpPeerDeserializer(item);
-  });
-}
-
 /** A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface LoadBalancer extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: LoadBalancerProperties;
 }
 
-export function loadBalancerSerializer(item: LoadBalancer): any {
+export function loadBalancerSerializer(
+  item: LoadBalancer,
+): Record<string, unknown> {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : loadBalancerPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function loadBalancerDeserializer(item: any): LoadBalancer {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : loadBalancerPropertiesDeserializer(item["properties"]),
+    properties: !item.properties
+      ? item.properties
+      : loadBalancerPropertiesSerializer(item.properties),
   };
 }
 
@@ -344,46 +225,26 @@ export interface LoadBalancerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
+export function loadBalancerPropertiesSerializer(
+  item: LoadBalancerProperties,
+): Record<string, unknown> {
   return {
-    addresses: item["addresses"].map((p: any) => {
-      return p;
-    }),
-    serviceSelector: item["serviceSelector"],
+    addresses: item["addresses"],
+    serviceSelector: !item.serviceSelector
+      ? item.serviceSelector
+      : (serializeRecord(item.serviceSelector as any) as any),
     advertiseMode: item["advertiseMode"],
-    bgpPeers: !item["bgpPeers"]
-      ? item["bgpPeers"]
-      : item["bgpPeers"].map((p: any) => {
-          return p;
-        }),
+    bgpPeers: item["bgpPeers"],
   };
 }
 
-export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
-  return {
-    addresses: item["addresses"].map((p: any) => {
-      return p;
-    }),
-    serviceSelector: item["serviceSelector"],
-    advertiseMode: item["advertiseMode"],
-    bgpPeers: !item["bgpPeers"]
-      ? item["bgpPeers"]
-      : item["bgpPeers"].map((p: any) => {
-          return p;
-        }),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** Enum of advertise mode */
+/** Known values of {@link AdvertiseMode} that the service accepts. */
 export enum KnownAdvertiseMode {
-  /** ARP advertise mode */
+  /** ARP */
   ARP = "ARP",
-  /** BGP advertise mode */
+  /** BGP */
   BGP = "BGP",
-  /** both ARP and BGP advertise mode */
+  /** Both */
   Both = "Both",
 }
 
@@ -392,9 +253,9 @@ export enum KnownAdvertiseMode {
  * {@link KnownAdvertiseMode} can be used interchangeably with AdvertiseMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ARP**: ARP advertise mode \
- * **BGP**: BGP advertise mode \
- * **Both**: both ARP and BGP advertise mode
+ * **ARP** \
+ * **BGP** \
+ * **Both**
  */
 export type AdvertiseMode = string;
 
@@ -406,38 +267,12 @@ export interface _LoadBalancerListResult {
   nextLink?: string;
 }
 
-export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
-  return {
-    value: loadBalancerArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
-  return result.map((item) => {
-    return loadBalancerSerializer(item);
-  });
-}
-
-export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
-  return result.map((item) => {
-    return loadBalancerDeserializer(item);
-  });
-}
-
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
   value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -454,16 +289,6 @@ export interface Operation {
   actionType?: ActionType;
 }
 
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -476,23 +301,14 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+/** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  /** user */
+  user = "user",
+  /** system */
+  system = "system",
+  /** user,system */
+  "user,system" = "user,system",
 }
 
 /**
@@ -500,15 +316,15 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
+ * **user** \
+ * **system** \
+ * **user,system**
  */
 export type Origin = string;
 
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+/** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
+  /** Internal */
   Internal = "Internal",
 }
 
@@ -517,15 +333,9 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
+ * **Internal**
  */
 export type ActionType = string;
-
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
-}
 
 /** A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface StorageClassResource extends ExtensionResource {
@@ -533,25 +343,13 @@ export interface StorageClassResource extends ExtensionResource {
   properties?: StorageClassProperties;
 }
 
-export function storageClassResourceSerializer(item: StorageClassResource): any {
+export function storageClassResourceSerializer(
+  item: StorageClassResource,
+): Record<string, unknown> {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : storageClassPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function storageClassResourceDeserializer(item: any): StorageClassResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : storageClassPropertiesDeserializer(item["properties"]),
+    properties: !item.properties
+      ? item.properties
+      : storageClassPropertiesSerializer(item.properties),
   };
 }
 
@@ -583,70 +381,31 @@ export interface StorageClassProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function storageClassPropertiesSerializer(item: StorageClassProperties): any {
+export function storageClassPropertiesSerializer(
+  item: StorageClassProperties,
+): Record<string, unknown> {
   return {
     allowVolumeExpansion: item["allowVolumeExpansion"],
-    mountOptions: !item["mountOptions"]
-      ? item["mountOptions"]
-      : item["mountOptions"].map((p: any) => {
-          return p;
-        }),
+    mountOptions: item["mountOptions"],
     provisioner: item["provisioner"],
     volumeBindingMode: item["volumeBindingMode"],
-    accessModes: !item["accessModes"]
-      ? item["accessModes"]
-      : item["accessModes"].map((p: any) => {
-          return p;
-        }),
+    accessModes: item["accessModes"],
     dataResilience: item["dataResilience"],
     failoverSpeed: item["failoverSpeed"],
-    limitations: !item["limitations"]
-      ? item["limitations"]
-      : item["limitations"].map((p: any) => {
-          return p;
-        }),
+    limitations: item["limitations"],
     performance: item["performance"],
     priority: item["priority"],
-    typeProperties: storageClassTypePropertiesUnionSerializer(item["typeProperties"]),
+    typeProperties: storageClassTypePropertiesUnionSerializer(
+      item.typeProperties,
+    ),
   };
 }
 
-export function storageClassPropertiesDeserializer(item: any): StorageClassProperties {
-  return {
-    allowVolumeExpansion: item["allowVolumeExpansion"],
-    mountOptions: !item["mountOptions"]
-      ? item["mountOptions"]
-      : item["mountOptions"].map((p: any) => {
-          return p;
-        }),
-    provisioner: item["provisioner"],
-    volumeBindingMode: item["volumeBindingMode"],
-    accessModes: !item["accessModes"]
-      ? item["accessModes"]
-      : item["accessModes"].map((p: any) => {
-          return p;
-        }),
-    dataResilience: item["dataResilience"],
-    failoverSpeed: item["failoverSpeed"],
-    limitations: !item["limitations"]
-      ? item["limitations"]
-      : item["limitations"].map((p: any) => {
-          return p;
-        }),
-    performance: item["performance"],
-    priority: item["priority"],
-    typeProperties: storageClassTypePropertiesUnionDeserializer(item["typeProperties"]),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** Ability to expand volumes of a storage class */
+/** Known values of {@link VolumeExpansion} that the service accepts. */
 export enum KnownVolumeExpansion {
-  /** Allow volume expansion */
+  /** Allow */
   Allow = "Allow",
-  /** Disallow volume expansion */
+  /** Disallow */
   Disallow = "Disallow",
 }
 
@@ -655,16 +414,16 @@ export enum KnownVolumeExpansion {
  * {@link KnownVolumeExpansion} can be used interchangeably with VolumeExpansion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Allow**: Allow volume expansion \
- * **Disallow**: Disallow volume expansion
+ * **Allow** \
+ * **Disallow**
  */
 export type VolumeExpansion = string;
 
-/** Storage class volume binding mode */
+/** Known values of {@link VolumeBindingMode} that the service accepts. */
 export enum KnownVolumeBindingMode {
-  /** Immediate binding mode */
+  /** Immediate */
   Immediate = "Immediate",
-  /** Wait for first consumer binding mode */
+  /** WaitForFirstConsumer */
   WaitForFirstConsumer = "WaitForFirstConsumer",
 }
 
@@ -673,16 +432,16 @@ export enum KnownVolumeBindingMode {
  * {@link KnownVolumeBindingMode} can be used interchangeably with VolumeBindingMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Immediate**: Immediate binding mode \
- * **WaitForFirstConsumer**: Wait for first consumer binding mode
+ * **Immediate** \
+ * **WaitForFirstConsumer**
  */
 export type VolumeBindingMode = string;
 
-/** Storage Class Access Mode */
+/** Known values of {@link AccessMode} that the service accepts. */
 export enum KnownAccessMode {
-  /** Read Write Once (RWO) access mode */
+  /** ReadWriteOnce */
   ReadWriteOnce = "ReadWriteOnce",
-  /** Read Write Many (RWX) access mode */
+  /** ReadWriteMany */
   ReadWriteMany = "ReadWriteMany",
 }
 
@@ -691,16 +450,16 @@ export enum KnownAccessMode {
  * {@link KnownAccessMode} can be used interchangeably with AccessMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ReadWriteOnce**: Read Write Once (RWO) access mode \
- * **ReadWriteMany**: Read Write Many (RWX) access mode
+ * **ReadWriteOnce** \
+ * **ReadWriteMany**
  */
 export type AccessMode = string;
 
-/** Data resilience tier of a storage class */
+/** Known values of {@link DataResilienceTier} that the service accepts. */
 export enum KnownDataResilienceTier {
-  /** Not data resilient */
+  /** NotDataResilient */
   NotDataResilient = "NotDataResilient",
-  /** Data resilient */
+  /** DataResilient */
   DataResilient = "DataResilient",
 }
 
@@ -709,20 +468,20 @@ export enum KnownDataResilienceTier {
  * {@link KnownDataResilienceTier} can be used interchangeably with DataResilienceTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotDataResilient**: Not data resilient \
- * **DataResilient**: Data resilient
+ * **NotDataResilient** \
+ * **DataResilient**
  */
 export type DataResilienceTier = string;
 
-/** Failover tier of a storage class */
+/** Known values of {@link FailoverTier} that the service accepts. */
 export enum KnownFailoverTier {
-  /** Not available Failover Tier */
+  /** NotAvailable */
   NotAvailable = "NotAvailable",
-  /** Slow Failover Tier */
+  /** Slow */
   Slow = "Slow",
-  /** Fast Failover Tier */
+  /** Fast */
   Fast = "Fast",
-  /** Super Failover Tier */
+  /** Super */
   Super = "Super",
 }
 
@@ -731,24 +490,24 @@ export enum KnownFailoverTier {
  * {@link KnownFailoverTier} can be used interchangeably with FailoverTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotAvailable**: Not available Failover Tier \
- * **Slow**: Slow Failover Tier \
- * **Fast**: Fast Failover Tier \
- * **Super**: Super Failover Tier
+ * **NotAvailable** \
+ * **Slow** \
+ * **Fast** \
+ * **Super**
  */
 export type FailoverTier = string;
 
-/** Performance tier of a storage class */
+/** Known values of {@link PerformanceTier} that the service accepts. */
 export enum KnownPerformanceTier {
-  /** Undefined Performance Tier */
+  /** Undefined */
   Undefined = "Undefined",
-  /** Basic Performance Tier */
+  /** Basic */
   Basic = "Basic",
-  /** Standard Performance Tier */
+  /** Standard */
   Standard = "Standard",
-  /** Premium Performance Tier */
+  /** Premium */
   Premium = "Premium",
-  /** Ultra Performance Tier */
+  /** Ultra */
   Ultra = "Ultra",
 }
 
@@ -757,153 +516,89 @@ export enum KnownPerformanceTier {
  * {@link KnownPerformanceTier} can be used interchangeably with PerformanceTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Undefined**: Undefined Performance Tier \
- * **Basic**: Basic Performance Tier \
- * **Standard**: Standard Performance Tier \
- * **Premium**: Premium Performance Tier \
- * **Ultra**: Ultra Performance Tier
+ * **Undefined** \
+ * **Basic** \
+ * **Standard** \
+ * **Premium** \
+ * **Ultra**
  */
 export type PerformanceTier = string;
 
 /** The properties of storage class of the StorageClass */
 export interface StorageClassTypeProperties {
-  /** Type of the storage class. */
-  /** The discriminator possible values: Native, RWX, Blob, NFS, SMB */
+  /** the discriminator possible values: Native, RWX, Blob, NFS, SMB */
   type: SCType;
 }
 
-export function storageClassTypePropertiesSerializer(item: StorageClassTypeProperties): any {
-  return { type: item["type"] };
-}
-
-export function storageClassTypePropertiesDeserializer(item: any): StorageClassTypeProperties {
-  return {
-    type: item["type"],
-  };
-}
-
-/** Alias for StorageClassTypePropertiesUnion */
-export type StorageClassTypePropertiesUnion =
-  | NativeStorageClassTypeProperties
-  | RwxStorageClassTypeProperties
-  | BlobStorageClassTypeProperties
-  | NfsStorageClassTypeProperties
-  | SmbStorageClassTypeProperties
-  | StorageClassTypeProperties;
-
 export function storageClassTypePropertiesUnionSerializer(
   item: StorageClassTypePropertiesUnion,
-): any {
+) {
   switch (item.type) {
     case "Native":
-      return nativeStorageClassTypePropertiesSerializer(item as NativeStorageClassTypeProperties);
+      return nativeStorageClassTypePropertiesSerializer(
+        item as NativeStorageClassTypeProperties,
+      );
 
     case "RWX":
-      return rwxStorageClassTypePropertiesSerializer(item as RwxStorageClassTypeProperties);
+      return rwxStorageClassTypePropertiesSerializer(
+        item as RwxStorageClassTypeProperties,
+      );
 
     case "Blob":
-      return blobStorageClassTypePropertiesSerializer(item as BlobStorageClassTypeProperties);
+      return blobStorageClassTypePropertiesSerializer(
+        item as BlobStorageClassTypeProperties,
+      );
 
     case "NFS":
-      return nfsStorageClassTypePropertiesSerializer(item as NfsStorageClassTypeProperties);
+      return nfsStorageClassTypePropertiesSerializer(
+        item as NfsStorageClassTypeProperties,
+      );
 
     case "SMB":
-      return smbStorageClassTypePropertiesSerializer(item as SmbStorageClassTypeProperties);
+      return smbStorageClassTypePropertiesSerializer(
+        item as SmbStorageClassTypeProperties,
+      );
 
     default:
       return storageClassTypePropertiesSerializer(item);
   }
 }
 
-export function storageClassTypePropertiesUnionDeserializer(
-  item: any,
-): StorageClassTypePropertiesUnion {
-  switch (item.type) {
-    case "Native":
-      return nativeStorageClassTypePropertiesDeserializer(item as NativeStorageClassTypeProperties);
-
-    case "RWX":
-      return rwxStorageClassTypePropertiesDeserializer(item as RwxStorageClassTypeProperties);
-
-    case "Blob":
-      return blobStorageClassTypePropertiesDeserializer(item as BlobStorageClassTypeProperties);
-
-    case "NFS":
-      return nfsStorageClassTypePropertiesDeserializer(item as NfsStorageClassTypeProperties);
-
-    case "SMB":
-      return smbStorageClassTypePropertiesDeserializer(item as SmbStorageClassTypeProperties);
-
-    default:
-      return storageClassTypePropertiesDeserializer(item);
-  }
+export function storageClassTypePropertiesSerializer(
+  item: StorageClassTypePropertiesUnion,
+): Record<string, unknown> {
+  return {
+    type: item["type"],
+  };
 }
-
-/** Type of a storage class */
-export enum KnownSCType {
-  /** Native storage class */
-  Native = "Native",
-  /** RWX storage class */
-  RWX = "RWX",
-  /** Blob storage class */
-  Blob = "Blob",
-  /** NFS storage class */
-  NFS = "NFS",
-  /** SMB storage class */
-  SMB = "SMB",
-}
-
-/**
- * Type of a storage class \
- * {@link KnownSCType} can be used interchangeably with SCType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Native**: Native storage class \
- * **RWX**: RWX storage class \
- * **Blob**: Blob storage class \
- * **NFS**: NFS storage class \
- * **SMB**: SMB storage class
- */
-export type SCType = string;
 
 /** The properties of Native StorageClass */
-export interface NativeStorageClassTypeProperties extends StorageClassTypeProperties {
+export interface NativeStorageClassTypeProperties
+  extends StorageClassTypeProperties {
   /** Native StorageClass */
   type: "Native";
 }
 
 export function nativeStorageClassTypePropertiesSerializer(
   item: NativeStorageClassTypeProperties,
-): any {
-  return { type: item["type"] };
-}
-
-export function nativeStorageClassTypePropertiesDeserializer(
-  item: any,
-): NativeStorageClassTypeProperties {
+): Record<string, unknown> {
   return {
     type: item["type"],
   };
 }
 
 /** The properties of RWX StorageClass */
-export interface RwxStorageClassTypeProperties extends StorageClassTypeProperties {
+export interface RwxStorageClassTypeProperties
+  extends StorageClassTypeProperties {
   /** RWX StorageClass */
   type: "RWX";
   /** The backing storageclass used to create new storageclass */
   backingStorageClassName: string;
 }
 
-export function rwxStorageClassTypePropertiesSerializer(item: RwxStorageClassTypeProperties): any {
-  return {
-    type: item["type"],
-    backingStorageClassName: item["backingStorageClassName"],
-  };
-}
-
-export function rwxStorageClassTypePropertiesDeserializer(
-  item: any,
-): RwxStorageClassTypeProperties {
+export function rwxStorageClassTypePropertiesSerializer(
+  item: RwxStorageClassTypeProperties,
+): Record<string, unknown> {
   return {
     type: item["type"],
     backingStorageClassName: item["backingStorageClassName"],
@@ -911,7 +606,8 @@ export function rwxStorageClassTypePropertiesDeserializer(
 }
 
 /** The properties of Blob StorageClass */
-export interface BlobStorageClassTypeProperties extends StorageClassTypeProperties {
+export interface BlobStorageClassTypeProperties
+  extends StorageClassTypeProperties {
   /** Blob StorageClass */
   type: "Blob";
   /** Azure Storage Account Name */
@@ -922,17 +618,7 @@ export interface BlobStorageClassTypeProperties extends StorageClassTypeProperti
 
 export function blobStorageClassTypePropertiesSerializer(
   item: BlobStorageClassTypeProperties,
-): any {
-  return {
-    type: item["type"],
-    azureStorageAccountName: item["azureStorageAccountName"],
-    azureStorageAccountKey: item["azureStorageAccountKey"],
-  };
-}
-
-export function blobStorageClassTypePropertiesDeserializer(
-  item: any,
-): BlobStorageClassTypeProperties {
+): Record<string, unknown> {
   return {
     type: item["type"],
     azureStorageAccountName: item["azureStorageAccountName"],
@@ -941,7 +627,8 @@ export function blobStorageClassTypePropertiesDeserializer(
 }
 
 /** The properties of NFS StorageClass */
-export interface NfsStorageClassTypeProperties extends StorageClassTypeProperties {
+export interface NfsStorageClassTypeProperties
+  extends StorageClassTypeProperties {
   /** NFS StorageClass */
   type: "NFS";
   /** NFS Server */
@@ -956,7 +643,9 @@ export interface NfsStorageClassTypeProperties extends StorageClassTypePropertie
   onDelete?: NfsDirectoryActionOnVolumeDeletion;
 }
 
-export function nfsStorageClassTypePropertiesSerializer(item: NfsStorageClassTypeProperties): any {
+export function nfsStorageClassTypePropertiesSerializer(
+  item: NfsStorageClassTypeProperties,
+): Record<string, unknown> {
   return {
     type: item["type"],
     server: item["server"],
@@ -967,24 +656,11 @@ export function nfsStorageClassTypePropertiesSerializer(item: NfsStorageClassTyp
   };
 }
 
-export function nfsStorageClassTypePropertiesDeserializer(
-  item: any,
-): NfsStorageClassTypeProperties {
-  return {
-    type: item["type"],
-    server: item["server"],
-    share: item["share"],
-    subDir: item["subDir"],
-    mountPermissions: item["mountPermissions"],
-    onDelete: item["onDelete"],
-  };
-}
-
-/** The action to take when a NFS volume is deleted */
+/** Known values of {@link NfsDirectoryActionOnVolumeDeletion} that the service accepts. */
 export enum KnownNfsDirectoryActionOnVolumeDeletion {
-  /** When the volume is deleted, delete the directory */
+  /** Delete */
   Delete = "Delete",
-  /** When the volume is deleted, retain the directory */
+  /** Retain */
   Retain = "Retain",
 }
 
@@ -993,13 +669,14 @@ export enum KnownNfsDirectoryActionOnVolumeDeletion {
  * {@link KnownNfsDirectoryActionOnVolumeDeletion} can be used interchangeably with NfsDirectoryActionOnVolumeDeletion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Delete**: When the volume is deleted, delete the directory \
- * **Retain**: When the volume is deleted, retain the directory
+ * **Delete** \
+ * **Retain**
  */
 export type NfsDirectoryActionOnVolumeDeletion = string;
 
 /** The properties of SMB StorageClass */
-export interface SmbStorageClassTypeProperties extends StorageClassTypeProperties {
+export interface SmbStorageClassTypeProperties
+  extends StorageClassTypeProperties {
   /** SMB StorageClass */
   type: "SMB";
   /** SMB Source */
@@ -1014,7 +691,9 @@ export interface SmbStorageClassTypeProperties extends StorageClassTypePropertie
   domain?: string;
 }
 
-export function smbStorageClassTypePropertiesSerializer(item: SmbStorageClassTypeProperties): any {
+export function smbStorageClassTypePropertiesSerializer(
+  item: SmbStorageClassTypeProperties,
+): Record<string, unknown> {
   return {
     type: item["type"],
     source: item["source"],
@@ -1025,18 +704,32 @@ export function smbStorageClassTypePropertiesSerializer(item: SmbStorageClassTyp
   };
 }
 
-export function smbStorageClassTypePropertiesDeserializer(
-  item: any,
-): SmbStorageClassTypeProperties {
-  return {
-    type: item["type"],
-    source: item["source"],
-    subDir: item["subDir"],
-    username: item["username"],
-    password: item["password"],
-    domain: item["domain"],
-  };
+/** Known values of {@link SCType} that the service accepts. */
+export enum KnownSCType {
+  /** Native */
+  Native = "Native",
+  /** RWX */
+  RWX = "RWX",
+  /** Blob */
+  Blob = "Blob",
+  /** NFS */
+  NFS = "NFS",
+  /** SMB */
+  SMB = "SMB",
 }
+
+/**
+ * Type of a storage class \
+ * {@link KnownSCType} can be used interchangeably with SCType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Native** \
+ * **RWX** \
+ * **Blob** \
+ * **NFS** \
+ * **SMB**
+ */
+export type SCType = string;
 
 /** The model for updating a storageClass */
 export interface StorageClassResourceUpdate {
@@ -1044,11 +737,13 @@ export interface StorageClassResourceUpdate {
   properties?: StorageClassPropertiesUpdate;
 }
 
-export function storageClassResourceUpdateSerializer(item: StorageClassResourceUpdate): any {
+export function storageClassResourceUpdateSerializer(
+  item: StorageClassResourceUpdate,
+): Record<string, unknown> {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : storageClassPropertiesUpdateSerializer(item["properties"]),
+    properties: !item.properties
+      ? item.properties
+      : storageClassPropertiesUpdateSerializer(item.properties),
   };
 }
 
@@ -1074,31 +769,21 @@ export interface StorageClassPropertiesUpdate {
   typeProperties?: StorageClassTypePropertiesUpdate;
 }
 
-export function storageClassPropertiesUpdateSerializer(item: StorageClassPropertiesUpdate): any {
+export function storageClassPropertiesUpdateSerializer(
+  item: StorageClassPropertiesUpdate,
+): Record<string, unknown> {
   return {
     allowVolumeExpansion: item["allowVolumeExpansion"],
-    mountOptions: !item["mountOptions"]
-      ? item["mountOptions"]
-      : item["mountOptions"].map((p: any) => {
-          return p;
-        }),
-    accessModes: !item["accessModes"]
-      ? item["accessModes"]
-      : item["accessModes"].map((p: any) => {
-          return p;
-        }),
+    mountOptions: item["mountOptions"],
+    accessModes: item["accessModes"],
     dataResilience: item["dataResilience"],
     failoverSpeed: item["failoverSpeed"],
-    limitations: !item["limitations"]
-      ? item["limitations"]
-      : item["limitations"].map((p: any) => {
-          return p;
-        }),
+    limitations: item["limitations"],
     performance: item["performance"],
     priority: item["priority"],
-    typeProperties: !item["typeProperties"]
-      ? item["typeProperties"]
-      : storageClassTypePropertiesUpdateSerializer(item["typeProperties"]),
+    typeProperties: !item.typeProperties
+      ? item.typeProperties
+      : storageClassTypePropertiesUpdateSerializer(item.typeProperties),
   };
 }
 
@@ -1132,7 +817,7 @@ export interface StorageClassTypePropertiesUpdate {
 
 export function storageClassTypePropertiesUpdateSerializer(
   item: StorageClassTypePropertiesUpdate,
-): any {
+): Record<string, unknown> {
   return {
     backingStorageClassName: item["backingStorageClassName"],
     azureStorageAccountName: item["azureStorageAccountName"],
@@ -1157,23 +842,21 @@ export interface _StorageClassResourceListResult {
   nextLink?: string;
 }
 
-export function _storageClassResourceListResultDeserializer(
-  item: any,
-): _StorageClassResourceListResult {
-  return {
-    value: storageClassResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function storageClassResourceArraySerializer(result: Array<StorageClassResource>): any[] {
-  return result.map((item) => {
-    return storageClassResourceSerializer(item);
-  });
-}
-
-export function storageClassResourceArrayDeserializer(result: Array<StorageClassResource>): any[] {
-  return result.map((item) => {
-    return storageClassResourceDeserializer(item);
-  });
-}
+/** Versions of KubernetesRuntime service */
+export type Versions = "2023-10-01-preview" | "2024-03-01";
+/** Alias for ProvisioningState */
+export type ProvisioningState =
+  | string
+  | ResourceProvisioningState
+  | "Provisioning"
+  | "Updating"
+  | "Deleting"
+  | "Accepted";
+/** Alias for StorageClassTypePropertiesUnion */
+export type StorageClassTypePropertiesUnion =
+  | NativeStorageClassTypeProperties
+  | RwxStorageClassTypeProperties
+  | BlobStorageClassTypeProperties
+  | NfsStorageClassTypeProperties
+  | SmbStorageClassTypeProperties
+  | StorageClassTypeProperties;

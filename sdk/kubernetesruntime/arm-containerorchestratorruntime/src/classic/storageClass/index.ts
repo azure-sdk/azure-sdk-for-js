@@ -3,12 +3,9 @@
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
 import {
-  StorageClassGetOptionalParams,
-  StorageClassCreateOrUpdateOptionalParams,
-  StorageClassUpdateOptionalParams,
-  StorageClassDeleteOptionalParams,
-  StorageClassListOptionalParams,
-} from "../../api/options.js";
+  StorageClassResource,
+  StorageClassResourceUpdate,
+} from "../../models/models.js";
 import {
   storageClassGet,
   storageClassCreateOrUpdate,
@@ -16,9 +13,15 @@ import {
   storageClassDelete,
   storageClassList,
 } from "../../api/storageClass/index.js";
-import { StorageClassResource, StorageClassResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StorageClassGetOptionalParams,
+  StorageClassCreateOrUpdateOptionalParams,
+  StorageClassUpdateOptionalParams,
+  StorageClassDeleteOptionalParams,
+  StorageClassListOptionalParams,
+} from "../../models/options.js";
 
 /** Interface representing a StorageClass operations. */
 export interface StorageClassOperations {
@@ -57,20 +60,37 @@ export interface StorageClassOperations {
 
 export function getStorageClass(context: KubernetesRuntimeContext) {
   return {
-    get: (resourceUri: string, storageClassName: string, options?: StorageClassGetOptionalParams) =>
-      storageClassGet(context, resourceUri, storageClassName, options),
+    get: (
+      resourceUri: string,
+      storageClassName: string,
+      options?: StorageClassGetOptionalParams,
+    ) => storageClassGet(context, resourceUri, storageClassName, options),
     createOrUpdate: (
       resourceUri: string,
       storageClassName: string,
       resource: StorageClassResource,
       options?: StorageClassCreateOrUpdateOptionalParams,
-    ) => storageClassCreateOrUpdate(context, resourceUri, storageClassName, resource, options),
+    ) =>
+      storageClassCreateOrUpdate(
+        context,
+        resourceUri,
+        storageClassName,
+        resource,
+        options,
+      ),
     update: (
       resourceUri: string,
       storageClassName: string,
       properties: StorageClassResourceUpdate,
       options?: StorageClassUpdateOptionalParams,
-    ) => storageClassUpdate(context, resourceUri, storageClassName, properties, options),
+    ) =>
+      storageClassUpdate(
+        context,
+        resourceUri,
+        storageClassName,
+        properties,
+        options,
+      ),
     delete: (
       resourceUri: string,
       storageClassName: string,

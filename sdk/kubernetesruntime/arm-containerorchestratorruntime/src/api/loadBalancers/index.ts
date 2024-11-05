@@ -2,31 +2,29 @@
 // Licensed under the MIT License.
 
 import {
-  KubernetesRuntimeContext as Client,
-  LoadBalancersCreateOrUpdateOptionalParams,
-  LoadBalancersDeleteOptionalParams,
-  LoadBalancersGetOptionalParams,
-  LoadBalancersListOptionalParams,
-} from "../index.js";
-import {
+  loadBalancerPropertiesSerializer,
   LoadBalancer,
-  loadBalancerSerializer,
-  loadBalancerDeserializer,
   _LoadBalancerListResult,
-  _loadBalancerListResultDeserializer,
 } from "../../models/models.js";
+import { KubernetesRuntimeContext as Client } from "../index.js";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  LoadBalancersGetOptionalParams,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersListOptionalParams,
+} from "../../models/options.js";
 
 export function _loadBalancersGetSend(
   context: Client,
@@ -37,7 +35,7 @@ export function _loadBalancersGetSend(
   return context
     .path(
       "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
-      { value: resourceUri, allowReserved: true },
+      resourceUri,
       loadBalancerName,
     )
     .get({ ...operationOptionsToRequestParameters(options) });
@@ -51,7 +49,36 @@ export async function _loadBalancersGetDeserialize(
     throw createRestError(result);
   }
 
-  return loadBalancerDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          addresses: result.body.properties?.["addresses"],
+          serviceSelector: result.body.properties?.["serviceSelector"],
+          advertiseMode: result.body.properties?.["advertiseMode"],
+          bgpPeers: result.body.properties?.["bgpPeers"],
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+  };
 }
 
 /** Get a LoadBalancer */
@@ -61,7 +88,12 @@ export async function loadBalancersGet(
   loadBalancerName: string,
   options: LoadBalancersGetOptionalParams = { requestOptions: {} },
 ): Promise<LoadBalancer> {
-  const result = await _loadBalancersGetSend(context, resourceUri, loadBalancerName, options);
+  const result = await _loadBalancersGetSend(
+    context,
+    resourceUri,
+    loadBalancerName,
+    options,
+  );
   return _loadBalancersGetDeserialize(result);
 }
 
@@ -75,12 +107,16 @@ export function _loadBalancersCreateOrUpdateSend(
   return context
     .path(
       "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
-      { value: resourceUri, allowReserved: true },
+      resourceUri,
       loadBalancerName,
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: loadBalancerSerializer(resource),
+      body: {
+        properties: !resource.properties
+          ? resource.properties
+          : loadBalancerPropertiesSerializer(resource.properties),
+      },
     });
 }
 
@@ -92,7 +128,36 @@ export async function _loadBalancersCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return loadBalancerDeserializer(result.body);
+  return {
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: !result.body.properties
+      ? undefined
+      : {
+          addresses: result.body.properties?.["addresses"],
+          serviceSelector: result.body.properties?.["serviceSelector"],
+          advertiseMode: result.body.properties?.["advertiseMode"],
+          bgpPeers: result.body.properties?.["bgpPeers"],
+          provisioningState: result.body.properties?.["provisioningState"],
+        },
+  };
 }
 
 /** Create a LoadBalancer */
@@ -103,13 +168,23 @@ export function loadBalancersCreateOrUpdate(
   resource: LoadBalancer,
   options: LoadBalancersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<LoadBalancer>, LoadBalancer> {
-  return getLongRunningPoller(context, _loadBalancersCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _loadBalancersCreateOrUpdateSend(context, resourceUri, loadBalancerName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
+  return getLongRunningPoller(
+    context,
+    _loadBalancersCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _loadBalancersCreateOrUpdateSend(
+          context,
+          resourceUri,
+          loadBalancerName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
 }
 
 export function _loadBalancersDeleteSend(
@@ -121,7 +196,7 @@ export function _loadBalancersDeleteSend(
   return context
     .path(
       "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
-      { value: resourceUri, allowReserved: true },
+      resourceUri,
       loadBalancerName,
     )
     .delete({ ...operationOptionsToRequestParameters(options) });
@@ -145,7 +220,12 @@ export async function loadBalancersDelete(
   loadBalancerName: string,
   options: LoadBalancersDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _loadBalancersDeleteSend(context, resourceUri, loadBalancerName, options);
+  const result = await _loadBalancersDeleteSend(
+    context,
+    resourceUri,
+    loadBalancerName,
+    options,
+  );
   return _loadBalancersDeleteDeserialize(result);
 }
 
@@ -155,10 +235,10 @@ export function _loadBalancersListSend(
   options: LoadBalancersListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers", {
-      value: resourceUri,
-      allowReserved: true,
-    })
+    .path(
+      "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
+      resourceUri,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -170,7 +250,41 @@ export async function _loadBalancersListDeserialize(
     throw createRestError(result);
   }
 
-  return _loadBalancerListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              addresses: p.properties?.["addresses"],
+              serviceSelector: p.properties?.["serviceSelector"],
+              advertiseMode: p.properties?.["advertiseMode"],
+              bgpPeers: p.properties?.["bgpPeers"],
+              provisioningState: p.properties?.["provisioningState"],
+            },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List LoadBalancer resources by parent */
