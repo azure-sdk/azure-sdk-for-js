@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { EdgeZonesClient, EdgeZonesClientOptionalParams } from "./edgeZonesClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export {
+  EdgeZonesClient,
+  EdgeZonesClientOptionalParams,
+} from "./edgeZonesClient.js";
 export {
   Resource,
   SystemData,
@@ -23,14 +32,16 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  Versions,
   ProvisioningState,
   OperationsListOptionalParams,
   ExtendedZonesGetOptionalParams,
   ExtendedZonesListBySubscriptionOptionalParams,
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
 } from "./models/index.js";
-export { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
+export {
+  ExtendedZonesOperations,
+  OperationsOperations,
+} from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

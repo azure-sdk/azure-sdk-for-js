@@ -10,11 +10,6 @@ import { OperationOptions } from '@azure-rest/core-client';
 export type ActionType = string;
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -133,18 +128,6 @@ export interface OperationsListOptionalParams extends OperationOptions {
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
 
 // @public
@@ -174,6 +157,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type Versions = "2024-04-01-preview";
 
 // (No @packageDocumentation comment for this package)
 
