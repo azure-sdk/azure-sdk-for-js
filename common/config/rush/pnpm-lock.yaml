@@ -1548,6 +1548,21 @@ packages:
       tslib: 2.8.1
     dev: false
 
+  /@azure/eventgrid@5.8.0:
+    resolution: {integrity: sha512-IJ9E3I9YYcvEOxHHLxJ2xQNzoxaeObeA30KxeiESxK8CeRykUFJ1MiWT8qUJ/RTCFK5hNKzGHWfJJEISTPznYg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/functions@3.5.1:
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
     dependencies:
@@ -4472,6 +4487,40 @@ packages:
       playwright: 1.48.2
       sirv: 2.0.4
       vitest: 1.6.0(@types/node@18.19.64)(@vitest/browser@1.6.0)
+    dev: false
+
+  /@vitest/browser@2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.5.4)(vitest@2.1.4):
+    resolution: {integrity: sha512-89SrvShW6kWzmEYtBj5k1gBq88emoC2qrngw5hE1vNpRFteQ5/1URbKIVww391rIALTpzhhCt5yJt5tjLPZxYw==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.4
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.4(msw@2.6.0)
+      '@vitest/utils': 2.1.4
+      magic-string: 0.30.12
+      msw: 2.6.0(@types/node@18.19.64)(typescript@5.5.4)
+      playwright: 1.48.2
+      sirv: 3.0.0
+      tinyrainbow: 1.2.0
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
     dev: false
 
   /@vitest/browser@2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4):
@@ -8478,6 +8527,40 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
+  /msw@2.6.0(@types/node@18.19.64)(typescript@5.5.4):
+    resolution: {integrity: sha512-n3tx2w0MZ3H4pxY0ozrQ4sNPzK/dGtlr2cIIyuEsgq2Bhy4wvcW6ZH2w/gXM9+MEUY6HC1fWhqtcXDxVZr5Jxw==}
+    engines: {node: '>=18'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      typescript: '>= 4.8.x'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.0
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 5.0.1(@types/node@18.19.64)
+      '@mswjs/interceptors': 0.36.9
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      chalk: 4.1.2
+      graphql: 16.9.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      strict-event-emitter: 0.5.1
+      type-fest: 4.26.1
+      typescript: 5.5.4
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   /msw@2.6.0(@types/node@18.19.64)(typescript@5.6.3):
     resolution: {integrity: sha512-n3tx2w0MZ3H4pxY0ozrQ4sNPzK/dGtlr2cIIyuEsgq2Bhy4wvcW6ZH2w/gXM9+MEUY6HC1fWhqtcXDxVZr5Jxw==}
     engines: {node: '>=18'}
@@ -12375,11 +12458,12 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-XhwqKUAITo1k9UGUOfsulMGMig1cs4NLpxF5hIwK91cMo+EbLHvYzUl6SypPw4IxasziMoyVtUobTvEsafDDDg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-3ekNy4tq99jpXBpG72zhlR9FKRkORmVOpsINbrc1V7Kc6RQEHATu8mkPoUJqLOi4/YR77E+089lNn3XA9wgzwA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/eventgrid': 5.8.0
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
@@ -20084,13 +20168,14 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-vz4DlGvIjf5AnZOkX6nssvhXCyKtnCaEqSMK87AvUXV+82oZkHoBUYS+uGUyvbc41QpKDhAFvlfJ3075zeqeGQ==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-hwjnSMOh7zOpO3t1inNBLJh7dpGkdLeucR4lnWtZOEtA24jXLig5rHzGo35Q+Q5Sx3i/6OoB8/VT3HPq2ZjFzg==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
+      '@azure/eventgrid': 5.8.0
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.9
@@ -20174,22 +20259,25 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-Wu3hnv9c3SJxmn0fd+aGRpKC9gBptmVSaCYW5tXssbfaUukCNhoa6X8DkHmPCk54BZis7V4B4Y2LlIwT6RfsBg==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-Rnkg6ZA2nlK/zrwrgkv+3fJE0KQto+7Xcr3P9iDzlPoa1pwUvldMWtvz2lsZdWb6Zbzgo63R7tn/MJoUYyCVYw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.5.4)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20199,20 +20287,39 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       karma-sourcemap-loader: 0.3.8
+      mkdirp: 3.0.1
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
+      prettier: 3.3.3
+      rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
+      tshy: 1.18.0
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.6.3
+      typescript: 5.5.4
       uuid: 8.3.2
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
-      - jiti
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
@@ -21817,10 +21924,11 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-ZYkjk1Pz46OB0szqPrpg0Ymo7rNaSbRqu9gIfv9ntX3li6ol/f8HhNenejnokCbHjCi+bb1mN2pD/2WdRUdF8w==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-UvazXXw40yAy1OaEnU9/JFzwzdfQkBjB8yGrfr5d3dXU3O181Vnziul1z7K6z7/iKTz2zfXwZsd/p9rPsp/zjw==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
+      '@azure/eventgrid': 5.8.0
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.14.0
