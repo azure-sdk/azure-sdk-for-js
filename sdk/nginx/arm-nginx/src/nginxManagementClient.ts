@@ -15,12 +15,14 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ApiKeysImpl,
   CertificatesImpl,
   ConfigurationsImpl,
   DeploymentsImpl,
   OperationsImpl,
 } from "./operations";
 import {
+  ApiKeys,
   Certificates,
   Configurations,
   Deployments,
@@ -31,17 +33,20 @@ import { NginxManagementClientOptionalParams } from "./models";
 export class NginxManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  apiKeyName: string;
   apiVersion: string;
 
   /**
    * Initializes a new instance of the NginxManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param apiKeyName The resource name of the API key
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    apiKeyName: string,
     options?: NginxManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -49,6 +54,9 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (apiKeyName === undefined) {
+      throw new Error("'apiKeyName' cannot be null");
     }
 
     // Initializing default values for options
@@ -111,10 +119,12 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.apiKeyName = apiKeyName;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01-preview";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
+    this.apiKeys = new ApiKeysImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
@@ -150,6 +160,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  apiKeys: ApiKeys;
   certificates: Certificates;
   configurations: Configurations;
   deployments: Deployments;
