@@ -4,14 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -60,16 +53,6 @@ export interface AssetEndpointProfilesListByResourceGroupOptionalParams extends 
 
 // @public
 export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AssetEndpointProfilesOperations {
-    createOrReplace: (resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
-    delete: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesGetOptionalParams) => Promise<AssetEndpointProfile>;
-    listByResourceGroup: (resourceGroupName: string, options?: AssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
-    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
-    update: (resourceGroupName: string, assetEndpointProfileName: string, properties: AssetEndpointProfileUpdate, options?: AssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
 }
 
 // @public
@@ -150,16 +133,6 @@ export interface AssetsListByResourceGroupOptionalParams extends OperationOption
 
 // @public
 export interface AssetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AssetsOperations {
-    createOrReplace: (resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
-    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) => Promise<Asset>;
-    listByResourceGroup: (resourceGroupName: string, options?: AssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Asset>;
-    listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Asset>;
-    update: (resourceGroupName: string, assetName: string, properties: AssetUpdate, options?: AssetsUpdateOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
 }
 
 // @public
@@ -250,17 +223,6 @@ export interface BillingContainersListBySubscriptionOptionalParams extends Opera
 }
 
 // @public
-export interface BillingContainersOperations {
-    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) => Promise<BillingContainer>;
-    listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BillingContainer>;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -284,22 +246,6 @@ export interface Dataset {
     datasetConfiguration?: string;
     name: string;
     topic?: Topic;
-}
-
-// @public (undocumented)
-export class DeviceRegistryClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DeviceRegistryClientOptionalParams);
-    readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
-    readonly assets: AssetsOperations;
-    readonly billingContainers: BillingContainersOperations;
-    readonly operations: OperationsOperations;
-    readonly operationStatus: OperationStatusOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface DeviceRegistryClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -429,17 +375,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OperationStatusGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationStatusOperations {
-    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
 }
 
 // @public
@@ -458,18 +394,6 @@ export interface OperationStatusResult {
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export type ProvisioningState = ResourceProvisioningState | "Accepted" | "Deleting" | string;
 
 // @public
@@ -486,16 +410,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistryClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface SystemData {
