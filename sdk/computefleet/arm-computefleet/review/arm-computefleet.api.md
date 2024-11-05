@@ -178,6 +178,26 @@ export interface EncryptionIdentity {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicy = string;
 
 // @public
@@ -413,8 +433,8 @@ export enum KnownLocalStorageDiskType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -426,7 +446,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    V20201101 = "2020-11-01"
+    v2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -453,26 +473,15 @@ export enum KnownOperatingSystemTypes {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
 export enum KnownProtocolTypes {
     Http = "Http",
     Https = "Https"
-}
-
-// @public
-export enum KnownProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Migrating = "Migrating",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
 }
 
 // @public
@@ -491,6 +500,13 @@ export enum KnownPublicIPAddressSkuTier {
 export enum KnownRegularPriorityAllocationStrategy {
     LowestPrice = "LowestPrice",
     Prioritized = "Prioritized"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -521,13 +537,13 @@ export enum KnownSpotAllocationStrategy {
 
 // @public
 export enum KnownStorageAccountTypes {
-    PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
-    PremiumZRS = "Premium_ZRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS",
-    UltraSSDLRS = "UltraSSD_LRS"
+    Premium_LRS = "Premium_LRS",
+    Premium_ZRS = "Premium_ZRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
+    Standard_LRS = "Standard_LRS",
+    StandardSSD_LRS = "StandardSSD_LRS",
+    StandardSSD_ZRS = "StandardSSD_ZRS",
+    UltraSSD_LRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -709,7 +725,7 @@ export interface Plan {
 export type ProtocolTypes = string;
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = string | ResourceProvisioningState | "Creating" | "Updating" | "Deleting" | "Migrating";
 
 // @public
 export interface ProxyAgentSettings {
@@ -756,6 +772,9 @@ export interface ResourcePlanUpdate {
     publisher?: string;
     version?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureFleetClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -880,6 +899,9 @@ export interface VaultSecretGroup {
     sourceVault?: SubResource;
     vaultCertificates?: VaultCertificate[];
 }
+
+// @public
+export type Versions = "2023-11-01-preview" | "2024-05-01-preview" | "2024-11-01";
 
 // @public
 export interface VirtualHardDisk {
