@@ -1,15 +1,31 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 2.0.0-beta.1 (2024-11-05)
+Compared with version 1.1.0
+    
 ### Features Added
+
+  - Added Interface Action
+  - Added Interface Branch
+  - Added Interface Filter
+  - Added Interface ListSelector
+  - Added Interface QuerySelector
+  - Added Interface Selector
+  - Added Interface SimpleFilter
+  - Added Interface SimpleFilterParameters
+  - Added Interface Step
+  - Added Type Alias ActionUnion
+  - Added Type Alias FilterUnion
+  - Added Type Alias SelectorUnion
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter selectors of interface Experiment is changed from ChaosTargetSelectorUnion[] to SelectorUnion[]
+  - Type of parameter steps of interface Experiment is changed from ChaosExperimentStep[] to Step[]
+  - Type of parameter endTime of interface OperationStatus is changed from string to Date
+  - Type of parameter startTime of interface OperationStatus is changed from string to Date
+    
+    
 ## 1.1.0 (2024-03-06)
     
 ### Features Added

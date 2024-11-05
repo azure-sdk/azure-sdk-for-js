@@ -11,6 +11,12 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface Action {
+    name: string;
+    type: "delay" | "discrete" | "continuous";
+}
+
+// @public
 export interface ActionStatus {
     readonly actionId?: string;
     readonly actionName?: string;
@@ -22,6 +28,15 @@ export interface ActionStatus {
 
 // @public
 export type ActionType = string;
+
+// @public (undocumented)
+export type ActionUnion = Action | DelayAction | DiscreteAction | ContinuousAction;
+
+// @public
+export interface Branch {
+    actions: ActionUnion[];
+    name: string;
+}
 
 // @public
 export interface BranchStatus {
@@ -143,27 +158,6 @@ export interface CapabilityTypesListOptionalParams extends coreClient.OperationO
 // @public
 export type CapabilityTypesListResponse = CapabilityTypeListResult;
 
-// @public
-export interface ChaosExperimentAction {
-    name: string;
-    type: "delay" | "discrete" | "continuous";
-}
-
-// @public (undocumented)
-export type ChaosExperimentActionUnion = ChaosExperimentAction | DelayAction | DiscreteAction | ContinuousAction;
-
-// @public
-export interface ChaosExperimentBranch {
-    actions: ChaosExperimentActionUnion[];
-    name: string;
-}
-
-// @public
-export interface ChaosExperimentStep {
-    branches: ChaosExperimentBranch[];
-    name: string;
-}
-
 // @public (undocumented)
 export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -198,50 +192,7 @@ export interface ChaosManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
-export interface ChaosTargetFilter {
-    type: "Simple";
-}
-
-// @public (undocumented)
-export type ChaosTargetFilterUnion = ChaosTargetFilter | ChaosTargetSimpleFilter;
-
-// @public
-export interface ChaosTargetListSelector extends ChaosTargetSelector {
-    targets: TargetReference[];
-    type: "List";
-}
-
-// @public
-export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
-    queryString: string;
-    subscriptionIds: string[];
-    type: "Query";
-}
-
-// @public
-export interface ChaosTargetSelector {
-    [property: string]: any;
-    filter?: ChaosTargetFilterUnion;
-    id: string;
-    type: "List" | "Query";
-}
-
-// @public (undocumented)
-export type ChaosTargetSelectorUnion = ChaosTargetSelector | ChaosTargetListSelector | ChaosTargetQuerySelector;
-
-// @public
-export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
-    parameters?: ChaosTargetSimpleFilterParameters;
-    type: "Simple";
-}
-
-// @public
-export interface ChaosTargetSimpleFilterParameters {
-    zones?: string[];
-}
-
-// @public
-export interface ContinuousAction extends ChaosExperimentAction {
+export interface ContinuousAction extends Action {
     duration: string;
     parameters: KeyValuePair[];
     selectorId: string;
@@ -252,13 +203,13 @@ export interface ContinuousAction extends ChaosExperimentAction {
 export type CreatedByType = string;
 
 // @public
-export interface DelayAction extends ChaosExperimentAction {
+export interface DelayAction extends Action {
     duration: string;
     type: "delay";
 }
 
 // @public
-export interface DiscreteAction extends ChaosExperimentAction {
+export interface DiscreteAction extends Action {
     parameters: KeyValuePair[];
     selectorId: string;
     type: "discrete";
@@ -288,8 +239,8 @@ export interface ErrorResponse {
 export interface Experiment extends TrackedResource {
     identity?: ResourceIdentity;
     readonly provisioningState?: ProvisioningState;
-    selectors: ChaosTargetSelectorUnion[];
-    steps: ChaosExperimentStep[];
+    selectors: SelectorUnion[];
+    steps: Step[];
     readonly systemData?: SystemData;
 }
 
@@ -494,7 +445,15 @@ export interface ExperimentUpdate {
 }
 
 // @public
+export interface Filter {
+    type: "Simple";
+}
+
+// @public
 export type FilterType = string;
+
+// @public (undocumented)
+export type FilterUnion = Filter | SimpleFilter;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -552,6 +511,12 @@ export enum KnownTargetReferenceType {
 }
 
 // @public
+export interface ListSelector extends Selector {
+    targets: TargetReference[];
+    type: "List";
+}
+
+// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -595,10 +560,10 @@ export type OperationsListAllResponse = OperationListResult;
 
 // @public
 export interface OperationStatus extends ErrorResponse {
-    endTime?: string;
+    readonly endTime?: Date;
     id?: string;
     name?: string;
-    startTime?: string;
+    readonly startTime?: Date;
     status?: string;
 }
 
@@ -621,6 +586,13 @@ export type Origin = string;
 export type ProvisioningState = string;
 
 // @public
+export interface QuerySelector extends Selector {
+    queryString: string;
+    subscriptionIds: string[];
+    type: "Query";
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -641,7 +613,35 @@ export interface ResourceIdentity {
 export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
+export interface Selector {
+    [property: string]: any;
+    filter?: FilterUnion;
+    id: string;
+    type: "List" | "Query";
+}
+
+// @public
 export type SelectorType = string;
+
+// @public (undocumented)
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
+
+// @public
+export interface SimpleFilter extends Filter {
+    parameters?: SimpleFilterParameters;
+    type: "Simple";
+}
+
+// @public
+export interface SimpleFilterParameters {
+    zones?: string[];
+}
+
+// @public
+export interface Step {
+    branches: Branch[];
+    name: string;
+}
 
 // @public
 export interface StepStatus {

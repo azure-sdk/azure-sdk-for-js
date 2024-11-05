@@ -18,19 +18,19 @@ import {
   CapabilitiesImpl,
   CapabilityTypesImpl,
   ExperimentsImpl,
-  OperationStatusesImpl,
   OperationsImpl,
-  TargetTypesImpl,
+  OperationStatusesImpl,
   TargetsImpl,
+  TargetTypesImpl,
 } from "./operations";
 import {
   Capabilities,
   CapabilityTypes,
   Experiments,
-  OperationStatuses,
   Operations,
-  TargetTypes,
+  OperationStatuses,
   Targets,
+  TargetTypes,
 } from "./operationsInterfaces";
 import { ChaosManagementClientOptionalParams } from "./models";
 
@@ -80,7 +80,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-chaos/1.1.1`;
+    const packageDetails = `azsdk-js-arm-chaos/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,14 +134,14 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
+    this.apiVersion = options.apiVersion || "2024-12-01-preview";
     this.capabilities = new CapabilitiesImpl(this);
     this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
-    this.operationStatuses = new OperationStatusesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.targetTypes = new TargetTypesImpl(this);
+    this.operationStatuses = new OperationStatusesImpl(this);
     this.targets = new TargetsImpl(this);
+    this.targetTypes = new TargetTypesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -176,8 +176,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   capabilities: Capabilities;
   capabilityTypes: CapabilityTypes;
   experiments: Experiments;
-  operationStatuses: OperationStatuses;
   operations: Operations;
-  targetTypes: TargetTypes;
+  operationStatuses: OperationStatuses;
   targets: Targets;
+  targetTypes: TargetTypes;
 }
