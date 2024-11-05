@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { serializeRecord } from "../helpers/serializerHelpers.js";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
   value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -30,16 +25,6 @@ export interface Operation {
   actionType?: ActionType;
 }
 
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -52,23 +37,14 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+/** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  /** user */
+  user = "user",
+  /** system */
+  system = "system",
+  /** user,system */
+  "user,system" = "user,system",
 }
 
 /**
@@ -76,15 +52,15 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
+ * **user** \
+ * **system** \
+ * **user,system**
  */
 export type Origin = string;
 
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+/** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
+  /** Internal */
   Internal = "Internal",
 }
 
@@ -93,239 +69,36 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
+ * **Internal**
  */
 export type ActionType = string;
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Fabric Capacity resource */
-export interface FabricCapacity extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties: FabricCapacityProperties;
-  /** The SKU details */
-  sku: RpSku;
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function fabricCapacitySerializer(item: FabricCapacity): any {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: fabricCapacityPropertiesSerializer(item["properties"]),
-    sku: rpSkuSerializer(item["sku"]),
-  };
-}
-
-export function fabricCapacityDeserializer(item: any): FabricCapacity {
-  return {
-    tags: item["tags"],
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: fabricCapacityPropertiesDeserializer(item["properties"]),
-    sku: rpSkuDeserializer(item["sku"]),
-  };
-}
-
-/** The Microsoft Fabric capacity properties. */
-export interface FabricCapacityProperties {
-  /** The current deployment state of Microsoft Fabric resource. The provisioningState is to indicate states for resource provisioning. */
-  readonly provisioningState?: ProvisioningState;
-  /** The current state of Microsoft Fabric resource. The state is to indicate more states outside of resource provisioning. */
-  readonly state?: ResourceState;
-  /** The capacity administration */
-  administration: CapacityAdministration;
-}
-
-export function fabricCapacityPropertiesSerializer(item: FabricCapacityProperties): any {
-  return {
-    administration: capacityAdministrationSerializer(item["administration"]),
-  };
-}
-
-export function fabricCapacityPropertiesDeserializer(item: any): FabricCapacityProperties {
-  return {
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-    state: item["state"],
-    administration: capacityAdministrationDeserializer(item["administration"]),
-  };
-}
-
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
-  Updating = "Updating",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **Provisioning** \
- * **Updating**
- */
-/** Alias for ProvisioningState */
-export type ProvisioningState = string;
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
-
-/** The state of the Fabric capacity resource. */
-export enum KnownResourceState {
-  /** Resource is active */
-  Active = "Active",
-  /** Resource is provisioning */
-  Provisioning = "Provisioning",
-  /** Resource is failed */
-  Failed = "Failed",
-  /** Resource is updating */
-  Updating = "Updating",
-  /** Resource is deleting */
-  Deleting = "Deleting",
-  /** Resource is suspending */
-  Suspending = "Suspending",
-  /** Resource is suspended */
-  Suspended = "Suspended",
-  /** Resource is pausing */
-  Pausing = "Pausing",
-  /** Resource is paused */
-  Paused = "Paused",
-  /** Resource is resuming */
-  Resuming = "Resuming",
-  /** Resource is scaling */
-  Scaling = "Scaling",
-  /** Resource is preparing */
-  Preparing = "Preparing",
-}
-
-/**
- * The state of the Fabric capacity resource. \
- * {@link KnownResourceState} can be used interchangeably with ResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active**: Resource is active \
- * **Provisioning**: Resource is provisioning \
- * **Failed**: Resource is failed \
- * **Updating**: Resource is updating \
- * **Deleting**: Resource is deleting \
- * **Suspending**: Resource is suspending \
- * **Suspended**: Resource is suspended \
- * **Pausing**: Resource is pausing \
- * **Paused**: Resource is paused \
- * **Resuming**: Resource is resuming \
- * **Scaling**: Resource is scaling \
- * **Preparing**: Resource is preparing
- */
-export type ResourceState = string;
-
-/** The administration properties of the Fabric capacity resource */
-export interface CapacityAdministration {
-  /** An array of administrator user identities. */
-  members: string[];
-}
-
-export function capacityAdministrationSerializer(item: CapacityAdministration): any {
-  return {
-    members: item["members"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function capacityAdministrationDeserializer(item: any): CapacityAdministration {
-  return {
-    members: item["members"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** Represents the SKU name and Azure pricing tier for Microsoft Fabric capacity resource. */
-export interface RpSku {
-  /** The name of the SKU level. */
-  name: string;
-  /** The name of the Azure pricing tier to which the SKU applies. */
-  tier: RpSkuTier;
-}
-
-export function rpSkuSerializer(item: RpSku): any {
-  return { name: item["name"], tier: item["tier"] };
-}
-
-export function rpSkuDeserializer(item: any): RpSku {
-  return {
-    name: item["name"],
-    tier: item["tier"],
-  };
-}
-
-/** The name of the Azure pricing tier to which the SKU applies. */
-export enum KnownRpSkuTier {
-  /** Fabric tier */
-  Fabric = "Fabric",
-}
-
-/**
- * The name of the Azure pricing tier to which the SKU applies. \
- * {@link KnownRpSkuTier} can be used interchangeably with RpSkuTier,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Fabric**: Fabric tier
- */
-export type RpSkuTier = string;
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-export function trackedResourceSerializer(item: TrackedResource): any {
-  return { tags: item["tags"], location: item["location"] };
-}
-
-export function trackedResourceDeserializer(item: any): TrackedResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
-    location: item["location"],
-  };
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -340,19 +113,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
+export function resourceSerializer(item: Resource) {
+  return item as any;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -371,42 +133,196 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
+/** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** The entity was created by a user. */
+  /** User */
   User = "User",
-  /** The entity was created by an application. */
+  /** Application */
   Application = "Application",
-  /** The entity was created by a managed identity. */
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
+  /** Key */
   Key = "Key",
 }
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
 export type CreatedByType = string;
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(
+  item: TrackedResource,
+): Record<string, unknown> {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    location: item["location"],
+  };
+}
+
+/** Fabric Capacity resource */
+export interface FabricCapacity extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties: FabricCapacityProperties;
+  /** The SKU details */
+  sku: RpSku;
+}
+
+export function fabricCapacitySerializer(
+  item: FabricCapacity,
+): Record<string, unknown> {
+  return {
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    location: item["location"],
+    properties: fabricCapacityPropertiesSerializer(item.properties),
+    sku: rpSkuSerializer(item.sku),
+  };
+}
+
+/** The Microsoft Fabric capacity properties. */
+export interface FabricCapacityProperties {
+  /** The current deployment state of Microsoft Fabric resource. The provisioningState is to indicate states for resource provisioning. */
+  readonly provisioningState?: ProvisioningState;
+  /** The current state of Microsoft Fabric resource. The state is to indicate more states outside of resource provisioning. */
+  readonly state?: ResourceState;
+  /** The capacity administration */
+  administration: CapacityAdministration;
+}
+
+export function fabricCapacityPropertiesSerializer(
+  item: FabricCapacityProperties,
+): Record<string, unknown> {
+  return {
+    administration: capacityAdministrationSerializer(item.administration),
+  };
+}
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ResourceProvisioningState = string;
+
+/** Known values of {@link ResourceState} that the service accepts. */
+export enum KnownResourceState {
+  /** Active */
+  Active = "Active",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Suspending */
+  Suspending = "Suspending",
+  /** Suspended */
+  Suspended = "Suspended",
+  /** Pausing */
+  Pausing = "Pausing",
+  /** Paused */
+  Paused = "Paused",
+  /** Resuming */
+  Resuming = "Resuming",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** Preparing */
+  Preparing = "Preparing",
+}
+
+/**
+ * The state of the Fabric capacity resource. \
+ * {@link KnownResourceState} can be used interchangeably with ResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Provisioning** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Suspending** \
+ * **Suspended** \
+ * **Pausing** \
+ * **Paused** \
+ * **Resuming** \
+ * **Scaling** \
+ * **Preparing**
+ */
+export type ResourceState = string;
+
+/** The administration properties of the Fabric capacity resource */
+export interface CapacityAdministration {
+  /** An array of administrator user identities. */
+  members: string[];
+}
+
+export function capacityAdministrationSerializer(
+  item: CapacityAdministration,
+): Record<string, unknown> {
+  return {
+    members: item["members"],
+  };
+}
+
+/** Represents the SKU name and Azure pricing tier for Microsoft Fabric capacity resource. */
+export interface RpSku {
+  /** The name of the SKU level. */
+  name: string;
+  /** The name of the Azure pricing tier to which the SKU applies. */
+  tier: RpSkuTier;
+}
+
+export function rpSkuSerializer(item: RpSku): Record<string, unknown> {
+  return {
+    name: item["name"],
+    tier: item["tier"],
+  };
+}
+
+/** Known values of {@link RpSkuTier} that the service accepts. */
+export enum KnownRpSkuTier {
+  /** fabric */
+  fabric = "Fabric",
+}
+
+/**
+ * The name of the Azure pricing tier to which the SKU applies. \
+ * {@link KnownRpSkuTier} can be used interchangeably with RpSkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Fabric**
+ */
+export type RpSkuTier = string;
 
 /** The type used for update operations of the FabricCapacity. */
 export interface FabricCapacityUpdate {
@@ -418,13 +334,15 @@ export interface FabricCapacityUpdate {
   properties?: FabricCapacityUpdateProperties;
 }
 
-export function fabricCapacityUpdateSerializer(item: FabricCapacityUpdate): any {
+export function fabricCapacityUpdateSerializer(
+  item: FabricCapacityUpdate,
+): Record<string, unknown> {
   return {
-    sku: !item["sku"] ? item["sku"] : rpSkuSerializer(item["sku"]),
-    tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : fabricCapacityUpdatePropertiesSerializer(item["properties"]),
+    sku: !item.sku ? item.sku : rpSkuSerializer(item.sku),
+    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    properties: !item.properties
+      ? item.properties
+      : fabricCapacityUpdatePropertiesSerializer(item.properties),
   };
 }
 
@@ -436,11 +354,11 @@ export interface FabricCapacityUpdateProperties {
 
 export function fabricCapacityUpdatePropertiesSerializer(
   item: FabricCapacityUpdateProperties,
-): any {
+): Record<string, unknown> {
   return {
-    administration: !item["administration"]
-      ? item["administration"]
-      : capacityAdministrationSerializer(item["administration"]),
+    administration: !item.administration
+      ? item.administration
+      : capacityAdministrationSerializer(item.administration),
   };
 }
 
@@ -452,25 +370,6 @@ export interface _FabricCapacityListResult {
   nextLink?: string;
 }
 
-export function _fabricCapacityListResultDeserializer(item: any): _FabricCapacityListResult {
-  return {
-    value: fabricCapacityArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function fabricCapacityArraySerializer(result: Array<FabricCapacity>): any[] {
-  return result.map((item) => {
-    return fabricCapacitySerializer(item);
-  });
-}
-
-export function fabricCapacityArrayDeserializer(result: Array<FabricCapacity>): any[] {
-  return result.map((item) => {
-    return fabricCapacityDeserializer(item);
-  });
-}
-
 /** The check availability request body. */
 export interface CheckNameAvailabilityRequest {
   /** The name of the resource for which availability needs to be checked. */
@@ -479,8 +378,13 @@ export interface CheckNameAvailabilityRequest {
   type?: string;
 }
 
-export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
-  return { name: item["name"], type: item["type"] };
+export function checkNameAvailabilityRequestSerializer(
+  item: CheckNameAvailabilityRequest,
+): Record<string, unknown> {
+  return {
+    name: item["name"],
+    type: item["type"],
+  };
 }
 
 /** The check availability result. */
@@ -493,21 +397,11 @@ export interface CheckNameAvailabilityResponse {
   message?: string;
 }
 
-export function checkNameAvailabilityResponseDeserializer(
-  item: any,
-): CheckNameAvailabilityResponse {
-  return {
-    nameAvailable: item["nameAvailable"],
-    reason: item["reason"],
-    message: item["message"],
-  };
-}
-
-/** Possible reasons for a name not being available. */
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
-  /** Name is invalid. */
+  /** Invalid */
   Invalid = "Invalid",
-  /** Name already exists. */
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists",
 }
 
@@ -516,8 +410,8 @@ export enum KnownCheckNameAvailabilityReason {
  * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid**: Name is invalid. \
- * **AlreadyExists**: Name already exists.
+ * **Invalid** \
+ * **AlreadyExists**
  */
 export type CheckNameAvailabilityReason = string;
 
@@ -529,15 +423,6 @@ export interface _RpSkuEnumerationForExistingResourceResult {
   nextLink?: string;
 }
 
-export function _rpSkuEnumerationForExistingResourceResultDeserializer(
-  item: any,
-): _RpSkuEnumerationForExistingResourceResult {
-  return {
-    value: rpSkuDetailsForExistingResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
 /** An object that represents SKU details for existing resources */
 export interface RpSkuDetailsForExistingResource {
   /** The resource type */
@@ -546,38 +431,12 @@ export interface RpSkuDetailsForExistingResource {
   sku: RpSku;
 }
 
-export function rpSkuDetailsForExistingResourceDeserializer(
-  item: any,
-): RpSkuDetailsForExistingResource {
-  return {
-    resourceType: item["resourceType"],
-    sku: rpSkuDeserializer(item["sku"]),
-  };
-}
-
-export function rpSkuDetailsForExistingResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForExistingResource>,
-): any[] {
-  return result.map((item) => {
-    return rpSkuDetailsForExistingResourceDeserializer(item);
-  });
-}
-
 /** An object that represents enumerating SKUs for new resources. */
 export interface _RpSkuEnumerationForNewResourceResult {
   /** The collection of available SKUs for new resources */
   value: RpSkuDetailsForNewResource[];
   /** Url for the next page.  Null if no more pages available */
   nextLink?: string;
-}
-
-export function _rpSkuEnumerationForNewResourceResultDeserializer(
-  item: any,
-): _RpSkuEnumerationForNewResourceResult {
-  return {
-    value: rpSkuDetailsForNewResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
 }
 
 /** The SKU details */
@@ -590,20 +449,12 @@ export interface RpSkuDetailsForNewResource {
   locations: string[];
 }
 
-export function rpSkuDetailsForNewResourceDeserializer(item: any): RpSkuDetailsForNewResource {
-  return {
-    resourceType: item["resourceType"],
-    name: item["name"],
-    locations: item["locations"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function rpSkuDetailsForNewResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForNewResource>,
-): any[] {
-  return result.map((item) => {
-    return rpSkuDetailsForNewResourceDeserializer(item);
-  });
-}
+/** The available API versions. */
+export type Versions = "2023-11-01";
+/** Alias for ProvisioningState */
+export type ProvisioningState =
+  | ResourceProvisioningState
+  | "Deleting"
+  | "Provisioning"
+  | "Updating"
+  | string;

@@ -4,6 +4,8 @@
 
 ```ts
 
+import { OperationOptions } from '@azure-rest/core-client';
+
 // @public
 export type ActionType = string;
 
@@ -30,6 +32,75 @@ export interface CheckNameAvailabilityResponse {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricCapacitiesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricCapacitiesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesListSkusForCapacityOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface FabricCapacitiesResumeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricCapacitiesSuspendOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FabricCapacitiesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface FabricCapacity extends TrackedResource {
@@ -77,19 +148,16 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
-export enum KnownProvisioningState {
+export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
-    Deleting = "Deleting",
     Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -110,7 +178,7 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownRpSkuTier {
-    Fabric = "Fabric"
+    fabric = "Fabric"
 }
 
 // @public
@@ -131,10 +199,14 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OperationsListOptionalParams extends OperationOptions {
+}
+
+// @public
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
+export type ProvisioningState = ResourceProvisioningState | "Deleting" | "Provisioning" | "Updating" | string;
 
 // @public
 export interface Resource {
@@ -143,6 +215,9 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export type ResourceState = string;
@@ -184,6 +259,9 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
+
+// @public
+export type Versions = "2023-11-01";
 
 // (No @packageDocumentation comment for this package)
 
