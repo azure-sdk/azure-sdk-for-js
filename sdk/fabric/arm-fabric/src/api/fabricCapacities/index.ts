@@ -2,50 +2,46 @@
 // Licensed under the MIT License.
 
 import {
-  FabricContext as Client,
-  FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  FabricCapacitiesCreateOrUpdateOptionalParams,
-  FabricCapacitiesDeleteOptionalParams,
-  FabricCapacitiesGetOptionalParams,
-  FabricCapacitiesListByResourceGroupOptionalParams,
-  FabricCapacitiesListBySubscriptionOptionalParams,
-  FabricCapacitiesListSkusForCapacityOptionalParams,
-  FabricCapacitiesListSkusOptionalParams,
-  FabricCapacitiesResumeOptionalParams,
-  FabricCapacitiesSuspendOptionalParams,
-  FabricCapacitiesUpdateOptionalParams,
-} from "../index.js";
-import {
+  fabricCapacityPropertiesSerializer,
+  rpSkuSerializer,
+  fabricCapacityUpdatePropertiesSerializer,
   FabricCapacity,
-  fabricCapacitySerializer,
-  fabricCapacityDeserializer,
   FabricCapacityUpdate,
-  fabricCapacityUpdateSerializer,
-  _FabricCapacityListResult,
-  _fabricCapacityListResultDeserializer,
   CheckNameAvailabilityRequest,
-  checkNameAvailabilityRequestSerializer,
   CheckNameAvailabilityResponse,
-  checkNameAvailabilityResponseDeserializer,
-  _RpSkuEnumerationForExistingResourceResult,
-  _rpSkuEnumerationForExistingResourceResultDeserializer,
   RpSkuDetailsForExistingResource,
-  _RpSkuEnumerationForNewResourceResult,
-  _rpSkuEnumerationForNewResourceResultDeserializer,
   RpSkuDetailsForNewResource,
+  _FabricCapacityListResult,
+  _RpSkuEnumerationForExistingResourceResult,
+  _RpSkuEnumerationForNewResourceResult,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { FabricContext as Client } from "../index.js";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
+import { serializeRecord } from "../../helpers/serializerHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  FabricCapacitiesGetOptionalParams,
+  FabricCapacitiesCreateOrUpdateOptionalParams,
+  FabricCapacitiesUpdateOptionalParams,
+  FabricCapacitiesDeleteOptionalParams,
+  FabricCapacitiesListByResourceGroupOptionalParams,
+  FabricCapacitiesListBySubscriptionOptionalParams,
+  FabricCapacitiesResumeOptionalParams,
+  FabricCapacitiesSuspendOptionalParams,
+  FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesListSkusOptionalParams,
+} from "../../models/options.js";
 
 export function _fabricCapacitiesGetSend(
   context: Client,
@@ -72,7 +68,37 @@ export async function _fabricCapacitiesGetDeserialize(
     throw createRestError(result);
   }
 
-  return fabricCapacityDeserializer(result.body);
+  return {
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: {
+      provisioningState: result.body.properties["provisioningState"],
+      state: result.body.properties["state"],
+      administration: {
+        members: result.body.properties.administration["members"],
+      },
+    },
+    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
+  };
 }
 
 /** Get a FabricCapacity */
@@ -112,7 +138,14 @@ export function _fabricCapacitiesCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: fabricCapacitySerializer(resource),
+      body: {
+        tags: !resource.tags
+          ? resource.tags
+          : (serializeRecord(resource.tags as any) as any),
+        location: resource["location"],
+        properties: fabricCapacityPropertiesSerializer(resource.properties),
+        sku: rpSkuSerializer(resource.sku),
+      },
     });
 }
 
@@ -124,7 +157,37 @@ export async function _fabricCapacitiesCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return fabricCapacityDeserializer(result.body);
+  return {
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: {
+      provisioningState: result.body.properties["provisioningState"],
+      state: result.body.properties["state"],
+      administration: {
+        members: result.body.properties.administration["members"],
+      },
+    },
+    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
+  };
 }
 
 /** Create a FabricCapacity */
@@ -138,20 +201,24 @@ export function fabricCapacitiesCreateOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          resource,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
 export function _fabricCapacitiesUpdateSend(
@@ -171,7 +238,15 @@ export function _fabricCapacitiesUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: fabricCapacityUpdateSerializer(properties),
+      body: {
+        sku: !properties.sku ? properties.sku : rpSkuSerializer(properties.sku),
+        tags: !properties.tags
+          ? properties.tags
+          : (serializeRecord(properties.tags as any) as any),
+        properties: !properties.properties
+          ? properties.properties
+          : fabricCapacityUpdatePropertiesSerializer(properties.properties),
+      },
     });
 }
 
@@ -183,7 +258,37 @@ export async function _fabricCapacitiesUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return fabricCapacityDeserializer(result.body);
+  return {
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
+      ? undefined
+      : {
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
+          createdAt:
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
+              : undefined,
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedAt:
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
+              : undefined,
+        },
+    properties: {
+      provisioningState: result.body.properties["provisioningState"],
+      state: result.body.properties["state"],
+      administration: {
+        members: result.body.properties.administration["members"],
+      },
+    },
+    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
+  };
 }
 
 /** Update a FabricCapacity */
@@ -195,20 +300,24 @@ export function fabricCapacitiesUpdate(
   properties: FabricCapacityUpdate,
   options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          properties,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
 export function _fabricCapacitiesDeleteSend(
@@ -247,19 +356,23 @@ export function fabricCapacitiesDelete(
   capacityName: string,
   options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesListByResourceGroupSend(
@@ -287,7 +400,40 @@ export async function _fabricCapacitiesListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return _fabricCapacityListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        tags: p["tags"],
+        location: p["location"],
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: {
+          provisioningState: p.properties["provisioningState"],
+          state: p.properties["state"],
+          administration: { members: p.properties.administration["members"] },
+        },
+        sku: { name: p.sku["name"], tier: p.sku["tier"] },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List FabricCapacity resources by resource group */
@@ -302,7 +448,12 @@ export function fabricCapacitiesListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _fabricCapacitiesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+      _fabricCapacitiesListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _fabricCapacitiesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -317,7 +468,10 @@ export function _fabricCapacitiesListBySubscriptionSend(
   },
 ): StreamableMethod {
   return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities",
+      subscriptionId,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -329,7 +483,40 @@ export async function _fabricCapacitiesListBySubscriptionDeserialize(
     throw createRestError(result);
   }
 
-  return _fabricCapacityListResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        tags: p["tags"],
+        location: p["location"],
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: {
+          provisioningState: p.properties["provisioningState"],
+          state: p.properties["state"],
+          administration: { members: p.properties.administration["members"] },
+        },
+        sku: { name: p.sku["name"], tier: p.sku["tier"] },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List FabricCapacity resources by subscription ID */
@@ -342,7 +529,8 @@ export function fabricCapacitiesListBySubscription(
 ): PagedAsyncIterableIterator<FabricCapacity> {
   return buildPagedAsyncIterator(
     context,
-    () => _fabricCapacitiesListBySubscriptionSend(context, subscriptionId, options),
+    () =>
+      _fabricCapacitiesListBySubscriptionSend(context, subscriptionId, options),
     _fabricCapacitiesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -385,19 +573,23 @@ export function fabricCapacitiesResume(
   capacityName: string,
   options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesResumeDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesResumeSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesResumeDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesResumeSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesSuspendSend(
@@ -436,19 +628,23 @@ export function fabricCapacitiesSuspend(
   capacityName: string,
   options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesSuspendDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesSuspendSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesSuspendDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesSuspendSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesCheckNameAvailabilitySend(
@@ -468,7 +664,7 @@ export function _fabricCapacitiesCheckNameAvailabilitySend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: checkNameAvailabilityRequestSerializer(body),
+      body: { name: body["name"], type: body["type"] },
     });
 }
 
@@ -480,7 +676,11 @@ export async function _fabricCapacitiesCheckNameAvailabilityDeserialize(
     throw createRestError(result);
   }
 
-  return checkNameAvailabilityResponseDeserializer(result.body);
+  return {
+    nameAvailable: result.body["nameAvailable"],
+    reason: result.body["reason"],
+    message: result.body["message"],
+  };
 }
 
 /** Implements local CheckNameAvailability operations */
@@ -530,7 +730,15 @@ export async function _fabricCapacitiesListSkusForCapacityDeserialize(
     throw createRestError(result);
   }
 
-  return _rpSkuEnumerationForExistingResourceResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        resourceType: p["resourceType"],
+        sku: { name: p.sku["name"], tier: p.sku["tier"] },
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List eligible SKUs for a Microsoft Fabric resource */
@@ -565,7 +773,10 @@ export function _fabricCapacitiesListSkusSend(
   options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus",
+      subscriptionId,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -577,7 +788,16 @@ export async function _fabricCapacitiesListSkusDeserialize(
     throw createRestError(result);
   }
 
-  return _rpSkuEnumerationForNewResourceResultDeserializer(result.body);
+  return {
+    value: result.body["value"].map((p: any) => {
+      return {
+        resourceType: p["resourceType"],
+        name: p["name"],
+        locations: p["locations"],
+      };
+    }),
+    nextLink: result.body["nextLink"],
+  };
 }
 
 /** List eligible SKUs for Microsoft Fabric resource provider */
