@@ -14647,6 +14647,13 @@ export const VpnClientConnectionHealthDetail: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      privateIpv6Address: {
+        serializedName: "privateIpv6Address",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       vpnUserName: {
         serializedName: "vpnUserName",
         readOnly: true,
