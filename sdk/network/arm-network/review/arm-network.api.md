@@ -15828,6 +15828,7 @@ export interface VpnClientConnectionHealthDetail {
     readonly maxBandwidth?: number;
     readonly maxPacketsPerSecond?: number;
     readonly privateIpAddress?: string;
+    readonly privateIpv6Address?: string;
     readonly publicIpAddress?: string;
     readonly vpnConnectionDuration?: number;
     readonly vpnConnectionId?: string;

@@ -5153,6 +5153,11 @@ export interface VpnClientConnectionHealthDetail {
    */
   readonly privateIpAddress?: string;
   /**
+   * The assigned private Ipv6 of a connected vpn client.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateIpv6Address?: string;
+  /**
    * The user name of a connected vpn client.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
