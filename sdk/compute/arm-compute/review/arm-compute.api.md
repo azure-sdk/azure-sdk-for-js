@@ -6354,6 +6354,8 @@ export interface VirtualMachineImages {
     listOffers(location: string, publisherName: string, options?: VirtualMachineImagesListOffersOptionalParams): Promise<VirtualMachineImagesListOffersResponse>;
     listPublishers(location: string, options?: VirtualMachineImagesListPublishersOptionalParams): Promise<VirtualMachineImagesListPublishersResponse>;
     listSkus(location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams): Promise<VirtualMachineImagesListSkusResponse>;
+    // (undocumented)
+    listWithProperties(location: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesListWithPropertiesOptionalParams): Promise<VirtualMachineImagesListWithPropertiesResponse>;
 }
 
 // @public
@@ -6449,6 +6451,17 @@ export interface VirtualMachineImagesListSkusOptionalParams extends coreClient.O
 
 // @public
 export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
+
+// @public
+export interface VirtualMachineImagesListWithPropertiesOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    orderby?: string;
+    // (undocumented)
+    top?: number;
+}
+
+// @public
+export type VirtualMachineImagesListWithPropertiesResponse = VirtualMachineImage[];
 
 // @public
 export interface VirtualMachineInstallPatchesParameters {

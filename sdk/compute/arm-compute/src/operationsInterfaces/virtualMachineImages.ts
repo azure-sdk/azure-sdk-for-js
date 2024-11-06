@@ -19,6 +19,8 @@ import {
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
+  VirtualMachineImagesListWithPropertiesOptionalParams,
+  VirtualMachineImagesListWithPropertiesResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachineImages. */
@@ -100,4 +102,18 @@ export interface VirtualMachineImages {
     edgeZone: string,
     options?: VirtualMachineImagesListByEdgeZoneOptionalParams,
   ): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param options The options parameters.
+   */
+  listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): Promise<VirtualMachineImagesListWithPropertiesResponse>;
 }
