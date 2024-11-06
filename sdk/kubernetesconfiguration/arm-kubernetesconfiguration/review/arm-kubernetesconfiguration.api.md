@@ -14,6 +14,9 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 // @public
+export type AutoUpgradeMode = string;
+
+// @public
 export interface AzureBlobDefinition {
     accountKey?: string;
     containerName?: string;
@@ -99,6 +102,7 @@ export interface ErrorResponse {
 export interface Extension extends ProxyResource {
     aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
@@ -375,6 +379,13 @@ export interface Identity {
 }
 
 // @public
+export enum KnownAutoUpgradeMode {
+    Compatible = "compatible",
+    None = "none",
+    Patch = "patch"
+}
+
+// @public
 export enum KnownComplianceStateType {
     Compliant = "Compliant",
     Failed = "Failed",
@@ -608,6 +619,7 @@ export type OperatorType = string;
 // @public
 export interface PatchExtension {
     autoUpgradeMinorVersion?: boolean;
+    autoUpgradeMode?: AutoUpgradeMode;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
     };
