@@ -23,13 +23,14 @@ import {
   AccessReviewInstanceProperties,
   ScopeAccessReviewInstancesCreateOptionalParams,
   ScopeAccessReviewInstancesCreateResponse,
-  ScopeAccessReviewInstancesListNextResponse
+  ScopeAccessReviewInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScopeAccessReviewInstances operations. */
 export class ScopeAccessReviewInstancesImpl
-  implements ScopeAccessReviewInstances {
+  implements ScopeAccessReviewInstances
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -49,7 +50,7 @@ export class ScopeAccessReviewInstancesImpl
   public list(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewInstancesListOptionalParams
+    options?: ScopeAccessReviewInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewInstance> {
     const iter = this.listPagingAll(scope, scheduleDefinitionId, options);
     return {
@@ -67,9 +68,9 @@ export class ScopeAccessReviewInstancesImpl
           scope,
           scheduleDefinitionId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +78,7 @@ export class ScopeAccessReviewInstancesImpl
     scope: string,
     scheduleDefinitionId: string,
     options?: ScopeAccessReviewInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewInstance[]> {
     let result: ScopeAccessReviewInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +94,7 @@ export class ScopeAccessReviewInstancesImpl
         scope,
         scheduleDefinitionId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -105,12 +106,12 @@ export class ScopeAccessReviewInstancesImpl
   private async *listPagingAll(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewInstancesListOptionalParams
+    options?: ScopeAccessReviewInstancesListOptionalParams,
   ): AsyncIterableIterator<AccessReviewInstance> {
     for await (const page of this.listPagingPage(
       scope,
       scheduleDefinitionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +126,11 @@ export class ScopeAccessReviewInstancesImpl
   private _list(
     scope: string,
     scheduleDefinitionId: string,
-    options?: ScopeAccessReviewInstancesListOptionalParams
+    options?: ScopeAccessReviewInstancesListOptionalParams,
   ): Promise<ScopeAccessReviewInstancesListResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -144,11 +145,11 @@ export class ScopeAccessReviewInstancesImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstancesGetByIdOptionalParams
+    options?: ScopeAccessReviewInstancesGetByIdOptionalParams,
   ): Promise<ScopeAccessReviewInstancesGetByIdResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -165,11 +166,11 @@ export class ScopeAccessReviewInstancesImpl
     scheduleDefinitionId: string,
     id: string,
     properties: AccessReviewInstanceProperties,
-    options?: ScopeAccessReviewInstancesCreateOptionalParams
+    options?: ScopeAccessReviewInstancesCreateOptionalParams,
   ): Promise<ScopeAccessReviewInstancesCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, properties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -184,11 +185,11 @@ export class ScopeAccessReviewInstancesImpl
     scope: string,
     scheduleDefinitionId: string,
     nextLink: string,
-    options?: ScopeAccessReviewInstancesListNextOptionalParams
+    options?: ScopeAccessReviewInstancesListNextOptionalParams,
   ): Promise<ScopeAccessReviewInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -196,59 +197,56 @@ export class ScopeAccessReviewInstancesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstanceListResult
+      bodyMapper: Mappers.AccessReviewInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstance
+      bodyMapper: Mappers.AccessReviewInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstance
+      bodyMapper: Mappers.AccessReviewInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties2,
   queryParameters: [Parameters.apiVersion3],
@@ -256,29 +254,29 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstanceListResult
+      bodyMapper: Mappers.AccessReviewInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scheduleDefinitionId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

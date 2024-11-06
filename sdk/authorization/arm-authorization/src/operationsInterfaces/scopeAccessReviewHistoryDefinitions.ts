@@ -11,7 +11,7 @@ import {
   AccessReviewHistoryDefinition,
   ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
-  ScopeAccessReviewHistoryDefinitionsGetByIdResponse
+  ScopeAccessReviewHistoryDefinitionsGetByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface ScopeAccessReviewHistoryDefinitions {
    */
   list(
     scope: string,
-    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewHistoryDefinition>;
   /**
    * Get access review history definition by definition Id
@@ -36,6 +36,6 @@ export interface ScopeAccessReviewHistoryDefinitions {
   getById(
     scope: string,
     historyDefinitionId: string,
-    options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionsGetByIdResponse>;
 }
