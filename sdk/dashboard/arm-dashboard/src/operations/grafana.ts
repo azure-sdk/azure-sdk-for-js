@@ -16,7 +16,7 @@ import { DashboardManagementClient } from "../dashboardManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,7 @@ import {
   GrafanaFetchAvailablePluginsOptionalParams,
   GrafanaFetchAvailablePluginsResponse,
   GrafanaListNextResponse,
-  GrafanaListByResourceGroupNextResponse
+  GrafanaListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,7 +61,7 @@ export class GrafanaImpl implements Grafana {
    * @param options The options parameters.
    */
   public list(
-    options?: GrafanaListOptionalParams
+    options?: GrafanaListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedGrafana> {
     const iter = this.listPagingAll(options);
     return {
@@ -76,13 +76,13 @@ export class GrafanaImpl implements Grafana {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: GrafanaListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedGrafana[]> {
     let result: GrafanaListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class GrafanaImpl implements Grafana {
   }
 
   private async *listPagingAll(
-    options?: GrafanaListOptionalParams
+    options?: GrafanaListOptionalParams,
   ): AsyncIterableIterator<ManagedGrafana> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -117,7 +117,7 @@ export class GrafanaImpl implements Grafana {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: GrafanaListByResourceGroupOptionalParams
+    options?: GrafanaListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedGrafana> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -134,16 +134,16 @@ export class GrafanaImpl implements Grafana {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: GrafanaListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ManagedGrafana[]> {
     let result: GrafanaListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,7 +158,7 @@ export class GrafanaImpl implements Grafana {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -169,11 +169,11 @@ export class GrafanaImpl implements Grafana {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: GrafanaListByResourceGroupOptionalParams
+    options?: GrafanaListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ManagedGrafana> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -184,7 +184,7 @@ export class GrafanaImpl implements Grafana {
    * @param options The options parameters.
    */
   private _list(
-    options?: GrafanaListOptionalParams
+    options?: GrafanaListOptionalParams,
   ): Promise<GrafanaListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -196,11 +196,11 @@ export class GrafanaImpl implements Grafana {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: GrafanaListByResourceGroupOptionalParams
+    options?: GrafanaListByResourceGroupOptionalParams,
   ): Promise<GrafanaListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -213,11 +213,11 @@ export class GrafanaImpl implements Grafana {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaGetOptionalParams
+    options?: GrafanaGetOptionalParams,
   ): Promise<GrafanaGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -233,7 +233,7 @@ export class GrafanaImpl implements Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafana,
-    options?: GrafanaCreateOptionalParams
+    options?: GrafanaCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GrafanaCreateResponse>,
@@ -242,21 +242,20 @@ export class GrafanaImpl implements Grafana {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<GrafanaCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -265,8 +264,8 @@ export class GrafanaImpl implements Grafana {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -274,8 +273,8 @@ export class GrafanaImpl implements Grafana {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -285,9 +284,9 @@ export class GrafanaImpl implements Grafana {
         resourceGroupName,
         workspaceName,
         requestBodyParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       GrafanaCreateResponse,
@@ -295,7 +294,7 @@ export class GrafanaImpl implements Grafana {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -313,13 +312,13 @@ export class GrafanaImpl implements Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafana,
-    options?: GrafanaCreateOptionalParams
+    options?: GrafanaCreateOptionalParams,
   ): Promise<GrafanaCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       requestBodyParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -335,11 +334,11 @@ export class GrafanaImpl implements Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafanaUpdateParameters,
-    options?: GrafanaUpdateOptionalParams
+    options?: GrafanaUpdateOptionalParams,
   ): Promise<GrafanaUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, requestBodyParameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -352,25 +351,24 @@ export class GrafanaImpl implements Grafana {
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaDeleteOptionalParams
+    options?: GrafanaDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -379,8 +377,8 @@ export class GrafanaImpl implements Grafana {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -388,20 +386,20 @@ export class GrafanaImpl implements Grafana {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, workspaceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -416,12 +414,12 @@ export class GrafanaImpl implements Grafana {
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaDeleteOptionalParams
+    options?: GrafanaDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -435,11 +433,11 @@ export class GrafanaImpl implements Grafana {
   checkEnterpriseDetails(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaCheckEnterpriseDetailsOptionalParams
+    options?: GrafanaCheckEnterpriseDetailsOptionalParams,
   ): Promise<GrafanaCheckEnterpriseDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      checkEnterpriseDetailsOperationSpec
+      checkEnterpriseDetailsOperationSpec,
     );
   }
 
@@ -451,11 +449,11 @@ export class GrafanaImpl implements Grafana {
   fetchAvailablePlugins(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaFetchAvailablePluginsOptionalParams
+    options?: GrafanaFetchAvailablePluginsOptionalParams,
   ): Promise<GrafanaFetchAvailablePluginsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      fetchAvailablePluginsOperationSpec
+      fetchAvailablePluginsOperationSpec,
     );
   }
 
@@ -466,11 +464,11 @@ export class GrafanaImpl implements Grafana {
    */
   private _listNext(
     nextLink: string,
-    options?: GrafanaListNextOptionalParams
+    options?: GrafanaListNextOptionalParams,
   ): Promise<GrafanaListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -483,11 +481,11 @@ export class GrafanaImpl implements Grafana {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: GrafanaListByResourceGroupNextOptionalParams
+    options?: GrafanaListByResourceGroupNextOptionalParams,
   ): Promise<GrafanaListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -499,80 +497,77 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafanaListResponse
+      bodyMapper: Mappers.ManagedGrafanaListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafanaListResponse
+      bodyMapper: Mappers.ManagedGrafanaListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedGrafana,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
     },
     201: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
     },
     202: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
     },
     204: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.requestBodyParameters,
   queryParameters: [Parameters.apiVersion],
@@ -580,27 +575,26 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafana
+      bodyMapper: Mappers.ManagedGrafana,
     },
     202: {
       bodyMapper: Mappers.ManagedGrafana,
-      headersMapper: Mappers.GrafanaUpdateHeaders
+      headersMapper: Mappers.GrafanaUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.requestBodyParameters1,
   queryParameters: [Parameters.apiVersion],
@@ -608,15 +602,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -624,99 +617,97 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkEnterpriseDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/checkEnterpriseDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/checkEnterpriseDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EnterpriseDetails
+      bodyMapper: Mappers.EnterpriseDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const fetchAvailablePluginsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/fetchAvailablePlugins",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/fetchAvailablePlugins",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GrafanaAvailablePluginListResponse
+      bodyMapper: Mappers.GrafanaAvailablePluginListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafanaListResponse
+      bodyMapper: Mappers.ManagedGrafanaListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedGrafanaListResponse
+      bodyMapper: Mappers.ManagedGrafanaListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

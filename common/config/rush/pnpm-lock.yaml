@@ -13818,7 +13818,7 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-bPCn9VT5vOjBqDUAmkHcpdAUmoHfypM91W60Sdsx7fjPsB1KHeR+iXkxgaVkj0mf/ASCtXsOBDnJxfzf/2Glpg==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-PJaIyamxMjL3wf+panxiOOCtSRO3/B0Xf3iMJT6Xk7VZJcpeNEkTP6BY5g6RSbXKxbzOjyBvyCuKM5iOA0oH6g==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
@@ -13826,15 +13826,21 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
+      mkdirp: 3.0.1
       mocha: 10.8.2
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.5.4)
       tslib: 2.8.1
-      typescript: 5.6.3
+      tsx: 4.19.2
+      typescript: 5.5.4
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
