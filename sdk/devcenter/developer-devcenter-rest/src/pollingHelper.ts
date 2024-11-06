@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, HttpResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type {
+import { Client, HttpResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
   CancelOnProgress,
   CreateHttpPollerOptions,
   RunningOperation,
   OperationResponse,
   OperationState,
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
-import type {
+import {
   CreateDevBox200Response,
   CreateDevBox201Response,
   CreateDevBoxDefaultResponse,
@@ -41,7 +41,10 @@ import type {
 /**
  * A simple poller that can be used to poll a long running operation.
  */
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+export interface SimplePollerLike<
+  TState extends OperationState<TResult>,
+  TResult,
+> {
   /**
    * Returns true if the poller has finished polling.
    */
@@ -65,7 +68,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
+  pollUntilDone(pollOptions?: {
+    abortSignal?: AbortSignalLike;
+  }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -115,14 +120,20 @@ export async function getLongRunningPoller<
   TResult extends CreateDevBoxLogicalResponse | CreateDevBoxDefaultResponse,
 >(
   client: Client,
-  initialResponse: CreateDevBox200Response | CreateDevBox201Response | CreateDevBoxDefaultResponse,
+  initialResponse:
+    | CreateDevBox200Response
+    | CreateDevBox201Response
+    | CreateDevBoxDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends DeleteDevBoxLogicalResponse | DeleteDevBoxDefaultResponse,
 >(
   client: Client,
-  initialResponse: DeleteDevBox202Response | DeleteDevBox204Response | DeleteDevBoxDefaultResponse,
+  initialResponse:
+    | DeleteDevBox202Response
+    | DeleteDevBox204Response
+    | DeleteDevBoxDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
@@ -158,7 +169,9 @@ export async function getLongRunningPoller<
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
-  TResult extends DeleteEnvironmentLogicalResponse | DeleteEnvironmentDefaultResponse,
+  TResult extends
+    | DeleteEnvironmentLogicalResponse
+    | DeleteEnvironmentDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -180,7 +193,10 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       // response we were provided.
       return getLroResponse(initialResponse);
     },
-    sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: async (
+      path: string,
+      pollOptions?: { abortSignal?: AbortSignalLike },
+    ) => {
       // This is the callback that is going to be called to poll the service
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
@@ -206,7 +222,8 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] =
+        initialResponse.request.url;
       return lroResponse;
     },
   };
@@ -262,7 +279,9 @@ function getLroResponse<TResult extends HttpResponse>(
   response: TResult,
 ): OperationResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
+    throw new TypeError(
+      `Status code of the response is not a number. Value: ${response.status}`,
+    );
   }
 
   return {
