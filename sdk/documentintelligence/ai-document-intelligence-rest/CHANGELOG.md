@@ -1,6 +1,37 @@
 # Release History
+    
+## 1.0.0-beta.4 (2024-11-07)
+Compared with version 1.0.0-beta.3
+    
+### Features Added
 
-## 1.0.0-beta.3 (#2024-08-20)
+  - Added function overload "export function getLongRunningPoller<TResult extends AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse>(client: Client, initialResponse: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends ComposeModelLogicalResponse | ComposeModelDefaultResponse>(client: Client, initialResponse: ComposeModel202Response | ComposeModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse | CopyModelToDefaultResponse>(client: Client, initialResponse: CopyModelTo202Response | CopyModelToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse>(client: Client, initialResponse: CopyClassifierTo202Response | CopyClassifierToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse>(client: Client, initialResponse: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Added function overload "export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;"
+
+### Breaking Changes
+
+  - Removed operation SimplePollerLike.getOperationId
+  - Type of parameter locale of interface DocumentLanguageOutput is changed from string to number
+  - Removed function overload "export function getLongRunningPoller<TResult extends AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse>(client: Client, initialResponse: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends ComposeModelLogicalResponse | ComposeModelDefaultResponse>(client: Client, initialResponse: ComposeModel202Response | ComposeModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse | CopyModelToDefaultResponse>(client: Client, initialResponse: CopyModelTo202Response | CopyModelToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse>(client: Client, initialResponse: CopyClassifierTo202Response | CopyClassifierToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse>(client: Client, initialResponse: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;"
+  - Removed function overload "export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;"
+    
+## 1.0.0-beta.3 (2024-08-20)
 
 ### Features Added
 
@@ -126,7 +157,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
     Each page is treated as a separate document. Each empty page is kept as its own document.
 
-**Breaking Changes**
+### Breaking Changes
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 

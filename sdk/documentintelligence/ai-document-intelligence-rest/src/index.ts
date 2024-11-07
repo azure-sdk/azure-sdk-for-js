@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import DocumentIntelligence from "./documentIntelligence.js";
+import DocumentIntelligenceClient from "./documentIntelligenceClient.js";
 
-export * from "./documentIntelligence.js";
+export * from "./documentIntelligenceClient.js";
 export * from "./parameters.js";
 export * from "./responses.js";
 export * from "./clientDefinitions.js";
@@ -13,4 +13,4 @@ export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
-export default DocumentIntelligence;
+export default DocumentIntelligenceClient;

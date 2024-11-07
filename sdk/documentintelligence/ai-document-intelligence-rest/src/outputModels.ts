@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Paged } from "@azure/core-paging";
 
@@ -55,7 +55,8 @@ export interface InnerErrorOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelBuildOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -179,7 +180,8 @@ export interface WarningOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelComposeOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelComposeOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -187,7 +189,8 @@ export interface DocumentModelComposeOperationDetailsOutput extends OperationDet
 }
 
 /** Get Operation response object. */
-export interface DocumentModelCopyToOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelCopyToOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -678,7 +681,7 @@ export interface DocumentLanguageOutput {
    * Detected language.  Value may an ISO 639-1 language code (ex. "en", "fr")
    * or BCP 47 language tag (ex. "zh-Hans").
    */
-  locale: string;
+  locale: number;
   /**
    * Location of the text elements in the concatenated content the language applies
    * to.
@@ -944,4 +947,5 @@ export type DocumentSignatureTypeOutput = string;
 /** Paged collection of DocumentModelDetails items */
 export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 /** Paged collection of DocumentClassifierDetails items */
-export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
+export type PagedDocumentClassifierDetailsOutput =
+  Paged<DocumentClassifierDetailsOutput>;
