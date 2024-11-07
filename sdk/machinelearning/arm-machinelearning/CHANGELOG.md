@@ -1,5 +1,23 @@
 # Release History
     
+## 3.1.0 (2024-11-07)
+    
+### Features Added
+
+  - Added operation WorkspaceConnections.update
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacesDeleteHeaders
+  - Added Type Alias FirewallSku
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Added Enum KnownFirewallSku
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value Pinecone
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
