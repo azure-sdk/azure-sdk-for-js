@@ -294,7 +294,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.jobCreateParameters,
@@ -318,7 +318,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -340,7 +340,7 @@ const pauseOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -362,7 +362,7 @@ const resumeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -384,7 +384,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -406,7 +406,7 @@ const completeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -428,7 +428,7 @@ const listByDatabaseAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobFeedResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -449,7 +449,7 @@ const listByDatabaseAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataTransferJobFeedResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   urlParameters: [

@@ -1056,7 +1056,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListClusters,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1072,7 +1072,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListClusters,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1092,7 +1092,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1114,7 +1114,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1144,7 +1144,7 @@ const createUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.body,
@@ -1176,7 +1176,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ClusterResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.body,
@@ -1208,7 +1208,7 @@ const invokeCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommandOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.body1,
@@ -1240,7 +1240,7 @@ const invokeCommandAsyncOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommandPublicResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.body1,
@@ -1263,7 +1263,7 @@ const listCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListCommands,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1284,7 +1284,7 @@ const getCommandAsyncOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListCommands,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1306,7 +1306,7 @@ const listBackupsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListBackups,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1327,7 +1327,7 @@ const getBackupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BackupResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1350,7 +1350,7 @@ const deallocateOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1372,7 +1372,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1393,7 +1393,7 @@ const statusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CassandraClusterPublicStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],

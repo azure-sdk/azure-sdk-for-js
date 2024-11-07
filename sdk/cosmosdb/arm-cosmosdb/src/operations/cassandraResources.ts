@@ -2198,7 +2198,7 @@ const migrateCassandraKeyspaceToAutoscaleOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.CloudError,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2230,7 +2230,7 @@ const migrateCassandraKeyspaceToManualThroughputOperationSpec: coreClient.Operat
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.CloudError,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2411,7 +2411,7 @@ const migrateCassandraTableToAutoscaleOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.CloudError,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2444,7 +2444,7 @@ const migrateCassandraTableToManualThroughputOperationSpec: coreClient.Operation
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.CloudError,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2612,7 +2612,7 @@ const migrateCassandraViewToAutoscaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2645,7 +2645,7 @@ const migrateCassandraViewToManualThroughputOperationSpec: coreClient.OperationS
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.CloudError,
       },
     },
     queryParameters: [Parameters.apiVersion],

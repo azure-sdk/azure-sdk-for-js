@@ -183,7 +183,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableDatabaseAccountsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -203,7 +203,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableDatabaseAccountsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -219,7 +219,7 @@ const getByLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableDatabaseAccountGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
