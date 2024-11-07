@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AnalyzeTextParameters,
+import {
   AnalyzeImageParameters,
+  AnalyzeTextParameters,
+  DetectTextProtectedMaterialParameters,
   GetTextBlocklistParameters,
   CreateOrUpdateTextBlocklistParameters,
   DeleteTextBlocklistParameters,
@@ -12,12 +13,14 @@ import type {
   RemoveBlocklistItemsParameters,
   GetTextBlocklistItemParameters,
   ListTextBlocklistItemsParameters,
-} from "./parameters";
-import type {
-  AnalyzeText200Response,
-  AnalyzeTextDefaultResponse,
+} from "./parameters.js";
+import {
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
+  AnalyzeText200Response,
+  AnalyzeTextDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -35,15 +38,8 @@ import type {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
-
-export interface AnalyzeText {
-  /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
-  post(
-    options: AnalyzeTextParameters,
-  ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
-}
+} from "./responses.js";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeImage {
   /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
@@ -52,11 +48,30 @@ export interface AnalyzeImage {
   ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
 }
 
+export interface AnalyzeText {
+  /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
+  post(
+    options: AnalyzeTextParameters,
+  ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
+}
+
+export interface DetectTextProtectedMaterial {
+  /** A synchronous API for detecting protected material in the given text. */
+  post(
+    options: DetectTextProtectedMaterialParameters,
+  ): StreamableMethod<
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse
+  >;
+}
+
 export interface GetTextBlocklist {
   /** Returns text blocklist details. */
   get(
     options?: GetTextBlocklistParameters,
-  ): StreamableMethod<GetTextBlocklist200Response | GetTextBlocklistDefaultResponse>;
+  ): StreamableMethod<
+    GetTextBlocklist200Response | GetTextBlocklistDefaultResponse
+  >;
   /** Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created. */
   patch(
     options: CreateOrUpdateTextBlocklistParameters,
@@ -68,14 +83,18 @@ export interface GetTextBlocklist {
   /** Deletes a text blocklist. */
   delete(
     options?: DeleteTextBlocklistParameters,
-  ): StreamableMethod<DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse>;
+  ): StreamableMethod<
+    DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse
+  >;
 }
 
 export interface ListTextBlocklists {
   /** Get all text blocklists details. */
   get(
     options?: ListTextBlocklistsParameters,
-  ): StreamableMethod<ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse>;
+  ): StreamableMethod<
+    ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse
+  >;
 }
 
 export interface AddOrUpdateBlocklistItems {
@@ -83,7 +102,8 @@ export interface AddOrUpdateBlocklistItems {
   post(
     options: AddOrUpdateBlocklistItemsParameters,
   ): StreamableMethod<
-    AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
   >;
 }
 
@@ -91,30 +111,41 @@ export interface RemoveBlocklistItems {
   /** Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one request. */
   post(
     options: RemoveBlocklistItemsParameters,
-  ): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
+  ): StreamableMethod<
+    RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse
+  >;
 }
 
 export interface GetTextBlocklistItem {
   /** Get blocklistItem by blocklistName and blocklistItemId from a text blocklist. */
   get(
     options?: GetTextBlocklistItemParameters,
-  ): StreamableMethod<GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse>;
+  ): StreamableMethod<
+    GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse
+  >;
 }
 
 export interface ListTextBlocklistItems {
   /** Get all blocklistItems in a text blocklist. */
   get(
     options?: ListTextBlocklistItemsParameters,
-  ): StreamableMethod<ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse>;
+  ): StreamableMethod<
+    ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse
+  >;
 }
 
 export interface Routes {
-  /** Resource for '/text:analyze' has methods for the following verbs: post */
-  (path: "/text:analyze"): AnalyzeText;
   /** Resource for '/image:analyze' has methods for the following verbs: post */
   (path: "/image:analyze"): AnalyzeImage;
+  /** Resource for '/text:analyze' has methods for the following verbs: post */
+  (path: "/text:analyze"): AnalyzeText;
+  /** Resource for '/text:detectProtectedMaterial' has methods for the following verbs: post */
+  (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
-  (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
+  (
+    path: "/text/blocklists/{blocklistName}",
+    blocklistName: string,
+  ): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */
   (path: "/text/blocklists"): ListTextBlocklists;
   /** Resource for '/text/blocklists/\{blocklistName\}:addOrUpdateBlocklistItems' has methods for the following verbs: post */

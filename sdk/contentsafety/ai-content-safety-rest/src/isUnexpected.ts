@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AnalyzeText200Response,
-  AnalyzeTextDefaultResponse,
+import {
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
+  AnalyzeText200Response,
+  AnalyzeTextDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -23,27 +25,35 @@ import type {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "POST /text:analyze": ["200"],
   "POST /image:analyze": ["200"],
+  "POST /text:analyze": ["200"],
+  "POST /text:detectProtectedMaterial": ["200"],
   "GET /text/blocklists/{blocklistName}": ["200"],
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
   "GET /text/blocklists": ["200"],
   "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
   "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": ["200"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": [
+    "200",
+  ],
   "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
 };
 
 export function isUnexpected(
+  response: AnalyzeImage200Response | AnalyzeImageDefaultResponse,
+): response is AnalyzeImageDefaultResponse;
+export function isUnexpected(
   response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
 ): response is AnalyzeTextDefaultResponse;
 export function isUnexpected(
-  response: AnalyzeImage200Response | AnalyzeImageDefaultResponse,
-): response is AnalyzeImageDefaultResponse;
+  response:
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse,
+): response is DetectTextProtectedMaterialDefaultResponse;
 export function isUnexpected(
   response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse,
 ): response is GetTextBlocklistDefaultResponse;
@@ -60,23 +70,33 @@ export function isUnexpected(
   response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse,
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
-  response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse,
+  response:
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse,
 ): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse,
+  response:
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse,
 ): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse,
+  response:
+    | GetTextBlocklistItem200Response
+    | GetTextBlocklistItemDefaultResponse,
 ): response is GetTextBlocklistItemDefaultResponse;
 export function isUnexpected(
-  response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse,
+  response:
+    | ListTextBlocklistItems200Response
+    | ListTextBlocklistItemsDefaultResponse,
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
-    | AnalyzeText200Response
-    | AnalyzeTextDefaultResponse
     | AnalyzeImage200Response
     | AnalyzeImageDefaultResponse
+    | AnalyzeText200Response
+    | AnalyzeTextDefaultResponse
+    | DetectTextProtectedMaterial200Response
+    | DetectTextProtectedMaterialDefaultResponse
     | GetTextBlocklist200Response
     | GetTextBlocklistDefaultResponse
     | CreateOrUpdateTextBlocklist200Response
@@ -95,8 +115,9 @@ export function isUnexpected(
     | ListTextBlocklistItems200Response
     | ListTextBlocklistItemsDefaultResponse,
 ): response is
-  | AnalyzeTextDefaultResponse
   | AnalyzeImageDefaultResponse
+  | AnalyzeTextDefaultResponse
+  | DetectTextProtectedMaterialDefaultResponse
   | GetTextBlocklistDefaultResponse
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
@@ -137,17 +158,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

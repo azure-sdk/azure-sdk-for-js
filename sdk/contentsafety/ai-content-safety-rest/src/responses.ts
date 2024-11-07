@@ -1,17 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type {
-  AnalyzeTextResultOutput,
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import {
   AnalyzeImageResultOutput,
+  AnalyzeTextResultOutput,
+  DetectTextProtectedMaterialResultOutput,
   TextBlocklistOutput,
   PagedTextBlocklistOutput,
   AddOrUpdateTextBlocklistItemsResultOutput,
   TextBlocklistItemOutput,
   PagedTextBlocklistItemOutput,
-} from "./outputModels";
+} from "./outputModels.js";
+
+/** The request has succeeded. */
+export interface AnalyzeImage200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeImageResultOutput;
+}
+
+export interface AnalyzeImageDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AnalyzeImageDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
+}
 
 /** The request has succeeded. */
 export interface AnalyzeText200Response extends HttpResponse {
@@ -31,20 +49,21 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface AnalyzeImage200Response extends HttpResponse {
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
   status: "200";
-  body: AnalyzeImageResultOutput;
+  body: DetectTextProtectedMaterialResultOutput;
 }
 
-export interface AnalyzeImageDefaultHeaders {
+export interface DetectTextProtectedMaterialDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AnalyzeImageDefaultResponse extends HttpResponse {
+export interface DetectTextProtectedMaterialDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
+  headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -81,7 +100,8 @@ export interface CreateOrUpdateTextBlocklistDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrUpdateTextBlocklistDefaultResponse extends HttpResponse {
+export interface CreateOrUpdateTextBlocklistDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrUpdateTextBlocklistDefaultHeaders;
