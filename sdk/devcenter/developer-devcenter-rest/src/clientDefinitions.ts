@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ListProjectsParameters,
   GetProjectParameters,
   GetParameters,
@@ -36,7 +36,7 @@ import type {
   GetEnvironmentDefinitionParameters,
   ListEnvironmentTypesParameters,
 } from "./parameters.js";
-import type {
+import {
   ListProjects200Response,
   ListProjectsDefaultResponse,
   GetProject200Response,
@@ -107,7 +107,7 @@ import type {
   ListEnvironmentTypes200Response,
   ListEnvironmentTypesDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListProjects {
   /** Lists all projects. */
@@ -125,7 +125,9 @@ export interface GetProject {
 
 export interface Get {
   /** Get the status of an operation. */
-  get(options?: GetParameters): StreamableMethod<Get200Response | GetDefaultResponse>;
+  get(
+    options?: GetParameters,
+  ): StreamableMethod<Get200Response | GetDefaultResponse>;
 }
 
 export interface ListPools {
@@ -137,60 +139,78 @@ export interface ListPools {
 
 export interface GetPool {
   /** Gets a pool. */
-  get(options?: GetPoolParameters): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
+  get(
+    options?: GetPoolParameters,
+  ): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
 }
 
 export interface ListAllDevBoxes {
   /** Lists Dev Boxes that the caller has access to in the DevCenter. */
   get(
     options?: ListAllDevBoxesParameters,
-  ): StreamableMethod<ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse>;
+  ): StreamableMethod<
+    ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse
+  >;
 }
 
 export interface ListAllDevBoxesByUser {
   /** Lists Dev Boxes in the Dev Center for a particular user. */
   get(
     options?: ListAllDevBoxesByUserParameters,
-  ): StreamableMethod<ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse>;
+  ): StreamableMethod<
+    ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse
+  >;
 }
 
 export interface ListSchedulesByPool {
   /** Lists all schedules within a pool that are configured by your project administrator. */
   get(
     options?: ListSchedulesByPoolParameters,
-  ): StreamableMethod<ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse>;
+  ): StreamableMethod<
+    ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse
+  >;
 }
 
 export interface GetScheduleByPool {
   /** Gets a schedule. */
   get(
     options?: GetScheduleByPoolParameters,
-  ): StreamableMethod<GetScheduleByPool200Response | GetScheduleByPoolDefaultResponse>;
+  ): StreamableMethod<
+    GetScheduleByPool200Response | GetScheduleByPoolDefaultResponse
+  >;
 }
 
 export interface ListDevBoxesByUser {
   /** Lists Dev Boxes in the project for a particular user. */
   get(
     options?: ListDevBoxesByUserParameters,
-  ): StreamableMethod<ListDevBoxesByUser200Response | ListDevBoxesByUserDefaultResponse>;
+  ): StreamableMethod<
+    ListDevBoxesByUser200Response | ListDevBoxesByUserDefaultResponse
+  >;
 }
 
 export interface GetDevBoxByUser {
   /** Gets a Dev Box. */
   get(
     options?: GetDevBoxByUserParameters,
-  ): StreamableMethod<GetDevBoxByUser200Response | GetDevBoxByUserDefaultResponse>;
+  ): StreamableMethod<
+    GetDevBoxByUser200Response | GetDevBoxByUserDefaultResponse
+  >;
   /** Creates or replaces a Dev Box. */
   put(
     options: CreateDevBoxParameters,
   ): StreamableMethod<
-    CreateDevBox200Response | CreateDevBox201Response | CreateDevBoxDefaultResponse
+    | CreateDevBox200Response
+    | CreateDevBox201Response
+    | CreateDevBoxDefaultResponse
   >;
   /** Deletes a Dev Box. */
   delete(
     options?: DeleteDevBoxParameters,
   ): StreamableMethod<
-    DeleteDevBox202Response | DeleteDevBox204Response | DeleteDevBoxDefaultResponse
+    | DeleteDevBox202Response
+    | DeleteDevBox204Response
+    | DeleteDevBoxDefaultResponse
   >;
 }
 
@@ -219,7 +239,9 @@ export interface GetRemoteConnection {
   /** Gets RDP Connection info. */
   get(
     options?: GetRemoteConnectionParameters,
-  ): StreamableMethod<GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse>;
+  ): StreamableMethod<
+    GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse
+  >;
 }
 
 export interface ListActions {
@@ -261,32 +283,41 @@ export interface ListEnvironments {
   /** Lists the environments for a project. */
   get(
     options?: ListEnvironmentsParameters,
-  ): StreamableMethod<ListEnvironments200Response | ListEnvironmentsDefaultResponse>;
+  ): StreamableMethod<
+    ListEnvironments200Response | ListEnvironmentsDefaultResponse
+  >;
 }
 
 export interface ListEnvironmentsByUser {
   /** Lists the environments for a project and user. */
   get(
     options?: ListEnvironmentsByUserParameters,
-  ): StreamableMethod<ListEnvironmentsByUser200Response | ListEnvironmentsByUserDefaultResponse>;
+  ): StreamableMethod<
+    ListEnvironmentsByUser200Response | ListEnvironmentsByUserDefaultResponse
+  >;
 }
 
 export interface GetEnvironmentByUser {
   /** Gets an environment. */
   get(
     options?: GetEnvironmentByUserParameters,
-  ): StreamableMethod<GetEnvironmentByUser200Response | GetEnvironmentByUserDefaultResponse>;
+  ): StreamableMethod<
+    GetEnvironmentByUser200Response | GetEnvironmentByUserDefaultResponse
+  >;
   /** Creates or updates an environment. */
   put(
     options: CreateOrReplaceEnvironmentParameters,
   ): StreamableMethod<
-    CreateOrReplaceEnvironment201Response | CreateOrReplaceEnvironmentDefaultResponse
+    | CreateOrReplaceEnvironment201Response
+    | CreateOrReplaceEnvironmentDefaultResponse
   >;
   /** Deletes an environment and all its associated resources */
   delete(
     options?: DeleteEnvironmentParameters,
   ): StreamableMethod<
-    DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentDefaultResponse
+    | DeleteEnvironment202Response
+    | DeleteEnvironment204Response
+    | DeleteEnvironmentDefaultResponse
   >;
 }
 
@@ -294,7 +325,9 @@ export interface ListCatalogsByProject {
   /** Lists all of the catalogs available for a project. */
   get(
     options?: ListCatalogsByProjectParameters,
-  ): StreamableMethod<ListCatalogsByProject200Response | ListCatalogsByProjectDefaultResponse>;
+  ): StreamableMethod<
+    ListCatalogsByProject200Response | ListCatalogsByProjectDefaultResponse
+  >;
 }
 
 export interface GetCatalog {
@@ -329,7 +362,8 @@ export interface GetEnvironmentDefinition {
   get(
     options?: GetEnvironmentDefinitionParameters,
   ): StreamableMethod<
-    GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse
+    | GetEnvironmentDefinition200Response
+    | GetEnvironmentDefinitionDefaultResponse
   >;
 }
 
@@ -337,7 +371,9 @@ export interface ListEnvironmentTypes {
   /** Lists all environment types configured for a project. */
   get(
     options?: ListEnvironmentTypesParameters,
-  ): StreamableMethod<ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse>;
+  ): StreamableMethod<
+    ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -456,7 +492,10 @@ export interface Routes {
     devBoxName: string,
   ): DelayActions;
   /** Resource for '/projects/\{projectName\}/environments' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/environments", projectName: string): ListEnvironments;
+  (
+    path: "/projects/{projectName}/environments",
+    projectName: string,
+  ): ListEnvironments;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/users/{userId}/environments",
@@ -471,7 +510,10 @@ export interface Routes {
     environmentName: string,
   ): GetEnvironmentByUser;
   /** Resource for '/projects/\{projectName\}/catalogs' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/catalogs", projectName: string): ListCatalogsByProject;
+  (
+    path: "/projects/{projectName}/catalogs",
+    projectName: string,
+  ): ListCatalogsByProject;
   /** Resource for '/projects/\{projectName\}/catalogs/\{catalogName\}' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/catalogs/{catalogName}",
@@ -497,7 +539,10 @@ export interface Routes {
     definitionName: string,
   ): GetEnvironmentDefinition;
   /** Resource for '/projects/\{projectName\}/environmentTypes' has methods for the following verbs: get */
-  (path: "/projects/{projectName}/environmentTypes", projectName: string): ListEnvironmentTypes;
+  (
+    path: "/projects/{projectName}/environmentTypes",
+    projectName: string,
+  ): ListEnvironmentTypes;
 }
 
 export type AzureDeveloperDevCenterClient = Client & {
