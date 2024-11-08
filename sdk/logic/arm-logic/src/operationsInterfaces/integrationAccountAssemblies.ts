@@ -16,7 +16,7 @@ import {
   IntegrationAccountAssembliesCreateOrUpdateResponse,
   IntegrationAccountAssembliesDeleteOptionalParams,
   IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
-  IntegrationAccountAssembliesListContentCallbackUrlResponse
+  IntegrationAccountAssembliesListContentCallbackUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface IntegrationAccountAssemblies {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
+    options?: IntegrationAccountAssembliesListOptionalParams,
   ): PagedAsyncIterableIterator<AssemblyDefinition>;
   /**
    * Get an assembly for an integration account.
@@ -44,7 +44,7 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesGetOptionalParams
+    options?: IntegrationAccountAssembliesGetOptionalParams,
   ): Promise<IntegrationAccountAssembliesGetResponse>;
   /**
    * Create or update an assembly for an integration account.
@@ -59,7 +59,7 @@ export interface IntegrationAccountAssemblies {
     integrationAccountName: string,
     assemblyArtifactName: string,
     assemblyArtifact: AssemblyDefinition,
-    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams
+    options?: IntegrationAccountAssembliesCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountAssembliesCreateOrUpdateResponse>;
   /**
    * Delete an assembly for an integration account.
@@ -72,7 +72,7 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesDeleteOptionalParams
+    options?: IntegrationAccountAssembliesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url for an integration account assembly.
@@ -85,6 +85,6 @@ export interface IntegrationAccountAssemblies {
     resourceGroupName: string,
     integrationAccountName: string,
     assemblyArtifactName: string,
-    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountAssembliesListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountAssembliesListContentCallbackUrlResponse>;
 }

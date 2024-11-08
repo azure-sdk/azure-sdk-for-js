@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowVersionTriggersListCallbackUrlOptionalParams,
-  WorkflowVersionTriggersListCallbackUrlResponse
+  WorkflowVersionTriggersListCallbackUrlResponse,
 } from "../models";
 
 /** Class containing WorkflowVersionTriggers operations. */
@@ -41,11 +41,11 @@ export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
     workflowName: string,
     versionId: string,
     triggerName: string,
-    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams
+    options?: WorkflowVersionTriggersListCallbackUrlOptionalParams,
   ): Promise<WorkflowVersionTriggersListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, versionId, triggerName, options },
-      listCallbackUrlOperationSpec
+      listCallbackUrlOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/versions/{versionId}/triggers/{triggerName}/listCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -72,9 +71,9 @@ const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workflowName,
     Parameters.versionId,
-    Parameters.triggerName
+    Parameters.triggerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

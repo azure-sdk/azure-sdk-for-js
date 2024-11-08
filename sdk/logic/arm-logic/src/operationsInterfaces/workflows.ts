@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workflow,
   WorkflowsListBySubscriptionOptionalParams,
@@ -34,7 +34,7 @@ import {
   RegenerateActionParameter,
   WorkflowsRegenerateAccessKeyOptionalParams,
   WorkflowsValidateByResourceGroupOptionalParams,
-  WorkflowsValidateByLocationOptionalParams
+  WorkflowsValidateByLocationOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export interface Workflows {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkflowsListBySubscriptionOptionalParams
+    options?: WorkflowsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Gets a list of workflows by resource group.
@@ -54,7 +54,7 @@ export interface Workflows {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams
+    options?: WorkflowsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Gets a workflow.
@@ -65,7 +65,7 @@ export interface Workflows {
   get(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsGetOptionalParams
+    options?: WorkflowsGetOptionalParams,
   ): Promise<WorkflowsGetResponse>;
   /**
    * Creates or updates a workflow.
@@ -78,7 +78,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     workflow: Workflow,
-    options?: WorkflowsCreateOrUpdateOptionalParams
+    options?: WorkflowsCreateOrUpdateOptionalParams,
   ): Promise<WorkflowsCreateOrUpdateResponse>;
   /**
    * Updates a workflow.
@@ -89,7 +89,7 @@ export interface Workflows {
   update(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsUpdateOptionalParams
+    options?: WorkflowsUpdateOptionalParams,
   ): Promise<WorkflowsUpdateResponse>;
   /**
    * Deletes a workflow.
@@ -100,7 +100,7 @@ export interface Workflows {
   delete(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsDeleteOptionalParams
+    options?: WorkflowsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Disables a workflow.
@@ -111,7 +111,7 @@ export interface Workflows {
   disable(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsDisableOptionalParams
+    options?: WorkflowsDisableOptionalParams,
   ): Promise<void>;
   /**
    * Enables a workflow.
@@ -122,7 +122,7 @@ export interface Workflows {
   enable(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsEnableOptionalParams
+    options?: WorkflowsEnableOptionalParams,
   ): Promise<void>;
   /**
    * Generates the upgraded definition for a workflow.
@@ -135,7 +135,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     parameters: GenerateUpgradedDefinitionParameters,
-    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams
+    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams,
   ): Promise<WorkflowsGenerateUpgradedDefinitionResponse>;
   /**
    * Get the workflow callback Url.
@@ -148,7 +148,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     listCallbackUrl: GetCallbackUrlParameters,
-    options?: WorkflowsListCallbackUrlOptionalParams
+    options?: WorkflowsListCallbackUrlOptionalParams,
   ): Promise<WorkflowsListCallbackUrlResponse>;
   /**
    * Gets an OpenAPI definition for the workflow.
@@ -159,7 +159,7 @@ export interface Workflows {
   listSwagger(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsListSwaggerOptionalParams
+    options?: WorkflowsListSwaggerOptionalParams,
   ): Promise<WorkflowsListSwaggerResponse>;
   /**
    * Moves an existing workflow.
@@ -172,8 +172,8 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkflowsMoveOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Moves an existing workflow.
    * @param resourceGroupName The resource group name.
@@ -185,7 +185,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
+    options?: WorkflowsMoveOptionalParams,
   ): Promise<void>;
   /**
    * Regenerates the callback URL access key for request triggers.
@@ -198,7 +198,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     keyType: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams
+    options?: WorkflowsRegenerateAccessKeyOptionalParams,
   ): Promise<void>;
   /**
    * Validates the workflow.
@@ -211,7 +211,7 @@ export interface Workflows {
     resourceGroupName: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateByResourceGroupOptionalParams
+    options?: WorkflowsValidateByResourceGroupOptionalParams,
   ): Promise<void>;
   /**
    * Validates the workflow definition.
@@ -226,6 +226,6 @@ export interface Workflows {
     location: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateByLocationOptionalParams
+    options?: WorkflowsValidateByLocationOptionalParams,
   ): Promise<void>;
 }

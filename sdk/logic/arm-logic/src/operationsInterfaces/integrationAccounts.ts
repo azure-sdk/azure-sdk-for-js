@@ -28,7 +28,7 @@ import {
   IntegrationAccountsLogTrackingEventsOptionalParams,
   RegenerateActionParameter,
   IntegrationAccountsRegenerateAccessKeyOptionalParams,
-  IntegrationAccountsRegenerateAccessKeyResponse
+  IntegrationAccountsRegenerateAccessKeyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface IntegrationAccounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IntegrationAccountsListBySubscriptionOptionalParams
+    options?: IntegrationAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccount>;
   /**
    * Gets a list of integration accounts by resource group.
@@ -48,7 +48,7 @@ export interface IntegrationAccounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IntegrationAccountsListByResourceGroupOptionalParams
+    options?: IntegrationAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccount>;
   /**
    * Gets the integration account's Key Vault keys.
@@ -61,7 +61,7 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     listKeyVaultKeys: ListKeyVaultKeysDefinition,
-    options?: IntegrationAccountsListKeyVaultKeysOptionalParams
+    options?: IntegrationAccountsListKeyVaultKeysOptionalParams,
   ): PagedAsyncIterableIterator<KeyVaultKey>;
   /**
    * Gets an integration account.
@@ -72,7 +72,7 @@ export interface IntegrationAccounts {
   get(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountsGetOptionalParams
+    options?: IntegrationAccountsGetOptionalParams,
   ): Promise<IntegrationAccountsGetResponse>;
   /**
    * Creates or updates an integration account.
@@ -85,7 +85,7 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     integrationAccount: IntegrationAccount,
-    options?: IntegrationAccountsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountsCreateOrUpdateResponse>;
   /**
    * Updates an integration account.
@@ -98,7 +98,7 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     integrationAccount: IntegrationAccount,
-    options?: IntegrationAccountsUpdateOptionalParams
+    options?: IntegrationAccountsUpdateOptionalParams,
   ): Promise<IntegrationAccountsUpdateResponse>;
   /**
    * Deletes an integration account.
@@ -109,7 +109,7 @@ export interface IntegrationAccounts {
   delete(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountsDeleteOptionalParams
+    options?: IntegrationAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the integration account callback URL.
@@ -122,7 +122,7 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     parameters: GetCallbackUrlParameters,
-    options?: IntegrationAccountsListCallbackUrlOptionalParams
+    options?: IntegrationAccountsListCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountsListCallbackUrlResponse>;
   /**
    * Logs the integration account's tracking events.
@@ -135,7 +135,7 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     logTrackingEvents: TrackingEventsDefinition,
-    options?: IntegrationAccountsLogTrackingEventsOptionalParams
+    options?: IntegrationAccountsLogTrackingEventsOptionalParams,
   ): Promise<void>;
   /**
    * Regenerates the integration account access key.
@@ -148,6 +148,6 @@ export interface IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     regenerateAccessKey: RegenerateActionParameter,
-    options?: IntegrationAccountsRegenerateAccessKeyOptionalParams
+    options?: IntegrationAccountsRegenerateAccessKeyOptionalParams,
   ): Promise<IntegrationAccountsRegenerateAccessKeyResponse>;
 }

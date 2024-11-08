@@ -11,7 +11,7 @@ import {
   RequestHistory,
   WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
-  WorkflowRunActionRepetitionsRequestHistoriesGetResponse
+  WorkflowRunActionRepetitionsRequestHistoriesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<RequestHistory>;
   /**
    * Gets a workflow run repetition request history.
@@ -51,6 +51,6 @@ export interface WorkflowRunActionRepetitionsRequestHistories {
     actionName: string,
     repetitionName: string,
     requestHistoryName: string,
-    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
+    options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse>;
 }
