@@ -401,6 +401,9 @@ dependencies:
   '@rush-temp/arm-imagebuilder':
     specifier: file:./projects/arm-imagebuilder.tgz
     version: file:projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-impact':
+    specifier: file:./projects/arm-impact.tgz
+    version: file:projects/arm-impact.tgz
   '@rush-temp/arm-informaticadatamanagement':
     specifier: file:./projects/arm-informaticadatamanagement.tgz
     version: file:projects/arm-informaticadatamanagement.tgz
@@ -3796,13 +3799,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3830,7 +3833,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3844,7 +3847,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/debug@4.1.12:
@@ -3887,7 +3890,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3906,7 +3909,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3933,7 +3936,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -3992,13 +3995,13 @@ packages:
   /@types/mysql@2.15.26:
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       form-data: 4.0.1
     dev: false
 
@@ -4037,7 +4040,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       pg-protocol: 1.7.0
       pg-types: 2.2.0
     dev: false
@@ -4064,7 +4067,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4083,14 +4086,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       '@types/send': 0.17.4
     dev: false
 
@@ -4121,7 +4124,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4174,7 +4177,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
     optional: true
 
@@ -5944,7 +5947,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -15185,6 +15188,35 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-impact.tgz:
+    resolution: {integrity: sha512-3VtiddPrAtYnYAqCmcV929r42M39DhBDfh6176qqx8fjQBWCEg/kKVoBDs5Pu8p/ZO4UDsXoBWLfo94eIGdgiA==, tarball: file:projects/arm-impact.tgz}
+    name: '@rush-temp/arm-impact'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.9
+      '@types/node': 18.19.64
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      mkdirp: 3.0.1
+      mocha: 10.8.2
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.5.4)
+      tslib: 2.8.1
+      tsx: 4.19.2
+      typescript: 5.5.4
+      uglify-js: 3.19.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-informaticadatamanagement.tgz:
     resolution: {integrity: sha512-lcWSAf5y5zeosf4IQkPtk+qTs295m+rHavC4RUjsdu/LqksCoyk3fWVSbISH06AkcdfnkqIMiUUKq3GN7g9itA==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     name: '@rush-temp/arm-informaticadatamanagement'
@@ -18464,7 +18496,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-6RrcBorSumWEO4KlTeLQ0b5SZRPDSjfWrEndxfqI4fGeDn4hKIdU2SvGMftjsVbnkli6xpQlgRNwI7U0GlHMRw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -18501,7 +18533,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-bUA4Ndtn6P8msf1fAiWimRDZrHvv9BM5sdJf242sV2qbDvNlmDJp6nqyrZtlU1nMzgkhAy9SQ2cHVfKBJUp1OA==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-JoRTIDlwHZDPs7keNqgIU0MrximNBp+fJgAIZoRfwav8szwZz08PtN2HvqjTP1BZ8bFcnOkdlWJhZwvcHiPBsA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -19542,7 +19574,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-EAxNqaujEkbx3igQiVu3RXXdE4owEiwiwS5+eeuI98VjbnysDkT9ckaOdJbUgel/CwOTEr8oz0JdDS1V36ngMw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
