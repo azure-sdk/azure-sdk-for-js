@@ -4104,9 +4104,9 @@ export interface ExpressRouteCrossConnection extends Resource {
     expressRouteCircuit?: ExpressRouteCircuitReference;
     readonly peeringLocation?: string;
     peerings?: ExpressRouteCrossConnectionPeering[];
-    readonly primaryAzurePort?: string;
+    primaryAzurePort?: string;
     readonly provisioningState?: ProvisioningState;
-    readonly secondaryAzurePort?: string;
+    secondaryAzurePort?: string;
     serviceProviderNotes?: string;
     serviceProviderProvisioningState?: ServiceProviderProvisioningState;
     readonly sTag?: number;
