@@ -13,7 +13,7 @@ import {
   ExpressionRoot,
   WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   WorkflowRunActionRepetitionsGetOptionalParams,
-  WorkflowRunActionRepetitionsGetResponse
+  WorkflowRunActionRepetitionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface WorkflowRunActionRepetitions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionRepetitionsListOptionalParams
+    options?: WorkflowRunActionRepetitionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
   /**
    * Lists a workflow run expression trace.
@@ -49,7 +49,7 @@ export interface WorkflowRunActionRepetitions {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams,
   ): PagedAsyncIterableIterator<ExpressionRoot>;
   /**
    * Get a workflow run action repetition.
@@ -66,6 +66,6 @@ export interface WorkflowRunActionRepetitions {
     runName: string,
     actionName: string,
     repetitionName: string,
-    options?: WorkflowRunActionRepetitionsGetOptionalParams
+    options?: WorkflowRunActionRepetitionsGetOptionalParams,
   ): Promise<WorkflowRunActionRepetitionsGetResponse>;
 }

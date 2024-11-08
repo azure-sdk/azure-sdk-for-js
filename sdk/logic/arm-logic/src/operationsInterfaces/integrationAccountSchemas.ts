@@ -17,7 +17,7 @@ import {
   IntegrationAccountSchemasDeleteOptionalParams,
   GetCallbackUrlParameters,
   IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
-  IntegrationAccountSchemasListContentCallbackUrlResponse
+  IntegrationAccountSchemasListContentCallbackUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface IntegrationAccountSchemas {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountSchemasListOptionalParams
+    options?: IntegrationAccountSchemasListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountSchema>;
   /**
    * Gets an integration account schema.
@@ -45,7 +45,7 @@ export interface IntegrationAccountSchemas {
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasGetOptionalParams
+    options?: IntegrationAccountSchemasGetOptionalParams,
   ): Promise<IntegrationAccountSchemasGetResponse>;
   /**
    * Creates or updates an integration account schema.
@@ -60,7 +60,7 @@ export interface IntegrationAccountSchemas {
     integrationAccountName: string,
     schemaName: string,
     schema: IntegrationAccountSchema,
-    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams
+    options?: IntegrationAccountSchemasCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountSchemasCreateOrUpdateResponse>;
   /**
    * Deletes an integration account schema.
@@ -73,7 +73,7 @@ export interface IntegrationAccountSchemas {
     resourceGroupName: string,
     integrationAccountName: string,
     schemaName: string,
-    options?: IntegrationAccountSchemasDeleteOptionalParams
+    options?: IntegrationAccountSchemasDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url.
@@ -88,6 +88,6 @@ export interface IntegrationAccountSchemas {
     integrationAccountName: string,
     schemaName: string,
     listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountSchemasListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountSchemasListContentCallbackUrlResponse>;
 }

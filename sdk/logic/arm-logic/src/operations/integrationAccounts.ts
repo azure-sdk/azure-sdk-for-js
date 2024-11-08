@@ -41,7 +41,7 @@ import {
   IntegrationAccountsRegenerateAccessKeyOptionalParams,
   IntegrationAccountsRegenerateAccessKeyResponse,
   IntegrationAccountsListBySubscriptionNextResponse,
-  IntegrationAccountsListByResourceGroupNextResponse
+  IntegrationAccountsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,7 +62,7 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IntegrationAccountsListBySubscriptionOptionalParams
+    options?: IntegrationAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -77,13 +77,13 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: IntegrationAccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccount[]> {
     let result: IntegrationAccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -104,7 +104,7 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IntegrationAccountsListBySubscriptionOptionalParams
+    options?: IntegrationAccountsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<IntegrationAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -118,7 +118,7 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IntegrationAccountsListByResourceGroupOptionalParams
+    options?: IntegrationAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -135,16 +135,16 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: IntegrationAccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IntegrationAccount[]> {
     let result: IntegrationAccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -159,7 +159,7 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -170,11 +170,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IntegrationAccountsListByResourceGroupOptionalParams
+    options?: IntegrationAccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IntegrationAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -191,13 +191,13 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     listKeyVaultKeys: ListKeyVaultKeysDefinition,
-    options?: IntegrationAccountsListKeyVaultKeysOptionalParams
+    options?: IntegrationAccountsListKeyVaultKeysOptionalParams,
   ): PagedAsyncIterableIterator<KeyVaultKey> {
     const iter = this.listKeyVaultKeysPagingAll(
       resourceGroupName,
       integrationAccountName,
       listKeyVaultKeys,
-      options
+      options,
     );
     return {
       next() {
@@ -215,9 +215,9 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
           integrationAccountName,
           listKeyVaultKeys,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -226,14 +226,14 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     integrationAccountName: string,
     listKeyVaultKeys: ListKeyVaultKeysDefinition,
     options?: IntegrationAccountsListKeyVaultKeysOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<KeyVaultKey[]> {
     let result: IntegrationAccountsListKeyVaultKeysResponse;
     result = await this._listKeyVaultKeys(
       resourceGroupName,
       integrationAccountName,
       listKeyVaultKeys,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -242,13 +242,13 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     listKeyVaultKeys: ListKeyVaultKeysDefinition,
-    options?: IntegrationAccountsListKeyVaultKeysOptionalParams
+    options?: IntegrationAccountsListKeyVaultKeysOptionalParams,
   ): AsyncIterableIterator<KeyVaultKey> {
     for await (const page of this.listKeyVaultKeysPagingPage(
       resourceGroupName,
       integrationAccountName,
       listKeyVaultKeys,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -259,11 +259,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: IntegrationAccountsListBySubscriptionOptionalParams
+    options?: IntegrationAccountsListBySubscriptionOptionalParams,
   ): Promise<IntegrationAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -274,11 +274,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IntegrationAccountsListByResourceGroupOptionalParams
+    options?: IntegrationAccountsListByResourceGroupOptionalParams,
   ): Promise<IntegrationAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -291,11 +291,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
   get(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountsGetOptionalParams
+    options?: IntegrationAccountsGetOptionalParams,
   ): Promise<IntegrationAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -310,16 +310,16 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     integrationAccount: IntegrationAccount,
-    options?: IntegrationAccountsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         integrationAccount,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -334,16 +334,16 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     integrationAccount: IntegrationAccount,
-    options?: IntegrationAccountsUpdateOptionalParams
+    options?: IntegrationAccountsUpdateOptionalParams,
   ): Promise<IntegrationAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         integrationAccount,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -356,11 +356,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
   delete(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountsDeleteOptionalParams
+    options?: IntegrationAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -375,11 +375,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     parameters: GetCallbackUrlParameters,
-    options?: IntegrationAccountsListCallbackUrlOptionalParams
+    options?: IntegrationAccountsListCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountsListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, parameters, options },
-      listCallbackUrlOperationSpec
+      listCallbackUrlOperationSpec,
     );
   }
 
@@ -394,11 +394,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     listKeyVaultKeys: ListKeyVaultKeysDefinition,
-    options?: IntegrationAccountsListKeyVaultKeysOptionalParams
+    options?: IntegrationAccountsListKeyVaultKeysOptionalParams,
   ): Promise<IntegrationAccountsListKeyVaultKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, listKeyVaultKeys, options },
-      listKeyVaultKeysOperationSpec
+      listKeyVaultKeysOperationSpec,
     );
   }
 
@@ -413,11 +413,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     logTrackingEvents: TrackingEventsDefinition,
-    options?: IntegrationAccountsLogTrackingEventsOptionalParams
+    options?: IntegrationAccountsLogTrackingEventsOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, integrationAccountName, logTrackingEvents, options },
-      logTrackingEventsOperationSpec
+      logTrackingEventsOperationSpec,
     );
   }
 
@@ -432,16 +432,16 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
     resourceGroupName: string,
     integrationAccountName: string,
     regenerateAccessKey: RegenerateActionParameter,
-    options?: IntegrationAccountsRegenerateAccessKeyOptionalParams
+    options?: IntegrationAccountsRegenerateAccessKeyOptionalParams,
   ): Promise<IntegrationAccountsRegenerateAccessKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         integrationAccountName,
         regenerateAccessKey,
-        options
+        options,
       },
-      regenerateAccessKeyOperationSpec
+      regenerateAccessKeyOperationSpec,
     );
   }
 
@@ -452,11 +452,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IntegrationAccountsListBySubscriptionNextOptionalParams
+    options?: IntegrationAccountsListBySubscriptionNextOptionalParams,
   ): Promise<IntegrationAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -469,11 +469,11 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IntegrationAccountsListByResourceGroupNextOptionalParams
+    options?: IntegrationAccountsListByResourceGroupNextOptionalParams,
   ): Promise<IntegrationAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -481,79 +481,75 @@ export class IntegrationAccountsImpl implements IntegrationAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Logic/integrationAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountListResult
+      bodyMapper: Mappers.IntegrationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountListResult
+      bodyMapper: Mappers.IntegrationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccount
+      bodyMapper: Mappers.IntegrationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccount
+      bodyMapper: Mappers.IntegrationAccount,
     },
     201: {
-      bodyMapper: Mappers.IntegrationAccount
+      bodyMapper: Mappers.IntegrationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.integrationAccount,
   queryParameters: [Parameters.apiVersion],
@@ -561,23 +557,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccount
+      bodyMapper: Mappers.IntegrationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.integrationAccount,
   queryParameters: [Parameters.apiVersion],
@@ -585,44 +580,42 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CallbackUrl
+      bodyMapper: Mappers.CallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -630,23 +623,22 @@ const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeyVaultKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listKeyVaultKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/listKeyVaultKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyVaultKeyCollection
+      bodyMapper: Mappers.KeyVaultKeyCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listKeyVaultKeys,
   queryParameters: [Parameters.apiVersion],
@@ -654,21 +646,20 @@ const listKeyVaultKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const logTrackingEventsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/logTrackingEvents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/logTrackingEvents",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logTrackingEvents,
   queryParameters: [Parameters.apiVersion],
@@ -676,23 +667,22 @@ const logTrackingEventsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/regenerateAccessKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/integrationAccounts/{integrationAccountName}/regenerateAccessKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccount
+      bodyMapper: Mappers.IntegrationAccount,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.regenerateAccessKey,
   queryParameters: [Parameters.apiVersion],
@@ -700,48 +690,48 @@ const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.integrationAccountName
+    Parameters.integrationAccountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountListResult
+      bodyMapper: Mappers.IntegrationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationAccountListResult
+      bodyMapper: Mappers.IntegrationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

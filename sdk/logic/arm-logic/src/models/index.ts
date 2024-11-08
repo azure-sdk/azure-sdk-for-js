@@ -56,6 +56,8 @@ export interface FlowAccessControlConfigurationPolicy {
   allowedCallerIpAddresses?: IpAddressRange[];
   /** The authentication policies for workflow. */
   openAuthenticationPolicies?: OpenAuthenticationAccessPolicies;
+  /** The SAS authentication policy for workflow. */
+  sasAuthenticationPolicy?: SasAuthenticationPolicy;
 }
 
 /** The ip address range. */
@@ -84,6 +86,12 @@ export interface OpenAuthenticationPolicyClaim {
   name?: string;
   /** The value of the claim. */
   value?: string;
+}
+
+/** The SAS Authentication Policy of the logic app. */
+export interface SasAuthenticationPolicy {
+  /** SAS authentication policy state. */
+  state?: SasAuthenticationPolicyState;
 }
 
 /** The sku type. */
@@ -3069,7 +3077,7 @@ export enum KnownWorkflowProvisioningState {
   /** Waiting */
   Waiting = "Waiting",
   /** InProgress */
-  InProgress = "InProgress"
+  InProgress = "InProgress",
 }
 
 /**
@@ -3115,7 +3123,7 @@ export enum KnownWorkflowState {
   /** Deleted */
   Deleted = "Deleted",
   /** Suspended */
-  Suspended = "Suspended"
+  Suspended = "Suspended",
 }
 
 /**
@@ -3135,7 +3143,7 @@ export type WorkflowState = string;
 /** Known values of {@link OpenAuthenticationProviderType} that the service accepts. */
 export enum KnownOpenAuthenticationProviderType {
   /** AAD */
-  AAD = "AAD"
+  AAD = "AAD",
 }
 
 /**
@@ -3146,6 +3154,24 @@ export enum KnownOpenAuthenticationProviderType {
  * **AAD**
  */
 export type OpenAuthenticationProviderType = string;
+
+/** Known values of {@link SasAuthenticationPolicyState} that the service accepts. */
+export enum KnownSasAuthenticationPolicyState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for SasAuthenticationPolicyState. \
+ * {@link KnownSasAuthenticationPolicyState} can be used interchangeably with SasAuthenticationPolicyState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type SasAuthenticationPolicyState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -3160,7 +3186,7 @@ export enum KnownSkuName {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -3196,7 +3222,7 @@ export enum KnownParameterType {
   /** Object */
   Object = "Object",
   /** SecureObject */
-  SecureObject = "SecureObject"
+  SecureObject = "SecureObject",
 }
 
 /**
@@ -3223,7 +3249,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -3244,7 +3270,7 @@ export enum KnownKeyType {
   /** Primary */
   Primary = "Primary",
   /** Secondary */
-  Secondary = "Secondary"
+  Secondary = "Secondary",
 }
 
 /**
@@ -3295,7 +3321,7 @@ export enum KnownWorkflowTriggerProvisioningState {
   /** Unregistered */
   Unregistered = "Unregistered",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -3351,7 +3377,7 @@ export enum KnownWorkflowStatus {
   /** Aborted */
   Aborted = "Aborted",
   /** Ignored */
-  Ignored = "Ignored"
+  Ignored = "Ignored",
 }
 
 /**
@@ -3392,7 +3418,7 @@ export enum KnownRecurrenceFrequency {
   /** Month */
   Month = "Month",
   /** Year */
-  Year = "Year"
+  Year = "Year",
 }
 
 /**
@@ -3420,7 +3446,7 @@ export enum KnownIntegrationAccountSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -3440,7 +3466,7 @@ export enum KnownTrackEventsOperationOptions {
   /** None */
   None = "None",
   /** DisableSourceInfoEnrich */
-  DisableSourceInfoEnrich = "DisableSourceInfoEnrich"
+  DisableSourceInfoEnrich = "DisableSourceInfoEnrich",
 }
 
 /**
@@ -3486,7 +3512,7 @@ export enum KnownTrackingRecordType {
   /** EdifactFunctionalGroupAcknowledgment */
   EdifactFunctionalGroupAcknowledgment = "EdifactFunctionalGroupAcknowledgment",
   /** EdifactTransactionSetAcknowledgment */
-  EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment"
+  EdifactTransactionSetAcknowledgment = "EdifactTransactionSetAcknowledgment",
 }
 
 /**
@@ -3518,7 +3544,7 @@ export enum KnownSchemaType {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** Xml */
-  Xml = "Xml"
+  Xml = "Xml",
 }
 
 /**
@@ -3542,7 +3568,7 @@ export enum KnownMapType {
   /** Xslt30 */
   Xslt30 = "Xslt30",
   /** Liquid */
-  Liquid = "Liquid"
+  Liquid = "Liquid",
 }
 
 /**
@@ -3563,7 +3589,7 @@ export enum KnownPartnerType {
   /** NotSpecified */
   NotSpecified = "NotSpecified",
   /** B2B */
-  B2B = "B2B"
+  B2B = "B2B",
 }
 
 /**
@@ -3591,7 +3617,7 @@ export enum KnownHashingAlgorithm {
   /** SHA2384 */
   SHA2384 = "SHA2384",
   /** SHA2512 */
-  SHA2512 = "SHA2512"
+  SHA2512 = "SHA2512",
 }
 
 /**
@@ -3624,7 +3650,7 @@ export enum KnownEncryptionAlgorithm {
   /** AES192 */
   AES192 = "AES192",
   /** AES256 */
-  AES256 = "AES256"
+  AES256 = "AES256",
 }
 
 /**
@@ -3655,7 +3681,7 @@ export enum KnownSigningAlgorithm {
   /** SHA2384 */
   SHA2384 = "SHA2384",
   /** SHA2512 */
-  SHA2512 = "SHA2512"
+  SHA2512 = "SHA2512",
 }
 
 /**
@@ -3681,7 +3707,7 @@ export enum KnownTrailingSeparatorPolicy {
   /** Optional */
   Optional = "Optional",
   /** Mandatory */
-  Mandatory = "Mandatory"
+  Mandatory = "Mandatory",
 }
 
 /**
@@ -3705,7 +3731,7 @@ export enum KnownX12CharacterSet {
   /** Extended */
   Extended = "Extended",
   /** UTF8 */
-  UTF8 = "UTF8"
+  UTF8 = "UTF8",
 }
 
 /**
@@ -3727,7 +3753,7 @@ export enum KnownX12DateFormat {
   /** Ccyymmdd */
   Ccyymmdd = "CCYYMMDD",
   /** Yymmdd */
-  Yymmdd = "YYMMDD"
+  Yymmdd = "YYMMDD",
 }
 
 /**
@@ -3752,7 +3778,7 @@ export enum KnownX12TimeFormat {
   /** HhmmsSdd */
   HhmmsSdd = "HHMMSSdd",
   /** HhmmsSd */
-  HhmmsSd = "HHMMSSd"
+  HhmmsSd = "HHMMSSd",
 }
 
 /**
@@ -3777,7 +3803,7 @@ export enum KnownUsageIndicator {
   /** Information */
   Information = "Information",
   /** Production */
-  Production = "Production"
+  Production = "Production",
 }
 
 /**
@@ -3799,7 +3825,7 @@ export enum KnownMessageFilterType {
   /** Include */
   Include = "Include",
   /** Exclude */
-  Exclude = "Exclude"
+  Exclude = "Exclude",
 }
 
 /**
@@ -3844,7 +3870,7 @@ export enum KnownEdifactCharacterSet {
   /** Unoy */
   Unoy = "UNOY",
   /** Keca */
-  Keca = "KECA"
+  Keca = "KECA",
 }
 
 /**
@@ -3877,7 +3903,7 @@ export enum KnownIntegrationServiceEnvironmentAccessEndpointType {
   /** External */
   External = "External",
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -3898,7 +3924,7 @@ export enum KnownIntegrationServiceEnvironmentSkuName {
   /** Premium */
   Premium = "Premium",
   /** Developer */
-  Developer = "Developer"
+  Developer = "Developer",
 }
 
 /**
@@ -3919,7 +3945,7 @@ export enum KnownIntegrationServiceEnvironmentSkuScaleType {
   /** Automatic */
   Automatic = "Automatic",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -3958,7 +3984,7 @@ export enum KnownIntegrationServiceEnvironmentNetworkDependencyCategoryType {
   /** SQL */
   SQL = "SQL",
   /** RegionalService */
-  RegionalService = "RegionalService"
+  RegionalService = "RegionalService",
 }
 
 /**
@@ -3990,7 +4016,7 @@ export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState 
   /** Available */
   Available = "Available",
   /** NotAvailable */
-  NotAvailable = "NotAvailable"
+  NotAvailable = "NotAvailable",
 }
 
 /**
@@ -4003,7 +4029,8 @@ export enum KnownIntegrationServiceEnvironmentNetworkEndPointAccessibilityState 
  * **Available** \
  * **NotAvailable**
  */
-export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState = string;
+export type IntegrationServiceEnvironmentNetworkEndPointAccessibilityState =
+  string;
 
 /** Known values of {@link ErrorResponseCode} that the service accepts. */
 export enum KnownErrorResponseCode {
@@ -4014,7 +4041,7 @@ export enum KnownErrorResponseCode {
   /** InternalServerError */
   InternalServerError = "InternalServerError",
   /** InvalidOperationId */
-  InvalidOperationId = "InvalidOperationId"
+  InvalidOperationId = "InvalidOperationId",
 }
 
 /**
@@ -4038,7 +4065,7 @@ export enum KnownIntegrationServiceEnvironmentNetworkDependencyHealthState {
   /** Unhealthy */
   Unhealthy = "Unhealthy",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -4060,7 +4087,7 @@ export enum KnownApiType {
   /** Rest */
   Rest = "Rest",
   /** Soap */
-  Soap = "Soap"
+  Soap = "Soap",
 }
 
 /**
@@ -4081,7 +4108,7 @@ export enum KnownWsdlImportMethod {
   /** SoapToRest */
   SoapToRest = "SoapToRest",
   /** SoapPassThrough */
-  SoapPassThrough = "SoapPassThrough"
+  SoapPassThrough = "SoapPassThrough",
 }
 
 /**
@@ -4102,7 +4129,7 @@ export enum KnownApiDeploymentParameterVisibility {
   /** Default */
   Default = "Default",
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -4125,7 +4152,7 @@ export enum KnownApiTier {
   /** Standard */
   Standard = "Standard",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -4147,7 +4174,7 @@ export enum KnownStatusAnnotation {
   /** Preview */
   Preview = "Preview",
   /** Production */
-  Production = "Production"
+  Production = "Production",
 }
 
 /**
@@ -4178,7 +4205,7 @@ export enum KnownSwaggerSchemaType {
   /** Object */
   Object = "Object",
   /** Null */
-  Null = "Null"
+  Null = "Null",
 }
 
 /**
@@ -4206,7 +4233,7 @@ export enum KnownAzureAsyncOperationState {
   /** Pending */
   Pending = "Pending",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4444,7 +4471,8 @@ export interface WorkflowTriggersListCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCallbackUrl operation. */
-export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type WorkflowTriggersListCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface WorkflowTriggersListNextOptionalParams
@@ -4461,7 +4489,8 @@ export interface WorkflowVersionTriggersListCallbackUrlOptionalParams
 }
 
 /** Contains response data for the listCallbackUrl operation. */
-export type WorkflowVersionTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type WorkflowVersionTriggersListCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface WorkflowTriggerHistoriesListOptionalParams
@@ -4473,7 +4502,8 @@ export interface WorkflowTriggerHistoriesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
+export type WorkflowTriggerHistoriesListResponse =
+  WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowTriggerHistoriesGetOptionalParams
@@ -4491,7 +4521,8 @@ export interface WorkflowTriggerHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
+export type WorkflowTriggerHistoriesListNextResponse =
+  WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunsListOptionalParams
@@ -4561,49 +4592,56 @@ export interface WorkflowRunActionRepetitionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+export type WorkflowRunActionRepetitionsListResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionRepetitionsGetResponse =
+  WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExpressionTraces operation. */
-export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
+export type WorkflowRunActionRepetitionsListExpressionTracesResponse =
+  ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse =
+  RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse =
+  RequestHistory;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse =
+  RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRequestHistoriesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRequestHistoriesListResponse = RequestHistoryListResult;
+export type WorkflowRunActionRequestHistoriesListResponse =
+  RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRequestHistoriesGetOptionalParams
@@ -4617,21 +4655,24 @@ export interface WorkflowRunActionRequestHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowRunActionRequestHistoriesListNextResponse = RequestHistoryListResult;
+export type WorkflowRunActionRequestHistoriesListNextResponse =
+  RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionScopeRepetitionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+export type WorkflowRunActionScopeRepetitionsListResponse =
+  WorkflowRunActionRepetitionDefinitionCollection;
 
 /** Optional parameters. */
 export interface WorkflowRunActionScopeRepetitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionScopeRepetitionsGetResponse =
+  WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
 export interface WorkflowRunOperationsGetOptionalParams
@@ -4648,7 +4689,8 @@ export interface IntegrationAccountsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type IntegrationAccountsListBySubscriptionResponse = IntegrationAccountListResult;
+export type IntegrationAccountsListBySubscriptionResponse =
+  IntegrationAccountListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountsListByResourceGroupOptionalParams
@@ -4658,7 +4700,8 @@ export interface IntegrationAccountsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IntegrationAccountsListByResourceGroupResponse = IntegrationAccountListResult;
+export type IntegrationAccountsListByResourceGroupResponse =
+  IntegrationAccountListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountsGetOptionalParams
@@ -4715,14 +4758,16 @@ export interface IntegrationAccountsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IntegrationAccountsListBySubscriptionNextResponse = IntegrationAccountListResult;
+export type IntegrationAccountsListBySubscriptionNextResponse =
+  IntegrationAccountListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IntegrationAccountsListByResourceGroupNextResponse = IntegrationAccountListResult;
+export type IntegrationAccountsListByResourceGroupNextResponse =
+  IntegrationAccountListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountAssembliesListOptionalParams
@@ -4743,7 +4788,8 @@ export interface IntegrationAccountAssembliesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountAssembliesCreateOrUpdateResponse = AssemblyDefinition;
+export type IntegrationAccountAssembliesCreateOrUpdateResponse =
+  AssemblyDefinition;
 
 /** Optional parameters. */
 export interface IntegrationAccountAssembliesDeleteOptionalParams
@@ -4754,28 +4800,32 @@ export interface IntegrationAccountAssembliesListContentCallbackUrlOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountAssembliesListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type IntegrationAccountAssembliesListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface IntegrationAccountBatchConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountBatchConfigurationsListResponse = BatchConfigurationCollection;
+export type IntegrationAccountBatchConfigurationsListResponse =
+  BatchConfigurationCollection;
 
 /** Optional parameters. */
 export interface IntegrationAccountBatchConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationAccountBatchConfigurationsGetResponse = BatchConfiguration;
+export type IntegrationAccountBatchConfigurationsGetResponse =
+  BatchConfiguration;
 
 /** Optional parameters. */
 export interface IntegrationAccountBatchConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountBatchConfigurationsCreateOrUpdateResponse = BatchConfiguration;
+export type IntegrationAccountBatchConfigurationsCreateOrUpdateResponse =
+  BatchConfiguration;
 
 /** Optional parameters. */
 export interface IntegrationAccountBatchConfigurationsDeleteOptionalParams
@@ -4791,7 +4841,8 @@ export interface IntegrationAccountSchemasListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountSchemasListResponse = IntegrationAccountSchemaListResult;
+export type IntegrationAccountSchemasListResponse =
+  IntegrationAccountSchemaListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountSchemasGetOptionalParams
@@ -4805,7 +4856,8 @@ export interface IntegrationAccountSchemasCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountSchemasCreateOrUpdateResponse = IntegrationAccountSchema;
+export type IntegrationAccountSchemasCreateOrUpdateResponse =
+  IntegrationAccountSchema;
 
 /** Optional parameters. */
 export interface IntegrationAccountSchemasDeleteOptionalParams
@@ -4816,14 +4868,16 @@ export interface IntegrationAccountSchemasListContentCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountSchemasListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type IntegrationAccountSchemasListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface IntegrationAccountSchemasListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountSchemasListNextResponse = IntegrationAccountSchemaListResult;
+export type IntegrationAccountSchemasListNextResponse =
+  IntegrationAccountSchemaListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountMapsListOptionalParams
@@ -4835,7 +4889,8 @@ export interface IntegrationAccountMapsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountMapsListResponse = IntegrationAccountMapListResult;
+export type IntegrationAccountMapsListResponse =
+  IntegrationAccountMapListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountMapsGetOptionalParams
@@ -4849,7 +4904,8 @@ export interface IntegrationAccountMapsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountMapsCreateOrUpdateResponse = IntegrationAccountMap;
+export type IntegrationAccountMapsCreateOrUpdateResponse =
+  IntegrationAccountMap;
 
 /** Optional parameters. */
 export interface IntegrationAccountMapsDeleteOptionalParams
@@ -4860,14 +4916,16 @@ export interface IntegrationAccountMapsListContentCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountMapsListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type IntegrationAccountMapsListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface IntegrationAccountMapsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountMapsListNextResponse = IntegrationAccountMapListResult;
+export type IntegrationAccountMapsListNextResponse =
+  IntegrationAccountMapListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountPartnersListOptionalParams
@@ -4879,7 +4937,8 @@ export interface IntegrationAccountPartnersListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountPartnersListResponse = IntegrationAccountPartnerListResult;
+export type IntegrationAccountPartnersListResponse =
+  IntegrationAccountPartnerListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountPartnersGetOptionalParams
@@ -4893,7 +4952,8 @@ export interface IntegrationAccountPartnersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountPartnersCreateOrUpdateResponse = IntegrationAccountPartner;
+export type IntegrationAccountPartnersCreateOrUpdateResponse =
+  IntegrationAccountPartner;
 
 /** Optional parameters. */
 export interface IntegrationAccountPartnersDeleteOptionalParams
@@ -4904,14 +4964,16 @@ export interface IntegrationAccountPartnersListContentCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountPartnersListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type IntegrationAccountPartnersListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface IntegrationAccountPartnersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountPartnersListNextResponse = IntegrationAccountPartnerListResult;
+export type IntegrationAccountPartnersListNextResponse =
+  IntegrationAccountPartnerListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsListOptionalParams
@@ -4923,21 +4985,24 @@ export interface IntegrationAccountAgreementsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountAgreementsListResponse = IntegrationAccountAgreementListResult;
+export type IntegrationAccountAgreementsListResponse =
+  IntegrationAccountAgreementListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationAccountAgreementsGetResponse = IntegrationAccountAgreement;
+export type IntegrationAccountAgreementsGetResponse =
+  IntegrationAccountAgreement;
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountAgreementsCreateOrUpdateResponse = IntegrationAccountAgreement;
+export type IntegrationAccountAgreementsCreateOrUpdateResponse =
+  IntegrationAccountAgreement;
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsDeleteOptionalParams
@@ -4948,14 +5013,16 @@ export interface IntegrationAccountAgreementsListContentCallbackUrlOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContentCallbackUrl operation. */
-export type IntegrationAccountAgreementsListContentCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+export type IntegrationAccountAgreementsListContentCallbackUrlResponse =
+  WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
 export interface IntegrationAccountAgreementsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountAgreementsListNextResponse = IntegrationAccountAgreementListResult;
+export type IntegrationAccountAgreementsListNextResponse =
+  IntegrationAccountAgreementListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountCertificatesListOptionalParams
@@ -4965,21 +5032,24 @@ export interface IntegrationAccountCertificatesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountCertificatesListResponse = IntegrationAccountCertificateListResult;
+export type IntegrationAccountCertificatesListResponse =
+  IntegrationAccountCertificateListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountCertificatesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationAccountCertificatesGetResponse = IntegrationAccountCertificate;
+export type IntegrationAccountCertificatesGetResponse =
+  IntegrationAccountCertificate;
 
 /** Optional parameters. */
 export interface IntegrationAccountCertificatesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountCertificatesCreateOrUpdateResponse = IntegrationAccountCertificate;
+export type IntegrationAccountCertificatesCreateOrUpdateResponse =
+  IntegrationAccountCertificate;
 
 /** Optional parameters. */
 export interface IntegrationAccountCertificatesDeleteOptionalParams
@@ -4990,7 +5060,8 @@ export interface IntegrationAccountCertificatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountCertificatesListNextResponse = IntegrationAccountCertificateListResult;
+export type IntegrationAccountCertificatesListNextResponse =
+  IntegrationAccountCertificateListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountSessionsListOptionalParams
@@ -5002,7 +5073,8 @@ export interface IntegrationAccountSessionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type IntegrationAccountSessionsListResponse = IntegrationAccountSessionListResult;
+export type IntegrationAccountSessionsListResponse =
+  IntegrationAccountSessionListResult;
 
 /** Optional parameters. */
 export interface IntegrationAccountSessionsGetOptionalParams
@@ -5016,7 +5088,8 @@ export interface IntegrationAccountSessionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationAccountSessionsCreateOrUpdateResponse = IntegrationAccountSession;
+export type IntegrationAccountSessionsCreateOrUpdateResponse =
+  IntegrationAccountSession;
 
 /** Optional parameters. */
 export interface IntegrationAccountSessionsDeleteOptionalParams
@@ -5027,7 +5100,8 @@ export interface IntegrationAccountSessionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationAccountSessionsListNextResponse = IntegrationAccountSessionListResult;
+export type IntegrationAccountSessionsListNextResponse =
+  IntegrationAccountSessionListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
@@ -5037,7 +5111,8 @@ export interface IntegrationServiceEnvironmentsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type IntegrationServiceEnvironmentsListBySubscriptionResponse = IntegrationServiceEnvironmentListResult;
+export type IntegrationServiceEnvironmentsListBySubscriptionResponse =
+  IntegrationServiceEnvironmentListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
@@ -5047,14 +5122,16 @@ export interface IntegrationServiceEnvironmentsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type IntegrationServiceEnvironmentsListByResourceGroupResponse = IntegrationServiceEnvironmentListResult;
+export type IntegrationServiceEnvironmentsListByResourceGroupResponse =
+  IntegrationServiceEnvironmentListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationServiceEnvironmentsGetResponse = IntegrationServiceEnvironment;
+export type IntegrationServiceEnvironmentsGetResponse =
+  IntegrationServiceEnvironment;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
@@ -5066,7 +5143,8 @@ export interface IntegrationServiceEnvironmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IntegrationServiceEnvironmentsCreateOrUpdateResponse = IntegrationServiceEnvironment;
+export type IntegrationServiceEnvironmentsCreateOrUpdateResponse =
+  IntegrationServiceEnvironment;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsUpdateOptionalParams
@@ -5078,7 +5156,8 @@ export interface IntegrationServiceEnvironmentsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type IntegrationServiceEnvironmentsUpdateResponse = IntegrationServiceEnvironment;
+export type IntegrationServiceEnvironmentsUpdateResponse =
+  IntegrationServiceEnvironment;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsDeleteOptionalParams
@@ -5093,28 +5172,32 @@ export interface IntegrationServiceEnvironmentsListBySubscriptionNextOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse = IntegrationServiceEnvironmentListResult;
+export type IntegrationServiceEnvironmentsListBySubscriptionNextResponse =
+  IntegrationServiceEnvironmentListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse = IntegrationServiceEnvironmentListResult;
+export type IntegrationServiceEnvironmentsListByResourceGroupNextResponse =
+  IntegrationServiceEnvironmentListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentSkusListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentSkusListResponse = IntegrationServiceEnvironmentSkuList;
+export type IntegrationServiceEnvironmentSkusListResponse =
+  IntegrationServiceEnvironmentSkuList;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentSkusListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentSkusListNextResponse = IntegrationServiceEnvironmentSkuList;
+export type IntegrationServiceEnvironmentSkusListNextResponse =
+  IntegrationServiceEnvironmentSkuList;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentNetworkHealthGetOptionalParams
@@ -5130,14 +5213,16 @@ export interface IntegrationServiceEnvironmentManagedApisListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentManagedApisListResponse = IntegrationServiceEnvironmentManagedApiListResult;
+export type IntegrationServiceEnvironmentManagedApisListResponse =
+  IntegrationServiceEnvironmentManagedApiListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentManagedApisGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IntegrationServiceEnvironmentManagedApisGetResponse = IntegrationServiceEnvironmentManagedApi;
+export type IntegrationServiceEnvironmentManagedApisGetResponse =
+  IntegrationServiceEnvironmentManagedApi;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentManagedApisPutOptionalParams
@@ -5149,7 +5234,8 @@ export interface IntegrationServiceEnvironmentManagedApisPutOptionalParams
 }
 
 /** Contains response data for the put operation. */
-export type IntegrationServiceEnvironmentManagedApisPutResponse = IntegrationServiceEnvironmentManagedApi;
+export type IntegrationServiceEnvironmentManagedApisPutResponse =
+  IntegrationServiceEnvironmentManagedApi;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentManagedApisDeleteOptionalParams
@@ -5165,21 +5251,24 @@ export interface IntegrationServiceEnvironmentManagedApisListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentManagedApisListNextResponse = IntegrationServiceEnvironmentManagedApiListResult;
+export type IntegrationServiceEnvironmentManagedApisListNextResponse =
+  IntegrationServiceEnvironmentManagedApiListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentManagedApiOperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type IntegrationServiceEnvironmentManagedApiOperationsListResponse = ApiOperationListResult;
+export type IntegrationServiceEnvironmentManagedApiOperationsListResponse =
+  ApiOperationListResult;
 
 /** Optional parameters. */
 export interface IntegrationServiceEnvironmentManagedApiOperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type IntegrationServiceEnvironmentManagedApiOperationsListNextResponse = ApiOperationListResult;
+export type IntegrationServiceEnvironmentManagedApiOperationsListNextResponse =
+  ApiOperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

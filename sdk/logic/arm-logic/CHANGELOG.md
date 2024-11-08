@@ -1,15 +1,15 @@
 # Release History
-
-## 8.2.1 (Unreleased)
-
+    
+## 8.3.0 (2024-11-08)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SasAuthenticationPolicy
+  - Added Type Alias SasAuthenticationPolicyState
+  - Interface FlowAccessControlConfigurationPolicy has a new optional parameter sasAuthenticationPolicy
+  - Added Enum KnownSasAuthenticationPolicyState
+    
+    
 ## 8.2.0 (2023-01-20)
     
 ### Features Added
@@ -93,4 +93,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

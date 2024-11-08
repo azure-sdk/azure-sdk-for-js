@@ -17,7 +17,7 @@ import {
   IntegrationAccountMapsDeleteOptionalParams,
   GetCallbackUrlParameters,
   IntegrationAccountMapsListContentCallbackUrlOptionalParams,
-  IntegrationAccountMapsListContentCallbackUrlResponse
+  IntegrationAccountMapsListContentCallbackUrlResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface IntegrationAccountMaps {
   list(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountMapsListOptionalParams
+    options?: IntegrationAccountMapsListOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationAccountMap>;
   /**
    * Gets an integration account map.
@@ -45,7 +45,7 @@ export interface IntegrationAccountMaps {
     resourceGroupName: string,
     integrationAccountName: string,
     mapName: string,
-    options?: IntegrationAccountMapsGetOptionalParams
+    options?: IntegrationAccountMapsGetOptionalParams,
   ): Promise<IntegrationAccountMapsGetResponse>;
   /**
    * Creates or updates an integration account map. If the map is larger than 4 MB, you need to store the
@@ -62,7 +62,7 @@ export interface IntegrationAccountMaps {
     integrationAccountName: string,
     mapName: string,
     map: IntegrationAccountMap,
-    options?: IntegrationAccountMapsCreateOrUpdateOptionalParams
+    options?: IntegrationAccountMapsCreateOrUpdateOptionalParams,
   ): Promise<IntegrationAccountMapsCreateOrUpdateResponse>;
   /**
    * Deletes an integration account map.
@@ -75,7 +75,7 @@ export interface IntegrationAccountMaps {
     resourceGroupName: string,
     integrationAccountName: string,
     mapName: string,
-    options?: IntegrationAccountMapsDeleteOptionalParams
+    options?: IntegrationAccountMapsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the content callback url.
@@ -90,6 +90,6 @@ export interface IntegrationAccountMaps {
     integrationAccountName: string,
     mapName: string,
     listContentCallbackUrl: GetCallbackUrlParameters,
-    options?: IntegrationAccountMapsListContentCallbackUrlOptionalParams
+    options?: IntegrationAccountMapsListContentCallbackUrlOptionalParams,
   ): Promise<IntegrationAccountMapsListContentCallbackUrlResponse>;
 }

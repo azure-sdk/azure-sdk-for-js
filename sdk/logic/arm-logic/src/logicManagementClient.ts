@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -41,7 +41,7 @@ import {
   IntegrationServiceEnvironmentNetworkHealthImpl,
   IntegrationServiceEnvironmentManagedApisImpl,
   IntegrationServiceEnvironmentManagedApiOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
 } from "./operations";
 import {
   Workflows,
@@ -70,7 +70,7 @@ import {
   IntegrationServiceEnvironmentNetworkHealth,
   IntegrationServiceEnvironmentManagedApis,
   IntegrationServiceEnvironmentManagedApiOperations,
-  Operations
+  Operations,
 } from "./operationsInterfaces";
 import { LogicManagementClientOptionalParams } from "./models";
 
@@ -88,7 +88,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: LogicManagementClientOptionalParams
+    options?: LogicManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -103,10 +103,10 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     }
     const defaults: LogicManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-logic/8.2.1`;
+    const packageDetails = `azsdk-js-arm-logic/8.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,20 +116,21 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -139,7 +140,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -149,9 +150,9 @@ export class LogicManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -168,50 +169,40 @@ export class LogicManagementClient extends coreClient.ServiceClient {
     this.workflowRuns = new WorkflowRunsImpl(this);
     this.workflowRunActions = new WorkflowRunActionsImpl(this);
     this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
-      this
+      this,
     );
-    this.workflowRunActionRepetitionsRequestHistories = new WorkflowRunActionRepetitionsRequestHistoriesImpl(
-      this
-    );
-    this.workflowRunActionRequestHistories = new WorkflowRunActionRequestHistoriesImpl(
-      this
-    );
-    this.workflowRunActionScopeRepetitions = new WorkflowRunActionScopeRepetitionsImpl(
-      this
-    );
+    this.workflowRunActionRepetitionsRequestHistories =
+      new WorkflowRunActionRepetitionsRequestHistoriesImpl(this);
+    this.workflowRunActionRequestHistories =
+      new WorkflowRunActionRequestHistoriesImpl(this);
+    this.workflowRunActionScopeRepetitions =
+      new WorkflowRunActionScopeRepetitionsImpl(this);
     this.workflowRunOperations = new WorkflowRunOperationsImpl(this);
     this.integrationAccounts = new IntegrationAccountsImpl(this);
     this.integrationAccountAssemblies = new IntegrationAccountAssembliesImpl(
-      this
+      this,
     );
-    this.integrationAccountBatchConfigurations = new IntegrationAccountBatchConfigurationsImpl(
-      this
-    );
+    this.integrationAccountBatchConfigurations =
+      new IntegrationAccountBatchConfigurationsImpl(this);
     this.integrationAccountSchemas = new IntegrationAccountSchemasImpl(this);
     this.integrationAccountMaps = new IntegrationAccountMapsImpl(this);
     this.integrationAccountPartners = new IntegrationAccountPartnersImpl(this);
     this.integrationAccountAgreements = new IntegrationAccountAgreementsImpl(
-      this
+      this,
     );
-    this.integrationAccountCertificates = new IntegrationAccountCertificatesImpl(
-      this
-    );
+    this.integrationAccountCertificates =
+      new IntegrationAccountCertificatesImpl(this);
     this.integrationAccountSessions = new IntegrationAccountSessionsImpl(this);
-    this.integrationServiceEnvironments = new IntegrationServiceEnvironmentsImpl(
-      this
-    );
-    this.integrationServiceEnvironmentSkus = new IntegrationServiceEnvironmentSkusImpl(
-      this
-    );
-    this.integrationServiceEnvironmentNetworkHealth = new IntegrationServiceEnvironmentNetworkHealthImpl(
-      this
-    );
-    this.integrationServiceEnvironmentManagedApis = new IntegrationServiceEnvironmentManagedApisImpl(
-      this
-    );
-    this.integrationServiceEnvironmentManagedApiOperations = new IntegrationServiceEnvironmentManagedApiOperationsImpl(
-      this
-    );
+    this.integrationServiceEnvironments =
+      new IntegrationServiceEnvironmentsImpl(this);
+    this.integrationServiceEnvironmentSkus =
+      new IntegrationServiceEnvironmentSkusImpl(this);
+    this.integrationServiceEnvironmentNetworkHealth =
+      new IntegrationServiceEnvironmentNetworkHealthImpl(this);
+    this.integrationServiceEnvironmentManagedApis =
+      new IntegrationServiceEnvironmentManagedApisImpl(this);
+    this.integrationServiceEnvironmentManagedApiOperations =
+      new IntegrationServiceEnvironmentManagedApiOperationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -225,7 +216,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -239,7 +230,7 @@ export class LogicManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

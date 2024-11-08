@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { LogicManagementClient } from "../logicManagementClient";
 import {
   IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
-  IntegrationServiceEnvironmentNetworkHealthGetResponse
+  IntegrationServiceEnvironmentNetworkHealthGetResponse,
 } from "../models";
 
 /** Class containing IntegrationServiceEnvironmentNetworkHealth operations. */
 export class IntegrationServiceEnvironmentNetworkHealthImpl
-  implements IntegrationServiceEnvironmentNetworkHealth {
+  implements IntegrationServiceEnvironmentNetworkHealth
+{
   private readonly client: LogicManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class IntegrationServiceEnvironmentNetworkHealthImpl
   get(
     resourceGroup: string,
     integrationServiceEnvironmentName: string,
-    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams
+    options?: IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
   ): Promise<IntegrationServiceEnvironmentNetworkHealthGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroup, integrationServiceEnvironmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,8 +51,7 @@ export class IntegrationServiceEnvironmentNetworkHealthImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/health/network",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Logic/integrationServiceEnvironments/{integrationServiceEnvironmentName}/health/network",
   httpMethod: "GET",
   responses: {
     200: {
@@ -61,23 +61,23 @@ const getOperationSpec: coreClient.OperationSpec = {
           value: {
             type: {
               name: "Composite",
-              className: "IntegrationServiceEnvironmentSubnetNetworkHealth"
-            }
-          }
-        }
-      }
+              className: "IntegrationServiceEnvironmentSubnetNetworkHealth",
+            },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroup,
-    Parameters.integrationServiceEnvironmentName
+    Parameters.integrationServiceEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

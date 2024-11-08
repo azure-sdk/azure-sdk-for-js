@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LogicManagementClient } from "../logicManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Workflow,
   WorkflowsListBySubscriptionNextOptionalParams,
@@ -47,7 +51,7 @@ import {
   WorkflowsValidateByResourceGroupOptionalParams,
   WorkflowsValidateByLocationOptionalParams,
   WorkflowsListBySubscriptionNextResponse,
-  WorkflowsListByResourceGroupNextResponse
+  WorkflowsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,7 +72,7 @@ export class WorkflowsImpl implements Workflows {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: WorkflowsListBySubscriptionOptionalParams
+    options?: WorkflowsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workflow> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -83,13 +87,13 @@ export class WorkflowsImpl implements Workflows {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: WorkflowsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Workflow[]> {
     let result: WorkflowsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +114,7 @@ export class WorkflowsImpl implements Workflows {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: WorkflowsListBySubscriptionOptionalParams
+    options?: WorkflowsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Workflow> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -124,7 +128,7 @@ export class WorkflowsImpl implements Workflows {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams
+    options?: WorkflowsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workflow> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -141,16 +145,16 @@ export class WorkflowsImpl implements Workflows {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: WorkflowsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Workflow[]> {
     let result: WorkflowsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +169,7 @@ export class WorkflowsImpl implements Workflows {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -176,11 +180,11 @@ export class WorkflowsImpl implements Workflows {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams
+    options?: WorkflowsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Workflow> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -191,11 +195,11 @@ export class WorkflowsImpl implements Workflows {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: WorkflowsListBySubscriptionOptionalParams
+    options?: WorkflowsListBySubscriptionOptionalParams,
   ): Promise<WorkflowsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -206,11 +210,11 @@ export class WorkflowsImpl implements Workflows {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowsListByResourceGroupOptionalParams
+    options?: WorkflowsListByResourceGroupOptionalParams,
   ): Promise<WorkflowsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -223,11 +227,11 @@ export class WorkflowsImpl implements Workflows {
   get(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsGetOptionalParams
+    options?: WorkflowsGetOptionalParams,
   ): Promise<WorkflowsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -242,11 +246,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     workflow: Workflow,
-    options?: WorkflowsCreateOrUpdateOptionalParams
+    options?: WorkflowsCreateOrUpdateOptionalParams,
   ): Promise<WorkflowsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, workflow, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -259,11 +263,11 @@ export class WorkflowsImpl implements Workflows {
   update(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsUpdateOptionalParams
+    options?: WorkflowsUpdateOptionalParams,
   ): Promise<WorkflowsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -276,11 +280,11 @@ export class WorkflowsImpl implements Workflows {
   delete(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsDeleteOptionalParams
+    options?: WorkflowsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -293,11 +297,11 @@ export class WorkflowsImpl implements Workflows {
   disable(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsDisableOptionalParams
+    options?: WorkflowsDisableOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      disableOperationSpec
+      disableOperationSpec,
     );
   }
 
@@ -310,11 +314,11 @@ export class WorkflowsImpl implements Workflows {
   enable(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsEnableOptionalParams
+    options?: WorkflowsEnableOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      enableOperationSpec
+      enableOperationSpec,
     );
   }
 
@@ -329,11 +333,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     parameters: GenerateUpgradedDefinitionParameters,
-    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams
+    options?: WorkflowsGenerateUpgradedDefinitionOptionalParams,
   ): Promise<WorkflowsGenerateUpgradedDefinitionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, parameters, options },
-      generateUpgradedDefinitionOperationSpec
+      generateUpgradedDefinitionOperationSpec,
     );
   }
 
@@ -348,11 +352,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     listCallbackUrl: GetCallbackUrlParameters,
-    options?: WorkflowsListCallbackUrlOptionalParams
+    options?: WorkflowsListCallbackUrlOptionalParams,
   ): Promise<WorkflowsListCallbackUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, listCallbackUrl, options },
-      listCallbackUrlOperationSpec
+      listCallbackUrlOperationSpec,
     );
   }
 
@@ -365,11 +369,11 @@ export class WorkflowsImpl implements Workflows {
   listSwagger(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowsListSwaggerOptionalParams
+    options?: WorkflowsListSwaggerOptionalParams,
   ): Promise<WorkflowsListSwaggerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, options },
-      listSwaggerOperationSpec
+      listSwaggerOperationSpec,
     );
   }
 
@@ -384,25 +388,24 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: WorkflowsMoveOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +414,8 @@ export class WorkflowsImpl implements Workflows {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,19 +423,19 @@ export class WorkflowsImpl implements Workflows {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workflowName, move, options },
-      moveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workflowName, move, options },
+      spec: moveOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -449,13 +452,13 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     move: WorkflowReference,
-    options?: WorkflowsMoveOptionalParams
+    options?: WorkflowsMoveOptionalParams,
   ): Promise<void> {
     const poller = await this.beginMove(
       resourceGroupName,
       workflowName,
       move,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -471,11 +474,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     keyType: RegenerateActionParameter,
-    options?: WorkflowsRegenerateAccessKeyOptionalParams
+    options?: WorkflowsRegenerateAccessKeyOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, keyType, options },
-      regenerateAccessKeyOperationSpec
+      regenerateAccessKeyOperationSpec,
     );
   }
 
@@ -490,11 +493,11 @@ export class WorkflowsImpl implements Workflows {
     resourceGroupName: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateByResourceGroupOptionalParams
+    options?: WorkflowsValidateByResourceGroupOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workflowName, validate, options },
-      validateByResourceGroupOperationSpec
+      validateByResourceGroupOperationSpec,
     );
   }
 
@@ -511,11 +514,11 @@ export class WorkflowsImpl implements Workflows {
     location: string,
     workflowName: string,
     validate: Workflow,
-    options?: WorkflowsValidateByLocationOptionalParams
+    options?: WorkflowsValidateByLocationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, workflowName, validate, options },
-      validateByLocationOperationSpec
+      validateByLocationOperationSpec,
     );
   }
 
@@ -526,11 +529,11 @@ export class WorkflowsImpl implements Workflows {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: WorkflowsListBySubscriptionNextOptionalParams
+    options?: WorkflowsListBySubscriptionNextOptionalParams,
   ): Promise<WorkflowsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -543,11 +546,11 @@ export class WorkflowsImpl implements Workflows {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WorkflowsListByResourceGroupNextOptionalParams
+    options?: WorkflowsListByResourceGroupNextOptionalParams,
   ): Promise<WorkflowsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -559,74 +562,71 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     201: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.workflow,
   queryParameters: [Parameters.apiVersion],
@@ -634,106 +634,101 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Workflow
+      bodyMapper: Mappers.Workflow,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const disableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/disable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/disable",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/enable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/enable",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateUpgradedDefinitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/generateUpgradedDefinition",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/generateUpgradedDefinition",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: { type: { name: "any" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -741,23 +736,22 @@ const generateUpgradedDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listCallbackUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listCallbackUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowTriggerCallbackUrl
+      bodyMapper: Mappers.WorkflowTriggerCallbackUrl,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listCallbackUrl,
   queryParameters: [Parameters.apiVersion],
@@ -765,37 +759,35 @@ const listCallbackUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSwaggerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listSwagger",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/listSwagger",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } }
+      bodyMapper: { type: { name: "any" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const moveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/move",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -803,8 +795,8 @@ const moveOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.move,
   queryParameters: [Parameters.apiVersion],
@@ -812,21 +804,20 @@ const moveOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/regenerateAccessKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/regenerateAccessKey",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.keyType,
   queryParameters: [Parameters.apiVersion],
@@ -834,43 +825,20 @@ const regenerateAccessKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowName
+    Parameters.workflowName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/validate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/workflows/{workflowName}/validate",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.validate,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workflowName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const validateByLocationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/locations/{location}/workflows/{workflowName}/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.validate,
   queryParameters: [Parameters.apiVersion],
@@ -879,48 +847,69 @@ const validateByLocationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowName,
-    Parameters.location
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const validateByLocationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Logic/locations/{location}/workflows/{workflowName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.validate,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workflowName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowListResult
+      bodyMapper: Mappers.WorkflowListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
