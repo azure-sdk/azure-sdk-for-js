@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import { DevBox, Environment } from "./models.js";
@@ -42,7 +42,7 @@ export type GetActionParameters = RequestParameters;
 export type SkipActionParameters = RequestParameters;
 
 export interface DelayActionQueryParamProperties {
-  /** The time to delay the Dev Box action or actions until. */
+  /** The time to delay the Dev Box action or actions until, in RFC3339 format. */
   until: Date | string;
 }
 
@@ -53,7 +53,7 @@ export interface DelayActionQueryParam {
 export type DelayActionParameters = DelayActionQueryParam & RequestParameters;
 
 export interface DelayActionsQueryParamProperties {
-  /** The time to delay the Dev Box action or actions until. */
+  /** The time to delay the Dev Box action or actions until, in RFC3339 format. */
   until: Date | string;
 }
 
@@ -71,8 +71,8 @@ export interface CreateOrReplaceEnvironmentBodyParam {
   body: Environment;
 }
 
-export type CreateOrReplaceEnvironmentParameters = CreateOrReplaceEnvironmentBodyParam &
-  RequestParameters;
+export type CreateOrReplaceEnvironmentParameters =
+  CreateOrReplaceEnvironmentBodyParam & RequestParameters;
 export type DeleteEnvironmentParameters = RequestParameters;
 export type ListCatalogsByProjectParameters = RequestParameters;
 export type GetCatalogParameters = RequestParameters;
