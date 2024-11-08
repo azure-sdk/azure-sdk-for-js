@@ -27430,14 +27430,12 @@ export const ExpressRouteCrossConnection: coreClient.CompositeMapper = {
       },
       primaryAzurePort: {
         serializedName: "properties.primaryAzurePort",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       secondaryAzurePort: {
         serializedName: "properties.secondaryAzurePort",
-        readOnly: true,
         type: {
           name: "String",
         },

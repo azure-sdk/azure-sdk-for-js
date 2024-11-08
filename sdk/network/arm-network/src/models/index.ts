@@ -10117,16 +10117,10 @@ export interface ExpressRouteCrossConnection extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /**
-   * The name of the primary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryAzurePort?: string;
-  /**
-   * The name of the secondary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryAzurePort?: string;
+  /** The name of the primary port. */
+  primaryAzurePort?: string;
+  /** The name of the secondary port. */
+  secondaryAzurePort?: string;
   /**
    * The identifier of the circuit traffic.
    * NOTE: This property will not be serialized. It can only be populated by the server.
