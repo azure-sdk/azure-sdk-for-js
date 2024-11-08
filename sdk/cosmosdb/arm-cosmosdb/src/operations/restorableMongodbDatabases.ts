@@ -120,7 +120,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RestorableMongodbDatabasesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.CloudError,
     },
   },
   queryParameters: [Parameters.apiVersion],
