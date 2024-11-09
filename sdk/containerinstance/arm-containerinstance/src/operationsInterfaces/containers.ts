@@ -20,7 +20,7 @@ import {
 export interface Containers {
   /**
    * Get the logs for a specified container instance in a specified resource group and container group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.
@@ -34,7 +34,7 @@ export interface Containers {
   /**
    * Executes a command for a specific container instance in a specified resource group and container
    * group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param containerExecRequest The request for the exec command.
@@ -50,7 +50,7 @@ export interface Containers {
   /**
    * Attach to the output stream of a specific container instance in a specified resource group and
    * container group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.

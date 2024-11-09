@@ -21,7 +21,7 @@ import {
 export interface Location {
   /**
    * Get the usage for a subscription
-   * @param location The name of the Azure region.
+   * @param location The identifier for the physical azure location.
    * @param options The options parameters.
    */
   listUsage(
@@ -30,7 +30,7 @@ export interface Location {
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The name of the Azure region.
+   * @param location The identifier for the physical azure location.
    * @param options The options parameters.
    */
   listCachedImages(
@@ -39,7 +39,7 @@ export interface Location {
   ): PagedAsyncIterableIterator<CachedImages>;
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The name of the Azure region.
+   * @param location The identifier for the physical azure location.
    * @param options The options parameters.
    */
   listCapabilities(

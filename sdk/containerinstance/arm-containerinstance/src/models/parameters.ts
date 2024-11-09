@@ -15,6 +15,7 @@ import {
   ContainerGroup as ContainerGroupMapper,
   Resource as ResourceMapper,
   ContainerExecRequest as ContainerExecRequestMapper,
+  NGroup as NGroupMapper,
   ContainerGroupProfile as ContainerGroupProfileMapper,
   ContainerGroupProfilePatch as ContainerGroupProfilePatchMapper,
 } from "../models/mappers";
@@ -49,7 +50,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid",
+      name: "String",
     },
   },
 };
@@ -57,7 +58,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01-preview",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -69,10 +70,6 @@ export const apiVersion: OperationQueryParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -129,9 +126,6 @@ export const nextLink: OperationURLParameter = {
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
     serializedName: "location",
     required: true,
     type: {
@@ -198,11 +192,41 @@ export const subnetName: OperationURLParameter = {
   },
 };
 
+export const ngroupsName: OperationURLParameter = {
+  parameterPath: "ngroupsName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "ngroupsName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nGroup: OperationParameter = {
+  parameterPath: "nGroup",
+  mapper: NGroupMapper,
+};
+
+export const containerGroupProfile: OperationParameter = {
+  parameterPath: "containerGroupProfile",
+  mapper: ContainerGroupProfileMapper,
+};
+
 export const containerGroupProfileName: OperationURLParameter = {
   parameterPath: "containerGroupProfileName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^(?!.*--)[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
       MaxLength: 63,
       MinLength: 1,
     },
@@ -212,11 +236,6 @@ export const containerGroupProfileName: OperationURLParameter = {
       name: "String",
     },
   },
-};
-
-export const containerGroupProfile: OperationParameter = {
-  parameterPath: "containerGroupProfile",
-  mapper: ContainerGroupProfileMapper,
 };
 
 export const properties: OperationParameter = {

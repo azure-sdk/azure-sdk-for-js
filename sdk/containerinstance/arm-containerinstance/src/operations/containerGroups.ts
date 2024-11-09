@@ -118,7 +118,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
    * Get a list of container groups in a specified subscription and resource group. This operation
    * returns properties of each container group including containers, image registry credentials, restart
    * policy, IP address type, OS type, state, and volumes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -201,7 +201,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
    * Get a list of container groups in a specified subscription and resource group. This operation
    * returns properties of each container group including containers, image registry credentials, restart
    * policy, IP address type, OS type, state, and volumes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -218,7 +218,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
    * Gets the properties of the specified container group in the specified subscription and resource
    * group. The operation returns the properties of each container group including containers, image
    * registry credentials, restart policy, IP address type, OS type, state, and volumes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -235,7 +235,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
 
   /**
    * Create or update container groups with specified configurations.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param containerGroup The properties of the container group to be created or updated.
    * @param options The options parameters.
@@ -307,7 +307,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
 
   /**
    * Create or update container groups with specified configurations.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param containerGroup The properties of the container group to be created or updated.
    * @param options The options parameters.
@@ -329,7 +329,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
 
   /**
    * Updates container group tags with specified values.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param resource The container group resource with just the tags to be updated.
    * @param options The options parameters.
@@ -349,7 +349,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Delete the specified container group in the specified subscription and resource group. The operation
    * does not delete other resources provided by the user, such as volumes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -420,7 +420,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Delete the specified container group in the specified subscription and resource group. The operation
    * does not delete other resources provided by the user, such as volumes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -440,7 +440,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -503,7 +503,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -523,7 +523,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Stops all containers in a container group. Compute resources will be deallocated and billing will
    * stop.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -541,7 +541,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
    * start.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -604,7 +604,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
    * start.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -624,7 +624,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   /**
    * Gets all the network dependencies for this container group to allow complete control of network
    * setting and configuration. For container groups, this will always be an empty list.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
@@ -656,7 +656,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
