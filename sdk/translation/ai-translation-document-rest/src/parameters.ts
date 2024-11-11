@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   DocumentTranslateContent,
   StartTranslationDetails,
   FileFormatType,
@@ -46,6 +43,8 @@ export interface DocumentTranslateQueryParamProperties {
    * Possible values are: true (default) or false.
    */
   allowFallback?: boolean;
+  /** Optional boolean parameter to translate text within an image in the document */
+  translateTextWithinImage?: boolean;
 }
 
 export interface DocumentTranslateQueryParam {
@@ -72,7 +71,8 @@ export interface StartTranslationBodyParam {
   body: StartTranslationDetails;
 }
 
-export type StartTranslationParameters = StartTranslationBodyParam & RequestParameters;
+export type StartTranslationParameters = StartTranslationBodyParam &
+  RequestParameters;
 
 export interface GetTranslationsStatusQueryParamProperties {
   /**
@@ -133,7 +133,8 @@ export interface GetTranslationsStatusQueryParam {
   queryParameters?: GetTranslationsStatusQueryParamProperties;
 }
 
-export type GetTranslationsStatusParameters = GetTranslationsStatusQueryParam & RequestParameters;
+export type GetTranslationsStatusParameters = GetTranslationsStatusQueryParam &
+  RequestParameters;
 export type GetDocumentStatusParameters = RequestParameters;
 export type GetTranslationStatusParameters = RequestParameters;
 export type CancelTranslationParameters = RequestParameters;
@@ -197,7 +198,8 @@ export interface GetDocumentsStatusQueryParam {
   queryParameters?: GetDocumentsStatusQueryParamProperties;
 }
 
-export type GetDocumentsStatusParameters = GetDocumentsStatusQueryParam & RequestParameters;
+export type GetDocumentsStatusParameters = GetDocumentsStatusQueryParam &
+  RequestParameters;
 
 export interface GetSupportedFormatsQueryParamProperties {
   /**
@@ -212,4 +214,5 @@ export interface GetSupportedFormatsQueryParam {
   queryParameters?: GetSupportedFormatsQueryParamProperties;
 }
 
-export type GetSupportedFormatsParameters = GetSupportedFormatsQueryParam & RequestParameters;
+export type GetSupportedFormatsParameters = GetSupportedFormatsQueryParam &
+  RequestParameters;

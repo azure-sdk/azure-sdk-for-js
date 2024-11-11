@@ -4,22 +4,27 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface BatchOptions {
+    translateTextWithinImage?: boolean;
+}
 
 // @public
 export interface BatchRequest {
@@ -82,6 +87,8 @@ export interface DocumentStatusOutput {
     sourcePath: string;
     status: StatusOutput;
     to: string;
+    totalImageScansFailed?: number;
+    totalImageScansSucceeded?: number;
 }
 
 // @public (undocumented)
@@ -92,6 +99,9 @@ export interface DocumentTranslate {
 // @public (undocumented)
 export interface DocumentTranslate200Headers {
     "content-type": "application/octet-stream";
+    "total-image-scans-failed": number;
+    "total-image-scans-succeeded": number;
+    "x-metered-usage": number;
     "x-ms-client-request-id"?: string;
 }
 
@@ -182,6 +192,7 @@ export interface DocumentTranslateQueryParamProperties {
     category?: string;
     sourceLanguage?: string;
     targetLanguage: string;
+    translateTextWithinImage?: boolean;
 }
 
 // @public (undocumented)
@@ -200,12 +211,15 @@ export interface FileFormatOutput {
     defaultVersion?: string;
     fileExtensions: string[];
     format: string;
-    type?: string;
+    type?: FileFormatTypeOutput;
     versions?: string[];
 }
 
 // @public
 export type FileFormatType = string;
+
+// @public
+export type FileFormatTypeOutput = string;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -554,6 +568,7 @@ export interface StartTranslationDefaultResponse extends HttpResponse {
 // @public
 export interface StartTranslationDetails {
     inputs: Array<BatchRequest>;
+    options?: BatchOptions;
 }
 
 // @public
@@ -577,6 +592,8 @@ export interface StatusSummaryOutput {
     success: number;
     total: number;
     totalCharacterCharged: number;
+    totalImageScansFailed?: number;
+    totalImageScansSucceeded?: number;
 }
 
 // @public
