@@ -20,9 +20,9 @@ import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
@@ -36,6 +36,7 @@ import {
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
   GetUsagesInLocationImpl,
+  SiteCertificatesImpl,
   StaticSitesImpl,
   WebAppsImpl,
   WorkflowsImpl,
@@ -52,9 +53,9 @@ import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
@@ -68,6 +69,7 @@ import {
   Recommendations,
   ResourceHealthMetadataOperations,
   GetUsagesInLocation,
+  SiteCertificates,
   StaticSites,
   WebApps,
   Workflows,
@@ -195,7 +197,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/15.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +251,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-11-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,9 +260,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
@@ -275,6 +277,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.resourceHealthMetadataOperations =
       new ResourceHealthMetadataOperationsImpl(this);
     this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
+    this.siteCertificates = new SiteCertificatesImpl(this);
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
     this.workflows = new WorkflowsImpl(this);
@@ -1090,9 +1093,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
@@ -1106,6 +1109,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   recommendations: Recommendations;
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   getUsagesInLocation: GetUsagesInLocation;
+  siteCertificates: SiteCertificates;
   staticSites: StaticSites;
   webApps: WebApps;
   workflows: Workflows;
