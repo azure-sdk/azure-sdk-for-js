@@ -4754,7 +4754,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -17015,7 +17015,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-zKdrPHasAWMJefAzX0hwQDoypjoDBoLQius14b7zfdqWqAws/nZl8V7eNAbD0x0Eip1rOtNFWwBKjSptui13Cg==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-bNuFb88Bl3hjRUHYpTW9GvdLg1DnEV9muWb+4IyOke6ctYHCFZE6+wWsTGIDhSjSsYrfWER6W4ctCQDGK7f/3A==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -17023,16 +17023,20 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       esm: 3.2.25
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
