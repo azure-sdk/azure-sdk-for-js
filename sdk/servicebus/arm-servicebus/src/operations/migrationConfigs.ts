@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceBusManagementClient } from "../serviceBusManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MigrationConfigProperties,
   MigrationConfigsListNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   MigrationConfigsGetResponse,
   MigrationConfigsCompleteMigrationOptionalParams,
   MigrationConfigsRevertOptionalParams,
-  MigrationConfigsListNextResponse
+  MigrationConfigsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,14 +50,14 @@ export class MigrationConfigsImpl implements MigrationConfigs {
 
   /**
    * Gets all migrationConfigurations
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<MigrationConfigProperties> {
     const iter = this.listPagingAll(resourceGroupName, namespaceName, options);
     return {
@@ -71,9 +75,9 @@ export class MigrationConfigsImpl implements MigrationConfigs {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +85,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     options?: MigrationConfigsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MigrationConfigProperties[]> {
     let result: MigrationConfigsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +101,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +113,12 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   private async *listPagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
   ): AsyncIterableIterator<MigrationConfigProperties> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -122,24 +126,24 @@ export class MigrationConfigsImpl implements MigrationConfigs {
 
   /**
    * Gets all migrationConfigurations
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
   ): Promise<MigrationConfigsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param parameters Parameters required to create Migration Configuration
@@ -150,30 +154,29 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MigrationConfigsCreateAndStartMigrationResponse>,
+    SimplePollerLike<
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>,
       MigrationConfigsCreateAndStartMigrationResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MigrationConfigsCreateAndStartMigrationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -182,8 +185,8 @@ export class MigrationConfigsImpl implements MigrationConfigs {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -191,19 +194,28 @@ export class MigrationConfigsImpl implements MigrationConfigs {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, namespaceName, configName, parameters, options },
-      createAndStartMigrationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        namespaceName,
+        configName,
+        parameters,
+        options,
+      },
+      spec: createAndStartMigrationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MigrationConfigsCreateAndStartMigrationResponse,
+      OperationState<MigrationConfigsCreateAndStartMigrationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -211,7 +223,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
 
   /**
    * Creates Migration configuration and starts migration of entities from Standard to Premium namespace
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param parameters Parameters required to create Migration Configuration
@@ -222,21 +234,21 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     namespaceName: string,
     configName: MigrationConfigurationName,
     parameters: MigrationConfigProperties,
-    options?: MigrationConfigsCreateAndStartMigrationOptionalParams
+    options?: MigrationConfigsCreateAndStartMigrationOptionalParams,
   ): Promise<MigrationConfigsCreateAndStartMigrationResponse> {
     const poller = await this.beginCreateAndStartMigration(
       resourceGroupName,
       namespaceName,
       configName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deletes a MigrationConfiguration
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param options The options parameters.
@@ -245,17 +257,17 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsDeleteOptionalParams
+    options?: MigrationConfigsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, configName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Retrieves Migration Config
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param options The options parameters.
@@ -264,11 +276,11 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsGetOptionalParams
+    options?: MigrationConfigsGetOptionalParams,
   ): Promise<MigrationConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, configName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -276,7 +288,7 @@ export class MigrationConfigsImpl implements MigrationConfigs {
    * This operation Completes Migration of entities by pointing the connection strings to Premium
    * namespace and any entities created after the operation will be under Premium Namespace.
    * CompleteMigration operation will fail when entity migration is in-progress.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param options The options parameters.
@@ -285,17 +297,17 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsCompleteMigrationOptionalParams
+    options?: MigrationConfigsCompleteMigrationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, configName, options },
-      completeMigrationOperationSpec
+      completeMigrationOperationSpec,
     );
   }
 
   /**
    * This operation reverts Migration
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param configName The configuration name. Should always be "$default".
    * @param options The options parameters.
@@ -304,17 +316,17 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     configName: MigrationConfigurationName,
-    options?: MigrationConfigsRevertOptionalParams
+    options?: MigrationConfigsRevertOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, configName, options },
-      revertOperationSpec
+      revertOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -323,11 +335,11 @@ export class MigrationConfigsImpl implements MigrationConfigs {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: MigrationConfigsListNextOptionalParams
+    options?: MigrationConfigsListNextOptionalParams,
   ): Promise<MigrationConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -335,47 +347,45 @@ export class MigrationConfigsImpl implements MigrationConfigs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigListResult
+      bodyMapper: Mappers.MigrationConfigListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName1
+    Parameters.namespaceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createAndStartMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.MigrationConfigProperties,
     },
     201: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.MigrationConfigProperties,
     },
     202: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.MigrationConfigProperties,
     },
     204: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.MigrationConfigProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -384,22 +394,21 @@ const createAndStartMigrationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.configName
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -407,22 +416,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.configName
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigProperties
+      bodyMapper: Mappers.MigrationConfigProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -430,20 +438,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.configName
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const completeMigrationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -451,20 +458,19 @@ const completeMigrationOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.configName
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const revertOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/{configName}/revert",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -472,29 +478,29 @@ const revertOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.configName
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationConfigListResult
+      bodyMapper: Mappers.MigrationConfigListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

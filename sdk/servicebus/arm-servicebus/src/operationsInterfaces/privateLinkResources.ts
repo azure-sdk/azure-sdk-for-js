@@ -8,20 +8,20 @@
 
 import {
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
    * Gets lists of resources that supports Privatelinks.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }

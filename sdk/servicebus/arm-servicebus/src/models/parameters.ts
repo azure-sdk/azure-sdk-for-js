@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SBNamespace as SBNamespaceMapper,
@@ -25,7 +25,7 @@ import {
   SBQueue as SBQueueMapper,
   SBTopic as SBTopicMapper,
   Rule as RuleMapper,
-  SBSubscription as SBSubscriptionMapper
+  SBSubscription as SBSubscriptionMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -35,9 +35,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -46,22 +46,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-01-preview",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -70,9 +70,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -80,14 +80,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -97,14 +97,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBNamespaceMapper
+  mapper: SBNamespaceMapper,
 };
 
 export const namespaceName: OperationURLParameter = {
@@ -113,9 +113,9 @@ export const namespaceName: OperationURLParameter = {
     serializedName: "namespaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const namespaceName1: OperationURLParameter = {
@@ -123,29 +123,29 @@ export const namespaceName1: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 6
+      MinLength: 6,
     },
     serializedName: "namespaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBNamespaceUpdateParametersMapper
+  mapper: SBNamespaceUpdateParametersMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NetworkRuleSetMapper
+  mapper: NetworkRuleSetMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBAuthorizationRuleMapper
+  mapper: SBAuthorizationRuleMapper,
 };
 
 export const authorizationRuleName: OperationURLParameter = {
@@ -153,24 +153,24 @@ export const authorizationRuleName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "authorizationRuleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RegenerateAccessKeyParametersMapper
+  mapper: RegenerateAccessKeyParametersMapper,
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckNameAvailabilityMapper
+  mapper: CheckNameAvailabilityMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -179,15 +179,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -196,14 +196,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArmDisasterRecoveryMapper
+  mapper: ArmDisasterRecoveryMapper,
 };
 
 export const alias: OperationURLParameter = {
@@ -211,24 +211,24 @@ export const alias: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "alias",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: FailoverPropertiesMapper
+  mapper: FailoverPropertiesMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: MigrationConfigPropertiesMapper
+  mapper: MigrationConfigPropertiesMapper,
 };
 
 export const configName: OperationURLParameter = {
@@ -237,23 +237,23 @@ export const configName: OperationURLParameter = {
     serializedName: "configName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const queueName: OperationURLParameter = {
   parameterPath: "queueName",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "queueName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -261,13 +261,13 @@ export const skip: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -275,37 +275,37 @@ export const top: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 1000,
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBQueueMapper
+  mapper: SBQueueMapper,
 };
 
 export const topicName: OperationURLParameter = {
   parameterPath: "topicName",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "topicName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBTopicMapper
+  mapper: SBTopicMapper,
 };
 
 export const subscriptionName: OperationURLParameter = {
@@ -313,19 +313,19 @@ export const subscriptionName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RuleMapper
+  mapper: RuleMapper,
 };
 
 export const ruleName: OperationURLParameter = {
@@ -333,17 +333,17 @@ export const ruleName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 50,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "ruleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SBSubscriptionMapper
+  mapper: SBSubscriptionMapper,
 };

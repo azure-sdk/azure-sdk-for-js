@@ -23,7 +23,7 @@ import {
   SubscriptionsDeleteOptionalParams,
   SubscriptionsGetOptionalParams,
   SubscriptionsGetResponse,
-  SubscriptionsListByTopicNextResponse
+  SubscriptionsListByTopicNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class SubscriptionsImpl implements Subscriptions {
 
   /**
    * List all the subscriptions under a specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -50,13 +50,13 @@ export class SubscriptionsImpl implements Subscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: SubscriptionsListByTopicOptionalParams
+    options?: SubscriptionsListByTopicOptionalParams,
   ): PagedAsyncIterableIterator<SBSubscription> {
     const iter = this.listByTopicPagingAll(
       resourceGroupName,
       namespaceName,
       topicName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class SubscriptionsImpl implements Subscriptions {
           namespaceName,
           topicName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class SubscriptionsImpl implements Subscriptions {
     namespaceName: string,
     topicName: string,
     options?: SubscriptionsListByTopicOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SBSubscription[]> {
     let result: SubscriptionsListByTopicResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class SubscriptionsImpl implements Subscriptions {
         resourceGroupName,
         namespaceName,
         topicName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class SubscriptionsImpl implements Subscriptions {
         namespaceName,
         topicName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class SubscriptionsImpl implements Subscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: SubscriptionsListByTopicOptionalParams
+    options?: SubscriptionsListByTopicOptionalParams,
   ): AsyncIterableIterator<SBSubscription> {
     for await (const page of this.listByTopicPagingPage(
       resourceGroupName,
       namespaceName,
       topicName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,7 +134,7 @@ export class SubscriptionsImpl implements Subscriptions {
 
   /**
    * List all the subscriptions under a specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -143,17 +143,17 @@ export class SubscriptionsImpl implements Subscriptions {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: SubscriptionsListByTopicOptionalParams
+    options?: SubscriptionsListByTopicOptionalParams,
   ): Promise<SubscriptionsListByTopicResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, topicName, options },
-      listByTopicOperationSpec
+      listByTopicOperationSpec,
     );
   }
 
   /**
    * Creates a topic subscription.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -166,7 +166,7 @@ export class SubscriptionsImpl implements Subscriptions {
     topicName: string,
     subscriptionName: string,
     parameters: SBSubscription,
-    options?: SubscriptionsCreateOrUpdateOptionalParams
+    options?: SubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -175,15 +175,15 @@ export class SubscriptionsImpl implements Subscriptions {
         topicName,
         subscriptionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Deletes a subscription from the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -194,7 +194,7 @@ export class SubscriptionsImpl implements Subscriptions {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: SubscriptionsDeleteOptionalParams
+    options?: SubscriptionsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -202,15 +202,15 @@ export class SubscriptionsImpl implements Subscriptions {
         namespaceName,
         topicName,
         subscriptionName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Returns a subscription description for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -221,7 +221,7 @@ export class SubscriptionsImpl implements Subscriptions {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: SubscriptionsGetOptionalParams
+    options?: SubscriptionsGetOptionalParams,
   ): Promise<SubscriptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -229,15 +229,15 @@ export class SubscriptionsImpl implements Subscriptions {
         namespaceName,
         topicName,
         subscriptionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * ListByTopicNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param nextLink The nextLink from the previous successful call to the ListByTopic method.
@@ -248,11 +248,11 @@ export class SubscriptionsImpl implements Subscriptions {
     namespaceName: string,
     topicName: string,
     nextLink: string,
-    options?: SubscriptionsListByTopicNextOptionalParams
+    options?: SubscriptionsListByTopicNextOptionalParams,
   ): Promise<SubscriptionsListByTopicNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, topicName, nextLink, options },
-      listByTopicNextOperationSpec
+      listByTopicNextOperationSpec,
     );
   }
 }
@@ -260,16 +260,15 @@ export class SubscriptionsImpl implements Subscriptions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTopicOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBSubscriptionListResult
+      bodyMapper: Mappers.SBSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
@@ -277,22 +276,21 @@ const listByTopicOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SBSubscription
+      bodyMapper: Mappers.SBSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
@@ -302,22 +300,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.topicName,
-    Parameters.subscriptionName
+    Parameters.subscriptionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -326,22 +323,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.topicName,
-    Parameters.subscriptionName
+    Parameters.subscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBSubscription
+      bodyMapper: Mappers.SBSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -350,21 +346,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.topicName,
-    Parameters.subscriptionName
+    Parameters.subscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTopicNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SBSubscriptionListResult
+      bodyMapper: Mappers.SBSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -372,8 +368,8 @@ const listByTopicNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName1,
     Parameters.nextLink,
-    Parameters.topicName
+    Parameters.topicName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

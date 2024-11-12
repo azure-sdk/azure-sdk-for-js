@@ -14,7 +14,7 @@ import {
   RulesCreateOrUpdateResponse,
   RulesDeleteOptionalParams,
   RulesGetOptionalParams,
-  RulesGetResponse
+  RulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ import {
 export interface Rules {
   /**
    * List all the rules within given topic-subscription
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -33,11 +33,11 @@ export interface Rules {
     namespaceName: string,
     topicName: string,
     subscriptionName: string,
-    options?: RulesListBySubscriptionsOptionalParams
+    options?: RulesListBySubscriptionsOptionalParams,
   ): PagedAsyncIterableIterator<Rule>;
   /**
    * Creates a new rule and updates an existing rule
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -52,11 +52,11 @@ export interface Rules {
     subscriptionName: string,
     ruleName: string,
     parameters: Rule,
-    options?: RulesCreateOrUpdateOptionalParams
+    options?: RulesCreateOrUpdateOptionalParams,
   ): Promise<RulesCreateOrUpdateResponse>;
   /**
    * Deletes an existing rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -69,11 +69,11 @@ export interface Rules {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    options?: RulesDeleteOptionalParams
+    options?: RulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the description for the specified rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param subscriptionName The subscription name.
@@ -86,6 +86,6 @@ export interface Rules {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    options?: RulesGetOptionalParams
+    options?: RulesGetOptionalParams,
   ): Promise<RulesGetResponse>;
 }
