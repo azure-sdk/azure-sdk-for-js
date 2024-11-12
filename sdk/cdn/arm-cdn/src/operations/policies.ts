@@ -396,7 +396,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -416,7 +416,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -447,7 +447,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -479,7 +479,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -500,7 +500,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -521,7 +521,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
