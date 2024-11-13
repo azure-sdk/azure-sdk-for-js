@@ -887,6 +887,8 @@ export interface SkuProfile {
 export interface SkuProfileVMSize {
   /** Specifies the name of the VM Size. */
   name?: string;
+  /** Specifies the rank (a.k.a priority) associated with the VM Size. */
+  rank?: number;
 }
 
 /** Identity for the virtual machine scale set. */
@@ -1709,7 +1711,7 @@ export interface DataDisk {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. **This feature is still in preview** mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach.** detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
   detachOption?: DiskDetachOptionTypes;
   /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
   deleteOption?: DiskDeleteOptionTypes;
@@ -7572,6 +7574,8 @@ export enum KnownAllocationStrategy {
   LowestPrice = "LowestPrice",
   /** CapacityOptimized */
   CapacityOptimized = "CapacityOptimized",
+  /** Prioritized */
+  Prioritized = "Prioritized",
 }
 
 /**
@@ -7580,7 +7584,8 @@ export enum KnownAllocationStrategy {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LowestPrice** \
- * **CapacityOptimized**
+ * **CapacityOptimized** \
+ * **Prioritized**
  */
 export type AllocationStrategy = string;
 

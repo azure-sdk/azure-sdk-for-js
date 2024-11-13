@@ -2601,6 +2601,15 @@ export const SkuProfileVMSize: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      rank: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "rank",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
