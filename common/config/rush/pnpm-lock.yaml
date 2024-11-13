@@ -13419,10 +13419,11 @@ packages:
     dev: false
 
   file:projects/arm-computeschedule.tgz:
-    resolution: {integrity: sha512-GgVAVrMUsXbo7MWQG9Ioi4dWOg1pNvhetLZpUXa92AyTgIK8WHuL3EqGpGjTy9HO1YYRC6v/YBho1KKF33vgUw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-uV/f7I4LX55K7VDLXtq9mMFNkkmB8yucR9G6ryNlUOy4yngheOkNxRaqxXkF19mS4InLmg5LiWP1p7B5QRonsQ==, tarball: file:projects/arm-computeschedule.tgz}
     name: '@rush-temp/arm-computeschedule'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
@@ -13430,6 +13431,7 @@ packages:
       eslint: 8.57.1
       playwright: 1.48.2
       prettier: 3.3.3
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -18898,7 +18900,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-24JG0UquvqCfpD2fHYVg31EE7Zu+1LadlqbxK1oIhPj3dnaQ152m8T++HHMAkFzfbNdaH/1yqWjLTpBVotKMXA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -21182,7 +21184,7 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-DrEwi8UQP65AkDO5eQx9LbwzEGtngMa8+aoOuoEZ3XdfLM5te0RH2g1B2ugosRq7lbjmRpuex6xBKZE3tQw7Yw==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-UsWhK4PLe8c4SueDX/MzVuOtEwAHCNrHYZHGSwEJ8nFvkT5qBQS0E6v0p87R+7dNE+2hUrXoXV2pYwTbM7NeMg==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:

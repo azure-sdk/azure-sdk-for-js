@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -29,6 +27,26 @@ export interface DeallocateResourceOperationResponse {
     location: string;
     results?: ResourceOperation[];
     type: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -121,9 +139,9 @@ export enum KnownOptimizationPreference {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -132,6 +150,11 @@ export enum KnownResourceOperationType {
     Hibernate = "Hibernate",
     Start = "Start",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownVersions {
+    "2024-10-01" = "2024-10-01"
 }
 
 // @public
@@ -153,10 +176,10 @@ export interface OperationDisplay {
 
 // @public
 export interface OperationErrorDetails {
-    crpOperationId: string;
+    azureOperationName: string;
     errorCode: string;
     errorDetails: string;
-    timeStamp: string;
+    timestamp: string;
 }
 
 // @public
@@ -168,10 +191,6 @@ export interface OperationErrorsResult {
     operationId?: string;
     requestErrorCode?: string;
     requestErrorDetails?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -194,16 +213,16 @@ export interface ResourceOperation {
 // @public
 export interface ResourceOperationDetails {
     completedAt?: string;
-    deadline: string;
-    deadlineType: DeadlineType;
+    deadline?: string;
+    deadlineType?: DeadlineType;
     operationId: string;
-    opType: ResourceOperationType;
-    resourceId: string;
+    opType?: ResourceOperationType;
+    resourceId?: string;
     resourceOperationError?: ResourceOperationError;
     retryPolicy?: RetryPolicy;
-    state: OperationState;
-    subscriptionId: string;
-    timeZone?: string;
+    state?: OperationState;
+    subscriptionId?: string;
+    timezone?: string;
 }
 
 // @public
@@ -228,45 +247,9 @@ export interface RetryPolicy {
 
 // @public
 export interface Schedule {
-    deadLine: string;
+    deadline: string;
     deadlineType: DeadlineType;
-    timeZone: string;
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesExecuteStartOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends OperationOptions {
+    timezone: string;
 }
 
 // @public
