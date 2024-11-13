@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   Certificate,
   ConnectedEnvironmentsCertificatesListNextOptionalParams,
   ConnectedEnvironmentsCertificatesListOptionalParams,
@@ -23,6 +29,7 @@ import {
   ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesCreateOrUpdateResponse,
   ConnectedEnvironmentsCertificatesDeleteOptionalParams,
+  ConnectedEnvironmentsCertificatesDeleteResponse,
   CertificatePatch,
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesUpdateResponse,
@@ -171,16 +178,97 @@ export class ConnectedEnvironmentsCertificatesImpl
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>,
+      ConnectedEnvironmentsCertificatesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        connectedEnvironmentName,
+        certificateName,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsCertificatesCreateOrUpdateResponse,
+      OperationState<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or Update a Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
     options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, certificateName, options },
-      createOrUpdateOperationSpec,
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -190,16 +278,97 @@ export class ConnectedEnvironmentsCertificatesImpl
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
     options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, connectedEnvironmentName, certificateName, options },
-      deleteOperationSpec,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesDeleteResponse>,
+      ConnectedEnvironmentsCertificatesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsCertificatesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        connectedEnvironmentName,
+        certificateName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsCertificatesDeleteResponse,
+      OperationState<ConnectedEnvironmentsCertificatesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the specified Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsCertificatesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -210,23 +379,102 @@ export class ConnectedEnvironmentsCertificatesImpl
    * @param certificateEnvelope Properties of a certificate that need to be updated
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
     certificateEnvelope: CertificatePatch,
     options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams,
-  ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesUpdateResponse>,
+      ConnectedEnvironmentsCertificatesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         connectedEnvironmentName,
         certificateName,
         certificateEnvelope,
         options,
       },
-      updateOperationSpec,
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectedEnvironmentsCertificatesUpdateResponse,
+      OperationState<ConnectedEnvironmentsCertificatesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patches a certificate. Currently only patching of tags is supported
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param certificateEnvelope Properties of a certificate that need to be updated
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    certificateEnvelope: CertificatePatch,
+    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams,
+  ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      connectedEnvironmentName,
+      certificateName,
+      certificateEnvelope,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -301,8 +549,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Certificate,
     },
+    201: {
+      bodyMapper: Mappers.Certificate,
+    },
+    202: {
+      bodyMapper: Mappers.Certificate,
+    },
+    204: {
+      bodyMapper: Mappers.Certificate,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.certificateEnvelope,
@@ -322,10 +579,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ConnectedEnvironmentsCertificatesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ConnectedEnvironmentsCertificatesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ConnectedEnvironmentsCertificatesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ConnectedEnvironmentsCertificatesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -346,8 +613,17 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Certificate,
     },
+    201: {
+      bodyMapper: Mappers.Certificate,
+    },
+    202: {
+      bodyMapper: Mappers.Certificate,
+    },
+    204: {
+      bodyMapper: Mappers.Certificate,
+    },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.certificateEnvelope1,
