@@ -3161,7 +3161,8 @@ export enum KnownAggregatedReplicationState {
 // @public
 export enum KnownAllocationStrategy {
     CapacityOptimized = "CapacityOptimized",
-    LowestPrice = "LowestPrice"
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
 }
 
 // @public
@@ -5543,6 +5544,7 @@ export interface SkuProfile {
 // @public
 export interface SkuProfileVMSize {
     name?: string;
+    rank?: number;
 }
 
 // @public
