@@ -1371,6 +1371,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.4.0:
+    resolution: {integrity: sha512-UmYG6dQ7p4MVHh/9UvVQDLlvMsA252EJKJBBeG1KkYsiKwwE1xxFbV5Mk0kt8lFe4h26ElnXXTe2B++u00ukoA==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.17.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -4754,7 +4769,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -15963,10 +15978,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-0cIKdDqo8SucLoVDs7HobYbgm2dX7HXlQ7WaCHLrPLrLmKVvfOGAs7TjYERvORqKlIUs/tIzAtp9oM1zOPaN3A==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-pFZL5RKgMIS6hZUcUKwUWYo8cOIRqx3LANcSnQrmWDaoSLLKD7q1s0joRrNdOCjaXERt/o6EyoEImn5ztsS+bw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.4.0
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
@@ -16139,7 +16155,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-7L6R1v4XvFy+9xMsI5CDBDzm24pl28G0PL7pwX6yqCVsQD79uAQ6Iwq8rx6lq4hDlLulPs87ypkEIkAhv4XzBg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-9SAI/8FA8UHZsFqGtnYPmmA8Bq5BrdbDbJQXuLP7F0HsKExnOX/ijGZl4LkrFiIh1tm7iwRdRc431v+Vlt+Lig==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16147,16 +16163,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18898,7 +18917,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-24JG0UquvqCfpD2fHYVg31EE7Zu+1LadlqbxK1oIhPj3dnaQ152m8T++HHMAkFzfbNdaH/1yqWjLTpBVotKMXA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -21182,7 +21201,7 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-DrEwi8UQP65AkDO5eQx9LbwzEGtngMa8+aoOuoEZ3XdfLM5te0RH2g1B2ugosRq7lbjmRpuex6xBKZE3tQw7Yw==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-UsWhK4PLe8c4SueDX/MzVuOtEwAHCNrHYZHGSwEJ8nFvkT5qBQS0E6v0p87R+7dNE+2hUrXoXV2pYwTbM7NeMg==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:

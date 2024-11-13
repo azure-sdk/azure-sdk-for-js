@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SecurityUserConfigurations } from "../operationsInterfaces";
+import { StaticCidrs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SecurityUserConfiguration,
-  SecurityUserConfigurationsListNextOptionalParams,
-  SecurityUserConfigurationsListOptionalParams,
-  SecurityUserConfigurationsListResponse,
-  SecurityUserConfigurationsGetOptionalParams,
-  SecurityUserConfigurationsGetResponse,
-  SecurityUserConfigurationsCreateOrUpdateOptionalParams,
-  SecurityUserConfigurationsCreateOrUpdateResponse,
-  SecurityUserConfigurationsDeleteOptionalParams,
-  SecurityUserConfigurationsListNextResponse,
+  StaticCidr,
+  StaticCidrsListNextOptionalParams,
+  StaticCidrsListOptionalParams,
+  StaticCidrsListResponse,
+  StaticCidrsCreateOptionalParams,
+  StaticCidrsCreateResponse,
+  StaticCidrsGetOptionalParams,
+  StaticCidrsGetResponse,
+  StaticCidrsDeleteOptionalParams,
+  StaticCidrsDeleteResponse,
+  StaticCidrsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SecurityUserConfigurations operations. */
-export class SecurityUserConfigurationsImpl
-  implements SecurityUserConfigurations
-{
+/** Class containing StaticCidrs operations. */
+export class StaticCidrsImpl implements StaticCidrs {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class SecurityUserConfigurations class.
+   * Initialize a new instance of the class StaticCidrs class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -48,20 +47,22 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Lists all the network manager security user configurations in a network manager, in a paginated
-   * format.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Static CIDR resources at Network Manager level.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<SecurityUserConfiguration> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): PagedAsyncIterableIterator<StaticCidr> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
+      poolName,
       options,
     );
     return {
@@ -78,6 +79,7 @@ export class SecurityUserConfigurationsImpl
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
+          poolName,
           options,
           settings,
         );
@@ -88,13 +90,19 @@ export class SecurityUserConfigurationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SecurityUserConfiguration[]> {
-    let result: SecurityUserConfigurationsListResponse;
+  ): AsyncIterableIterator<StaticCidr[]> {
+    let result: StaticCidrsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkManagerName, options);
+      result = await this._list(
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -104,6 +112,7 @@ export class SecurityUserConfigurationsImpl
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
+        poolName,
         continuationToken,
         options,
       );
@@ -117,11 +126,13 @@ export class SecurityUserConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): AsyncIterableIterator<SecurityUserConfiguration> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): AsyncIterableIterator<StaticCidr> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
+      poolName,
       options,
     )) {
       yield* page;
@@ -129,86 +140,102 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Lists all the network manager security user configurations in a network manager, in a paginated
-   * format.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Static CIDR resources at Network Manager level.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): Promise<SecurityUserConfigurationsListResponse> {
+    poolName: string,
+    options?: StaticCidrsListOptionalParams,
+  ): Promise<StaticCidrsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, options },
+      { resourceGroupName, networkManagerName, poolName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Retrieves a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Creates/Updates the Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName IP Address Manager Pool resource name.
+   * @param staticCidrName Static Cidr allocation name.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    networkManagerName: string,
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsCreateOptionalParams,
+  ): Promise<StaticCidrsCreateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      },
+      createOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the specific Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to retrieve.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsGetOptionalParams,
-  ): Promise<SecurityUserConfigurationsGetResponse> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsGetOptionalParams,
+  ): Promise<StaticCidrsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, configurationName, options },
+      {
+        resourceGroupName,
+        networkManagerName,
+        poolName,
+        staticCidrName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Delete the Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param securityUserConfiguration The security user configuration to create or update
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    networkManagerName: string,
-    configurationName: string,
-    securityUserConfiguration: SecurityUserConfiguration,
-    options?: SecurityUserConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<SecurityUserConfigurationsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        securityUserConfiguration,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticCidrsDeleteResponse>,
+      StaticCidrsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<StaticCidrsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -248,12 +275,16 @@ export class SecurityUserConfigurationsImpl
       args: {
         resourceGroupName,
         networkManagerName,
-        configurationName,
+        poolName,
+        staticCidrName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      StaticCidrsDeleteResponse,
+      OperationState<StaticCidrsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -263,22 +294,25 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Deletes a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Delete the Static CIDR resource.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param poolName Pool resource name.
+   * @param staticCidrName StaticCidr resource name to delete.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsDeleteOptionalParams,
-  ): Promise<void> {
+    poolName: string,
+    staticCidrName: string,
+    options?: StaticCidrsDeleteOptionalParams,
+  ): Promise<StaticCidrsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
+      poolName,
+      staticCidrName,
       options,
     );
     return poller.pollUntilDone();
@@ -286,19 +320,21 @@ export class SecurityUserConfigurationsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
+   * @param poolName Pool resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
+    poolName: string,
     nextLink: string,
-    options?: SecurityUserConfigurationsListNextOptionalParams,
-  ): Promise<SecurityUserConfigurationsListNextResponse> {
+    options?: StaticCidrsListNextOptionalParams,
+  ): Promise<StaticCidrsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, nextLink, options },
+      { resourceGroupName, networkManagerName, poolName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -307,98 +343,113 @@ export class SecurityUserConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfigurationListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
+      bodyMapper: Mappers.StaticCidr,
     },
     201: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
+      bodyMapper: Mappers.StaticCidr,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.securityUserConfiguration,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
-  httpMethod: "DELETE",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "GET",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.StaticCidr,
+    },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/ipamPools/{poolName}/staticCidrs/{staticCidrName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StaticCidrsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
+    Parameters.staticCidrName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -408,18 +459,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfigurationListResult,
+      bodyMapper: Mappers.StaticCidrList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
+    Parameters.networkManagerName1,
+    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
