@@ -8,33 +8,33 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { DaprComponents } from "../operationsInterfaces";
+import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  DaprComponent,
-  DaprComponentsListNextOptionalParams,
-  DaprComponentsListOptionalParams,
-  DaprComponentsListResponse,
-  DaprComponentsGetOptionalParams,
-  DaprComponentsGetResponse,
-  DaprComponentsCreateOrUpdateOptionalParams,
-  DaprComponentsCreateOrUpdateResponse,
-  DaprComponentsDeleteOptionalParams,
-  DaprComponentsListSecretsOptionalParams,
-  DaprComponentsListSecretsResponse,
-  DaprComponentsListNextResponse,
+  MaintenanceConfigurationResource,
+  MaintenanceConfigurationsListNextOptionalParams,
+  MaintenanceConfigurationsListOptionalParams,
+  MaintenanceConfigurationsListResponse,
+  MaintenanceConfigurationsCreateOrUpdateOptionalParams,
+  MaintenanceConfigurationsCreateOrUpdateResponse,
+  MaintenanceConfigurationsDeleteOptionalParams,
+  MaintenanceConfigurationsGetOptionalParams,
+  MaintenanceConfigurationsGetResponse,
+  MaintenanceConfigurationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DaprComponents operations. */
-export class DaprComponentsImpl implements DaprComponents {
+/** Class containing MaintenanceConfigurations operations. */
+export class MaintenanceConfigurationsImpl
+  implements MaintenanceConfigurations
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class DaprComponents class.
+   * Initialize a new instance of the class MaintenanceConfigurations class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -42,16 +42,16 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Get the Dapr Components for a managed environment.
+   * Gets all maintenance configurations in the specified Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName The name of the Managed Environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<DaprComponent> {
+    options?: MaintenanceConfigurationsListOptionalParams,
+  ): PagedAsyncIterableIterator<MaintenanceConfigurationResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       environmentName,
@@ -81,10 +81,10 @@ export class DaprComponentsImpl implements DaprComponents {
   private async *listPagingPage(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams,
+    options?: MaintenanceConfigurationsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DaprComponent[]> {
-    let result: DaprComponentsListResponse;
+  ): AsyncIterableIterator<MaintenanceConfigurationResource[]> {
+    let result: MaintenanceConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, environmentName, options);
@@ -110,8 +110,8 @@ export class DaprComponentsImpl implements DaprComponents {
   private async *listPagingAll(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams,
-  ): AsyncIterableIterator<DaprComponent> {
+    options?: MaintenanceConfigurationsListOptionalParams,
+  ): AsyncIterableIterator<MaintenanceConfigurationResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       environmentName,
@@ -122,16 +122,16 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Get the Dapr Components for a managed environment.
+   * Gets all maintenance configurations in the specified Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName The name of the Managed Environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     environmentName: string,
-    options?: DaprComponentsListOptionalParams,
-  ): Promise<DaprComponentsListResponse> {
+    options?: MaintenanceConfigurationsListOptionalParams,
+  ): Promise<MaintenanceConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, options },
       listOperationSpec,
@@ -139,45 +139,27 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Get a dapr component.
+   * Create or update the maintenance configuration for Managed Environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param componentName Name of the Dapr Component.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    environmentName: string,
-    componentName: string,
-    options?: DaprComponentsGetOptionalParams,
-  ): Promise<DaprComponentsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Creates or updates a Dapr Component in a Managed Environment.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param componentName Name of the Dapr Component.
-   * @param daprComponentEnvelope Configuration details of the Dapr Component.
+   * @param environmentName The name of the Managed Environment.
+   * @param configName The name of the maintenance configuration.
+   * @param maintenanceConfigurationEnvelope Parameters to set the maintenance configuration for
+   *                                         ManagedEnvironment .
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     environmentName: string,
-    componentName: string,
-    daprComponentEnvelope: DaprComponent,
-    options?: DaprComponentsCreateOrUpdateOptionalParams,
-  ): Promise<DaprComponentsCreateOrUpdateResponse> {
+    configName: string,
+    maintenanceConfigurationEnvelope: MaintenanceConfigurationResource,
+    options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<MaintenanceConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         environmentName,
-        componentName,
-        daprComponentEnvelope,
+        configName,
+        maintenanceConfigurationEnvelope,
         options,
       },
       createOrUpdateOperationSpec,
@@ -185,47 +167,47 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Delete a Dapr Component from a Managed Environment.
+   * Deletes the maintenance configuration of a ManagedEnvironment .
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param componentName Name of the Dapr Component.
+   * @param environmentName The name of the Managed Environment.
+   * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     environmentName: string,
-    componentName: string,
-    options?: DaprComponentsDeleteOptionalParams,
+    configName: string,
+    options?: MaintenanceConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
+      { resourceGroupName, environmentName, configName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * List secrets for a dapr component
+   * Gets the maintenance configuration of a ManagedEnvironment .
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
-   * @param componentName Name of the Dapr Component.
+   * @param environmentName The name of the Managed Environment.
+   * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
    */
-  listSecrets(
+  get(
     resourceGroupName: string,
     environmentName: string,
-    componentName: string,
-    options?: DaprComponentsListSecretsOptionalParams,
-  ): Promise<DaprComponentsListSecretsResponse> {
+    configName: string,
+    options?: MaintenanceConfigurationsGetOptionalParams,
+  ): Promise<MaintenanceConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
-      listSecretsOperationSpec,
+      { resourceGroupName, environmentName, configName, options },
+      getOperationSpec,
     );
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param environmentName The name of the Managed Environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -233,8 +215,8 @@ export class DaprComponentsImpl implements DaprComponents {
     resourceGroupName: string,
     environmentName: string,
     nextLink: string,
-    options?: DaprComponentsListNextOptionalParams,
-  ): Promise<DaprComponentsListNextResponse> {
+    options?: MaintenanceConfigurationsListNextOptionalParams,
+  ): Promise<MaintenanceConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, environmentName, nextLink, options },
       listNextOperationSpec,
@@ -245,11 +227,11 @@ export class DaprComponentsImpl implements DaprComponents {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/maintenanceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection,
+      bodyMapper: Mappers.MaintenanceConfigurationCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -260,59 +242,40 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DaprComponent,
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName,
+    Parameters.environmentName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/maintenanceConfigurations/{configName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponent,
+      bodyMapper: Mappers.MaintenanceConfigurationResource,
+    },
+    201: {
+      bodyMapper: Mappers.MaintenanceConfigurationResource,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.daprComponentEnvelope1,
+  requestBody: Parameters.maintenanceConfigurationEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName,
+    Parameters.environmentName1,
+    Parameters.configName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/maintenanceConfigurations/{configName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -326,18 +289,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName,
+    Parameters.environmentName1,
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/listSecrets",
-  httpMethod: "POST",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/maintenanceConfigurations/{configName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprSecretsCollection,
+      bodyMapper: Mappers.MaintenanceConfigurationResource,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -348,8 +311,8 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName,
+    Parameters.environmentName1,
+    Parameters.configName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -359,7 +322,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DaprComponentsCollection,
+      bodyMapper: Mappers.MaintenanceConfigurationCollection,
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -370,7 +333,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName,
+    Parameters.environmentName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
