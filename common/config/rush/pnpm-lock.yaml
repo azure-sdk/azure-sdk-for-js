@@ -18405,7 +18405,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-34fMxJ6RStuhR6500e+VWhueRdW4MOCzh6ukjZI19rg8bYvg0CkNulAdKUqJw2AOFzfz1LDSge4lSZqczzI5Kw==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-Rva1SQXxqShQ5X7k0uHC+1NGYgcg0lXkIt8I4wbIjSyhec0Asao49ly9kpGA8R3Cr9zpqfwkbTCszdCuHea2Wg==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -18413,15 +18413,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
