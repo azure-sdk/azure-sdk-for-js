@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SignalRCustomCertificates } from "../operationsInterfaces";
+import { SignalRReplicaSharedPrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  CustomCertificate,
-  SignalRCustomCertificatesListNextOptionalParams,
-  SignalRCustomCertificatesListOptionalParams,
-  SignalRCustomCertificatesListResponse,
-  SignalRCustomCertificatesGetOptionalParams,
-  SignalRCustomCertificatesGetResponse,
-  SignalRCustomCertificatesCreateOrUpdateOptionalParams,
-  SignalRCustomCertificatesCreateOrUpdateResponse,
-  SignalRCustomCertificatesDeleteOptionalParams,
-  SignalRCustomCertificatesListNextResponse,
+  SharedPrivateLinkResource,
+  SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams,
+  SignalRReplicaSharedPrivateLinkResourcesListOptionalParams,
+  SignalRReplicaSharedPrivateLinkResourcesListResponse,
+  SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams,
+  SignalRReplicaSharedPrivateLinkResourcesGetResponse,
+  SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse,
+  SignalRReplicaSharedPrivateLinkResourcesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SignalRCustomCertificates operations. */
-export class SignalRCustomCertificatesImpl
-  implements SignalRCustomCertificates
+/** Class containing SignalRReplicaSharedPrivateLinkResources operations. */
+export class SignalRReplicaSharedPrivateLinkResourcesImpl
+  implements SignalRReplicaSharedPrivateLinkResources
 {
   private readonly client: SignalRManagementClient;
 
   /**
-   * Initialize a new instance of the class SignalRCustomCertificates class.
+   * Initialize a new instance of the class SignalRReplicaSharedPrivateLinkResources class.
    * @param client Reference to the service client
    */
   constructor(client: SignalRManagementClient) {
@@ -48,17 +47,24 @@ export class SignalRCustomCertificatesImpl
   }
 
   /**
-   * List all custom certificates.
+   * List shared private link resources
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomCertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<CustomCertificate> {
-    const iter = this.listPagingAll(resourceGroupName, resourceName, options);
+    replicaName: string,
+    options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      resourceName,
+      replicaName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -73,6 +79,7 @@ export class SignalRCustomCertificatesImpl
         return this.listPagingPage(
           resourceGroupName,
           resourceName,
+          replicaName,
           options,
           settings,
         );
@@ -83,13 +90,19 @@ export class SignalRCustomCertificatesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomCertificatesListOptionalParams,
+    replicaName: string,
+    options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<CustomCertificate[]> {
-    let result: SignalRCustomCertificatesListResponse;
+  ): AsyncIterableIterator<SharedPrivateLinkResource[]> {
+    let result: SignalRReplicaSharedPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, resourceName, options);
+      result = await this._list(
+        resourceGroupName,
+        resourceName,
+        replicaName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -99,6 +112,7 @@ export class SignalRCustomCertificatesImpl
       result = await this._listNext(
         resourceGroupName,
         resourceName,
+        replicaName,
         continuationToken,
         options,
       );
@@ -112,11 +126,13 @@ export class SignalRCustomCertificatesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomCertificatesListOptionalParams,
-  ): AsyncIterableIterator<CustomCertificate> {
+    replicaName: string,
+    options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams,
+  ): AsyncIterableIterator<SharedPrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
+      replicaName,
       options,
     )) {
       yield* page;
@@ -124,65 +140,77 @@ export class SignalRCustomCertificatesImpl
   }
 
   /**
-   * List all custom certificates.
+   * List shared private link resources
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomCertificatesListOptionalParams,
-  ): Promise<SignalRCustomCertificatesListResponse> {
+    replicaName: string,
+    options?: SignalRReplicaSharedPrivateLinkResourcesListOptionalParams,
+  ): Promise<SignalRReplicaSharedPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { resourceGroupName, resourceName, replicaName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Get a custom certificate.
+   * Get the specified shared private link resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
-   * @param certificateName Custom certificate name
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    certificateName: string,
-    options?: SignalRCustomCertificatesGetOptionalParams,
-  ): Promise<SignalRCustomCertificatesGetResponse> {
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    options?: SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams,
+  ): Promise<SignalRReplicaSharedPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, certificateName, options },
+      {
+        resourceGroupName,
+        resourceName,
+        replicaName,
+        sharedPrivateLinkResourceName,
+        options,
+      },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a custom certificate.
+   * Create or update a shared private link resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
-   * @param certificateName Custom certificate name
-   * @param parameters A custom certificate.
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
+   * @param parameters The shared private link resource
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    certificateName: string,
-    parameters: CustomCertificate,
-    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    parameters: SharedPrivateLinkResource,
+    options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>,
-      SignalRCustomCertificatesCreateOrUpdateResponse
+      OperationState<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>,
+      SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SignalRCustomCertificatesCreateOrUpdateResponse> => {
+    ): Promise<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -222,15 +250,16 @@ export class SignalRCustomCertificatesImpl
       args: {
         resourceGroupName,
         resourceName,
-        certificateName,
+        replicaName,
+        sharedPrivateLinkResourceName,
         parameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SignalRCustomCertificatesCreateOrUpdateResponse,
-      OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>
+      SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse,
+      OperationState<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -241,24 +270,27 @@ export class SignalRCustomCertificatesImpl
   }
 
   /**
-   * Create or update a custom certificate.
+   * Create or update a shared private link resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
-   * @param certificateName Custom certificate name
-   * @param parameters A custom certificate.
+   * @param replicaName The name of the replica.
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
+   * @param parameters The shared private link resource
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    certificateName: string,
-    parameters: CustomCertificate,
-    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
-  ): Promise<SignalRCustomCertificatesCreateOrUpdateResponse> {
+    replicaName: string,
+    sharedPrivateLinkResourceName: string,
+    parameters: SharedPrivateLinkResource,
+    options?: SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
+  ): Promise<SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
-      certificateName,
+      replicaName,
+      sharedPrivateLinkResourceName,
       parameters,
       options,
     );
@@ -266,39 +298,22 @@ export class SignalRCustomCertificatesImpl
   }
 
   /**
-   * Delete a custom certificate.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
-   * @param certificateName Custom certificate name
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    resourceName: string,
-    certificateName: string,
-    options?: SignalRCustomCertificatesDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, certificateName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
+   * @param replicaName The name of the replica.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     resourceName: string,
+    replicaName: string,
     nextLink: string,
-    options?: SignalRCustomCertificatesListNextOptionalParams,
-  ): Promise<SignalRCustomCertificatesListNextResponse> {
+    options?: SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams,
+  ): Promise<SignalRReplicaSharedPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, nextLink, options },
+      { resourceGroupName, resourceName, replicaName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -307,11 +322,11 @@ export class SignalRCustomCertificatesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificateList,
+      bodyMapper: Mappers.SharedPrivateLinkResourceList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -323,16 +338,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificate,
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -344,63 +360,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.certificateName,
+    Parameters.replicaName,
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificate,
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     201: {
-      bodyMapper: Mappers.CustomCertificate,
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     202: {
-      bodyMapper: Mappers.CustomCertificate,
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     204: {
-      bodyMapper: Mappers.CustomCertificate,
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.certificateName,
+    Parameters.replicaName,
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/customCertificates/{certificateName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.certificateName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -408,7 +405,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificateList,
+      bodyMapper: Mappers.SharedPrivateLinkResourceList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -420,6 +417,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

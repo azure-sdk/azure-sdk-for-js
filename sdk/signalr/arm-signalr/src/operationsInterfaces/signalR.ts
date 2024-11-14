@@ -32,7 +32,7 @@ import {
   SignalRRestartOptionalParams,
   SignalRRestartResponse,
   SignalRListSkusOptionalParams,
-  SignalRListSkusResponse
+  SignalRListSkusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface SignalR {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SignalRListBySubscriptionOptionalParams
+    options?: SignalRListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SignalRResource>;
   /**
    * Handles requests to list all resources in a resource group.
@@ -52,18 +52,18 @@ export interface SignalR {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SignalRListByResourceGroupOptionalParams
+    options?: SignalRListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SignalRResource>;
   /**
    * Checks that the resource name is valid and is not already in use.
-   * @param location the region
+   * @param location The region
    * @param parameters Parameters supplied to the operation.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityParameters,
-    options?: SignalRCheckNameAvailabilityOptionalParams
+    options?: SignalRCheckNameAvailabilityOptionalParams,
   ): Promise<SignalRCheckNameAvailabilityResponse>;
   /**
    * Get the resource and its properties.
@@ -74,7 +74,7 @@ export interface SignalR {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRGetOptionalParams
+    options?: SignalRGetOptionalParams,
   ): Promise<SignalRGetResponse>;
   /**
    * Create or update a resource.
@@ -87,7 +87,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRCreateOrUpdateOptionalParams
+    options?: SignalRCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRCreateOrUpdateResponse>,
@@ -105,7 +105,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRCreateOrUpdateOptionalParams
+    options?: SignalRCreateOrUpdateOptionalParams,
   ): Promise<SignalRCreateOrUpdateResponse>;
   /**
    * Operation to delete a resource.
@@ -116,7 +116,7 @@ export interface SignalR {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRDeleteOptionalParams
+    options?: SignalRDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
@@ -127,7 +127,7 @@ export interface SignalR {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRDeleteOptionalParams
+    options?: SignalRDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting resource.
@@ -140,7 +140,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRUpdateOptionalParams
+    options?: SignalRUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRUpdateResponse>,
@@ -158,7 +158,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRUpdateOptionalParams
+    options?: SignalRUpdateOptionalParams,
   ): Promise<SignalRUpdateResponse>;
   /**
    * Get the access keys of the resource.
@@ -169,7 +169,7 @@ export interface SignalR {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRListKeysOptionalParams
+    options?: SignalRListKeysOptionalParams,
   ): Promise<SignalRListKeysResponse>;
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
@@ -183,7 +183,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: SignalRRegenerateKeyOptionalParams
+    options?: SignalRRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRRegenerateKeyResponse>,
@@ -202,7 +202,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: SignalRRegenerateKeyOptionalParams
+    options?: SignalRRegenerateKeyOptionalParams,
   ): Promise<SignalRRegenerateKeyResponse>;
   /**
    * List all available skus of the replica resource.
@@ -215,7 +215,7 @@ export interface SignalR {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRListReplicaSkusOptionalParams
+    options?: SignalRListReplicaSkusOptionalParams,
   ): Promise<SignalRListReplicaSkusResponse>;
   /**
    * Operation to restart a resource.
@@ -226,7 +226,7 @@ export interface SignalR {
   beginRestart(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRRestartOptionalParams
+    options?: SignalRRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRRestartResponse>,
@@ -242,7 +242,7 @@ export interface SignalR {
   beginRestartAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRRestartOptionalParams
+    options?: SignalRRestartOptionalParams,
   ): Promise<SignalRRestartResponse>;
   /**
    * List all available skus of the resource.
@@ -253,6 +253,6 @@ export interface SignalR {
   listSkus(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRListSkusOptionalParams
+    options?: SignalRListSkusOptionalParams,
   ): Promise<SignalRListSkusResponse>;
 }

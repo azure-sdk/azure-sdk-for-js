@@ -15,7 +15,7 @@ import {
   SignalRCustomCertificatesGetResponse,
   SignalRCustomCertificatesCreateOrUpdateOptionalParams,
   SignalRCustomCertificatesCreateOrUpdateResponse,
-  SignalRCustomCertificatesDeleteOptionalParams
+  SignalRCustomCertificatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface SignalRCustomCertificates {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRCustomCertificatesListOptionalParams
+    options?: SignalRCustomCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<CustomCertificate>;
   /**
    * Get a custom certificate.
@@ -43,7 +43,7 @@ export interface SignalRCustomCertificates {
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: SignalRCustomCertificatesGetOptionalParams
+    options?: SignalRCustomCertificatesGetOptionalParams,
   ): Promise<SignalRCustomCertificatesGetResponse>;
   /**
    * Create or update a custom certificate.
@@ -58,7 +58,7 @@ export interface SignalRCustomCertificates {
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams
+    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRCustomCertificatesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface SignalRCustomCertificates {
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams
+    options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<SignalRCustomCertificatesCreateOrUpdateResponse>;
   /**
    * Delete a custom certificate.
@@ -91,6 +91,6 @@ export interface SignalRCustomCertificates {
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: SignalRCustomCertificatesDeleteOptionalParams
+    options?: SignalRCustomCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

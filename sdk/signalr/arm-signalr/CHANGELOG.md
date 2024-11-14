@@ -1,5 +1,78 @@
 # Release History
     
+## 6.0.0-beta.3 (2024-11-14)
+Compared with version 5.2.0
+    
+### Features Added
+
+  - Added operation group SignalRReplicas
+  - Added operation group SignalRReplicaSharedPrivateLinkResources
+  - Added operation SignalR.listReplicaSkus
+  - Added Interface ApplicationFirewallSettings
+  - Added Interface ClientConnectionCountRule
+  - Added Interface ClientTrafficControlRule
+  - Added Interface IPRule
+  - Added Interface Replica
+  - Added Interface ReplicaList
+  - Added Interface SignalRListReplicaSkusOptionalParams
+  - Added Interface SignalRRegenerateKeyHeaders
+  - Added Interface SignalRReplicasCreateOrUpdateOptionalParams
+  - Added Interface SignalRReplicasDeleteOptionalParams
+  - Added Interface SignalRReplicasGetOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesGetOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesListNextOptionalParams
+  - Added Interface SignalRReplicaSharedPrivateLinkResourcesListOptionalParams
+  - Added Interface SignalRReplicasListNextOptionalParams
+  - Added Interface SignalRReplicasListOptionalParams
+  - Added Interface SignalRReplicasRestartHeaders
+  - Added Interface SignalRReplicasRestartOptionalParams
+  - Added Interface SignalRReplicasUpdateHeaders
+  - Added Interface SignalRReplicasUpdateOptionalParams
+  - Added Interface SignalRRestartHeaders
+  - Added Interface SignalRUpdateHeaders
+  - Added Interface ThrottleByJwtCustomClaimRule
+  - Added Interface ThrottleByJwtSignatureRule
+  - Added Interface ThrottleByUserIdRule
+  - Added Interface TrafficThrottleByJwtCustomClaimRule
+  - Added Interface TrafficThrottleByJwtSignatureRule
+  - Added Interface TrafficThrottleByUserIdRule
+  - Added Type Alias ClientConnectionCountRuleDiscriminator
+  - Added Type Alias ClientConnectionCountRuleUnion
+  - Added Type Alias ClientTrafficControlRuleDiscriminator
+  - Added Type Alias ClientTrafficControlRuleUnion
+  - Added Type Alias SignalRListReplicaSkusResponse
+  - Added Type Alias SignalRReplicasCreateOrUpdateResponse
+  - Added Type Alias SignalRReplicasGetResponse
+  - Added Type Alias SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse
+  - Added Type Alias SignalRReplicaSharedPrivateLinkResourcesGetResponse
+  - Added Type Alias SignalRReplicaSharedPrivateLinkResourcesListNextResponse
+  - Added Type Alias SignalRReplicaSharedPrivateLinkResourcesListResponse
+  - Added Type Alias SignalRReplicasListNextResponse
+  - Added Type Alias SignalRReplicasListResponse
+  - Added Type Alias SignalRReplicasRestartResponse
+  - Added Type Alias SignalRReplicasUpdateResponse
+  - Added Type Alias SignalRRestartResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface ServerlessSettings has a new optional parameter keepAliveIntervalInSeconds
+  - Interface SharedPrivateLinkResource has a new optional parameter fqdns
+  - Interface SignalRNetworkACLs has a new optional parameter ipRules
+  - Interface SignalRResource has a new optional parameter applicationFirewall
+  - Interface SignalRResource has a new optional parameter regionEndpointEnabled
+  - Interface SignalRResource has a new optional parameter resourceStopped
+  - Added Enum KnownClientConnectionCountRuleDiscriminator
+  - Added Enum KnownClientTrafficControlRuleDiscriminator
+
+### Breaking Changes
+
+  - Interface CustomCertificate no longer has parameter systemData
+  - Interface CustomDomain no longer has parameter systemData
+  - Interface PrivateEndpointConnection no longer has parameter systemData
+  - Interface SharedPrivateLinkResource no longer has parameter systemData
+  - Interface SignalRResource no longer has parameter systemData
+  - Parameter location of interface TrackedResource is now required
+    
+    
 ## 6.0.0-beta.2 (2023-10-09)
     
 ### Features Added
