@@ -50,6 +50,8 @@ export interface ContainerGroupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /** The secret references that will be referenced within the container group. */
+  secretReferences?: SecretReference[];
   /** The containers within the container group. */
   containers: Container[];
   /** The image registry credentials by which the container group is created from. */
@@ -65,7 +67,7 @@ export interface ContainerGroupProperties {
   /** The IP address type of the container group. */
   ipAddress?: IpAddress;
   /** The operating system type required by the containers in the container group. */
-  osType?: OperatingSystemTypes;
+  osType: OperatingSystemTypes;
   /** The list of volumes that can be mounted by containers in this container group. */
   volumes?: Volume[];
   /**
@@ -91,15 +93,8 @@ export interface ContainerGroupProperties {
   confidentialComputeProperties?: ConfidentialComputeProperties;
   /** The priority of the container group. */
   priority?: ContainerGroupPriority;
-  /** The reference container group profile properties. */
-  containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
-  /** The reference standby pool profile properties. */
-  standbyPoolProfile?: StandbyPoolProfileDefinition;
-  /**
-   * The flag indicating whether the container group is created by standby pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isCreatedFromStandbyPool?: boolean;
+  /** The access control levels of the identities. */
+  identityAcls?: IdentityAcls;
 }
 
 /** Identity for the container group. */
@@ -134,12 +129,22 @@ export interface UserAssignedIdentities {
   readonly clientId?: string;
 }
 
+/** A secret reference */
+export interface SecretReference {
+  /** The identifier of the secret reference */
+  name: string;
+  /** The ARM resource id of the managed identity that has access to the secret in the key vault */
+  identity: string;
+  /** The URI to the secret in key vault */
+  secretReferenceUri: string;
+}
+
 /** A container instance. */
 export interface Container {
   /** The user-provided name of the container instance. */
   name: string;
   /** The name of the image used to create the container instance. */
-  image?: string;
+  image: string;
   /** The commands to execute within the container instance in exec form. */
   command?: string[];
   /** The exposed ports on the container instance. */
@@ -152,7 +157,7 @@ export interface Container {
    */
   readonly instanceView?: ContainerPropertiesInstanceView;
   /** The resource requirements of the container instance. */
-  resources?: ResourceRequirements;
+  resources: ResourceRequirements;
   /** The volume mounts available to the container instance. */
   volumeMounts?: VolumeMount[];
   /** The liveness probe. */
@@ -161,8 +166,6 @@ export interface Container {
   readinessProbe?: ContainerProbe;
   /** The container security properties. */
   securityContext?: SecurityContextDefinition;
-  /** The config map. */
-  configMap?: ConfigMap;
 }
 
 /** The port exposed on the container instance. */
@@ -181,6 +184,8 @@ export interface EnvironmentVariable {
   value?: string;
   /** The value of the secure environment variable. */
   secureValue?: string;
+  /** The reference of the secure environment variable. */
+  secureValueReference?: string;
 }
 
 /** The instance view of the container instance. Only valid in response. */
@@ -384,12 +389,6 @@ export interface SecurityContextCapabilitiesDefinition {
   drop?: string[];
 }
 
-/** The container config map. */
-export interface ConfigMap {
-  /** The key value pairs dictionary in the config map. */
-  keyValuePairs?: { [propertyName: string]: string };
-}
-
 /** Image registry credential. */
 export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
@@ -398,6 +397,8 @@ export interface ImageRegistryCredential {
   username?: string;
   /** The password for the private registry. */
   password?: string;
+  /** The reference for the private registry password. */
+  passwordReference?: string;
   /** The identity for the private registry. */
   identity?: string;
   /** The identity URL for the private registry. */
@@ -441,6 +442,8 @@ export interface Volume {
   emptyDir?: Record<string, unknown>;
   /** The secret volume. */
   secret?: { [propertyName: string]: string };
+  /** The secret reference volume. */
+  secretReference?: { [propertyName: string]: string };
   /** The git repo volume. */
   gitRepo?: GitRepoVolume;
 }
@@ -455,6 +458,8 @@ export interface AzureFileVolume {
   storageAccountName: string;
   /** The storage account access key used to access the Azure File share. */
   storageAccountKey?: string;
+  /** The reference to the storage account access key used to access the Azure File share. */
+  storageAccountKeyReference?: string;
 }
 
 /** Represents a volume that is populated with the contents of a git repository */
@@ -596,20 +601,20 @@ export interface ConfidentialComputeProperties {
   ccePolicy?: string;
 }
 
-/** The container group profile reference. */
-export interface ContainerGroupProfileReferenceDefinition {
-  /** The container group profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}'. */
-  id?: string;
-  /** The container group profile reference revision. */
-  revision?: number;
+/** The access control levels of the identities. */
+export interface IdentityAcls {
+  /** The default access level. */
+  defaultAccess?: IdentityAccessLevel;
+  /** The access control levels for each identity. */
+  acls?: IdentityAccessControl[];
 }
 
-/** The standby pool profile reference. */
-export interface StandbyPoolProfileDefinition {
-  /** The standby pool profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyPoolName}'. */
-  id?: string;
-  /** The flag to determine whether ACI should fail the create request if the container group can not be obtained from standby pool. */
-  failContainerGroupCreateOnReuseFailure?: boolean;
+/** The access control for an identity */
+export interface IdentityAccessControl {
+  /** The access level of the identity. */
+  access?: IdentityAccessLevel;
+  /** An identity. */
+  identity?: string;
 }
 
 /** An error response from the Container Instance service. */
@@ -829,18 +834,326 @@ export interface CapabilitiesCapabilities {
   readonly maxGpuCount?: number;
 }
 
-/** The container group profile list response that contains the container group profile properties. */
-export interface ContainerGroupProfileListResult {
-  /** The list of container group profiles. */
-  value?: ContainerGroupProfile[];
-  /** The URI to fetch the next page of container group profiles. */
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Describes the elastic profile of the NGroup */
+export interface ElasticProfile {
+  desiredCount?: number;
+  /** Flag that indicates whether desiredCount should be maintained when customer deletes SPECIFIC container groups (CGs) from the NGroups. In this case, new CGs will be created by NGroup to compensate for the specific deleted ones. */
+  maintainDesiredCount?: boolean;
+  /** Container Groups are named on a generic guid based naming scheme/policy. Customer can modify naming policy to add prefix to CG names during scale out operation. */
+  containerGroupNamingPolicy?: ElasticProfileContainerGroupNamingPolicy;
+}
+
+/** Container Groups are named on a generic guid based naming scheme/policy. Customer can modify naming policy to add prefix to CG names during scale out operation. */
+export interface ElasticProfileContainerGroupNamingPolicy {
+  guidNamingPolicy?: ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy;
+}
+
+export interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy {
+  /** The prefix can be used when there are tooling limitations (e.g. on the Azure portal where CGs from multiple NGroups exist in the same RG). The prefix with the suffixed resource name must still follow Azure resource naming guidelines. */
+  prefix?: string;
+}
+
+/** Provides options w.r.t allocation and management w.r.t certain placement policies. These utilize capabilities provided by the underlying Azure infrastructure. They are typically used for high availability scenarios. E.g., distributing CGs across fault domains. */
+export interface PlacementProfile {
+  /** The number of fault domains to be used to spread CGs in the NGroups resource. This can only be specified during NGroup creation and is immutable after that. */
+  faultDomainCount?: number;
+}
+
+/** The object that contains a reference to a Container Group Profile and it's other related properties. */
+export interface ContainerGroupProfileStub {
+  /** A reference to the container group profile ARM resource hosted in ACI RP. */
+  resource?: ApiEntityReference;
+  /** The revision of the CG profile is an optional property. If customer does not to provide a revision then NGroups will pickup the latest revision of CGProfile. */
+  revision?: number;
+  /** A network profile for network settings of a ContainerGroupProfile. */
+  networkProfile?: NetworkProfile;
+  /** Storage profile for storage related settings of a container group profile. */
+  storageProfile?: StorageProfile;
+  /**  Container Group properties which can be set while creating or updating the NGroups. */
+  containerGroupProperties?: NGroupContainerGroupProperties;
+}
+
+/** The API entity reference. */
+export interface ApiEntityReference {
+  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
+  id?: string;
+}
+
+/** A network profile for network settings of a ContainerGroupProfile. Used to manage load balancer and application gateway backend pools, specifically updating the IP addresses of CGs within the backend pool. */
+export interface NetworkProfile {
+  /** LoadBalancer the CG profile will use to interact with CGs in a backend pool */
+  loadBalancer?: LoadBalancer;
+  /** Application Gateway the CG profile will use to interact with CGs in a backend pool */
+  applicationGateway?: ApplicationGateway;
+}
+
+/** LoadBalancer the CG profile will use to interact with CGs in a backend pool */
+export interface LoadBalancer {
+  /** List of Load Balancer Backend Address Pools. */
+  backendAddressPools?: LoadBalancerBackendAddressPool[];
+}
+
+/** NGroups load balancer backend address pool */
+export interface LoadBalancerBackendAddressPool {
+  /** The Load Balancer backend address pool ARM resource Id. */
+  resource?: string;
+}
+
+/** Application Gateway the CG profile will use to interact with CGs in a backend pool */
+export interface ApplicationGateway {
+  /** The Application Gateway ARM resource Id. */
+  resource?: string;
+  /** List of Application Gateway Backend Address Pools. */
+  backendAddressPools?: ApplicationGatewayBackendAddressPool[];
+}
+
+/** NGroups application gateway backend address pool */
+export interface ApplicationGatewayBackendAddressPool {
+  /** The application gateway backend address pool ARM resource Id. */
+  resource?: string;
+}
+
+/** Storage profile for storage related settings of a container group profile. */
+export interface StorageProfile {
+  fileShares?: FileShare[];
+}
+
+/** File shares that can be mounted on container groups. */
+export interface FileShare {
+  name?: string;
+  resourceGroupName?: string;
+  storageAccountName?: string;
+  properties?: FileShareProperties;
+}
+
+export interface FileShareProperties {
+  /**  Specifies how Container Groups can access the Azure file share i.e. all CG will share same Azure file share or going to have exclusive file share. */
+  shareAccessType?: AzureFileShareAccessType;
+  /** Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium. Learn more at: https://learn.microsoft.com/en-us/rest/api/storagerp/file-shares/create?tabs=HTTP#shareaccesstier */
+  shareAccessTier?: AzureFileShareAccessTier;
+}
+
+/** Container Group properties which can be set while creating or updating the NGroups. */
+export interface NGroupContainerGroupProperties {
+  /** Contains information about Virtual Network Subnet ARM Resource */
+  subnetIds?: ContainerGroupSubnetId[];
+  /** Contains information about the volumes that can be mounted by Containers in the Container Groups. */
+  volumes?: NGroupCGPropertyVolume[];
+  /** Contains information about Container which can be set while creating or updating the NGroups. */
+  containers?: NGroupCGPropertyContainer[];
+}
+
+/** Contains information about the volumes that can be mounted by Containers in the Container Groups. */
+export interface NGroupCGPropertyVolume {
+  /** The name of the volume. */
+  name: string;
+  /** The Azure File volume. */
+  azureFile?: AzureFileVolume;
+}
+
+/** Container properties that can be provided with NGroups object. */
+export interface NGroupCGPropertyContainer {
+  /** container name */
+  name?: string;
+  /** container properties */
+  properties?: NGroupCGPropertyContainerProperties;
+}
+
+/** container properties */
+export interface NGroupCGPropertyContainerProperties {
+  volumeMounts?: VolumeMount[];
+}
+
+/** Used by the customer to specify the way to update the Container Groups in NGroup. */
+export interface UpdateProfile {
+  updateMode?: NGroupUpdateMode;
+  /** This profile allows the customers to customize the rolling update. */
+  rollingUpdateProfile?: UpdateProfileRollingUpdateProfile;
+}
+
+/** This profile allows the customers to customize the rolling update. */
+export interface UpdateProfileRollingUpdateProfile {
+  /** Maximum percentage of total Container Groups which can be updated simultaneously by rolling update in one batch. */
+  maxBatchPercent?: number;
+  /** Maximum percentage of the updated Container Groups which can be in unhealthy state after each batch is updated. */
+  maxUnhealthyPercent?: number;
+  /** The wait time between batches after completing the one batch of the rolling update and starting the next batch. The time duration should be specified in ISO 8601 format for duration. */
+  pauseTimeBetweenBatches?: string;
+  /** Default is false. If set to true, the CGs will be updated in-place instead of creating new CG and deleting old ones. */
+  inPlaceUpdate?: boolean;
+}
+
+/** Identity for the NGroup. */
+export interface NGroupIdentity {
+  /**
+   * The principal id of the NGroup identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the NGroup. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the NGroup. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the NGroup. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the NGroup. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentities };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The NGroups list response that contains the NGroups properties. */
+export interface NGroupsListResult {
+  /** The list of NGroups. */
+  value?: NGroup[];
+  /** The URI to fetch the next page of NGroups. */
   nextLink?: string;
 }
 
-/** The container group profile properties */
-export interface ContainerGroupProfileProperties {
+/** The container group profile list response */
+export interface ContainerGroupProfileListResult {
+  /** The list of ContainerGroupProfiles under a subscription or resource group. */
+  value?: ContainerGroupProfile[];
+  /** The URI to fetch the next page of Container Group Profiles. */
+  nextLink?: string;
+}
+
+/** Properties of container group profile that need to be patched */
+export interface ContainerGroupProfilePatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** List of SKU definitions. NGroups offer a single sku */
+export interface NGroupsSkusList {
+  /** The list of NGroups SKUs. */
+  value?: NGroupSkus[];
+  /** The URI to fetch the next page of NGroups SKUs. */
+  nextLink?: string;
+}
+
+/** The container probe, for liveness or readiness. */
+export interface NGroupSkus {
+  /** The type of resource the sku is applied to. */
+  resourceType?: string;
+  /** The sku of the resource type */
+  sku?: string;
+  /** The number of container groups of the NGroups. */
+  skuCapacity?: string;
+}
+
+/** A container group. */
+export interface ContainerGroup extends Resource, ContainerGroupProperties {}
+
+/** Describes the NGroups resource. */
+export interface NGroup extends Resource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The identity of the NGroup, if configured. */
+  identity?: NGroupIdentity;
+  /** The NGroups zones. NOTE: Availability zones can only be set when you create the scale set */
+  zones?: string[];
+  /** The geo-location where the resource lives */
+  location?: string;
+  /** The elastic profile. */
+  elasticProfile?: ElasticProfile;
+  /** Provides options w.r.t allocation and management w.r.t certain placement policies. These utilize capabilities provided by the underlying Azure infrastructure. They are typically used for high availability scenarios. E.g., distributing CGs across fault domains. */
+  placementProfile?: PlacementProfile;
+  /** The Container Group Profiles that could be used in the NGroups resource. */
+  containerGroupProfiles?: ContainerGroupProfileStub[];
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NGroupProvisioningState;
+  /** Used by the customer to specify the way to update the Container Groups in NGroup. */
+  updateProfile?: UpdateProfile;
+}
+
+/** container group profile object */
+export interface ContainerGroupProfile extends Resource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The SKU for a container group. */
+  sku?: ContainerGroupSku;
+  /** The encryption properties for a container group. */
+  encryptionProperties?: EncryptionProperties;
   /** The containers within the container group. */
-  containers: Container[];
+  containers?: Container[];
+  /** The init containers for a container group. */
+  initContainers?: InitContainerDefinition[];
+  /** extensions used by virtual kubelet */
+  extensions?: DeploymentExtensionSpec[];
   /** The image registry credentials by which the container group is created from. */
   imageRegistryCredentials?: ImageRegistryCredential[];
   /**
@@ -851,46 +1164,75 @@ export interface ContainerGroupProfileProperties {
    *
    */
   restartPolicy?: ContainerGroupRestartPolicy;
+  /** Shutdown grace period for containers in a container group. */
+  shutdownGracePeriod?: Date;
   /** The IP address type of the container group. */
   ipAddress?: IpAddress;
+  /** Post completion time to live for containers of a CG */
+  timeToLive?: Date;
   /** The operating system type required by the containers in the container group. */
-  osType: OperatingSystemTypes;
+  osType?: OperatingSystemTypes;
   /** The list of volumes that can be mounted by containers in this container group. */
   volumes?: Volume[];
   /** The diagnostic information for a container group. */
   diagnostics?: ContainerGroupDiagnostics;
-  /** The SKU for a container group. */
-  sku?: ContainerGroupSku;
-  /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
-  /** The init containers for a container group. */
-  initContainers?: InitContainerDefinition[];
-  /** extensions used by virtual kubelet */
-  extensions?: DeploymentExtensionSpec[];
-  /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
   /** The priority of the container group. */
   priority?: ContainerGroupPriority;
-  /**
-   * The container group profile current revision number. This only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly revision?: number;
+  /** The properties for confidential container group */
+  confidentialComputeProperties?: ConfidentialComputeProperties;
+  /** The container security properties. */
+  securityContext?: SecurityContextDefinition;
+  /** Container group profile current revision number */
+  revision?: number;
+  /** Registered revisions are calculated at request time based off the records in the table logs. */
+  registeredRevisions?: number[];
+  /** Gets or sets Krypton use property. */
+  useKrypton?: boolean;
 }
 
-/** Properties of container group profile that need to be patched */
-export interface ContainerGroupProfilePatch {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
+/** Defines headers for NGroups_createOrUpdate operation. */
+export interface NGroupsCreateOrUpdateHeaders {
+  azureAsyncOperation?: string;
 }
 
-/** A container group. */
-export interface ContainerGroup extends Resource, ContainerGroupProperties {}
+/** Defines headers for NGroups_update operation. */
+export interface NGroupsUpdateHeaders {
+  azureAsyncOperation?: string;
+}
 
-/** A container group profile. */
-export interface ContainerGroupProfile
-  extends Resource,
-    ContainerGroupProfileProperties {}
+/** Defines headers for NGroups_delete operation. */
+export interface NGroupsDeleteHeaders {
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
+/** Defines headers for NGroups_start operation. */
+export interface NGroupsStartHeaders {
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
+/** Defines headers for NGroups_restart operation. */
+export interface NGroupsRestartHeaders {
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
+/** Defines headers for CGProfile_createOrUpdate operation. */
+export interface CGProfileCreateOrUpdateHeaders {
+  xMsCorrelationRequestId?: string;
+}
+
+/** Defines headers for CGProfile_update operation. */
+export interface CGProfileUpdateHeaders {
+  xMsCorrelationRequestId?: string;
+}
+
+/** Defines headers for CGProfile_delete operation. */
+export interface CGProfileDeleteHeaders {
+  xMsCorrelationRequestId?: string;
+  location?: string;
+}
 
 /** Known values of {@link ContainerNetworkProtocol} that the service accepts. */
 export enum KnownContainerNetworkProtocol {
@@ -1071,6 +1413,8 @@ export type LogAnalyticsLogType = string;
 
 /** Known values of {@link ContainerGroupSku} that the service accepts. */
 export enum KnownContainerGroupSku {
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
   /** Standard */
   Standard = "Standard",
   /** Dedicated */
@@ -1084,6 +1428,7 @@ export enum KnownContainerGroupSku {
  * {@link KnownContainerGroupSku} can be used interchangeably with ContainerGroupSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **NotSpecified** \
  * **Standard** \
  * **Dedicated** \
  * **Confidential**
@@ -1108,6 +1453,27 @@ export enum KnownContainerGroupPriority {
  */
 export type ContainerGroupPriority = string;
 
+/** Known values of {@link IdentityAccessLevel} that the service accepts. */
+export enum KnownIdentityAccessLevel {
+  /** All */
+  All = "All",
+  /** System */
+  System = "System",
+  /** User */
+  User = "User",
+}
+
+/**
+ * Defines values for IdentityAccessLevel. \
+ * {@link KnownIdentityAccessLevel} can be used interchangeably with IdentityAccessLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **System** \
+ * **User**
+ */
+export type IdentityAccessLevel = string;
+
 /** Known values of {@link ContainerInstanceOperationsOrigin} that the service accepts. */
 export enum KnownContainerInstanceOperationsOrigin {
   /** User */
@@ -1125,12 +1491,95 @@ export enum KnownContainerInstanceOperationsOrigin {
  * **System**
  */
 export type ContainerInstanceOperationsOrigin = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link NGroupProvisioningState} that the service accepts. */
+export enum KnownNGroupProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating",
+}
+
+/**
+ * Defines values for NGroupProvisioningState. \
+ * {@link KnownNGroupProvisioningState} can be used interchangeably with NGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Deleting** \
+ * **Migrating**
+ */
+export type NGroupProvisioningState = string;
+
+/** Known values of {@link NGroupUpdateMode} that the service accepts. */
+export enum KnownNGroupUpdateMode {
+  /** Manual */
+  Manual = "Manual",
+  /** Rolling */
+  Rolling = "Rolling",
+}
+
+/**
+ * Defines values for NGroupUpdateMode. \
+ * {@link KnownNGroupUpdateMode} can be used interchangeably with NGroupUpdateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual** \
+ * **Rolling**
+ */
+export type NGroupUpdateMode = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for AzureFileShareAccessType. */
+export type AzureFileShareAccessType = "Shared" | "Exclusive";
+/** Defines values for AzureFileShareAccessTier. */
+export type AzureFileShareAccessTier =
+  | "Cool"
+  | "Hot"
+  | "Premium"
+  | "TransactionOptimized";
 
 /** Optional parameters. */
 export interface ContainerGroupsListOptionalParams
@@ -1317,85 +1766,191 @@ export interface SubnetServiceAssociationLinkDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ContainerGroupProfilesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type ContainerGroupProfilesListResponse =
-  ContainerGroupProfileListResult;
+/** Contains response data for the get operation. */
+export type NGroupsGetResponse = NGroup;
 
 /** Optional parameters. */
-export interface ContainerGroupProfilesListByResourceGroupOptionalParams
+export interface NGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NGroupsCreateOrUpdateResponse = NGroupsCreateOrUpdateHeaders &
+  NGroup;
+
+/** Optional parameters. */
+export interface NGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type NGroupsUpdateResponse = NGroupsUpdateHeaders & NGroup;
+
+/** Optional parameters. */
+export interface NGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type NGroupsDeleteResponse = NGroupsDeleteHeaders;
+
+/** Optional parameters. */
+export interface NGroupsStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type NGroupsStartResponse = NGroupsStartHeaders;
+
+/** Optional parameters. */
+export interface NGroupsStopOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface NGroupsRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the restart operation. */
+export type NGroupsRestartResponse = NGroupsRestartHeaders;
+
+/** Optional parameters. */
+export interface NGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ContainerGroupProfilesListByResourceGroupResponse =
-  ContainerGroupProfileListResult;
+export type NGroupsListByResourceGroupResponse = NGroupsListResult;
 
 /** Optional parameters. */
-export interface ContainerGroupProfilesGetOptionalParams
+export interface NGroupsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type ContainerGroupProfilesGetResponse = ContainerGroupProfile;
+/** Contains response data for the list operation. */
+export type NGroupsListResponse = NGroupsListResult;
 
 /** Optional parameters. */
-export interface ContainerGroupProfilesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContainerGroupProfilesCreateOrUpdateResponse =
-  ContainerGroupProfile;
-
-/** Optional parameters. */
-export interface ContainerGroupProfilesPatchOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the patch operation. */
-export type ContainerGroupProfilesPatchResponse = ContainerGroupProfile;
-
-/** Optional parameters. */
-export interface ContainerGroupProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerGroupProfilesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ContainerGroupProfilesListNextResponse =
-  ContainerGroupProfileListResult;
-
-/** Optional parameters. */
-export interface ContainerGroupProfilesListByResourceGroupNextOptionalParams
+export interface NGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerGroupProfilesListByResourceGroupNextResponse =
+export type NGroupsListByResourceGroupNextResponse = NGroupsListResult;
+
+/** Optional parameters. */
+export interface NGroupsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NGroupsListNextResponse = NGroupsListResult;
+
+/** Optional parameters. */
+export interface CGProfilesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type CGProfilesListBySubscriptionResponse =
   ContainerGroupProfileListResult;
 
 /** Optional parameters. */
-export interface ContainerGroupProfileListAllRevisionsOptionalParams
+export interface CGProfilesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listAllRevisions operation. */
-export type ContainerGroupProfileListAllRevisionsResponse =
+/** Contains response data for the listByResourceGroup operation. */
+export type CGProfilesListByResourceGroupResponse =
   ContainerGroupProfileListResult;
 
 /** Optional parameters. */
-export interface ContainerGroupProfileGetByRevisionNumberOptionalParams
+export interface CGProfilesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getByRevisionNumber operation. */
-export type ContainerGroupProfileGetByRevisionNumberResponse =
+/** Contains response data for the listBySubscriptionNext operation. */
+export type CGProfilesListBySubscriptionNextResponse =
+  ContainerGroupProfileListResult;
+
+/** Optional parameters. */
+export interface CGProfilesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CGProfilesListByResourceGroupNextResponse =
+  ContainerGroupProfileListResult;
+
+/** Optional parameters. */
+export interface CGProfileCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CGProfileCreateOrUpdateResponse = CGProfileCreateOrUpdateHeaders &
   ContainerGroupProfile;
 
 /** Optional parameters. */
-export interface ContainerGroupProfileListAllRevisionsNextOptionalParams
+export interface CGProfileUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type CGProfileUpdateResponse = CGProfileUpdateHeaders &
+  ContainerGroupProfile;
+
+/** Optional parameters. */
+export interface CGProfileGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CGProfileGetResponse = ContainerGroupProfile;
+
+/** Optional parameters. */
+export interface CGProfileDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type CGProfileDeleteResponse = CGProfileDeleteHeaders;
+
+/** Optional parameters. */
+export interface CGProfileListAllRevisionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllRevisions operation. */
+export type CGProfileListAllRevisionsResponse = ContainerGroupProfileListResult;
+
+/** Optional parameters. */
+export interface CGProfileGetByRevisionNumberOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByRevisionNumber operation. */
+export type CGProfileGetByRevisionNumberResponse = ContainerGroupProfile;
+
+/** Optional parameters. */
+export interface CGProfileListAllRevisionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllRevisionsNext operation. */
-export type ContainerGroupProfileListAllRevisionsNextResponse =
+export type CGProfileListAllRevisionsNextResponse =
   ContainerGroupProfileListResult;
 
 /** Optional parameters. */

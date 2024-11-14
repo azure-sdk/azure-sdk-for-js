@@ -1,15 +1,118 @@
 # Release History
-
-## 9.2.0-beta.2 (Unreleased)
-
+    
+## 9.2.0-beta.2 (2024-11-14)
+Compared with version 9.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group CGProfile
+  - Added operation group CGProfiles
+  - Added operation group NGroups
+  - Added Interface ApiEntityReference
+  - Added Interface ApplicationGateway
+  - Added Interface ApplicationGatewayBackendAddressPool
+  - Added Interface CGProfileCreateOrUpdateHeaders
+  - Added Interface CGProfileCreateOrUpdateOptionalParams
+  - Added Interface CGProfileDeleteHeaders
+  - Added Interface CGProfileDeleteOptionalParams
+  - Added Interface CGProfileGetByRevisionNumberOptionalParams
+  - Added Interface CGProfileGetOptionalParams
+  - Added Interface CGProfileListAllRevisionsNextOptionalParams
+  - Added Interface CGProfileListAllRevisionsOptionalParams
+  - Added Interface CGProfilesListByResourceGroupNextOptionalParams
+  - Added Interface CGProfilesListByResourceGroupOptionalParams
+  - Added Interface CGProfilesListBySubscriptionNextOptionalParams
+  - Added Interface CGProfilesListBySubscriptionOptionalParams
+  - Added Interface CGProfileUpdateHeaders
+  - Added Interface CGProfileUpdateOptionalParams
+  - Added Interface ContainerGroupProfile
+  - Added Interface ContainerGroupProfileListResult
+  - Added Interface ContainerGroupProfilePatch
+  - Added Interface ContainerGroupProfileStub
+  - Added Interface ElasticProfile
+  - Added Interface ElasticProfileContainerGroupNamingPolicy
+  - Added Interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FileShare
+  - Added Interface FileShareProperties
+  - Added Interface IdentityAccessControl
+  - Added Interface IdentityAcls
+  - Added Interface LoadBalancer
+  - Added Interface LoadBalancerBackendAddressPool
+  - Added Interface NetworkProfile
+  - Added Interface NGroup
+  - Added Interface NGroupCGPropertyContainer
+  - Added Interface NGroupCGPropertyContainerProperties
+  - Added Interface NGroupCGPropertyVolume
+  - Added Interface NGroupContainerGroupProperties
+  - Added Interface NGroupIdentity
+  - Added Interface NGroupsCreateOrUpdateHeaders
+  - Added Interface NGroupsCreateOrUpdateOptionalParams
+  - Added Interface NGroupsDeleteHeaders
+  - Added Interface NGroupsDeleteOptionalParams
+  - Added Interface NGroupsGetOptionalParams
+  - Added Interface NGroupSkus
+  - Added Interface NGroupsListByResourceGroupNextOptionalParams
+  - Added Interface NGroupsListByResourceGroupOptionalParams
+  - Added Interface NGroupsListNextOptionalParams
+  - Added Interface NGroupsListOptionalParams
+  - Added Interface NGroupsListResult
+  - Added Interface NGroupsRestartHeaders
+  - Added Interface NGroupsRestartOptionalParams
+  - Added Interface NGroupsSkusList
+  - Added Interface NGroupsStartHeaders
+  - Added Interface NGroupsStartOptionalParams
+  - Added Interface NGroupsStopOptionalParams
+  - Added Interface NGroupsUpdateHeaders
+  - Added Interface NGroupsUpdateOptionalParams
+  - Added Interface PlacementProfile
+  - Added Interface SecretReference
+  - Added Interface StorageProfile
+  - Added Interface SystemData
+  - Added Interface UpdateProfile
+  - Added Interface UpdateProfileRollingUpdateProfile
+  - Added Type Alias AzureFileShareAccessTier
+  - Added Type Alias AzureFileShareAccessType
+  - Added Type Alias CGProfileCreateOrUpdateResponse
+  - Added Type Alias CGProfileDeleteResponse
+  - Added Type Alias CGProfileGetByRevisionNumberResponse
+  - Added Type Alias CGProfileGetResponse
+  - Added Type Alias CGProfileListAllRevisionsNextResponse
+  - Added Type Alias CGProfileListAllRevisionsResponse
+  - Added Type Alias CGProfilesListByResourceGroupNextResponse
+  - Added Type Alias CGProfilesListByResourceGroupResponse
+  - Added Type Alias CGProfilesListBySubscriptionNextResponse
+  - Added Type Alias CGProfilesListBySubscriptionResponse
+  - Added Type Alias CGProfileUpdateResponse
+  - Added Type Alias CreatedByType
+  - Added Type Alias IdentityAccessLevel
+  - Added Type Alias NGroupProvisioningState
+  - Added Type Alias NGroupsCreateOrUpdateResponse
+  - Added Type Alias NGroupsDeleteResponse
+  - Added Type Alias NGroupsGetResponse
+  - Added Type Alias NGroupsListByResourceGroupNextResponse
+  - Added Type Alias NGroupsListByResourceGroupResponse
+  - Added Type Alias NGroupsListNextResponse
+  - Added Type Alias NGroupsListResponse
+  - Added Type Alias NGroupsRestartResponse
+  - Added Type Alias NGroupsStartResponse
+  - Added Type Alias NGroupsUpdateResponse
+  - Added Type Alias NGroupUpdateMode
+  - Interface AzureFileVolume has a new optional parameter storageAccountKeyReference
+  - Interface ContainerGroupProperties has a new optional parameter identityAcls
+  - Interface ContainerGroupProperties has a new optional parameter secretReferences
+  - Interface EnvironmentVariable has a new optional parameter secureValueReference
+  - Interface ImageRegistryCredential has a new optional parameter passwordReference
+  - Interface Volume has a new optional parameter secretReference
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownIdentityAccessLevel
+  - Added Enum KnownNGroupProvisioningState
+  - Added Enum KnownNGroupUpdateMode
+  - Enum KnownContainerGroupSku has a new value NotSpecified
+    
+    
 ## 9.2.0-beta.1 (2024-10-18)
 Compared with version 9.1.0
     
