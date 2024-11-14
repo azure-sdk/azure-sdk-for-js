@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  BaseExportModel,
+  BaseExportModelUnion,
+  KnownType,
+  Type,
+  KnownTargetProvider,
+  TargetProvider,
+  ExportQuery,
+  KnownAuthorizationScopeFilter,
+  AuthorizationScopeFilter,
+  ExportResource,
+  ExportResourceGroup,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  TerraformOperationStatus,
+  ExportResult,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  KnownVersions,
+} from "./models.js";
