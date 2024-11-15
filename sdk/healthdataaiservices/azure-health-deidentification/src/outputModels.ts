@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJobOutput {
@@ -80,6 +79,22 @@ export interface JobSummaryOutput {
   total: number;
   /** Number of bytes processed. */
   bytesProcessed: number;
+}
+
+/** Paged collection of DeidentificationJob items */
+export interface PagedDeidentificationJobOutput {
+  /** The DeidentificationJob items on this page */
+  value: Array<DeidentificationJobOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Paged collection of DocumentDetails items */
+export interface PagedDocumentDetailsOutput {
+  /** The DocumentDetails items on this page */
+  value: Array<DocumentDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Details of a single document in a job. */
@@ -168,10 +183,6 @@ export type OperationTypeOutput = string;
 export type DocumentDataTypeOutput = string;
 /** Alias for JobStatusOutput */
 export type JobStatusOutput = string;
-/** Paged collection of DeidentificationJob items */
-export type PagedDeidentificationJobOutput = Paged<DeidentificationJobOutput>;
-/** Paged collection of DocumentDetails items */
-export type PagedDocumentDetailsOutput = Paged<DocumentDetailsOutput>;
 /** Alias for OperationStateOutput */
 export type OperationStateOutput = string;
 /** Alias for PhiCategoryOutput */

@@ -15416,7 +15416,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-+DX7eIMt7WAbn6AD+QZpjVyoMuXdNpGH452FuoUH2UvFhOBtlZD3B5y8bwW/oE8d3E/u2eZ3B4N2cAFV32bgbw==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-IxFMCCeH0D2P6u+4Vwi9ROrWBKeO0DJEfs2jxyfJnrGNMrRKAWfplx0QVZY6ETK5Thjlm3myTMffxO2BT5PBiA==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -19240,7 +19240,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-2asWr03USbfs287ufZkj8sgX94e8AIkX8BU9mVvBxqPp+5NwM8F2I2OeKa/ZRb9z7dcawliux8IwyB2kNGIEAg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -20922,17 +20922,19 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-6LdN/I3/IT+r5A4w8Ac5rRXYnfUzCGhSyEhSq0zB1vEsyX0oOz5viCnGYYqmiyOOfGvgqaMBOk4KwrCCeMcTOA==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-GJTW5uaA23Vh4gEs2cEaPGtjQmZ8gP6yQrRp8QXP1Va4wyhDYvnvXFrh7CWq888Vnv24Cr/KN2RkZEFlJTkSMw==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       loupe: 3.1.2
       playwright: 1.48.2
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -20941,7 +20943,6 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
