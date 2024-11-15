@@ -1,0 +1,4 @@
+directory: specification/hybridconnectivity/PublicCloud.Management
+commit: 0d67b13c6db72641585997f0252832c2032102fd
+repo: ../azure-rest-api-specs
+additionalDirectories: 
