@@ -26,6 +26,7 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CommandAsyncPostBody,
   CassandraClustersInvokeCommandAsyncOptionalParams,
   CassandraClustersInvokeCommandAsyncResponse,
   CassandraClustersGetCommandAsyncOptionalParams,
@@ -217,7 +218,7 @@ export interface CassandraClusters {
   beginInvokeCommandAsync(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -235,7 +236,7 @@ export interface CassandraClusters {
   beginInvokeCommandAsyncAndWait(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<CassandraClustersInvokeCommandAsyncResponse>;
   /**

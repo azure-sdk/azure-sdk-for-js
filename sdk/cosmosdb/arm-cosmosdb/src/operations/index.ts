@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./chaosFault";
 export * from "./databaseAccounts";
 export * from "./operations";
 export * from "./database";
@@ -50,4 +51,3 @@ export * from "./throughputPools";
 export * from "./throughputPool";
 export * from "./throughputPoolAccounts";
 export * from "./throughputPoolAccount";
-export * from "./chaosFault";

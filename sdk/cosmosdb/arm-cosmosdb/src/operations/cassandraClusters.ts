@@ -40,6 +40,7 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
+  CommandAsyncPostBody,
   CassandraClustersInvokeCommandAsyncOptionalParams,
   CassandraClustersInvokeCommandAsyncResponse,
   CassandraClustersGetCommandAsyncOptionalParams,
@@ -702,7 +703,7 @@ export class CassandraClustersImpl implements CassandraClusters {
   async beginInvokeCommandAsync(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -774,7 +775,7 @@ export class CassandraClustersImpl implements CassandraClusters {
   async beginInvokeCommandAsyncAndWait(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
+    body: CommandAsyncPostBody,
     options?: CassandraClustersInvokeCommandAsyncOptionalParams,
   ): Promise<CassandraClustersInvokeCommandAsyncResponse> {
     const poller = await this.beginInvokeCommandAsync(
@@ -1243,7 +1244,7 @@ const invokeCommandAsyncOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1281,7 +1282,7 @@ const getCommandAsyncOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListCommands,
+      bodyMapper: Mappers.CommandPublicResource,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
