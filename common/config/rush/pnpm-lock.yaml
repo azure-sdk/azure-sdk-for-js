@@ -19237,7 +19237,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-2asWr03USbfs287ufZkj8sgX94e8AIkX8BU9mVvBxqPp+5NwM8F2I2OeKa/ZRb9z7dcawliux8IwyB2kNGIEAg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -20694,23 +20694,26 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-AvJTix3adOZu+3Om1/NTt8WrXM7AEvsCBISWBxA/G7DIsAt71Dd1wXfJ0VHTyN09XHBtnlilw8v91XeI+OYfLQ==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-31lWk4x2qUrRHDlakMDysqDos+hPvMxUM8S0U5ZtI8MVVv812Ptg67B6KmFKtxsYH2CJp/RiTe1t7uheN6ZtWw==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-recorder': 3.5.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       buffer: 6.0.3
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -20722,20 +20725,34 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       prettier: 2.8.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
-      - jiti
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/eventgrid.tgz:
