@@ -1,13 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./accessControlClient.js";
-export * from "./accessControlModels.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./backupClient.js";
-export * from "./backupClientModels.js";
-
-export * from "./settingsClient.js";
-export * from "./settingsClientModels.js";
-
-export { LATEST_API_VERSION, SDK_VERSION, SUPPORTED_API_VERSIONS } from "./constants.js";
+export { KeyVaultClient } from "./keyVaultClient.js";
+export {
+  SecretSetParameters,
+  SecretAttributes,
+  SecretBundle,
+  KeyVaultError,
+  ErrorModel,
+  DeletedSecretBundle,
+  SecretUpdateParameters,
+  SecretItem,
+  DeletedSecretItem,
+  BackupSecretResult,
+  SecretRestoreParameters,
+  KnownVersions,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
+} from "./models/index.js";
+export {
+  KeyVaultClientOptionalParams,
+  SetSecretOptionalParams,
+  DeleteSecretOptionalParams,
+  UpdateSecretOptionalParams,
+  GetSecretOptionalParams,
+  GetSecretsOptionalParams,
+  GetSecretVersionsOptionalParams,
+  GetDeletedSecretsOptionalParams,
+  GetDeletedSecretOptionalParams,
+  PurgeDeletedSecretOptionalParams,
+  RecoverDeletedSecretOptionalParams,
+  BackupSecretOptionalParams,
+  RestoreSecretOptionalParams,
+} from "./api/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
