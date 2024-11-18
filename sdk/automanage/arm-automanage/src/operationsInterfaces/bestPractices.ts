@@ -11,7 +11,7 @@ import {
   BestPractice,
   BestPracticesListByTenantOptionalParams,
   BestPracticesGetOptionalParams,
-  BestPracticesGetResponse
+  BestPracticesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface BestPractices {
    * @param options The options parameters.
    */
   listByTenant(
-    options?: BestPracticesListByTenantOptionalParams
+    options?: BestPracticesListByTenantOptionalParams,
   ): PagedAsyncIterableIterator<BestPractice>;
   /**
    * Get information about a Automanage best practice
@@ -31,6 +31,6 @@ export interface BestPractices {
    */
   get(
     bestPracticeName: string,
-    options?: BestPracticesGetOptionalParams
+    options?: BestPracticesGetOptionalParams,
   ): Promise<BestPracticesGetResponse>;
 }

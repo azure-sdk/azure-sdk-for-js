@@ -18,7 +18,7 @@ import {
   ConfigurationProfilesDeleteOptionalParams,
   ConfigurationProfileUpdate,
   ConfigurationProfilesUpdateOptionalParams,
-  ConfigurationProfilesUpdateResponse
+  ConfigurationProfilesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface ConfigurationProfiles {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationProfilesListByResourceGroupOptionalParams
+    options?: ConfigurationProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile>;
   /**
    * Retrieve a list of configuration profile within a subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ConfigurationProfilesListBySubscriptionOptionalParams
+    options?: ConfigurationProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile>;
   /**
    * Creates a configuration profile
@@ -51,7 +51,7 @@ export interface ConfigurationProfiles {
     configurationProfileName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfile,
-    options?: ConfigurationProfilesCreateOrUpdateOptionalParams
+    options?: ConfigurationProfilesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfilesCreateOrUpdateResponse>;
   /**
    * Get information about a configuration profile
@@ -62,7 +62,7 @@ export interface ConfigurationProfiles {
   get(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesGetOptionalParams
+    options?: ConfigurationProfilesGetOptionalParams,
   ): Promise<ConfigurationProfilesGetResponse>;
   /**
    * Delete a configuration profile
@@ -73,7 +73,7 @@ export interface ConfigurationProfiles {
   delete(
     resourceGroupName: string,
     configurationProfileName: string,
-    options?: ConfigurationProfilesDeleteOptionalParams
+    options?: ConfigurationProfilesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a configuration profile
@@ -86,6 +86,6 @@ export interface ConfigurationProfiles {
     configurationProfileName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfileUpdate,
-    options?: ConfigurationProfilesUpdateOptionalParams
+    options?: ConfigurationProfilesUpdateOptionalParams,
   ): Promise<ConfigurationProfilesUpdateResponse>;
 }

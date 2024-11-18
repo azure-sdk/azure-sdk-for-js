@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfigurationProfile as ConfigurationProfileMapper,
   ConfigurationProfileUpdate as ConfigurationProfileUpdateMapper,
-  ConfigurationProfileAssignment as ConfigurationProfileAssignmentMapper
+  ConfigurationProfileAssignment as ConfigurationProfileAssignmentMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -24,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,10 +35,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const bestPracticeName: OperationURLParameter = {
@@ -47,9 +47,9 @@ export const bestPracticeName: OperationURLParameter = {
     serializedName: "bestPracticeName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -59,9 +59,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const versionName: OperationURLParameter = {
@@ -70,9 +70,9 @@ export const versionName: OperationURLParameter = {
     serializedName: "versionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -82,14 +82,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationProfileMapper
+  mapper: ConfigurationProfileMapper,
 };
 
 export const configurationProfileName: OperationURLParameter = {
@@ -98,23 +98,23 @@ export const configurationProfileName: OperationURLParameter = {
     serializedName: "configurationProfileName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -122,24 +122,24 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationProfileUpdateMapper
+  mapper: ConfigurationProfileUpdateMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ConfigurationProfileAssignmentMapper
+  mapper: ConfigurationProfileAssignmentMapper,
 };
 
 export const configurationProfileAssignmentName: OperationURLParameter = {
@@ -148,9 +148,9 @@ export const configurationProfileAssignmentName: OperationURLParameter = {
     serializedName: "configurationProfileAssignmentName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const vmName: OperationURLParameter = {
@@ -159,9 +159,9 @@ export const vmName: OperationURLParameter = {
     serializedName: "vmName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const machineName: OperationURLParameter = {
@@ -170,9 +170,9 @@ export const machineName: OperationURLParameter = {
     serializedName: "machineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterName: OperationURLParameter = {
@@ -181,9 +181,9 @@ export const clusterName: OperationURLParameter = {
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const reportName: OperationURLParameter = {
@@ -192,7 +192,7 @@ export const reportName: OperationURLParameter = {
     serializedName: "reportName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
