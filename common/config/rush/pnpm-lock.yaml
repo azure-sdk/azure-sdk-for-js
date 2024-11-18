@@ -1326,6 +1326,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cognitiveservices@7.5.0:
+    resolution: {integrity: sha512-UA13hCXP1Ou3chmwLf4FoXibVn5mmstcVqOhR+f5Iwv1ScwdlocIMC4jn9vkrJnkSwHE+03SSax5upAkmr6fnw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.17.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-compute@21.6.0:
     resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
     engines: {node: '>=18.0.0'}
@@ -13552,7 +13567,7 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-9tEMdT8rzdLZbdjBT+2hgzRtOCZ/sbBbE7hOEwiZL7PwbGNtL0bDy52FdXCHLHjNg2mfXDag4989Qj/YPD0QcQ==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-geG78BW2L2ehlJtLeTSchHaCUmPLKZ1rCRcEsSJYKunCsdxczUP1KfYQiieqk3w08Lyxsn/2xQjX3IivkwBJ0g==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
@@ -13560,15 +13575,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15416,7 +15435,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-+DX7eIMt7WAbn6AD+QZpjVyoMuXdNpGH452FuoUH2UvFhOBtlZD3B5y8bwW/oE8d3E/u2eZ3B4N2cAFV32bgbw==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-IxFMCCeH0D2P6u+4Vwi9ROrWBKeO0DJEfs2jxyfJnrGNMrRKAWfplx0QVZY6ETK5Thjlm3myTMffxO2BT5PBiA==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -19240,7 +19259,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-2asWr03USbfs287ufZkj8sgX94e8AIkX8BU9mVvBxqPp+5NwM8F2I2OeKa/ZRb9z7dcawliux8IwyB2kNGIEAg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -22186,10 +22205,11 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-HbvC8ZldtA4WQ2pLFQaqYn7GBJbve7a4L/FlCFInJL8qXMDqC0B0by+XFQRFwJNyhR16BUE4OzqLtmr0RZHi0A==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-WBMr219FukgA/DRhVZIynuBGggV/YspVdg/gkiZgp2b7xDNfjW9wAy4bAh25GrHYtqEqeDjBqj9DMLUurVhN7A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cognitiveservices': 7.5.0
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
