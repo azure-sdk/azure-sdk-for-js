@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MicrosoftStorageSync client.
 
-Microsoft Storage Sync Service API
+Microsoft Storage Sync Service API. This belongs to Microsoft.StorageSync Resource Provider
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagesync/arm-storagesync) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storagesync) |

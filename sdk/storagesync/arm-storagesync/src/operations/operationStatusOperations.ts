@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
 import {
   OperationStatusGetOptionalParams,
-  OperationStatusGetResponse
+  OperationStatusGetResponse,
 } from "../models";
 
 /** Class containing OperationStatusOperations operations. */
 export class OperationStatusOperationsImpl
-  implements OperationStatusOperations {
+  implements OperationStatusOperations
+{
   private readonly client: MicrosoftStorageSync;
 
   /**
@@ -42,11 +43,11 @@ export class OperationStatusOperationsImpl
     locationName: string,
     workflowId: string,
     operationId: string,
-    options?: OperationStatusGetOptionalParams
+    options?: OperationStatusGetOptionalParams,
   ): Promise<OperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, locationName, workflowId, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -54,17 +55,16 @@ export class OperationStatusOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatus,
-      headersMapper: Mappers.OperationStatusGetHeaders
+      headersMapper: Mappers.OperationStatusGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -73,8 +73,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workflowId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
@@ -26,7 +26,8 @@ import {
   ServerEndpointUpdateParameters as ServerEndpointUpdateParametersMapper,
   RecallActionParameters as RecallActionParametersMapper,
   RegisteredServerCreateParameters as RegisteredServerCreateParametersMapper,
-  TriggerRolloverRequest as TriggerRolloverRequestMapper
+  RegisteredServerUpdateParameters as RegisteredServerUpdateParametersMapper,
+  TriggerRolloverRequest as TriggerRolloverRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -36,9 +37,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -47,22 +48,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-09-01",
+    defaultValue: "2022-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -71,10 +72,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -84,14 +85,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CheckNameAvailabilityParametersMapper
+  mapper: CheckNameAvailabilityParametersMapper,
 };
 
 export const locationName: OperationURLParameter = {
@@ -100,28 +101,25 @@ export const locationName: OperationURLParameter = {
     serializedName: "locationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: StorageSyncServiceCreateParametersMapper
+  mapper: StorageSyncServiceCreateParametersMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -129,14 +127,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageSyncServiceName: OperationURLParameter = {
@@ -145,14 +143,14 @@ export const storageSyncServiceName: OperationURLParameter = {
     serializedName: "storageSyncServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: StorageSyncServiceUpdateParametersMapper
+  mapper: StorageSyncServiceUpdateParametersMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -161,19 +159,19 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SyncGroupCreateParametersMapper
+  mapper: SyncGroupCreateParametersMapper,
 };
 
 export const syncGroupName: OperationURLParameter = {
@@ -182,14 +180,14 @@ export const syncGroupName: OperationURLParameter = {
     serializedName: "syncGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: CloudEndpointCreateParametersMapper
+  mapper: CloudEndpointCreateParametersMapper,
 };
 
 export const cloudEndpointName: OperationURLParameter = {
@@ -198,34 +196,34 @@ export const cloudEndpointName: OperationURLParameter = {
     serializedName: "cloudEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BackupRequestMapper
+  mapper: BackupRequestMapper,
 };
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PreRestoreRequestMapper
+  mapper: PreRestoreRequestMapper,
 };
 
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PostRestoreRequestMapper
+  mapper: PostRestoreRequestMapper,
 };
 
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TriggerChangeDetectionParametersMapper
+  mapper: TriggerChangeDetectionParametersMapper,
 };
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ServerEndpointCreateParametersMapper
+  mapper: ServerEndpointCreateParametersMapper,
 };
 
 export const serverEndpointName: OperationURLParameter = {
@@ -234,19 +232,19 @@ export const serverEndpointName: OperationURLParameter = {
     serializedName: "serverEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters10: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: ServerEndpointUpdateParametersMapper
+  mapper: ServerEndpointUpdateParametersMapper,
 };
 
 export const parameters11: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RecallActionParametersMapper
+  mapper: RecallActionParametersMapper,
 };
 
 export const serverId: OperationURLParameter = {
@@ -255,19 +253,24 @@ export const serverId: OperationURLParameter = {
     serializedName: "serverId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters12: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RegisteredServerCreateParametersMapper
+  mapper: RegisteredServerCreateParametersMapper,
 };
 
 export const parameters13: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TriggerRolloverRequestMapper
+  mapper: RegisteredServerUpdateParametersMapper,
+};
+
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TriggerRolloverRequestMapper,
 };
 
 export const workflowId: OperationURLParameter = {
@@ -276,9 +279,9 @@ export const workflowId: OperationURLParameter = {
     serializedName: "workflowId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -287,7 +290,7 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

@@ -22,7 +22,7 @@ import {
   SyncGroupsGetOptionalParams,
   SyncGroupsGetResponse,
   SyncGroupsDeleteOptionalParams,
-  SyncGroupsDeleteResponse
+  SyncGroupsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +47,12 @@ export class SyncGroupsImpl implements SyncGroups {
   public listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: SyncGroupsListByStorageSyncServiceOptionalParams
+    options?: SyncGroupsListByStorageSyncServiceOptionalParams,
   ): PagedAsyncIterableIterator<SyncGroup> {
     const iter = this.listByStorageSyncServicePagingAll(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class SyncGroupsImpl implements SyncGroups {
           resourceGroupName,
           storageSyncServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,13 +79,13 @@ export class SyncGroupsImpl implements SyncGroups {
     resourceGroupName: string,
     storageSyncServiceName: string,
     options?: SyncGroupsListByStorageSyncServiceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SyncGroup[]> {
     let result: SyncGroupsListByStorageSyncServiceResponse;
     result = await this._listByStorageSyncService(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -93,12 +93,12 @@ export class SyncGroupsImpl implements SyncGroups {
   private async *listByStorageSyncServicePagingAll(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: SyncGroupsListByStorageSyncServiceOptionalParams
+    options?: SyncGroupsListByStorageSyncServiceOptionalParams,
   ): AsyncIterableIterator<SyncGroup> {
     for await (const page of this.listByStorageSyncServicePagingPage(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -113,11 +113,11 @@ export class SyncGroupsImpl implements SyncGroups {
   private _listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: SyncGroupsListByStorageSyncServiceOptionalParams
+    options?: SyncGroupsListByStorageSyncServiceOptionalParams,
   ): Promise<SyncGroupsListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, options },
-      listByStorageSyncServiceOperationSpec
+      listByStorageSyncServiceOperationSpec,
     );
   }
 
@@ -134,7 +134,7 @@ export class SyncGroupsImpl implements SyncGroups {
     storageSyncServiceName: string,
     syncGroupName: string,
     parameters: SyncGroupCreateParameters,
-    options?: SyncGroupsCreateOptionalParams
+    options?: SyncGroupsCreateOptionalParams,
   ): Promise<SyncGroupsCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -142,9 +142,9 @@ export class SyncGroupsImpl implements SyncGroups {
         storageSyncServiceName,
         syncGroupName,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class SyncGroupsImpl implements SyncGroups {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: SyncGroupsGetOptionalParams
+    options?: SyncGroupsGetOptionalParams,
   ): Promise<SyncGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, syncGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,11 +178,11 @@ export class SyncGroupsImpl implements SyncGroups {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: SyncGroupsDeleteOptionalParams
+    options?: SyncGroupsDeleteOptionalParams,
   ): Promise<SyncGroupsDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, syncGroupName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -190,40 +190,38 @@ export class SyncGroupsImpl implements SyncGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByStorageSyncServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroupArray,
-      headersMapper: Mappers.SyncGroupsListByStorageSyncServiceHeaders
+      headersMapper: Mappers.SyncGroupsListByStorageSyncServiceHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroup,
-      headersMapper: Mappers.SyncGroupsCreateHeaders
+      headersMapper: Mappers.SyncGroupsCreateHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -232,24 +230,23 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.syncGroupName
+    Parameters.syncGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.SyncGroup,
-      headersMapper: Mappers.SyncGroupsGetHeaders
+      headersMapper: Mappers.SyncGroupsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -257,23 +254,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.syncGroupName
+    Parameters.syncGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SyncGroupsDeleteHeaders
+      headersMapper: Mappers.SyncGroupsDeleteHeaders,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -281,8 +277,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.syncGroupName
+    Parameters.syncGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

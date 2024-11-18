@@ -8,7 +8,7 @@
 
 import {
   PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
-  PrivateLinkResourcesListByStorageSyncServiceResponse
+  PrivateLinkResourcesListByStorageSyncServiceResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkResources. */
@@ -23,6 +23,6 @@ export interface PrivateLinkResources {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams
+    options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
   ): Promise<PrivateLinkResourcesListByStorageSyncServiceResponse>;
 }

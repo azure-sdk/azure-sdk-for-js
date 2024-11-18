@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
 import {
   PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
-  PrivateLinkResourcesListByStorageSyncServiceResponse
+  PrivateLinkResourcesListByStorageSyncServiceResponse,
 } from "../models";
 
 /** Class containing PrivateLinkResources operations. */
@@ -38,11 +38,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   listByStorageSyncService(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams
+    options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
   ): Promise<PrivateLinkResourcesListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, options },
-      listByStorageSyncServiceOperationSpec
+      listByStorageSyncServiceOperationSpec,
     );
   }
 }
@@ -50,21 +50,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByStorageSyncServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
-    }
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

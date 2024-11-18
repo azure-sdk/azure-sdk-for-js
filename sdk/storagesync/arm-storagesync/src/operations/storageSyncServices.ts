@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   StorageSyncService,
   StorageSyncServicesListByResourceGroupOptionalParams,
@@ -31,7 +35,7 @@ import {
   StorageSyncServicesUpdateOptionalParams,
   StorageSyncServicesUpdateResponse,
   StorageSyncServicesDeleteOptionalParams,
-  StorageSyncServicesDeleteResponse
+  StorageSyncServicesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +58,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageSyncServicesListByResourceGroupOptionalParams
+    options?: StorageSyncServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StorageSyncService> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -71,16 +75,16 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: StorageSyncServicesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<StorageSyncService[]> {
     let result: StorageSyncServicesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -89,11 +93,11 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: StorageSyncServicesListByResourceGroupOptionalParams
+    options?: StorageSyncServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<StorageSyncService> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -104,7 +108,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: StorageSyncServicesListBySubscriptionOptionalParams
+    options?: StorageSyncServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<StorageSyncService> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -119,13 +123,13 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: StorageSyncServicesListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<StorageSyncService[]> {
     let result: StorageSyncServicesListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -133,7 +137,7 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: StorageSyncServicesListBySubscriptionOptionalParams
+    options?: StorageSyncServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<StorageSyncService> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -149,11 +153,11 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   checkNameAvailability(
     locationName: string,
     parameters: CheckNameAvailabilityParameters,
-    options?: StorageSyncServicesCheckNameAvailabilityOptionalParams
+    options?: StorageSyncServicesCheckNameAvailabilityOptionalParams,
   ): Promise<StorageSyncServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { locationName, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -168,30 +172,29 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     resourceGroupName: string,
     storageSyncServiceName: string,
     parameters: StorageSyncServiceCreateParameters,
-    options?: StorageSyncServicesCreateOptionalParams
+    options?: StorageSyncServicesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesCreateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesCreateResponse>,
       StorageSyncServicesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageSyncServicesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -200,8 +203,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -209,19 +212,22 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, parameters, options },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesCreateResponse,
+      OperationState<StorageSyncServicesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -238,13 +244,13 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
     resourceGroupName: string,
     storageSyncServiceName: string,
     parameters: StorageSyncServiceCreateParameters,
-    options?: StorageSyncServicesCreateOptionalParams
+    options?: StorageSyncServicesCreateOptionalParams,
   ): Promise<StorageSyncServicesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       storageSyncServiceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -258,11 +264,11 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   get(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesGetOptionalParams
+    options?: StorageSyncServicesGetOptionalParams,
   ): Promise<StorageSyncServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -275,30 +281,29 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   async beginUpdate(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesUpdateOptionalParams
+    options?: StorageSyncServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesUpdateResponse>,
       StorageSyncServicesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageSyncServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +312,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,19 +321,22 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesUpdateResponse,
+      OperationState<StorageSyncServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -343,12 +351,12 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   async beginUpdateAndWait(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesUpdateOptionalParams
+    options?: StorageSyncServicesUpdateOptionalParams,
   ): Promise<StorageSyncServicesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -362,30 +370,29 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   async beginDelete(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesDeleteOptionalParams
+    options?: StorageSyncServicesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageSyncServicesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<StorageSyncServicesDeleteResponse>,
       StorageSyncServicesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StorageSyncServicesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -394,8 +401,8 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -403,19 +410,22 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, storageSyncServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageSyncServiceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StorageSyncServicesDeleteResponse,
+      OperationState<StorageSyncServicesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -430,12 +440,12 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
   async beginDeleteAndWait(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: StorageSyncServicesDeleteOptionalParams
+    options?: StorageSyncServicesDeleteOptionalParams,
   ): Promise<StorageSyncServicesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageSyncServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -447,11 +457,11 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: StorageSyncServicesListByResourceGroupOptionalParams
+    options?: StorageSyncServicesListByResourceGroupOptionalParams,
   ): Promise<StorageSyncServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -460,11 +470,11 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: StorageSyncServicesListBySubscriptionOptionalParams
+    options?: StorageSyncServicesListBySubscriptionOptionalParams,
   ): Promise<StorageSyncServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 }
@@ -472,45 +482,46 @@ export class StorageSyncServicesImpl implements StorageSyncServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
-    }
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
+    },
+    default: {
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.locationName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageSyncService
+      bodyMapper: Mappers.StorageSyncService,
     },
     201: {
-      bodyMapper: Mappers.StorageSyncService
+      bodyMapper: Mappers.StorageSyncService,
     },
     202: {
-      bodyMapper: Mappers.StorageSyncService
+      bodyMapper: Mappers.StorageSyncService,
     },
     204: {
-      bodyMapper: Mappers.StorageSyncService
+      bodyMapper: Mappers.StorageSyncService,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -518,59 +529,57 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncService,
-      headersMapper: Mappers.StorageSyncServicesGetHeaders
+      headersMapper: Mappers.StorageSyncServicesGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncService,
-      headersMapper: Mappers.StorageSyncServicesUpdateHeaders
+      headersMapper: Mappers.StorageSyncServicesUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.StorageSyncService,
-      headersMapper: Mappers.StorageSyncServicesUpdateHeaders
+      headersMapper: Mappers.StorageSyncServicesUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.StorageSyncService,
-      headersMapper: Mappers.StorageSyncServicesUpdateHeaders
+      headersMapper: Mappers.StorageSyncServicesUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.StorageSyncService,
-      headersMapper: Mappers.StorageSyncServicesUpdateHeaders
+      headersMapper: Mappers.StorageSyncServicesUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -578,80 +587,77 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.StorageSyncServicesDeleteHeaders
+      headersMapper: Mappers.StorageSyncServicesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.StorageSyncServicesDeleteHeaders
+      headersMapper: Mappers.StorageSyncServicesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.StorageSyncServicesDeleteHeaders
+      headersMapper: Mappers.StorageSyncServicesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.StorageSyncServicesDeleteHeaders
+      headersMapper: Mappers.StorageSyncServicesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.storageSyncServiceName
+    Parameters.storageSyncServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncServiceArray,
-      headersMapper: Mappers.StorageSyncServicesListByResourceGroupHeaders
+      headersMapper: Mappers.StorageSyncServicesListByResourceGroupHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/storageSyncServices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/storageSyncServices",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.StorageSyncServiceArray,
-      headersMapper: Mappers.StorageSyncServicesListBySubscriptionHeaders
+      headersMapper: Mappers.StorageSyncServicesListBySubscriptionHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

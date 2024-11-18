@@ -12,8 +12,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   CloudEndpoint,
   CloudEndpointsListBySyncGroupOptionalParams,
@@ -37,7 +41,9 @@ import {
   PostRestoreRequest,
   CloudEndpointsPostRestoreOptionalParams,
   TriggerChangeDetectionParameters,
-  CloudEndpointsTriggerChangeDetectionOptionalParams
+  CloudEndpointsTriggerChangeDetectionOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,13 +70,13 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: CloudEndpointsListBySyncGroupOptionalParams
+    options?: CloudEndpointsListBySyncGroupOptionalParams,
   ): PagedAsyncIterableIterator<CloudEndpoint> {
     const iter = this.listBySyncGroupPagingAll(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -88,9 +94,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
           storageSyncServiceName,
           syncGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -99,14 +105,14 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     options?: CloudEndpointsListBySyncGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<CloudEndpoint[]> {
     let result: CloudEndpointsListBySyncGroupResponse;
     result = await this._listBySyncGroup(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -115,13 +121,13 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: CloudEndpointsListBySyncGroupOptionalParams
+    options?: CloudEndpointsListBySyncGroupOptionalParams,
   ): AsyncIterableIterator<CloudEndpoint> {
     for await (const page of this.listBySyncGroupPagingPage(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,30 +148,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: CloudEndpointCreateParameters,
-    options?: CloudEndpointsCreateOptionalParams
+    options?: CloudEndpointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsCreateResponse>,
       CloudEndpointsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CloudEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -174,8 +179,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -183,26 +188,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsCreateResponse,
+      OperationState<CloudEndpointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -223,7 +231,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: CloudEndpointCreateParameters,
-    options?: CloudEndpointsCreateOptionalParams
+    options?: CloudEndpointsCreateOptionalParams,
   ): Promise<CloudEndpointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -231,7 +239,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -249,7 +257,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsGetOptionalParams
+    options?: CloudEndpointsGetOptionalParams,
   ): Promise<CloudEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -257,9 +265,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -276,30 +284,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsDeleteOptionalParams
+    options?: CloudEndpointsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsDeleteResponse>,
       CloudEndpointsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CloudEndpointsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +315,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,25 +324,28 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsDeleteResponse,
+      OperationState<CloudEndpointsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -354,14 +364,14 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsDeleteOptionalParams
+    options?: CloudEndpointsDeleteOptionalParams,
   ): Promise<CloudEndpointsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,
       cloudEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -377,11 +387,11 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: CloudEndpointsListBySyncGroupOptionalParams
+    options?: CloudEndpointsListBySyncGroupOptionalParams,
   ): Promise<CloudEndpointsListBySyncGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, storageSyncServiceName, syncGroupName, options },
-      listBySyncGroupOperationSpec
+      listBySyncGroupOperationSpec,
     );
   }
 
@@ -400,30 +410,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPreBackupOptionalParams
+    options?: CloudEndpointsPreBackupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPreBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPreBackupResponse>,
       CloudEndpointsPreBackupResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CloudEndpointsPreBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -432,8 +441,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -441,26 +450,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      preBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: preBackupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsPreBackupResponse,
+      OperationState<CloudEndpointsPreBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -481,7 +493,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPreBackupOptionalParams
+    options?: CloudEndpointsPreBackupOptionalParams,
   ): Promise<CloudEndpointsPreBackupResponse> {
     const poller = await this.beginPreBackup(
       resourceGroupName,
@@ -489,7 +501,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -509,30 +521,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPostBackupOptionalParams
+    options?: CloudEndpointsPostBackupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudEndpointsPostBackupResponse>,
+    SimplePollerLike<
+      OperationState<CloudEndpointsPostBackupResponse>,
       CloudEndpointsPostBackupResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CloudEndpointsPostBackupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -541,8 +552,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -550,26 +561,29 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      postBackupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: postBackupOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CloudEndpointsPostBackupResponse,
+      OperationState<CloudEndpointsPostBackupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -590,7 +604,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: BackupRequest,
-    options?: CloudEndpointsPostBackupOptionalParams
+    options?: CloudEndpointsPostBackupOptionalParams,
   ): Promise<CloudEndpointsPostBackupResponse> {
     const poller = await this.beginPostBackup(
       resourceGroupName,
@@ -598,7 +612,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -618,25 +632,24 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PreRestoreRequest,
-    options?: CloudEndpointsPreRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CloudEndpointsPreRestoreOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -645,8 +658,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -654,26 +667,26 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      preRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: preRestoreOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -694,7 +707,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PreRestoreRequest,
-    options?: CloudEndpointsPreRestoreOptionalParams
+    options?: CloudEndpointsPreRestoreOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPreRestore(
       resourceGroupName,
@@ -702,7 +715,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -720,7 +733,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     storageSyncServiceName: string,
     syncGroupName: string,
     cloudEndpointName: string,
-    options?: CloudEndpointsRestoreheartbeatOptionalParams
+    options?: CloudEndpointsRestoreheartbeatOptionalParams,
   ): Promise<CloudEndpointsRestoreheartbeatResponse> {
     return this.client.sendOperationRequest(
       {
@@ -728,9 +741,9 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
-        options
+        options,
       },
-      restoreheartbeatOperationSpec
+      restoreheartbeatOperationSpec,
     );
   }
 
@@ -749,25 +762,24 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PostRestoreRequest,
-    options?: CloudEndpointsPostRestoreOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CloudEndpointsPostRestoreOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -776,8 +788,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -785,26 +797,26 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      postRestoreOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: postRestoreOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -825,7 +837,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: PostRestoreRequest,
-    options?: CloudEndpointsPostRestoreOptionalParams
+    options?: CloudEndpointsPostRestoreOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPostRestore(
       resourceGroupName,
@@ -833,7 +845,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -854,25 +866,24 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: TriggerChangeDetectionParameters,
-    options?: CloudEndpointsTriggerChangeDetectionOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CloudEndpointsTriggerChangeDetectionOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -881,8 +892,8 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -890,26 +901,26 @@ export class CloudEndpointsImpl implements CloudEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         storageSyncServiceName,
         syncGroupName,
         cloudEndpointName,
         parameters,
-        options
+        options,
       },
-      triggerChangeDetectionOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: triggerChangeDetectionOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -931,7 +942,7 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     syncGroupName: string,
     cloudEndpointName: string,
     parameters: TriggerChangeDetectionParameters,
-    options?: CloudEndpointsTriggerChangeDetectionOptionalParams
+    options?: CloudEndpointsTriggerChangeDetectionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginTriggerChangeDetection(
       resourceGroupName,
@@ -939,38 +950,64 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       syncGroupName,
       cloudEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get the AFS file share metadata signing certificate public keys.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param syncGroupName Name of Sync Group resource.
+   * @param cloudEndpointName Name of Cloud Endpoint object.
+   * @param options The options parameters.
+   */
+  afsShareMetadataCertificatePublicKeys(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    syncGroupName: string,
+    cloudEndpointName: string,
+    options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
+  ): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        storageSyncServiceName,
+        syncGroupName,
+        cloudEndpointName,
+        options,
+      },
+      afsShareMetadataCertificatePublicKeysOperationSpec,
+    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.CloudEndpoint,
-      headersMapper: Mappers.CloudEndpointsCreateHeaders
+      headersMapper: Mappers.CloudEndpointsCreateHeaders,
     },
     201: {
       bodyMapper: Mappers.CloudEndpoint,
-      headersMapper: Mappers.CloudEndpointsCreateHeaders
+      headersMapper: Mappers.CloudEndpointsCreateHeaders,
     },
     202: {
       bodyMapper: Mappers.CloudEndpoint,
-      headersMapper: Mappers.CloudEndpointsCreateHeaders
+      headersMapper: Mappers.CloudEndpointsCreateHeaders,
     },
     204: {
       bodyMapper: Mappers.CloudEndpoint,
-      headersMapper: Mappers.CloudEndpointsCreateHeaders
+      headersMapper: Mappers.CloudEndpointsCreateHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -980,24 +1017,23 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.CloudEndpoint,
-      headersMapper: Mappers.CloudEndpointsGetHeaders
+      headersMapper: Mappers.CloudEndpointsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1006,31 +1042,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.CloudEndpointsDeleteHeaders
+      headersMapper: Mappers.CloudEndpointsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.CloudEndpointsDeleteHeaders
+      headersMapper: Mappers.CloudEndpointsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.CloudEndpointsDeleteHeaders
+      headersMapper: Mappers.CloudEndpointsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.CloudEndpointsDeleteHeaders
+      headersMapper: Mappers.CloudEndpointsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1039,23 +1074,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySyncGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.CloudEndpointArray,
-      headersMapper: Mappers.CloudEndpointsListBySyncGroupHeaders
+      headersMapper: Mappers.CloudEndpointsListBySyncGroupHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1063,31 +1097,30 @@ const listBySyncGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
-    Parameters.syncGroupName
+    Parameters.syncGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const preBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prebackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prebackup",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.CloudEndpointsPreBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPreBackupHeaders,
     },
     201: {
-      headersMapper: Mappers.CloudEndpointsPreBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPreBackupHeaders,
     },
     202: {
-      headersMapper: Mappers.CloudEndpointsPreBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPreBackupHeaders,
     },
     204: {
-      headersMapper: Mappers.CloudEndpointsPreBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPreBackupHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -1097,36 +1130,35 @@ const preBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const postBackupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postbackup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postbackup",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.PostBackupResponse,
-      headersMapper: Mappers.CloudEndpointsPostBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPostBackupHeaders,
     },
     201: {
       bodyMapper: Mappers.PostBackupResponse,
-      headersMapper: Mappers.CloudEndpointsPostBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPostBackupHeaders,
     },
     202: {
       bodyMapper: Mappers.PostBackupResponse,
-      headersMapper: Mappers.CloudEndpointsPostBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPostBackupHeaders,
     },
     204: {
       bodyMapper: Mappers.PostBackupResponse,
-      headersMapper: Mappers.CloudEndpointsPostBackupHeaders
+      headersMapper: Mappers.CloudEndpointsPostBackupHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -1136,15 +1168,14 @@ const postBackupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const preRestoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prerestore",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/prerestore",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1152,8 +1183,8 @@ const preRestoreOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -1163,23 +1194,22 @@ const preRestoreOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const restoreheartbeatOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/restoreheartbeat",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/restoreheartbeat",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.CloudEndpointsRestoreheartbeatHeaders
+      headersMapper: Mappers.CloudEndpointsRestoreheartbeatHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1188,14 +1218,13 @@ const restoreheartbeatOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const postRestoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postrestore",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/postrestore",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1203,8 +1232,8 @@ const postRestoreOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -1214,15 +1243,14 @@ const postRestoreOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const triggerChangeDetectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/triggerChangeDetection",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/triggerChangeDetection",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1230,8 +1258,8 @@ const triggerChangeDetectionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -1241,9 +1269,35 @@ const triggerChangeDetectionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.storageSyncServiceName,
     Parameters.syncGroupName,
-    Parameters.cloudEndpointName
+    Parameters.cloudEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
+const afsShareMetadataCertificatePublicKeysOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/syncGroups/{syncGroupName}/cloudEndpoints/{cloudEndpointName}/afsShareMetadataCertificatePublicKeys",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CloudEndpointAfsShareMetadataCertificatePublicKeys,
+        headersMapper:
+          Mappers.CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.StorageSyncError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.storageSyncServiceName,
+      Parameters.syncGroupName,
+      Parameters.cloudEndpointName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

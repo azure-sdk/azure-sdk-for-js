@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -24,7 +24,7 @@ import {
   ServerEndpointsImpl,
   RegisteredServersImpl,
   WorkflowsImpl,
-  OperationStatusOperationsImpl
+  OperationStatusOperationsImpl,
 } from "./operations";
 import {
   Operations,
@@ -36,14 +36,14 @@ import {
   ServerEndpoints,
   RegisteredServers,
   Workflows,
-  OperationStatusOperations
+  OperationStatusOperations,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   MicrosoftStorageSyncOptionalParams,
   LocationOperationStatusOptionalParams,
-  LocationOperationStatusResponse
+  LocationOperationStatusResponse,
 } from "./models";
 
 export class MicrosoftStorageSync extends coreClient.ServiceClient {
@@ -54,13 +54,13 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the MicrosoftStorageSync class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MicrosoftStorageSyncOptionalParams
+    options?: MicrosoftStorageSyncOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -75,10 +75,10 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
     }
     const defaults: MicrosoftStorageSyncOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storagesync/9.1.1`;
+    const packageDetails = `azsdk-js-arm-storagesync/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -88,20 +88,21 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -111,7 +112,7 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -121,9 +122,9 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -131,7 +132,7 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-09-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.operations = new OperationsImpl(this);
     this.storageSyncServices = new StorageSyncServicesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -154,7 +155,7 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -168,7 +169,7 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -182,11 +183,11 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
   locationOperationStatus(
     locationName: string,
     operationId: string,
-    options?: LocationOperationStatusOptionalParams
+    options?: LocationOperationStatusOptionalParams,
   ): Promise<LocationOperationStatusResponse> {
     return this.sendOperationRequest(
       { locationName, operationId, options },
-      locationOperationStatusOperationSpec
+      locationOperationStatusOperationSpec,
     );
   }
 
@@ -205,25 +206,24 @@ export class MicrosoftStorageSync extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const locationOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageSync/locations/{locationName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.LocationOperationStatus,
-      headersMapper: Mappers.MicrosoftStorageSyncLocationOperationStatusHeaders
+      headersMapper: Mappers.MicrosoftStorageSyncLocationOperationStatusHeaders,
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
-    }
+      bodyMapper: Mappers.StorageSyncError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.locationName,
     Parameters.subscriptionId,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

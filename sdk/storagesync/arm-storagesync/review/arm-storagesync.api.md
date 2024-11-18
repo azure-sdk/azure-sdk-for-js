@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface BackupRequest {
@@ -43,6 +43,12 @@ export interface CloudEndpoint extends ProxyResource {
     provisioningState?: string;
     storageAccountResourceId?: string;
     storageAccountTenantId?: string;
+}
+
+// @public
+export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
+    readonly firstKey?: string;
+    readonly secondKey?: string;
 }
 
 // @public
@@ -100,24 +106,38 @@ export interface CloudEndpointLastChangeEnumerationStatus {
 
 // @public
 export interface CloudEndpoints {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsCreateResponse>, CloudEndpointsCreateResponse>>;
+    afsShareMetadataCertificatePublicKeys(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams): Promise<CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse>;
+    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<CloudEndpointsCreateResponse>, CloudEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: CloudEndpointCreateParameters, options?: CloudEndpointsCreateOptionalParams): Promise<CloudEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsDeleteResponse>, CloudEndpointsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CloudEndpointsDeleteResponse>, CloudEndpointsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsDeleteOptionalParams): Promise<CloudEndpointsDeleteResponse>;
-    beginPostBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsPostBackupResponse>, CloudEndpointsPostBackupResponse>>;
+    beginPostBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams): Promise<SimplePollerLike<OperationState<CloudEndpointsPostBackupResponse>, CloudEndpointsPostBackupResponse>>;
     beginPostBackupAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPostBackupOptionalParams): Promise<CloudEndpointsPostBackupResponse>;
-    beginPostRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPostRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPostRestoreAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PostRestoreRequest, options?: CloudEndpointsPostRestoreOptionalParams): Promise<void>;
-    beginPreBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams): Promise<PollerLike<PollOperationState<CloudEndpointsPreBackupResponse>, CloudEndpointsPreBackupResponse>>;
+    beginPreBackup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams): Promise<SimplePollerLike<OperationState<CloudEndpointsPreBackupResponse>, CloudEndpointsPreBackupResponse>>;
     beginPreBackupAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: BackupRequest, options?: CloudEndpointsPreBackupOptionalParams): Promise<CloudEndpointsPreBackupResponse>;
-    beginPreRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPreRestore(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginPreRestoreAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: PreRestoreRequest, options?: CloudEndpointsPreRestoreOptionalParams): Promise<void>;
-    beginTriggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginTriggerChangeDetection(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginTriggerChangeDetectionAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, parameters: TriggerChangeDetectionParameters, options?: CloudEndpointsTriggerChangeDetectionOptionalParams): Promise<void>;
     get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsGetOptionalParams): Promise<CloudEndpointsGetResponse>;
     listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: CloudEndpointsListBySyncGroupOptionalParams): PagedAsyncIterableIterator<CloudEndpoint>;
     restoreheartbeat(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, cloudEndpointName: string, options?: CloudEndpointsRestoreheartbeatOptionalParams): Promise<CloudEndpointsRestoreheartbeatResponse>;
 }
+
+// @public
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders {
+    xMsCorrelationRequestId?: string;
+    xMsRequestId?: string;
+}
+
+// @public
+export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CloudEndpointsAfsShareMetadataCertificatePublicKeysResponse = CloudEndpointsAfsShareMetadataCertificatePublicKeysHeaders & CloudEndpointAfsShareMetadataCertificatePublicKeys;
 
 // @public
 export interface CloudEndpointsCreateHeaders {
@@ -281,6 +301,15 @@ export interface CloudTieringFilesNotTiering {
 }
 
 // @public
+export interface CloudTieringLowDiskMode {
+    readonly lastUpdatedTimestamp?: Date;
+    readonly state?: CloudTieringLowDiskModeState;
+}
+
+// @public
+export type CloudTieringLowDiskModeState = string;
+
+// @public
 export interface CloudTieringSpaceSavings {
     readonly cachedSizeBytes?: number;
     readonly lastUpdatedTimestamp?: Date;
@@ -295,6 +324,29 @@ export interface CloudTieringVolumeFreeSpacePolicyStatus {
     readonly currentVolumeFreeSpacePercent?: number;
     readonly effectiveVolumeFreeSpacePolicy?: number;
     readonly lastUpdatedTimestamp?: Date;
+}
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -337,6 +389,20 @@ export enum KnownCloudEndpointChangeEnumerationTotalCountsState {
 }
 
 // @public
+export enum KnownCloudTieringLowDiskModeState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownFeatureStatus {
     Off = "off",
     On = "on"
@@ -365,6 +431,14 @@ export enum KnownInitialUploadPolicy {
 export enum KnownLocalCacheMode {
     DownloadNewAndModifiedFiles = "DownloadNewAndModifiedFiles",
     UpdateLocallyCachedFiles = "UpdateLocallyCachedFiles"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -416,6 +490,12 @@ export enum KnownRegisteredServerAgentVersionStatus {
 }
 
 // @public
+export enum KnownServerAuthType {
+    Certificate = "Certificate",
+    ManagedIdentity = "ManagedIdentity"
+}
+
+// @public
 export enum KnownServerEndpointHealthState {
     Error = "Error",
     Healthy = "Healthy",
@@ -447,6 +527,15 @@ export enum KnownServerEndpointSyncMode {
 }
 
 // @public
+export enum KnownServerProvisioningStatus {
+    Error = "Error",
+    InProgress = "InProgress",
+    NotStarted = "NotStarted",
+    ReadySyncFunctional = "Ready_SyncFunctional",
+    ReadySyncNotFunctional = "Ready_SyncNotFunctional"
+}
+
+// @public
 export enum KnownWorkflowStatus {
     Aborted = "aborted",
     Active = "active",
@@ -475,6 +564,19 @@ export interface LocationOperationStatusOptionalParams extends coreClient.Operat
 
 // @public
 export type LocationOperationStatusResponse = MicrosoftStorageSyncLocationOperationStatusHeaders & LocationOperationStatus;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public (undocumented)
 export class MicrosoftStorageSync extends coreClient.ServiceClient {
@@ -569,7 +671,9 @@ export interface OperationResourceMetricSpecification {
     displayDescription?: string;
     displayName?: string;
     fillGapWithZero?: boolean;
+    lockAggregationType?: string;
     name?: string;
+    supportedAggregationTypes?: string[];
     unit?: string;
 }
 
@@ -680,6 +784,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -695,9 +800,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreate(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, storageSyncServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: PrivateEndpointConnectionsListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -808,16 +913,20 @@ export interface RecallActionParameters {
 
 // @public
 export interface RegisteredServer extends ProxyResource {
+    readonly activeAuthType?: ServerAuthType;
     agentVersion?: string;
     readonly agentVersionExpirationDate?: Date;
     readonly agentVersionStatus?: RegisteredServerAgentVersionStatus;
+    applicationId?: string;
     clusterId?: string;
     clusterName?: string;
     discoveryEndpointUri?: string;
     friendlyName?: string;
+    readonly identity?: boolean;
     lastHeartBeat?: string;
     lastOperationName?: string;
     lastWorkflowId?: string;
+    latestApplicationId?: string;
     managementEndpointUri?: string;
     monitoringConfiguration?: string;
     monitoringEndpointUri?: string;
@@ -844,9 +953,11 @@ export interface RegisteredServerArray {
 // @public
 export interface RegisteredServerCreateParameters extends ProxyResource {
     agentVersion?: string;
+    applicationId?: string;
     clusterId?: string;
     clusterName?: string;
     friendlyName?: string;
+    identity?: boolean;
     lastHeartBeat?: string;
     serverCertificate?: string;
     serverId?: string;
@@ -856,12 +967,14 @@ export interface RegisteredServerCreateParameters extends ProxyResource {
 
 // @public
 export interface RegisteredServers {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersCreateResponse>, RegisteredServersCreateResponse>>;
+    beginCreate(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams): Promise<SimplePollerLike<OperationState<RegisteredServersCreateResponse>, RegisteredServersCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerCreateParameters, options?: RegisteredServersCreateOptionalParams): Promise<RegisteredServersCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersDeleteResponse>, RegisteredServersDeleteResponse>>;
+    beginDelete(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RegisteredServersDeleteResponse>, RegisteredServersDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersDeleteOptionalParams): Promise<RegisteredServersDeleteResponse>;
-    beginTriggerRollover(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams): Promise<PollerLike<PollOperationState<RegisteredServersTriggerRolloverResponse>, RegisteredServersTriggerRolloverResponse>>;
+    beginTriggerRollover(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams): Promise<SimplePollerLike<OperationState<RegisteredServersTriggerRolloverResponse>, RegisteredServersTriggerRolloverResponse>>;
     beginTriggerRolloverAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: TriggerRolloverRequest, options?: RegisteredServersTriggerRolloverOptionalParams): Promise<RegisteredServersTriggerRolloverResponse>;
+    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RegisteredServersUpdateResponse>, RegisteredServersUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, storageSyncServiceName: string, serverId: string, parameters: RegisteredServerUpdateParameters, options?: RegisteredServersUpdateOptionalParams): Promise<RegisteredServersUpdateResponse>;
     get(resourceGroupName: string, storageSyncServiceName: string, serverId: string, options?: RegisteredServersGetOptionalParams): Promise<RegisteredServersGetResponse>;
     listByStorageSyncService(resourceGroupName: string, storageSyncServiceName: string, options?: RegisteredServersListByStorageSyncServiceOptionalParams): PagedAsyncIterableIterator<RegisteredServer>;
 }
@@ -938,9 +1051,31 @@ export interface RegisteredServersTriggerRolloverOptionalParams extends coreClie
 export type RegisteredServersTriggerRolloverResponse = RegisteredServersTriggerRolloverHeaders;
 
 // @public
+export interface RegisteredServersUpdateHeaders {
+    xMsCorrelationRequestId?: string;
+    xMsRequestId?: string;
+}
+
+// @public
+export interface RegisteredServersUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type RegisteredServersUpdateResponse = RegisteredServersUpdateHeaders & RegisteredServer;
+
+// @public
+export interface RegisteredServerUpdateParameters extends ProxyResource {
+    applicationId?: string;
+    identity?: boolean;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -955,6 +1090,9 @@ export interface RestoreFileSpec {
     isdir?: boolean;
     path?: string;
 }
+
+// @public
+export type ServerAuthType = string;
 
 // @public
 export interface ServerEndpoint extends ProxyResource {
@@ -972,6 +1110,7 @@ export interface ServerEndpoint extends ProxyResource {
     readonly offlineDataTransferStorageAccountTenantId?: string;
     readonly provisioningState?: string;
     readonly recallStatus?: ServerEndpointRecallStatus;
+    serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus;
     serverLocalPath?: string;
     readonly serverName?: string;
     serverResourceId?: string;
@@ -1003,6 +1142,7 @@ export interface ServerEndpointCloudTieringStatus {
     readonly lastCloudTieringResult?: number;
     readonly lastSuccessTimestamp?: Date;
     readonly lastUpdatedTimestamp?: Date;
+    readonly lowDiskMode?: CloudTieringLowDiskMode;
     readonly spaceSavings?: CloudTieringSpaceSavings;
     readonly volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
 }
@@ -1036,6 +1176,27 @@ export type ServerEndpointHealthState = string;
 export type ServerEndpointOfflineDataTransferState = string;
 
 // @public
+export interface ServerEndpointProvisioningStatus {
+    readonly provisioningStatus?: ServerProvisioningStatus;
+    readonly provisioningStepStatuses?: ServerEndpointProvisioningStepStatus[];
+    readonly provisioningType?: string;
+}
+
+// @public
+export interface ServerEndpointProvisioningStepStatus {
+    readonly additionalInformation?: {
+        [propertyName: string]: string;
+    };
+    readonly endTime?: Date;
+    readonly errorCode?: number;
+    readonly minutesLeft?: number;
+    readonly name?: string;
+    readonly progressPercentage?: number;
+    readonly startTime?: Date;
+    readonly status?: string;
+}
+
+// @public
 export interface ServerEndpointRecallError {
     readonly count?: number;
     readonly errorCode?: number;
@@ -1050,13 +1211,13 @@ export interface ServerEndpointRecallStatus {
 
 // @public
 export interface ServerEndpoints {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsCreateResponse>, ServerEndpointsCreateResponse>>;
+    beginCreate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServerEndpointsCreateResponse>, ServerEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: ServerEndpointCreateParameters, options?: ServerEndpointsCreateOptionalParams): Promise<ServerEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsDeleteResponse>, ServerEndpointsDeleteResponse>>;
+    beginDelete(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ServerEndpointsDeleteResponse>, ServerEndpointsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsDeleteOptionalParams): Promise<ServerEndpointsDeleteResponse>;
-    beginRecallAction(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsRecallActionResponse>, ServerEndpointsRecallActionResponse>>;
+    beginRecallAction(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams): Promise<SimplePollerLike<OperationState<ServerEndpointsRecallActionResponse>, ServerEndpointsRecallActionResponse>>;
     beginRecallActionAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, parameters: RecallActionParameters, options?: ServerEndpointsRecallActionOptionalParams): Promise<ServerEndpointsRecallActionResponse>;
-    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServerEndpointsUpdateResponse>, ServerEndpointsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServerEndpointsUpdateResponse>, ServerEndpointsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsUpdateOptionalParams): Promise<ServerEndpointsUpdateResponse>;
     get(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, serverEndpointName: string, options?: ServerEndpointsGetOptionalParams): Promise<ServerEndpointsGetResponse>;
     listBySyncGroup(resourceGroupName: string, storageSyncServiceName: string, syncGroupName: string, options?: ServerEndpointsListBySyncGroupOptionalParams): PagedAsyncIterableIterator<ServerEndpoint>;
@@ -1207,10 +1368,13 @@ export interface ServerEndpointUpdateParameters {
 }
 
 // @public
+export type ServerProvisioningStatus = string;
+
+// @public
 export interface StorageSyncApiError {
     code?: string;
     details?: StorageSyncErrorDetails;
-    innerError?: StorageSyncInnerErrorDetails;
+    innererror?: StorageSyncInnerErrorDetails;
     message?: string;
     target?: string;
 }
@@ -1243,6 +1407,7 @@ export interface StorageSyncInnerErrorDetails {
 
 // @public
 export interface StorageSyncService extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
     readonly lastOperationName?: string;
     readonly lastWorkflowId?: string;
@@ -1250,6 +1415,7 @@ export interface StorageSyncService extends TrackedResource {
     readonly provisioningState?: string;
     readonly storageSyncServiceStatus?: number;
     readonly storageSyncServiceUid?: string;
+    readonly useIdentity?: boolean;
 }
 
 // @public
@@ -1258,21 +1424,19 @@ export interface StorageSyncServiceArray {
 }
 
 // @public
-export interface StorageSyncServiceCreateParameters {
+export interface StorageSyncServiceCreateParameters extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
-    location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    useIdentity?: boolean;
 }
 
 // @public
 export interface StorageSyncServices {
-    beginCreate(resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesCreateResponse>, StorageSyncServicesCreateResponse>>;
+    beginCreate(resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams): Promise<SimplePollerLike<OperationState<StorageSyncServicesCreateResponse>, StorageSyncServicesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, storageSyncServiceName: string, parameters: StorageSyncServiceCreateParameters, options?: StorageSyncServicesCreateOptionalParams): Promise<StorageSyncServicesCreateResponse>;
-    beginDelete(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesDeleteResponse>, StorageSyncServicesDeleteResponse>>;
+    beginDelete(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageSyncServicesDeleteResponse>, StorageSyncServicesDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesDeleteOptionalParams): Promise<StorageSyncServicesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<StorageSyncServicesUpdateResponse>, StorageSyncServicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageSyncServicesUpdateResponse>, StorageSyncServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesUpdateOptionalParams): Promise<StorageSyncServicesUpdateResponse>;
     checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: StorageSyncServicesCheckNameAvailabilityOptionalParams): Promise<StorageSyncServicesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, storageSyncServiceName: string, options?: StorageSyncServicesGetOptionalParams): Promise<StorageSyncServicesGetResponse>;
@@ -1377,10 +1541,12 @@ export type StorageSyncServicesUpdateResponse = StorageSyncServicesUpdateHeaders
 
 // @public
 export interface StorageSyncServiceUpdateParameters {
+    identity?: ManagedServiceIdentity;
     incomingTrafficPolicy?: IncomingTrafficPolicy;
     tags?: {
         [propertyName: string]: string;
     };
+    useIdentity?: boolean;
 }
 
 // @public
@@ -1467,6 +1633,16 @@ export interface SyncGroupsListByStorageSyncServiceOptionalParams extends coreCl
 export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupsListByStorageSyncServiceHeaders & SyncGroupArray;
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
@@ -1484,6 +1660,12 @@ export interface TriggerChangeDetectionParameters {
 // @public
 export interface TriggerRolloverRequest {
     serverCertificate?: string;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
