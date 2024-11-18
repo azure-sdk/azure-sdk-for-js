@@ -771,6 +771,7 @@ export type FilterMode = string;
 
 // @public
 export interface GatewaySettings {
+    entraUsers?: string[];
     readonly isCredentialEnabled?: string;
     readonly password?: string;
     readonly userName?: string;
@@ -1554,6 +1555,7 @@ export interface UpdateClusterIdentityCertificateParameters {
 
 // @public
 export interface UpdateGatewaySettingsParameters {
+    entraUsers?: string[];
     isCredentialEnabled?: boolean;
     password?: string;
     userName?: string;
