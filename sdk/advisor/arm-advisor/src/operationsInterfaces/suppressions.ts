@@ -14,7 +14,7 @@ import {
   SuppressionsGetResponse,
   SuppressionsCreateOptionalParams,
   SuppressionsCreateResponse,
-  SuppressionsDeleteOptionalParams
+  SuppressionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Suppressions {
    * @param options The options parameters.
    */
   list(
-    options?: SuppressionsListOptionalParams
+    options?: SuppressionsListOptionalParams,
   ): PagedAsyncIterableIterator<SuppressionContract>;
   /**
    * Obtains the details of a suppression.
@@ -40,7 +40,7 @@ export interface Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsGetOptionalParams
+    options?: SuppressionsGetOptionalParams,
   ): Promise<SuppressionsGetResponse>;
   /**
    * Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute
@@ -58,7 +58,7 @@ export interface Suppressions {
     recommendationId: string,
     name: string,
     suppressionContract: SuppressionContract,
-    options?: SuppressionsCreateOptionalParams
+    options?: SuppressionsCreateOptionalParams,
   ): Promise<SuppressionsCreateResponse>;
   /**
    * Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute
@@ -73,6 +73,6 @@ export interface Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsDeleteOptionalParams
+    options?: SuppressionsDeleteOptionalParams,
   ): Promise<void>;
 }
