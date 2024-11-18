@@ -8,18 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type ChaosExperimentActionUnion =
-  | ChaosExperimentAction
+export type ActionUnion =
+  | Action
   | DelayAction
   | DiscreteAction
   | ContinuousAction;
-export type ChaosTargetSelectorUnion =
-  | ChaosTargetSelector
-  | ChaosTargetListSelector
-  | ChaosTargetQuerySelector;
-export type ChaosTargetFilterUnion =
-  | ChaosTargetFilter
-  | ChaosTargetSimpleFilter;
+export type SelectorUnion = Selector | ListSelector | QuerySelector;
+export type FilterUnion = Filter | SimpleFilter;
 
 /** Model that represents a list of Capability resources and a link for pagination. */
 export interface CapabilityListResult {
@@ -189,23 +184,23 @@ export interface UserAssignedIdentity {
 }
 
 /** Model that represents a step in the Experiment resource. */
-export interface ChaosExperimentStep {
+export interface Step {
   /** String of the step name. */
   name: string;
   /** List of branches. */
-  branches: ChaosExperimentBranch[];
+  branches: Branch[];
 }
 
 /** Model that represents a branch in the step. 9 total per experiment. */
-export interface ChaosExperimentBranch {
+export interface Branch {
   /** String of the branch name. */
   name: string;
   /** List of actions. */
-  actions: ChaosExperimentActionUnion[];
+  actions: ActionUnion[];
 }
 
 /** Model that represents the base action model. 9 total per experiment. */
-export interface ChaosExperimentAction {
+export interface Action {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "delay" | "discrete" | "continuous";
   /** String that represents a Capability URN. */
@@ -213,7 +208,7 @@ export interface ChaosExperimentAction {
 }
 
 /** Model that represents a selector in the Experiment resource. */
-export interface ChaosTargetSelector {
+export interface Selector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "List" | "Query";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -221,11 +216,11 @@ export interface ChaosTargetSelector {
   /** String of the selector ID. */
   id: string;
   /** Model that represents available filter types that can be applied to a targets list. */
-  filter?: ChaosTargetFilterUnion;
+  filter?: FilterUnion;
 }
 
 /** Model that represents available filter types that can be applied to a targets list. */
-export interface ChaosTargetFilter {
+export interface Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
 }
@@ -552,20 +547,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Model that represents a list of Target Type resources and a link for pagination. */
-export interface TargetTypeListResult {
-  /**
-   * List of Target Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: TargetType[];
-  /**
-   * URL to retrieve the next page of Target Type resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Model that represents a list of Target resources and a link for pagination. */
 export interface TargetListResult {
   /**
@@ -575,6 +556,20 @@ export interface TargetListResult {
   readonly value?: Target[];
   /**
    * URL to retrieve the next page of Target resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Model that represents a list of Target Type resources and a link for pagination. */
+export interface TargetTypeListResult {
+  /**
+   * List of Target Type resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TargetType[];
+  /**
+   * URL to retrieve the next page of Target Type resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
@@ -597,7 +592,7 @@ export interface TargetReference {
 }
 
 /** Model that represents the Simple filter parameters. */
-export interface ChaosTargetSimpleFilterParameters {
+export interface SimpleFilterParameters {
   /** List of Azure availability zones to filter targets by. */
   zones?: string[];
 }
@@ -696,6 +691,19 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
+/** Model that represents a Target resource. */
+export interface Target extends Resource {
+  /**
+   * The system metadata of the target resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Location of the target resource. */
+  location?: string;
+  /** The properties of the target resource. */
+  properties: { [propertyName: string]: any };
+}
+
 /** Model that represents a Target Type resource. */
 export interface TargetType extends Resource {
   /**
@@ -727,35 +735,28 @@ export interface TargetType extends Resource {
   readonly resourceTypes?: string[];
 }
 
-/** Model that represents a Target resource. */
-export interface Target extends Resource {
-  /**
-   * The system metadata of the target resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** Location of the target resource. */
-  location?: string;
-  /** The properties of the target resource. */
-  properties: { [propertyName: string]: any };
-}
-
 /** The status of operation. */
 export interface OperationStatus extends ErrorResponse {
   /** The operation Id. */
   id?: string;
   /** The operation name. */
   name?: string;
-  /** The start time of the operation. */
-  startTime?: string;
-  /** The end time of the operation. */
-  endTime?: string;
+  /**
+   * The start time of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The end time of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
   /** The status of the operation. */
   status?: string;
 }
 
 /** Model that represents a delay action. */
-export interface DelayAction extends ChaosExperimentAction {
+export interface DelayAction extends Action {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "delay";
   /** ISO8601 formatted string that represents a duration. */
@@ -763,7 +764,7 @@ export interface DelayAction extends ChaosExperimentAction {
 }
 
 /** Model that represents a discrete action. */
-export interface DiscreteAction extends ChaosExperimentAction {
+export interface DiscreteAction extends Action {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "discrete";
   /** List of key value pairs. */
@@ -773,7 +774,7 @@ export interface DiscreteAction extends ChaosExperimentAction {
 }
 
 /** Model that represents a continuous action. */
-export interface ContinuousAction extends ChaosExperimentAction {
+export interface ContinuousAction extends Action {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "continuous";
   /** ISO8601 formatted string that represents a duration. */
@@ -785,7 +786,7 @@ export interface ContinuousAction extends ChaosExperimentAction {
 }
 
 /** Model that represents a list selector. */
-export interface ChaosTargetListSelector extends ChaosTargetSelector {
+export interface ListSelector extends Selector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "List";
   /** List of Target references. */
@@ -793,7 +794,7 @@ export interface ChaosTargetListSelector extends ChaosTargetSelector {
 }
 
 /** Model that represents a query selector. */
-export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
+export interface QuerySelector extends Selector {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Query";
   /** Azure Resource Graph (ARG) Query Language query for target resources. */
@@ -803,11 +804,11 @@ export interface ChaosTargetQuerySelector extends ChaosTargetSelector {
 }
 
 /** Model that represents a simple target filter. */
-export interface ChaosTargetSimpleFilter extends ChaosTargetFilter {
+export interface SimpleFilter extends Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Simple";
   /** Model that represents the Simple filter parameters. */
-  parameters?: ChaosTargetSimpleFilterParameters;
+  parameters?: SimpleFilterParameters;
 }
 
 /** Model that represents the extended properties of an experiment execution. */
@@ -845,9 +846,9 @@ export interface Experiment extends TrackedResource {
    */
   readonly provisioningState?: ProvisioningState;
   /** List of steps. */
-  steps: ChaosExperimentStep[];
+  steps: Step[];
   /** List of selectors. */
-  selectors: ChaosTargetSelectorUnion[];
+  selectors: SelectorUnion[];
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -1176,13 +1177,6 @@ export type ExperimentsListAllExecutionsNextResponse =
   ExperimentExecutionListResult;
 
 /** Optional parameters. */
-export interface OperationStatusesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type OperationStatusesGetResponse = OperationStatus;
-
-/** Optional parameters. */
 export interface OperationsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1197,28 +1191,11 @@ export interface OperationsListAllNextOptionalParams
 export type OperationsListAllNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface TargetTypesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** String that sets the continuation token. */
-  continuationToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type TargetTypesListResponse = TargetTypeListResult;
-
-/** Optional parameters. */
-export interface TargetTypesGetOptionalParams
+export interface OperationStatusesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TargetTypesGetResponse = TargetType;
-
-/** Optional parameters. */
-export interface TargetTypesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type TargetTypesListNextResponse = TargetTypeListResult;
+export type OperationStatusesGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface TargetsListOptionalParams extends coreClient.OperationOptions {
@@ -1252,6 +1229,30 @@ export interface TargetsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TargetsListNextResponse = TargetListResult;
+
+/** Optional parameters. */
+export interface TargetTypesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** String that sets the continuation token. */
+  continuationToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type TargetTypesListResponse = TargetTypeListResult;
+
+/** Optional parameters. */
+export interface TargetTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TargetTypesGetResponse = TargetType;
+
+/** Optional parameters. */
+export interface TargetTypesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TargetTypesListNextResponse = TargetTypeListResult;
 
 /** Optional parameters. */
 export interface ChaosManagementClientOptionalParams
