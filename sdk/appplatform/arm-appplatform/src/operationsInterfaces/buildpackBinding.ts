@@ -16,7 +16,7 @@ import {
   BuildpackBindingGetResponse,
   BuildpackBindingCreateOrUpdateOptionalParams,
   BuildpackBindingCreateOrUpdateResponse,
-  BuildpackBindingDeleteOptionalParams
+  BuildpackBindingDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface BuildpackBinding {
   listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildpackBindingListForClusterOptionalParams
+    options?: BuildpackBindingListForClusterOptionalParams,
   ): PagedAsyncIterableIterator<BuildpackBindingResource>;
   /**
    * Handles requests to list all buildpack bindings in a builder.
@@ -48,7 +48,7 @@ export interface BuildpackBinding {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildpackBindingListOptionalParams
+    options?: BuildpackBindingListOptionalParams,
   ): PagedAsyncIterableIterator<BuildpackBindingResource>;
   /**
    * Get a buildpack binding by name.
@@ -66,7 +66,7 @@ export interface BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingGetOptionalParams
+    options?: BuildpackBindingGetOptionalParams,
   ): Promise<BuildpackBindingGetResponse>;
   /**
    * Create or update a buildpack binding.
@@ -86,7 +86,7 @@ export interface BuildpackBinding {
     builderName: string,
     buildpackBindingName: string,
     buildpackBinding: BuildpackBindingResource,
-    options?: BuildpackBindingCreateOrUpdateOptionalParams
+    options?: BuildpackBindingCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildpackBindingCreateOrUpdateResponse>,
@@ -111,7 +111,7 @@ export interface BuildpackBinding {
     builderName: string,
     buildpackBindingName: string,
     buildpackBinding: BuildpackBindingResource,
-    options?: BuildpackBindingCreateOrUpdateOptionalParams
+    options?: BuildpackBindingCreateOrUpdateOptionalParams,
   ): Promise<BuildpackBindingCreateOrUpdateResponse>;
   /**
    * Operation to delete a Buildpack Binding
@@ -129,7 +129,7 @@ export interface BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingDeleteOptionalParams
+    options?: BuildpackBindingDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Buildpack Binding
@@ -147,6 +147,6 @@ export interface BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingDeleteOptionalParams
+    options?: BuildpackBindingDeleteOptionalParams,
   ): Promise<void>;
 }

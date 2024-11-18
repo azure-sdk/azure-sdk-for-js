@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -58,7 +58,7 @@ import {
   BuildServiceGetSupportedStackResponse,
   BuildServiceListBuildServicesNextResponse,
   BuildServiceListBuildsNextResponse,
-  BuildServiceListBuildResultsNextResponse
+  BuildServiceListBuildResultsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -84,12 +84,12 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   public listBuildServices(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildServiceListBuildServicesOptionalParams
+    options?: BuildServiceListBuildServicesOptionalParams,
   ): PagedAsyncIterableIterator<BuildService> {
     const iter = this.listBuildServicesPagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -106,9 +106,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -116,7 +116,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     options?: BuildServiceListBuildServicesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BuildService[]> {
     let result: BuildServiceListBuildServicesResponse;
     let continuationToken = settings?.continuationToken;
@@ -124,7 +124,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
       result = await this._listBuildServices(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -136,7 +136,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -148,12 +148,12 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   private async *listBuildServicesPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildServiceListBuildServicesOptionalParams
+    options?: BuildServiceListBuildServicesOptionalParams,
   ): AsyncIterableIterator<BuildService> {
     for await (const page of this.listBuildServicesPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -171,13 +171,13 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListBuildsOptionalParams
+    options?: BuildServiceListBuildsOptionalParams,
   ): PagedAsyncIterableIterator<Build> {
     const iter = this.listBuildsPagingAll(
       resourceGroupName,
       serviceName,
       buildServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -195,9 +195,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
           serviceName,
           buildServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -206,7 +206,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     options?: BuildServiceListBuildsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Build[]> {
     let result: BuildServiceListBuildsResponse;
     let continuationToken = settings?.continuationToken;
@@ -215,7 +215,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         resourceGroupName,
         serviceName,
         buildServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -228,7 +228,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         serviceName,
         buildServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -241,13 +241,13 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListBuildsOptionalParams
+    options?: BuildServiceListBuildsOptionalParams,
   ): AsyncIterableIterator<Build> {
     for await (const page of this.listBuildsPagingPage(
       resourceGroupName,
       serviceName,
       buildServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -267,14 +267,14 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceListBuildResultsOptionalParams
+    options?: BuildServiceListBuildResultsOptionalParams,
   ): PagedAsyncIterableIterator<BuildResult> {
     const iter = this.listBuildResultsPagingAll(
       resourceGroupName,
       serviceName,
       buildServiceName,
       buildName,
-      options
+      options,
     );
     return {
       next() {
@@ -293,9 +293,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
           buildServiceName,
           buildName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -305,7 +305,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     options?: BuildServiceListBuildResultsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BuildResult[]> {
     let result: BuildServiceListBuildResultsResponse;
     let continuationToken = settings?.continuationToken;
@@ -315,7 +315,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         serviceName,
         buildServiceName,
         buildName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -329,7 +329,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         buildServiceName,
         buildName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -343,14 +343,14 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceListBuildResultsOptionalParams
+    options?: BuildServiceListBuildResultsOptionalParams,
   ): AsyncIterableIterator<BuildResult> {
     for await (const page of this.listBuildResultsPagingPage(
       resourceGroupName,
       serviceName,
       buildServiceName,
       buildName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -366,11 +366,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   private _listBuildServices(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildServiceListBuildServicesOptionalParams
+    options?: BuildServiceListBuildServicesOptionalParams,
   ): Promise<BuildServiceListBuildServicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listBuildServicesOperationSpec
+      listBuildServicesOperationSpec,
     );
   }
 
@@ -386,11 +386,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceGetBuildServiceOptionalParams
+    options?: BuildServiceGetBuildServiceOptionalParams,
   ): Promise<BuildServiceGetBuildServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      getBuildServiceOperationSpec
+      getBuildServiceOperationSpec,
     );
   }
 
@@ -408,7 +408,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildService: BuildService,
-    options?: BuildServiceCreateOrUpdateOptionalParams
+    options?: BuildServiceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceCreateOrUpdateResponse>,
@@ -417,21 +417,20 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BuildServiceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -440,8 +439,8 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -449,8 +448,8 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -461,9 +460,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         serviceName,
         buildServiceName,
         buildService,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BuildServiceCreateOrUpdateResponse,
@@ -471,7 +470,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -491,14 +490,14 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildService: BuildService,
-    options?: BuildServiceCreateOrUpdateOptionalParams
+    options?: BuildServiceCreateOrUpdateOptionalParams,
   ): Promise<BuildServiceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       buildServiceName,
       buildService,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -515,11 +514,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListBuildsOptionalParams
+    options?: BuildServiceListBuildsOptionalParams,
   ): Promise<BuildServiceListBuildsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      listBuildsOperationSpec
+      listBuildsOperationSpec,
     );
   }
 
@@ -537,11 +536,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceGetBuildOptionalParams
+    options?: BuildServiceGetBuildOptionalParams,
   ): Promise<BuildServiceGetBuildResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, buildName, options },
-      getBuildOperationSpec
+      getBuildOperationSpec,
     );
   }
 
@@ -561,7 +560,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     build: Build,
-    options?: BuildServiceCreateOrUpdateBuildOptionalParams
+    options?: BuildServiceCreateOrUpdateBuildOptionalParams,
   ): Promise<BuildServiceCreateOrUpdateBuildResponse> {
     return this.client.sendOperationRequest(
       {
@@ -570,9 +569,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         buildServiceName,
         buildName,
         build,
-        options
+        options,
       },
-      createOrUpdateBuildOperationSpec
+      createOrUpdateBuildOperationSpec,
     );
   }
 
@@ -590,7 +589,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceDeleteBuildOptionalParams
+    options?: BuildServiceDeleteBuildOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildServiceDeleteBuildResponse>,
@@ -599,21 +598,20 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BuildServiceDeleteBuildResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -622,8 +620,8 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -631,8 +629,8 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -643,9 +641,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         serviceName,
         buildServiceName,
         buildName,
-        options
+        options,
       },
-      spec: deleteBuildOperationSpec
+      spec: deleteBuildOperationSpec,
     });
     const poller = await createHttpPoller<
       BuildServiceDeleteBuildResponse,
@@ -653,7 +651,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -673,14 +671,14 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceDeleteBuildOptionalParams
+    options?: BuildServiceDeleteBuildOptionalParams,
   ): Promise<BuildServiceDeleteBuildResponse> {
     const poller = await this.beginDeleteBuild(
       resourceGroupName,
       serviceName,
       buildServiceName,
       buildName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -699,11 +697,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildName: string,
-    options?: BuildServiceListBuildResultsOptionalParams
+    options?: BuildServiceListBuildResultsOptionalParams,
   ): Promise<BuildServiceListBuildResultsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, buildName, options },
-      listBuildResultsOperationSpec
+      listBuildResultsOperationSpec,
     );
   }
 
@@ -723,7 +721,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     buildResultName: string,
-    options?: BuildServiceGetBuildResultOptionalParams
+    options?: BuildServiceGetBuildResultOptionalParams,
   ): Promise<BuildServiceGetBuildResultResponse> {
     return this.client.sendOperationRequest(
       {
@@ -732,9 +730,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         buildServiceName,
         buildName,
         buildResultName,
-        options
+        options,
       },
-      getBuildResultOperationSpec
+      getBuildResultOperationSpec,
     );
   }
 
@@ -754,7 +752,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     buildResultName: string,
-    options?: BuildServiceGetBuildResultLogOptionalParams
+    options?: BuildServiceGetBuildResultLogOptionalParams,
   ): Promise<BuildServiceGetBuildResultLogResponse> {
     return this.client.sendOperationRequest(
       {
@@ -763,9 +761,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         buildServiceName,
         buildName,
         buildResultName,
-        options
+        options,
       },
-      getBuildResultLogOperationSpec
+      getBuildResultLogOperationSpec,
     );
   }
 
@@ -781,11 +779,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceGetResourceUploadUrlOptionalParams
+    options?: BuildServiceGetResourceUploadUrlOptionalParams,
   ): Promise<BuildServiceGetResourceUploadUrlResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      getResourceUploadUrlOperationSpec
+      getResourceUploadUrlOperationSpec,
     );
   }
 
@@ -801,11 +799,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListSupportedBuildpacksOptionalParams
+    options?: BuildServiceListSupportedBuildpacksOptionalParams,
   ): Promise<BuildServiceListSupportedBuildpacksResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      listSupportedBuildpacksOperationSpec
+      listSupportedBuildpacksOperationSpec,
     );
   }
 
@@ -823,7 +821,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     buildpackName: string,
-    options?: BuildServiceGetSupportedBuildpackOptionalParams
+    options?: BuildServiceGetSupportedBuildpackOptionalParams,
   ): Promise<BuildServiceGetSupportedBuildpackResponse> {
     return this.client.sendOperationRequest(
       {
@@ -831,9 +829,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         serviceName,
         buildServiceName,
         buildpackName,
-        options
+        options,
       },
-      getSupportedBuildpackOperationSpec
+      getSupportedBuildpackOperationSpec,
     );
   }
 
@@ -849,11 +847,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     buildServiceName: string,
-    options?: BuildServiceListSupportedStacksOptionalParams
+    options?: BuildServiceListSupportedStacksOptionalParams,
   ): Promise<BuildServiceListSupportedStacksResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, options },
-      listSupportedStacksOperationSpec
+      listSupportedStacksOperationSpec,
     );
   }
 
@@ -871,11 +869,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     stackName: string,
-    options?: BuildServiceGetSupportedStackOptionalParams
+    options?: BuildServiceGetSupportedStackOptionalParams,
   ): Promise<BuildServiceGetSupportedStackResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, stackName, options },
-      getSupportedStackOperationSpec
+      getSupportedStackOperationSpec,
     );
   }
 
@@ -891,11 +889,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: BuildServiceListBuildServicesNextOptionalParams
+    options?: BuildServiceListBuildServicesNextOptionalParams,
   ): Promise<BuildServiceListBuildServicesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listBuildServicesNextOperationSpec
+      listBuildServicesNextOperationSpec,
     );
   }
 
@@ -913,11 +911,11 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     serviceName: string,
     buildServiceName: string,
     nextLink: string,
-    options?: BuildServiceListBuildsNextOptionalParams
+    options?: BuildServiceListBuildsNextOptionalParams,
   ): Promise<BuildServiceListBuildsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, buildServiceName, nextLink, options },
-      listBuildsNextOperationSpec
+      listBuildsNextOperationSpec,
     );
   }
 
@@ -937,7 +935,7 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     nextLink: string,
-    options?: BuildServiceListBuildResultsNextOptionalParams
+    options?: BuildServiceListBuildResultsNextOptionalParams,
   ): Promise<BuildServiceListBuildResultsNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -946,9 +944,9 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
         buildServiceName,
         buildName,
         nextLink,
-        options
+        options,
       },
-      listBuildResultsNextOperationSpec
+      listBuildResultsNextOperationSpec,
     );
   }
 }
@@ -956,118 +954,36 @@ export class BuildServiceOperationsImpl implements BuildServiceOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBuildServicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceCollection
+      bodyMapper: Mappers.BuildServiceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getBuildServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildService
+      bodyMapper: Mappers.BuildService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BuildService
+      bodyMapper: Mappers.CloudError,
     },
-    201: {
-      bodyMapper: Mappers.BuildService
-    },
-    202: {
-      bodyMapper: Mappers.BuildService
-    },
-    204: {
-      bodyMapper: Mappers.BuildService
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.buildService,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listBuildsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BuildCollection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getBuildOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Build
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1076,25 +992,101 @@ const getBuildOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.buildName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrUpdateBuildOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Build
+      bodyMapper: Mappers.BuildService,
     },
     201: {
-      bodyMapper: Mappers.Build
+      bodyMapper: Mappers.BuildService,
+    },
+    202: {
+      bodyMapper: Mappers.BuildService,
+    },
+    204: {
+      bodyMapper: Mappers.BuildService,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.buildService,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listBuildsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Build,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+    Parameters.buildName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Build,
+    },
+    201: {
+      bodyMapper: Mappers.Build,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.build,
   queryParameters: [Parameters.apiVersion],
@@ -1104,32 +1096,31 @@ const createOrUpdateBuildOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.buildName
+    Parameters.buildName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteBuildOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
+      headersMapper: Mappers.BuildServiceDeleteBuildHeaders,
     },
     201: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
+      headersMapper: Mappers.BuildServiceDeleteBuildHeaders,
     },
     202: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
+      headersMapper: Mappers.BuildServiceDeleteBuildHeaders,
     },
     204: {
-      headersMapper: Mappers.BuildServiceDeleteBuildHeaders
+      headersMapper: Mappers.BuildServiceDeleteBuildHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1138,22 +1129,21 @@ const deleteBuildOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.buildName
+    Parameters.buildName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBuildResultsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildResultCollection
+      bodyMapper: Mappers.BuildResultCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1162,22 +1152,21 @@ const listBuildResultsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.buildName
+    Parameters.buildName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getBuildResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results/{buildResultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results/{buildResultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildResult
+      bodyMapper: Mappers.BuildResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1187,22 +1176,21 @@ const getBuildResultOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.buildName,
-    Parameters.buildResultName
+    Parameters.buildResultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getBuildResultLogOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results/{buildResultName}/getLogFileUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results/{buildResultName}/getLogFileUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildResultLog
+      bodyMapper: Mappers.BuildResultLog,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1212,22 +1200,21 @@ const getBuildResultLogOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.buildName,
-    Parameters.buildResultName
+    Parameters.buildResultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/getResourceUploadUrl",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/getResourceUploadUrl",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUploadDefinition
+      bodyMapper: Mappers.ResourceUploadDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1235,22 +1222,21 @@ const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName
+    Parameters.buildServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSupportedBuildpacksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedBuildpacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedBuildpacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedBuildpacksCollection
+      bodyMapper: Mappers.SupportedBuildpacksCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1258,22 +1244,21 @@ const listSupportedBuildpacksOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName
+    Parameters.buildServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSupportedBuildpackOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedBuildpacks/{buildpackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedBuildpacks/{buildpackName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedBuildpackResource
+      bodyMapper: Mappers.SupportedBuildpackResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1282,45 +1267,21 @@ const getSupportedBuildpackOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.buildpackName
+    Parameters.buildpackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSupportedStacksOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedStacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedStacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedStacksCollection
+      bodyMapper: Mappers.SupportedStacksCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getSupportedStackOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedStacks/{stackName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SupportedStackResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1329,42 +1290,43 @@ const getSupportedStackOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.stackName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getSupportedStackOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/supportedStacks/{stackName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SupportedStackResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.buildServiceName,
+    Parameters.stackName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBuildServicesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildServiceCollection
+      bodyMapper: Mappers.BuildServiceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBuildsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BuildCollection
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
@@ -1372,21 +1334,20 @@ const listBuildsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.buildServiceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listBuildResultsNextOperationSpec: coreClient.OperationSpec = {
+const listBuildsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildResultCollection
+      bodyMapper: Mappers.BuildCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1395,8 +1356,30 @@ const listBuildResultsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.nextLink,
     Parameters.buildServiceName,
-    Parameters.buildName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listBuildResultsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BuildResultCollection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.nextLink,
+    Parameters.buildServiceName,
+    Parameters.buildName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

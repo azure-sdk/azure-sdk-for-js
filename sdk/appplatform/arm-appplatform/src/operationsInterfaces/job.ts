@@ -6,129 +6,146 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ApiPortalResource,
-  ApiPortalsListOptionalParams,
-  ApiPortalsGetOptionalParams,
-  ApiPortalsGetResponse,
-  ApiPortalsCreateOrUpdateOptionalParams,
-  ApiPortalsCreateOrUpdateResponse,
-  ApiPortalsDeleteOptionalParams,
-  CustomDomainValidatePayload,
-  ApiPortalsValidateDomainOptionalParams,
-  ApiPortalsValidateDomainResponse,
+  JobGetOptionalParams,
+  JobGetResponse,
+  JobResource,
+  JobCreateOrUpdateOptionalParams,
+  JobCreateOrUpdateResponse,
+  JobDeleteOptionalParams,
+  JobDeleteResponse,
+  JobStartOptionalParams,
+  JobStartResponse,
+  JobListEnvSecretsOptionalParams,
+  JobListEnvSecretsResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a ApiPortals. */
-export interface ApiPortals {
+/** Interface representing a Job. */
+export interface Job {
   /**
-   * Handles requests to list all resources in a Service.
+   * Get a Job and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiPortalsListOptionalParams,
-  ): PagedAsyncIterableIterator<ApiPortalResource>;
-  /**
-   * Get the API portal and its properties.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    options?: ApiPortalsGetOptionalParams,
-  ): Promise<ApiPortalsGetResponse>;
+    jobName: string,
+    options?: JobGetOptionalParams,
+  ): Promise<JobGetResponse>;
   /**
-   * Create the default API portal or update the existing API portal.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
-   * @param apiPortalResource The API portal for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams,
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ApiPortalsCreateOrUpdateResponse>,
-      ApiPortalsCreateOrUpdateResponse
+      OperationState<JobCreateOrUpdateResponse>,
+      JobCreateOrUpdateResponse
     >
   >;
   /**
-   * Create the default API portal or update the existing API portal.
+   * Create a new Job or update an exiting Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
-   * @param apiPortalResource The API portal for the create or update operation
+   * @param jobName The name of the Job resource.
+   * @param jobResource Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams,
-  ): Promise<ApiPortalsCreateOrUpdateResponse>;
+    jobName: string,
+    jobResource: JobResource,
+    options?: JobCreateOrUpdateOptionalParams,
+  ): Promise<JobCreateOrUpdateResponse>;
   /**
-   * Delete the default API portal.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    jobName: string,
+    options?: JobDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobDeleteResponse>, JobDeleteResponse>
+  >;
   /**
-   * Delete the default API portal.
+   * Operation to delete a Job.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams,
-  ): Promise<void>;
+    jobName: string,
+    options?: JobDeleteOptionalParams,
+  ): Promise<JobDeleteResponse>;
   /**
-   * Check the domains are valid as well as not in use.
+   * Start an Azure Spring Apps Job
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param apiPortalName The name of API portal.
-   * @param validatePayload Custom domain payload to be validated
+   * @param jobName The name of the Job resource.
    * @param options The options parameters.
    */
-  validateDomain(
+  beginStart(
     resourceGroupName: string,
     serviceName: string,
-    apiPortalName: string,
-    validatePayload: CustomDomainValidatePayload,
-    options?: ApiPortalsValidateDomainOptionalParams,
-  ): Promise<ApiPortalsValidateDomainResponse>;
+    jobName: string,
+    options?: JobStartOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<JobStartResponse>, JobStartResponse>
+  >;
+  /**
+   * Start an Azure Spring Apps Job
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobStartOptionalParams,
+  ): Promise<JobStartResponse>;
+  /**
+   * List sensitive environment variables of the Job.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param jobName The name of the Job resource.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    jobName: string,
+    options?: JobListEnvSecretsOptionalParams,
+  ): Promise<JobListEnvSecretsResponse>;
 }
