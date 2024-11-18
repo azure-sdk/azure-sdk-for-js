@@ -26,7 +26,7 @@ import {
   HybridRunbookWorkersCreateResponse,
   HybridRunbookWorkerMoveParameters,
   HybridRunbookWorkersMoveOptionalParams,
-  HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse
+  HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +53,13 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
   ): PagedAsyncIterableIterator<HybridRunbookWorker> {
     const iter = this.listByHybridRunbookWorkerGroupPagingAll(
       resourceGroupName,
       automationAccountName,
       hybridRunbookWorkerGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +77,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
           automationAccountName,
           hybridRunbookWorkerGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +88,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<HybridRunbookWorker[]> {
     let result: HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         resourceGroupName,
         automationAccountName,
         hybridRunbookWorkerGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +110,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         automationAccountName,
         hybridRunbookWorkerGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +123,13 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
   ): AsyncIterableIterator<HybridRunbookWorker> {
     for await (const page of this.listByHybridRunbookWorkerGroupPagingPage(
       resourceGroupName,
       automationAccountName,
       hybridRunbookWorkerGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +148,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
-    options?: HybridRunbookWorkersDeleteOptionalParams
+    options?: HybridRunbookWorkersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -156,9 +156,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         automationAccountName,
         hybridRunbookWorkerGroupName,
         hybridRunbookWorkerId,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
-    options?: HybridRunbookWorkersGetOptionalParams
+    options?: HybridRunbookWorkersGetOptionalParams,
   ): Promise<HybridRunbookWorkersGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +183,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         automationAccountName,
         hybridRunbookWorkerGroupName,
         hybridRunbookWorkerId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -205,7 +205,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
     hybridRunbookWorkerCreationParameters: HybridRunbookWorkerCreateParameters,
-    options?: HybridRunbookWorkersCreateOptionalParams
+    options?: HybridRunbookWorkersCreateOptionalParams,
   ): Promise<HybridRunbookWorkersCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -214,9 +214,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         hybridRunbookWorkerGroupName,
         hybridRunbookWorkerId,
         hybridRunbookWorkerCreationParameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -235,7 +235,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerId: string,
     hybridRunbookWorkerMoveParameters: HybridRunbookWorkerMoveParameters,
-    options?: HybridRunbookWorkersMoveOptionalParams
+    options?: HybridRunbookWorkersMoveOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -244,9 +244,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         hybridRunbookWorkerGroupName,
         hybridRunbookWorkerId,
         hybridRunbookWorkerMoveParameters,
-        options
+        options,
       },
-      moveOperationSpec
+      moveOperationSpec,
     );
   }
 
@@ -261,16 +261,16 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupOptionalParams,
   ): Promise<HybridRunbookWorkersListByHybridRunbookWorkerGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
         hybridRunbookWorkerGroupName,
-        options
+        options,
       },
-      listByHybridRunbookWorkerGroupOperationSpec
+      listByHybridRunbookWorkerGroupOperationSpec,
     );
   }
 
@@ -288,7 +288,7 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     nextLink: string,
-    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams
+    options?: HybridRunbookWorkersListByHybridRunbookWorkerGroupNextOptionalParams,
   ): Promise<HybridRunbookWorkersListByHybridRunbookWorkerGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -296,9 +296,9 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
         automationAccountName,
         hybridRunbookWorkerGroupName,
         nextLink,
-        options
+        options,
       },
-      listByHybridRunbookWorkerGroupNextOperationSpec
+      listByHybridRunbookWorkerGroupNextOperationSpec,
     );
   }
 }
@@ -306,144 +306,143 @@ export class HybridRunbookWorkersImpl implements HybridRunbookWorkers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.hybridRunbookWorkerGroupName,
-    Parameters.hybridRunbookWorkerId
+    Parameters.hybridRunbookWorkerId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridRunbookWorker
+      bodyMapper: Mappers.HybridRunbookWorker,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.hybridRunbookWorkerGroupName,
-    Parameters.hybridRunbookWorkerId
+    Parameters.hybridRunbookWorkerId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridRunbookWorker
+      bodyMapper: Mappers.HybridRunbookWorker,
+    },
+    201: {
+      bodyMapper: Mappers.HybridRunbookWorker,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.hybridRunbookWorkerCreationParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.hybridRunbookWorkerGroupName,
-    Parameters.hybridRunbookWorkerId
+    Parameters.hybridRunbookWorkerId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const moveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}/move",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}/move",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.hybridRunbookWorkerMoveParameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.hybridRunbookWorkerGroupName,
-    Parameters.hybridRunbookWorkerId
+    Parameters.hybridRunbookWorkerId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByHybridRunbookWorkerGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HybridRunbookWorkersListResult
+      bodyMapper: Mappers.HybridRunbookWorkersListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.hybridRunbookWorkerGroupName
+    Parameters.hybridRunbookWorkerGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HybridRunbookWorkersListResult
+const listByHybridRunbookWorkerGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.HybridRunbookWorkersListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.nextLink,
-    Parameters.hybridRunbookWorkerGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.automationAccountName,
+      Parameters.nextLink,
+      Parameters.hybridRunbookWorkerGroupName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

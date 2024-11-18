@@ -7,9 +7,9 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface Activity {
@@ -319,11 +319,15 @@ export class AutomationClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    powerShell72Module: PowerShell72Module;
+    // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     python2Package: Python2Package;
+    // (undocumented)
+    python3Package: Python3Package;
     // (undocumented)
     runbookDraftOperations: RunbookDraftOperations;
     // (undocumented)
@@ -457,12 +461,6 @@ export interface CertificateUpdateParameters {
 
 // @public
 export type CertificateUpdateResponse = Certificate;
-
-// @public (undocumented)
-export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface Connection extends ProxyResource {
@@ -768,6 +766,12 @@ export interface DeletedAutomationAccountsListBySubscriptionOptionalParams exten
 export type DeletedAutomationAccountsListBySubscriptionResponse = DeletedAutomationAccountListResult;
 
 // @public
+export interface Dimension {
+    displayName?: string;
+    name?: string;
+}
+
+// @public
 export interface DscCompilationJob extends ProxyResource {
     configuration?: DscConfigurationAssociationProperty;
     readonly creationTime?: Date;
@@ -847,7 +851,7 @@ export interface DscCompilationJobListResult {
 
 // @public
 export interface DscCompilationJobOperations {
-    beginCreate(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<PollerLike<PollOperationState<DscCompilationJobCreateResponse>, DscCompilationJobCreateResponse>>;
+    beginCreate(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<SimplePollerLike<OperationState<DscCompilationJobCreateResponse>, DscCompilationJobCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, automationAccountName: string, compilationJobName: string, parameters: DscCompilationJobCreateParameters, options?: DscCompilationJobCreateOptionalParams): Promise<DscCompilationJobCreateResponse>;
     get(resourceGroupName: string, automationAccountName: string, compilationJobName: string, options?: DscCompilationJobGetOptionalParams): Promise<DscCompilationJobGetResponse>;
     getStream(resourceGroupName: string, automationAccountName: string, jobId: string, jobStreamId: string, options?: DscCompilationJobGetStreamOptionalParams): Promise<DscCompilationJobGetStreamResponse>;
@@ -925,7 +929,7 @@ export interface DscConfigurationGetContentOptionalParams extends coreClient.Ope
 
 // @public
 export type DscConfigurationGetContentResponse = {
-    body: string;
+    body: coreRestPipeline.RequestBodyType;
 };
 
 // @public
@@ -1125,7 +1129,7 @@ export interface DscNodeConfigurationListResult {
 
 // @public
 export interface DscNodeConfigurationOperations {
-    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, parameters: DscNodeConfigurationCreateOrUpdateParameters, options?: DscNodeConfigurationCreateOrUpdateOptionalParams): Promise<void>;
     delete(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, nodeConfigurationName: string, options?: DscNodeConfigurationGetOptionalParams): Promise<DscNodeConfigurationGetResponse>;
@@ -1465,7 +1469,7 @@ export interface Identity {
     readonly tenantId?: string;
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+        [propertyName: string]: UserAssignedIdentitiesProperties;
     };
 }
 
@@ -1923,6 +1927,26 @@ export enum KnownLinuxUpdateClasses {
 }
 
 // @public
+export enum KnownModuleProvisioningState {
+    ActivitiesStored = "ActivitiesStored",
+    Canceled = "Canceled",
+    ConnectionTypeImported = "ConnectionTypeImported",
+    ContentDownloaded = "ContentDownloaded",
+    ContentRetrieved = "ContentRetrieved",
+    ContentStored = "ContentStored",
+    ContentValidated = "ContentValidated",
+    Created = "Created",
+    Creating = "Creating",
+    Failed = "Failed",
+    ModuleDataStored = "ModuleDataStored",
+    ModuleImportRunbookComplete = "ModuleImportRunbookComplete",
+    RunningImportModuleRunbook = "RunningImportModuleRunbook",
+    StartingImportModuleRunbook = "StartingImportModuleRunbook",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownProvisioningState {
     Completed = "Completed",
     Failed = "Failed",
@@ -1942,6 +1966,7 @@ export enum KnownRunbookTypeEnum {
     GraphPowerShell = "GraphPowerShell",
     GraphPowerShellWorkflow = "GraphPowerShellWorkflow",
     PowerShell = "PowerShell",
+    PowerShell72 = "PowerShell72",
     PowerShellWorkflow = "PowerShellWorkflow",
     Python2 = "Python2",
     Python3 = "Python3",
@@ -2048,6 +2073,23 @@ export interface LinuxProperties {
 export type LinuxUpdateClasses = string;
 
 // @public
+export interface LogSpecification {
+    blobDuration?: string;
+    displayName?: string;
+    name?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    aggregationType?: string;
+    dimensions?: Dimension[];
+    displayDescription?: string;
+    displayName?: string;
+    name?: string;
+    unit?: string;
+}
+
+// @public
 export interface Module extends TrackedResource {
     activityCount?: number;
     contentLink?: ContentLink;
@@ -2127,7 +2169,7 @@ export interface ModuleOperations {
 }
 
 // @public
-export type ModuleProvisioningState = "Created" | "Creating" | "StartingImportModuleRunbook" | "RunningImportModuleRunbook" | "ContentRetrieved" | "ContentDownloaded" | "ContentValidated" | "ConnectionTypeImported" | "ContentStored" | "ModuleDataStored" | "ActivitiesStored" | "ModuleImportRunbookComplete" | "Succeeded" | "Failed" | "Cancelled" | "Updating";
+export type ModuleProvisioningState = string;
 
 // @public
 export interface ModuleUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2136,8 +2178,8 @@ export interface ModuleUpdateOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ModuleUpdateParameters {
     contentLink?: ContentLink;
-    location?: string;
-    name?: string;
+    readonly location?: string;
+    readonly name?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -2245,10 +2287,13 @@ export type OperatingSystemType = "Windows" | "Linux";
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
+    origin?: string;
+    serviceSpecification?: OperationPropertiesFormatServiceSpecification;
 }
 
 // @public
 export interface OperationDisplay {
+    description?: string;
     operation?: string;
     provider?: string;
     resource?: string;
@@ -2257,6 +2302,12 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     value?: Operation[];
+}
+
+// @public
+export interface OperationPropertiesFormatServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
 }
 
 // @public
@@ -2272,6 +2323,54 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface PowerShell72Module {
+    createOrUpdate(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleCreateOrUpdateParameters, options?: PowerShell72ModuleCreateOrUpdateOptionalParams): Promise<PowerShell72ModuleCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: PowerShell72ModuleDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, automationAccountName: string, moduleName: string, options?: PowerShell72ModuleGetOptionalParams): Promise<PowerShell72ModuleGetResponse>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: PowerShell72ModuleListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Module>;
+    update(resourceGroupName: string, automationAccountName: string, moduleName: string, parameters: ModuleUpdateParameters, options?: PowerShell72ModuleUpdateOptionalParams): Promise<PowerShell72ModuleUpdateResponse>;
+}
+
+// @public
+export interface PowerShell72ModuleCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PowerShell72ModuleCreateOrUpdateResponse = Module;
+
+// @public
+export interface PowerShell72ModuleDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PowerShell72ModuleGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PowerShell72ModuleGetResponse = Module;
+
+// @public
+export interface PowerShell72ModuleListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PowerShell72ModuleListByAutomationAccountNextResponse = ModuleListResult;
+
+// @public
+export interface PowerShell72ModuleListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PowerShell72ModuleListByAutomationAccountResponse = ModuleListResult;
+
+// @public
+export interface PowerShell72ModuleUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PowerShell72ModuleUpdateResponse = Module;
+
+// @public
 export interface PrivateEndpointConnection extends ProxyResource {
     groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
@@ -2285,9 +2384,9 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: PrivateEndpointConnectionsListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -2411,6 +2510,54 @@ export interface Python2PackageUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type Python2PackageUpdateResponse = Module;
+
+// @public
+export interface Python3Package {
+    createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageCreateParameters, options?: Python3PackageCreateOrUpdateOptionalParams): Promise<Python3PackageCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageGetOptionalParams): Promise<Python3PackageGetResponse>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Python3PackageListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Module>;
+    update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageUpdateParameters, options?: Python3PackageUpdateOptionalParams): Promise<Python3PackageUpdateResponse>;
+}
+
+// @public
+export interface Python3PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageCreateOrUpdateResponse = Module;
+
+// @public
+export interface Python3PackageDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface Python3PackageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageGetResponse = Module;
+
+// @public
+export interface Python3PackageListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountNextResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageUpdateResponse = Module;
 
 // @public
 export interface PythonPackageCreateParameters {
@@ -2548,7 +2695,7 @@ export type RunbookDraftGetResponse = RunbookDraft;
 
 // @public
 export interface RunbookDraftOperations {
-    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<PollerLike<PollOperationState<RunbookDraftReplaceContentResponse>, RunbookDraftReplaceContentResponse>>;
+    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<SimplePollerLike<OperationState<RunbookDraftReplaceContentResponse>, RunbookDraftReplaceContentResponse>>;
     beginReplaceContentAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<RunbookDraftReplaceContentResponse>;
     get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetOptionalParams): Promise<RunbookDraftGetResponse>;
     getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetContentOptionalParams): Promise<RunbookDraftGetContentResponse>;
@@ -2625,7 +2772,7 @@ export interface RunbookListResult {
 
 // @public
 export interface RunbookOperations {
-    beginPublish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<PollerLike<PollOperationState<RunbookPublishResponse>, RunbookPublishResponse>>;
+    beginPublish(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<SimplePollerLike<OperationState<RunbookPublishResponse>, RunbookPublishResponse>>;
     beginPublishAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookPublishOptionalParams): Promise<RunbookPublishResponse>;
     createOrUpdate(resourceGroupName: string, automationAccountName: string, runbookName: string, parameters: RunbookCreateOrUpdateParameters, options?: RunbookCreateOrUpdateOptionalParams): Promise<RunbookCreateOrUpdateResponse>;
     delete(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDeleteOptionalParams): Promise<void>;
@@ -3462,6 +3609,12 @@ export interface UsagesListByAutomationAccountOptionalParams extends coreClient.
 
 // @public
 export type UsagesListByAutomationAccountResponse = UsageListResult;
+
+// @public (undocumented)
+export interface UserAssignedIdentitiesProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface Variable extends ProxyResource {

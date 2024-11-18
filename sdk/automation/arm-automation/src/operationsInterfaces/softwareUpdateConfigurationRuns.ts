@@ -10,7 +10,7 @@ import {
   SoftwareUpdateConfigurationRunsGetByIdOptionalParams,
   SoftwareUpdateConfigurationRunsGetByIdResponse,
   SoftwareUpdateConfigurationRunsListOptionalParams,
-  SoftwareUpdateConfigurationRunsListResponse
+  SoftwareUpdateConfigurationRunsListResponse,
 } from "../models";
 
 /** Interface representing a SoftwareUpdateConfigurationRuns. */
@@ -26,7 +26,7 @@ export interface SoftwareUpdateConfigurationRuns {
     resourceGroupName: string,
     automationAccountName: string,
     softwareUpdateConfigurationRunId: string,
-    options?: SoftwareUpdateConfigurationRunsGetByIdOptionalParams
+    options?: SoftwareUpdateConfigurationRunsGetByIdOptionalParams,
   ): Promise<SoftwareUpdateConfigurationRunsGetByIdResponse>;
   /**
    * Return list of software update configuration runs
@@ -37,6 +37,6 @@ export interface SoftwareUpdateConfigurationRuns {
   list(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SoftwareUpdateConfigurationRunsListOptionalParams
+    options?: SoftwareUpdateConfigurationRunsListOptionalParams,
   ): Promise<SoftwareUpdateConfigurationRunsListResponse>;
 }

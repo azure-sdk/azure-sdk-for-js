@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DscCompilationJob,
   DscCompilationJobListByAutomationAccountOptionalParams,
@@ -17,7 +17,7 @@ import {
   DscCompilationJobGetOptionalParams,
   DscCompilationJobGetResponse,
   DscCompilationJobGetStreamOptionalParams,
-  DscCompilationJobGetStreamResponse
+  DscCompilationJobGetStreamResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface DscCompilationJobOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscCompilationJobListByAutomationAccountOptionalParams
+    options?: DscCompilationJobListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<DscCompilationJob>;
   /**
    * Creates the Dsc compilation job of the configuration.
@@ -47,10 +47,10 @@ export interface DscCompilationJobOperations {
     automationAccountName: string,
     compilationJobName: string,
     parameters: DscCompilationJobCreateParameters,
-    options?: DscCompilationJobCreateOptionalParams
+    options?: DscCompilationJobCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DscCompilationJobCreateResponse>,
+    SimplePollerLike<
+      OperationState<DscCompilationJobCreateResponse>,
       DscCompilationJobCreateResponse
     >
   >;
@@ -67,7 +67,7 @@ export interface DscCompilationJobOperations {
     automationAccountName: string,
     compilationJobName: string,
     parameters: DscCompilationJobCreateParameters,
-    options?: DscCompilationJobCreateOptionalParams
+    options?: DscCompilationJobCreateOptionalParams,
   ): Promise<DscCompilationJobCreateResponse>;
   /**
    * Retrieve the Dsc configuration compilation job identified by job id.
@@ -80,7 +80,7 @@ export interface DscCompilationJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     compilationJobName: string,
-    options?: DscCompilationJobGetOptionalParams
+    options?: DscCompilationJobGetOptionalParams,
   ): Promise<DscCompilationJobGetResponse>;
   /**
    * Retrieve the job stream identified by job stream id.
@@ -95,6 +95,6 @@ export interface DscCompilationJobOperations {
     automationAccountName: string,
     jobId: string,
     jobStreamId: string,
-    options?: DscCompilationJobGetStreamOptionalParams
+    options?: DscCompilationJobGetStreamOptionalParams,
   ): Promise<DscCompilationJobGetStreamResponse>;
 }

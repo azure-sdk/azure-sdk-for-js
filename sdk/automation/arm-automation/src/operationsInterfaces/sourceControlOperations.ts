@@ -18,7 +18,7 @@ import {
   SourceControlUpdateResponse,
   SourceControlDeleteOptionalParams,
   SourceControlGetOptionalParams,
-  SourceControlGetResponse
+  SourceControlGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface SourceControlOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SourceControlListByAutomationAccountOptionalParams
+    options?: SourceControlListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<SourceControl>;
   /**
    * Create a source control.
@@ -48,7 +48,7 @@ export interface SourceControlOperations {
     automationAccountName: string,
     sourceControlName: string,
     parameters: SourceControlCreateOrUpdateParameters,
-    options?: SourceControlCreateOrUpdateOptionalParams
+    options?: SourceControlCreateOrUpdateOptionalParams,
   ): Promise<SourceControlCreateOrUpdateResponse>;
   /**
    * Update a source control.
@@ -63,7 +63,7 @@ export interface SourceControlOperations {
     automationAccountName: string,
     sourceControlName: string,
     parameters: SourceControlUpdateParameters,
-    options?: SourceControlUpdateOptionalParams
+    options?: SourceControlUpdateOptionalParams,
   ): Promise<SourceControlUpdateResponse>;
   /**
    * Delete the source control.
@@ -76,7 +76,7 @@ export interface SourceControlOperations {
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlDeleteOptionalParams
+    options?: SourceControlDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the source control identified by source control name.
@@ -89,6 +89,6 @@ export interface SourceControlOperations {
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlGetOptionalParams
+    options?: SourceControlGetOptionalParams,
   ): Promise<SourceControlGetResponse>;
 }

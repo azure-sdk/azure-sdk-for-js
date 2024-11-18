@@ -20,7 +20,7 @@ import {
   JobStreamListByJobResponse,
   JobStreamGetOptionalParams,
   JobStreamGetResponse,
-  JobStreamListByJobNextResponse
+  JobStreamListByJobNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobStreamListByJobOptionalParams
+    options?: JobStreamListByJobOptionalParams,
   ): PagedAsyncIterableIterator<JobStream> {
     const iter = this.listByJobPagingAll(
       resourceGroupName,
       automationAccountName,
       jobName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
           automationAccountName,
           jobName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     automationAccountName: string,
     jobName: string,
     options?: JobStreamListByJobOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<JobStream[]> {
     let result: JobStreamListByJobResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
         resourceGroupName,
         automationAccountName,
         jobName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
         automationAccountName,
         jobName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobStreamListByJobOptionalParams
+    options?: JobStreamListByJobOptionalParams,
   ): AsyncIterableIterator<JobStream> {
     for await (const page of this.listByJobPagingPage(
       resourceGroupName,
       automationAccountName,
       jobName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     automationAccountName: string,
     jobName: string,
     jobStreamId: string,
-    options?: JobStreamGetOptionalParams
+    options?: JobStreamGetOptionalParams,
   ): Promise<JobStreamGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -150,9 +150,9 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
         automationAccountName,
         jobName,
         jobStreamId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobStreamListByJobOptionalParams
+    options?: JobStreamListByJobOptionalParams,
   ): Promise<JobStreamListByJobResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobName, options },
-      listByJobOperationSpec
+      listByJobOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
     automationAccountName: string,
     jobName: string,
     nextLink: string,
-    options?: JobStreamListByJobNextOptionalParams
+    options?: JobStreamListByJobNextOptionalParams,
   ): Promise<JobStreamListByJobNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, jobName, nextLink, options },
-      listByJobNextOperationSpec
+      listByJobNextOperationSpec,
     );
   }
 }
@@ -200,62 +200,60 @@ export class JobStreamOperationsImpl implements JobStreamOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams/{jobStreamId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams/{jobStreamId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStream
+      bodyMapper: Mappers.JobStream,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.jobStreamId,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listByJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/jobs/{jobName}/streams",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStreamListResult
+      bodyMapper: Mappers.JobStreamListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listByJobNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobStreamListResult
+      bodyMapper: Mappers.JobStreamListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -263,8 +261,8 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nextLink,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

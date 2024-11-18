@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { CertificateOperations } from "../operationsInterfaces";
+import { PowerShell72Module } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  Certificate,
-  CertificateListByAutomationAccountNextOptionalParams,
-  CertificateListByAutomationAccountOptionalParams,
-  CertificateListByAutomationAccountResponse,
-  CertificateDeleteOptionalParams,
-  CertificateGetOptionalParams,
-  CertificateGetResponse,
-  CertificateCreateOrUpdateParameters,
-  CertificateCreateOrUpdateOptionalParams,
-  CertificateCreateOrUpdateResponse,
-  CertificateUpdateParameters,
-  CertificateUpdateOptionalParams,
-  CertificateUpdateResponse,
-  CertificateListByAutomationAccountNextResponse,
+  Module,
+  PowerShell72ModuleListByAutomationAccountNextOptionalParams,
+  PowerShell72ModuleListByAutomationAccountOptionalParams,
+  PowerShell72ModuleListByAutomationAccountResponse,
+  PowerShell72ModuleDeleteOptionalParams,
+  PowerShell72ModuleGetOptionalParams,
+  PowerShell72ModuleGetResponse,
+  ModuleCreateOrUpdateParameters,
+  PowerShell72ModuleCreateOrUpdateOptionalParams,
+  PowerShell72ModuleCreateOrUpdateResponse,
+  ModuleUpdateParameters,
+  PowerShell72ModuleUpdateOptionalParams,
+  PowerShell72ModuleUpdateResponse,
+  PowerShell72ModuleListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing CertificateOperations operations. */
-export class CertificateOperationsImpl implements CertificateOperations {
+/** Class containing PowerShell72Module operations. */
+export class PowerShell72ModuleImpl implements PowerShell72Module {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class CertificateOperations class.
+   * Initialize a new instance of the class PowerShell72Module class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,16 +44,16 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Retrieve a list of certificates.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Certificate> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +83,10 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Certificate[]> {
-    let result: CertificateListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: PowerShell72ModuleListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +116,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Certificate> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,63 +128,63 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Delete the certificate.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Delete the module by name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The name of certificate.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    options?: CertificateDeleteOptionalParams,
+    moduleName: string,
+    options?: PowerShell72ModuleDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, certificateName, options },
+      { resourceGroupName, automationAccountName, moduleName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve the certificate identified by certificate name.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The name of certificate.
+   * @param moduleName The name of module.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    options?: CertificateGetOptionalParams,
-  ): Promise<CertificateGetResponse> {
+    moduleName: string,
+    options?: PowerShell72ModuleGetOptionalParams,
+  ): Promise<PowerShell72ModuleGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, certificateName, options },
+      { resourceGroupName, automationAccountName, moduleName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a certificate.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Create or Update the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The parameters supplied to the create or update certificate operation.
-   * @param parameters The parameters supplied to the create or update certificate operation.
+   * @param moduleName The name of module.
+   * @param parameters The create or update parameters for module.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOrUpdateOptionalParams,
-  ): Promise<CertificateCreateOrUpdateResponse> {
+    moduleName: string,
+    parameters: ModuleCreateOrUpdateParameters,
+    options?: PowerShell72ModuleCreateOrUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        certificateName,
+        moduleName,
         parameters,
         options,
       },
@@ -193,25 +193,25 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Update a certificate.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Update the module identified by module name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
-   * @param certificateName The parameters supplied to the update certificate operation.
-   * @param parameters The parameters supplied to the update certificate operation.
+   * @param moduleName The name of module.
+   * @param parameters The update parameters for module.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    certificateName: string,
-    parameters: CertificateUpdateParameters,
-    options?: CertificateUpdateOptionalParams,
-  ): Promise<CertificateUpdateResponse> {
+    moduleName: string,
+    parameters: ModuleUpdateParameters,
+    options?: PowerShell72ModuleUpdateOptionalParams,
+  ): Promise<PowerShell72ModuleUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        certificateName,
+        moduleName,
         parameters,
         options,
       },
@@ -220,16 +220,16 @@ export class CertificateOperationsImpl implements CertificateOperations {
   }
 
   /**
-   * Retrieve a list of certificates.
-   * @param resourceGroupName Name of an Azure Resource group.
+   * Retrieve a list of PowerShell72 modules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
    */
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CertificateListByAutomationAccountOptionalParams,
-  ): Promise<CertificateListByAutomationAccountResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountOptionalParams,
+  ): Promise<PowerShell72ModuleListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -238,7 +238,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
 
   /**
    * ListByAutomationAccountNext
-   * @param resourceGroupName Name of an Azure Resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param automationAccountName The name of the automation account.
    * @param nextLink The nextLink from the previous successful call to the ListByAutomationAccount
    *                 method.
@@ -248,8 +248,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: CertificateListByAutomationAccountNextOptionalParams,
-  ): Promise<CertificateListByAutomationAccountNextResponse> {
+    options?: PowerShell72ModuleListByAutomationAccountNextOptionalParams,
+  ): Promise<PowerShell72ModuleListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -260,10 +260,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -272,19 +273,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -294,70 +295,70 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     201: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules/{moduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
-    Parameters.certificateName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
+    Parameters.moduleName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/powerShell72Modules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -367,8 +368,8 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -378,7 +379,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -387,9 +388,9 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.automationAccountName,
     Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.automationAccountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

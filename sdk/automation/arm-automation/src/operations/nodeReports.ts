@@ -22,7 +22,7 @@ import {
   NodeReportsGetResponse,
   NodeReportsGetContentOptionalParams,
   NodeReportsGetContentResponse,
-  NodeReportsListByNodeNextResponse
+  NodeReportsListByNodeNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,13 +49,13 @@ export class NodeReportsImpl implements NodeReports {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: NodeReportsListByNodeOptionalParams
+    options?: NodeReportsListByNodeOptionalParams,
   ): PagedAsyncIterableIterator<DscNodeReport> {
     const iter = this.listByNodePagingAll(
       resourceGroupName,
       automationAccountName,
       nodeId,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +73,9 @@ export class NodeReportsImpl implements NodeReports {
           automationAccountName,
           nodeId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class NodeReportsImpl implements NodeReports {
     automationAccountName: string,
     nodeId: string,
     options?: NodeReportsListByNodeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DscNodeReport[]> {
     let result: NodeReportsListByNodeResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class NodeReportsImpl implements NodeReports {
         resourceGroupName,
         automationAccountName,
         nodeId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class NodeReportsImpl implements NodeReports {
         automationAccountName,
         nodeId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,13 +119,13 @@ export class NodeReportsImpl implements NodeReports {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: NodeReportsListByNodeOptionalParams
+    options?: NodeReportsListByNodeOptionalParams,
   ): AsyncIterableIterator<DscNodeReport> {
     for await (const page of this.listByNodePagingPage(
       resourceGroupName,
       automationAccountName,
       nodeId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,11 +142,11 @@ export class NodeReportsImpl implements NodeReports {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: NodeReportsListByNodeOptionalParams
+    options?: NodeReportsListByNodeOptionalParams,
   ): Promise<NodeReportsListByNodeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, options },
-      listByNodeOperationSpec
+      listByNodeOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class NodeReportsImpl implements NodeReports {
     automationAccountName: string,
     nodeId: string,
     reportId: string,
-    options?: NodeReportsGetOptionalParams
+    options?: NodeReportsGetOptionalParams,
   ): Promise<NodeReportsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, reportId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -184,11 +184,11 @@ export class NodeReportsImpl implements NodeReports {
     automationAccountName: string,
     nodeId: string,
     reportId: string,
-    options?: NodeReportsGetContentOptionalParams
+    options?: NodeReportsGetContentOptionalParams,
   ): Promise<NodeReportsGetContentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, reportId, options },
-      getContentOperationSpec
+      getContentOperationSpec,
     );
   }
 
@@ -205,11 +205,11 @@ export class NodeReportsImpl implements NodeReports {
     automationAccountName: string,
     nodeId: string,
     nextLink: string,
-    options?: NodeReportsListByNodeNextOptionalParams
+    options?: NodeReportsListByNodeNextOptionalParams,
   ): Promise<NodeReportsListByNodeNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, nextLink, options },
-      listByNodeNextOperationSpec
+      listByNodeNextOperationSpec,
     );
   }
 }
@@ -217,16 +217,15 @@ export class NodeReportsImpl implements NodeReports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeReportListResult
+      bodyMapper: Mappers.DscNodeReportListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -234,22 +233,21 @@ const listByNodeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeId
+    Parameters.nodeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeReport
+      bodyMapper: Mappers.DscNodeReport,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -258,24 +256,23 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
-    Parameters.reportId
+    Parameters.reportId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getContentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}/content",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}/reports/{reportId}/content",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -284,30 +281,30 @@ const getContentOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.nodeId,
-    Parameters.reportId
+    Parameters.reportId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNodeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeReportListResult
+      bodyMapper: Mappers.DscNodeReportListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.nodeId,
     Parameters.nextLink,
-    Parameters.nodeId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

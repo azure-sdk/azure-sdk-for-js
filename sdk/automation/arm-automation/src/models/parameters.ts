@@ -9,19 +9,18 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  PythonPackageCreateParameters as PythonPackageCreateParametersMapper,
-  PythonPackageUpdateParameters as PythonPackageUpdateParametersMapper,
   AgentRegistrationRegenerateKeyParameter as AgentRegistrationRegenerateKeyParameterMapper,
   DscNodeUpdateParameters as DscNodeUpdateParametersMapper,
-  DscNodeConfigurationCreateOrUpdateParameters as DscNodeConfigurationCreateOrUpdateParametersMapper,
   DscCompilationJobCreateParameters as DscCompilationJobCreateParametersMapper,
-  SourceControlCreateOrUpdateParameters as SourceControlCreateOrUpdateParametersMapper,
-  SourceControlUpdateParameters as SourceControlUpdateParametersMapper,
-  SourceControlSyncJobCreateParameters as SourceControlSyncJobCreateParametersMapper,
+  Watcher as WatcherMapper,
+  WatcherUpdateParameters as WatcherUpdateParametersMapper,
+  SoftwareUpdateConfiguration as SoftwareUpdateConfigurationMapper,
+  WebhookCreateOrUpdateParameters as WebhookCreateOrUpdateParametersMapper,
+  WebhookUpdateParameters as WebhookUpdateParametersMapper,
   AutomationAccountUpdateParameters as AutomationAccountUpdateParametersMapper,
   AutomationAccountCreateOrUpdateParameters as AutomationAccountCreateOrUpdateParametersMapper,
   CertificateCreateOrUpdateParameters as CertificateCreateOrUpdateParametersMapper,
@@ -31,28 +30,29 @@ import {
   ConnectionTypeCreateOrUpdateParameters as ConnectionTypeCreateOrUpdateParametersMapper,
   CredentialCreateOrUpdateParameters as CredentialCreateOrUpdateParametersMapper,
   CredentialUpdateParameters as CredentialUpdateParametersMapper,
+  DscConfigurationCreateOrUpdateParameters as DscConfigurationCreateOrUpdateParametersMapper,
+  DscConfigurationUpdateParameters as DscConfigurationUpdateParametersMapper,
+  DscNodeConfigurationCreateOrUpdateParameters as DscNodeConfigurationCreateOrUpdateParametersMapper,
+  HybridRunbookWorkerCreateParameters as HybridRunbookWorkerCreateParametersMapper,
+  HybridRunbookWorkerMoveParameters as HybridRunbookWorkerMoveParametersMapper,
+  HybridRunbookWorkerGroupCreateOrUpdateParameters as HybridRunbookWorkerGroupCreateOrUpdateParametersMapper,
+  JobCreateParameters as JobCreateParametersMapper,
   JobScheduleCreateParameters as JobScheduleCreateParametersMapper,
   ModuleCreateOrUpdateParameters as ModuleCreateOrUpdateParametersMapper,
   ModuleUpdateParameters as ModuleUpdateParametersMapper,
-  ScheduleCreateOrUpdateParameters as ScheduleCreateOrUpdateParametersMapper,
-  ScheduleUpdateParameters as ScheduleUpdateParametersMapper,
-  VariableCreateOrUpdateParameters as VariableCreateOrUpdateParametersMapper,
-  VariableUpdateParameters as VariableUpdateParametersMapper,
-  Watcher as WatcherMapper,
-  WatcherUpdateParameters as WatcherUpdateParametersMapper,
-  DscConfigurationCreateOrUpdateParameters as DscConfigurationCreateOrUpdateParametersMapper,
-  DscConfigurationUpdateParameters as DscConfigurationUpdateParametersMapper,
-  JobCreateParameters as JobCreateParametersMapper,
   GraphicalRunbookContent as GraphicalRunbookContentMapper,
-  SoftwareUpdateConfiguration as SoftwareUpdateConfigurationMapper,
+  PythonPackageCreateParameters as PythonPackageCreateParametersMapper,
+  PythonPackageUpdateParameters as PythonPackageUpdateParametersMapper,
   RunbookCreateOrUpdateParameters as RunbookCreateOrUpdateParametersMapper,
   RunbookUpdateParameters as RunbookUpdateParametersMapper,
   TestJobCreateParameters as TestJobCreateParametersMapper,
-  WebhookCreateOrUpdateParameters as WebhookCreateOrUpdateParametersMapper,
-  WebhookUpdateParameters as WebhookUpdateParametersMapper,
-  HybridRunbookWorkerCreateParameters as HybridRunbookWorkerCreateParametersMapper,
-  HybridRunbookWorkerMoveParameters as HybridRunbookWorkerMoveParametersMapper,
-  HybridRunbookWorkerGroupCreateOrUpdateParameters as HybridRunbookWorkerGroupCreateOrUpdateParametersMapper
+  ScheduleCreateOrUpdateParameters as ScheduleCreateOrUpdateParametersMapper,
+  ScheduleUpdateParameters as ScheduleUpdateParametersMapper,
+  SourceControlCreateOrUpdateParameters as SourceControlCreateOrUpdateParametersMapper,
+  SourceControlUpdateParameters as SourceControlUpdateParametersMapper,
+  SourceControlSyncJobCreateParameters as SourceControlSyncJobCreateParametersMapper,
+  VariableCreateOrUpdateParameters as VariableCreateOrUpdateParametersMapper,
+  VariableUpdateParameters as VariableUpdateParametersMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -62,9 +62,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -73,10 +73,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -85,9 +85,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -96,14 +96,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -113,9 +113,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const automationAccountName: OperationURLParameter = {
@@ -124,9 +124,9 @@ export const automationAccountName: OperationURLParameter = {
     serializedName: "automationAccountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -135,9 +135,9 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -147,52 +147,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const packageName: OperationURLParameter = {
-  parameterPath: "packageName",
-  mapper: {
-    serializedName: "packageName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PythonPackageCreateParametersMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PythonPackageUpdateParametersMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AgentRegistrationRegenerateKeyParameterMapper
+  mapper: AgentRegistrationRegenerateKeyParameterMapper,
 };
 
 export const nodeId: OperationURLParameter = {
@@ -201,14 +168,14 @@ export const nodeId: OperationURLParameter = {
     serializedName: "nodeId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dscNodeUpdateParameters: OperationParameter = {
   parameterPath: "dscNodeUpdateParameters",
-  mapper: DscNodeUpdateParametersMapper
+  mapper: DscNodeUpdateParametersMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -216,9 +183,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -226,9 +193,9 @@ export const skip: OperationQueryParameter = {
   mapper: {
     serializedName: "$skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -236,9 +203,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const inlinecount: OperationQueryParameter = {
@@ -246,9 +213,21 @@ export const inlinecount: OperationQueryParameter = {
   mapper: {
     serializedName: "$inlinecount",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const reportId: OperationURLParameter = {
@@ -257,30 +236,14 @@ export const reportId: OperationURLParameter = {
     serializedName: "reportId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const nodeConfigurationName: OperationURLParameter = {
-  parameterPath: "nodeConfigurationName",
-  mapper: {
-    serializedName: "nodeConfigurationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DscNodeConfigurationCreateOrUpdateParametersMapper
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DscCompilationJobCreateParametersMapper
+  mapper: DscCompilationJobCreateParametersMapper,
 };
 
 export const compilationJobName: OperationURLParameter = {
@@ -289,9 +252,9 @@ export const compilationJobName: OperationURLParameter = {
     serializedName: "compilationJobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobId: OperationURLParameter = {
@@ -300,9 +263,9 @@ export const jobId: OperationURLParameter = {
     serializedName: "jobId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const jobStreamId: OperationURLParameter = {
@@ -311,9 +274,9 @@ export const jobStreamId: OperationURLParameter = {
     serializedName: "jobStreamId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const countType: OperationURLParameter = {
@@ -322,264 +285,14 @@ export const countType: OperationURLParameter = {
     serializedName: "countType",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters6: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: SourceControlCreateOrUpdateParametersMapper
-};
-
-export const sourceControlName: OperationURLParameter = {
-  parameterPath: "sourceControlName",
-  mapper: {
-    serializedName: "sourceControlName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters7: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SourceControlUpdateParametersMapper
-};
-
-export const parameters8: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SourceControlSyncJobCreateParametersMapper
-};
-
-export const sourceControlSyncJobId: OperationURLParameter = {
-  parameterPath: "sourceControlSyncJobId",
-  mapper: {
-    serializedName: "sourceControlSyncJobId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const streamId: OperationURLParameter = {
-  parameterPath: "streamId",
-  mapper: {
-    serializedName: "streamId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AutomationAccountUpdateParametersMapper
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-22",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AutomationAccountCreateOrUpdateParametersMapper
-};
-
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters11: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CertificateCreateOrUpdateParametersMapper
-};
-
-export const parameters12: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CertificateUpdateParametersMapper
-};
-
-export const connectionName: OperationURLParameter = {
-  parameterPath: "connectionName",
-  mapper: {
-    serializedName: "connectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters13: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ConnectionCreateOrUpdateParametersMapper
-};
-
-export const parameters14: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ConnectionUpdateParametersMapper
-};
-
-export const connectionTypeName: OperationURLParameter = {
-  parameterPath: "connectionTypeName",
-  mapper: {
-    serializedName: "connectionTypeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters15: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ConnectionTypeCreateOrUpdateParametersMapper
-};
-
-export const credentialName: OperationURLParameter = {
-  parameterPath: "credentialName",
-  mapper: {
-    serializedName: "credentialName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters16: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CredentialCreateOrUpdateParametersMapper
-};
-
-export const parameters17: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CredentialUpdateParametersMapper
-};
-
-export const jobScheduleId: OperationURLParameter = {
-  parameterPath: "jobScheduleId",
-  mapper: {
-    serializedName: "jobScheduleId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const parameters18: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: JobScheduleCreateParametersMapper
-};
-
-export const moduleName: OperationURLParameter = {
-  parameterPath: "moduleName",
-  mapper: {
-    serializedName: "moduleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const activityName: OperationURLParameter = {
-  parameterPath: "activityName",
-  mapper: {
-    serializedName: "activityName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters19: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ModuleCreateOrUpdateParametersMapper
-};
-
-export const parameters20: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ModuleUpdateParametersMapper
-};
-
-export const typeName: OperationURLParameter = {
-  parameterPath: "typeName",
-  mapper: {
-    serializedName: "typeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters21: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ScheduleCreateOrUpdateParametersMapper
-};
-
-export const scheduleName: OperationURLParameter = {
-  parameterPath: "scheduleName",
-  mapper: {
-    serializedName: "scheduleName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters22: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ScheduleUpdateParametersMapper
-};
-
-export const parameters23: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VariableCreateOrUpdateParametersMapper
-};
-
-export const variableName: OperationURLParameter = {
-  parameterPath: "variableName",
-  mapper: {
-    serializedName: "variableName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters24: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VariableUpdateParametersMapper
-};
-
-export const parameters25: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: WatcherMapper
+  mapper: WatcherMapper,
 };
 
 export const watcherName: OperationURLParameter = {
@@ -588,14 +301,198 @@ export const watcherName: OperationURLParameter = {
     serializedName: "watcherName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters26: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WatcherUpdateParametersMapper
+  mapper: WatcherUpdateParametersMapper,
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SoftwareUpdateConfigurationMapper,
+};
+
+export const softwareUpdateConfigurationName: OperationURLParameter = {
+  parameterPath: "softwareUpdateConfigurationName",
+  mapper: {
+    serializedName: "softwareUpdateConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2019-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const clientRequestId: OperationParameter = {
+  parameterPath: ["options", "clientRequestId"],
+  mapper: {
+    serializedName: "clientRequestId",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2015-10-31",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const webhookName: OperationURLParameter = {
+  parameterPath: "webhookName",
+  mapper: {
+    serializedName: "webhookName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WebhookCreateOrUpdateParametersMapper,
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WebhookUpdateParametersMapper,
+};
+
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-01-31",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AutomationAccountUpdateParametersMapper,
+};
+
+export const apiVersion4: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AutomationAccountCreateOrUpdateParametersMapper,
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CertificateCreateOrUpdateParametersMapper,
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CertificateUpdateParametersMapper,
+};
+
+export const connectionName: OperationURLParameter = {
+  parameterPath: "connectionName",
+  mapper: {
+    serializedName: "connectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters12: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ConnectionCreateOrUpdateParametersMapper,
+};
+
+export const parameters13: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ConnectionUpdateParametersMapper,
+};
+
+export const connectionTypeName: OperationURLParameter = {
+  parameterPath: "connectionTypeName",
+  mapper: {
+    serializedName: "connectionTypeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters14: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ConnectionTypeCreateOrUpdateParametersMapper,
+};
+
+export const credentialName: OperationURLParameter = {
+  parameterPath: "credentialName",
+  mapper: {
+    serializedName: "credentialName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters15: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CredentialCreateOrUpdateParametersMapper,
+};
+
+export const parameters16: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CredentialUpdateParametersMapper,
 };
 
 export const configurationName: OperationURLParameter = {
@@ -604,21 +501,9 @@ export const configurationName: OperationURLParameter = {
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2019-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -628,20 +513,20 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters27: OperationParameter = {
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: {
     serializedName: "parameters",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept1: OperationParameter = {
@@ -651,9 +536,9 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType2: OperationParameter = {
@@ -663,29 +548,29 @@ export const contentType2: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters28: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DscConfigurationCreateOrUpdateParametersMapper
+  mapper: DscConfigurationCreateOrUpdateParametersMapper,
 };
 
-export const parameters29: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: {
     serializedName: "parameters",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters30: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: DscConfigurationUpdateParametersMapper
+  mapper: DscConfigurationUpdateParametersMapper,
 };
 
 export const accept2: OperationParameter = {
@@ -695,9 +580,67 @@ export const accept2: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nodeConfigurationName: OperationURLParameter = {
+  parameterPath: "nodeConfigurationName",
+  mapper: {
+    serializedName: "nodeConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters21: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DscNodeConfigurationCreateOrUpdateParametersMapper,
+};
+
+export const hybridRunbookWorkerGroupName: OperationURLParameter = {
+  parameterPath: "hybridRunbookWorkerGroupName",
+  mapper: {
+    serializedName: "hybridRunbookWorkerGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const hybridRunbookWorkerId: OperationURLParameter = {
+  parameterPath: "hybridRunbookWorkerId",
+  mapper: {
+    serializedName: "hybridRunbookWorkerId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const hybridRunbookWorkerCreationParameters: OperationParameter = {
+  parameterPath: "hybridRunbookWorkerCreationParameters",
+  mapper: HybridRunbookWorkerCreateParametersMapper,
+};
+
+export const hybridRunbookWorkerMoveParameters: OperationParameter = {
+  parameterPath: "hybridRunbookWorkerMoveParameters",
+  mapper: HybridRunbookWorkerMoveParametersMapper,
+};
+
+export const hybridRunbookWorkerGroupCreationParameters: OperationParameter = {
+  parameterPath: "hybridRunbookWorkerGroupCreationParameters",
+  mapper: HybridRunbookWorkerGroupCreateOrUpdateParametersMapper,
+};
+
+export const hybridRunbookWorkerGroupUpdationParameters: OperationParameter = {
+  parameterPath: "hybridRunbookWorkerGroupUpdationParameters",
+  mapper: HybridRunbookWorkerGroupCreateOrUpdateParametersMapper,
 };
 
 export const accept3: OperationParameter = {
@@ -707,9 +650,9 @@ export const accept3: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobName: OperationURLParameter = {
@@ -718,110 +661,156 @@ export const jobName: OperationURLParameter = {
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const clientRequestId: OperationParameter = {
-  parameterPath: ["options", "clientRequestId"],
+export const parameters22: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: JobCreateParametersMapper,
+};
+
+export const jobScheduleId: OperationURLParameter = {
+  parameterPath: "jobScheduleId",
   mapper: {
-    serializedName: "clientRequestId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters31: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: JobCreateParametersMapper
-};
-
-export const parameters32: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: GraphicalRunbookContentMapper
-};
-
-export const parameters33: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SoftwareUpdateConfigurationMapper
-};
-
-export const softwareUpdateConfigurationName: OperationURLParameter = {
-  parameterPath: "softwareUpdateConfigurationName",
-  mapper: {
-    serializedName: "softwareUpdateConfigurationName",
+    serializedName: "jobScheduleId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
-export const softwareUpdateConfigurationRunId: OperationURLParameter = {
-  parameterPath: "softwareUpdateConfigurationRunId",
+export const parameters23: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: JobScheduleCreateParametersMapper,
+};
+
+export const moduleName: OperationURLParameter = {
+  parameterPath: "moduleName",
   mapper: {
-    serializedName: "softwareUpdateConfigurationRunId",
+    serializedName: "moduleName",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const skip1: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
+export const activityName: OperationURLParameter = {
+  parameterPath: "activityName",
   mapper: {
-    serializedName: "$skip",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const top1: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    serializedName: "$top",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const softwareUpdateConfigurationMachineRunId: OperationURLParameter = {
-  parameterPath: "softwareUpdateConfigurationMachineRunId",
-  mapper: {
-    serializedName: "softwareUpdateConfigurationMachineRunId",
+    serializedName: "activityName",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters24: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ModuleCreateOrUpdateParametersMapper,
+};
+
+export const parameters25: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ModuleUpdateParametersMapper,
+};
+
+export const typeName: OperationURLParameter = {
+  parameterPath: "typeName",
+  mapper: {
+    serializedName: "typeName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const automationAccountName1: OperationURLParameter = {
+  parameterPath: "automationAccountName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z-_0-9]*$"),
+    },
+    serializedName: "automationAccountName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const moduleName1: OperationURLParameter = {
+  parameterPath: "moduleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z-._0-9]*$"),
+    },
+    serializedName: "moduleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters26: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GraphicalRunbookContentMapper,
+};
+
+export const packageName: OperationURLParameter = {
+  parameterPath: "packageName",
+  mapper: {
+    serializedName: "packageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters27: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PythonPackageCreateParametersMapper,
+};
+
+export const parameters28: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PythonPackageUpdateParametersMapper,
 };
 
 export const runbookName: OperationURLParameter = {
   parameterPath: "runbookName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z-_0-9]*$"),
+    },
     serializedName: "runbookName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2018-06-30",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType3: OperationParameter = {
@@ -831,9 +820,9 @@ export const contentType3: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const runbookContent: OperationParameter = {
@@ -842,121 +831,154 @@ export const runbookContent: OperationParameter = {
     serializedName: "runbookContent",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const parameters29: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RunbookCreateOrUpdateParametersMapper,
+};
+
+export const parameters30: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RunbookUpdateParametersMapper,
+};
+
+export const parameters31: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TestJobCreateParametersMapper,
+};
+
+export const parameters32: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduleCreateOrUpdateParametersMapper,
+};
+
+export const scheduleName: OperationURLParameter = {
+  parameterPath: "scheduleName",
+  mapper: {
+    serializedName: "scheduleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters33: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduleUpdateParametersMapper,
+};
+
+export const softwareUpdateConfigurationMachineRunId: OperationURLParameter = {
+  parameterPath: "softwareUpdateConfigurationMachineRunId",
+  mapper: {
+    serializedName: "softwareUpdateConfigurationMachineRunId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const skip1: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "$skip",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const softwareUpdateConfigurationRunId: OperationURLParameter = {
+  parameterPath: "softwareUpdateConfigurationRunId",
+  mapper: {
+    serializedName: "softwareUpdateConfigurationRunId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
 };
 
 export const parameters34: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RunbookCreateOrUpdateParametersMapper
+  mapper: SourceControlCreateOrUpdateParametersMapper,
+};
+
+export const sourceControlName: OperationURLParameter = {
+  parameterPath: "sourceControlName",
+  mapper: {
+    serializedName: "sourceControlName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters35: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RunbookUpdateParametersMapper
+  mapper: SourceControlUpdateParametersMapper,
 };
 
 export const parameters36: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TestJobCreateParametersMapper
+  mapper: SourceControlSyncJobCreateParametersMapper,
 };
 
-export const apiVersion4: OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const sourceControlSyncJobId: OperationURLParameter = {
+  parameterPath: "sourceControlSyncJobId",
   mapper: {
-    defaultValue: "2015-10-31",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const webhookName: OperationURLParameter = {
-  parameterPath: "webhookName",
-  mapper: {
-    serializedName: "webhookName",
+    serializedName: "sourceControlSyncJobId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
+};
+
+export const streamId: OperationURLParameter = {
+  parameterPath: "streamId",
+  mapper: {
+    serializedName: "streamId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters37: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WebhookCreateOrUpdateParametersMapper
+  mapper: VariableCreateOrUpdateParametersMapper,
+};
+
+export const variableName: OperationURLParameter = {
+  parameterPath: "variableName",
+  mapper: {
+    serializedName: "variableName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters38: OperationParameter = {
   parameterPath: "parameters",
-  mapper: WebhookUpdateParametersMapper
-};
-
-export const hybridRunbookWorkerGroupName: OperationURLParameter = {
-  parameterPath: "hybridRunbookWorkerGroupName",
-  mapper: {
-    serializedName: "hybridRunbookWorkerGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const hybridRunbookWorkerId: OperationURLParameter = {
-  parameterPath: "hybridRunbookWorkerId",
-  mapper: {
-    serializedName: "hybridRunbookWorkerId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const hybridRunbookWorkerCreationParameters: OperationParameter = {
-  parameterPath: "hybridRunbookWorkerCreationParameters",
-  mapper: HybridRunbookWorkerCreateParametersMapper
-};
-
-export const hybridRunbookWorkerMoveParameters: OperationParameter = {
-  parameterPath: "hybridRunbookWorkerMoveParameters",
-  mapper: HybridRunbookWorkerMoveParametersMapper
-};
-
-export const apiVersion5: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-01-31",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion6: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-02-22",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const hybridRunbookWorkerGroupCreationParameters: OperationParameter = {
-  parameterPath: "hybridRunbookWorkerGroupCreationParameters",
-  mapper: HybridRunbookWorkerGroupCreateOrUpdateParametersMapper
-};
-
-export const hybridRunbookWorkerGroupUpdationParameters: OperationParameter = {
-  parameterPath: "hybridRunbookWorkerGroupUpdationParameters",
-  mapper: HybridRunbookWorkerGroupCreateOrUpdateParametersMapper
+  mapper: VariableUpdateParametersMapper,
 };
