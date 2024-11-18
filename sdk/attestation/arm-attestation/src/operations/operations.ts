@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { AttestationManagementClient } from "../attestationManagementClient";
 import {
   OperationsListOptionalParams,
-  OperationsListResponse
+  OperationsListResponse,
 } from "../models";
 
 /** Class containing Operations operations. */
@@ -33,7 +33,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -46,14 +46,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
