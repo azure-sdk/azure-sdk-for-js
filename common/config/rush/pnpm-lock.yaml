@@ -806,6 +806,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-apicenter-rest':
+    specifier: file:./projects/azure-apicenter-rest.tgz
+    version: file:projects/azure-apicenter-rest.tgz
   '@rush-temp/batch':
     specifier: file:./projects/batch.tgz
     version: file:projects/batch.tgz
@@ -1968,12 +1971,6 @@ packages:
     dependencies:
       '@babel/helper-string-parser': 7.25.9
       '@babel/helper-validator-identifier': 7.25.9
-    dev: false
-
-  /@bundled-es-modules/cookie@2.0.0:
-    resolution: {integrity: sha512-Or6YHg/kamKHpxULAdSqhGqnWFneIXu1NKvvfBBzKGwpVsYuFIQ5aBPHDnnoR3ghW1nvSkALd+EF9iMtY7Vjxw==}
-    dependencies:
-      cookie: 0.5.0
     dev: false
 
   /@bundled-es-modules/cookie@2.0.1:
@@ -3822,13 +3819,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3856,7 +3853,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3870,7 +3867,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/debug@4.1.12:
@@ -3959,7 +3956,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4018,13 +4015,13 @@ packages:
   /@types/mysql@2.15.26:
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       form-data: 4.0.1
     dev: false
 
@@ -4063,7 +4060,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       pg-protocol: 1.7.0
       pg-types: 2.2.0
     dev: false
@@ -4090,7 +4087,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4109,14 +4106,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       '@types/send': 0.17.4
     dev: false
 
@@ -4147,7 +4144,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4200,7 +4197,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
     optional: true
 
@@ -5670,11 +5667,6 @@ packages:
     resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
-  /cookie@0.5.0:
-    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
-    engines: {node: '>= 0.6'}
-    dev: false
-
   /cookie@0.7.1:
     resolution: {integrity: sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==}
     engines: {node: '>= 0.6'}
@@ -6132,7 +6124,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -8702,7 +8694,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@bundled-es-modules/cookie': 2.0.0
+      '@bundled-es-modules/cookie': 2.0.1
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
       '@inquirer/confirm': 5.0.1(@types/node@18.19.64)
@@ -12348,7 +12340,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-PqM9ui81lmdhXEtP8GIAjLVcVvlupuMDmN23SvaEKLDAwj7x83KNuxMXUC03nuAu7GGw7f6duJQPj59nEyUXig==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-6C3jjNxEgVBUU20JjosTiobhkOlbsaBeUq+OJ0mXgqnm/Y3L5EhJz6zvG8MgM9Mj2yQPfX9VWCy4+Pn9Nkhslw==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -12506,7 +12498,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-tczwZFFKsT8A5tYnAH8FLQ1cpw9B0tFIiAVb5wPaI40o9Rx3gBKBxZ7mGU9lPdXwAy03uyqtXOAwr1JzaNTj4A==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Ab59rauKcO/H7u7fQJ0DmNlyMycKybpGa1Wsaw9GNLpNJxh+ibmPDS44TaOAcFwxOLIadyxaj7vsrmXXkM5Ocg==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -12710,7 +12702,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-+ezPIFcLbT94W1qUmvCf/8ZmRXgcIp4ZPWPvZChsGG05CeBCDrZecSEeO58F3vnVQDhYQAwOUwmqhgYJanVg0g==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-dMAIacqzLU3uGgVdn+A8r+/Vv7vC4Emr0Z0T3lCVhq7JoQmL3I7yyUueYdP6tPVYSGzko9MdRYXA11RvB9GHPA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -18839,6 +18831,43 @@ packages:
       - webdriverio
     dev: false
 
+  file:projects/azure-apicenter-rest.tgz:
+    resolution: {integrity: sha512-7hr3o5WJwiis38t7OQMjDwMpqJ4RybTg0Sbebag+VUiOqliz8e9UF6u6ylU3vd8Klra/1NAgngz9vzCtapNmNA==, tarball: file:projects/azure-apicenter-rest.tgz}
+    name: '@rush-temp/azure-apicenter-rest'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.48.2
+      tshy: 2.0.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/batch.tgz:
     resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
@@ -20800,7 +20829,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-d0r9Tcp+PR88ElbvXVtloMca/5o3x7baoqzfzU6erNYp3+qDb28vnauB7wgtSr/JCNFXUUEwCRdCDkqnj2SjIg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-QIMCv2kTVX8O/o5j/9cm9cj3M1Yu68nIK2z4ubzIx+w0ZJ4Sby3hc2F+UFe5oj59UyA29uZLX6sfITm7+SuKgQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     id: file:projects/eventhubs-checkpointstore-blob.tgz
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
@@ -21833,7 +21862,7 @@ packages:
     dev: false
 
   file:projects/microsoft-playwright-testing.tgz:
-    resolution: {integrity: sha512-5ZtQtASg+gjAwV0BZ3pqTl2taVn2mW46wnhVjYnUhjn08xDzhaRqPvupmTT6S4Nfc1TcP+J/dQWhqEqwD22HGw==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-LOfcpsGhkCQlf/ONHLHqjTVgWCasb0ImH6OcRwRpzkO4ybQbiAi4eQvnD2CVwpoa3crRHI9hebbLeSvBsBKAVA==, tarball: file:projects/microsoft-playwright-testing.tgz}
     name: '@rush-temp/microsoft-playwright-testing'
     version: 0.0.0
     dependencies:
@@ -22661,7 +22690,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-bP40paE6XWSxK1NI6IqTFa3TnZ/KV+oOwXvHOlWlnpDa6vHxzuVaSLO22jn2HKpusBkvMhL2znxbrnglHkXp7Q==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-gC/6yI3RAsLz8yW4HuwmY/hZJdfQ4WpTasQrnaGM2o0ADvshX7BbTMziACBVC1IJ+SZS0f25nzWdMrf1cKEPUA==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -22680,7 +22709,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-lOYRq0haEkX/2PuDMltoOo+lVVv6qQ6vg9V9bTtsf49Dw0Cl+6GBEzEdY5zzfK/QJj8GqH0BDKJe9SH0dFtnuw==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-/Ci5NG7Th6jCRFjxNQnQIN066A0l8K8hkuTPVCvaChixw0hduEm6MN1HeVT+Qmwkko8uVFlLNu1s7HgLwy8rLw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -22699,7 +22728,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-2xwPxzCMbVfYgHjYiUFtyHhpNoU3rDDiz8voS+JIJni80uABgbEZbbTqb/sGDiMkix0lky1xHLBgplcoq50p8g==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-PA4GNlP5egvK17bRRWDzOrPQgQ87ZxFP+UzUQxy/Wa1NwuHJdBlcsa8P3do4HTkD0UpSzTyeNQ5P7X2etFM+8A==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -22983,7 +23012,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-LcPcq+CQlLRl1qN04ARwMlUE2OQi7Bef8aO8uqXIxhejiYFVDLUvtES/oJPoqRTAcYiNs0+6dW7DV/tlyyncdQ==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-7t0BJaiAPuiDKNgRvOYijVm/Nd8OdjCrk2UhxSYDCVAaJkxRcbNExsrj1RLHv7LrmDbg3AcKymMM+dP9KPBAeA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -23251,7 +23280,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-g3z0U7sH8A+7aPtYY/h7NmhPoYx4N12mE1GyVw0EENN4iO6jFRVFh4r8y1qcfPXCUewloCiPfF2DxwZR8KmyXg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-ulb7cStYuBYLz5klWzekE1UG2EGSPjv5VqYpaBmA73FZHcjYXumEFAsnGOdUxJFL2/mJAUHJ2nutM3jWLwoH/g==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -23343,7 +23372,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-0S+88/SFOzE4eUYtKCMMikxfTh8NzfL5hEGTleZyl+URlPSpUBt/SJE35R9OlVOI+ihfc9RE66XdsYktjy5SBQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-FVV+PJzMPt7z/pAYIE+3/XbfTv9nR1icrxKEnPtNjNiu1SIFzxoqsSfyzWEhM3OaDxw7cGkn5CVEb1dGo0yoRA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -23390,7 +23419,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-YwK1nFzjoDaHcHuGiKSexyTzZmiRARdZ6VeWkvXMmmOckWkIzYfcUkwEnIhU60ban96FVT/6BrczNFgvHMOCUg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-UIGe6OIq8WYfDcVyTGSBN+NoU0a62Gp8CPRLfLLdhyewy7MtMfQeQeqsJA0UheHGE7KiVMdEJ1Y7CqVnVBT4+A==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -23476,7 +23505,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-7PfyEm0o178jiAjKrXJJ/BGBF09A1GzA3dTgPIPNQ6Y4XJitrpDIm4jliYFQYvoiJgBDG2zvzjNP2Z4HCa2sCw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-5eSIt9TpDfdl5IHCDEjtBqAe+1Ipe/bEju6w4pdLRo7/j/dcOrewCOj+c96FLKsU334aj4qhvZ0/5TQqyxizpw==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
