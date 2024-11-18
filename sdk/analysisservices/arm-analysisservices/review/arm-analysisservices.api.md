@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AnalysisServicesServer extends Resource {
@@ -317,15 +317,15 @@ export type ServerMonitorMode = 0 | 1;
 
 // @public
 export interface Servers {
-    beginCreate(resourceGroupName: string, serverName: string, serverParameters: AnalysisServicesServer, options?: ServersCreateOptionalParams): Promise<PollerLike<PollOperationState<ServersCreateResponse>, ServersCreateResponse>>;
+    beginCreate(resourceGroupName: string, serverName: string, serverParameters: AnalysisServicesServer, options?: ServersCreateOptionalParams): Promise<SimplePollerLike<OperationState<ServersCreateResponse>, ServersCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, serverName: string, serverParameters: AnalysisServicesServer, options?: ServersCreateOptionalParams): Promise<ServersCreateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serverName: string, options?: ServersDeleteOptionalParams): Promise<void>;
-    beginResume(resourceGroupName: string, serverName: string, options?: ServersResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResume(resourceGroupName: string, serverName: string, options?: ServersResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, serverName: string, options?: ServersResumeOptionalParams): Promise<void>;
-    beginSuspend(resourceGroupName: string, serverName: string, options?: ServersSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginSuspend(resourceGroupName: string, serverName: string, options?: ServersSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginSuspendAndWait(resourceGroupName: string, serverName: string, options?: ServersSuspendOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, serverName: string, serverUpdateParameters: AnalysisServicesServerUpdateParameters, options?: ServersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, serverName: string, serverUpdateParameters: AnalysisServicesServerUpdateParameters, options?: ServersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serverName: string, serverUpdateParameters: AnalysisServicesServerUpdateParameters, options?: ServersUpdateOptionalParams): Promise<ServersUpdateResponse>;
     checkNameAvailability(location: string, serverParameters: CheckServerNameAvailabilityParameters, options?: ServersCheckNameAvailabilityOptionalParams): Promise<ServersCheckNameAvailabilityResponse>;
     dissociateGateway(resourceGroupName: string, serverName: string, options?: ServersDissociateGatewayOptionalParams): Promise<void>;

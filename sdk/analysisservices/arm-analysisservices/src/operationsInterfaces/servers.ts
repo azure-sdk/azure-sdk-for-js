@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AnalysisServicesServer,
   ServersListByResourceGroupOptionalParams,
@@ -34,7 +34,7 @@ import {
   ServersCheckNameAvailabilityResponse,
   ServersListOperationResultsOptionalParams,
   ServersListOperationStatusesOptionalParams,
-  ServersListOperationStatusesResponse
+  ServersListOperationStatusesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,14 +48,14 @@ export interface Servers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ServersListByResourceGroupOptionalParams
+    options?: ServersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AnalysisServicesServer>;
   /**
    * Lists all the Analysis Services servers for the given subscription.
    * @param options The options parameters.
    */
   list(
-    options?: ServersListOptionalParams
+    options?: ServersListOptionalParams,
   ): PagedAsyncIterableIterator<AnalysisServicesServer>;
   /**
    * Gets details about the specified Analysis Services server.
@@ -68,7 +68,7 @@ export interface Servers {
   getDetails(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersGetDetailsOptionalParams
+    options?: ServersGetDetailsOptionalParams,
   ): Promise<ServersGetDetailsResponse>;
   /**
    * Provisions the specified Analysis Services server based on the configuration specified in the
@@ -84,9 +84,12 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     serverParameters: AnalysisServicesServer,
-    options?: ServersCreateOptionalParams
+    options?: ServersCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ServersCreateResponse>, ServersCreateResponse>
+    SimplePollerLike<
+      OperationState<ServersCreateResponse>,
+      ServersCreateResponse
+    >
   >;
   /**
    * Provisions the specified Analysis Services server based on the configuration specified in the
@@ -102,7 +105,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     serverParameters: AnalysisServicesServer,
-    options?: ServersCreateOptionalParams
+    options?: ServersCreateOptionalParams,
   ): Promise<ServersCreateResponse>;
   /**
    * Deletes the specified Analysis Services server.
@@ -115,8 +118,8 @@ export interface Servers {
   beginDelete(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Analysis Services server.
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
@@ -128,7 +131,7 @@ export interface Servers {
   beginDeleteAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDeleteOptionalParams
+    options?: ServersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates the current state of the specified Analysis Services server.
@@ -143,9 +146,12 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     serverUpdateParameters: AnalysisServicesServerUpdateParameters,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<ServersUpdateResponse>, ServersUpdateResponse>
+    SimplePollerLike<
+      OperationState<ServersUpdateResponse>,
+      ServersUpdateResponse
+    >
   >;
   /**
    * Updates the current state of the specified Analysis Services server.
@@ -160,7 +166,7 @@ export interface Servers {
     resourceGroupName: string,
     serverName: string,
     serverUpdateParameters: AnalysisServicesServerUpdateParameters,
-    options?: ServersUpdateOptionalParams
+    options?: ServersUpdateOptionalParams,
   ): Promise<ServersUpdateResponse>;
   /**
    * Suspends operation of the specified Analysis Services server instance.
@@ -173,8 +179,8 @@ export interface Servers {
   beginSuspend(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersSuspendOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServersSuspendOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Suspends operation of the specified Analysis Services server instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
@@ -186,7 +192,7 @@ export interface Servers {
   beginSuspendAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersSuspendOptionalParams
+    options?: ServersSuspendOptionalParams,
   ): Promise<void>;
   /**
    * Resumes operation of the specified Analysis Services server instance.
@@ -199,8 +205,8 @@ export interface Servers {
   beginResume(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersResumeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ServersResumeOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Resumes operation of the specified Analysis Services server instance.
    * @param resourceGroupName The name of the Azure Resource group of which a given Analysis Services
@@ -212,14 +218,14 @@ export interface Servers {
   beginResumeAndWait(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersResumeOptionalParams
+    options?: ServersResumeOptionalParams,
   ): Promise<void>;
   /**
    * Lists eligible SKUs for Analysis Services resource provider.
    * @param options The options parameters.
    */
   listSkusForNew(
-    options?: ServersListSkusForNewOptionalParams
+    options?: ServersListSkusForNewOptionalParams,
   ): Promise<ServersListSkusForNewResponse>;
   /**
    * Lists eligible SKUs for an Analysis Services resource.
@@ -232,7 +238,7 @@ export interface Servers {
   listSkusForExisting(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersListSkusForExistingOptionalParams
+    options?: ServersListSkusForExistingOptionalParams,
   ): Promise<ServersListSkusForExistingResponse>;
   /**
    * Return the gateway status of the specified Analysis Services server instance.
@@ -244,7 +250,7 @@ export interface Servers {
   listGatewayStatus(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersListGatewayStatusOptionalParams
+    options?: ServersListGatewayStatusOptionalParams,
   ): Promise<ServersListGatewayStatusResponse>;
   /**
    * Dissociates a Unified Gateway associated with the server.
@@ -257,7 +263,7 @@ export interface Servers {
   dissociateGateway(
     resourceGroupName: string,
     serverName: string,
-    options?: ServersDissociateGatewayOptionalParams
+    options?: ServersDissociateGatewayOptionalParams,
   ): Promise<void>;
   /**
    * Check the name availability in the target location.
@@ -268,7 +274,7 @@ export interface Servers {
   checkNameAvailability(
     location: string,
     serverParameters: CheckServerNameAvailabilityParameters,
-    options?: ServersCheckNameAvailabilityOptionalParams
+    options?: ServersCheckNameAvailabilityOptionalParams,
   ): Promise<ServersCheckNameAvailabilityResponse>;
   /**
    * List the result of the specified operation.
@@ -279,7 +285,7 @@ export interface Servers {
   listOperationResults(
     location: string,
     operationId: string,
-    options?: ServersListOperationResultsOptionalParams
+    options?: ServersListOperationResultsOptionalParams,
   ): Promise<void>;
   /**
    * List the status of operation.
@@ -290,6 +296,6 @@ export interface Servers {
   listOperationStatuses(
     location: string,
     operationId: string,
-    options?: ServersListOperationStatusesOptionalParams
+    options?: ServersListOperationStatusesOptionalParams,
   ): Promise<ServersListOperationStatusesResponse>;
 }
