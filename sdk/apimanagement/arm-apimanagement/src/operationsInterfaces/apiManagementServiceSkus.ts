@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ResourceSkuResult,
-  ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
+  ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface ApiManagementServiceSkus {
   listAvailableServiceSkus(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSkuResult>;
 }

@@ -10,7 +10,7 @@ import {
   NetworkStatusListByServiceOptionalParams,
   NetworkStatusListByServiceResponse,
   NetworkStatusListByLocationOptionalParams,
-  NetworkStatusListByLocationResponse
+  NetworkStatusListByLocationResponse,
 } from "../models";
 
 /** Interface representing a NetworkStatus. */
@@ -25,7 +25,7 @@ export interface NetworkStatus {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: NetworkStatusListByServiceOptionalParams
+    options?: NetworkStatusListByServiceOptionalParams,
   ): Promise<NetworkStatusListByServiceResponse>;
   /**
    * Gets the Connectivity Status to the external resources on which the Api Management service depends
@@ -40,6 +40,6 @@ export interface NetworkStatus {
     resourceGroupName: string,
     serviceName: string,
     locationName: string,
-    options?: NetworkStatusListByLocationOptionalParams
+    options?: NetworkStatusListByLocationOptionalParams,
   ): Promise<NetworkStatusListByLocationResponse>;
 }

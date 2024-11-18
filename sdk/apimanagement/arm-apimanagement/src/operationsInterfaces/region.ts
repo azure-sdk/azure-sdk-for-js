@@ -21,6 +21,6 @@ export interface Region {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: RegionListByServiceOptionalParams
+    options?: RegionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<RegionContract>;
 }

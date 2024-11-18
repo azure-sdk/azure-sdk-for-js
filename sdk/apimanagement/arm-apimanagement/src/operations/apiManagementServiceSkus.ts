@@ -18,7 +18,7 @@ import {
   ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams,
   ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ApiManagementServiceSkusListAvailableServiceSkusResponse,
-  ApiManagementServiceSkusListAvailableServiceSkusNextResponse
+  ApiManagementServiceSkusListAvailableServiceSkusNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
   public listAvailableServiceSkus(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSkuResult> {
     const iter = this.listAvailableServiceSkusPagingAll(
       resourceGroupName,
       serviceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
     resourceGroupName: string,
     serviceName: string,
     options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSkuResult[]> {
     let result: ApiManagementServiceSkusListAvailableServiceSkusResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
       result = await this._listAvailableServiceSkus(
         resourceGroupName,
         serviceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +95,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
   private async *listAvailableServiceSkusPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ): AsyncIterableIterator<ResourceSkuResult> {
     for await (const page of this.listAvailableServiceSkusPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
   private _listAvailableServiceSkus(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
+    options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ): Promise<ApiManagementServiceSkusListAvailableServiceSkusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listAvailableServiceSkusOperationSpec
+      listAvailableServiceSkusOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams
+    options?: ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams,
   ): Promise<ApiManagementServiceSkusListAvailableServiceSkusNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listAvailableServiceSkusNextOperationSpec
+      listAvailableServiceSkusNextOperationSpec,
     );
   }
 }
@@ -159,45 +159,44 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAvailableServiceSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkuResults
+      bodyMapper: Mappers.ResourceSkuResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.serviceName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAvailableServiceSkusNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkuResults
+      bodyMapper: Mappers.ResourceSkuResults,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

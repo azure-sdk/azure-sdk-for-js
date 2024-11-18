@@ -18,7 +18,7 @@ import {
   ProductWikisListNextOptionalParams,
   ProductWikisListOptionalParams,
   ProductWikisListResponse,
-  ProductWikisListNextResponse
+  ProductWikisListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,13 +45,13 @@ export class ProductWikisImpl implements ProductWikis {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikisListOptionalParams
+    options?: ProductWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class ProductWikisImpl implements ProductWikis {
           serviceName,
           productId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class ProductWikisImpl implements ProductWikis {
     serviceName: string,
     productId: string,
     options?: ProductWikisListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WikiContract[]> {
     let result: ProductWikisListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ProductWikisImpl implements ProductWikis {
         resourceGroupName,
         serviceName,
         productId,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class ProductWikisImpl implements ProductWikis {
         serviceName,
         productId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class ProductWikisImpl implements ProductWikis {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikisListOptionalParams
+    options?: ProductWikisListOptionalParams,
   ): AsyncIterableIterator<WikiContract> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       productId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class ProductWikisImpl implements ProductWikis {
     resourceGroupName: string,
     serviceName: string,
     productId: string,
-    options?: ProductWikisListOptionalParams
+    options?: ProductWikisListOptionalParams,
   ): Promise<ProductWikisListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ProductWikisImpl implements ProductWikis {
     serviceName: string,
     productId: string,
     nextLink: string,
-    options?: ProductWikisListNextOptionalParams
+    options?: ProductWikisListNextOptionalParams,
   ): Promise<ProductWikisListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, productId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,33 +171,32 @@ export class ProductWikisImpl implements ProductWikis {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/products/{productId}/wikis",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.WikiCollection,
-      headersMapper: Mappers.ProductWikisListHeaders
+      headersMapper: Mappers.ProductWikisListHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -205,20 +204,20 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.WikiCollection,
-      headersMapper: Mappers.ProductWikisListNextHeaders
+      headersMapper: Mappers.ProductWikisListNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.productId
+    Parameters.serviceName,
+    Parameters.productId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

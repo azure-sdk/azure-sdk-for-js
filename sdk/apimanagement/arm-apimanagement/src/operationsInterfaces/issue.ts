@@ -11,7 +11,7 @@ import {
   IssueContract,
   IssueListByServiceOptionalParams,
   IssueGetOptionalParams,
-  IssueGetResponse
+  IssueGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Issue {
   listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: IssueListByServiceOptionalParams
+    options?: IssueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueContract>;
   /**
    * Gets API Management issue details
@@ -39,6 +39,6 @@ export interface Issue {
     resourceGroupName: string,
     serviceName: string,
     issueId: string,
-    options?: IssueGetOptionalParams
+    options?: IssueGetOptionalParams,
   ): Promise<IssueGetResponse>;
 }

@@ -19,7 +19,7 @@ import {
   ResolverUpdateContract,
   GraphQLApiResolverUpdateOptionalParams,
   GraphQLApiResolverUpdateResponse,
-  GraphQLApiResolverDeleteOptionalParams
+  GraphQLApiResolverDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface GraphQLApiResolver {
     resourceGroupName: string,
     serviceName: string,
     apiId: string,
-    options?: GraphQLApiResolverListByApiOptionalParams
+    options?: GraphQLApiResolverListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ResolverContract>;
   /**
    * Gets the entity state (Etag) version of the GraphQL API resolver specified by its identifier.
@@ -54,7 +54,7 @@ export interface GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     resolverId: string,
-    options?: GraphQLApiResolverGetEntityTagOptionalParams
+    options?: GraphQLApiResolverGetEntityTagOptionalParams,
   ): Promise<GraphQLApiResolverGetEntityTagResponse>;
   /**
    * Gets the details of the GraphQL API Resolver specified by its identifier.
@@ -71,7 +71,7 @@ export interface GraphQLApiResolver {
     serviceName: string,
     apiId: string,
     resolverId: string,
-    options?: GraphQLApiResolverGetOptionalParams
+    options?: GraphQLApiResolverGetOptionalParams,
   ): Promise<GraphQLApiResolverGetResponse>;
   /**
    * Creates a new resolver in the GraphQL API or updates an existing one.
@@ -90,7 +90,7 @@ export interface GraphQLApiResolver {
     apiId: string,
     resolverId: string,
     parameters: ResolverContract,
-    options?: GraphQLApiResolverCreateOrUpdateOptionalParams
+    options?: GraphQLApiResolverCreateOrUpdateOptionalParams,
   ): Promise<GraphQLApiResolverCreateOrUpdateResponse>;
   /**
    * Updates the details of the resolver in the GraphQL API specified by its identifier.
@@ -112,7 +112,7 @@ export interface GraphQLApiResolver {
     resolverId: string,
     ifMatch: string,
     parameters: ResolverUpdateContract,
-    options?: GraphQLApiResolverUpdateOptionalParams
+    options?: GraphQLApiResolverUpdateOptionalParams,
   ): Promise<GraphQLApiResolverUpdateResponse>;
   /**
    * Deletes the specified resolver in the GraphQL API.
@@ -132,6 +132,6 @@ export interface GraphQLApiResolver {
     apiId: string,
     resolverId: string,
     ifMatch: string,
-    options?: GraphQLApiResolverDeleteOptionalParams
+    options?: GraphQLApiResolverDeleteOptionalParams,
   ): Promise<void>;
 }
