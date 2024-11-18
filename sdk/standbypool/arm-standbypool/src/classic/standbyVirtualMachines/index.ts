@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyVirtualMachineResource } from "../../models/models.js";
+import {
+  StandbyVirtualMachinesGetOptionalParams,
+  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+} from "../../api/options.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   standbyVirtualMachinesGet,
   standbyVirtualMachinesListByStandbyVirtualMachinePoolResource,
 } from "../../api/standbyVirtualMachines/index.js";
+import { StandbyVirtualMachineResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import {
-  StandbyVirtualMachinesGetOptionalParams,
-  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a StandbyVirtualMachines operations. */
 export interface StandbyVirtualMachinesOperations {
@@ -30,7 +30,10 @@ export interface StandbyVirtualMachinesOperations {
   ) => PagedAsyncIterableIterator<StandbyVirtualMachineResource>;
 }
 
-export function getStandbyVirtualMachines(context: StandbyPoolContext, subscriptionId: string) {
+export function getStandbyVirtualMachines(
+  context: StandbyPoolManagementContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -62,7 +65,7 @@ export function getStandbyVirtualMachines(context: StandbyPoolContext, subscript
 }
 
 export function getStandbyVirtualMachinesOperations(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ): StandbyVirtualMachinesOperations {
   return {

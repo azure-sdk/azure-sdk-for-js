@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -30,6 +28,26 @@ export interface ContainerGroupProperties {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -44,9 +62,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -59,7 +77,12 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownRefillPolicy {
-    Always = "always"
+    always = "always"
+}
+
+// @public
+export enum KnownVersions {
+    "2024-03-01" = "2024-03-01"
 }
 
 // @public
@@ -83,10 +106,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -158,40 +177,6 @@ export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
 }
 
 // @public
-export interface StandbyContainerGroupPoolRuntimeViewsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyContainerGroupPoolsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StandbyContainerGroupPoolsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StandbyContainerGroupPoolsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyContainerGroupPoolsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyContainerGroupPoolsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyContainerGroupPoolsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StandbyVirtualMachinePoolElasticityProfile {
     maxReadyCapacity: number;
     minReadyCapacity?: number;
@@ -235,40 +220,6 @@ export interface StandbyVirtualMachinePoolRuntimeViewResourceProperties {
 }
 
 // @public
-export interface StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinePoolsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface StandbyVirtualMachineResource extends ProxyResource {
     properties?: StandbyVirtualMachineResourceProperties;
 }
@@ -277,14 +228,6 @@ export interface StandbyVirtualMachineResource extends ProxyResource {
 export interface StandbyVirtualMachineResourceProperties {
     readonly provisioningState?: ProvisioningState;
     virtualMachineResourceId: string;
-}
-
-// @public
-export interface StandbyVirtualMachinesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams extends OperationOptions {
 }
 
 // @public
