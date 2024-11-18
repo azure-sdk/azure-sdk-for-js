@@ -14,12 +14,14 @@ import {
   ProductsGetResponse,
   ProductsListDetailsOptionalParams,
   ProductsListDetailsResponse,
+  ProductsListProductsOptionalParams,
+  ProductsListProductsResponse,
   ProductsGetProductsOptionalParams,
   ProductsGetProductsResponse,
   ProductsGetProductOptionalParams,
   ProductsGetProductResponse,
   ProductsUploadLogOptionalParams,
-  ProductsUploadLogResponse
+  ProductsUploadLogResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +36,7 @@ export interface Products {
   list(
     resourceGroup: string,
     registrationName: string,
-    options?: ProductsListOptionalParams
+    options?: ProductsListOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Returns the specified product.
@@ -47,7 +49,7 @@ export interface Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse>;
   /**
    * Returns the extended properties of a product.
@@ -60,8 +62,21 @@ export interface Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsListDetailsOptionalParams
+    options?: ProductsListDetailsOptionalParams,
   ): Promise<ProductsListDetailsResponse>;
+  /**
+   * Returns a list of products.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The options parameters.
+   */
+  listProducts(
+    resourceGroup: string,
+    registrationName: string,
+    productName: string,
+    options?: ProductsListProductsOptionalParams,
+  ): Promise<ProductsListProductsResponse>;
   /**
    * Returns a list of products.
    * @param resourceGroup Name of the resource group.
@@ -73,7 +88,7 @@ export interface Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetProductsOptionalParams
+    options?: ProductsGetProductsOptionalParams,
   ): Promise<ProductsGetProductsResponse>;
   /**
    * Returns the specified product.
@@ -86,7 +101,7 @@ export interface Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsGetProductOptionalParams
+    options?: ProductsGetProductOptionalParams,
   ): Promise<ProductsGetProductResponse>;
   /**
    * Returns the specified product.
@@ -99,6 +114,6 @@ export interface Products {
     resourceGroup: string,
     registrationName: string,
     productName: string,
-    options?: ProductsUploadLogOptionalParams
+    options?: ProductsUploadLogOptionalParams,
   ): Promise<ProductsUploadLogResponse>;
 }
