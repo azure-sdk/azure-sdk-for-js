@@ -11,3 +11,4 @@ export * from "./grafana";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./managedPrivateEndpoints";
+export * from "./integrationFabrics";
