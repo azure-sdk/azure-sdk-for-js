@@ -2062,6 +2062,17 @@ export const GatewaySettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      entraUsers: {
+        serializedName: "entraUsers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -2088,6 +2099,17 @@ export const UpdateGatewaySettingsParameters: coreClient.CompositeMapper = {
         serializedName: "restAuthCredential\\.password",
         type: {
           name: "String",
+        },
+      },
+      entraUsers: {
+        serializedName: "entraUsers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
