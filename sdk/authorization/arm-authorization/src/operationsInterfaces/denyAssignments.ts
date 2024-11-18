@@ -16,7 +16,7 @@ import {
   DenyAssignmentsGetOptionalParams,
   DenyAssignmentsGetResponse,
   DenyAssignmentsGetByIdOptionalParams,
-  DenyAssignmentsGetByIdResponse
+  DenyAssignmentsGetByIdResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface DenyAssignments {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: DenyAssignmentsListForResourceOptionalParams
+    options?: DenyAssignmentsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment>;
   /**
    * Gets deny assignments for a resource group.
@@ -46,14 +46,14 @@ export interface DenyAssignments {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: DenyAssignmentsListForResourceGroupOptionalParams
+    options?: DenyAssignmentsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment>;
   /**
    * Gets all deny assignments for the subscription.
    * @param options The options parameters.
    */
   list(
-    options?: DenyAssignmentsListOptionalParams
+    options?: DenyAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment>;
   /**
    * Gets deny assignments for a scope.
@@ -62,7 +62,7 @@ export interface DenyAssignments {
    */
   listForScope(
     scope: string,
-    options?: DenyAssignmentsListForScopeOptionalParams
+    options?: DenyAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<DenyAssignment>;
   /**
    * Get the specified deny assignment.
@@ -73,7 +73,7 @@ export interface DenyAssignments {
   get(
     scope: string,
     denyAssignmentId: string,
-    options?: DenyAssignmentsGetOptionalParams
+    options?: DenyAssignmentsGetOptionalParams,
   ): Promise<DenyAssignmentsGetResponse>;
   /**
    * Gets a deny assignment by ID.
@@ -86,6 +86,6 @@ export interface DenyAssignments {
    */
   getById(
     denyAssignmentId: string,
-    options?: DenyAssignmentsGetByIdOptionalParams
+    options?: DenyAssignmentsGetByIdOptionalParams,
   ): Promise<DenyAssignmentsGetByIdResponse>;
 }

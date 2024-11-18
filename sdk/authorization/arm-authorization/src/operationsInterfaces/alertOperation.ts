@@ -8,7 +8,7 @@
 
 import {
   AlertOperationGetOptionalParams,
-  AlertOperationGetResponse
+  AlertOperationGetResponse,
 } from "../models";
 
 /** Interface representing a AlertOperation. */
@@ -22,6 +22,6 @@ export interface AlertOperation {
   get(
     scope: string,
     operationId: string,
-    options?: AlertOperationGetOptionalParams
+    options?: AlertOperationGetOptionalParams,
   ): Promise<AlertOperationGetResponse>;
 }

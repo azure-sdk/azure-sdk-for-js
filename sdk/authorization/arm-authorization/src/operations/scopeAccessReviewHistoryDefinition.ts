@@ -15,12 +15,13 @@ import {
   AccessReviewHistoryDefinitionProperties,
   ScopeAccessReviewHistoryDefinitionCreateOptionalParams,
   ScopeAccessReviewHistoryDefinitionCreateResponse,
-  ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
+  ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams,
 } from "../models";
 
 /** Class containing ScopeAccessReviewHistoryDefinition operations. */
 export class ScopeAccessReviewHistoryDefinitionImpl
-  implements ScopeAccessReviewHistoryDefinition {
+  implements ScopeAccessReviewHistoryDefinition
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -42,11 +43,11 @@ export class ScopeAccessReviewHistoryDefinitionImpl
     scope: string,
     historyDefinitionId: string,
     properties: AccessReviewHistoryDefinitionProperties,
-    options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionCreateOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, historyDefinitionId, properties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -59,11 +60,11 @@ export class ScopeAccessReviewHistoryDefinitionImpl
   deleteById(
     scope: string,
     historyDefinitionId: string,
-    options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionDeleteByIdOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, historyDefinitionId, options },
-      deleteByIdOperationSpec
+      deleteByIdOperationSpec,
     );
   }
 }
@@ -71,45 +72,43 @@ export class ScopeAccessReviewHistoryDefinitionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryDefinition
+      bodyMapper: Mappers.AccessReviewHistoryDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.historyDefinitionId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.historyDefinitionId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
