@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./components";
 export * from "./annotations";
 export * from "./aPIKeys";
 export * from "./exportConfigurations";
@@ -19,9 +20,9 @@ export * from "./favorites";
 export * from "./webTestLocations";
 export * from "./webTests";
 export * from "./analyticsItems";
+export * from "./operations";
 export * from "./workbookTemplates";
-export * from "./myWorkbooks";
 export * from "./workbooks";
-export * from "./components";
-export * from "./componentLinkedStorageAccountsOperations";
 export * from "./liveToken";
+export * from "./componentLinkedStorageAccountsOperations";
+export * from "./deletedWorkbooks";
