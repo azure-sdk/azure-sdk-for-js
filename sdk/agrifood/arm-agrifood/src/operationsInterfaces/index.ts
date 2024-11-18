@@ -6,10 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./checkNameAvailability";
+export * from "./dataConnectors";
+export * from "./dataManagerForAgricultureExtensions";
+export * from "./dataManagerForAgricultureResources";
+export * from "./operationResults";
 export * from "./extensions";
-export * from "./farmBeatsExtensions";
-export * from "./farmBeatsModels";
-export * from "./locations";
 export * from "./operations";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./solutions";
+export * from "./solutionsDiscoverability";
