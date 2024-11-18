@@ -42,6 +42,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -56,9 +76,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -71,7 +91,12 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownRefillPolicy {
-    Always = "always"
+    always = "always"
+}
+
+// @public
+export enum KnownVersions {
+    "2024-03-01" = "2024-03-01"
 }
 
 // @public
