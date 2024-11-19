@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists trusted signing accounts within a subscription.
  *
  * @summary lists trusted signing accounts within a subscription.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_ListBySubscription.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_ListBySubscription.json
  */
 async function listsTrustedSigningAccountsWithinASubscription() {
   const credential = new DefaultAzureCredential();

@@ -19,11 +19,17 @@ export interface AccountSku {
 }
 
 // @public
+export interface AccountSkuPatch {
+    name?: SkuName;
+}
+
+// @public
 export type ActionType = string;
 
 // @public
 export interface Certificate {
     createdDate?: string;
+    enhancedKeyUsage?: string;
     expiryDate?: string;
     revocation?: Revocation;
     serialNumber?: string;
@@ -40,24 +46,15 @@ export interface CertificateProfile extends ProxyResource {
 // @public
 export interface CertificateProfileProperties {
     readonly certificates?: Certificate[];
-    readonly city?: string;
-    readonly commonName?: string;
-    readonly country?: string;
-    readonly enhancedKeyUsage?: string;
-    identityValidationId?: string;
+    identityValidationId: string;
     includeCity?: boolean;
     includeCountry?: boolean;
     includePostalCode?: boolean;
     includeState?: boolean;
     includeStreetAddress?: boolean;
-    readonly organization?: string;
-    readonly organizationUnit?: string;
-    readonly postalCode?: string;
     profileType: ProfileType;
     readonly provisioningState?: ProvisioningState;
-    readonly state?: string;
     readonly status?: CertificateProfileStatus;
-    readonly streetAddress?: string;
 }
 
 // @public
@@ -122,7 +119,7 @@ export interface CodeSigningAccountPatch {
 
 // @public
 export interface CodeSigningAccountPatchProperties {
-    sku?: AccountSku;
+    sku?: AccountSkuPatch;
 }
 
 // @public
@@ -197,6 +194,26 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -231,9 +248,9 @@ export enum KnownNameUnavailabilityReason {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -266,6 +283,13 @@ export enum KnownRevocationStatus {
 export enum KnownSkuName {
     Basic = "Basic",
     Premium = "Premium"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_02_05_preview = "2024-02-05-preview",
+    // (undocumented)
+    v2024_09_30_preview = "2024-09-30-preview"
 }
 
 // @public
