@@ -10,22 +10,23 @@ import { FluxConfigOperationStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
+import { FluxConfigurationClient } from "../fluxConfigurationClient";
 import {
   FluxConfigOperationStatusGetOptionalParams,
-  FluxConfigOperationStatusGetResponse
+  FluxConfigOperationStatusGetResponse,
 } from "../models";
 
 /** Class containing FluxConfigOperationStatus operations. */
 export class FluxConfigOperationStatusImpl
-  implements FluxConfigOperationStatus {
-  private readonly client: SourceControlConfigurationClient;
+  implements FluxConfigOperationStatus
+{
+  private readonly client: FluxConfigurationClient;
 
   /**
    * Initialize a new instance of the class FluxConfigOperationStatus class.
    * @param client Reference to the service client
    */
-  constructor(client: SourceControlConfigurationClient) {
+  constructor(client: FluxConfigurationClient) {
     this.client = client;
   }
 
@@ -35,7 +36,7 @@ export class FluxConfigOperationStatusImpl
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param operationId operation Id
@@ -48,7 +49,7 @@ export class FluxConfigOperationStatusImpl
     clusterName: string,
     fluxConfigurationName: string,
     operationId: string,
-    options?: FluxConfigOperationStatusGetOptionalParams
+    options?: FluxConfigOperationStatusGetOptionalParams,
   ): Promise<FluxConfigOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -58,9 +59,9 @@ export class FluxConfigOperationStatusImpl
         clusterName,
         fluxConfigurationName,
         operationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -68,16 +69,15 @@ export class FluxConfigOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -87,9 +87,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
+    Parameters.fluxConfigurationName,
     Parameters.operationId,
-    Parameters.fluxConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

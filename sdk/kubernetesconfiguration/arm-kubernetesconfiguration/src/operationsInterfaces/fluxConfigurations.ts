@@ -18,7 +18,7 @@ import {
   FluxConfigurationPatch,
   FluxConfigurationsUpdateOptionalParams,
   FluxConfigurationsUpdateResponse,
-  FluxConfigurationsDeleteOptionalParams
+  FluxConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param options The options parameters.
    */
@@ -39,7 +39,7 @@ export interface FluxConfigurations {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: FluxConfigurationsListOptionalParams
+    options?: FluxConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<FluxConfiguration>;
   /**
    * Gets details of the Flux Configuration.
@@ -47,7 +47,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
@@ -58,7 +58,7 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsGetOptionalParams
+    options?: FluxConfigurationsGetOptionalParams,
   ): Promise<FluxConfigurationsGetResponse>;
   /**
    * Create a new Kubernetes Flux Configuration.
@@ -66,7 +66,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
@@ -79,7 +79,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
-    options?: FluxConfigurationsCreateOrUpdateOptionalParams
+    options?: FluxConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FluxConfigurationsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
@@ -105,7 +105,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
-    options?: FluxConfigurationsCreateOrUpdateOptionalParams
+    options?: FluxConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<FluxConfigurationsCreateOrUpdateResponse>;
   /**
    * Update an existing Kubernetes Flux Configuration.
@@ -113,7 +113,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
@@ -126,7 +126,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
-    options?: FluxConfigurationsUpdateOptionalParams
+    options?: FluxConfigurationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FluxConfigurationsUpdateResponse>,
@@ -139,7 +139,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
@@ -152,7 +152,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
-    options?: FluxConfigurationsUpdateOptionalParams
+    options?: FluxConfigurationsUpdateOptionalParams,
   ): Promise<FluxConfigurationsUpdateResponse>;
   /**
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
@@ -161,7 +161,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
@@ -172,7 +172,7 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsDeleteOptionalParams
+    options?: FluxConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
@@ -181,7 +181,7 @@ export interface FluxConfigurations {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The options parameters.
@@ -192,6 +192,6 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsDeleteOptionalParams
+    options?: FluxConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

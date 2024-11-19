@@ -8,7 +8,7 @@
 
 import {
   FluxConfigOperationStatusGetOptionalParams,
-  FluxConfigOperationStatusGetResponse
+  FluxConfigOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a FluxConfigOperationStatus. */
@@ -19,7 +19,7 @@ export interface FluxConfigOperationStatus {
    * @param clusterRp The Kubernetes cluster RP - i.e. Microsoft.ContainerService, Microsoft.Kubernetes,
    *                  Microsoft.HybridContainerService.
    * @param clusterResourceName The Kubernetes cluster resource name - i.e. managedClusters,
-   *                            connectedClusters, provisionedClusters.
+   *                            connectedClusters, provisionedClusters, appliances.
    * @param clusterName The name of the kubernetes cluster.
    * @param fluxConfigurationName Name of the Flux Configuration.
    * @param operationId operation Id
@@ -32,6 +32,6 @@ export interface FluxConfigOperationStatus {
     clusterName: string,
     fluxConfigurationName: string,
     operationId: string,
-    options?: FluxConfigOperationStatusGetOptionalParams
+    options?: FluxConfigOperationStatusGetOptionalParams,
   ): Promise<FluxConfigOperationStatusGetResponse>;
 }

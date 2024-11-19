@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/arm-kubernetesconfiguration.d.ts"
+    "publicTrimmedFilePath": "./types/arm-kubernetesconfiguration-flux.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
