@@ -9,17 +9,17 @@ import {
   IoTOperationsContext as Client,
 } from "../index.js";
 import {
-  BrokerListenerResource,
-  brokerListenerResourceSerializer,
-  brokerListenerResourceDeserializer,
-  _BrokerListenerResourceListResult,
-  _brokerListenerResourceListResultDeserializer,
+  ListenerResource,
+  listenerResourceSerializer,
+  listenerResourceDeserializer,
+  _ListenerResourceListResult,
+  _listenerResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -51,16 +51,16 @@ export function _brokerListenerGetSend(
 
 export async function _brokerListenerGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerListenerResource> {
+): Promise<ListenerResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return brokerListenerResourceDeserializer(result.body);
+  return listenerResourceDeserializer(result.body);
 }
 
-/** Get a BrokerListenerResource */
+/** Get a ListenerResource */
 export async function brokerListenerGet(
   context: Client,
   subscriptionId: string,
@@ -69,7 +69,7 @@ export async function brokerListenerGet(
   brokerName: string,
   listenerName: string,
   options: BrokerListenerGetOptionalParams = { requestOptions: {} },
-): Promise<BrokerListenerResource> {
+): Promise<ListenerResource> {
   const result = await _brokerListenerGetSend(
     context,
     subscriptionId,
@@ -89,7 +89,7 @@ export function _brokerListenerCreateOrUpdateSend(
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  resource: BrokerListenerResource,
+  resource: ListenerResource,
   options: BrokerListenerCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
@@ -103,22 +103,22 @@ export function _brokerListenerCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: brokerListenerResourceSerializer(resource),
+      body: listenerResourceSerializer(resource),
     });
 }
 
 export async function _brokerListenerCreateOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerListenerResource> {
+): Promise<ListenerResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return brokerListenerResourceDeserializer(result.body);
+  return listenerResourceDeserializer(result.body);
 }
 
-/** Create a BrokerListenerResource */
+/** Create a ListenerResource */
 export function brokerListenerCreateOrUpdate(
   context: Client,
   subscriptionId: string,
@@ -126,25 +126,30 @@ export function brokerListenerCreateOrUpdate(
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  resource: BrokerListenerResource,
+  resource: ListenerResource,
   options: BrokerListenerCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource> {
-  return getLongRunningPoller(context, _brokerListenerCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _brokerListenerCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        listenerName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
+): PollerLike<OperationState<ListenerResource>, ListenerResource> {
+  return getLongRunningPoller(
+    context,
+    _brokerListenerCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerListenerCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          listenerName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<ListenerResource>, ListenerResource>;
 }
 
 export function _brokerListenerDeleteSend(
@@ -179,7 +184,7 @@ export async function _brokerListenerDeleteDeserialize(
   return;
 }
 
-/** Delete a BrokerListenerResource */
+/** Delete a ListenerResource */
 export function brokerListenerDelete(
   context: Client,
   subscriptionId: string,
@@ -189,21 +194,26 @@ export function brokerListenerDelete(
   listenerName: string,
   options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _brokerListenerDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _brokerListenerDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        listenerName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _brokerListenerDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerListenerDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          listenerName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerListenerListByResourceGroupSend(
@@ -229,16 +239,16 @@ export function _brokerListenerListByResourceGroupSend(
 
 export async function _brokerListenerListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_BrokerListenerResourceListResult> {
+): Promise<_ListenerResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _brokerListenerResourceListResultDeserializer(result.body);
+  return _listenerResourceListResultDeserializer(result.body);
 }
 
-/** List BrokerListenerResource resources by BrokerResource */
+/** List ListenerResource resources by BrokerResource */
 export function brokerListenerListByResourceGroup(
   context: Client,
   subscriptionId: string,
@@ -248,7 +258,7 @@ export function brokerListenerListByResourceGroup(
   options: BrokerListenerListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<BrokerListenerResource> {
+): PagedAsyncIterableIterator<ListenerResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
