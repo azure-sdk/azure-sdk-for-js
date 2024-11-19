@@ -166,10 +166,19 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
-    Succeeded = "Succeeded"
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_09_20 = "2024-09-20"
 }
 
 // @public
@@ -314,7 +323,7 @@ export interface PrivateLinksOperations {
 }
 
 // @public
-export type ProvisioningState = ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted" | string;
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -330,9 +339,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HealthDataAIServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -365,9 +371,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = "2024-02-28-preview";
 
 // (No @packageDocumentation comment for this package)
 
