@@ -4,15 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export interface Account extends TrackedResource {
     properties?: AccountProperties;
@@ -49,61 +40,6 @@ export interface AccountQuotaProperties {
 }
 
 // @public
-export interface AccountQuotasGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountQuotasListByAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountQuotasOperations {
-    get: (resourceGroupName: string, accountName: string, quotaName: QuotaNames, options?: AccountQuotasGetOptionalParams) => Promise<AccountQuota>;
-    listByAccount: (resourceGroupName: string, accountName: string, options?: AccountQuotasListByAccountOptionalParams) => PagedAsyncIterableIterator<AccountQuota>;
-}
-
-// @public
-export interface AccountsCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AccountsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AccountsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AccountsOperations {
-    checkNameAvailability: (body: CheckNameAvailabilityRequest, options?: AccountsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
-    createOrUpdate: (resourceGroupName: string, accountName: string, resource: Account, options?: AccountsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Account>, Account>;
-    delete: (resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) => Promise<Account>;
-    listByResourceGroup: (resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Account>;
-    listBySubscription: (options?: AccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Account>;
-    update: (resourceGroupName: string, accountName: string, properties: AccountUpdate, options?: AccountsUpdateOptionalParams) => Promise<Account>;
-}
-
-// @public
-export interface AccountsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AccountUpdate {
     properties?: AccountUpdateProperties;
     tags?: Record<string, string>;
@@ -120,21 +56,6 @@ export interface AccountUpdateProperties {
 // @public
 export type ActionType = string;
 
-// @public (undocumented)
-export class AzurePlaywrightServiceClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AzurePlaywrightServiceClientOptionalParams);
-    readonly accountQuotas: AccountQuotasOperations;
-    readonly accounts: AccountsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly quotas: QuotasOperations;
-}
-
-// @public
-export interface AzurePlaywrightServiceClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export type CheckNameAvailabilityReason = string;
 
@@ -150,11 +71,6 @@ export interface CheckNameAvailabilityResponse {
     nameAvailable?: boolean;
     reason?: CheckNameAvailabilityReason;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -281,28 +197,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;
@@ -327,35 +222,11 @@ export interface QuotaProperties {
 }
 
 // @public
-export interface QuotasGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface QuotasListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface QuotasOperations {
-    get: (location: string, quotaName: QuotaNames, options?: QuotasGetOptionalParams) => Promise<Quota>;
-    listBySubscription: (location: string, options?: QuotasListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Quota>;
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzurePlaywrightServiceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
