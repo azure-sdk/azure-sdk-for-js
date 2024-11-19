@@ -8,7 +8,7 @@ import {
   brokerListenerDelete,
   brokerListenerListByResourceGroup,
 } from "../../api/brokerListener/index.js";
-import { BrokerListenerResource } from "../../models/models.js";
+import { ListenerResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -20,24 +20,24 @@ import {
 
 /** Interface representing a BrokerListener operations. */
 export interface BrokerListenerOperations {
-  /** Get a BrokerListenerResource */
+  /** Get a ListenerResource */
   get: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     listenerName: string,
     options?: BrokerListenerGetOptionalParams,
-  ) => Promise<BrokerListenerResource>;
-  /** Create a BrokerListenerResource */
+  ) => Promise<ListenerResource>;
+  /** Create a ListenerResource */
   createOrUpdate: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     listenerName: string,
-    resource: BrokerListenerResource,
+    resource: ListenerResource,
     options?: BrokerListenerCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
-  /** Delete a BrokerListenerResource */
+  ) => PollerLike<OperationState<ListenerResource>, ListenerResource>;
+  /** Delete a ListenerResource */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -45,16 +45,19 @@ export interface BrokerListenerOperations {
     listenerName: string,
     options?: BrokerListenerDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** List BrokerListenerResource resources by BrokerResource */
+  /** List ListenerResource resources by BrokerResource */
   listByResourceGroup: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     options?: BrokerListenerListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<BrokerListenerResource>;
+  ) => PagedAsyncIterableIterator<ListenerResource>;
 }
 
-export function getBrokerListener(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerListener(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -77,7 +80,7 @@ export function getBrokerListener(context: IoTOperationsContext, subscriptionId:
       instanceName: string,
       brokerName: string,
       listenerName: string,
-      resource: BrokerListenerResource,
+      resource: ListenerResource,
       options?: BrokerListenerCreateOrUpdateOptionalParams,
     ) =>
       brokerListenerCreateOrUpdate(

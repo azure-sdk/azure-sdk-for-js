@@ -8,7 +8,7 @@ import {
   brokerAuthenticationDelete,
   brokerAuthenticationListByResourceGroup,
 } from "../../api/brokerAuthentication/index.js";
-import { BrokerAuthenticationResource } from "../../models/models.js";
+import { AuthenticationResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -20,24 +20,27 @@ import {
 
 /** Interface representing a BrokerAuthentication operations. */
 export interface BrokerAuthenticationOperations {
-  /** Get a BrokerAuthenticationResource */
+  /** Get a AuthenticationResource */
   get: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     authenticationName: string,
     options?: BrokerAuthenticationGetOptionalParams,
-  ) => Promise<BrokerAuthenticationResource>;
-  /** Create a BrokerAuthenticationResource */
+  ) => Promise<AuthenticationResource>;
+  /** Create a AuthenticationResource */
   createOrUpdate: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     authenticationName: string,
-    resource: BrokerAuthenticationResource,
+    resource: AuthenticationResource,
     options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
-  /** Delete a BrokerAuthenticationResource */
+  ) => PollerLike<
+    OperationState<AuthenticationResource>,
+    AuthenticationResource
+  >;
+  /** Delete a AuthenticationResource */
   delete: (
     resourceGroupName: string,
     instanceName: string,
@@ -45,16 +48,19 @@ export interface BrokerAuthenticationOperations {
     authenticationName: string,
     options?: BrokerAuthenticationDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** List BrokerAuthenticationResource resources by BrokerResource */
+  /** List AuthenticationResource resources by BrokerResource */
   listByResourceGroup: (
     resourceGroupName: string,
     instanceName: string,
     brokerName: string,
     options?: BrokerAuthenticationListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<BrokerAuthenticationResource>;
+  ) => PagedAsyncIterableIterator<AuthenticationResource>;
 }
 
-export function getBrokerAuthentication(context: IoTOperationsContext, subscriptionId: string) {
+export function getBrokerAuthentication(
+  context: IoTOperationsContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -77,7 +83,7 @@ export function getBrokerAuthentication(context: IoTOperationsContext, subscript
       instanceName: string,
       brokerName: string,
       authenticationName: string,
-      resource: BrokerAuthenticationResource,
+      resource: AuthenticationResource,
       options?: BrokerAuthenticationCreateOrUpdateOptionalParams,
     ) =>
       brokerAuthenticationCreateOrUpdate(

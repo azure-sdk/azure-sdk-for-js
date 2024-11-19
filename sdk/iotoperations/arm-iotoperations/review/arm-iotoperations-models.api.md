@@ -5,9 +5,6 @@
 ```ts
 
 // @public
-export type AccessTokenMethod = string;
-
-// @public
 export type ActionType = string;
 
 // @public
@@ -18,12 +15,63 @@ export interface AdvancedSettings {
 }
 
 // @public
-export type AnonymousMethod = string;
+export type AuthenticationMethod = string;
+
+// @public
+export interface AuthenticationProperties {
+    authenticationMethods: AuthenticatorMethods[];
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AuthenticationResource extends ProxyResource {
+    extendedLocation: ExtendedLocation;
+    properties?: AuthenticationProperties;
+}
+
+// @public
+export interface AuthenticatorMethodCustom {
+    auth?: BrokerAuthenticatorCustomAuth;
+    caCertConfigMap?: string;
+    endpoint: string;
+    headers?: Record<string, string>;
+}
+
+// @public
+export interface AuthenticatorMethods {
+    customSettings?: AuthenticatorMethodCustom;
+    method: AuthenticationMethod;
+    serviceAccountTokenSettings?: AuthenticatorMethodSat;
+    x509Settings?: AuthenticatorMethodX509;
+}
+
+// @public
+export interface AuthenticatorMethodSat {
+    audiences: string[];
+}
+
+// @public
+export interface AuthenticatorMethodX509 {
+    authorizationAttributes?: Record<string, BrokerAuthenticatorMethodX509Attributes>;
+    trustedClientCaCert?: string;
+}
 
 // @public
 export interface AuthorizationConfig {
     cache?: OperationalMode;
     rules?: AuthorizationRule[];
+}
+
+// @public
+export interface AuthorizationProperties {
+    authorizationPolicies: AuthorizationConfig;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AuthorizationResource extends ProxyResource {
+    extendedLocation: ExtendedLocation;
+    properties?: AuthorizationProperties;
 }
 
 // @public
@@ -47,50 +95,8 @@ export interface BatchingConfiguration {
 }
 
 // @public
-export type BrokerAuthenticationMethod = string;
-
-// @public
-export interface BrokerAuthenticationProperties {
-    authenticationMethods: BrokerAuthenticatorMethods[];
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface BrokerAuthenticationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
-    properties?: BrokerAuthenticationProperties;
-}
-
-// @public
 export interface BrokerAuthenticatorCustomAuth {
     x509: X509ManualCertificate;
-}
-
-// @public
-export interface BrokerAuthenticatorMethodCustom {
-    auth?: BrokerAuthenticatorCustomAuth;
-    caCertConfigMap?: string;
-    endpoint: string;
-    headers?: Record<string, string>;
-}
-
-// @public
-export interface BrokerAuthenticatorMethods {
-    customSettings?: BrokerAuthenticatorMethodCustom;
-    method: BrokerAuthenticationMethod;
-    serviceAccountTokenSettings?: BrokerAuthenticatorMethodSat;
-    x509Settings?: BrokerAuthenticatorMethodX509;
-}
-
-// @public
-export interface BrokerAuthenticatorMethodSat {
-    audiences: string[];
-}
-
-// @public
-export interface BrokerAuthenticatorMethodX509 {
-    authorizationAttributes?: Record<string, BrokerAuthenticatorMethodX509Attributes>;
-    trustedClientCaCert?: string;
 }
 
 // @public
@@ -100,37 +106,11 @@ export interface BrokerAuthenticatorMethodX509Attributes {
 }
 
 // @public
-export interface BrokerAuthorizationProperties {
-    authorizationPolicies: AuthorizationConfig;
-    readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface BrokerAuthorizationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
-    properties?: BrokerAuthorizationProperties;
-}
-
-// @public
 export interface BrokerDiagnostics {
     logs?: DiagnosticsLogs;
     metrics?: Metrics;
     selfCheck?: SelfCheck;
     traces?: Traces;
-}
-
-// @public
-export interface BrokerListenerProperties {
-    ports: ListenerPort[];
-    readonly provisioningState?: ProvisioningState;
-    serviceName?: string;
-    serviceType?: ServiceType;
-}
-
-// @public
-export interface BrokerListenerResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
-    properties?: BrokerListenerProperties;
 }
 
 // @public
@@ -222,7 +202,21 @@ export type CloudEventAttributeType = string;
 export type CreatedByType = string;
 
 // @public
-export type DataExplorerAuthMethod = ManagedIdentityMethod;
+export type DataExplorerAuthMethod = string;
+
+// @public
+export interface DataExplorerEndpoint extends DataflowEndpointProperties {
+    dataExplorerSettings: DataExplorerSettings;
+    endpointType: "DataExplorer";
+}
+
+// @public
+export interface DataExplorerSettings {
+    authentication: DataflowEndpointDataExplorerAuthentication;
+    batching?: BatchingConfiguration;
+    database: string;
+    host: string;
+}
 
 // @public
 export interface DataflowBuiltInTransformationDataset {
@@ -302,25 +296,10 @@ export interface DataflowEndpointAuthenticationX509 {
 }
 
 // @public
-export interface DataflowEndpointDataExplorer {
-    authentication: DataflowEndpointDataExplorerAuthentication;
-    batching?: BatchingConfiguration;
-    database: string;
-    host: string;
-}
-
-// @public
 export interface DataflowEndpointDataExplorerAuthentication {
     method: DataExplorerAuthMethod;
     systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
     userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
-}
-
-// @public
-export interface DataflowEndpointDataLakeStorage {
-    authentication: DataflowEndpointDataLakeStorageAuthentication;
-    batching?: BatchingConfiguration;
-    host: string;
 }
 
 // @public
@@ -329,15 +308,6 @@ export interface DataflowEndpointDataLakeStorageAuthentication {
     method: DataLakeStorageAuthMethod;
     systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
     userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
-}
-
-// @public
-export interface DataflowEndpointFabricOneLake {
-    authentication: DataflowEndpointFabricOneLakeAuthentication;
-    batching?: BatchingConfiguration;
-    host: string;
-    names: DataflowEndpointFabricOneLakeNames;
-    oneLakePathType: DataflowEndpointFabricPathType;
 }
 
 // @public
@@ -355,20 +325,6 @@ export interface DataflowEndpointFabricOneLakeNames {
 
 // @public
 export type DataflowEndpointFabricPathType = string;
-
-// @public
-export interface DataflowEndpointKafka {
-    authentication: DataflowEndpointKafkaAuthentication;
-    batching?: DataflowEndpointKafkaBatching;
-    cloudEventAttributes?: CloudEventAttributeType;
-    compression?: DataflowEndpointKafkaCompression;
-    consumerGroupId?: string;
-    copyMqttProperties?: OperationalMode;
-    host: string;
-    kafkaAcks?: DataflowEndpointKafkaAcks;
-    partitionStrategy?: DataflowEndpointKafkaPartitionStrategy;
-    tls?: TlsProperties;
-}
 
 // @public
 export type DataflowEndpointKafkaAcks = string;
@@ -397,26 +353,6 @@ export type DataflowEndpointKafkaCompression = string;
 export type DataflowEndpointKafkaPartitionStrategy = string;
 
 // @public
-export interface DataflowEndpointLocalStorage {
-    persistentVolumeClaimRef: string;
-}
-
-// @public
-export interface DataflowEndpointMqtt {
-    authentication: DataflowEndpointMqttAuthentication;
-    clientIdPrefix?: string;
-    cloudEventAttributes?: CloudEventAttributeType;
-    host?: string;
-    keepAliveSeconds?: number;
-    maxInflightMessages?: number;
-    protocol?: BrokerProtocolType;
-    qos?: number;
-    retain?: MqttRetainType;
-    sessionExpirySeconds?: number;
-    tls?: TlsProperties;
-}
-
-// @public
 export interface DataflowEndpointMqttAuthentication {
     method: MqttAuthMethod;
     serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
@@ -427,20 +363,17 @@ export interface DataflowEndpointMqttAuthentication {
 
 // @public
 export interface DataflowEndpointProperties {
-    dataExplorerSettings?: DataflowEndpointDataExplorer;
-    dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
     endpointType: EndpointType;
-    fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
-    kafkaSettings?: DataflowEndpointKafka;
-    localStorageSettings?: DataflowEndpointLocalStorage;
-    mqttSettings?: DataflowEndpointMqtt;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
+export type DataflowEndpointPropertiesUnion = DataExplorerEndpoint | DataLakeStorageEndpoint | FabricOneLakeEndpoint | KafkaEndpoint | LocalStorageEndpoint | MqttEndpoint | DataflowEndpointProperties;
+
+// @public
 export interface DataflowEndpointResource extends ProxyResource {
     extendedLocation: ExtendedLocation;
-    properties?: DataflowEndpointProperties;
+    properties?: DataflowEndpointPropertiesUnion;
 }
 
 // @public
@@ -491,7 +424,20 @@ export interface DataflowSourceOperationSettings {
 }
 
 // @public
-export type DataLakeStorageAuthMethod = ManagedIdentityMethod | AccessTokenMethod;
+export type DataLakeStorageAuthMethod = string;
+
+// @public
+export interface DataLakeStorageEndpoint extends DataflowEndpointProperties {
+    dataLakeStorageSettings: DataLakeStorageSettings;
+    endpointType: "DataLakeStorage";
+}
+
+// @public
+export interface DataLakeStorageSettings {
+    authentication: DataflowEndpointDataLakeStorageAuthentication;
+    batching?: BatchingConfiguration;
+    host: string;
+}
 
 // @public
 export interface DiagnosticsLogs {
@@ -509,6 +455,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -518,7 +484,22 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
-export type FabricOneLakeAuthMethod = ManagedIdentityMethod;
+export type FabricOneLakeAuthMethod = string;
+
+// @public
+export interface FabricOneLakeEndpoint extends DataflowEndpointProperties {
+    endpointType: "FabricOneLake";
+    fabricOneLakeSettings: FabricOneLakeSettings;
+}
+
+// @public
+export interface FabricOneLakeSettings {
+    authentication: DataflowEndpointFabricOneLakeAuthentication;
+    batching?: BatchingConfiguration;
+    host: string;
+    names: DataflowEndpointFabricOneLakeNames;
+    oneLakePathType: DataflowEndpointFabricPathType;
+}
 
 // @public
 export type FilterType = string;
@@ -556,11 +537,26 @@ export interface InstanceResource extends TrackedResource {
 }
 
 // @public
-export type KafkaAuthMethod = ManagedIdentityMethod | SaslMethod | X509CertificateMethod | AnonymousMethod;
+export type KafkaAuthMethod = string;
 
 // @public
-export enum KnownAccessTokenMethod {
-    AccessToken = "AccessToken"
+export interface KafkaEndpoint extends DataflowEndpointProperties {
+    endpointType: "Kafka";
+    kafkaSettings: KafkaSettings;
+}
+
+// @public
+export interface KafkaSettings {
+    authentication: DataflowEndpointKafkaAuthentication;
+    batching?: DataflowEndpointKafkaBatching;
+    cloudEventAttributes?: CloudEventAttributeType;
+    compression?: DataflowEndpointKafkaCompression;
+    consumerGroupId?: string;
+    copyMqttProperties?: OperationalMode;
+    host: string;
+    kafkaAcks?: DataflowEndpointKafkaAcks;
+    partitionStrategy?: DataflowEndpointKafkaPartitionStrategy;
+    tls?: TlsProperties;
 }
 
 // @public
@@ -569,12 +565,7 @@ export enum KnownActionType {
 }
 
 // @public
-export enum KnownAnonymousMethod {
-    Anonymous = "Anonymous"
-}
-
-// @public
-export enum KnownBrokerAuthenticationMethod {
+export enum KnownAuthenticationMethod {
     Custom = "Custom",
     ServiceAccountToken = "ServiceAccountToken",
     X509 = "X509"
@@ -619,6 +610,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDataExplorerAuthMethod {
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
@@ -667,6 +664,13 @@ export enum KnownDataflowMappingType {
 }
 
 // @public
+export enum KnownDataLakeStorageAuthMethod {
+    AccessToken = "AccessToken",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownEndpointType {
     DataExplorer = "DataExplorer",
     DataLakeStorage = "DataLakeStorage",
@@ -682,22 +686,40 @@ export enum KnownExtendedLocationType {
 }
 
 // @public
-export enum KnownFilterType {
-    Filter = "Filter"
-}
-
-// @public
-export enum KnownManagedIdentityMethod {
+export enum KnownFabricOneLakeAuthMethod {
     SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
     UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
+export enum KnownFilterType {
+    Filter = "Filter"
+}
+
+// @public
+export enum KnownKafkaAuthMethod {
+    Anonymous = "Anonymous",
+    Sasl = "Sasl",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+    X509Certificate = "X509Certificate"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMqttAuthMethod {
+    Anonymous = "Anonymous",
+    ServiceAccountToken = "ServiceAccountToken",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+    X509Certificate = "X509Certificate"
 }
 
 // @public
@@ -729,9 +751,9 @@ export enum KnownOperatorValues {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -760,16 +782,6 @@ export enum KnownProvisioningState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownSaslMethod {
-    Sasl = "Sasl"
-}
-
-// @public
-export enum KnownServiceAccountTokenMethod {
-    ServiceAccountToken = "ServiceAccountToken"
 }
 
 // @public
@@ -818,8 +830,8 @@ export enum KnownTransformationSerializationFormat {
 }
 
 // @public
-export enum KnownX509CertificateMethod {
-    X509Certificate = "X509Certificate"
+export enum KnownVersions {
+    "2025-01-01-preview" = "2025-01-01-preview"
 }
 
 // @public
@@ -841,6 +853,20 @@ export interface ListenerPort {
 }
 
 // @public
+export interface ListenerProperties {
+    ports: ListenerPort[];
+    readonly provisioningState?: ProvisioningState;
+    serviceName?: string;
+    serviceType?: ServiceType;
+}
+
+// @public
+export interface ListenerResource extends ProxyResource {
+    extendedLocation: ExtendedLocation;
+    properties?: ListenerProperties;
+}
+
+// @public
 export interface LocalKubernetesReference {
     apiGroup?: string;
     kind: string;
@@ -848,7 +874,15 @@ export interface LocalKubernetesReference {
 }
 
 // @public
-export type ManagedIdentityMethod = string;
+export interface LocalStorageEndpoint extends DataflowEndpointProperties {
+    endpointType: "LocalStorage";
+    localStorageSettings: LocalStorageSettings;
+}
+
+// @public
+export interface LocalStorageSettings {
+    persistentVolumeClaimRef: string;
+}
 
 // @public
 export interface ManagedServiceIdentity {
@@ -867,10 +901,31 @@ export interface Metrics {
 }
 
 // @public
-export type MqttAuthMethod = ManagedIdentityMethod | ServiceAccountTokenMethod | X509CertificateMethod | AnonymousMethod;
+export type MqttAuthMethod = string;
+
+// @public
+export interface MqttEndpoint extends DataflowEndpointProperties {
+    endpointType: "Mqtt";
+    mqttSettings: MqttSettings;
+}
 
 // @public
 export type MqttRetainType = string;
+
+// @public
+export interface MqttSettings {
+    authentication: DataflowEndpointMqttAuthentication;
+    clientIdPrefix?: string;
+    cloudEventAttributes?: CloudEventAttributeType;
+    host?: string;
+    keepAliveSeconds?: number;
+    maxInflightMessages?: number;
+    protocol?: BrokerProtocolType;
+    qos?: number;
+    retain?: MqttRetainType;
+    sessionExpirySeconds?: number;
+    tls?: TlsProperties;
+}
 
 // @public
 export interface Operation {
@@ -942,9 +997,6 @@ export interface SanForCert {
 }
 
 // @public
-export type SaslMethod = string;
-
-// @public
 export interface SchemaRegistryRef {
     resourceId: string;
 }
@@ -961,9 +1013,6 @@ export interface SelfTracing {
     intervalSeconds?: number;
     mode?: OperationalMode;
 }
-
-// @public
-export type ServiceAccountTokenMethod = string;
 
 // @public
 export type ServiceType = string;
@@ -1072,9 +1121,6 @@ export interface VolumeClaimSpecSelectorMatchExpressions {
     operator: OperatorValues;
     values?: string[];
 }
-
-// @public
-export type X509CertificateMethod = string;
 
 // @public
 export interface X509ManualCertificate {

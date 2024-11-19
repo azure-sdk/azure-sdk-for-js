@@ -9,17 +9,17 @@ import {
   IoTOperationsContext as Client,
 } from "../index.js";
 import {
-  BrokerAuthorizationResource,
-  brokerAuthorizationResourceSerializer,
-  brokerAuthorizationResourceDeserializer,
-  _BrokerAuthorizationResourceListResult,
-  _brokerAuthorizationResourceListResultDeserializer,
+  AuthorizationResource,
+  authorizationResourceSerializer,
+  authorizationResourceDeserializer,
+  _AuthorizationResourceListResult,
+  _authorizationResourceListResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -51,16 +51,16 @@ export function _brokerAuthorizationGetSend(
 
 export async function _brokerAuthorizationGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerAuthorizationResource> {
+): Promise<AuthorizationResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return brokerAuthorizationResourceDeserializer(result.body);
+  return authorizationResourceDeserializer(result.body);
 }
 
-/** Get a BrokerAuthorizationResource */
+/** Get a AuthorizationResource */
 export async function brokerAuthorizationGet(
   context: Client,
   subscriptionId: string,
@@ -69,7 +69,7 @@ export async function brokerAuthorizationGet(
   brokerName: string,
   authorizationName: string,
   options: BrokerAuthorizationGetOptionalParams = { requestOptions: {} },
-): Promise<BrokerAuthorizationResource> {
+): Promise<AuthorizationResource> {
   const result = await _brokerAuthorizationGetSend(
     context,
     subscriptionId,
@@ -89,7 +89,7 @@ export function _brokerAuthorizationCreateOrUpdateSend(
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  resource: BrokerAuthorizationResource,
+  resource: AuthorizationResource,
   options: BrokerAuthorizationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
@@ -105,22 +105,22 @@ export function _brokerAuthorizationCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: brokerAuthorizationResourceSerializer(resource),
+      body: authorizationResourceSerializer(resource),
     });
 }
 
 export async function _brokerAuthorizationCreateOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerAuthorizationResource> {
+): Promise<AuthorizationResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return brokerAuthorizationResourceDeserializer(result.body);
+  return authorizationResourceDeserializer(result.body);
 }
 
-/** Create a BrokerAuthorizationResource */
+/** Create a AuthorizationResource */
 export function brokerAuthorizationCreateOrUpdate(
   context: Client,
   subscriptionId: string,
@@ -128,11 +128,11 @@ export function brokerAuthorizationCreateOrUpdate(
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  resource: BrokerAuthorizationResource,
+  resource: AuthorizationResource,
   options: BrokerAuthorizationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource> {
+): PollerLike<OperationState<AuthorizationResource>, AuthorizationResource> {
   return getLongRunningPoller(
     context,
     _brokerAuthorizationCreateOrUpdateDeserialize,
@@ -153,7 +153,7 @@ export function brokerAuthorizationCreateOrUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
+  ) as PollerLike<OperationState<AuthorizationResource>, AuthorizationResource>;
 }
 
 export function _brokerAuthorizationDeleteSend(
@@ -188,7 +188,7 @@ export async function _brokerAuthorizationDeleteDeserialize(
   return;
 }
 
-/** Delete a BrokerAuthorizationResource */
+/** Delete a AuthorizationResource */
 export function brokerAuthorizationDelete(
   context: Client,
   subscriptionId: string,
@@ -243,16 +243,16 @@ export function _brokerAuthorizationListByResourceGroupSend(
 
 export async function _brokerAuthorizationListByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_BrokerAuthorizationResourceListResult> {
+): Promise<_AuthorizationResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return _brokerAuthorizationResourceListResultDeserializer(result.body);
+  return _authorizationResourceListResultDeserializer(result.body);
 }
 
-/** List BrokerAuthorizationResource resources by BrokerResource */
+/** List AuthorizationResource resources by BrokerResource */
 export function brokerAuthorizationListByResourceGroup(
   context: Client,
   subscriptionId: string,
@@ -262,7 +262,7 @@ export function brokerAuthorizationListByResourceGroup(
   options: BrokerAuthorizationListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<BrokerAuthorizationResource> {
+): PagedAsyncIterableIterator<AuthorizationResource> {
   return buildPagedAsyncIterator(
     context,
     () =>
