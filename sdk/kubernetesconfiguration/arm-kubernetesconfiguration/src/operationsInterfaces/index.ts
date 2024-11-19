@@ -6,9 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./extensions";
-export * from "./operationStatus";
-export * from "./fluxConfigurations";
-export * from "./fluxConfigOperationStatus";
-export * from "./sourceControlConfigurations";
-export * from "./operations";
+export * from "./privateLinkScopes";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";
