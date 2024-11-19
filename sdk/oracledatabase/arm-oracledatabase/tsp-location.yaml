@@ -1,0 +1,5 @@
+directory: specification/oracle/Oracle.Database.Management
+commit: df55cd8178ddd870dbd0c3b1e25c80e3ff48826c
+repo: ../azure-rest-api-specs
+additionalDirectories: 
+- specification/oracle/models
