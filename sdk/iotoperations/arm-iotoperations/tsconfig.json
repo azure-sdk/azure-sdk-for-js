@@ -5,9 +5,7 @@
     "moduleResolution": "NodeNext",
     "rootDir": ".",
     "skipLibCheck": true,
-    "paths": {
-      "@azure/arm-iotoperations": ["./src/index"]
-    }
+    "paths": { "@azure/arm-iotoperations": ["./src/index"] }
   },
   "include": [
     "src/**/*.ts",
