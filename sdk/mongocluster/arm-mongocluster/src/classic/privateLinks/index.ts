@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
-import { PrivateLinkResource } from "../../models/models.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "../../api/options.js";
 import { privateLinksListByMongoCluster } from "../../api/privateLinks/index.js";
+import { PrivateLinkResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
 /** Interface representing a PrivateLinks operations. */
 export interface PrivateLinksOperations {
@@ -17,7 +17,10 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(context: DocumentDBContext, subscriptionId: string) {
+export function getPrivateLinks(
+  context: MongoClusterManagementContext,
+  subscriptionId: string,
+) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
@@ -35,7 +38,7 @@ export function getPrivateLinks(context: DocumentDBContext, subscriptionId: stri
 }
 
 export function getPrivateLinksOperations(
-  context: DocumentDBContext,
+  context: MongoClusterManagementContext,
   subscriptionId: string,
 ): PrivateLinksOperations {
   return {

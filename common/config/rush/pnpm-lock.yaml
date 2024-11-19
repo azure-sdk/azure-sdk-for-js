@@ -16339,10 +16339,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-0cIKdDqo8SucLoVDs7HobYbgm2dX7HXlQ7WaCHLrPLrLmKVvfOGAs7TjYERvORqKlIUs/tIzAtp9oM1zOPaN3A==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-yuMyj9IRRL6/FzyfqnsWqtukt1kXKZSSVKMUf8o/oYCD+k2/EY9xifVrjdp5u99HmA5tyUjoMFCgBjsfJRFWIQ==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
@@ -16350,6 +16351,7 @@ packages:
       eslint: 8.57.1
       playwright: 1.48.2
       prettier: 3.3.3
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -21763,7 +21765,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-0ctRSAumdIjIYk2gsJWzoER0exI6GI4XYhIcuVJH1xNf19LCLOw0erfKvdgYnMscP447hOavv+t1DHahw6yUsw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
