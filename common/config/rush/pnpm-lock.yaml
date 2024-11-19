@@ -15680,16 +15680,18 @@ packages:
     dev: false
 
   file:projects/arm-iotoperations.tgz:
-    resolution: {integrity: sha512-t5QJr31o81EF3dX5/7stmGinUIk/yNXXkq27iowhAgZIPcKV27V9MxHmvsmnvBnZR5kPndkRaqnJl+gDavTCFw==, tarball: file:projects/arm-iotoperations.tgz}
+    resolution: {integrity: sha512-4t9WwA6lv1W6AkvJj9PgzNx9V1C84zqkgbJ0W7bSfxKdfDTIVkB4Ie9TDQNRaI4eVsC0iQ2f42bkRbIzj2uigg==, tarball: file:projects/arm-iotoperations.tgz}
     name: '@rush-temp/arm-iotoperations'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.48.2
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -21763,7 +21765,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-0ctRSAumdIjIYk2gsJWzoER0exI6GI4XYhIcuVJH1xNf19LCLOw0erfKvdgYnMscP447hOavv+t1DHahw6yUsw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
