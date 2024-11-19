@@ -662,6 +662,9 @@ dependencies:
   '@rush-temp/arm-resourcesdeploymentstacks':
     specifier: file:./projects/arm-resourcesdeploymentstacks.tgz
     version: file:projects/arm-resourcesdeploymentstacks.tgz
+  '@rush-temp/arm-sapmonitors':
+    specifier: file:./projects/arm-sapmonitors.tgz
+    version: file:projects/arm-sapmonitors.tgz
   '@rush-temp/arm-scvmm':
     specifier: file:./projects/arm-scvmm.tgz
     version: file:projects/arm-scvmm.tgz
@@ -3913,7 +3916,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3932,7 +3935,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3959,7 +3962,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4090,7 +4093,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/resolve@1.20.2:
@@ -17649,6 +17652,43 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-sapmonitors.tgz:
+    resolution: {integrity: sha512-etQfDplSSCGs6E8QV6RNx2BegpHHCq274A29oCBLl0n4Ov3VcV9Hn1bp6gKKM6/w6mFW5LIKJOcnvNsiOLTm7A==, tarball: file:projects/arm-sapmonitors.tgz}
+    name: '@rush-temp/arm-sapmonitors'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.48.2
+      tshy: 2.0.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/arm-scvmm.tgz:
     resolution: {integrity: sha512-UQMZ7x1BNShAgeN3fc+cUpRwqQqTlKoK5G6PWR+h3c3jiavdo3SN7m2cwC+LYJo5KB5lMG3dwOGSGQm4xXGgmg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
@@ -21763,7 +21803,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-0ctRSAumdIjIYk2gsJWzoER0exI6GI4XYhIcuVJH1xNf19LCLOw0erfKvdgYnMscP447hOavv+t1DHahw6yUsw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
