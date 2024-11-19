@@ -8,14 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists trusted signing accounts within a resource group.
  *
  * @summary lists trusted signing accounts within a resource group.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_ListByResourceGroup.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_ListByResourceGroup.json
  */
 async function listsTrustedSigningAccountsWithinAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.codeSigningAccounts.listByResourceGroup("MyResourceGroup")) {
+  for await (let item of client.codeSigningAccounts.listByResourceGroup(
+    "MyResourceGroup",
+  )) {
     resArray.push(item);
   }
 
