@@ -22,7 +22,7 @@ import {
   SAPApplicationServerInstancesStartInstanceOptionalParams,
   SAPApplicationServerInstancesStartInstanceResponse,
   SAPApplicationServerInstancesStopInstanceOptionalParams,
-  SAPApplicationServerInstancesStopInstanceResponse
+  SAPApplicationServerInstancesStopInstanceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface SAPApplicationServerInstances {
   list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams
+    options?: SAPApplicationServerInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
   /**
    * Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions
@@ -52,7 +52,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesGetOptionalParams
+    options?: SAPApplicationServerInstancesGetOptionalParams,
   ): Promise<SAPApplicationServerInstancesGetResponse>;
   /**
    * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
@@ -66,7 +66,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams
+    options?: SAPApplicationServerInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPApplicationServerInstancesCreateResponse>,
@@ -85,7 +85,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams
+    options?: SAPApplicationServerInstancesCreateOptionalParams,
   ): Promise<SAPApplicationServerInstancesCreateResponse>;
   /**
    * Puts the SAP Application Server Instance resource.
@@ -98,7 +98,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams
+    options?: SAPApplicationServerInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPApplicationServerInstancesUpdateResponse>,
@@ -116,7 +116,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams
+    options?: SAPApplicationServerInstancesUpdateOptionalParams,
   ): Promise<SAPApplicationServerInstancesUpdateResponse>;
   /**
    * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
@@ -130,7 +130,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams
+    options?: SAPApplicationServerInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPApplicationServerInstancesDeleteResponse>,
@@ -149,7 +149,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams
+    options?: SAPApplicationServerInstancesDeleteOptionalParams,
   ): Promise<SAPApplicationServerInstancesDeleteResponse>;
   /**
    * Starts the SAP Application Server Instance.
@@ -162,7 +162,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams
+    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPApplicationServerInstancesStartInstanceResponse>,
@@ -180,7 +180,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams
+    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
   ): Promise<SAPApplicationServerInstancesStartInstanceResponse>;
   /**
    * Stops the SAP Application Server Instance.
@@ -193,7 +193,7 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams
+    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SAPApplicationServerInstancesStopInstanceResponse>,
@@ -211,6 +211,6 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams
+    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
   ): Promise<SAPApplicationServerInstancesStopInstanceResponse>;
 }

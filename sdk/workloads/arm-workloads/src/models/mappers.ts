@@ -17,65 +17,65 @@ export const SAPSizingRecommendationRequest: coreClient.CompositeMapper = {
         serializedName: "appLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       environment: {
         serializedName: "environment",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapProduct: {
         serializedName: "sapProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       saps: {
         serializedName: "saps",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       dbMemory: {
         serializedName: "dbMemory",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       databaseType: {
         serializedName: "databaseType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbScaleMethod: {
         serializedName: "dbScaleMethod",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       highAvailabilityType: {
         serializedName: "highAvailabilityType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPSizingRecommendationResult: coreClient.CompositeMapper = {
@@ -85,18 +85,18 @@ export const SAPSizingRecommendationResult: coreClient.CompositeMapper = {
     uberParent: "SAPSizingRecommendationResult",
     polymorphicDiscriminator: {
       serializedName: "deploymentType",
-      clientName: "deploymentType"
+      clientName: "deploymentType",
     },
     modelProperties: {
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -108,11 +108,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -124,22 +124,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -149,10 +149,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -162,13 +162,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -180,19 +180,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const SAPSupportedSkusRequest: coreClient.CompositeMapper = {
@@ -204,45 +204,45 @@ export const SAPSupportedSkusRequest: coreClient.CompositeMapper = {
         serializedName: "appLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       environment: {
         serializedName: "environment",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapProduct: {
         serializedName: "sapProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseType: {
         serializedName: "databaseType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       highAvailabilityType: {
         serializedName: "highAvailabilityType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPSupportedResourceSkusResult: coreClient.CompositeMapper = {
@@ -257,13 +257,13 @@ export const SAPSupportedResourceSkusResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPSupportedSku"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SAPSupportedSku",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SAPSupportedSku: coreClient.CompositeMapper = {
@@ -274,23 +274,23 @@ export const SAPSupportedSku: coreClient.CompositeMapper = {
       vmSku: {
         serializedName: "vmSku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isAppServerCertified: {
         serializedName: "isAppServerCertified",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isDatabaseCertified: {
         serializedName: "isDatabaseCertified",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const SAPDiskConfigurationsRequest: coreClient.CompositeMapper = {
@@ -302,46 +302,46 @@ export const SAPDiskConfigurationsRequest: coreClient.CompositeMapper = {
         serializedName: "appLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       environment: {
         serializedName: "environment",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapProduct: {
         serializedName: "sapProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseType: {
         serializedName: "databaseType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbVmSku: {
         serializedName: "dbVmSku",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPDiskConfigurationsResult: coreClient.CompositeMapper = {
@@ -354,12 +354,12 @@ export const SAPDiskConfigurationsResult: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "SAPDiskConfiguration" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "SAPDiskConfiguration" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SAPDiskConfiguration: coreClient.CompositeMapper = {
@@ -371,8 +371,8 @@ export const SAPDiskConfiguration: coreClient.CompositeMapper = {
         serializedName: "recommendedConfiguration",
         type: {
           name: "Composite",
-          className: "DiskVolumeConfiguration"
-        }
+          className: "DiskVolumeConfiguration",
+        },
       },
       supportedConfigurations: {
         serializedName: "supportedConfigurations",
@@ -381,13 +381,13 @@ export const SAPDiskConfiguration: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DiskDetails"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DiskDetails",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DiskVolumeConfiguration: coreClient.CompositeMapper = {
@@ -398,24 +398,24 @@ export const DiskVolumeConfiguration: coreClient.CompositeMapper = {
       count: {
         serializedName: "count",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sizeGB: {
         serializedName: "sizeGB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "DiskSku"
-        }
-      }
-    }
-  }
+          className: "DiskSku",
+        },
+      },
+    },
+  },
 };
 
 export const DiskSku: coreClient.CompositeMapper = {
@@ -426,11 +426,11 @@ export const DiskSku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DiskDetails: coreClient.CompositeMapper = {
@@ -442,47 +442,47 @@ export const DiskDetails: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "DiskSku"
-        }
+          className: "DiskSku",
+        },
       },
       sizeGB: {
         serializedName: "sizeGB",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       minimumSupportedDiskCount: {
         serializedName: "minimumSupportedDiskCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maximumSupportedDiskCount: {
         serializedName: "maximumSupportedDiskCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       iopsReadWrite: {
         serializedName: "iopsReadWrite",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       mbpsReadWrite: {
         serializedName: "mbpsReadWrite",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       diskTier: {
         serializedName: "diskTier",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPAvailabilityZoneDetailsRequest: coreClient.CompositeMapper = {
@@ -494,25 +494,25 @@ export const SAPAvailabilityZoneDetailsRequest: coreClient.CompositeMapper = {
         serializedName: "appLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapProduct: {
         serializedName: "sapProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseType: {
         serializedName: "databaseType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPAvailabilityZoneDetailsResult: coreClient.CompositeMapper = {
@@ -527,13 +527,13 @@ export const SAPAvailabilityZoneDetailsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPAvailabilityZonePair"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SAPAvailabilityZonePair",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SAPAvailabilityZonePair: coreClient.CompositeMapper = {
@@ -544,17 +544,17 @@ export const SAPAvailabilityZonePair: coreClient.CompositeMapper = {
       zoneA: {
         serializedName: "zoneA",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       zoneB: {
         serializedName: "zoneB",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedServiceIdentity: coreClient.CompositeMapper = {
@@ -566,20 +566,20 @@ export const UserAssignedServiceIdentity: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userAssignedIdentities: {
         serializedName: "userAssignedIdentities",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UserAssignedIdentity: coreClient.CompositeMapper = {
@@ -591,18 +591,18 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       clientId: {
         serializedName: "clientId",
         readOnly: true,
         type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
+          name: "Uuid",
+        },
+      },
+    },
+  },
 };
 
 export const SAPConfiguration: coreClient.CompositeMapper = {
@@ -612,18 +612,18 @@ export const SAPConfiguration: coreClient.CompositeMapper = {
     uberParent: "SAPConfiguration",
     polymorphicDiscriminator: {
       serializedName: "configurationType",
-      clientName: "configurationType"
+      clientName: "configurationType",
     },
     modelProperties: {
       configurationType: {
         serializedName: "configurationType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ManagedRGConfiguration: coreClient.CompositeMapper = {
@@ -634,11 +634,11 @@ export const ManagedRGConfiguration: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SAPVirtualInstanceError: coreClient.CompositeMapper = {
@@ -650,11 +650,11 @@ export const SAPVirtualInstanceError: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ErrorDefinition"
-        }
-      }
-    }
-  }
+          className: "ErrorDefinition",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDefinition: coreClient.CompositeMapper = {
@@ -666,15 +666,15 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -684,13 +684,13 @@ export const ErrorDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDefinition"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorDefinition",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -702,32 +702,32 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemData",
+        },
+      },
+    },
+  },
 };
 
 export const SystemData: coreClient.CompositeMapper = {
@@ -738,41 +738,41 @@ export const SystemData: coreClient.CompositeMapper = {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdByType: {
         serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastModifiedBy: {
         serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedByType: {
         serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateSAPVirtualInstanceRequest: coreClient.CompositeMapper = {
@@ -784,18 +784,18 @@ export const UpdateSAPVirtualInstanceRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "UserAssignedServiceIdentity"
-        }
-      }
-    }
-  }
+          className: "UserAssignedServiceIdentity",
+        },
+      },
+    },
+  },
 };
 
 export const OperationStatusResult: coreClient.CompositeMapper = {
@@ -806,43 +806,43 @@ export const OperationStatusResult: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       percentComplete: {
         constraints: {
           InclusiveMaximum: 100,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 0,
         },
         serializedName: "percentComplete",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       startTime: {
         serializedName: "startTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endTime: {
         serializedName: "endTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       operations: {
         serializedName: "operations",
@@ -851,20 +851,20 @@ export const OperationStatusResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationStatusResult"
-            }
-          }
-        }
+              className: "OperationStatusResult",
+            },
+          },
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const SAPVirtualInstanceList: coreClient.CompositeMapper = {
@@ -879,19 +879,19 @@ export const SAPVirtualInstanceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPVirtualInstance"
-            }
-          }
-        }
+              className: "SAPVirtualInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MessageServerProperties: coreClient.CompositeMapper = {
@@ -904,56 +904,56 @@ export const MessageServerProperties: coreClient.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       internalMsPort: {
         serializedName: "internalMsPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       httpPort: {
         serializedName: "httpPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       httpsPort: {
         serializedName: "httpsPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       hostname: {
         serializedName: "hostname",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ipAddress: {
         serializedName: "ipAddress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       health: {
         serializedName: "health",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EnqueueServerProperties: coreClient.CompositeMapper = {
@@ -965,33 +965,33 @@ export const EnqueueServerProperties: coreClient.CompositeMapper = {
         serializedName: "hostname",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ipAddress: {
         serializedName: "ipAddress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       health: {
         serializedName: "health",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GatewayServerProperties: coreClient.CompositeMapper = {
@@ -1004,18 +1004,18 @@ export const GatewayServerProperties: coreClient.CompositeMapper = {
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       health: {
         serializedName: "health",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const EnqueueReplicationServerProperties: coreClient.CompositeMapper = {
@@ -1027,53 +1027,53 @@ export const EnqueueReplicationServerProperties: coreClient.CompositeMapper = {
         serializedName: "ersVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instanceNo: {
         serializedName: "instanceNo",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hostname: {
         serializedName: "hostname",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kernelVersion: {
         serializedName: "kernelVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kernelPatch: {
         serializedName: "kernelPatch",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ipAddress: {
         serializedName: "ipAddress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       health: {
         serializedName: "health",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const LoadBalancerDetails: coreClient.CompositeMapper = {
@@ -1085,11 +1085,11 @@ export const LoadBalancerDetails: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CentralServerVmDetails: coreClient.CompositeMapper = {
@@ -1101,15 +1101,15 @@ export const CentralServerVmDetails: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineId: {
         serializedName: "virtualMachineId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageDetails: {
         serializedName: "storageDetails",
@@ -1119,13 +1119,13 @@ export const CentralServerVmDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageInformation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "StorageInformation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const StorageInformation: coreClient.CompositeMapper = {
@@ -1137,11 +1137,11 @@ export const StorageInformation: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateSAPCentralInstanceRequest: coreClient.CompositeMapper = {
@@ -1153,11 +1153,11 @@ export const UpdateSAPCentralInstanceRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const SAPCentralInstanceList: coreClient.CompositeMapper = {
@@ -1172,19 +1172,19 @@ export const SAPCentralInstanceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPCentralServerInstance"
-            }
-          }
-        }
+              className: "SAPCentralServerInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseVmDetails: coreClient.CompositeMapper = {
@@ -1196,15 +1196,15 @@ export const DatabaseVmDetails: coreClient.CompositeMapper = {
         serializedName: "virtualMachineId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageDetails: {
         serializedName: "storageDetails",
@@ -1214,13 +1214,13 @@ export const DatabaseVmDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageInformation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "StorageInformation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UpdateSAPDatabaseInstanceRequest: coreClient.CompositeMapper = {
@@ -1232,11 +1232,11 @@ export const UpdateSAPDatabaseInstanceRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const SAPDatabaseInstanceList: coreClient.CompositeMapper = {
@@ -1251,19 +1251,19 @@ export const SAPDatabaseInstanceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPDatabaseInstance"
-            }
-          }
-        }
+              className: "SAPDatabaseInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ApplicationServerVmDetails: coreClient.CompositeMapper = {
@@ -1275,15 +1275,15 @@ export const ApplicationServerVmDetails: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineId: {
         serializedName: "virtualMachineId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageDetails: {
         serializedName: "storageDetails",
@@ -1293,13 +1293,13 @@ export const ApplicationServerVmDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageInformation"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "StorageInformation",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UpdateSAPApplicationInstanceRequest: coreClient.CompositeMapper = {
@@ -1311,11 +1311,11 @@ export const UpdateSAPApplicationInstanceRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const SAPApplicationServerInstanceList: coreClient.CompositeMapper = {
@@ -1330,19 +1330,19 @@ export const SAPApplicationServerInstanceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SAPApplicationServerInstance"
-            }
-          }
-        }
+              className: "SAPApplicationServerInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const StopRequest: coreClient.CompositeMapper = {
@@ -1354,11 +1354,11 @@ export const StopRequest: coreClient.CompositeMapper = {
         defaultValue: 0,
         serializedName: "softStopTimeoutSeconds",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorListResult: coreClient.CompositeMapper = {
@@ -1373,19 +1373,19 @@ export const MonitorListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Monitor"
-            }
-          }
-        }
+              className: "Monitor",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreClient.CompositeMapper = {
@@ -1397,22 +1397,22 @@ export const ErrorModel: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -1422,20 +1422,20 @@ export const ErrorModel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
+              className: "ErrorModel",
+            },
+          },
+        },
       },
       innerError: {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "ErrorInnerError"
-        }
-      }
-    }
-  }
+          className: "ErrorInnerError",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorInnerError: coreClient.CompositeMapper = {
@@ -1447,11 +1447,11 @@ export const ErrorInnerError: coreClient.CompositeMapper = {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
-      }
-    }
-  }
+          className: "ErrorModel",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateMonitorRequest: coreClient.CompositeMapper = {
@@ -1463,18 +1463,18 @@ export const UpdateMonitorRequest: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "UserAssignedServiceIdentity"
-        }
-      }
-    }
-  }
+          className: "UserAssignedServiceIdentity",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderInstanceListResult: coreClient.CompositeMapper = {
@@ -1489,19 +1489,19 @@ export const ProviderInstanceListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProviderInstance"
-            }
-          }
-        }
+              className: "ProviderInstance",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderSpecificProperties: coreClient.CompositeMapper = {
@@ -1511,52 +1511,53 @@ export const ProviderSpecificProperties: coreClient.CompositeMapper = {
     uberParent: "ProviderSpecificProperties",
     polymorphicDiscriminator: {
       serializedName: "providerType",
-      clientName: "providerType"
+      clientName: "providerType",
     },
     modelProperties: {
       providerType: {
         serializedName: "providerType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const SapLandscapeMonitorPropertiesGrouping: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SapLandscapeMonitorPropertiesGrouping",
-    modelProperties: {
-      landscape: {
-        serializedName: "landscape",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SapLandscapeMonitorSidMapping"
-            }
-          }
-        }
+export const SapLandscapeMonitorPropertiesGrouping: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SapLandscapeMonitorPropertiesGrouping",
+      modelProperties: {
+        landscape: {
+          serializedName: "landscape",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SapLandscapeMonitorSidMapping",
+              },
+            },
+          },
+        },
+        sapApplication: {
+          serializedName: "sapApplication",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SapLandscapeMonitorSidMapping",
+              },
+            },
+          },
+        },
       },
-      sapApplication: {
-        serializedName: "sapApplication",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SapLandscapeMonitorSidMapping"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const SapLandscapeMonitorSidMapping: coreClient.CompositeMapper = {
   type: {
@@ -1566,8 +1567,8 @@ export const SapLandscapeMonitorSidMapping: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       topSid: {
         serializedName: "topSid",
@@ -1575,13 +1576,13 @@ export const SapLandscapeMonitorSidMapping: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SapLandscapeMonitorMetricThresholds: coreClient.CompositeMapper = {
@@ -1592,29 +1593,29 @@ export const SapLandscapeMonitorMetricThresholds: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       green: {
         serializedName: "green",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       yellow: {
         serializedName: "yellow",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       red: {
         serializedName: "red",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SapLandscapeMonitorListResult: coreClient.CompositeMapper = {
@@ -1629,19 +1630,19 @@ export const SapLandscapeMonitorListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SapLandscapeMonitor"
-            }
-          }
-        }
+              className: "SapLandscapeMonitor",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -1657,20 +1658,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -1682,39 +1683,39 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay"
-        }
+          className: "OperationDisplay",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionType: {
         serializedName: "actionType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplay: coreClient.CompositeMapper = {
@@ -1726,32 +1727,32 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ImageReference: coreClient.CompositeMapper = {
@@ -1762,29 +1763,29 @@ export const ImageReference: coreClient.CompositeMapper = {
       publisher: {
         serializedName: "publisher",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       offer: {
         serializedName: "offer",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OSConfiguration: coreClient.CompositeMapper = {
@@ -1794,18 +1795,18 @@ export const OSConfiguration: coreClient.CompositeMapper = {
     uberParent: "OSConfiguration",
     polymorphicDiscriminator: {
       serializedName: "osType",
-      clientName: "osType"
+      clientName: "osType",
     },
     modelProperties: {
       osType: {
         serializedName: "osType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SshPublicKey: coreClient.CompositeMapper = {
@@ -1816,11 +1817,11 @@ export const SshPublicKey: coreClient.CompositeMapper = {
       keyData: {
         serializedName: "keyData",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SshConfiguration: coreClient.CompositeMapper = {
@@ -1835,13 +1836,13 @@ export const SshConfiguration: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SshPublicKey"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SshPublicKey",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const SshKeyPair: coreClient.CompositeMapper = {
@@ -1852,17 +1853,17 @@ export const SshKeyPair: coreClient.CompositeMapper = {
       publicKey: {
         serializedName: "publicKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateKey: {
         serializedName: "privateKey",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OSProfile: coreClient.CompositeMapper = {
@@ -1873,24 +1874,24 @@ export const OSProfile: coreClient.CompositeMapper = {
       adminUsername: {
         serializedName: "adminUsername",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       adminPassword: {
         serializedName: "adminPassword",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       osConfiguration: {
         serializedName: "osConfiguration",
         type: {
           name: "Composite",
-          className: "OSConfiguration"
-        }
-      }
-    }
-  }
+          className: "OSConfiguration",
+        },
+      },
+    },
+  },
 };
 
 export const DiskConfiguration: coreClient.CompositeMapper = {
@@ -1903,12 +1904,12 @@ export const DiskConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "DiskVolumeConfiguration" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "DiskVolumeConfiguration" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const VirtualMachineConfiguration: coreClient.CompositeMapper = {
@@ -1920,25 +1921,25 @@ export const VirtualMachineConfiguration: coreClient.CompositeMapper = {
         serializedName: "vmSize",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       imageReference: {
         serializedName: "imageReference",
         type: {
           name: "Composite",
-          className: "ImageReference"
-        }
+          className: "ImageReference",
+        },
       },
       osProfile: {
         serializedName: "osProfile",
         type: {
           name: "Composite",
-          className: "OSProfile"
-        }
-      }
-    }
-  }
+          className: "OSProfile",
+        },
+      },
+    },
+  },
 };
 
 export const NetworkConfiguration: coreClient.CompositeMapper = {
@@ -1950,11 +1951,11 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "isSecondaryIpEnabled",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const SingleServerCustomResourceNames: coreClient.CompositeMapper = {
@@ -1964,18 +1965,18 @@ export const SingleServerCustomResourceNames: coreClient.CompositeMapper = {
     uberParent: "SingleServerCustomResourceNames",
     polymorphicDiscriminator: {
       serializedName: "namingPatternType",
-      clientName: "namingPatternType"
+      clientName: "namingPatternType",
     },
     modelProperties: {
       namingPatternType: {
         serializedName: "namingPatternType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const InfrastructureConfiguration: coreClient.CompositeMapper = {
@@ -1985,25 +1986,25 @@ export const InfrastructureConfiguration: coreClient.CompositeMapper = {
     uberParent: "InfrastructureConfiguration",
     polymorphicDiscriminator: {
       serializedName: "deploymentType",
-      clientName: "deploymentType"
+      clientName: "deploymentType",
     },
     modelProperties: {
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appResourceGroup: {
         serializedName: "appResourceGroup",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CentralServerConfiguration: coreClient.CompositeMapper = {
@@ -2015,25 +2016,25 @@ export const CentralServerConfiguration: coreClient.CompositeMapper = {
         serializedName: "subnetId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
           name: "Composite",
-          className: "VirtualMachineConfiguration"
-        }
+          className: "VirtualMachineConfiguration",
+        },
       },
       instanceCount: {
         serializedName: "instanceCount",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseConfiguration: coreClient.CompositeMapper = {
@@ -2044,39 +2045,39 @@ export const DatabaseConfiguration: coreClient.CompositeMapper = {
       databaseType: {
         serializedName: "databaseType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subnetId: {
         serializedName: "subnetId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
           name: "Composite",
-          className: "VirtualMachineConfiguration"
-        }
+          className: "VirtualMachineConfiguration",
+        },
       },
       instanceCount: {
         serializedName: "instanceCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       diskConfiguration: {
         serializedName: "diskConfiguration",
         type: {
           name: "Composite",
-          className: "DiskConfiguration"
-        }
-      }
-    }
-  }
+          className: "DiskConfiguration",
+        },
+      },
+    },
+  },
 };
 
 export const ApplicationServerConfiguration: coreClient.CompositeMapper = {
@@ -2088,25 +2089,25 @@ export const ApplicationServerConfiguration: coreClient.CompositeMapper = {
         serializedName: "subnetId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
           name: "Composite",
-          className: "VirtualMachineConfiguration"
-        }
+          className: "VirtualMachineConfiguration",
+        },
       },
       instanceCount: {
         serializedName: "instanceCount",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const HighAvailabilityConfiguration: coreClient.CompositeMapper = {
@@ -2118,11 +2119,11 @@ export const HighAvailabilityConfiguration: coreClient.CompositeMapper = {
         serializedName: "highAvailabilityType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FileShareConfiguration: coreClient.CompositeMapper = {
@@ -2132,18 +2133,18 @@ export const FileShareConfiguration: coreClient.CompositeMapper = {
     uberParent: "FileShareConfiguration",
     polymorphicDiscriminator: {
       serializedName: "configurationType",
-      clientName: "configurationType"
+      clientName: "configurationType",
     },
     modelProperties: {
       configurationType: {
         serializedName: "configurationType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const StorageConfiguration: coreClient.CompositeMapper = {
@@ -2155,11 +2156,11 @@ export const StorageConfiguration: coreClient.CompositeMapper = {
         serializedName: "transportFileShareConfiguration",
         type: {
           name: "Composite",
-          className: "FileShareConfiguration"
-        }
-      }
-    }
-  }
+          className: "FileShareConfiguration",
+        },
+      },
+    },
+  },
 };
 
 export const ThreeTierCustomResourceNames: coreClient.CompositeMapper = {
@@ -2169,18 +2170,18 @@ export const ThreeTierCustomResourceNames: coreClient.CompositeMapper = {
     uberParent: "ThreeTierCustomResourceNames",
     polymorphicDiscriminator: {
       serializedName: "namingPatternType",
-      clientName: "namingPatternType"
+      clientName: "namingPatternType",
     },
     modelProperties: {
       namingPatternType: {
         serializedName: "namingPatternType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const VirtualMachineResourceNames: coreClient.CompositeMapper = {
@@ -2191,18 +2192,18 @@ export const VirtualMachineResourceNames: coreClient.CompositeMapper = {
       vmName: {
         serializedName: "vmName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hostName: {
         serializedName: "hostName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       networkInterfaces: {
         constraints: {
-          MaxItems: 1
+          MaxItems: 1,
         },
         serializedName: "networkInterfaces",
         type: {
@@ -2210,28 +2211,28 @@ export const VirtualMachineResourceNames: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NetworkInterfaceResourceNames"
-            }
-          }
-        }
+              className: "NetworkInterfaceResourceNames",
+            },
+          },
+        },
       },
       osDiskName: {
         serializedName: "osDiskName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataDiskNames: {
         serializedName: "dataDiskNames",
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Sequence", element: { type: { name: "String" } } }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Sequence", element: { type: { name: "String" } } },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const NetworkInterfaceResourceNames: coreClient.CompositeMapper = {
@@ -2242,11 +2243,11 @@ export const NetworkInterfaceResourceNames: coreClient.CompositeMapper = {
       networkInterfaceName: {
         serializedName: "networkInterfaceName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CentralServerFullResourceNames: coreClient.CompositeMapper = {
@@ -2256,7 +2257,7 @@ export const CentralServerFullResourceNames: coreClient.CompositeMapper = {
     modelProperties: {
       virtualMachines: {
         constraints: {
-          MaxItems: 2
+          MaxItems: 2,
         },
         serializedName: "virtualMachines",
         type: {
@@ -2264,26 +2265,26 @@ export const CentralServerFullResourceNames: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineResourceNames"
-            }
-          }
-        }
+              className: "VirtualMachineResourceNames",
+            },
+          },
+        },
       },
       availabilitySetName: {
         serializedName: "availabilitySetName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       loadBalancer: {
         serializedName: "loadBalancer",
         type: {
           name: "Composite",
-          className: "LoadBalancerResourceNames"
-        }
-      }
-    }
-  }
+          className: "LoadBalancerResourceNames",
+        },
+      },
+    },
+  },
 };
 
 export const LoadBalancerResourceNames: coreClient.CompositeMapper = {
@@ -2294,53 +2295,53 @@ export const LoadBalancerResourceNames: coreClient.CompositeMapper = {
       loadBalancerName: {
         serializedName: "loadBalancerName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       frontendIpConfigurationNames: {
         constraints: {
-          MaxItems: 2
+          MaxItems: 2,
         },
         serializedName: "frontendIpConfigurationNames",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       backendPoolNames: {
         constraints: {
-          MaxItems: 1
+          MaxItems: 1,
         },
         serializedName: "backendPoolNames",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       healthProbeNames: {
         constraints: {
-          MaxItems: 2
+          MaxItems: 2,
         },
         serializedName: "healthProbeNames",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ApplicationServerFullResourceNames: coreClient.CompositeMapper = {
@@ -2355,19 +2356,19 @@ export const ApplicationServerFullResourceNames: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineResourceNames"
-            }
-          }
-        }
+              className: "VirtualMachineResourceNames",
+            },
+          },
+        },
       },
       availabilitySetName: {
         serializedName: "availabilitySetName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseServerFullResourceNames: coreClient.CompositeMapper = {
@@ -2377,7 +2378,7 @@ export const DatabaseServerFullResourceNames: coreClient.CompositeMapper = {
     modelProperties: {
       virtualMachines: {
         constraints: {
-          MaxItems: 2
+          MaxItems: 2,
         },
         serializedName: "virtualMachines",
         type: {
@@ -2385,26 +2386,26 @@ export const DatabaseServerFullResourceNames: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "VirtualMachineResourceNames"
-            }
-          }
-        }
+              className: "VirtualMachineResourceNames",
+            },
+          },
+        },
       },
       availabilitySetName: {
         serializedName: "availabilitySetName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       loadBalancer: {
         serializedName: "loadBalancer",
         type: {
           name: "Composite",
-          className: "LoadBalancerResourceNames"
-        }
-      }
-    }
-  }
+          className: "LoadBalancerResourceNames",
+        },
+      },
+    },
+  },
 };
 
 export const SharedStorageResourceNames: coreClient.CompositeMapper = {
@@ -2415,17 +2416,17 @@ export const SharedStorageResourceNames: coreClient.CompositeMapper = {
       sharedStorageAccountName: {
         serializedName: "sharedStorageAccountName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sharedStorageAccountPrivateEndPointName: {
         serializedName: "sharedStorageAccountPrivateEndPointName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SoftwareConfiguration: coreClient.CompositeMapper = {
@@ -2435,42 +2436,43 @@ export const SoftwareConfiguration: coreClient.CompositeMapper = {
     uberParent: "SoftwareConfiguration",
     polymorphicDiscriminator: {
       serializedName: "softwareInstallationType",
-      clientName: "softwareInstallationType"
+      clientName: "softwareInstallationType",
     },
     modelProperties: {
       softwareInstallationType: {
         serializedName: "softwareInstallationType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const HighAvailabilitySoftwareConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HighAvailabilitySoftwareConfiguration",
-    modelProperties: {
-      fencingClientId: {
-        serializedName: "fencingClientId",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const HighAvailabilitySoftwareConfiguration: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "HighAvailabilitySoftwareConfiguration",
+      modelProperties: {
+        fencingClientId: {
+          serializedName: "fencingClientId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        fencingClientPassword: {
+          serializedName: "fencingClientPassword",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      fencingClientPassword: {
-        serializedName: "fencingClientPassword",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const OsSapConfiguration: coreClient.CompositeMapper = {
   type: {
@@ -2481,17 +2483,17 @@ export const OsSapConfiguration: coreClient.CompositeMapper = {
         serializedName: "deployerVmPackages",
         type: {
           name: "Composite",
-          className: "DeployerVmPackages"
-        }
+          className: "DeployerVmPackages",
+        },
       },
       sapFqdn: {
         serializedName: "sapFqdn",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeployerVmPackages: coreClient.CompositeMapper = {
@@ -2502,17 +2504,17 @@ export const DeployerVmPackages: coreClient.CompositeMapper = {
       url: {
         serializedName: "url",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageAccountId: {
         serializedName: "storageAccountId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationsDisplayDefinition: coreClient.CompositeMapper = {
@@ -2524,32 +2526,32 @@ export const OperationsDisplayDefinition: coreClient.CompositeMapper = {
         serializedName: "provider",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationsDefinition: coreClient.CompositeMapper = {
@@ -2561,70 +2563,71 @@ export const OperationsDefinition: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       origin: {
         serializedName: "origin",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationsDefinitionDisplay"
-        }
+          className: "OperationsDefinitionDisplay",
+        },
       },
       actionType: {
         serializedName: "actionType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
-export const OperationsDefinitionArrayResponseWithContinuation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationsDefinitionArrayResponseWithContinuation",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationsDefinition"
-            }
-          }
-        }
+export const OperationsDefinitionArrayResponseWithContinuation: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "OperationsDefinitionArrayResponseWithContinuation",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "OperationsDefinition",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const Tags: coreClient.CompositeMapper = {
   type: {
@@ -2635,11 +2638,11 @@ export const Tags: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const SingleServerRecommendationResult: coreClient.CompositeMapper = {
@@ -2655,11 +2658,11 @@ export const SingleServerRecommendationResult: coreClient.CompositeMapper = {
       vmSku: {
         serializedName: "vmSku",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ThreeTierRecommendationResult: coreClient.CompositeMapper = {
@@ -2675,41 +2678,41 @@ export const ThreeTierRecommendationResult: coreClient.CompositeMapper = {
       dbVmSku: {
         serializedName: "dbVmSku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseInstanceCount: {
         serializedName: "databaseInstanceCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       centralServerVmSku: {
         serializedName: "centralServerVmSku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       centralServerInstanceCount: {
         serializedName: "centralServerInstanceCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       applicationServerVmSku: {
         serializedName: "applicationServerVmSku",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       applicationServerInstanceCount: {
         serializedName: "applicationServerInstanceCount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const DiscoveryConfiguration: coreClient.CompositeMapper = {
@@ -2724,28 +2727,28 @@ export const DiscoveryConfiguration: coreClient.CompositeMapper = {
       centralServerVmId: {
         serializedName: "centralServerVmId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       managedRgStorageAccountName: {
         constraints: {
           MaxLength: 24,
-          MinLength: 3
+          MinLength: 3,
         },
         serializedName: "managedRgStorageAccountName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       appLocation: {
         serializedName: "appLocation",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentConfiguration: coreClient.CompositeMapper = {
@@ -2760,25 +2763,25 @@ export const DeploymentConfiguration: coreClient.CompositeMapper = {
       appLocation: {
         serializedName: "appLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       infrastructureConfiguration: {
         serializedName: "infrastructureConfiguration",
         type: {
           name: "Composite",
-          className: "InfrastructureConfiguration"
-        }
+          className: "InfrastructureConfiguration",
+        },
       },
       softwareConfiguration: {
         serializedName: "softwareConfiguration",
         type: {
           name: "Composite",
-          className: "SoftwareConfiguration"
-        }
-      }
-    }
-  }
+          className: "SoftwareConfiguration",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentWithOSConfiguration: coreClient.CompositeMapper = {
@@ -2793,32 +2796,32 @@ export const DeploymentWithOSConfiguration: coreClient.CompositeMapper = {
       appLocation: {
         serializedName: "appLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       infrastructureConfiguration: {
         serializedName: "infrastructureConfiguration",
         type: {
           name: "Composite",
-          className: "InfrastructureConfiguration"
-        }
+          className: "InfrastructureConfiguration",
+        },
       },
       softwareConfiguration: {
         serializedName: "softwareConfiguration",
         type: {
           name: "Composite",
-          className: "SoftwareConfiguration"
-        }
+          className: "SoftwareConfiguration",
+        },
       },
       osSapConfiguration: {
         serializedName: "osSapConfiguration",
         type: {
           name: "Composite",
-          className: "OsSapConfiguration"
-        }
-      }
-    }
-  }
+          className: "OsSapConfiguration",
+        },
+      },
+    },
+  },
 };
 
 export const TrackedResource: coreClient.CompositeMapper = {
@@ -2831,18 +2834,18 @@ export const TrackedResource: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: coreClient.CompositeMapper = {
@@ -2850,9 +2853,9 @@ export const ProxyResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const OperationsContent: coreClient.CompositeMapper = {
@@ -2864,42 +2867,42 @@ export const OperationsContent: coreClient.CompositeMapper = {
       namePropertiesName: {
         serializedName: "properties.name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "properties.isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       origin: {
         serializedName: "properties.origin",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "properties.display",
         type: {
           name: "Composite",
-          className: "OperationsDefinitionDisplay"
-        }
+          className: "OperationsDefinitionDisplay",
+        },
       },
       actionType: {
         serializedName: "properties.actionType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties.properties",
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "any",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorPropertiesErrors: coreClient.CompositeMapper = {
@@ -2907,9 +2910,9 @@ export const MonitorPropertiesErrors: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MonitorPropertiesErrors",
     modelProperties: {
-      ...ErrorModel.type.modelProperties
-    }
-  }
+      ...ErrorModel.type.modelProperties,
+    },
+  },
 };
 
 export const ProviderInstancePropertiesErrors: coreClient.CompositeMapper = {
@@ -2917,9 +2920,9 @@ export const ProviderInstancePropertiesErrors: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProviderInstancePropertiesErrors",
     modelProperties: {
-      ...ErrorModel.type.modelProperties
-    }
-  }
+      ...ErrorModel.type.modelProperties,
+    },
+  },
 };
 
 export const HanaDbProviderInstanceProperties: coreClient.CompositeMapper = {
@@ -2935,195 +2938,197 @@ export const HanaDbProviderInstanceProperties: coreClient.CompositeMapper = {
       hostname: {
         serializedName: "hostname",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbName: {
         serializedName: "dbName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sqlPort: {
         serializedName: "sqlPort",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instanceNumber: {
         serializedName: "instanceNumber",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbUsername: {
         serializedName: "dbUsername",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbPassword: {
         serializedName: "dbPassword",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbPasswordUri: {
         serializedName: "dbPasswordUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sslCertificateUri: {
         serializedName: "sslCertificateUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sslHostNameInCertificate: {
         serializedName: "sslHostNameInCertificate",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sslPreference: {
         serializedName: "sslPreference",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapSid: {
         serializedName: "sapSid",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const SapNetWeaverProviderInstanceProperties: coreClient.CompositeMapper = {
-  serializedName: "SapNetWeaver",
-  type: {
-    name: "Composite",
-    className: "SapNetWeaverProviderInstanceProperties",
-    uberParent: "ProviderSpecificProperties",
-    polymorphicDiscriminator:
-      ProviderSpecificProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProviderSpecificProperties.type.modelProperties,
-      sapSid: {
-        serializedName: "sapSid",
-        type: {
-          name: "String"
-        }
+export const SapNetWeaverProviderInstanceProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "SapNetWeaver",
+    type: {
+      name: "Composite",
+      className: "SapNetWeaverProviderInstanceProperties",
+      uberParent: "ProviderSpecificProperties",
+      polymorphicDiscriminator:
+        ProviderSpecificProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProviderSpecificProperties.type.modelProperties,
+        sapSid: {
+          serializedName: "sapSid",
+          type: {
+            name: "String",
+          },
+        },
+        sapHostname: {
+          serializedName: "sapHostname",
+          type: {
+            name: "String",
+          },
+        },
+        sapInstanceNr: {
+          serializedName: "sapInstanceNr",
+          type: {
+            name: "String",
+          },
+        },
+        sapHostFileEntries: {
+          serializedName: "sapHostFileEntries",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        sapUsername: {
+          serializedName: "sapUsername",
+          type: {
+            name: "String",
+          },
+        },
+        sapPassword: {
+          serializedName: "sapPassword",
+          type: {
+            name: "String",
+          },
+        },
+        sapPasswordUri: {
+          serializedName: "sapPasswordUri",
+          type: {
+            name: "String",
+          },
+        },
+        sapClientId: {
+          serializedName: "sapClientId",
+          type: {
+            name: "String",
+          },
+        },
+        sapPortNumber: {
+          serializedName: "sapPortNumber",
+          type: {
+            name: "String",
+          },
+        },
+        sslCertificateUri: {
+          serializedName: "sslCertificateUri",
+          type: {
+            name: "String",
+          },
+        },
+        sslPreference: {
+          serializedName: "sslPreference",
+          type: {
+            name: "String",
+          },
+        },
       },
-      sapHostname: {
-        serializedName: "sapHostname",
-        type: {
-          name: "String"
-        }
-      },
-      sapInstanceNr: {
-        serializedName: "sapInstanceNr",
-        type: {
-          name: "String"
-        }
-      },
-      sapHostFileEntries: {
-        serializedName: "sapHostFileEntries",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      sapUsername: {
-        serializedName: "sapUsername",
-        type: {
-          name: "String"
-        }
-      },
-      sapPassword: {
-        serializedName: "sapPassword",
-        type: {
-          name: "String"
-        }
-      },
-      sapPasswordUri: {
-        serializedName: "sapPasswordUri",
-        type: {
-          name: "String"
-        }
-      },
-      sapClientId: {
-        serializedName: "sapClientId",
-        type: {
-          name: "String"
-        }
-      },
-      sapPortNumber: {
-        serializedName: "sapPortNumber",
-        type: {
-          name: "String"
-        }
-      },
-      sslCertificateUri: {
-        serializedName: "sslCertificateUri",
-        type: {
-          name: "String"
-        }
-      },
-      sslPreference: {
-        serializedName: "sslPreference",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const PrometheusOSProviderInstanceProperties: coreClient.CompositeMapper = {
-  serializedName: "PrometheusOS",
-  type: {
-    name: "Composite",
-    className: "PrometheusOSProviderInstanceProperties",
-    uberParent: "ProviderSpecificProperties",
-    polymorphicDiscriminator:
-      ProviderSpecificProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProviderSpecificProperties.type.modelProperties,
-      prometheusUrl: {
-        serializedName: "prometheusUrl",
-        type: {
-          name: "String"
-        }
+export const PrometheusOSProviderInstanceProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PrometheusOS",
+    type: {
+      name: "Composite",
+      className: "PrometheusOSProviderInstanceProperties",
+      uberParent: "ProviderSpecificProperties",
+      polymorphicDiscriminator:
+        ProviderSpecificProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProviderSpecificProperties.type.modelProperties,
+        prometheusUrl: {
+          serializedName: "prometheusUrl",
+          type: {
+            name: "String",
+          },
+        },
+        sslPreference: {
+          serializedName: "sslPreference",
+          type: {
+            name: "String",
+          },
+        },
+        sslCertificateUri: {
+          serializedName: "sslCertificateUri",
+          type: {
+            name: "String",
+          },
+        },
+        sapSid: {
+          serializedName: "sapSid",
+          type: {
+            name: "String",
+          },
+        },
       },
-      sslPreference: {
-        serializedName: "sslPreference",
-        type: {
-          name: "String"
-        }
-      },
-      sslCertificateUri: {
-        serializedName: "sslCertificateUri",
-        type: {
-          name: "String"
-        }
-      },
-      sapSid: {
-        serializedName: "sapSid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const DB2ProviderInstanceProperties: coreClient.CompositeMapper = {
   serializedName: "Db2",
@@ -3138,172 +3143,174 @@ export const DB2ProviderInstanceProperties: coreClient.CompositeMapper = {
       hostname: {
         serializedName: "hostname",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbName: {
         serializedName: "dbName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbPort: {
         serializedName: "dbPort",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbUsername: {
         serializedName: "dbUsername",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbPassword: {
         serializedName: "dbPassword",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dbPasswordUri: {
         serializedName: "dbPasswordUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapSid: {
         serializedName: "sapSid",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sslPreference: {
         serializedName: "sslPreference",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sslCertificateUri: {
         serializedName: "sslCertificateUri",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const PrometheusHaClusterProviderInstanceProperties: coreClient.CompositeMapper = {
-  serializedName: "PrometheusHaCluster",
-  type: {
-    name: "Composite",
-    className: "PrometheusHaClusterProviderInstanceProperties",
-    uberParent: "ProviderSpecificProperties",
-    polymorphicDiscriminator:
-      ProviderSpecificProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProviderSpecificProperties.type.modelProperties,
-      prometheusUrl: {
-        serializedName: "prometheusUrl",
-        type: {
-          name: "String"
-        }
+export const PrometheusHaClusterProviderInstanceProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PrometheusHaCluster",
+    type: {
+      name: "Composite",
+      className: "PrometheusHaClusterProviderInstanceProperties",
+      uberParent: "ProviderSpecificProperties",
+      polymorphicDiscriminator:
+        ProviderSpecificProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProviderSpecificProperties.type.modelProperties,
+        prometheusUrl: {
+          serializedName: "prometheusUrl",
+          type: {
+            name: "String",
+          },
+        },
+        hostname: {
+          serializedName: "hostname",
+          type: {
+            name: "String",
+          },
+        },
+        sid: {
+          serializedName: "sid",
+          type: {
+            name: "String",
+          },
+        },
+        clusterName: {
+          serializedName: "clusterName",
+          type: {
+            name: "String",
+          },
+        },
+        sslPreference: {
+          serializedName: "sslPreference",
+          type: {
+            name: "String",
+          },
+        },
+        sslCertificateUri: {
+          serializedName: "sslCertificateUri",
+          type: {
+            name: "String",
+          },
+        },
       },
-      hostname: {
-        serializedName: "hostname",
-        type: {
-          name: "String"
-        }
-      },
-      sid: {
-        serializedName: "sid",
-        type: {
-          name: "String"
-        }
-      },
-      clusterName: {
-        serializedName: "clusterName",
-        type: {
-          name: "String"
-        }
-      },
-      sslPreference: {
-        serializedName: "sslPreference",
-        type: {
-          name: "String"
-        }
-      },
-      sslCertificateUri: {
-        serializedName: "sslCertificateUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MsSqlServerProviderInstanceProperties: coreClient.CompositeMapper = {
-  serializedName: "MsSqlServer",
-  type: {
-    name: "Composite",
-    className: "MsSqlServerProviderInstanceProperties",
-    uberParent: "ProviderSpecificProperties",
-    polymorphicDiscriminator:
-      ProviderSpecificProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProviderSpecificProperties.type.modelProperties,
-      hostname: {
-        serializedName: "hostname",
-        type: {
-          name: "String"
-        }
+export const MsSqlServerProviderInstanceProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "MsSqlServer",
+    type: {
+      name: "Composite",
+      className: "MsSqlServerProviderInstanceProperties",
+      uberParent: "ProviderSpecificProperties",
+      polymorphicDiscriminator:
+        ProviderSpecificProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProviderSpecificProperties.type.modelProperties,
+        hostname: {
+          serializedName: "hostname",
+          type: {
+            name: "String",
+          },
+        },
+        dbPort: {
+          serializedName: "dbPort",
+          type: {
+            name: "String",
+          },
+        },
+        dbUsername: {
+          serializedName: "dbUsername",
+          type: {
+            name: "String",
+          },
+        },
+        dbPassword: {
+          serializedName: "dbPassword",
+          type: {
+            name: "String",
+          },
+        },
+        dbPasswordUri: {
+          serializedName: "dbPasswordUri",
+          type: {
+            name: "String",
+          },
+        },
+        sapSid: {
+          serializedName: "sapSid",
+          type: {
+            name: "String",
+          },
+        },
+        sslPreference: {
+          serializedName: "sslPreference",
+          type: {
+            name: "String",
+          },
+        },
+        sslCertificateUri: {
+          serializedName: "sslCertificateUri",
+          type: {
+            name: "String",
+          },
+        },
       },
-      dbPort: {
-        serializedName: "dbPort",
-        type: {
-          name: "String"
-        }
-      },
-      dbUsername: {
-        serializedName: "dbUsername",
-        type: {
-          name: "String"
-        }
-      },
-      dbPassword: {
-        serializedName: "dbPassword",
-        type: {
-          name: "String"
-        }
-      },
-      dbPasswordUri: {
-        serializedName: "dbPasswordUri",
-        type: {
-          name: "String"
-        }
-      },
-      sapSid: {
-        serializedName: "sapSid",
-        type: {
-          name: "String"
-        }
-      },
-      sslPreference: {
-        serializedName: "sslPreference",
-        type: {
-          name: "String"
-        }
-      },
-      sslCertificateUri: {
-        serializedName: "sslCertificateUri",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const WindowsConfiguration: coreClient.CompositeMapper = {
   serializedName: "Windows",
@@ -3313,9 +3320,9 @@ export const WindowsConfiguration: coreClient.CompositeMapper = {
     uberParent: "OSConfiguration",
     polymorphicDiscriminator: OSConfiguration.type.polymorphicDiscriminator,
     modelProperties: {
-      ...OSConfiguration.type.modelProperties
-    }
-  }
+      ...OSConfiguration.type.modelProperties,
+    },
+  },
 };
 
 export const LinuxConfiguration: coreClient.CompositeMapper = {
@@ -3330,25 +3337,25 @@ export const LinuxConfiguration: coreClient.CompositeMapper = {
       disablePasswordAuthentication: {
         serializedName: "disablePasswordAuthentication",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       ssh: {
         serializedName: "ssh",
         type: {
           name: "Composite",
-          className: "SshConfiguration"
-        }
+          className: "SshConfiguration",
+        },
       },
       sshKeyPair: {
         serializedName: "sshKeyPair",
         type: {
           name: "Composite",
-          className: "SshKeyPair"
-        }
-      }
-    }
-  }
+          className: "SshKeyPair",
+        },
+      },
+    },
+  },
 };
 
 export const SingleServerFullResourceNames: coreClient.CompositeMapper = {
@@ -3365,11 +3372,11 @@ export const SingleServerFullResourceNames: coreClient.CompositeMapper = {
         serializedName: "virtualMachine",
         type: {
           name: "Composite",
-          className: "VirtualMachineResourceNames"
-        }
-      }
-    }
-  }
+          className: "VirtualMachineResourceNames",
+        },
+      },
+    },
+  },
 };
 
 export const SingleServerConfiguration: coreClient.CompositeMapper = {
@@ -3386,45 +3393,45 @@ export const SingleServerConfiguration: coreClient.CompositeMapper = {
         serializedName: "networkConfiguration",
         type: {
           name: "Composite",
-          className: "NetworkConfiguration"
-        }
+          className: "NetworkConfiguration",
+        },
       },
       databaseType: {
         serializedName: "databaseType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subnetId: {
         serializedName: "subnetId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
           name: "Composite",
-          className: "VirtualMachineConfiguration"
-        }
+          className: "VirtualMachineConfiguration",
+        },
       },
       dbDiskConfiguration: {
         serializedName: "dbDiskConfiguration",
         type: {
           name: "Composite",
-          className: "DiskConfiguration"
-        }
+          className: "DiskConfiguration",
+        },
       },
       customResourceNames: {
         serializedName: "customResourceNames",
         type: {
           name: "Composite",
-          className: "SingleServerCustomResourceNames"
-        }
-      }
-    }
-  }
+          className: "SingleServerCustomResourceNames",
+        },
+      },
+    },
+  },
 };
 
 export const ThreeTierConfiguration: coreClient.CompositeMapper = {
@@ -3441,53 +3448,53 @@ export const ThreeTierConfiguration: coreClient.CompositeMapper = {
         serializedName: "networkConfiguration",
         type: {
           name: "Composite",
-          className: "NetworkConfiguration"
-        }
+          className: "NetworkConfiguration",
+        },
       },
       centralServer: {
         serializedName: "centralServer",
         type: {
           name: "Composite",
-          className: "CentralServerConfiguration"
-        }
+          className: "CentralServerConfiguration",
+        },
       },
       applicationServer: {
         serializedName: "applicationServer",
         type: {
           name: "Composite",
-          className: "ApplicationServerConfiguration"
-        }
+          className: "ApplicationServerConfiguration",
+        },
       },
       databaseServer: {
         serializedName: "databaseServer",
         type: {
           name: "Composite",
-          className: "DatabaseConfiguration"
-        }
+          className: "DatabaseConfiguration",
+        },
       },
       highAvailabilityConfig: {
         serializedName: "highAvailabilityConfig",
         type: {
           name: "Composite",
-          className: "HighAvailabilityConfiguration"
-        }
+          className: "HighAvailabilityConfiguration",
+        },
       },
       storageConfiguration: {
         serializedName: "storageConfiguration",
         type: {
           name: "Composite",
-          className: "StorageConfiguration"
-        }
+          className: "StorageConfiguration",
+        },
       },
       customResourceNames: {
         serializedName: "customResourceNames",
         type: {
           name: "Composite",
-          className: "ThreeTierCustomResourceNames"
-        }
-      }
-    }
-  }
+          className: "ThreeTierCustomResourceNames",
+        },
+      },
+    },
+  },
 };
 
 export const SkipFileShareConfiguration: coreClient.CompositeMapper = {
@@ -3499,36 +3506,37 @@ export const SkipFileShareConfiguration: coreClient.CompositeMapper = {
     polymorphicDiscriminator:
       FileShareConfiguration.type.polymorphicDiscriminator,
     modelProperties: {
-      ...FileShareConfiguration.type.modelProperties
-    }
-  }
+      ...FileShareConfiguration.type.modelProperties,
+    },
+  },
 };
 
-export const CreateAndMountFileShareConfiguration: coreClient.CompositeMapper = {
-  serializedName: "CreateAndMount",
-  type: {
-    name: "Composite",
-    className: "CreateAndMountFileShareConfiguration",
-    uberParent: "FileShareConfiguration",
-    polymorphicDiscriminator:
-      FileShareConfiguration.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...FileShareConfiguration.type.modelProperties,
-      resourceGroup: {
-        serializedName: "resourceGroup",
-        type: {
-          name: "String"
-        }
+export const CreateAndMountFileShareConfiguration: coreClient.CompositeMapper =
+  {
+    serializedName: "CreateAndMount",
+    type: {
+      name: "Composite",
+      className: "CreateAndMountFileShareConfiguration",
+      uberParent: "FileShareConfiguration",
+      polymorphicDiscriminator:
+        FileShareConfiguration.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...FileShareConfiguration.type.modelProperties,
+        resourceGroup: {
+          serializedName: "resourceGroup",
+          type: {
+            name: "String",
+          },
+        },
+        storageAccountName: {
+          serializedName: "storageAccountName",
+          type: {
+            name: "String",
+          },
+        },
       },
-      storageAccountName: {
-        serializedName: "storageAccountName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MountFileShareConfiguration: coreClient.CompositeMapper = {
   serializedName: "Mount",
@@ -3544,18 +3552,18 @@ export const MountFileShareConfiguration: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       privateEndpointId: {
         serializedName: "privateEndpointId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ThreeTierFullResourceNames: coreClient.CompositeMapper = {
@@ -3572,160 +3580,163 @@ export const ThreeTierFullResourceNames: coreClient.CompositeMapper = {
         serializedName: "centralServer",
         type: {
           name: "Composite",
-          className: "CentralServerFullResourceNames"
-        }
+          className: "CentralServerFullResourceNames",
+        },
       },
       applicationServer: {
         serializedName: "applicationServer",
         type: {
           name: "Composite",
-          className: "ApplicationServerFullResourceNames"
-        }
+          className: "ApplicationServerFullResourceNames",
+        },
       },
       databaseServer: {
         serializedName: "databaseServer",
         type: {
           name: "Composite",
-          className: "DatabaseServerFullResourceNames"
-        }
+          className: "DatabaseServerFullResourceNames",
+        },
       },
       sharedStorage: {
         serializedName: "sharedStorage",
         type: {
           name: "Composite",
-          className: "SharedStorageResourceNames"
-        }
-      }
-    }
-  }
+          className: "SharedStorageResourceNames",
+        },
+      },
+    },
+  },
 };
 
-export const ServiceInitiatedSoftwareConfiguration: coreClient.CompositeMapper = {
-  serializedName: "ServiceInitiated",
-  type: {
-    name: "Composite",
-    className: "ServiceInitiatedSoftwareConfiguration",
-    uberParent: "SoftwareConfiguration",
-    polymorphicDiscriminator:
-      SoftwareConfiguration.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SoftwareConfiguration.type.modelProperties,
-      bomUrl: {
-        serializedName: "bomUrl",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const ServiceInitiatedSoftwareConfiguration: coreClient.CompositeMapper =
+  {
+    serializedName: "ServiceInitiated",
+    type: {
+      name: "Composite",
+      className: "ServiceInitiatedSoftwareConfiguration",
+      uberParent: "SoftwareConfiguration",
+      polymorphicDiscriminator:
+        SoftwareConfiguration.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...SoftwareConfiguration.type.modelProperties,
+        bomUrl: {
+          serializedName: "bomUrl",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        softwareVersion: {
+          serializedName: "softwareVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        sapBitsStorageAccountId: {
+          serializedName: "sapBitsStorageAccountId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        sapFqdn: {
+          serializedName: "sapFqdn",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        sshPrivateKey: {
+          serializedName: "sshPrivateKey",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        highAvailabilitySoftwareConfiguration: {
+          serializedName: "highAvailabilitySoftwareConfiguration",
+          type: {
+            name: "Composite",
+            className: "HighAvailabilitySoftwareConfiguration",
+          },
+        },
       },
-      softwareVersion: {
-        serializedName: "softwareVersion",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      sapBitsStorageAccountId: {
-        serializedName: "sapBitsStorageAccountId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      sapFqdn: {
-        serializedName: "sapFqdn",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      sshPrivateKey: {
-        serializedName: "sshPrivateKey",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      highAvailabilitySoftwareConfiguration: {
-        serializedName: "highAvailabilitySoftwareConfiguration",
-        type: {
-          name: "Composite",
-          className: "HighAvailabilitySoftwareConfiguration"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.CompositeMapper = {
-  serializedName: "SAPInstallWithoutOSConfig",
-  type: {
-    name: "Composite",
-    className: "SAPInstallWithoutOSConfigSoftwareConfiguration",
-    uberParent: "SoftwareConfiguration",
-    polymorphicDiscriminator:
-      SoftwareConfiguration.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SoftwareConfiguration.type.modelProperties,
-      bomUrl: {
-        serializedName: "bomUrl",
-        required: true,
-        type: {
-          name: "String"
-        }
+export const SAPInstallWithoutOSConfigSoftwareConfiguration: coreClient.CompositeMapper =
+  {
+    serializedName: "SAPInstallWithoutOSConfig",
+    type: {
+      name: "Composite",
+      className: "SAPInstallWithoutOSConfigSoftwareConfiguration",
+      uberParent: "SoftwareConfiguration",
+      polymorphicDiscriminator:
+        SoftwareConfiguration.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...SoftwareConfiguration.type.modelProperties,
+        bomUrl: {
+          serializedName: "bomUrl",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        sapBitsStorageAccountId: {
+          serializedName: "sapBitsStorageAccountId",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        softwareVersion: {
+          serializedName: "softwareVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        highAvailabilitySoftwareConfiguration: {
+          serializedName: "highAvailabilitySoftwareConfiguration",
+          type: {
+            name: "Composite",
+            className: "HighAvailabilitySoftwareConfiguration",
+          },
+        },
       },
-      sapBitsStorageAccountId: {
-        serializedName: "sapBitsStorageAccountId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      softwareVersion: {
-        serializedName: "softwareVersion",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      highAvailabilitySoftwareConfiguration: {
-        serializedName: "highAvailabilitySoftwareConfiguration",
-        type: {
-          name: "Composite",
-          className: "HighAvailabilitySoftwareConfiguration"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper = {
-  serializedName: "External",
-  type: {
-    name: "Composite",
-    className: "ExternalInstallationSoftwareConfiguration",
-    uberParent: "SoftwareConfiguration",
-    polymorphicDiscriminator:
-      SoftwareConfiguration.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SoftwareConfiguration.type.modelProperties,
-      centralServerVmId: {
-        serializedName: "centralServerVmId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+export const ExternalInstallationSoftwareConfiguration: coreClient.CompositeMapper =
+  {
+    serializedName: "External",
+    type: {
+      name: "Composite",
+      className: "ExternalInstallationSoftwareConfiguration",
+      uberParent: "SoftwareConfiguration",
+      polymorphicDiscriminator:
+        SoftwareConfiguration.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...SoftwareConfiguration.type.modelProperties,
+        centralServerVmId: {
+          serializedName: "centralServerVmId",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const OperationsDefinitionDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OperationsDefinitionDisplay",
     modelProperties: {
-      ...OperationsDisplayDefinition.type.modelProperties
-    }
-  }
+      ...OperationsDisplayDefinition.type.modelProperties,
+    },
+  },
 };
 
 export const SAPVirtualInstance: coreClient.CompositeMapper = {
@@ -3738,74 +3749,74 @@ export const SAPVirtualInstance: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "UserAssignedServiceIdentity"
-        }
+          className: "UserAssignedServiceIdentity",
+        },
       },
       environment: {
         serializedName: "properties.environment",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sapProduct: {
         serializedName: "properties.sapProduct",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       configuration: {
         serializedName: "properties.configuration",
         type: {
           name: "Composite",
-          className: "SAPConfiguration"
-        }
+          className: "SAPConfiguration",
+        },
       },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
           name: "Composite",
-          className: "ManagedRGConfiguration"
-        }
+          className: "ManagedRGConfiguration",
+        },
       },
       status: {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       health: {
         serializedName: "properties.health",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "properties.state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "SAPVirtualInstanceError"
-        }
-      }
-    }
-  }
+          className: "SAPVirtualInstanceError",
+        },
+      },
+    },
+  },
 };
 
 export const SAPCentralServerInstance: coreClient.CompositeMapper = {
@@ -3818,66 +3829,66 @@ export const SAPCentralServerInstance: coreClient.CompositeMapper = {
         serializedName: "properties.instanceNo",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subnet: {
         serializedName: "properties.subnet",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       messageServerProperties: {
         serializedName: "properties.messageServerProperties",
         type: {
           name: "Composite",
-          className: "MessageServerProperties"
-        }
+          className: "MessageServerProperties",
+        },
       },
       enqueueServerProperties: {
         serializedName: "properties.enqueueServerProperties",
         type: {
           name: "Composite",
-          className: "EnqueueServerProperties"
-        }
+          className: "EnqueueServerProperties",
+        },
       },
       gatewayServerProperties: {
         serializedName: "properties.gatewayServerProperties",
         type: {
           name: "Composite",
-          className: "GatewayServerProperties"
-        }
+          className: "GatewayServerProperties",
+        },
       },
       enqueueReplicationServerProperties: {
         serializedName: "properties.enqueueReplicationServerProperties",
         type: {
           name: "Composite",
-          className: "EnqueueReplicationServerProperties"
-        }
+          className: "EnqueueReplicationServerProperties",
+        },
       },
       kernelVersion: {
         serializedName: "properties.kernelVersion",
         readOnly: true,
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kernelPatch: {
         serializedName: "properties.kernelPatch",
         readOnly: true,
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       loadBalancerDetails: {
         serializedName: "properties.loadBalancerDetails",
         type: {
           name: "Composite",
-          className: "LoadBalancerDetails"
-        }
+          className: "LoadBalancerDetails",
+        },
       },
       vmDetails: {
         serializedName: "properties.vmDetails",
@@ -3887,41 +3898,41 @@ export const SAPCentralServerInstance: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CentralServerVmDetails"
-            }
-          }
-        }
+              className: "CentralServerVmDetails",
+            },
+          },
+        },
       },
       status: {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       health: {
         serializedName: "properties.health",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "SAPVirtualInstanceError"
-        }
-      }
-    }
-  }
+          className: "SAPVirtualInstanceError",
+        },
+      },
+    },
+  },
 };
 
 export const SAPDatabaseInstance: coreClient.CompositeMapper = {
@@ -3934,36 +3945,36 @@ export const SAPDatabaseInstance: coreClient.CompositeMapper = {
         serializedName: "properties.subnet",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseSid: {
         serializedName: "properties.databaseSid",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseType: {
         serializedName: "properties.databaseType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ipAddress: {
         serializedName: "properties.ipAddress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       loadBalancerDetails: {
         serializedName: "properties.loadBalancerDetails",
         type: {
           name: "Composite",
-          className: "LoadBalancerDetails"
-        }
+          className: "LoadBalancerDetails",
+        },
       },
       vmDetails: {
         serializedName: "properties.vmDetails",
@@ -3973,34 +3984,34 @@ export const SAPDatabaseInstance: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseVmDetails"
-            }
-          }
-        }
+              className: "DatabaseVmDetails",
+            },
+          },
+        },
       },
       status: {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "SAPVirtualInstanceError"
-        }
-      }
-    }
-  }
+          className: "SAPVirtualInstanceError",
+        },
+      },
+    },
+  },
 };
 
 export const SAPApplicationServerInstance: coreClient.CompositeMapper = {
@@ -4013,74 +4024,74 @@ export const SAPApplicationServerInstance: coreClient.CompositeMapper = {
         serializedName: "properties.instanceNo",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subnet: {
         serializedName: "properties.subnet",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hostname: {
         serializedName: "properties.hostname",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kernelVersion: {
         serializedName: "properties.kernelVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kernelPatch: {
         serializedName: "properties.kernelPatch",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       ipAddress: {
         serializedName: "properties.ipAddress",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       gatewayPort: {
         serializedName: "properties.gatewayPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       icmHttpPort: {
         serializedName: "properties.icmHttpPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       icmHttpsPort: {
         serializedName: "properties.icmHttpsPort",
         readOnly: true,
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       loadBalancerDetails: {
         serializedName: "properties.loadBalancerDetails",
         type: {
           name: "Composite",
-          className: "LoadBalancerDetails"
-        }
+          className: "LoadBalancerDetails",
+        },
       },
       vmDetails: {
         serializedName: "properties.vmDetails",
@@ -4090,41 +4101,41 @@ export const SAPApplicationServerInstance: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ApplicationServerVmDetails"
-            }
-          }
-        }
+              className: "ApplicationServerVmDetails",
+            },
+          },
+        },
       },
       status: {
         serializedName: "properties.status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       health: {
         serializedName: "properties.health",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "SAPVirtualInstanceError"
-        }
-      }
-    }
-  }
+          className: "SAPVirtualInstanceError",
+        },
+      },
+    },
+  },
 };
 
 export const Monitor: coreClient.CompositeMapper = {
@@ -4137,76 +4148,76 @@ export const Monitor: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "UserAssignedServiceIdentity"
-        }
+          className: "UserAssignedServiceIdentity",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "MonitorPropertiesErrors"
-        }
+          className: "MonitorPropertiesErrors",
+        },
       },
       appLocation: {
         serializedName: "properties.appLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       routingPreference: {
         serializedName: "properties.routingPreference",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       zoneRedundancyPreference: {
         serializedName: "properties.zoneRedundancyPreference",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
           name: "Composite",
-          className: "ManagedRGConfiguration"
-        }
+          className: "ManagedRGConfiguration",
+        },
       },
       logAnalyticsWorkspaceArmId: {
         serializedName: "properties.logAnalyticsWorkspaceArmId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       monitorSubnet: {
         serializedName: "properties.monitorSubnet",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       msiArmId: {
         serializedName: "properties.msiArmId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       storageAccountArmId: {
         serializedName: "properties.storageAccountArmId",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderInstance: coreClient.CompositeMapper = {
@@ -4219,32 +4230,32 @@ export const ProviderInstance: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "UserAssignedServiceIdentity"
-        }
+          className: "UserAssignedServiceIdentity",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "properties.errors",
         type: {
           name: "Composite",
-          className: "ProviderInstancePropertiesErrors"
-        }
+          className: "ProviderInstancePropertiesErrors",
+        },
       },
       providerSettings: {
         serializedName: "properties.providerSettings",
         type: {
           name: "Composite",
-          className: "ProviderSpecificProperties"
-        }
-      }
-    }
-  }
+          className: "ProviderSpecificProperties",
+        },
+      },
+    },
+  },
 };
 
 export const SapLandscapeMonitor: coreClient.CompositeMapper = {
@@ -4257,15 +4268,15 @@ export const SapLandscapeMonitor: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       grouping: {
         serializedName: "properties.grouping",
         type: {
           name: "Composite",
-          className: "SapLandscapeMonitorPropertiesGrouping"
-        }
+          className: "SapLandscapeMonitorPropertiesGrouping",
+        },
       },
       topMetricsThresholds: {
         serializedName: "properties.topMetricsThresholds",
@@ -4274,13 +4285,13 @@ export const SapLandscapeMonitor: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SapLandscapeMonitorMetricThresholds"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SapLandscapeMonitorMetricThresholds",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export let discriminators = {
@@ -4293,27 +4304,35 @@ export let discriminators = {
   FileShareConfiguration: FileShareConfiguration,
   ThreeTierCustomResourceNames: ThreeTierCustomResourceNames,
   SoftwareConfiguration: SoftwareConfiguration,
-  "SAPSizingRecommendationResult.SingleServer": SingleServerRecommendationResult,
+  "SAPSizingRecommendationResult.SingleServer":
+    SingleServerRecommendationResult,
   "SAPSizingRecommendationResult.ThreeTier": ThreeTierRecommendationResult,
   "SAPConfiguration.Discovery": DiscoveryConfiguration,
   "SAPConfiguration.Deployment": DeploymentConfiguration,
   "SAPConfiguration.DeploymentWithOSConfig": DeploymentWithOSConfiguration,
   "ProviderSpecificProperties.SapHana": HanaDbProviderInstanceProperties,
-  "ProviderSpecificProperties.SapNetWeaver": SapNetWeaverProviderInstanceProperties,
-  "ProviderSpecificProperties.PrometheusOS": PrometheusOSProviderInstanceProperties,
+  "ProviderSpecificProperties.SapNetWeaver":
+    SapNetWeaverProviderInstanceProperties,
+  "ProviderSpecificProperties.PrometheusOS":
+    PrometheusOSProviderInstanceProperties,
   "ProviderSpecificProperties.Db2": DB2ProviderInstanceProperties,
-  "ProviderSpecificProperties.PrometheusHaCluster": PrometheusHaClusterProviderInstanceProperties,
-  "ProviderSpecificProperties.MsSqlServer": MsSqlServerProviderInstanceProperties,
+  "ProviderSpecificProperties.PrometheusHaCluster":
+    PrometheusHaClusterProviderInstanceProperties,
+  "ProviderSpecificProperties.MsSqlServer":
+    MsSqlServerProviderInstanceProperties,
   "OSConfiguration.Windows": WindowsConfiguration,
   "OSConfiguration.Linux": LinuxConfiguration,
-  "SingleServerCustomResourceNames.FullResourceName": SingleServerFullResourceNames,
+  "SingleServerCustomResourceNames.FullResourceName":
+    SingleServerFullResourceNames,
   "InfrastructureConfiguration.SingleServer": SingleServerConfiguration,
   "InfrastructureConfiguration.ThreeTier": ThreeTierConfiguration,
   "FileShareConfiguration.Skip": SkipFileShareConfiguration,
   "FileShareConfiguration.CreateAndMount": CreateAndMountFileShareConfiguration,
   "FileShareConfiguration.Mount": MountFileShareConfiguration,
   "ThreeTierCustomResourceNames.FullResourceName": ThreeTierFullResourceNames,
-  "SoftwareConfiguration.ServiceInitiated": ServiceInitiatedSoftwareConfiguration,
-  "SoftwareConfiguration.SAPInstallWithoutOSConfig": SAPInstallWithoutOSConfigSoftwareConfiguration,
-  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration
+  "SoftwareConfiguration.ServiceInitiated":
+    ServiceInitiatedSoftwareConfiguration,
+  "SoftwareConfiguration.SAPInstallWithoutOSConfig":
+    SAPInstallWithoutOSConfigSoftwareConfiguration,
+  "SoftwareConfiguration.External": ExternalInstallationSoftwareConfiguration,
 };
