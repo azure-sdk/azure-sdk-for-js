@@ -67,6 +67,26 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -159,9 +179,9 @@ export enum KnownMongoClusterStatus {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -225,6 +245,11 @@ export enum KnownReplicationState {
     Provisioning = "Provisioning",
     Reconfiguring = "Reconfiguring",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_07_01 = "2024-07-01"
 }
 
 // @public
