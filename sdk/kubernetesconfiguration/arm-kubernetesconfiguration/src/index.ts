@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { SourceControlConfigurationClient } from "./sourceControlConfigurationClient";
+export { PrivateLinkScopesClient } from "./privateLinkScopesClient";
 export * from "./operationsInterfaces";

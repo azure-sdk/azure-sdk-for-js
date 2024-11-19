@@ -9,32 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Extension as ExtensionMapper,
-  PatchExtension as PatchExtensionMapper,
-  FluxConfiguration as FluxConfigurationMapper,
-  FluxConfigurationPatch as FluxConfigurationPatchMapper,
-  SourceControlConfiguration as SourceControlConfigurationMapper
+  KubernetesConfigurationPrivateLinkScope as KubernetesConfigurationPrivateLinkScopeMapper,
+  TagsResource as TagsResourceMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
 } from "../models/mappers";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extension: OperationParameter = {
-  parameterPath: "extension",
-  mapper: ExtensionMapper
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -43,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -54,24 +35,36 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-11-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -79,85 +72,47 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const clusterRp: OperationURLParameter = {
-  parameterPath: "clusterRp",
+export const scopeName: OperationURLParameter = {
+  parameterPath: "scopeName",
   mapper: {
-    serializedName: "clusterRp",
+    serializedName: "scopeName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const clusterResourceName: OperationURLParameter = {
-  parameterPath: "clusterResourceName",
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "clusterResourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const clusterName: OperationURLParameter = {
-  parameterPath: "clusterName",
-  mapper: {
-    serializedName: "clusterName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extensionName: OperationURLParameter = {
-  parameterPath: "extensionName",
-  mapper: {
-    serializedName: "extensionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "application/json",
     isConstant: true,
-    serializedName: "api-version",
+    serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const forceDelete: OperationQueryParameter = {
-  parameterPath: ["options", "forceDelete"],
-  mapper: {
-    serializedName: "forceDelete",
-    type: {
-      name: "Boolean"
-    }
-  }
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: KubernetesConfigurationPrivateLinkScopeMapper,
 };
 
-export const patchExtension: OperationParameter = {
-  parameterPath: "patchExtension",
-  mapper: PatchExtensionMapper
+export const privateLinkScopeTags: OperationParameter = {
+  parameterPath: "privateLinkScopeTags",
+  mapper: TagsResourceMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -166,56 +121,35 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
   mapper: {
-    serializedName: "operationId",
+    serializedName: "groupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const fluxConfigurationName: OperationURLParameter = {
-  parameterPath: "fluxConfigurationName",
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
   mapper: {
-    serializedName: "fluxConfigurationName",
+    serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const fluxConfiguration: OperationParameter = {
-  parameterPath: "fluxConfiguration",
-  mapper: FluxConfigurationMapper
-};
-
-export const fluxConfigurationPatch: OperationParameter = {
-  parameterPath: "fluxConfigurationPatch",
-  mapper: FluxConfigurationPatchMapper
-};
-
-export const sourceControlConfigurationName: OperationURLParameter = {
-  parameterPath: "sourceControlConfigurationName",
-  mapper: {
-    serializedName: "sourceControlConfigurationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const sourceControlConfiguration: OperationParameter = {
-  parameterPath: "sourceControlConfiguration",
-  mapper: SourceControlConfigurationMapper
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: PrivateEndpointConnectionMapper,
 };
