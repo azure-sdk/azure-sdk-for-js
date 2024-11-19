@@ -1,15 +1,27 @@
 # Release History
-
-## 1.2.1 (Unreleased)
-
+    
+## 1.3.0 (2024-11-19)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias DirectUDP
+  - Added Type Alias ManagedPrivateUDP
+  - Added Type Alias PublicUDP
+  - Added Type Alias RelayUDP
+  - Interface HostPool has a new optional parameter directUDP
+  - Interface HostPool has a new optional parameter managedPrivateUDP
+  - Interface HostPool has a new optional parameter publicUDP
+  - Interface HostPool has a new optional parameter relayUDP
+  - Interface HostPoolPatch has a new optional parameter directUDP
+  - Interface HostPoolPatch has a new optional parameter managedPrivateUDP
+  - Interface HostPoolPatch has a new optional parameter publicUDP
+  - Interface HostPoolPatch has a new optional parameter relayUDP
+  - Added Enum KnownDirectUDP
+  - Added Enum KnownManagedPrivateUDP
+  - Added Enum KnownPublicUDP
+  - Added Enum KnownRelayUDP
+    
+    
 ## 1.2.0 (2024-09-11)
     
 ### Features Added
