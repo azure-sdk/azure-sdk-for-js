@@ -21582,40 +21582,24 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-4T4Drp4Ho5XDjqmusRaUkqzfMRXIP5g2wNH4/yQLP+IKrwX6cIRBA7VjIXn9iYFikcw8+Dyove8130WKf6KnAQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-wDsnZq1WskZFAMF/noJ/+avSl+wLDHmoS/ASKL8m5LVOvOx39sqRL+vLHvOqHxDe776JnHs+4fULAtqyWWszRw==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       playwright: 1.48.2
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
     dev: false
 
   file:projects/keyvault-certificates.tgz:

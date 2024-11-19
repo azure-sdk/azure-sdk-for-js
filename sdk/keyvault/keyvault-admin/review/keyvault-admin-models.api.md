@@ -4,20 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
 // @public
 export type DataAction = string;
 
@@ -37,52 +23,6 @@ export interface FullBackupOperation {
     startTime?: Date;
     status?: OperationStatus;
     statusDetails?: string;
-}
-
-// @public
-export interface FullBackupOptionalParams extends OperationOptions {
-    azureStorageBlobContainerUri?: SASTokenParameter;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FullBackupStatusOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FullRestoreOperationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GetSettingOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetSettingsOptionalParams extends OperationOptions {
-}
-
-// @public (undocumented)
-export class KeyVaultClient {
-    constructor(vaultBaseUrl: string, credential: TokenCredential, options?: KeyVaultClientOptionalParams);
-    fullBackup(options?: FullBackupOptionalParams): PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
-    fullBackupStatus(jobId: string, options?: FullBackupStatusOptionalParams): Promise<FullBackupOperation>;
-    fullRestoreOperation(restoreBlobDetails: RestoreOperationParameters, options?: FullRestoreOperationOptionalParams): PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
-    getSetting(settingName: string, options?: GetSettingOptionalParams): Promise<Setting>;
-    getSettings(options?: GetSettingsOptionalParams): Promise<SettingsListResult>;
-    readonly pipeline: Pipeline;
-    preFullBackup(options?: PreFullBackupOptionalParams): PollerLike<OperationState<FullBackupOperation>, FullBackupOperation>;
-    preFullRestoreOperation(preRestoreOperationParameters: PreRestoreOperationParameters, options?: PreFullRestoreOperationOptionalParams): PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
-    restoreStatus(jobId: string, options?: RestoreStatusOptionalParams): Promise<RestoreOperation>;
-    readonly roleAssignments: RoleAssignmentsOperations;
-    readonly roleDefinitions: RoleDefinitionsOperations;
-    selectiveKeyRestoreOperation(keyName: string, options?: SelectiveKeyRestoreOperationOptionalParams): PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
-    updateSetting(settingName: string, parameters: UpdateSettingRequest, options?: UpdateSettingOptionalParams): Promise<Setting>;
-}
-
-// @public
-export interface KeyVaultClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
@@ -168,18 +108,6 @@ export enum KnownVersions {
 export type OperationStatus = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface Permission {
     actions?: string[];
     dataActions?: DataAction[];
@@ -192,17 +120,6 @@ export interface PreBackupOperationParameters {
     storageResourceUri?: string;
     token?: string;
     useManagedIdentity?: boolean;
-}
-
-// @public
-export interface PreFullBackupOptionalParams extends OperationOptions {
-    preBackupOperationParameters?: PreBackupOperationParameters;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PreFullRestoreOperationOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -225,20 +142,6 @@ export interface RestoreOperation {
 export interface RestoreOperationParameters {
     folderToRestore: string;
     sasTokenParameters: SASTokenParameter;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KeyVaultClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface RestoreStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -268,31 +171,6 @@ export interface RoleAssignmentPropertiesWithScope {
 }
 
 // @public
-export interface RoleAssignmentsCreateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleAssignmentsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleAssignmentsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleAssignmentsListForScopeOptionalParams extends OperationOptions {
-    $filter?: string;
-}
-
-// @public
-export interface RoleAssignmentsOperations {
-    create: (scope: string, roleAssignmentName: string, parameters: RoleAssignmentCreateParameters, options?: RoleAssignmentsCreateOptionalParams) => Promise<RoleAssignment>;
-    delete: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsDeleteOptionalParams) => Promise<RoleAssignment>;
-    get: (scope: string, roleAssignmentName: string, options?: RoleAssignmentsGetOptionalParams) => Promise<RoleAssignment>;
-    listForScope: (scope: string, options?: RoleAssignmentsListForScopeOptionalParams) => PagedAsyncIterableIterator<RoleAssignment>;
-}
-
-// @public
 export interface RoleDefinition {
     readonly id?: string;
     readonly name?: string;
@@ -312,31 +190,6 @@ export interface RoleDefinitionProperties {
     permissions?: Permission[];
     roleName?: string;
     roleType?: RoleType;
-}
-
-// @public
-export interface RoleDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleDefinitionsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleDefinitionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RoleDefinitionsListOptionalParams extends OperationOptions {
-    $filter?: string;
-}
-
-// @public
-export interface RoleDefinitionsOperations {
-    createOrUpdate: (scope: string, roleDefinitionName: string, parameters: RoleDefinitionCreateParameters, options?: RoleDefinitionsCreateOrUpdateOptionalParams) => Promise<RoleDefinition>;
-    delete: (scope: string, roleDefinitionName: string, options?: RoleDefinitionsDeleteOptionalParams) => Promise<RoleDefinition>;
-    get: (scope: string, roleDefinitionName: string, options?: RoleDefinitionsGetOptionalParams) => Promise<RoleDefinition>;
-    list: (scope: string, options?: RoleDefinitionsListOptionalParams) => PagedAsyncIterableIterator<RoleDefinition>;
 }
 
 // @public
@@ -366,12 +219,6 @@ export interface SelectiveKeyRestoreOperation {
 }
 
 // @public
-export interface SelectiveKeyRestoreOperationOptionalParams extends OperationOptions {
-    restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface SelectiveKeyRestoreOperationParameters {
     folder: string;
     sasTokenParameters: SASTokenParameter;
@@ -391,10 +238,6 @@ export interface SettingsListResult {
 
 // @public
 export type SettingTypeEnum = string;
-
-// @public
-export interface UpdateSettingOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface UpdateSettingRequest {
