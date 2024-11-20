@@ -4645,7 +4645,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -15325,7 +15325,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-+Zynps5rECLM22IFGDWuOsLks6pDM8ITZ0kWZyZ4Z8o9EGwdKw+RY4cugVqdK5V8sjKOorv79ItDiB7YZHNyHA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-yST2sHC/M1fVsMOtGGmDAbiKy4AUZ6qIFqC+FIUTHUYmgP5fGVw6Bem08DsHyuZlrvxmY5v0ZfV/efoD/flkJg==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -15333,15 +15333,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16216,7 +16220,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-qUQ3i4OVkfQE5+77nAfA8sPFS/alTvoo4UFkmbpRtUO7n+7uj9KfHYtC15iqdGG/KPJ36xSJUq/rH7veGqb4dg==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-LaOlA/TKoXjoy4wZfzCOzFLQYEbbFJjQb4jqcf6UtfKWLloToXzmbjFc0UP00IeGSeDS2qAA4Q9hOZ1bx51/Gw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
