@@ -13338,10 +13338,11 @@ packages:
     dev: false
 
   file:projects/arm-computeschedule.tgz:
-    resolution: {integrity: sha512-GgVAVrMUsXbo7MWQG9Ioi4dWOg1pNvhetLZpUXa92AyTgIK8WHuL3EqGpGjTy9HO1YYRC6v/YBho1KKF33vgUw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-uV/f7I4LX55K7VDLXtq9mMFNkkmB8yucR9G6ryNlUOy4yngheOkNxRaqxXkF19mS4InLmg5LiWP1p7B5QRonsQ==, tarball: file:projects/arm-computeschedule.tgz}
     name: '@rush-temp/arm-computeschedule'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -13349,6 +13350,7 @@ packages:
       eslint: 8.57.1
       playwright: 1.49.0
       prettier: 3.3.3
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
@@ -16216,7 +16218,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-qUQ3i4OVkfQE5+77nAfA8sPFS/alTvoo4UFkmbpRtUO7n+7uj9KfHYtC15iqdGG/KPJ36xSJUq/rH7veGqb4dg==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-LaOlA/TKoXjoy4wZfzCOzFLQYEbbFJjQb4jqcf6UtfKWLloToXzmbjFc0UP00IeGSeDS2qAA4Q9hOZ1bx51/Gw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
