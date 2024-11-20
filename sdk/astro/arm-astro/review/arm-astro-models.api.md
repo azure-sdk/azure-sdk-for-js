@@ -4,35 +4,8 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
-
-// @public (undocumented)
-export class AstroClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AstroClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly organizations: OrganizationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface AstroClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -216,15 +189,6 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OrganizationProperties {
     marketplace: MarketplaceDetails;
     partnerOrganizationProperties?: PartnerOrganizationProperties;
@@ -253,87 +217,13 @@ export interface OrganizationResourceUpdateProperties {
 }
 
 // @public
-export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OrganizationsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OrganizationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsGetResourcesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsGetRolesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsGetUsersOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsManageRolesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, resource: OrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
-    delete: (resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<OrganizationResource>;
-    getResources: (resourceGroupName: string, organizationName: string, properties: GetResourcesRequest, options?: OrganizationsGetResourcesOptionalParams) => Promise<GetResourcesSuccessResponse>;
-    getRoles: (resourceGroupName: string, organizationName: string, properties: GetRolesRequest, options?: OrganizationsGetRolesOptionalParams) => Promise<GetRolesSuccessResponse>;
-    getUsers: (resourceGroupName: string, organizationName: string, properties: GetUsersRequest, options?: OrganizationsGetUsersOptionalParams) => Promise<GetUsersSuccessResponse>;
-    listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
-    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
-    manageRoles: (resourceGroupName: string, organizationName: string, properties: ManageRolesModel, options?: OrganizationsManageRolesOptionalParams) => Promise<ManageRolesModel>;
-    removeUser: (resourceGroupName: string, organizationName: string, properties: RemoveUserRequest, options?: OrganizationsRemoveUserOptionalParams) => Promise<void>;
-    update: (resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams) => PollerLike<OperationState<OrganizationResource>, OrganizationResource>;
-}
-
-// @public
-export interface OrganizationsRemoveUserOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
 
 // @public
 export interface PageInfo {
     limit?: number;
     offset?: number;
     totalCount?: number;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
 }
 
 // @public
@@ -371,16 +261,6 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AstroClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface Role {

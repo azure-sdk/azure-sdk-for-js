@@ -12657,7 +12657,7 @@ packages:
     dev: false
 
   file:projects/arm-astro.tgz:
-    resolution: {integrity: sha512-jPnHxVLP76XpRsFj6i4WZP+k52kDT9y01rCFpzIGK16AxXpwkXmLY4pZ1TOKcaEgL0PwdGDGA7ANg5s5FAQ1Cg==, tarball: file:projects/arm-astro.tgz}
+    resolution: {integrity: sha512-1abidmryC7Zg7YNxvhVCsogaPk5g39PPV3evYOMvXtDAkiTy4UiRrLlaZKsRF9nJ7n6N1jqX2Zgmy179KnvetA==, tarball: file:projects/arm-astro.tgz}
     name: '@rush-temp/arm-astro'
     version: 0.0.0
     dependencies:
@@ -12665,19 +12665,41 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 8.57.1
       mocha: 10.8.2
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-attestation.tgz:
@@ -16216,7 +16238,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-qUQ3i4OVkfQE5+77nAfA8sPFS/alTvoo4UFkmbpRtUO7n+7uj9KfHYtC15iqdGG/KPJ36xSJUq/rH7veGqb4dg==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-LaOlA/TKoXjoy4wZfzCOzFLQYEbbFJjQb4jqcf6UtfKWLloToXzmbjFc0UP00IeGSeDS2qAA4Q9hOZ1bx51/Gw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
