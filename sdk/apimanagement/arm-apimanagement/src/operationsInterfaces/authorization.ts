@@ -17,7 +17,7 @@ import {
   AuthorizationDeleteOptionalParams,
   AuthorizationConfirmConsentCodeRequestContract,
   AuthorizationConfirmConsentCodeOptionalParams,
-  AuthorizationConfirmConsentCodeResponse
+  AuthorizationConfirmConsentCodeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Authorization {
     resourceGroupName: string,
     serviceName: string,
     authorizationProviderId: string,
-    options?: AuthorizationListByAuthorizationProviderOptionalParams
+    options?: AuthorizationListByAuthorizationProviderOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationContract>;
   /**
    * Gets the details of the authorization specified by its identifier.
@@ -49,7 +49,7 @@ export interface Authorization {
     serviceName: string,
     authorizationProviderId: string,
     authorizationId: string,
-    options?: AuthorizationGetOptionalParams
+    options?: AuthorizationGetOptionalParams,
   ): Promise<AuthorizationGetResponse>;
   /**
    * Creates or updates authorization.
@@ -66,7 +66,7 @@ export interface Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationContract,
-    options?: AuthorizationCreateOrUpdateOptionalParams
+    options?: AuthorizationCreateOrUpdateOptionalParams,
   ): Promise<AuthorizationCreateOrUpdateResponse>;
   /**
    * Deletes specific Authorization from the Authorization provider.
@@ -84,7 +84,7 @@ export interface Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     ifMatch: string,
-    options?: AuthorizationDeleteOptionalParams
+    options?: AuthorizationDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Confirm valid consent code to suppress Authorizations anti-phishing page.
@@ -101,6 +101,6 @@ export interface Authorization {
     authorizationProviderId: string,
     authorizationId: string,
     parameters: AuthorizationConfirmConsentCodeRequestContract,
-    options?: AuthorizationConfirmConsentCodeOptionalParams
+    options?: AuthorizationConfirmConsentCodeOptionalParams,
   ): Promise<AuthorizationConfirmConsentCodeResponse>;
 }
