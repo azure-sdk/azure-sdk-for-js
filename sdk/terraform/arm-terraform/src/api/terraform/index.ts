@@ -54,11 +54,23 @@ export function terraformExportTerraform(
   subscriptionId: string,
   body: BaseExportModelUnion,
   options: TerraformExportTerraformOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<TerraformOperationStatus>, TerraformOperationStatus> {
-  return getLongRunningPoller(context, _terraformExportTerraformDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _terraformExportTerraformSend(context, subscriptionId, body, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<TerraformOperationStatus>, TerraformOperationStatus>;
+): PollerLike<
+  OperationState<TerraformOperationStatus>,
+  TerraformOperationStatus
+> {
+  return getLongRunningPoller(
+    context,
+    _terraformExportTerraformDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _terraformExportTerraformSend(context, subscriptionId, body, options),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<
+    OperationState<TerraformOperationStatus>,
+    TerraformOperationStatus
+  >;
 }

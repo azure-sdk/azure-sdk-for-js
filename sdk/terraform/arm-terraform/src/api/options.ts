@@ -7,7 +7,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface OperationsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TerraformExportTerraformOptionalParams extends OperationOptions {
+export interface TerraformExportTerraformOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

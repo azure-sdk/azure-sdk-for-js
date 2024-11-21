@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getTerraformOperations, TerraformOperations } from "./classic/terraform/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  getTerraformOperations,
+  TerraformOperations,
+} from "./classic/terraform/index.js";
 import {
   createAzureTerraform,
   AzureTerraformContext,

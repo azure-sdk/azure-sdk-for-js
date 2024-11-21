@@ -11,6 +11,7 @@ export {
   ExportQuery,
   ExportResource,
   ExportResourceGroup,
+  ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
   TerraformOperationStatus,
