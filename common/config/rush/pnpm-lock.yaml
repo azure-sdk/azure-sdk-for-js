@@ -4645,7 +4645,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -13603,7 +13603,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-ydpilnTOvg+oXwo+mhmH0sgy18nc7f1Lc3bIERPjMXBquOusiTJ3RQzPdEMRlDMs4tHOX5kxLaQuMc6MTY3KyA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-s7pcgXSyMJcxDuhA9Y7aavPBCQ5h/TowVP7Ni7LsaWMm55Dges6xYWeVwZ13VPtab99BVIc0/E5ZWrd+VXmj+Q==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -14888,7 +14888,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsight.tgz:
-    resolution: {integrity: sha512-VOcE7P3czCYwQBzwuNanhWB08NeiOjQ0aPzox0UhB1oom5xohaL63Ba92Vlo5uQQJgcuhMHIXu7E7/1TrfbjUw==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-ff8JZIkKXE4FIkHMm4r0KjblEb2Bu2tmtLUTGno1H9UPz5IxfnKwPyW8F1mLS+05lrQz4MKJbWD+9GFhOPf4BA==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
@@ -14896,16 +14896,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16094,7 +16097,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-x542tCXTk8RsRswHTLsg+A0Jd3cSTO3bX5WCc5HxXuH+OjtEiNmpvTGbQS781+zCEIJAJ86c3CP6VY5Btgq/Hg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-t+R19DeTmy9lenQFbaBgiJXx8vvRwsiQ+EtFLODfk/IWGP1ZodnrZdUu2AcsfAKE+PrKhLcvnLavSEDWmrZqSw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:

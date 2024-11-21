@@ -129,7 +129,7 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-08-01-preview";
+    this.apiVersion = options.apiVersion || "2025-01-15-preview";
     this.applications = new ApplicationsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.configurations = new ConfigurationsImpl(this);
