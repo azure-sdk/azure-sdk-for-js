@@ -1,15 +1,13 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
-### Features Added
-
+    
+## 2.0.0 (2024-11-21)
+    
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ChangesListNextOptionalParams no longer has parameter skipToken
+  - Interface ChangesListNextOptionalParams no longer has parameter top
+    
+    
 ## 1.1.0 (2022-11-17)
     
 ### Features Added
@@ -19,4 +17,4 @@
     
 ## 1.0.0 (2022-05-09)
 
-The package of @azure/arm-changes is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-changes is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
