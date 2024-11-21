@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyContainerGroupPoolRuntimeViewResource } from "../../models/models.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   standbyContainerGroupPoolRuntimeViewsGet,
   standbyContainerGroupPoolRuntimeViewsListByStandbyPool,
 } from "../../api/standbyContainerGroupPoolRuntimeViews/index.js";
+import { StandbyContainerGroupPoolRuntimeViewResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
   StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a StandbyContainerGroupPoolRuntimeViews operations. */
 export interface StandbyContainerGroupPoolRuntimeViewsOperations {
@@ -31,7 +31,7 @@ export interface StandbyContainerGroupPoolRuntimeViewsOperations {
 }
 
 export function getStandbyContainerGroupPoolRuntimeViews(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ) {
   return {
@@ -65,7 +65,7 @@ export function getStandbyContainerGroupPoolRuntimeViews(
 }
 
 export function getStandbyContainerGroupPoolRuntimeViewsOperations(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ): StandbyContainerGroupPoolRuntimeViewsOperations {
   return {

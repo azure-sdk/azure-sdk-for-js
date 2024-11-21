@@ -1,7 +1,136 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../helpers/serializerHelpers.js";
+/** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
+export interface StandbyContainerGroupPoolRuntimeViewResource
+  extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
+}
+
+export function standbyContainerGroupPoolRuntimeViewResourceDeserializer(
+  item: any,
+): StandbyContainerGroupPoolRuntimeViewResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyContainerGroupPoolRuntimeViewResourcePropertiesDeserializer(
+          item["properties"],
+        ),
+  };
+}
+
+/** Contains information about a standby pool as last known by the StandbyPool resource provider. */
+export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
+  /** A list containing the counts of container groups in each possible state, as known by the StandbyPool resource provider. */
+  readonly instanceCountSummary: ContainerGroupInstanceCountSummary[];
+  /** Displays the provisioning state of the standby pool */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function standbyContainerGroupPoolRuntimeViewResourcePropertiesDeserializer(
+  item: any,
+): StandbyContainerGroupPoolRuntimeViewResourceProperties {
+  return {
+    instanceCountSummary: containerGroupInstanceCountSummaryArrayDeserializer(
+      item["instanceCountSummary"],
+    ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function containerGroupInstanceCountSummaryArrayDeserializer(
+  result: Array<ContainerGroupInstanceCountSummary>,
+): any[] {
+  return result.map((item) => {
+    return containerGroupInstanceCountSummaryDeserializer(item);
+  });
+}
+
+/** Displays the counts of container groups in each state, as known by the StandbyPool resource provider. */
+export interface ContainerGroupInstanceCountSummary {
+  /** The count of pooled resources in each state. */
+  instanceCountsByState: PoolResourceStateCount[];
+}
+
+export function containerGroupInstanceCountSummaryDeserializer(
+  item: any,
+): ContainerGroupInstanceCountSummary {
+  return {
+    instanceCountsByState: poolResourceStateCountArrayDeserializer(
+      item["instanceCountsByState"],
+    ),
+  };
+}
+
+export function poolResourceStateCountArrayDeserializer(
+  result: Array<PoolResourceStateCount>,
+): any[] {
+  return result.map((item) => {
+    return poolResourceStateCountDeserializer(item);
+  });
+}
+
+/** Displays the counts of pooled resources in each state, as known by the StandbyPool resource provider. */
+export interface PoolResourceStateCount {
+  /** The state that the pooled resources count is for. */
+  state: string;
+  /** The count of pooled resources in the given state. */
+  count: number;
+}
+
+export function poolResourceStateCountDeserializer(
+  item: any,
+): PoolResourceStateCount {
+  return {
+    state: item["state"],
+    count: item["count"],
+  };
+}
+
+/** Provisioning state */
+export enum KnownProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Provisioning state \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleting**: Resource is being deleted.
+ */
+export type ProvisioningState = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -15,8 +144,19 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource) {
-  return item as any;
+export function resourceSerializer(item: Resource): any {
+  return item;
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -35,59 +175,129 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
 export enum KnownCreatedByType {
-  /** User */
+  /** The entity was created by a user. */
   User = "User",
-  /** Application */
+  /** The entity was created by an application. */
   Application = "Application",
-  /** ManagedIdentity */
+  /** The entity was created by a managed identity. */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
+  /** The entity was created by a key. */
   Key = "Key",
 }
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
-export interface StandbyContainerGroupPoolRuntimeViewResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Contains information about a standby pool as last known by the StandbyPool resource provider. */
-export interface StandbyContainerGroupPoolRuntimeViewResourceProperties {
-  /** A list containing the counts of container groups in each possible state, as known by the StandbyPool resource provider. */
-  readonly instanceCountSummary: ContainerGroupInstanceCountSummary[];
-  /** Displays the provisioning state of the standby pool */
-  readonly provisioningState?: ProvisioningState;
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
 }
 
-/** Displays the counts of container groups in each state, as known by the StandbyPool resource provider. */
-export interface ContainerGroupInstanceCountSummary {
-  /** The count of pooled resources in each state. */
-  instanceCountsByState: PoolResourceStateCount[];
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** Displays the counts of pooled resources in each state, as known by the StandbyPool resource provider. */
-export interface PoolResourceStateCount {
-  /** The state that the pooled resources count is for. */
-  state: string;
-  /** The count of pooled resources in the given state. */
-  count: number;
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
 }
 
 /** The response of a StandbyContainerGroupPoolRuntimeViewResource list operation. */
@@ -98,19 +308,23 @@ export interface _StandbyContainerGroupPoolRuntimeViewResourceListResult {
   nextLink?: string;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
+export function _standbyContainerGroupPoolRuntimeViewResourceListResultDeserializer(
+  item: any,
+): _StandbyContainerGroupPoolRuntimeViewResourceListResult {
+  return {
+    value: standbyContainerGroupPoolRuntimeViewResourceArrayDeserializer(
+      item["value"],
+    ),
+    nextLink: item["nextLink"],
+  };
 }
 
-export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
-  return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    location: item["location"],
-  };
+export function standbyContainerGroupPoolRuntimeViewResourceArrayDeserializer(
+  result: Array<StandbyContainerGroupPoolRuntimeViewResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyContainerGroupPoolRuntimeViewResourceDeserializer(item);
+  });
 }
 
 /** A StandbyContainerGroupPoolResource. */
@@ -121,13 +335,35 @@ export interface StandbyContainerGroupPoolResource extends TrackedResource {
 
 export function standbyContainerGroupPoolResourceSerializer(
   item: StandbyContainerGroupPoolResource,
-): Record<string, unknown> {
+): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    tags: item["tags"],
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : standbyContainerGroupPoolResourcePropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyContainerGroupPoolResourcePropertiesSerializer(
+          item["properties"],
+        ),
+  };
+}
+
+export function standbyContainerGroupPoolResourceDeserializer(
+  item: any,
+): StandbyContainerGroupPoolResource {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyContainerGroupPoolResourcePropertiesDeserializer(
+          item["properties"],
+        ),
   };
 }
 
@@ -143,10 +379,28 @@ export interface StandbyContainerGroupPoolResourceProperties {
 
 export function standbyContainerGroupPoolResourcePropertiesSerializer(
   item: StandbyContainerGroupPoolResourceProperties,
-): Record<string, unknown> {
+): any {
   return {
-    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
-    containerGroupProperties: containerGroupPropertiesSerializer(item.containerGroupProperties),
+    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(
+      item["elasticityProfile"],
+    ),
+    containerGroupProperties: containerGroupPropertiesSerializer(
+      item["containerGroupProperties"],
+    ),
+  };
+}
+
+export function standbyContainerGroupPoolResourcePropertiesDeserializer(
+  item: any,
+): StandbyContainerGroupPoolResourceProperties {
+  return {
+    elasticityProfile: standbyContainerGroupPoolElasticityProfileDeserializer(
+      item["elasticityProfile"],
+    ),
+    containerGroupProperties: containerGroupPropertiesDeserializer(
+      item["containerGroupProperties"],
+    ),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -160,17 +414,26 @@ export interface StandbyContainerGroupPoolElasticityProfile {
 
 export function standbyContainerGroupPoolElasticityProfileSerializer(
   item: StandbyContainerGroupPoolElasticityProfile,
-): Record<string, unknown> {
+): any {
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     refillPolicy: item["refillPolicy"],
   };
 }
 
-/** Known values of {@link RefillPolicy} that the service accepts. */
+export function standbyContainerGroupPoolElasticityProfileDeserializer(
+  item: any,
+): StandbyContainerGroupPoolElasticityProfile {
+  return {
+    maxReadyCapacity: item["maxReadyCapacity"],
+    refillPolicy: item["refillPolicy"],
+  };
+}
+
+/** Refill policy of standby pool */
 export enum KnownRefillPolicy {
-  /** always */
-  Always = "always",
+  /** A refill policy that standby pool is automatically refilled to maintain maxReadyCapacity. */
+  always = "always",
 }
 
 /**
@@ -178,7 +441,7 @@ export enum KnownRefillPolicy {
  * {@link KnownRefillPolicy} can be used interchangeably with RefillPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **always**
+ * **always**: A refill policy that standby pool is automatically refilled to maintain maxReadyCapacity.
  */
 export type RefillPolicy = string;
 
@@ -192,11 +455,27 @@ export interface ContainerGroupProperties {
 
 export function containerGroupPropertiesSerializer(
   item: ContainerGroupProperties,
-): Record<string, unknown> {
+): any {
   return {
-    containerGroupProfile: containerGroupProfileSerializer(item.containerGroupProfile),
-    subnetIds:
-      item["subnetIds"] === undefined ? item["subnetIds"] : item["subnetIds"].map(subnetSerializer),
+    containerGroupProfile: containerGroupProfileSerializer(
+      item["containerGroupProfile"],
+    ),
+    subnetIds: !item["subnetIds"]
+      ? item["subnetIds"]
+      : subnetArraySerializer(item["subnetIds"]),
+  };
+}
+
+export function containerGroupPropertiesDeserializer(
+  item: any,
+): ContainerGroupProperties {
+  return {
+    containerGroupProfile: containerGroupProfileDeserializer(
+      item["containerGroupProfile"],
+    ),
+    subnetIds: !item["subnetIds"]
+      ? item["subnetIds"]
+      : subnetArrayDeserializer(item["subnetIds"]),
   };
 }
 
@@ -210,11 +489,29 @@ export interface ContainerGroupProfile {
 
 export function containerGroupProfileSerializer(
   item: ContainerGroupProfile,
-): Record<string, unknown> {
+): any {
+  return { id: item["id"], revision: item["revision"] };
+}
+
+export function containerGroupProfileDeserializer(
+  item: any,
+): ContainerGroupProfile {
   return {
     id: item["id"],
     revision: item["revision"],
   };
+}
+
+export function subnetArraySerializer(result: Array<Subnet>): any[] {
+  return result.map((item) => {
+    return subnetSerializer(item);
+  });
+}
+
+export function subnetArrayDeserializer(result: Array<Subnet>): any[] {
+  return result.map((item) => {
+    return subnetDeserializer(item);
+  });
 }
 
 /** Subnet of container group */
@@ -223,9 +520,38 @@ export interface Subnet {
   id: string;
 }
 
-export function subnetSerializer(item: Subnet): Record<string, unknown> {
+export function subnetSerializer(item: Subnet): any {
+  return { id: item["id"] };
+}
+
+export function subnetDeserializer(item: any): Subnet {
   return {
     id: item["id"],
+  };
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: item["tags"],
+    location: item["location"],
   };
 }
 
@@ -239,12 +565,14 @@ export interface StandbyContainerGroupPoolResourceUpdate {
 
 export function standbyContainerGroupPoolResourceUpdateSerializer(
   item: StandbyContainerGroupPoolResourceUpdate,
-): Record<string, unknown> {
+): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    properties: !item.properties
-      ? item.properties
-      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(item.properties),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
+          item["properties"],
+        ),
   };
 }
 
@@ -258,14 +586,16 @@ export interface StandbyContainerGroupPoolResourceUpdateProperties {
 
 export function standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
   item: StandbyContainerGroupPoolResourceUpdateProperties,
-): Record<string, unknown> {
+): any {
   return {
-    elasticityProfile: !item.elasticityProfile
-      ? item.elasticityProfile
-      : standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
-    containerGroupProperties: !item.containerGroupProperties
-      ? item.containerGroupProperties
-      : containerGroupPropertiesSerializer(item.containerGroupProperties),
+    elasticityProfile: !item["elasticityProfile"]
+      ? item["elasticityProfile"]
+      : standbyContainerGroupPoolElasticityProfileSerializer(
+          item["elasticityProfile"],
+        ),
+    containerGroupProperties: !item["containerGroupProperties"]
+      ? item["containerGroupProperties"]
+      : containerGroupPropertiesSerializer(item["containerGroupProperties"]),
   };
 }
 
@@ -277,10 +607,54 @@ export interface _StandbyContainerGroupPoolResourceListResult {
   nextLink?: string;
 }
 
+export function _standbyContainerGroupPoolResourceListResultDeserializer(
+  item: any,
+): _StandbyContainerGroupPoolResourceListResult {
+  return {
+    value: standbyContainerGroupPoolResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function standbyContainerGroupPoolResourceArraySerializer(
+  result: Array<StandbyContainerGroupPoolResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyContainerGroupPoolResourceSerializer(item);
+  });
+}
+
+export function standbyContainerGroupPoolResourceArrayDeserializer(
+  result: Array<StandbyContainerGroupPoolResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyContainerGroupPoolResourceDeserializer(item);
+  });
+}
+
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
-export interface StandbyVirtualMachinePoolRuntimeViewResource extends ProxyResource {
+export interface StandbyVirtualMachinePoolRuntimeViewResource
+  extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
+}
+
+export function standbyVirtualMachinePoolRuntimeViewResourceDeserializer(
+  item: any,
+): StandbyVirtualMachinePoolRuntimeViewResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyVirtualMachinePoolRuntimeViewResourcePropertiesDeserializer(
+          item["properties"],
+        ),
+  };
 }
 
 /** Contains information about a standby pool as last known by the StandbyPool resource provider. */
@@ -296,6 +670,25 @@ export interface StandbyVirtualMachinePoolRuntimeViewResourceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
+export function standbyVirtualMachinePoolRuntimeViewResourcePropertiesDeserializer(
+  item: any,
+): StandbyVirtualMachinePoolRuntimeViewResourceProperties {
+  return {
+    instanceCountSummary: virtualMachineInstanceCountSummaryArrayDeserializer(
+      item["instanceCountSummary"],
+    ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function virtualMachineInstanceCountSummaryArrayDeserializer(
+  result: Array<VirtualMachineInstanceCountSummary>,
+): any[] {
+  return result.map((item) => {
+    return virtualMachineInstanceCountSummaryDeserializer(item);
+  });
+}
+
 /**
  * Contains the counts of VMs in each power state in a given zone, fault domain, as known by the StandbyPool resource provider.
  * Note: any updates to pool resources outside of StandbyPoolRP (i.e deleting a VM through portal) are not reflected here.
@@ -308,6 +701,17 @@ export interface VirtualMachineInstanceCountSummary {
   instanceCountsByState: PoolResourceStateCount[];
 }
 
+export function virtualMachineInstanceCountSummaryDeserializer(
+  item: any,
+): VirtualMachineInstanceCountSummary {
+  return {
+    zone: item["zone"],
+    instanceCountsByState: poolResourceStateCountArrayDeserializer(
+      item["instanceCountsByState"],
+    ),
+  };
+}
+
 /** The response of a StandbyVirtualMachinePoolRuntimeViewResource list operation. */
 export interface _StandbyVirtualMachinePoolRuntimeViewResourceListResult {
   /** The StandbyVirtualMachinePoolRuntimeViewResource items on this page */
@@ -316,10 +720,45 @@ export interface _StandbyVirtualMachinePoolRuntimeViewResourceListResult {
   nextLink?: string;
 }
 
+export function _standbyVirtualMachinePoolRuntimeViewResourceListResultDeserializer(
+  item: any,
+): _StandbyVirtualMachinePoolRuntimeViewResourceListResult {
+  return {
+    value: standbyVirtualMachinePoolRuntimeViewResourceArrayDeserializer(
+      item["value"],
+    ),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function standbyVirtualMachinePoolRuntimeViewResourceArrayDeserializer(
+  result: Array<StandbyVirtualMachinePoolRuntimeViewResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyVirtualMachinePoolRuntimeViewResourceDeserializer(item);
+  });
+}
+
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface StandbyVirtualMachineResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachineResourceProperties;
+}
+
+export function standbyVirtualMachineResourceDeserializer(
+  item: any,
+): StandbyVirtualMachineResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyVirtualMachineResourcePropertiesDeserializer(item["properties"]),
+  };
 }
 
 /** Details of the StandbyVirtualMachine. */
@@ -330,12 +769,38 @@ export interface StandbyVirtualMachineResourceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
+export function standbyVirtualMachineResourcePropertiesDeserializer(
+  item: any,
+): StandbyVirtualMachineResourceProperties {
+  return {
+    virtualMachineResourceId: item["virtualMachineResourceId"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
 /** The response of a StandbyVirtualMachineResource list operation. */
 export interface _StandbyVirtualMachineResourceListResult {
   /** The StandbyVirtualMachineResource items on this page */
   value: StandbyVirtualMachineResource[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _standbyVirtualMachineResourceListResultDeserializer(
+  item: any,
+): _StandbyVirtualMachineResourceListResult {
+  return {
+    value: standbyVirtualMachineResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function standbyVirtualMachineResourceArrayDeserializer(
+  result: Array<StandbyVirtualMachineResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyVirtualMachineResourceDeserializer(item);
+  });
 }
 
 /** A StandbyVirtualMachinePoolResource. */
@@ -346,13 +811,35 @@ export interface StandbyVirtualMachinePoolResource extends TrackedResource {
 
 export function standbyVirtualMachinePoolResourceSerializer(
   item: StandbyVirtualMachinePoolResource,
-): Record<string, unknown> {
+): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    tags: item["tags"],
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : standbyVirtualMachinePoolResourcePropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyVirtualMachinePoolResourcePropertiesSerializer(
+          item["properties"],
+        ),
+  };
+}
+
+export function standbyVirtualMachinePoolResourceDeserializer(
+  item: any,
+): StandbyVirtualMachinePoolResource {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyVirtualMachinePoolResourcePropertiesDeserializer(
+          item["properties"],
+        ),
   };
 }
 
@@ -370,13 +857,30 @@ export interface StandbyVirtualMachinePoolResourceProperties {
 
 export function standbyVirtualMachinePoolResourcePropertiesSerializer(
   item: StandbyVirtualMachinePoolResourceProperties,
-): Record<string, unknown> {
+): any {
   return {
-    elasticityProfile: !item.elasticityProfile
-      ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
+    elasticityProfile: !item["elasticityProfile"]
+      ? item["elasticityProfile"]
+      : standbyVirtualMachinePoolElasticityProfileSerializer(
+          item["elasticityProfile"],
+        ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
+  };
+}
+
+export function standbyVirtualMachinePoolResourcePropertiesDeserializer(
+  item: any,
+): StandbyVirtualMachinePoolResourceProperties {
+  return {
+    elasticityProfile: !item["elasticityProfile"]
+      ? item["elasticityProfile"]
+      : standbyVirtualMachinePoolElasticityProfileDeserializer(
+          item["elasticityProfile"],
+        ),
+    virtualMachineState: item["virtualMachineState"],
+    attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -390,18 +894,27 @@ export interface StandbyVirtualMachinePoolElasticityProfile {
 
 export function standbyVirtualMachinePoolElasticityProfileSerializer(
   item: StandbyVirtualMachinePoolElasticityProfile,
-): Record<string, unknown> {
+): any {
   return {
     maxReadyCapacity: item["maxReadyCapacity"],
     minReadyCapacity: item["minReadyCapacity"],
   };
 }
 
-/** Known values of {@link VirtualMachineState} that the service accepts. */
+export function standbyVirtualMachinePoolElasticityProfileDeserializer(
+  item: any,
+): StandbyVirtualMachinePoolElasticityProfile {
+  return {
+    maxReadyCapacity: item["maxReadyCapacity"],
+    minReadyCapacity: item["minReadyCapacity"],
+  };
+}
+
+/** State of standby virtual machines */
 export enum KnownVirtualMachineState {
-  /** Running */
+  /** The virtual machine is up and running. */
   Running = "Running",
-  /** Deallocated */
+  /** The virtual machine has released the lease on the underlying hardware and is powered off. */
   Deallocated = "Deallocated",
 }
 
@@ -410,8 +923,8 @@ export enum KnownVirtualMachineState {
  * {@link KnownVirtualMachineState} can be used interchangeably with VirtualMachineState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Running** \
- * **Deallocated**
+ * **Running**: The virtual machine is up and running. \
+ * **Deallocated**: The virtual machine has released the lease on the underlying hardware and is powered off.
  */
 export type VirtualMachineState = string;
 
@@ -425,12 +938,14 @@ export interface StandbyVirtualMachinePoolResourceUpdate {
 
 export function standbyVirtualMachinePoolResourceUpdateSerializer(
   item: StandbyVirtualMachinePoolResourceUpdate,
-): Record<string, unknown> {
+): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    properties: !item.properties
-      ? item.properties
-      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(item.properties),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
+          item["properties"],
+        ),
   };
 }
 
@@ -446,11 +961,13 @@ export interface StandbyVirtualMachinePoolResourceUpdateProperties {
 
 export function standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
   item: StandbyVirtualMachinePoolResourceUpdateProperties,
-): Record<string, unknown> {
+): any {
   return {
-    elasticityProfile: !item.elasticityProfile
-      ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
+    elasticityProfile: !item["elasticityProfile"]
+      ? item["elasticityProfile"]
+      : standbyVirtualMachinePoolElasticityProfileSerializer(
+          item["elasticityProfile"],
+        ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -464,12 +981,52 @@ export interface _StandbyVirtualMachinePoolResourceListResult {
   nextLink?: string;
 }
 
+export function _standbyVirtualMachinePoolResourceListResultDeserializer(
+  item: any,
+): _StandbyVirtualMachinePoolResourceListResult {
+  return {
+    value: standbyVirtualMachinePoolResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function standbyVirtualMachinePoolResourceArraySerializer(
+  result: Array<StandbyVirtualMachinePoolResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyVirtualMachinePoolResourceSerializer(item);
+  });
+}
+
+export function standbyVirtualMachinePoolResourceArrayDeserializer(
+  result: Array<StandbyVirtualMachinePoolResource>,
+): any[] {
+  return result.map((item) => {
+    return standbyVirtualMachinePoolResourceDeserializer(item);
+  });
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
   value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -486,6 +1043,18 @@ export interface Operation {
   actionType?: ActionType;
 }
 
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -498,14 +1067,23 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
-  User = "user",
-  /** system */
-  System = "system",
-  /** user,system */
-  UserSystem = "user,system",
+  /** Indicates the operation is initiated by a user. */
+  user = "user",
+  /** Indicates the operation is initiated by a system. */
+  system = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  "user,system" = "user,system",
 }
 
 /**
@@ -513,15 +1091,15 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
-/** Known values of {@link ActionType} that the service accepts. */
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export enum KnownActionType {
-  /** Internal */
+  /** Actions are for internal-only APIs. */
   Internal = "Internal",
 }
 
@@ -530,32 +1108,12 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**
+ * **Internal**: Actions are for internal-only APIs.
  */
 export type ActionType = string;
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Deleting */
-  Deleting = "Deleting",
+/** Supported API Versions for Microsoft.StandbyPool */
+export enum KnownVersions {
+  /** API Version 2024-03-01. */
+  "2024-03-01" = "2024-03-01",
 }
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting**
- */
-/** Alias for ProvisioningState */
-
-export type ProvisioningState = string;

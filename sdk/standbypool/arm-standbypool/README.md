@@ -1,13 +1,13 @@
-# Azure StandbyPoolManagement client library for JavaScript
+# Azure StandbyPool client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure StandbyPoolManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure StandbyPool client.
 
 
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/standbypool/arm-standbypool) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-standbypool) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node-preview) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-standbypool)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node-preview)
 
 ## Getting started
 
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-standbypool` package
 
-Install the Azure StandbyPoolManagement client library for JavaScript with `npm`:
+Install the Azure StandbyPool client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-standbypool
 ```
 
-### Create and authenticate a `StandbyPoolManagementClient`
+### Create and authenticate a `StandbyPoolClient`
 
-To create a client object to access the Azure StandbyPoolManagement API, you will need the `endpoint` of your Azure StandbyPoolManagement resource and a `credential`. The Azure StandbyPoolManagement client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure StandbyPoolManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure StandbyPool API, you will need the `endpoint` of your Azure StandbyPool resource and a `credential`. The Azure StandbyPool client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure StandbyPool resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -49,19 +49,19 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { StandbyPoolManagementClient } = require("@azure/arm-standbypool");
+const { StandbyPoolClient } = require("@azure/arm-standbypool");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new StandbyPoolManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new StandbyPoolClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new StandbyPoolManagementClient(credential, subscriptionId);
+// const client = new StandbyPoolClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### StandbyPoolManagementClient
+### StandbyPoolClient
 
-`StandbyPoolManagementClient` is the primary interface for developers using the Azure StandbyPoolManagement client library. Explore the methods on this client object to understand the different features of the Azure StandbyPoolManagement service that you can access.
+`StandbyPoolClient` is the primary interface for developers using the Azure StandbyPool client library. Explore the methods on this client object to understand the different features of the Azure StandbyPool service that you can access.
 
 ## Troubleshooting
 

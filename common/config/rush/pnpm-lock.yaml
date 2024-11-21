@@ -4645,7 +4645,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -17747,10 +17747,11 @@ packages:
     dev: false
 
   file:projects/arm-standbypool.tgz:
-    resolution: {integrity: sha512-d2xnd2nJyWATOqT3IDONbjSerCpYzZzzoD96MrMUpOEwjbePLcyjJw8ft9YyO2QHK7OOUG0WuN9rqv6eCQLxIQ==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-g7hfCkgyDW0f7ZObnPHHrZcqV3A/rUVMegxxEZ3XoZyZT2BkSqWnqlwhjq5fCS2dCqLqz089cNBCBx9AgJRuMA==, tarball: file:projects/arm-standbypool.tgz}
     name: '@rush-temp/arm-standbypool'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -17758,6 +17759,7 @@ packages:
       eslint: 8.57.1
       playwright: 1.49.0
       prettier: 3.3.3
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
