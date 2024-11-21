@@ -204,7 +204,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -222,7 +222,7 @@ export type CreatedByType = string;
 /** Known values of {@link TemplateSpecExpandKind} that the service accepts. */
 export enum KnownTemplateSpecExpandKind {
   /** Includes version information with the Template Spec. */
-  Versions = "versions"
+  Versions = "versions",
 }
 
 /**
@@ -286,24 +286,47 @@ export interface TemplateSpecsListByResourceGroupOptionalParams
 export type TemplateSpecsListByResourceGroupResponse = TemplateSpecsListResult;
 
 /** Optional parameters. */
-export interface TemplateSpecsListBySubscriptionNextOptionalParams
+export interface TemplateSpecsGetBuiltInOptionalParams
   extends coreClient.OperationOptions {
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
   expand?: TemplateSpecExpandKind;
 }
 
+/** Contains response data for the getBuiltIn operation. */
+export type TemplateSpecsGetBuiltInResponse = TemplateSpec;
+
+/** Optional parameters. */
+export interface TemplateSpecsListBuiltInsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Allows for expansion of additional Template Spec details in the response. Optional. */
+  expand?: TemplateSpecExpandKind;
+}
+
+/** Contains response data for the listBuiltIns operation. */
+export type TemplateSpecsListBuiltInsResponse = TemplateSpecsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listBySubscriptionNext operation. */
-export type TemplateSpecsListBySubscriptionNextResponse = TemplateSpecsListResult;
+export type TemplateSpecsListBySubscriptionNextResponse =
+  TemplateSpecsListResult;
 
 /** Optional parameters. */
 export interface TemplateSpecsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  expand?: TemplateSpecExpandKind;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type TemplateSpecsListByResourceGroupNextResponse = TemplateSpecsListResult;
+export type TemplateSpecsListByResourceGroupNextResponse =
+  TemplateSpecsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecsListBuiltInsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInsNext operation. */
+export type TemplateSpecsListBuiltInsNextResponse = TemplateSpecsListResult;
 
 /** Optional parameters. */
 export interface TemplateSpecVersionsCreateOrUpdateOptionalParams
@@ -341,11 +364,35 @@ export interface TemplateSpecVersionsListOptionalParams
 export type TemplateSpecVersionsListResponse = TemplateSpecVersionsListResult;
 
 /** Optional parameters. */
+export interface TemplateSpecVersionsListBuiltInsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltIns operation. */
+export type TemplateSpecVersionsListBuiltInsResponse =
+  TemplateSpecVersionsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecVersionsGetBuiltInOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBuiltIn operation. */
+export type TemplateSpecVersionsGetBuiltInResponse = TemplateSpecVersion;
+
+/** Optional parameters. */
 export interface TemplateSpecVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TemplateSpecVersionsListNextResponse = TemplateSpecVersionsListResult;
+export type TemplateSpecVersionsListNextResponse =
+  TemplateSpecVersionsListResult;
+
+/** Optional parameters. */
+export interface TemplateSpecVersionsListBuiltInsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBuiltInsNext operation. */
+export type TemplateSpecVersionsListBuiltInsNextResponse =
+  TemplateSpecVersionsListResult;
 
 /** Optional parameters. */
 export interface TemplateSpecsClientOptionalParams
