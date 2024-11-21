@@ -11,13 +11,16 @@ import {
   TemplateSpec,
   TemplateSpecsListBySubscriptionOptionalParams,
   TemplateSpecsListByResourceGroupOptionalParams,
+  TemplateSpecsListBuiltInsOptionalParams,
   TemplateSpecsCreateOrUpdateOptionalParams,
   TemplateSpecsCreateOrUpdateResponse,
   TemplateSpecsUpdateOptionalParams,
   TemplateSpecsUpdateResponse,
   TemplateSpecsGetOptionalParams,
   TemplateSpecsGetResponse,
-  TemplateSpecsDeleteOptionalParams
+  TemplateSpecsDeleteOptionalParams,
+  TemplateSpecsGetBuiltInOptionalParams,
+  TemplateSpecsGetBuiltInResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +31,7 @@ export interface TemplateSpecs {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: TemplateSpecsListBySubscriptionOptionalParams
+    options?: TemplateSpecsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<TemplateSpec>;
   /**
    * Lists all the Template Specs within the specified resource group.
@@ -37,7 +40,14 @@ export interface TemplateSpecs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: TemplateSpecsListByResourceGroupOptionalParams
+    options?: TemplateSpecsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<TemplateSpec>;
+  /**
+   * Lists built-in Template Specs.
+   * @param options The options parameters.
+   */
+  listBuiltIns(
+    options?: TemplateSpecsListBuiltInsOptionalParams,
   ): PagedAsyncIterableIterator<TemplateSpec>;
   /**
    * Creates or updates a Template Spec.
@@ -50,7 +60,7 @@ export interface TemplateSpecs {
     resourceGroupName: string,
     templateSpecName: string,
     templateSpec: TemplateSpec,
-    options?: TemplateSpecsCreateOrUpdateOptionalParams
+    options?: TemplateSpecsCreateOrUpdateOptionalParams,
   ): Promise<TemplateSpecsCreateOrUpdateResponse>;
   /**
    * Updates Template Spec tags with specified values.
@@ -61,7 +71,7 @@ export interface TemplateSpecs {
   update(
     resourceGroupName: string,
     templateSpecName: string,
-    options?: TemplateSpecsUpdateOptionalParams
+    options?: TemplateSpecsUpdateOptionalParams,
   ): Promise<TemplateSpecsUpdateResponse>;
   /**
    * Gets a Template Spec with a given name.
@@ -72,7 +82,7 @@ export interface TemplateSpecs {
   get(
     resourceGroupName: string,
     templateSpecName: string,
-    options?: TemplateSpecsGetOptionalParams
+    options?: TemplateSpecsGetOptionalParams,
   ): Promise<TemplateSpecsGetResponse>;
   /**
    * Deletes a Template Spec by name. When operation completes, status code 200 returned without content.
@@ -83,6 +93,15 @@ export interface TemplateSpecs {
   delete(
     resourceGroupName: string,
     templateSpecName: string,
-    options?: TemplateSpecsDeleteOptionalParams
+    options?: TemplateSpecsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Gets a built-in Template Spec with a given name.
+   * @param templateSpecName Name of the Template Spec.
+   * @param options The options parameters.
+   */
+  getBuiltIn(
+    templateSpecName: string,
+    options?: TemplateSpecsGetBuiltInOptionalParams,
+  ): Promise<TemplateSpecsGetBuiltInResponse>;
 }
