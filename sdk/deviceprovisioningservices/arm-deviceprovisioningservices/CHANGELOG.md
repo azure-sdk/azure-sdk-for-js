@@ -1,15 +1,32 @@
 # Release History
-
-## 6.0.0-beta.2 (Unreleased)
-
+    
+## 6.0.0-beta.2 (2024-11-21)
+Compared with version 5.1.0
+    
 ### Features Added
+
+  - Added Interface ManagedServiceIdentity
+  - Added Interface SharedAccessSignatureAuthorizationRule
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias IotHubAuthenticationType
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface IotDpsPropertiesDescription has a new optional parameter portalOperationsHostName
+  - Interface IotHubDefinitionDescription has a new optional parameter authenticationType
+  - Interface IotHubDefinitionDescription has a new optional parameter hostName
+  - Interface IotHubDefinitionDescription has a new optional parameter selectedUserAssignedIdentityResourceId
+  - Interface ProvisioningServiceDescription has a new optional parameter identity
+  - Interface Resource has a new optional parameter resourcegroup
+  - Interface Resource has a new optional parameter subscriptionid
+  - Added Enum KnownIotHubAuthenticationType
+  - Added Enum KnownManagedServiceIdentityType
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter code of interface ErrorDetails is changed from string to number
+  - Type of parameter authorizationPolicies of interface IotDpsPropertiesDescription is changed from SharedAccessSignatureAuthorizationRuleAccessRightsDescription[] to SharedAccessSignatureAuthorizationRule[]
+  - Type of parameter value of interface SharedAccessSignatureAuthorizationRuleListResult is changed from SharedAccessSignatureAuthorizationRuleAccessRightsDescription[] to SharedAccessSignatureAuthorizationRule[]
+    
+    
 ## 6.0.0-beta.1 (2023-06-07)
     
 ### Features Added
@@ -55,7 +72,7 @@
     
 ## 4.1.1 (2022-04-18)
 
-### Features Added
+**features**
 
   - bug fix
 
@@ -80,4 +97,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
