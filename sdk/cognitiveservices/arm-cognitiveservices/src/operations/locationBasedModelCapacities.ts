@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Usages } from "../operationsInterfaces";
+import { LocationBasedModelCapacities } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
 import {
-  Usage,
-  UsagesListNextOptionalParams,
-  UsagesListOptionalParams,
-  UsagesListResponse,
-  UsagesListNextResponse,
+  ModelCapacityListResultValueItem,
+  LocationBasedModelCapacitiesListNextOptionalParams,
+  LocationBasedModelCapacitiesListOptionalParams,
+  LocationBasedModelCapacitiesListResponse,
+  LocationBasedModelCapacitiesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Usages operations. */
-export class UsagesImpl implements Usages {
+/** Class containing LocationBasedModelCapacities operations. */
+export class LocationBasedModelCapacitiesImpl
+  implements LocationBasedModelCapacities
+{
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class Usages class.
+   * Initialize a new instance of the class LocationBasedModelCapacities class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -35,15 +37,27 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Get usages for the requested subscription
+   * List Location Based ModelCapacities.
    * @param location Resource location.
+   * @param modelFormat The format of the Model
+   * @param modelName The name of the Model
+   * @param modelVersion The version of the Model
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listPagingAll(location, options);
+    modelFormat: string,
+    modelName: string,
+    modelVersion: string,
+    options?: LocationBasedModelCapacitiesListOptionalParams,
+  ): PagedAsyncIterableIterator<ModelCapacityListResultValueItem> {
+    const iter = this.listPagingAll(
+      location,
+      modelFormat,
+      modelName,
+      modelVersion,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -55,20 +69,36 @@ export class UsagesImpl implements Usages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(location, options, settings);
+        return this.listPagingPage(
+          location,
+          modelFormat,
+          modelName,
+          modelVersion,
+          options,
+          settings,
+        );
       },
     };
   }
 
   private async *listPagingPage(
     location: string,
-    options?: UsagesListOptionalParams,
+    modelFormat: string,
+    modelName: string,
+    modelVersion: string,
+    options?: LocationBasedModelCapacitiesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Usage[]> {
-    let result: UsagesListResponse;
+  ): AsyncIterableIterator<ModelCapacityListResultValueItem[]> {
+    let result: LocationBasedModelCapacitiesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(location, options);
+      result = await this._list(
+        location,
+        modelFormat,
+        modelName,
+        modelVersion,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -85,24 +115,39 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingAll(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): AsyncIterableIterator<Usage> {
-    for await (const page of this.listPagingPage(location, options)) {
+    modelFormat: string,
+    modelName: string,
+    modelVersion: string,
+    options?: LocationBasedModelCapacitiesListOptionalParams,
+  ): AsyncIterableIterator<ModelCapacityListResultValueItem> {
+    for await (const page of this.listPagingPage(
+      location,
+      modelFormat,
+      modelName,
+      modelVersion,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * Get usages for the requested subscription
+   * List Location Based ModelCapacities.
    * @param location Resource location.
+   * @param modelFormat The format of the Model
+   * @param modelName The name of the Model
+   * @param modelVersion The version of the Model
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): Promise<UsagesListResponse> {
+    modelFormat: string,
+    modelName: string,
+    modelVersion: string,
+    options?: LocationBasedModelCapacitiesListOptionalParams,
+  ): Promise<LocationBasedModelCapacitiesListResponse> {
     return this.client.sendOperationRequest(
-      { location, options },
+      { location, modelFormat, modelName, modelVersion, options },
       listOperationSpec,
     );
   }
@@ -116,8 +161,8 @@ export class UsagesImpl implements Usages {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams,
-  ): Promise<UsagesListNextResponse> {
+    options?: LocationBasedModelCapacitiesListNextOptionalParams,
+  ): Promise<LocationBasedModelCapacitiesListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec,
@@ -128,17 +173,22 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/modelCapacities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult,
+      bodyMapper: Mappers.ModelCapacityListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.modelFormat,
+    Parameters.modelName,
+    Parameters.modelVersion,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -152,7 +202,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult,
+      bodyMapper: Mappers.ModelCapacityListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
