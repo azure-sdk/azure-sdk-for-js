@@ -2926,6 +2926,9 @@ export interface FeaturizationSettings {
 }
 
 // @public
+export type FirewallSku = string;
+
+// @public
 export interface FixedInputData extends MonitoringInputDataBase {
     inputDataType: "Fixed";
 }
@@ -3771,6 +3774,7 @@ export enum KnownConnectionCategory {
     Dynamics = "Dynamics",
     DynamicsAx = "DynamicsAx",
     DynamicsCrm = "DynamicsCrm",
+    Elasticsearch = "Elasticsearch",
     Eloqua = "Eloqua",
     FileServer = "FileServer",
     FtpServer = "FtpServer",
@@ -3790,6 +3794,7 @@ export enum KnownConnectionCategory {
     Informix = "Informix",
     Jira = "Jira",
     Magento = "Magento",
+    ManagedOnlineEndpoint = "ManagedOnlineEndpoint",
     MariaDb = "MariaDb",
     Marketo = "Marketo",
     MicrosoftAccess = "MicrosoftAccess",
@@ -3806,6 +3811,7 @@ export enum KnownConnectionCategory {
     OracleServiceCloud = "OracleServiceCloud",
     PayPal = "PayPal",
     Phoenix = "Phoenix",
+    Pinecone = "Pinecone",
     PostgreSql = "PostgreSql",
     Presto = "Presto",
     PythonFeed = "PythonFeed",
@@ -4046,6 +4052,12 @@ export enum KnownFeaturizationMode {
     Auto = "Auto",
     Custom = "Custom",
     Off = "Off"
+}
+
+// @public
+export enum KnownFirewallSku {
+    Basic = "Basic",
+    Standard = "Standard"
 }
 
 // @public
@@ -5067,6 +5079,7 @@ export interface ManagedNetworkProvisionStatus {
 
 // @public
 export interface ManagedNetworkSettings {
+    firewallSku?: FirewallSku;
     isolationMode?: IsolationMode;
     readonly networkId?: string;
     outboundRules?: {
@@ -8648,6 +8661,7 @@ export interface WorkspaceConnections {
     // (undocumented)
     list(resourceGroupName: string, workspaceName: string, options?: WorkspaceConnectionsListOptionalParams): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
     listSecrets(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsListSecretsOptionalParams): Promise<WorkspaceConnectionsListSecretsResponse>;
+    update(resourceGroupName: string, workspaceName: string, connectionName: string, options?: WorkspaceConnectionsUpdateOptionalParams): Promise<WorkspaceConnectionsUpdateResponse>;
 }
 
 // @public
@@ -8694,6 +8708,7 @@ export type WorkspaceConnectionsListNextResponse = WorkspaceConnectionProperties
 // @public
 export interface WorkspaceConnectionsListOptionalParams extends coreClient.OperationOptions {
     category?: string;
+    includeAll?: boolean;
     target?: string;
 }
 
@@ -8706,6 +8721,19 @@ export interface WorkspaceConnectionsListSecretsOptionalParams extends coreClien
 
 // @public
 export type WorkspaceConnectionsListSecretsResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: WorkspaceConnectionUpdateParameter;
+}
+
+// @public
+export type WorkspaceConnectionsUpdateResponse = WorkspaceConnectionPropertiesV2BasicResource;
+
+// @public
+export interface WorkspaceConnectionUpdateParameter {
+    properties?: WorkspaceConnectionPropertiesV2Union;
+}
 
 // @public (undocumented)
 export interface WorkspaceConnectionUsernamePassword {
@@ -8787,6 +8815,12 @@ export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.Opera
 
 // @public
 export type WorkspacesCreateOrUpdateResponse = Workspace;
+
+// @public
+export interface WorkspacesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
