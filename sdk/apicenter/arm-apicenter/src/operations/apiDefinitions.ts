@@ -233,7 +233,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param resource Resource create parameters.
+   * @param payload Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -243,7 +243,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    resource: ApiDefinition,
+    payload: ApiDefinition,
     options?: ApiDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<ApiDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -254,7 +254,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         apiName,
         versionName,
         definitionName,
-        resource,
+        payload,
         options,
       },
       createOrUpdateOperationSpec,
@@ -663,7 +663,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource6,
+  requestBody: Parameters.payload,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

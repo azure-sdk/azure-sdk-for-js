@@ -8,33 +8,33 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ApiVersions } from "../operationsInterfaces";
+import { ApiSources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureAPICenter } from "../azureAPICenter";
 import {
-  ApiVersion,
-  ApiVersionsListNextOptionalParams,
-  ApiVersionsListOptionalParams,
-  ApiVersionsListResponse,
-  ApiVersionsGetOptionalParams,
-  ApiVersionsGetResponse,
-  ApiVersionsCreateOrUpdateOptionalParams,
-  ApiVersionsCreateOrUpdateResponse,
-  ApiVersionsDeleteOptionalParams,
-  ApiVersionsHeadOptionalParams,
-  ApiVersionsHeadResponse,
-  ApiVersionsListNextResponse,
+  ApiSource,
+  ApiSourcesListNextOptionalParams,
+  ApiSourcesListOptionalParams,
+  ApiSourcesListResponse,
+  ApiSourcesGetOptionalParams,
+  ApiSourcesGetResponse,
+  ApiSourcesCreateOrUpdateOptionalParams,
+  ApiSourcesCreateOrUpdateResponse,
+  ApiSourcesDeleteOptionalParams,
+  ApiSourcesHeadOptionalParams,
+  ApiSourcesHeadResponse,
+  ApiSourcesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ApiVersions operations. */
-export class ApiVersionsImpl implements ApiVersions {
+/** Class containing ApiSources operations. */
+export class ApiSourcesImpl implements ApiSources {
   private readonly client: AzureAPICenter;
 
   /**
-   * Initialize a new instance of the class ApiVersions class.
+   * Initialize a new instance of the class ApiSources class.
    * @param client Reference to the service client
    */
   constructor(client: AzureAPICenter) {
@@ -42,25 +42,22 @@ export class ApiVersionsImpl implements ApiVersions {
   }
 
   /**
-   * Returns a collection of API versions.
+   * Returns a collection of API sources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    options?: ApiVersionsListOptionalParams,
-  ): PagedAsyncIterableIterator<ApiVersion> {
+    options?: ApiSourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<ApiSource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
       options,
     );
     return {
@@ -78,7 +75,6 @@ export class ApiVersionsImpl implements ApiVersions {
           resourceGroupName,
           serviceName,
           workspaceName,
-          apiName,
           options,
           settings,
         );
@@ -90,18 +86,16 @@ export class ApiVersionsImpl implements ApiVersions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    options?: ApiVersionsListOptionalParams,
+    options?: ApiSourcesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ApiVersion[]> {
-    let result: ApiVersionsListResponse;
+  ): AsyncIterableIterator<ApiSource[]> {
+    let result: ApiSourcesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
         options,
       );
       let page = result.value || [];
@@ -114,7 +108,6 @@ export class ApiVersionsImpl implements ApiVersions {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
         continuationToken,
         options,
       );
@@ -129,14 +122,12 @@ export class ApiVersionsImpl implements ApiVersions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    options?: ApiVersionsListOptionalParams,
-  ): AsyncIterableIterator<ApiVersion> {
+    options?: ApiSourcesListOptionalParams,
+  ): AsyncIterableIterator<ApiSource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
       options,
     )) {
       yield* page;
@@ -144,63 +135,51 @@ export class ApiVersionsImpl implements ApiVersions {
   }
 
   /**
-   * Returns a collection of API versions.
+   * Returns a collection of API sources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    options?: ApiVersionsListOptionalParams,
-  ): Promise<ApiVersionsListResponse> {
+    options?: ApiSourcesListOptionalParams,
+  ): Promise<ApiSourcesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, workspaceName, apiName, options },
+      { resourceGroupName, serviceName, workspaceName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Returns details of the API version.
+   * Returns details of the API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiVersionsGetOptionalParams,
-  ): Promise<ApiVersionsGetResponse> {
+    apiSourceName: string,
+    options?: ApiSourcesGetOptionalParams,
+  ): Promise<ApiSourcesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, apiSourceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates new or updates existing API version.
+   * Creates new or updates existing API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
+   * @param apiSourceName The name of the API.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -208,18 +187,16 @@ export class ApiVersionsImpl implements ApiVersions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    resource: ApiVersion,
-    options?: ApiVersionsCreateOrUpdateOptionalParams,
-  ): Promise<ApiVersionsCreateOrUpdateResponse> {
+    apiSourceName: string,
+    resource: ApiSource,
+    options?: ApiSourcesCreateOrUpdateOptionalParams,
+  ): Promise<ApiSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
+        apiSourceName,
         resource,
         options,
       },
@@ -228,61 +205,43 @@ export class ApiVersionsImpl implements ApiVersions {
   }
 
   /**
-   * Deletes specified API version
+   * Deletes specified API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiVersionsDeleteOptionalParams,
+    apiSourceName: string,
+    options?: ApiSourcesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, apiSourceName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Checks if specified API version exists.
+   * Checks if specified API source exists.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   head(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiVersionsHeadOptionalParams,
-  ): Promise<ApiVersionsHeadResponse> {
+    apiSourceName: string,
+    options?: ApiSourcesHeadOptionalParams,
+  ): Promise<ApiSourcesHeadResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, apiSourceName, options },
       headOperationSpec,
     );
   }
@@ -292,7 +251,6 @@ export class ApiVersionsImpl implements ApiVersions {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -300,19 +258,11 @@ export class ApiVersionsImpl implements ApiVersions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
     nextLink: string,
-    options?: ApiVersionsListNextOptionalParams,
-  ): Promise<ApiVersionsListNextResponse> {
+    options?: ApiSourcesListNextOptionalParams,
+  ): Promise<ApiSourcesListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -321,11 +271,11 @@ export class ApiVersionsImpl implements ApiVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apiSources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersionListResult,
+      bodyMapper: Mappers.ApiSourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -338,18 +288,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apiSources/{apiSourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersion,
-      headersMapper: Mappers.ApiVersionsGetHeaders,
+      bodyMapper: Mappers.ApiSource,
+      headersMapper: Mappers.ApiSourcesGetHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -362,29 +311,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
+    Parameters.apiSourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apiSources/{apiSourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersion,
-      headersMapper: Mappers.ApiVersionsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.ApiSource,
+      headersMapper: Mappers.ApiSourcesCreateOrUpdateHeaders,
     },
     201: {
-      bodyMapper: Mappers.ApiVersion,
-      headersMapper: Mappers.ApiVersionsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.ApiSource,
+      headersMapper: Mappers.ApiSourcesCreateOrUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource6,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -392,15 +340,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
+    Parameters.apiSourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apiSources/{apiSourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -416,14 +363,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
+    Parameters.apiSourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const headOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apiSources/{apiSourceName}",
   httpMethod: "HEAD",
   responses: {
     200: {},
@@ -438,8 +384,7 @@ const headOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
+    Parameters.apiSourceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -449,7 +394,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiVersionListResult,
+      bodyMapper: Mappers.ApiSourceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -462,7 +407,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

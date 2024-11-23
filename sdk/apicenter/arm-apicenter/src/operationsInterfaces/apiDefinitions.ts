@@ -71,7 +71,7 @@ export interface ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param resource Resource create parameters.
+   * @param payload Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -81,7 +81,7 @@ export interface ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    resource: ApiDefinition,
+    payload: ApiDefinition,
     options?: ApiDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<ApiDefinitionsCreateOrUpdateResponse>;
   /**
