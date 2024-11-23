@@ -1,0 +1,4 @@
+directory: specification/playwrighttesting/PlaywrightTesting.Management
+commit: 25ed4f6ce1c7b7621fdb5e457d5247262adde613
+repo: ../azure-rest-api-specs
+additionalDirectories: 
