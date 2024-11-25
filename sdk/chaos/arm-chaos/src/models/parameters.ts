@@ -12,10 +12,10 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Capability as CapabilityMapper,
   Experiment as ExperimentMapper,
   ExperimentUpdate as ExperimentUpdateMapper,
   Target as TargetMapper,
+  Capability as CapabilityMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -45,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-01",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -54,88 +54,35 @@ export const apiVersion: OperationQueryParameter = {
   },
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-      ),
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const running: OperationQueryParameter = {
+  parameterPath: ["options", "running"],
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.\\(\\)]*[a-zA-Z0-9_\\-\\(\\)]$"),
-    },
-    serializedName: "resourceGroupName",
-    required: true,
+    serializedName: "running",
     type: {
-      name: "String",
-    },
-  },
-};
-
-export const parentProviderNamespace: OperationURLParameter = {
-  parameterPath: "parentProviderNamespace",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$"),
-    },
-    serializedName: "parentProviderNamespace",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parentResourceType: OperationURLParameter = {
-  parameterPath: "parentResourceType",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
-    },
-    serializedName: "parentResourceType",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parentResourceName: OperationURLParameter = {
-  parameterPath: "parentResourceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
-    },
-    serializedName: "parentResourceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const targetName: OperationURLParameter = {
-  parameterPath: "targetName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
-    },
-    serializedName: "targetName",
-    required: true,
-    type: {
-      name: "String",
+      name: "Boolean",
     },
   },
 };
@@ -150,13 +97,29 @@ export const continuationToken: OperationQueryParameter = {
   },
 };
 
-export const capabilityName: OperationURLParameter = {
-  parameterPath: "capabilityName",
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9\\-\\.]+-\\d\\.\\d$"),
+      MaxLength: 90,
+      MinLength: 1,
     },
-    serializedName: "capabilityName",
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const experimentName: OperationURLParameter = {
+  parameterPath: "experimentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[^<>%&:?#/\\\\]+$"),
+      MinLength: 1,
+    },
+    serializedName: "experimentName",
     required: true,
     type: {
       name: "String",
@@ -176,30 +139,53 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const capability: OperationParameter = {
-  parameterPath: "capability",
-  mapper: CapabilityMapper,
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ExperimentMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ExperimentUpdateMapper,
+};
+
+export const executionId: OperationURLParameter = {
+  parameterPath: "executionId",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+      ),
+    },
+    serializedName: "executionId",
     required: true,
     type: {
       name: "String",
     },
   },
-  skipEncoding: true,
 };
 
-export const locationName: OperationURLParameter = {
-  parameterPath: "locationName",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
+      MinLength: 1,
     },
-    serializedName: "locationName",
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String",
@@ -235,24 +221,14 @@ export const capabilityTypeName: OperationURLParameter = {
   },
 };
 
-export const running: OperationQueryParameter = {
-  parameterPath: ["options", "running"],
-  mapper: {
-    serializedName: "running",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const experimentName: OperationURLParameter = {
-  parameterPath: "experimentName",
+export const parentProviderNamespace: OperationURLParameter = {
+  parameterPath: "parentProviderNamespace",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[^<>%&:?#/\\\\]+$"),
-      MinLength: 1,
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
     },
-    serializedName: "experimentName",
+    serializedName: "parentProviderNamespace",
     required: true,
     type: {
       name: "String",
@@ -260,25 +236,14 @@ export const experimentName: OperationURLParameter = {
   },
 };
 
-export const experiment: OperationParameter = {
-  parameterPath: "experiment",
-  mapper: ExperimentMapper,
-};
-
-export const experiment1: OperationParameter = {
-  parameterPath: "experiment",
-  mapper: ExperimentUpdateMapper,
-};
-
-export const executionId: OperationURLParameter = {
-  parameterPath: "executionId",
+export const parentResourceType: OperationURLParameter = {
+  parameterPath: "parentResourceType",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-      ),
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
     },
-    serializedName: "executionId",
+    serializedName: "parentResourceType",
     required: true,
     type: {
       name: "String",
@@ -286,13 +251,14 @@ export const executionId: OperationURLParameter = {
   },
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
+export const parentResourceName: OperationURLParameter = {
+  parameterPath: "parentResourceName",
   mapper: {
     constraints: {
-      MinLength: 1,
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
     },
-    serializedName: "location",
+    serializedName: "parentResourceName",
     required: true,
     type: {
       name: "String",
@@ -300,10 +266,13 @@ export const location: OperationURLParameter = {
   },
 };
 
-export const asyncOperationId: OperationURLParameter = {
-  parameterPath: "asyncOperationId",
+export const targetName: OperationURLParameter = {
+  parameterPath: "targetName",
   mapper: {
-    serializedName: "asyncOperationId",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\.]+$"),
+    },
+    serializedName: "targetName",
     required: true,
     type: {
       name: "String",
@@ -311,7 +280,26 @@ export const asyncOperationId: OperationURLParameter = {
   },
 };
 
-export const target: OperationParameter = {
-  parameterPath: "target",
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
   mapper: TargetMapper,
+};
+
+export const capabilityName: OperationURLParameter = {
+  parameterPath: "capabilityName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9\\-\\.]+-\\d\\.\\d$"),
+    },
+    serializedName: "capabilityName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
+  mapper: CapabilityMapper,
 };

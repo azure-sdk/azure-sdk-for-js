@@ -19,24 +19,24 @@ import {
 export interface CapabilityTypes {
   /**
    * Get a list of Capability Type resources for given Target Type and location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   list(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityType>;
   /**
    * Get a Capability Type resource for given Target Type and location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param capabilityTypeName String that represents a Capability Type resource name.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     capabilityTypeName: string,
     options?: CapabilityTypesGetOptionalParams,

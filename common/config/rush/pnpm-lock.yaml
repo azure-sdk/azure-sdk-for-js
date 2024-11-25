@@ -13242,7 +13242,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-p8cFZ7EmqQU/LtbbMyulQ4MEozyzGFuvwZ//2CYbQCzcGy/60Iqi808+jBPCv/xKqCwURySZrNJOLMqaTH8puQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-rQwnwzMh3VFCOaxn/5e2LtW8AIvl+EtDOYe2IqBl81n2VeX2ms49MwbB6sQ+deGfCTiwJtCPc/po9/8p4gon0Q==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -13251,15 +13251,19 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.65)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.65
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.65)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

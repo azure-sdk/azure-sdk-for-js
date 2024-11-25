@@ -38,14 +38,14 @@ export class TargetTypesImpl implements TargetTypes {
 
   /**
    * Get a list of Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
-    locationName: string,
+    location: string,
     options?: TargetTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TargetType> {
-    const iter = this.listPagingAll(locationName, options);
+    const iter = this.listPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -57,27 +57,27 @@ export class TargetTypesImpl implements TargetTypes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(locationName, options, settings);
+        return this.listPagingPage(location, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    locationName: string,
+    location: string,
     options?: TargetTypesListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<TargetType[]> {
     let result: TargetTypesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(locationName, options);
+      result = await this._list(location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(locationName, continuationToken, options);
+      result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -86,59 +86,59 @@ export class TargetTypesImpl implements TargetTypes {
   }
 
   private async *listPagingAll(
-    locationName: string,
+    location: string,
     options?: TargetTypesListOptionalParams,
   ): AsyncIterableIterator<TargetType> {
-    for await (const page of this.listPagingPage(locationName, options)) {
+    for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
    * Get a list of Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
-    locationName: string,
+    location: string,
     options?: TargetTypesListOptionalParams,
   ): Promise<TargetTypesListResponse> {
     return this.client.sendOperationRequest(
-      { locationName, options },
+      { location, options },
       listOperationSpec,
     );
   }
 
   /**
    * Get a Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: TargetTypesGetOptionalParams,
   ): Promise<TargetTypesGetResponse> {
     return this.client.sendOperationRequest(
-      { locationName, targetTypeName, options },
+      { location, targetTypeName, options },
       getOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    locationName: string,
+    location: string,
     nextLink: string,
     options?: TargetTypesListNextOptionalParams,
   ): Promise<TargetTypesListNextResponse> {
     return this.client.sendOperationRequest(
-      { locationName, nextLink, options },
+      { location, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -147,7 +147,7 @@ export class TargetTypesImpl implements TargetTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes",
   httpMethod: "GET",
   responses: {
     200: {
@@ -161,13 +161,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -181,7 +181,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
     Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
@@ -200,9 +200,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

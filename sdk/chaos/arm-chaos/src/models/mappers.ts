@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const CapabilityListResult: coreClient.CompositeMapper = {
+export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CapabilityListResult",
+    className: "OperationListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -21,18 +21,14 @@ export const CapabilityListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Capability",
+              className: "Operation",
             },
           },
         },
       },
       nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
         serializedName: "nextLink",
         readOnly: true,
-        nullable: true,
         type: {
           name: "String",
         },
@@ -41,63 +37,11 @@ export const CapabilityListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const SystemData: coreClient.CompositeMapper = {
+export const Operation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemData",
+    className: "Operation",
     modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String",
-        },
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String",
-        },
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-    },
-  },
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       name: {
         serializedName: "name",
         readOnly: true,
@@ -105,8 +49,66 @@ export const Resource: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      type: {
-        serializedName: "type",
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay",
+        },
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
         readOnly: true,
         type: {
           name: "String",
@@ -212,56 +214,6 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const CapabilityTypeListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CapabilityTypeListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CapabilityType",
-            },
-          },
-        },
-      },
-      nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "nextLink",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const CapabilityTypePropertiesRuntimeProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "CapabilityTypePropertiesRuntimeProperties",
-      modelProperties: {
-        kind: {
-          serializedName: "kind",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
 export const ExperimentListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -269,7 +221,6 @@ export const ExperimentListResult: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -281,87 +232,9 @@ export const ExperimentListResult: coreClient.CompositeMapper = {
         },
       },
       nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
         serializedName: "nextLink",
-        readOnly: true,
-        nullable: true,
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ResourceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceIdentity",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["None", "SystemAssigned", "UserAssigned"],
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "UserAssignedIdentity" },
-          },
-        },
-      },
-      principalId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-          ),
-        },
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-          ),
-        },
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const UserAssignedIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
-        },
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "Uuid",
         },
       },
     },
@@ -384,10 +257,6 @@ export const ChaosExperimentStep: coreClient.CompositeMapper = {
         },
       },
       branches: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 9,
-        },
         serializedName: "branches",
         required: true,
         type: {
@@ -420,10 +289,6 @@ export const ChaosExperimentBranch: coreClient.CompositeMapper = {
         },
       },
       actions: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 9,
-        },
         serializedName: "actions",
         required: true,
         type: {
@@ -450,13 +315,6 @@ export const ChaosExperimentAction: coreClient.CompositeMapper = {
       clientName: "type",
     },
     modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
       name: {
         constraints: {
           MaxLength: 2048,
@@ -467,22 +325,6 @@ export const ChaosExperimentAction: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-    },
-  },
-};
-
-export const ChaosTargetSelector: coreClient.CompositeMapper = {
-  serializedName: "ChaosTargetSelector",
-  type: {
-    name: "Composite",
-    className: "ChaosTargetSelector",
-    uberParent: "ChaosTargetSelector",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type",
-    },
-    modelProperties: {
       type: {
         serializedName: "type",
         required: true,
@@ -490,11 +332,32 @@ export const ChaosTargetSelector: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+    },
+  },
+};
+
+export const ChaosTargetSelector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChaosTargetSelector",
+    uberParent: "ChaosTargetSelector",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
       id: {
         constraints: {
           MinLength: 1,
         },
         serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
         required: true,
         type: {
           name: "String",
@@ -532,74 +395,73 @@ export const ChaosTargetFilter: coreClient.CompositeMapper = {
   },
 };
 
-export const ExperimentUpdate: coreClient.CompositeMapper = {
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExperimentUpdate",
+    className: "ManagedServiceIdentity",
     modelProperties: {
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ResourceIdentity",
-        },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-    },
-  },
-};
-
-export const ExperimentExecutionListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExperimentExecutionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
+      principalId: {
+        serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExperimentExecution",
-            },
+          name: "Uuid",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
           },
         },
       },
-      nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "nextLink",
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
         readOnly: true,
-        nullable: true,
         type: {
-          name: "String",
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
         },
       },
     },
   },
 };
 
-export const ExperimentExecution: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExperimentExecution",
+    className: "Resource",
     modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       id: {
         serializedName: "id",
         readOnly: true,
@@ -614,23 +476,61 @@ export const ExperimentExecution: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      status: {
-        serializedName: "properties.status",
+      type: {
+        serializedName: "type",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      startedAt: {
-        serializedName: "properties.startedAt",
-        readOnly: true,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
         type: {
           name: "DateTime",
         },
       },
-      stoppedAt: {
-        serializedName: "properties.stoppedAt",
-        readOnly: true,
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
         type: {
           name: "DateTime",
         },
@@ -639,30 +539,278 @@ export const ExperimentExecution: coreClient.CompositeMapper = {
   },
 };
 
-export const ExperimentExecutionProperties: coreClient.CompositeMapper = {
+export const OperationStatusResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExperimentExecutionProperties",
+    className: "OperationStatusResult",
     modelProperties: {
-      status: {
-        serializedName: "status",
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      startedAt: {
-        serializedName: "startedAt",
-        readOnly: true,
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      percentComplete: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "percentComplete",
+        type: {
+          name: "Number",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
         type: {
           name: "DateTime",
         },
       },
-      stoppedAt: {
-        serializedName: "stoppedAt",
-        readOnly: true,
+      endTime: {
+        serializedName: "endTime",
         type: {
           name: "DateTime",
+        },
+      },
+      operations: {
+        serializedName: "operations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationStatusResult",
+            },
+          },
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const TargetTypeListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TargetTypeListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TargetType",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CapabilityTypeListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilityTypeListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CapabilityType",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CapabilityTypePropertiesRuntimeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "CapabilityTypePropertiesRuntimeProperties",
+      modelProperties: {
+        kind: {
+          serializedName: "kind",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const TargetListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TargetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Target",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CapabilityListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilityListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Capability",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const PostActionResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PostActionResult",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      statusUrl: {
+        serializedName: "statusUrl",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentExecutionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentExecutionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExperimentExecution",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -930,7 +1078,6 @@ export const ExperimentExecutionActionTargetDetailsProperties: coreClient.Compos
         targetFailedTime: {
           serializedName: "targetFailedTime",
           readOnly: true,
-          nullable: true,
           type: {
             name: "DateTime",
           },
@@ -938,7 +1085,6 @@ export const ExperimentExecutionActionTargetDetailsProperties: coreClient.Compos
         targetCompletedTime: {
           serializedName: "targetCompletedTime",
           readOnly: true,
-          nullable: true,
           type: {
             name: "DateTime",
           },
@@ -978,176 +1124,43 @@ export const ExperimentExecutionActionTargetDetailsError: coreClient.CompositeMa
     },
   };
 
-export const OperationListResult: coreClient.CompositeMapper = {
+export const TargetReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationListResult",
+    className: "TargetReference",
     modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ChaosTargetSimpleFilterParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChaosTargetSimpleFilterParameters",
+    modelProperties: {
+      zones: {
+        serializedName: "zones",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "Operation",
+              name: "String",
             },
           },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        readOnly: true,
-        type: {
-          name: "Boolean",
-        },
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay",
-        },
-      },
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      actionType: {
-        serializedName: "actionType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      resource: {
-        serializedName: "resource",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      operation: {
-        serializedName: "operation",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const TargetTypeListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetTypeListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TargetType",
-            },
-          },
-        },
-      },
-      nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "nextLink",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const TargetListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Target",
-            },
-          },
-        },
-      },
-      nextLink: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "nextLink",
-        readOnly: true,
-        nullable: true,
-        type: {
-          name: "String",
         },
       },
     },
@@ -1183,365 +1196,42 @@ export const KeyValuePair: coreClient.CompositeMapper = {
   },
 };
 
-export const TargetReference: coreClient.CompositeMapper = {
+export const ContinuousAction: coreClient.CompositeMapper = {
+  serializedName: "continuous",
   type: {
     name: "Composite",
-    className: "TargetReference",
+    className: "ContinuousAction",
+    uberParent: "ChaosExperimentAction",
+    polymorphicDiscriminator:
+      ChaosExperimentAction.type.polymorphicDiscriminator,
     modelProperties: {
-      type: {
-        serializedName: "type",
+      ...ChaosExperimentAction.type.modelProperties,
+      duration: {
+        serializedName: "duration",
         required: true,
         type: {
-          name: "String",
+          name: "TimeSpan",
         },
       },
-      id: {
-        constraints: {
-          Pattern: new RegExp(
-            "^\\/[Ss][Uu][Bb][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn][Ss]\\/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\\/[Rr][Ee][Ss][Oo][Uu][Rr][Cc][Ee][Gg][Rr][Oo][Uu][Pp][Ss]\\/[a-zA-Z0-9_\\-\\.\\(\\)]*[a-zA-Z0-9_\\-\\(\\)]\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\/[a-zA-Z0-9_\\-\\.]+\\/[a-zA-Z0-9_\\-\\.]+\\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\\/[Mm][Ii][Cc][Rr][Oo][Ss][Oo][Ff][Tt]\\.[Cc][Hh][Aa][Oo][Ss]\\/[Tt][Aa][Rr][Gg][Ee][Tt][Ss]\\/[a-zA-Z0-9_\\-\\.]+$",
-          ),
-        },
-        serializedName: "id",
+      parameters: {
+        serializedName: "parameters",
         required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ChaosTargetSimpleFilterParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChaosTargetSimpleFilterParameters",
-    modelProperties: {
-      zones: {
-        serializedName: "zones",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String",
+              name: "Composite",
+              className: "KeyValuePair",
             },
           },
         },
       },
-    },
-  },
-};
-
-export const Capability: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Capability",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      publisher: {
-        serializedName: "properties.publisher",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      targetType: {
-        serializedName: "properties.targetType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      parametersSchema: {
+      selectorId: {
         constraints: {
-          MaxLength: 2048,
+          MinLength: 1,
         },
-        serializedName: "properties.parametersSchema",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      urn: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "properties.urn",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const CapabilityType: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CapabilityType",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      publisher: {
-        serializedName: "properties.publisher",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      targetType: {
-        serializedName: "properties.targetType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      parametersSchema: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "properties.parametersSchema",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      urn: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "properties.urn",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      kind: {
-        serializedName: "properties.kind",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      azureRbacActions: {
-        serializedName: "properties.azureRbacActions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      azureRbacDataActions: {
-        serializedName: "properties.azureRbacDataActions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      runtimeProperties: {
-        serializedName: "properties.runtimeProperties",
-        type: {
-          name: "Composite",
-          className: "CapabilityTypePropertiesRuntimeProperties",
-        },
-      },
-    },
-  },
-};
-
-export const TrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      location: {
-        serializedName: "location",
+        serializedName: "selectorId",
         required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const TargetType: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetType",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      displayName: {
-        serializedName: "properties.displayName",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      propertiesSchema: {
-        constraints: {
-          MaxLength: 2048,
-        },
-        serializedName: "properties.propertiesSchema",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      resourceTypes: {
-        serializedName: "properties.resourceTypes",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const Target: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Target",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      properties: {
-        serializedName: "properties",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
-export const OperationStatus: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationStatus",
-    modelProperties: {
-      ...ErrorResponse.type.modelProperties,
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String",
-        },
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "String",
-        },
-      },
-      endTime: {
-        serializedName: "endTime",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "status",
         type: {
           name: "String",
         },
@@ -1608,65 +1298,16 @@ export const DiscreteAction: coreClient.CompositeMapper = {
   },
 };
 
-export const ContinuousAction: coreClient.CompositeMapper = {
-  serializedName: "continuous",
-  type: {
-    name: "Composite",
-    className: "ContinuousAction",
-    uberParent: "ChaosExperimentAction",
-    polymorphicDiscriminator:
-      ChaosExperimentAction.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ChaosExperimentAction.type.modelProperties,
-      duration: {
-        serializedName: "duration",
-        required: true,
-        type: {
-          name: "TimeSpan",
-        },
-      },
-      parameters: {
-        serializedName: "parameters",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyValuePair",
-            },
-          },
-        },
-      },
-      selectorId: {
-        constraints: {
-          MinLength: 1,
-        },
-        serializedName: "selectorId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const ChaosTargetListSelector: coreClient.CompositeMapper = {
   serializedName: "List",
   type: {
     name: "Composite",
     className: "ChaosTargetListSelector",
     uberParent: "ChaosTargetSelector",
-    additionalProperties: { type: { name: "Object" } },
     polymorphicDiscriminator: ChaosTargetSelector.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChaosTargetSelector.type.modelProperties,
       targets: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 50,
-        },
         serializedName: "targets",
         required: true,
         type: {
@@ -1689,7 +1330,6 @@ export const ChaosTargetQuerySelector: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ChaosTargetQuerySelector",
     uberParent: "ChaosTargetSelector",
-    additionalProperties: { type: { name: "Object" } },
     polymorphicDiscriminator: ChaosTargetSelector.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChaosTargetSelector.type.modelProperties,
@@ -1701,9 +1341,6 @@ export const ChaosTargetQuerySelector: coreClient.CompositeMapper = {
         },
       },
       subscriptionIds: {
-        constraints: {
-          MinItems: 1,
-        },
         serializedName: "subscriptionIds",
         required: true,
         type: {
@@ -1739,37 +1376,39 @@ export const ChaosTargetSimpleFilter: coreClient.CompositeMapper = {
   },
 };
 
-export const ExperimentExecutionDetailsProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ExperimentExecutionDetailsProperties",
-      modelProperties: {
-        ...ExperimentExecutionProperties.type.modelProperties,
-        failureReason: {
-          serializedName: "failureReason",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
-        lastActionAt: {
-          serializedName: "lastActionAt",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
-        },
-        runInformation: {
-          serializedName: "runInformation",
-          type: {
-            name: "Composite",
-            className: "ExperimentExecutionDetailsPropertiesRunInformation",
-          },
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+    },
+  },
+};
 
 export const Experiment: coreClient.CompositeMapper = {
   type: {
@@ -1777,18 +1416,11 @@ export const Experiment: coreClient.CompositeMapper = {
     className: "Experiment",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "ResourceIdentity",
+          className: "ManagedServiceIdentity",
         },
       },
       provisioningState: {
@@ -1799,10 +1431,6 @@ export const Experiment: coreClient.CompositeMapper = {
         },
       },
       steps: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 4,
-        },
         serializedName: "properties.steps",
         required: true,
         type: {
@@ -1816,9 +1444,6 @@ export const Experiment: coreClient.CompositeMapper = {
         },
       },
       selectors: {
-        constraints: {
-          MinItems: 1,
-        },
         serializedName: "properties.selectors",
         required: true,
         type: {
@@ -1835,13 +1460,366 @@ export const Experiment: coreClient.CompositeMapper = {
   },
 };
 
+export const TargetType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TargetType",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      displayName: {
+        serializedName: "properties.displayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      propertiesSchema: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "properties.propertiesSchema",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceTypes: {
+        serializedName: "properties.resourceTypes",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const CapabilityType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilityType",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      publisher: {
+        serializedName: "properties.publisher",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      targetType: {
+        serializedName: "properties.targetType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parametersSchema: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "properties.parametersSchema",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      urn: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "properties.urn",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      kind: {
+        serializedName: "properties.kind",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      azureRbacActions: {
+        serializedName: "properties.azureRbacActions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      azureRbacDataActions: {
+        serializedName: "properties.azureRbacDataActions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      runtimeProperties: {
+        serializedName: "properties.runtimeProperties",
+        type: {
+          name: "Composite",
+          className: "CapabilityTypePropertiesRuntimeProperties",
+        },
+      },
+    },
+  },
+};
+
+export const Target: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Target",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Capability: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Capability",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      publisher: {
+        serializedName: "properties.publisher",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      targetType: {
+        serializedName: "properties.targetType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "properties.description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parametersSchema: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "properties.parametersSchema",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      urn: {
+        constraints: {
+          MaxLength: 2048,
+        },
+        serializedName: "properties.urn",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentExecution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentExecution",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      status: {
+        serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      startedAt: {
+        serializedName: "properties.startedAt",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      stoppedAt: {
+        serializedName: "properties.stoppedAt",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentsCancelHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsCancelHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentsStartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentsStartHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export let discriminators = {
   ChaosExperimentAction: ChaosExperimentAction,
   ChaosTargetSelector: ChaosTargetSelector,
   ChaosTargetFilter: ChaosTargetFilter,
+  "ChaosExperimentAction.continuous": ContinuousAction,
   "ChaosExperimentAction.delay": DelayAction,
   "ChaosExperimentAction.discrete": DiscreteAction,
-  "ChaosExperimentAction.continuous": ContinuousAction,
   "ChaosTargetSelector.List": ChaosTargetListSelector,
   "ChaosTargetSelector.Query": ChaosTargetQuerySelector,
   "ChaosTargetFilter.Simple": ChaosTargetSimpleFilter,

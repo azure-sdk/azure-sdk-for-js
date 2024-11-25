@@ -38,16 +38,16 @@ export class CapabilityTypesImpl implements CapabilityTypes {
 
   /**
    * Get a list of Capability Type resources for given Target Type and location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   public list(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
   ): PagedAsyncIterableIterator<CapabilityType> {
-    const iter = this.listPagingAll(locationName, targetTypeName, options);
+    const iter = this.listPagingAll(location, targetTypeName, options);
     return {
       next() {
         return iter.next();
@@ -59,18 +59,13 @@ export class CapabilityTypesImpl implements CapabilityTypes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          locationName,
-          targetTypeName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(location, targetTypeName, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
     settings?: PageSettings,
@@ -78,7 +73,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
     let result: CapabilityTypesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(locationName, targetTypeName, options);
+      result = await this._list(location, targetTypeName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -86,7 +81,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
     }
     while (continuationToken) {
       result = await this._listNext(
-        locationName,
+        location,
         targetTypeName,
         continuationToken,
         options,
@@ -99,12 +94,12 @@ export class CapabilityTypesImpl implements CapabilityTypes {
   }
 
   private async *listPagingAll(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
   ): AsyncIterableIterator<CapabilityType> {
     for await (const page of this.listPagingPage(
-      locationName,
+      location,
       targetTypeName,
       options,
     )) {
@@ -114,55 +109,55 @@ export class CapabilityTypesImpl implements CapabilityTypes {
 
   /**
    * Get a list of Capability Type resources for given Target Type and location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   private _list(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: CapabilityTypesListOptionalParams,
   ): Promise<CapabilityTypesListResponse> {
     return this.client.sendOperationRequest(
-      { locationName, targetTypeName, options },
+      { location, targetTypeName, options },
       listOperationSpec,
     );
   }
 
   /**
    * Get a Capability Type resource for given Target Type and location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param capabilityTypeName String that represents a Capability Type resource name.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     capabilityTypeName: string,
     options?: CapabilityTypesGetOptionalParams,
   ): Promise<CapabilityTypesGetResponse> {
     return this.client.sendOperationRequest(
-      { locationName, targetTypeName, capabilityTypeName, options },
+      { location, targetTypeName, capabilityTypeName, options },
       getOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     nextLink: string,
     options?: CapabilityTypesListNextOptionalParams,
   ): Promise<CapabilityTypesListNextResponse> {
     return this.client.sendOperationRequest(
-      { locationName, targetTypeName, nextLink, options },
+      { location, targetTypeName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -171,7 +166,7 @@ export class CapabilityTypesImpl implements CapabilityTypes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes",
   httpMethod: "GET",
   responses: {
     200: {
@@ -185,14 +180,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
     Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{location}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -206,7 +201,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName,
+    Parameters.location,
     Parameters.targetTypeName,
     Parameters.capabilityTypeName,
   ],
@@ -226,9 +221,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName,
+    Parameters.subscriptionId,
+    Parameters.location,
     Parameters.targetTypeName,
   ],
   headerParameters: [Parameters.accept],

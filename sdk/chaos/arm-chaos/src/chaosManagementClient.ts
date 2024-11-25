@@ -15,22 +15,22 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  CapabilitiesImpl,
-  CapabilityTypesImpl,
+  OperationsImpl,
   ExperimentsImpl,
   OperationStatusesImpl,
-  OperationsImpl,
   TargetTypesImpl,
+  CapabilityTypesImpl,
   TargetsImpl,
+  CapabilitiesImpl,
 } from "./operations";
 import {
-  Capabilities,
-  CapabilityTypes,
+  Operations,
   Experiments,
   OperationStatuses,
-  Operations,
   TargetTypes,
+  CapabilityTypes,
   Targets,
+  Capabilities,
 } from "./operationsInterfaces";
 import { ChaosManagementClientOptionalParams } from "./models";
 
@@ -42,7 +42,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ChaosManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId GUID that represents an Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -80,7 +80,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-chaos/1.1.1`;
+    const packageDetails = `azsdk-js-arm-chaos/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,14 +134,14 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
-    this.capabilities = new CapabilitiesImpl(this);
-    this.capabilityTypes = new CapabilityTypesImpl(this);
+    this.apiVersion = options.apiVersion || "2025-01-01";
+    this.operations = new OperationsImpl(this);
     this.experiments = new ExperimentsImpl(this);
     this.operationStatuses = new OperationStatusesImpl(this);
-    this.operations = new OperationsImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
+    this.capabilityTypes = new CapabilityTypesImpl(this);
     this.targets = new TargetsImpl(this);
+    this.capabilities = new CapabilitiesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -173,11 +173,11 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  capabilities: Capabilities;
-  capabilityTypes: CapabilityTypes;
+  operations: Operations;
   experiments: Experiments;
   operationStatuses: OperationStatuses;
-  operations: Operations;
   targetTypes: TargetTypes;
+  capabilityTypes: CapabilityTypes;
   targets: Targets;
+  capabilities: Capabilities;
 }
