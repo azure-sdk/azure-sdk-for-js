@@ -824,6 +824,9 @@ dependencies:
   '@rush-temp/batch':
     specifier: file:./projects/batch.tgz
     version: file:projects/batch.tgz
+  '@rush-temp/chaos':
+    specifier: file:./projects/chaos.tgz
+    version: file:projects/chaos.tgz
   '@rush-temp/communication-alpha-ids':
     specifier: file:./projects/communication-alpha-ids.tgz
     version: file:projects/communication-alpha-ids.tgz
@@ -3845,7 +3848,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/debug@4.1.12:
@@ -3888,7 +3891,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3907,7 +3910,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3947,7 +3950,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4082,7 +4085,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4192,7 +4195,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
     optional: true
 
@@ -18668,6 +18671,43 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - webdriverio
+    dev: false
+
+  file:projects/chaos.tgz:
+    resolution: {integrity: sha512-K8W/cmaKz38v+fW5ECj8mB1Y7S6jtZ3zsNQ9NIpTdFcTIiFloFopYVww0Vcw6jdKJomf2Fre4uWrt4THJfuY1g==, tarball: file:projects/chaos.tgz}
+    name: '@rush-temp/chaos'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.65)
+      '@types/node': 18.19.65
+      '@vitest/browser': 2.1.5(@types/node@18.19.65)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.49.0
+      tshy: 2.0.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.65)(@vitest/browser@2.1.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
       - webdriverio
     dev: false
 
