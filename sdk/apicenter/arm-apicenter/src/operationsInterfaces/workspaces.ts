@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListOptionalParams,
@@ -17,6 +18,9 @@ import {
   WorkspacesDeleteOptionalParams,
   WorkspacesHeadOptionalParams,
   WorkspacesHeadResponse,
+  ImportApiSourceRequest,
+  WorkspacesImportApiSourceOptionalParams,
+  WorkspacesImportApiSourceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,4 +91,39 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesHeadOptionalParams,
   ): Promise<WorkspacesHeadResponse>;
+  /**
+   * Imports from the API source (one-time import).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param workspaceName The name of the workspace.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportApiSource(
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceName: string,
+    body: ImportApiSourceRequest,
+    options?: WorkspacesImportApiSourceOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesImportApiSourceResponse>,
+      WorkspacesImportApiSourceResponse
+    >
+  >;
+  /**
+   * Imports from the API source (one-time import).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serviceName The name of Azure API Center service.
+   * @param workspaceName The name of the workspace.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  beginImportApiSourceAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    workspaceName: string,
+    body: ImportApiSourceRequest,
+    options?: WorkspacesImportApiSourceOptionalParams,
+  ): Promise<WorkspacesImportApiSourceResponse>;
 }
