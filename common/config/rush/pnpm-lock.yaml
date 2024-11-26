@@ -10684,7 +10684,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -12753,7 +12753,7 @@ packages:
     dev: false
 
   file:projects/arm-astro.tgz:
-    resolution: {integrity: sha512-jPnHxVLP76XpRsFj6i4WZP+k52kDT9y01rCFpzIGK16AxXpwkXmLY4pZ1TOKcaEgL0PwdGDGA7ANg5s5FAQ1Cg==, tarball: file:projects/arm-astro.tgz}
+    resolution: {integrity: sha512-1abidmryC7Zg7YNxvhVCsogaPk5g39PPV3evYOMvXtDAkiTy4UiRrLlaZKsRF9nJ7n6N1jqX2Zgmy179KnvetA==, tarball: file:projects/arm-astro.tgz}
     name: '@rush-temp/arm-astro'
     version: 0.0.0
     dependencies:
@@ -12761,19 +12761,41 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.66)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.66
+      '@vitest/browser': 2.1.5(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 8.57.1
       mocha: 10.8.2
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.66)(typescript@5.6.3)
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-attestation.tgz:
