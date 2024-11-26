@@ -21,6 +21,8 @@ import {
   ApplicationUpdateParameters as ApplicationUpdateParametersMapper,
   ServiceResource as ServiceResourceMapper,
   ServiceUpdateParameters as ServiceUpdateParametersMapper,
+  FaultSimulationParameters as FaultSimulationParametersMapper,
+  FaultSimulationIdParameters as FaultSimulationIdParametersMapper,
   ManagedCluster as ManagedClusterMapper,
   ManagedClusterUpdateParameters as ManagedClusterUpdateParametersMapper,
   NodeTypeActionParameters as NodeTypeActionParametersMapper,
@@ -99,7 +101,7 @@ export const applicationTypeName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -212,10 +214,20 @@ export const parameters8: OperationParameter = {
 
 export const parameters9: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ManagedClusterMapper,
+  mapper: FaultSimulationParametersMapper,
 };
 
 export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FaultSimulationIdParametersMapper,
+};
+
+export const parameters11: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedClusterMapper,
+};
+
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterUpdateParametersMapper,
 };
@@ -275,7 +287,7 @@ export const operationId: OperationURLParameter = {
   },
 };
 
-export const parameters11: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: NodeTypeActionParametersMapper,
 };
@@ -291,12 +303,12 @@ export const nodeTypeName: OperationURLParameter = {
   },
 };
 
-export const parameters12: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: NodeTypeMapper,
 };
 
-export const parameters13: OperationParameter = {
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: NodeTypeUpdateParametersMapper,
 };

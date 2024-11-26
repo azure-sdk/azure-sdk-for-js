@@ -28,6 +28,9 @@ export type ScalingTriggerUnion =
   | ScalingTrigger
   | AveragePartitionLoadScalingTrigger
   | AverageServiceLoadScalingTrigger;
+export type FaultSimulationParametersUnion =
+  | FaultSimulationParameters
+  | ZoneFaultSimulationParameters;
 export type ServiceResourcePropertiesUnion =
   | ServiceResourceProperties
   | StatefulServiceProperties
@@ -373,6 +376,60 @@ export interface ServiceResourceList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Parameters for Fault Simulation action. */
+export interface FaultSimulationParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  faultKind: "Zone";
+  /** Force the action to go through without any check on the cluster. */
+  force?: boolean;
+}
+
+/** Fault simulation object with status. */
+export interface FaultSimulation {
+  /** Cluster identifier asociated to the fault simulation. */
+  clusterId?: string;
+  /** Simulation identifier. */
+  simulationId?: string;
+  /** Current or latest asyncronos operation identifier on the fault simulation. */
+  operationId?: string;
+  /** The start time of the fault simulation. */
+  startTime?: Date;
+  /** The end time of the fault simulation. */
+  endTime?: Date;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** List of node type simulations asociated with the cluster fault simulation. */
+  nodeTypeFaultSimulation?: NodeTypeFaultSimulation[];
+  /** Fault simulation parameters */
+  parameters?: FaultSimulationParametersUnion;
+}
+
+/** Node type fault simulation object with status. */
+export interface NodeTypeFaultSimulation {
+  /** Node type name. */
+  nodeTypeName?: string;
+  /** Fault simulation status */
+  status?: FaultSimulationStatus;
+  /** Current or latest asyncronos operation identifier on the node type. */
+  operationId?: string;
+  /** Current or latest asyncronos operation status on the node type */
+  operationStatus?: FaultSimulationStatus;
+}
+
+/** Parameters for Fault Simulation id. */
+export interface FaultSimulationIdParameters {
+  /** The fault simulation identifier. */
+  simulationId: string;
+}
+
+/** Fault simulation list results */
+export interface FaultSimulationListResult {
+  /** The list of fault simulations. */
+  value?: FaultSimulation[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
 }
 
 /** Managed Cluster list results */
@@ -827,6 +884,81 @@ export interface AvailableOperationDisplay {
   description?: string;
 }
 
+/** Parameters for Node type action. If nodes are not specified on the parameters, the operation will be performed in all nodes of the node type one upgrade domain at a time. */
+export interface NodeTypeActionParameters {
+  /** List of node names from the node type. */
+  nodes?: string[];
+  /** Force the action to go through. */
+  force?: boolean;
+  /** Specifies the way the operation will be performed. */
+  updateType?: UpdateType;
+}
+
+/** Node type available sku list results */
+export interface NodeTypeListSkuResult {
+  /** The list of available node type SKUs. */
+  value?: NodeTypeAvailableSku[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Defines the type of sku available for a node type */
+export interface NodeTypeAvailableSku {
+  /**
+   * The type of resource the sku applies to.  <br /><br />Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The supported SKU for a for node type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: NodeTypeSupportedSku;
+  /**
+   * Provides information about how the node count can be scaled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacity?: NodeTypeSkuCapacity;
+}
+
+/** Describes a node type supported sku. */
+export interface NodeTypeSupportedSku {
+  /**
+   * The sku name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Specifies the tier of the node type. <br /><br /> Possible Values:<br /> **Standard**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+}
+
+/** Provides information about how node type can be scaled. */
+export interface NodeTypeSkuCapacity {
+  /**
+   * Lowest permitted node count in a node type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minimum?: number;
+  /**
+   * Highest permitted node count in a node type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximum?: number;
+  /**
+   * Default node count in a node type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly default?: number;
+  /**
+   * Node type capacity scale type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scaleType?: NodeTypeSkuScaleType;
+}
+
 /** Node type list results */
 export interface NodeTypeListResult {
   /** The list of node types. */
@@ -859,7 +991,7 @@ export interface SubResource {
 
 /** Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM. */
 export interface VaultCertificate {
-  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} */
+  /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). */
   certificateUrl: string;
   /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name <UppercaseThumbprint>.crt for the X509 certificate file and <UppercaseThumbprint>.prv for private key. Both of these files are .pem formatted. */
   certificateStore: string;
@@ -1038,81 +1170,6 @@ export interface ManagedProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-}
-
-/** Parameters for Node type action. If nodes are not specified on the parameters, the operation will be performed in all nodes of the node type one upgrade domain at a time. */
-export interface NodeTypeActionParameters {
-  /** List of node names from the node type. */
-  nodes?: string[];
-  /** Force the action to go through. */
-  force?: boolean;
-  /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType;
-}
-
-/** Node type available sku list results */
-export interface NodeTypeListSkuResult {
-  /** The list of available node type SKUs. */
-  value?: NodeTypeAvailableSku[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** Defines the type of sku available for a node type */
-export interface NodeTypeAvailableSku {
-  /**
-   * The type of resource the sku applies to.  <br /><br />Value: Microsoft.ServiceFabric/managedClusters/nodeTypes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * The supported SKU for a for node type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sku?: NodeTypeSupportedSku;
-  /**
-   * Provides information about how the node count can be scaled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capacity?: NodeTypeSkuCapacity;
-}
-
-/** Describes a node type supported sku. */
-export interface NodeTypeSupportedSku {
-  /**
-   * The sku name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Specifies the tier of the node type. <br /><br /> Possible Values:<br /> **Standard**
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tier?: string;
-}
-
-/** Provides information about how node type can be scaled. */
-export interface NodeTypeSkuCapacity {
-  /**
-   * Lowest permitted node count in a node type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimum?: number;
-  /**
-   * Highest permitted node count in a node type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximum?: number;
-  /**
-   * Default node count in a node type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly default?: number;
-  /**
-   * Node type capacity scale type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scaleType?: NodeTypeSkuScaleType;
 }
 
 /** Node type update request */
@@ -1350,6 +1407,15 @@ export interface AverageServiceLoadScalingTrigger extends ScalingTrigger {
   useOnlyPrimaryLoad: boolean;
 }
 
+/** Parameters for Zone Fault Simulation action. */
+export interface ZoneFaultSimulationParameters
+  extends FaultSimulationParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  faultKind: "Zone";
+  /** Indicates the zone of the fault simulation. */
+  zone?: string;
+}
+
 /**
  * The managed cluster resource
  *
@@ -1423,7 +1489,7 @@ export interface ManagedCluster extends Resource {
   clusterUpgradeCadence?: ClusterUpgradeCadence;
   /** List of add-on features to enable on the cluster. */
   addonFeatures?: ManagedClusterAddOnFeature[];
-  /** Setting this to true enables automatic OS upgrade for the node types that are created using any platform OS image with version 'latest'. The default value for this setting is false. */
+  /** Enables automatic OS upgrade for node types created using OS images with version 'latest'. The default value for this setting is false. */
   enableAutoOSUpgrade?: boolean;
   /** Indicates if the cluster has zone resiliency. */
   zonalResiliency?: boolean;
@@ -1464,8 +1530,8 @@ export interface ManagedCluster extends Resource {
   enableHttpGatewayExclusiveAuthMode?: boolean;
   /** This property is the entry point to using a public CA cert for your cluster cert. It specifies the level of reuse allowed for the custom FQDN created, matching the subject of the public CA cert. */
   autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
-  /** If using autoGeneratedDomainNameLabelScope, this is the fully qualified domain name using SFMC's domain, pointing to the public load balancer of the cluster. */
-  customFqdn?: string;
+  /** The number of outbound ports allocated for SNAT for each node in the backend pool of the default load balancer. The default value is 0 which provides dynamic port allocation based on pool size. */
+  allocatedOutboundPorts?: number;
 }
 
 /** Describes a node type in the cluster, each node type represents sub set of nodes in the cluster. */
@@ -1681,6 +1747,22 @@ export interface ServicesDeleteHeaders {
   location?: string;
 }
 
+/** Defines headers for ManagedClusters_startFaultSimulation operation. */
+export interface ManagedClustersStartFaultSimulationHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for ManagedClusters_stopFaultSimulation operation. */
+export interface ManagedClustersStopFaultSimulationHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
 /** Defines headers for ManagedClusters_createOrUpdate operation. */
 export interface ManagedClustersCreateOrUpdateHeaders {
   /** The URL to get the status of an ongoing long-running operation. */
@@ -1727,8 +1809,56 @@ export interface NodeTypesDeleteNodeHeaders {
   location?: string;
 }
 
+/** Defines headers for NodeTypes_deallocate operation. */
+export interface NodeTypesDeallocateHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_start operation. */
+export interface NodeTypesStartHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_redeploy operation. */
+export interface NodeTypesRedeployHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_startFaultSimulation operation. */
+export interface NodeTypesStartFaultSimulationHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_stopFaultSimulation operation. */
+export interface NodeTypesStopFaultSimulationHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
 /** Defines headers for NodeTypes_createOrUpdate operation. */
 export interface NodeTypesCreateOrUpdateHeaders {
+  /** The URL to get the status of an ongoing long-running operation. */
+  azureAsyncOperation?: string;
+  /** The URL to get the status of a completed long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for NodeTypes_update operation. */
+export interface NodeTypesUpdateHeaders {
   /** The URL to get the status of an ongoing long-running operation. */
   azureAsyncOperation?: string;
   /** The URL to get the status of a completed long-running operation. */
@@ -1964,6 +2094,51 @@ export enum KnownServiceScalingTriggerKind {
  * **AverageServiceLoadTrigger**: Represents a scaling policy related to an average load of a metric\/resource of a service. The value is 1.
  */
 export type ServiceScalingTriggerKind = string;
+
+/** Known values of {@link FaultKind} that the service accepts. */
+export enum KnownFaultKind {
+  /** Simulates an availability zone down. */
+  Zone = "Zone",
+}
+
+/**
+ * Defines values for FaultKind. \
+ * {@link KnownFaultKind} can be used interchangeably with FaultKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Zone**: Simulates an availability zone down.
+ */
+export type FaultKind = string;
+
+/** Known values of {@link FaultSimulationStatus} that the service accepts. */
+export enum KnownFaultSimulationStatus {
+  /** Indicates the fault simulation is starting. The simulation will have this satus while the start operation is in progress. */
+  Starting = "Starting",
+  /** Indicates the fault simulation is active. The simulation will have this satus after the start operation has completed successfully. */
+  Active = "Active",
+  /** Indicates the fault simulation is stopping. The simulation will have this satus while the stop operation is in progress. */
+  Stopping = "Stopping",
+  /** Indicates the fault simulation is done. The simulation will have this satus after the stop operation has completed successfully. */
+  Done = "Done",
+  /** Indicates the fault simulation has failed on start. The simulation will have this satus after the start operation fails. */
+  StartFailed = "StartFailed",
+  /** Indicates the fault simulation has failed on stop. The simulation will have this satus after the stop operation fails. */
+  StopFailed = "StopFailed",
+}
+
+/**
+ * Defines values for FaultSimulationStatus. \
+ * {@link KnownFaultSimulationStatus} can be used interchangeably with FaultSimulationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Starting**: Indicates the fault simulation is starting. The simulation will have this satus while the start operation is in progress. \
+ * **Active**: Indicates the fault simulation is active. The simulation will have this satus after the start operation has completed successfully. \
+ * **Stopping**: Indicates the fault simulation is stopping. The simulation will have this satus while the stop operation is in progress. \
+ * **Done**: Indicates the fault simulation is done. The simulation will have this satus after the stop operation has completed successfully. \
+ * **StartFailed**: Indicates the fault simulation has failed on start. The simulation will have this satus after the start operation fails. \
+ * **StopFailed**: Indicates the fault simulation has failed on stop. The simulation will have this satus after the stop operation fails.
+ */
+export type FaultSimulationStatus = string;
 
 /** Known values of {@link ClusterState} that the service accepts. */
 export enum KnownClusterState {
@@ -2331,6 +2506,45 @@ export enum KnownManagedClusterVersionEnvironment {
  */
 export type ManagedClusterVersionEnvironment = string;
 
+/** Known values of {@link UpdateType} that the service accepts. */
+export enum KnownUpdateType {
+  /** The operation will proceed in all specified nodes at the same time. */
+  Default = "Default",
+  /** The operation will proceed one upgrade domain at a time, checking the health in between each to continue. */
+  ByUpgradeDomain = "ByUpgradeDomain",
+}
+
+/**
+ * Defines values for UpdateType. \
+ * {@link KnownUpdateType} can be used interchangeably with UpdateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: The operation will proceed in all specified nodes at the same time. \
+ * **ByUpgradeDomain**: The operation will proceed one upgrade domain at a time, checking the health in between each to continue.
+ */
+export type UpdateType = string;
+
+/** Known values of {@link NodeTypeSkuScaleType} that the service accepts. */
+export enum KnownNodeTypeSkuScaleType {
+  /** Node count is not adjustable in any way (e.g. it is fixed). */
+  None = "None",
+  /** The user must manually scale out\/in. */
+  Manual = "Manual",
+  /** Automatic scale is allowed. */
+  Automatic = "Automatic",
+}
+
+/**
+ * Defines values for NodeTypeSkuScaleType. \
+ * {@link KnownNodeTypeSkuScaleType} can be used interchangeably with NodeTypeSkuScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Node count is not adjustable in any way (e.g. it is fixed). \
+ * **Manual**: The user must manually scale out\/in. \
+ * **Automatic**: Automatic scale is allowed.
+ */
+export type NodeTypeSkuScaleType = string;
+
 /** Known values of {@link DiskType} that the service accepts. */
 export enum KnownDiskType {
   /** Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. */
@@ -2339,6 +2553,12 @@ export enum KnownDiskType {
   StandardSSDLRS = "StandardSSD_LRS",
   /** Premium SSD locally redundant storage. Best for production and performance sensitive workloads. */
   PremiumLRS = "Premium_LRS",
+  /** Premium SSD V2 locally redundant storage. Best for production and performance sensitive workloads that consistently require low latency and high IOPS and throughput. */
+  PremiumV2LRS = "PremiumV2_LRS",
+  /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** Premium SSD zone redundant storage. Best for production workloads that need storage resiliency against zone failures. */
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -2348,7 +2568,10 @@ export enum KnownDiskType {
  * ### Known values supported by the service
  * **Standard_LRS**: Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. \
  * **StandardSSD_LRS**: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test. \
- * **Premium_LRS**: Premium SSD locally redundant storage. Best for production and performance sensitive workloads.
+ * **Premium_LRS**: Premium SSD locally redundant storage. Best for production and performance sensitive workloads. \
+ * **PremiumV2_LRS**: Premium SSD V2 locally redundant storage. Best for production and performance sensitive workloads that consistently require low latency and high IOPS and throughput. \
+ * **StandardSSD_ZRS**: Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. \
+ * **Premium_ZRS**: Premium SSD zone redundant storage. Best for production workloads that need storage resiliency against zone failures.
  */
 export type DiskType = string;
 
@@ -2474,45 +2697,6 @@ export enum KnownPublicIPAddressVersion {
  * **IPv6**
  */
 export type PublicIPAddressVersion = string;
-
-/** Known values of {@link UpdateType} that the service accepts. */
-export enum KnownUpdateType {
-  /** The operation will proceed in all specified nodes at the same time. */
-  Default = "Default",
-  /** The operation will proceed one upgrade domain at a time, checking the health in between each to continue. */
-  ByUpgradeDomain = "ByUpgradeDomain",
-}
-
-/**
- * Defines values for UpdateType. \
- * {@link KnownUpdateType} can be used interchangeably with UpdateType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default**: The operation will proceed in all specified nodes at the same time. \
- * **ByUpgradeDomain**: The operation will proceed one upgrade domain at a time, checking the health in between each to continue.
- */
-export type UpdateType = string;
-
-/** Known values of {@link NodeTypeSkuScaleType} that the service accepts. */
-export enum KnownNodeTypeSkuScaleType {
-  /** Node count is not adjustable in any way (e.g. it is fixed). */
-  None = "None",
-  /** The user must manually scale out\/in. */
-  Manual = "Manual",
-  /** Automatic scale is allowed. */
-  Automatic = "Automatic",
-}
-
-/**
- * Defines values for NodeTypeSkuScaleType. \
- * {@link KnownNodeTypeSkuScaleType} can be used interchangeably with NodeTypeSkuScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: Node count is not adjustable in any way (e.g. it is fixed). \
- * **Manual**: The user must manually scale out\/in. \
- * **Automatic**: Automatic scale is allowed.
- */
-export type NodeTypeSkuScaleType = string;
 
 /** Known values of {@link UpgradeMode} that the service accepts. */
 export enum KnownUpgradeMode {
@@ -2775,6 +2959,47 @@ export interface ServicesListByApplicationsNextOptionalParams
 export type ServicesListByApplicationsNextResponse = ServiceResourceList;
 
 /** Optional parameters. */
+export interface ManagedClustersStartFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startFaultSimulation operation. */
+export type ManagedClustersStartFaultSimulationResponse =
+  ManagedClustersStartFaultSimulationHeaders & FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersStopFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopFaultSimulation operation. */
+export type ManagedClustersStopFaultSimulationResponse =
+  ManagedClustersStopFaultSimulationHeaders & FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersGetFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFaultSimulation operation. */
+export type ManagedClustersGetFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface ManagedClustersListFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulation operation. */
+export type ManagedClustersListFaultSimulationResponse =
+  FaultSimulationListResult;
+
+/** Optional parameters. */
 export interface ManagedClustersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2824,6 +3049,14 @@ export interface ManagedClustersDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ManagedClustersListFaultSimulationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulationNext operation. */
+export type ManagedClustersListFaultSimulationNextResponse =
+  FaultSimulationListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListByResourceGroupNextOptionalParams
@@ -2941,13 +3174,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface NodeTypesListByManagedClustersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByManagedClusters operation. */
-export type NodeTypesListByManagedClustersResponse = NodeTypeListResult;
-
-/** Optional parameters. */
 export interface NodeTypesRestartOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2975,6 +3201,80 @@ export interface NodeTypesDeleteNodeOptionalParams
 }
 
 /** Optional parameters. */
+export interface NodeTypesDeallocateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NodeTypesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NodeTypesRedeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NodeTypesStartFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startFaultSimulation operation. */
+export type NodeTypesStartFaultSimulationResponse =
+  NodeTypesStartFaultSimulationHeaders & FaultSimulation;
+
+/** Optional parameters. */
+export interface NodeTypesStopFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopFaultSimulation operation. */
+export type NodeTypesStopFaultSimulationResponse =
+  NodeTypesStopFaultSimulationHeaders & FaultSimulation;
+
+/** Optional parameters. */
+export interface NodeTypesGetFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getFaultSimulation operation. */
+export type NodeTypesGetFaultSimulationResponse = FaultSimulation;
+
+/** Optional parameters. */
+export interface NodeTypesListFaultSimulationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulation operation. */
+export type NodeTypesListFaultSimulationResponse = FaultSimulationListResult;
+
+/** Optional parameters. */
+export interface NodeTypesListByManagedClustersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedClusters operation. */
+export type NodeTypesListByManagedClustersResponse = NodeTypeListResult;
+
+/** Optional parameters. */
 export interface NodeTypesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2995,7 +3295,12 @@ export type NodeTypesCreateOrUpdateResponse = NodeType;
 
 /** Optional parameters. */
 export interface NodeTypesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type NodeTypesUpdateResponse = NodeType;
@@ -3008,6 +3313,14 @@ export interface NodeTypesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface NodeTypesListFaultSimulationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFaultSimulationNext operation. */
+export type NodeTypesListFaultSimulationNextResponse =
+  FaultSimulationListResult;
 
 /** Optional parameters. */
 export interface NodeTypesListByManagedClustersNextOptionalParams

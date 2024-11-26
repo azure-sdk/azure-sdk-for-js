@@ -20,6 +20,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  FaultSimulation,
+  ManagedClustersListFaultSimulationNextOptionalParams,
+  ManagedClustersListFaultSimulationOptionalParams,
+  ManagedClustersListFaultSimulationResponse,
   ManagedCluster,
   ManagedClustersListByResourceGroupNextOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
@@ -27,6 +31,14 @@ import {
   ManagedClustersListBySubscriptionNextOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
   ManagedClustersListBySubscriptionResponse,
+  FaultSimulationParametersUnion,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationResponse,
+  FaultSimulationIdParameters,
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStopFaultSimulationResponse,
+  ManagedClustersGetFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationResponse,
   ManagedClustersGetOptionalParams,
   ManagedClustersGetResponse,
   ManagedClustersCreateOrUpdateOptionalParams,
@@ -35,6 +47,7 @@ import {
   ManagedClustersUpdateOptionalParams,
   ManagedClustersUpdateResponse,
   ManagedClustersDeleteOptionalParams,
+  ManagedClustersListFaultSimulationNextResponse,
   ManagedClustersListByResourceGroupNextResponse,
   ManagedClustersListBySubscriptionNextResponse,
 } from "../models";
@@ -50,6 +63,90 @@ export class ManagedClustersImpl implements ManagedClusters {
    */
   constructor(client: ServiceFabricManagedClustersManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  public listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+  ): PagedAsyncIterableIterator<FaultSimulation> {
+    const iter = this.listFaultSimulationPagingAll(
+      resourceGroupName,
+      clusterName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listFaultSimulationPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listFaultSimulationPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<FaultSimulation[]> {
+    let result: ManagedClustersListFaultSimulationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listFaultSimulation(
+        resourceGroupName,
+        clusterName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listFaultSimulationNext(
+        resourceGroupName,
+        clusterName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listFaultSimulationPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+  ): AsyncIterableIterator<FaultSimulation> {
+    for await (const page of this.listFaultSimulationPagingPage(
+      resourceGroupName,
+      clusterName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -175,6 +272,232 @@ export class ManagedClustersImpl implements ManagedClusters {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  async beginStartFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStartFaultSimulationResponse>,
+      ManagedClustersStartFaultSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedClustersStartFaultSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: startFaultSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersStartFaultSimulationResponse,
+      OperationState<ManagedClustersStartFaultSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  async beginStartFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStartFaultSimulationResponse> {
+    const poller = await this.beginStartFaultSimulation(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  async beginStopFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStopFaultSimulationResponse>,
+      ManagedClustersStopFaultSimulationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedClustersStopFaultSimulationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, clusterName, parameters, options },
+      spec: stopFaultSimulationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedClustersStopFaultSimulationResponse,
+      OperationState<ManagedClustersStopFaultSimulationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  async beginStopFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStopFaultSimulationResponse> {
+    const poller = await this.beginStopFaultSimulation(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  getFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersGetFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersGetFaultSimulationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, parameters, options },
+      getFaultSimulationOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  private _listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersListFaultSimulationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listFaultSimulationOperationSpec,
+    );
   }
 
   /**
@@ -422,6 +745,25 @@ export class ManagedClustersImpl implements ManagedClusters {
   }
 
   /**
+   * ListFaultSimulationNext
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nextLink The nextLink from the previous successful call to the ListFaultSimulation method.
+   * @param options The options parameters.
+   */
+  private _listFaultSimulationNext(
+    resourceGroupName: string,
+    clusterName: string,
+    nextLink: string,
+    options?: ManagedClustersListFaultSimulationNextOptionalParams,
+  ): Promise<ManagedClustersListFaultSimulationNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nextLink, options },
+      listFaultSimulationNextOperationSpec,
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -456,6 +798,122 @@ export class ManagedClustersImpl implements ManagedClusters {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const startFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/startFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStartFaultSimulationHeaders,
+    },
+    201: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStartFaultSimulationHeaders,
+    },
+    202: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStartFaultSimulationHeaders,
+    },
+    204: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStartFaultSimulationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  requestBody: Parameters.parameters9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const stopFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/stopFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStopFaultSimulationHeaders,
+    },
+    201: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStopFaultSimulationHeaders,
+    },
+    202: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStopFaultSimulationHeaders,
+    },
+    204: {
+      bodyMapper: Mappers.FaultSimulation,
+      headersMapper: Mappers.ManagedClustersStopFaultSimulationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/getFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listFaultSimulationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters/{clusterName}/listFaultSimulation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/managedClusters",
   httpMethod: "GET",
@@ -533,7 +991,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -556,7 +1014,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -586,6 +1044,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listFaultSimulationNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FaultSimulationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

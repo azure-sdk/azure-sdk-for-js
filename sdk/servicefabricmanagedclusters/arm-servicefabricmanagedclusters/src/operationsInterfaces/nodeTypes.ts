@@ -9,12 +9,25 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  FaultSimulation,
+  NodeTypesListFaultSimulationOptionalParams,
   NodeType,
   NodeTypesListByManagedClustersOptionalParams,
   NodeTypeActionParameters,
   NodeTypesRestartOptionalParams,
   NodeTypesReimageOptionalParams,
   NodeTypesDeleteNodeOptionalParams,
+  NodeTypesDeallocateOptionalParams,
+  NodeTypesStartOptionalParams,
+  NodeTypesRedeployOptionalParams,
+  FaultSimulationParametersUnion,
+  NodeTypesStartFaultSimulationOptionalParams,
+  NodeTypesStartFaultSimulationResponse,
+  FaultSimulationIdParameters,
+  NodeTypesStopFaultSimulationOptionalParams,
+  NodeTypesStopFaultSimulationResponse,
+  NodeTypesGetFaultSimulationOptionalParams,
+  NodeTypesGetFaultSimulationResponse,
   NodeTypesGetOptionalParams,
   NodeTypesGetResponse,
   NodeTypesCreateOrUpdateOptionalParams,
@@ -28,6 +41,19 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NodeTypes. */
 export interface NodeTypes {
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param options The options parameters.
+   */
+  listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    options?: NodeTypesListFaultSimulationOptionalParams,
+  ): PagedAsyncIterableIterator<FaultSimulation>;
   /**
    * Gets all Node types of the specified managed cluster.
    * @param resourceGroupName The name of the resource group.
@@ -136,6 +162,187 @@ export interface NodeTypes {
     options?: NodeTypesDeleteNodeOptionalParams,
   ): Promise<void>;
   /**
+   * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown
+   * on the VMs and release them from the cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for deallocate action.
+   * @param options The options parameters.
+   */
+  beginDeallocate(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeallocateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown
+   * on the VMs and release them from the cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for deallocate action.
+   * @param options The options parameters.
+   */
+  beginDeallocateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesDeallocateOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if
+   * needed and activate them.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for start action.
+   * @param options The options parameters.
+   */
+  beginStart(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if
+   * needed and activate them.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for start action.
+   * @param options The options parameters.
+   */
+  beginStartAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesStartOptionalParams,
+  ): Promise<void>;
+  /**
+   * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down
+   * on the VMs, move them to a new node, and power them back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for redeploy action.
+   * @param options The options parameters.
+   */
+  beginRedeploy(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRedeployOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down
+   * on the VMs, move them to a new node, and power them back on.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters for redeploy action.
+   * @param options The options parameters.
+   */
+  beginRedeployAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeActionParameters,
+    options?: NodeTypesRedeployOptionalParams,
+  ): Promise<void>;
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: NodeTypesStartFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesStartFaultSimulationResponse>,
+      NodeTypesStartFaultSimulationResponse
+    >
+  >;
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: NodeTypesStartFaultSimulationOptionalParams,
+  ): Promise<NodeTypesStartFaultSimulationResponse>;
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: NodeTypesStopFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesStopFaultSimulationResponse>,
+      NodeTypesStopFaultSimulationResponse
+    >
+  >;
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: NodeTypesStopFaultSimulationOptionalParams,
+  ): Promise<NodeTypesStopFaultSimulationResponse>;
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  getFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: NodeTypesGetFaultSimulationOptionalParams,
+  ): Promise<NodeTypesGetFaultSimulationResponse>;
+  /**
    * Get a Service Fabric node type of a given managed cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster resource.
@@ -191,7 +398,27 @@ export interface NodeTypes {
    * @param parameters The parameters to update the node type configuration.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeUpdateParameters,
+    options?: NodeTypesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesUpdateResponse>,
+      NodeTypesUpdateResponse
+    >
+  >;
+  /**
+   * Update the configuration of a node type of a given managed cluster, only updating tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters The parameters to update the node type configuration.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     nodeTypeName: string,

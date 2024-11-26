@@ -9,9 +9,19 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  FaultSimulation,
+  ManagedClustersListFaultSimulationOptionalParams,
   ManagedCluster,
   ManagedClustersListByResourceGroupOptionalParams,
   ManagedClustersListBySubscriptionOptionalParams,
+  FaultSimulationParametersUnion,
+  ManagedClustersStartFaultSimulationOptionalParams,
+  ManagedClustersStartFaultSimulationResponse,
+  FaultSimulationIdParameters,
+  ManagedClustersStopFaultSimulationOptionalParams,
+  ManagedClustersStopFaultSimulationResponse,
+  ManagedClustersGetFaultSimulationOptionalParams,
+  ManagedClustersGetFaultSimulationResponse,
   ManagedClustersGetOptionalParams,
   ManagedClustersGetResponse,
   ManagedClustersCreateOrUpdateOptionalParams,
@@ -25,6 +35,17 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedClusters. */
 export interface ManagedClusters {
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  listFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedClustersListFaultSimulationOptionalParams,
+  ): PagedAsyncIterableIterator<FaultSimulation>;
   /**
    * Gets all Service Fabric cluster resources created or in the process of being created in the resource
    * group.
@@ -43,6 +64,81 @@ export interface ManagedClusters {
   listBySubscription(
     options?: ManagedClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCluster>;
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStartFaultSimulationResponse>,
+      ManagedClustersStartFaultSimulationResponse
+    >
+  >;
+  /**
+   * Starts a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameters describing the fault simulation.
+   * @param options The options parameters.
+   */
+  beginStartFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationParametersUnion,
+    options?: ManagedClustersStartFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStartFaultSimulationResponse>;
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersStopFaultSimulationResponse>,
+      ManagedClustersStopFaultSimulationResponse
+    >
+  >;
+  /**
+   * Stops a fault simulation on the node type.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  beginStopFaultSimulationAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersStopFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersStopFaultSimulationResponse>;
+  /**
+   * Gets a fault simulation byt the simulationId.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param parameters parameter with fault simulation id.
+   * @param options The options parameters.
+   */
+  getFaultSimulation(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: FaultSimulationIdParameters,
+    options?: ManagedClustersGetFaultSimulationOptionalParams,
+  ): Promise<ManagedClustersGetFaultSimulationResponse>;
   /**
    * Get a Service Fabric managed cluster resource created or in the process of being created in the
    * specified resource group.
