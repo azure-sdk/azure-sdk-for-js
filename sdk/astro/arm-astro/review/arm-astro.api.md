@@ -62,6 +62,48 @@ export interface ErrorResponse {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface GetResourcesRequest {
+    pageInfo?: PageInfo;
+    searchParamsDictionary?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface GetResourcesSuccessResponse {
+    pageInfo?: PageInfo;
+    resources: PartnerResource[];
+}
+
+// @public
+export interface GetRolesRequest {
+    pageInfo?: PageInfo;
+    searchParamsDictionary?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface GetRolesSuccessResponse {
+    pageInfo?: PageInfo;
+    roles: Role[];
+}
+
+// @public
+export interface GetUsersRequest {
+    pageInfo?: PageInfo;
+    searchParamsDictionary?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface GetUsersSuccessResponse {
+    pageInfo?: PageInfo;
+    users: User[];
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -98,6 +140,12 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownRenewalMode {
+    Auto = "Auto",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownResourceProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -109,11 +157,6 @@ export enum KnownSingleSignOnStates {
     Disable = "Disable",
     Enable = "Enable",
     Initial = "Initial"
-}
-
-// @public
-export enum KnownVersions {
-    V1Preview = "2023-08-01"
 }
 
 // @public
@@ -145,16 +188,36 @@ export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
 // @public
 export interface LiftrBaseMarketplaceDetails {
     offerDetails: LiftrBaseOfferDetails;
-    subscriptionId: string;
+    subscriptionId?: string;
+    subscriptionStatus?: MarketplaceSubscriptionStatus;
+}
+
+// @public
+export interface LiftrBaseMarketplaceDetailsUpdate {
+    offerDetails?: LiftrBaseOfferDetailsUpdate;
+    subscriptionId?: string;
     subscriptionStatus?: MarketplaceSubscriptionStatus;
 }
 
 // @public
 export interface LiftrBaseOfferDetails {
+    readonly endDate?: Date;
     offerId: string;
     planId: string;
     planName?: string;
     publisherId: string;
+    renewalMode?: RenewalMode;
+    termId?: string;
+    termUnit?: string;
+}
+
+// @public
+export interface LiftrBaseOfferDetailsUpdate {
+    offerId?: string;
+    planId?: string;
+    planName?: string;
+    publisherId?: string;
+    renewalMode?: RenewalMode;
     termId?: string;
     termUnit?: string;
 }
@@ -198,6 +261,15 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface ManageRolesModel {
+    additionalData?: {
+        [propertyName: string]: string;
+    };
+    principals: User[];
+    roles: Role[];
+}
 
 // @public
 export type MarketplaceSubscriptionStatus = string;
@@ -267,6 +339,7 @@ export interface OrganizationResourceUpdate {
 
 // @public
 export interface OrganizationResourceUpdateProperties {
+    marketplace?: LiftrBaseMarketplaceDetailsUpdate;
     partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationPropertiesUpdate;
     user?: LiftrBaseUserDetailsUpdate;
 }
@@ -280,8 +353,13 @@ export interface Organizations {
     beginUpdate(resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationsUpdateResponse>, OrganizationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, organizationName: string, properties: OrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams): Promise<OrganizationsUpdateResponse>;
     get(resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams): Promise<OrganizationsGetResponse>;
+    getResources(resourceGroupName: string, organizationName: string, properties: GetResourcesRequest, options?: OrganizationsGetResourcesOptionalParams): Promise<OrganizationsGetResourcesResponse>;
+    getRoles(resourceGroupName: string, organizationName: string, properties: GetRolesRequest, options?: OrganizationsGetRolesOptionalParams): Promise<OrganizationsGetRolesResponse>;
+    getUsers(resourceGroupName: string, organizationName: string, properties: GetUsersRequest, options?: OrganizationsGetUsersOptionalParams): Promise<OrganizationsGetUsersResponse>;
     listByResourceGroup(resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
     listBySubscription(options?: OrganizationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
+    manageRoles(resourceGroupName: string, organizationName: string, properties: ManageRolesModel, options?: OrganizationsManageRolesOptionalParams): Promise<OrganizationsManageRolesResponse>;
+    removeUser(resourceGroupName: string, organizationName: string, properties: RemoveUserRequest, options?: OrganizationsRemoveUserOptionalParams): Promise<void>;
 }
 
 // @public
@@ -318,7 +396,28 @@ export interface OrganizationsGetOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export interface OrganizationsGetResourcesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationsGetResourcesResponse = GetResourcesSuccessResponse;
+
+// @public
 export type OrganizationsGetResponse = OrganizationResource;
+
+// @public
+export interface OrganizationsGetRolesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationsGetRolesResponse = GetRolesSuccessResponse;
+
+// @public
+export interface OrganizationsGetUsersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationsGetUsersResponse = GetUsersSuccessResponse;
 
 // @public
 export interface OrganizationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -349,6 +448,17 @@ export interface OrganizationsListBySubscriptionOptionalParams extends coreClien
 export type OrganizationsListBySubscriptionResponse = OrganizationResourceListResult;
 
 // @public
+export interface OrganizationsManageRolesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OrganizationsManageRolesResponse = ManageRolesModel;
+
+// @public
+export interface OrganizationsRemoveUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface OrganizationsUpdateHeaders {
     location?: string;
     retryAfter?: number;
@@ -367,6 +477,31 @@ export type OrganizationsUpdateResponse = OrganizationResource;
 export type Origin = string;
 
 // @public
+export interface PageInfo {
+    limit?: number;
+    offset?: number;
+    totalCount?: number;
+}
+
+// @public
+export interface PartnerResource {
+    id?: string;
+    name: string;
+    type?: string;
+}
+
+// @public
+export interface RemoveUserRequest {
+    additionalData?: {
+        [propertyName: string]: string;
+    };
+    principal: User;
+}
+
+// @public
+export type RenewalMode = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -376,6 +511,15 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+// @public
+export interface Role {
+    description?: string;
+    id?: string;
+    name: string;
+    scope?: string;
+    type?: string;
+}
 
 // @public
 export type SingleSignOnStates = string;
@@ -399,13 +543,25 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface User {
+    authType?: string;
+    avatarUrl?: string;
+    email: string;
+    fullName?: string;
+    id?: string;
+    metadataUser?: {
+        [propertyName: string]: string;
+    };
+    roles: Role[];
+    status?: string;
+    type?: string;
+}
+
+// @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = string;
 
 // (No @packageDocumentation comment for this package)
 

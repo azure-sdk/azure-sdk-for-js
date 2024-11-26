@@ -286,7 +286,6 @@ export const LiftrBaseMarketplaceDetails: coreClient.CompositeMapper = {
     modelProperties: {
       subscriptionId: {
         serializedName: "subscriptionId",
-        required: true,
         type: {
           name: "String",
         },
@@ -350,6 +349,19 @@ export const LiftrBaseOfferDetails: coreClient.CompositeMapper = {
         serializedName: "termId",
         type: {
           name: "String",
+        },
+      },
+      renewalMode: {
+        serializedName: "renewalMode",
+        type: {
+          name: "String",
+        },
+      },
+      endDate: {
+        serializedName: "endDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
       },
     },
@@ -680,6 +692,13 @@ export const OrganizationResourceUpdateProperties: coreClient.CompositeMapper =
       name: "Composite",
       className: "OrganizationResourceUpdateProperties",
       modelProperties: {
+        marketplace: {
+          serializedName: "marketplace",
+          type: {
+            name: "Composite",
+            className: "LiftrBaseMarketplaceDetailsUpdate",
+          },
+        },
         user: {
           serializedName: "user",
           type: {
@@ -697,6 +716,85 @@ export const OrganizationResourceUpdateProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const LiftrBaseMarketplaceDetailsUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiftrBaseMarketplaceDetailsUpdate",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      subscriptionStatus: {
+        serializedName: "subscriptionStatus",
+        type: {
+          name: "String",
+        },
+      },
+      offerDetails: {
+        serializedName: "offerDetails",
+        type: {
+          name: "Composite",
+          className: "LiftrBaseOfferDetailsUpdate",
+        },
+      },
+    },
+  },
+};
+
+export const LiftrBaseOfferDetailsUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LiftrBaseOfferDetailsUpdate",
+    modelProperties: {
+      publisherId: {
+        serializedName: "publisherId",
+        type: {
+          name: "String",
+        },
+      },
+      offerId: {
+        serializedName: "offerId",
+        type: {
+          name: "String",
+        },
+      },
+      planId: {
+        serializedName: "planId",
+        type: {
+          name: "String",
+        },
+      },
+      planName: {
+        serializedName: "planName",
+        type: {
+          name: "String",
+        },
+      },
+      termUnit: {
+        serializedName: "termUnit",
+        type: {
+          name: "String",
+        },
+      },
+      termId: {
+        serializedName: "termId",
+        type: {
+          name: "String",
+        },
+      },
+      renewalMode: {
+        serializedName: "renewalMode",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const LiftrBaseUserDetailsUpdate: coreClient.CompositeMapper = {
   type: {
@@ -793,6 +891,394 @@ export const LiftrBaseDataPartnerOrganizationPropertiesUpdate: coreClient.Compos
     },
   };
 
+export const GetResourcesRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetResourcesRequest",
+    modelProperties: {
+      searchParamsDictionary: {
+        serializedName: "searchParamsDictionary",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const PageInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PageInfo",
+    modelProperties: {
+      offset: {
+        serializedName: "offset",
+        type: {
+          name: "Number",
+        },
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number",
+        },
+      },
+      totalCount: {
+        serializedName: "totalCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const GetResourcesSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetResourcesSuccessResponse",
+    modelProperties: {
+      resources: {
+        serializedName: "resources",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PartnerResource",
+            },
+          },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const PartnerResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GetRolesRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetRolesRequest",
+    modelProperties: {
+      searchParamsDictionary: {
+        serializedName: "searchParamsDictionary",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const GetRolesSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetRolesSuccessResponse",
+    modelProperties: {
+      roles: {
+        serializedName: "roles",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role",
+            },
+          },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const Role: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Role",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
+        },
+      },
+      scope: {
+        serializedName: "scope",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GetUsersRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetUsersRequest",
+    modelProperties: {
+      searchParamsDictionary: {
+        serializedName: "searchParamsDictionary",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const GetUsersSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetUsersSuccessResponse",
+    modelProperties: {
+      users: {
+        serializedName: "users",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "User",
+            },
+          },
+        },
+      },
+      pageInfo: {
+        serializedName: "pageInfo",
+        type: {
+          name: "Composite",
+          className: "PageInfo",
+        },
+      },
+    },
+  },
+};
+
+export const User: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "User",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+      email: {
+        serializedName: "email",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      fullName: {
+        serializedName: "fullName",
+        type: {
+          name: "String",
+        },
+      },
+      authType: {
+        serializedName: "authType",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      avatarUrl: {
+        serializedName: "avatarUrl",
+        type: {
+          name: "String",
+        },
+      },
+      roles: {
+        serializedName: "roles",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role",
+            },
+          },
+        },
+      },
+      metadataUser: {
+        serializedName: "metadataUser",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const ManageRolesModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManageRolesModel",
+    modelProperties: {
+      principals: {
+        serializedName: "principals",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "User",
+            },
+          },
+        },
+      },
+      roles: {
+        serializedName: "roles",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Role",
+            },
+          },
+        },
+      },
+      additionalData: {
+        serializedName: "additionalData",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const RemoveUserRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoveUserRequest",
+    modelProperties: {
+      principal: {
+        serializedName: "principal",
+        type: {
+          name: "Composite",
+          className: "User",
+        },
+      },
+      additionalData: {
+        serializedName: "additionalData",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -861,16 +1347,16 @@ export const OrganizationsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsUpdateHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -882,16 +1368,16 @@ export const OrganizationsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "OrganizationsDeleteHeaders",
     modelProperties: {
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
       location: {
         serializedName: "location",
         type: {
           name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

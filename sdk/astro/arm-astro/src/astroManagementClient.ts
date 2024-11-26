@@ -104,7 +104,7 @@ export class AstroManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
     this.operations = new OperationsImpl(this);
     this.organizations = new OrganizationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

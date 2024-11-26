@@ -14,6 +14,11 @@ import {
 import {
   OrganizationResource as OrganizationResourceMapper,
   OrganizationResourceUpdate as OrganizationResourceUpdateMapper,
+  GetResourcesRequest as GetResourcesRequestMapper,
+  GetRolesRequest as GetRolesRequestMapper,
+  GetUsersRequest as GetUsersRequestMapper,
+  ManageRolesModel as ManageRolesModelMapper,
+  RemoveUserRequest as RemoveUserRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -43,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-01",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -129,4 +134,29 @@ export const resource: OperationParameter = {
 export const properties: OperationParameter = {
   parameterPath: "properties",
   mapper: OrganizationResourceUpdateMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: GetResourcesRequestMapper,
+};
+
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
+  mapper: GetRolesRequestMapper,
+};
+
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
+  mapper: GetUsersRequestMapper,
+};
+
+export const properties4: OperationParameter = {
+  parameterPath: "properties",
+  mapper: ManageRolesModelMapper,
+};
+
+export const properties5: OperationParameter = {
+  parameterPath: "properties",
+  mapper: RemoveUserRequestMapper,
 };
