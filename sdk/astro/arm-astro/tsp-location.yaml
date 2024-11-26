@@ -1,0 +1,4 @@
+directory: specification/liftrastronomer/Astronomer.Astro.Management
+commit: d4e57190c58c69fd40ba8a66b01805bf8148798f
+repo: ../azure-rest-api-specs
+additionalDirectories: 

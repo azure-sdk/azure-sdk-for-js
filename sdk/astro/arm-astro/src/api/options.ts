@@ -1,0 +1,55 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsGetOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsCreateOrUpdateOptionalParams
+  extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface OrganizationsUpdateOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface OrganizationsDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface OrganizationsListByResourceGroupOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsListBySubscriptionOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsGetUsersOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsGetRolesOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsGetResourcesOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsManageRolesOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface OrganizationsRemoveUserOptionalParams
+  extends OperationOptions {}
