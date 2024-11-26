@@ -36,6 +36,20 @@ import {
   OrganizationsUpdateResponse,
   OrganizationsDeleteOptionalParams,
   OrganizationsDeleteResponse,
+  GetResourcesRequest,
+  OrganizationsGetResourcesOptionalParams,
+  OrganizationsGetResourcesResponse,
+  GetRolesRequest,
+  OrganizationsGetRolesOptionalParams,
+  OrganizationsGetRolesResponse,
+  GetUsersRequest,
+  OrganizationsGetUsersOptionalParams,
+  OrganizationsGetUsersResponse,
+  ManageRolesModel,
+  OrganizationsManageRolesOptionalParams,
+  OrganizationsManageRolesResponse,
+  RemoveUserRequest,
+  OrganizationsRemoveUserOptionalParams,
   OrganizationsListBySubscriptionNextResponse,
   OrganizationsListByResourceGroupNextResponse,
 } from "../models";
@@ -502,6 +516,101 @@ export class OrganizationsImpl implements Organizations {
   }
 
   /**
+   * list of available resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetResourcesRequest
+   * @param options The options parameters.
+   */
+  getResources(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetResourcesRequest,
+    options?: OrganizationsGetResourcesOptionalParams,
+  ): Promise<OrganizationsGetResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, properties, options },
+      getResourcesOperationSpec,
+    );
+  }
+
+  /**
+   * list of available roles.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetRolesRequest
+   * @param options The options parameters.
+   */
+  getRoles(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetRolesRequest,
+    options?: OrganizationsGetRolesOptionalParams,
+  ): Promise<OrganizationsGetRolesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, properties, options },
+      getRolesOperationSpec,
+    );
+  }
+
+  /**
+   * list of users with roles.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetUsersRequest
+   * @param options The options parameters.
+   */
+  getUsers(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetUsersRequest,
+    options?: OrganizationsGetUsersOptionalParams,
+  ): Promise<OrganizationsGetUsersResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, properties, options },
+      getUsersOperationSpec,
+    );
+  }
+
+  /**
+   * manage roles of users
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of ManageRolesRequest
+   * @param options The options parameters.
+   */
+  manageRoles(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: ManageRolesModel,
+    options?: OrganizationsManageRolesOptionalParams,
+  ): Promise<OrganizationsManageRolesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, properties, options },
+      manageRolesOperationSpec,
+    );
+  }
+
+  /**
+   * remove user
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of RemoveUserRequest
+   * @param options The options parameters.
+   */
+  removeUser(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: RemoveUserRequest,
+    options?: OrganizationsRemoveUserOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, properties, options },
+      removeUserOperationSpec,
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -685,6 +794,119 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.organizationName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const getResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Astronomer.Astro/organizations/{organizationName}/getResources",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetResourcesSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getRolesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Astronomer.Astro/organizations/{organizationName}/getRoles",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetRolesSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getUsersOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Astronomer.Astro/organizations/{organizationName}/getUsers",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetUsersSuccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const manageRolesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Astronomer.Astro/organizations/{organizationName}/manageRoles",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManageRolesModel,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const removeUserOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Astronomer.Astro/organizations/{organizationName}/removeUser",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

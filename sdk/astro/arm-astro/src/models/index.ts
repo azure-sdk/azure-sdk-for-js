@@ -147,7 +147,7 @@ export interface LiftrBaseDataOrganizationProperties {
 /** Marketplace details for an organization */
 export interface LiftrBaseMarketplaceDetails {
   /** Azure subscription id for the the marketplace offer is purchased from */
-  subscriptionId: string;
+  subscriptionId?: string;
   /** Marketplace subscription status */
   subscriptionStatus?: MarketplaceSubscriptionStatus;
   /** Offer details for the marketplace that is selected by the user */
@@ -168,6 +168,13 @@ export interface LiftrBaseOfferDetails {
   termUnit?: string;
   /** Plan Display Name for the marketplace offer */
   termId?: string;
+  /** Subscription renewal mode */
+  renewalMode?: RenewalMode;
+  /**
+   * Current subscription end date and time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDate?: Date;
 }
 
 /** User details for an organization */
@@ -293,16 +300,46 @@ export interface OrganizationResourceUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The updatable properties of the OrganizationResource. */
+  /** The resource-specific properties for this resource. */
   properties?: OrganizationResourceUpdateProperties;
 }
 
 /** The updatable properties of the OrganizationResource. */
 export interface OrganizationResourceUpdateProperties {
+  /** Marketplace details of the resource. */
+  marketplace?: LiftrBaseMarketplaceDetailsUpdate;
   /** Details of the user. */
   user?: LiftrBaseUserDetailsUpdate;
   /** Organization properties */
   partnerOrganizationProperties?: LiftrBaseDataPartnerOrganizationPropertiesUpdate;
+}
+
+/** Marketplace details for an organization */
+export interface LiftrBaseMarketplaceDetailsUpdate {
+  /** Azure subscription id for the the marketplace offer is purchased from */
+  subscriptionId?: string;
+  /** Marketplace subscription status */
+  subscriptionStatus?: MarketplaceSubscriptionStatus;
+  /** Offer details for the marketplace that is selected by the user */
+  offerDetails?: LiftrBaseOfferDetailsUpdate;
+}
+
+/** Offer details for the marketplace that is selected by the user */
+export interface LiftrBaseOfferDetailsUpdate {
+  /** Publisher Id for the marketplace offer */
+  publisherId?: string;
+  /** Offer Id for the marketplace offer */
+  offerId?: string;
+  /** Plan Id for the marketplace offer */
+  planId?: string;
+  /** Plan Name for the marketplace offer */
+  planName?: string;
+  /** Plan Display Name for the marketplace offer */
+  termUnit?: string;
+  /** Plan Display Name for the marketplace offer */
+  termId?: string;
+  /** Subscription renewal mode */
+  renewalMode?: RenewalMode;
 }
 
 /** User details for an organization */
@@ -333,6 +370,128 @@ export interface LiftrBaseDataPartnerOrganizationPropertiesUpdate {
   singleSignOnProperties?: LiftrBaseSingleSignOnProperties;
 }
 
+/** Request model for get resources API */
+export interface GetResourcesRequest {
+  /** parameters to filter results */
+  searchParamsDictionary?: { [propertyName: string]: string };
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** PageInfo model */
+export interface PageInfo {
+  /** numbers of objects to skip */
+  offset?: number;
+  /** max numbers of objects in response */
+  limit?: number;
+  /** total numbers of objects */
+  totalCount?: number;
+}
+
+/** Response model for get resources API */
+export interface GetResourcesSuccessResponse {
+  /** Resource object array */
+  resources: PartnerResource[];
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** Partner Resource object */
+export interface PartnerResource {
+  /** Resource id */
+  id?: string;
+  /** Resource name */
+  name: string;
+  /** Resource type */
+  type?: string;
+}
+
+/** Request model for get roles API */
+export interface GetRolesRequest {
+  /** parameters to filter results */
+  searchParamsDictionary?: { [propertyName: string]: string };
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** Response model for get roles API */
+export interface GetRolesSuccessResponse {
+  /** Role object array */
+  roles: Role[];
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** Role object */
+export interface Role {
+  /** Role id */
+  id?: string;
+  /** Role name */
+  name: string;
+  /** Role type */
+  type?: string;
+  /** description of role */
+  description?: string;
+  /** scope at which roles are assigned */
+  scope?: string;
+}
+
+/** Request model for get users API */
+export interface GetUsersRequest {
+  /** parameters to filter results */
+  searchParamsDictionary?: { [propertyName: string]: string };
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** Response model for get users API */
+export interface GetUsersSuccessResponse {
+  /** User object array */
+  users: User[];
+  /** page details */
+  pageInfo?: PageInfo;
+}
+
+/** User object */
+export interface User {
+  /** User id */
+  id?: string;
+  /** user type */
+  type?: string;
+  /** email of User */
+  email: string;
+  /** Full name */
+  fullName?: string;
+  /** Auth type */
+  authType?: string;
+  /** User status */
+  status?: string;
+  /** avatar url */
+  avatarUrl?: string;
+  /** roles assigned to user */
+  roles: Role[];
+  /** User metadata */
+  metadataUser?: { [propertyName: string]: string };
+}
+
+/** Request model for manage roles API */
+export interface ManageRolesModel {
+  /** Users object array */
+  principals: User[];
+  /** Role object array */
+  roles: Role[];
+  /** Additional data to assign roles */
+  additionalData?: { [propertyName: string]: string };
+}
+
+/** Request model for manage roles API */
+export interface RemoveUserRequest {
+  /** User object */
+  principal: User;
+  /** Additional data for deleting user */
+  additionalData?: { [propertyName: string]: string };
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -357,18 +516,18 @@ export interface OrganizationsCreateOrUpdateHeaders {
 
 /** Defines headers for Organizations_update operation. */
 export interface OrganizationsUpdateHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Organizations_delete operation. */
 export interface OrganizationsDeleteHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -430,6 +589,24 @@ export enum KnownMarketplaceSubscriptionStatus {
  * **Unsubscribed**: Customer has cancelled the subscription
  */
 export type MarketplaceSubscriptionStatus = string;
+
+/** Known values of {@link RenewalMode} that the service accepts. */
+export enum KnownRenewalMode {
+  /** Automatic renewal */
+  Auto = "Auto",
+  /** Manual renewal */
+  Manual = "Manual",
+}
+
+/**
+ * Defines values for RenewalMode. \
+ * {@link KnownRenewalMode} can be used interchangeably with RenewalMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Automatic renewal \
+ * **Manual**: Manual renewal
+ */
+export type RenewalMode = string;
 
 /** Known values of {@link ResourceProvisioningState} that the service accepts. */
 export enum KnownResourceProvisioningState {
@@ -521,38 +698,23 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview, LiftrBase.Data.Versions.v1_preview */
-  V1Preview = "2023-08-01",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-08-01**: Dependent on Azure.ResourceManager.Versions.v1_0_Preview_1, LiftrBase.Versions.v1_preview, LiftrBase.Data.Versions.v1_preview
- */
-export type Versions = string;
-
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OrganizationsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type OrganizationsListBySubscriptionResponse =
@@ -560,7 +722,7 @@ export type OrganizationsListBySubscriptionResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type OrganizationsListByResourceGroupResponse =
@@ -568,7 +730,7 @@ export type OrganizationsListByResourceGroupResponse =
 
 /** Optional parameters. */
 export interface OrganizationsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OrganizationsGetResponse = OrganizationResource;
@@ -610,8 +772,40 @@ export interface OrganizationsDeleteOptionalParams
 export type OrganizationsDeleteResponse = OrganizationsDeleteHeaders;
 
 /** Optional parameters. */
+export interface OrganizationsGetResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getResources operation. */
+export type OrganizationsGetResourcesResponse = GetResourcesSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationsGetRolesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRoles operation. */
+export type OrganizationsGetRolesResponse = GetRolesSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationsGetUsersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUsers operation. */
+export type OrganizationsGetUsersResponse = GetUsersSuccessResponse;
+
+/** Optional parameters. */
+export interface OrganizationsManageRolesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the manageRoles operation. */
+export type OrganizationsManageRolesResponse = ManageRolesModel;
+
+/** Optional parameters. */
+export interface OrganizationsRemoveUserOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface OrganizationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type OrganizationsListBySubscriptionNextResponse =
@@ -619,7 +813,7 @@ export type OrganizationsListBySubscriptionNextResponse =
 
 /** Optional parameters. */
 export interface OrganizationsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type OrganizationsListByResourceGroupNextResponse =

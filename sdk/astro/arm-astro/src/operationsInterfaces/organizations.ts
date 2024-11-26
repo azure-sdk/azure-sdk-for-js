@@ -21,6 +21,20 @@ import {
   OrganizationsUpdateResponse,
   OrganizationsDeleteOptionalParams,
   OrganizationsDeleteResponse,
+  GetResourcesRequest,
+  OrganizationsGetResourcesOptionalParams,
+  OrganizationsGetResourcesResponse,
+  GetRolesRequest,
+  OrganizationsGetRolesOptionalParams,
+  OrganizationsGetRolesResponse,
+  GetUsersRequest,
+  OrganizationsGetUsersOptionalParams,
+  OrganizationsGetUsersResponse,
+  ManageRolesModel,
+  OrganizationsManageRolesOptionalParams,
+  OrganizationsManageRolesResponse,
+  RemoveUserRequest,
+  OrganizationsRemoveUserOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -142,4 +156,69 @@ export interface Organizations {
     organizationName: string,
     options?: OrganizationsDeleteOptionalParams,
   ): Promise<OrganizationsDeleteResponse>;
+  /**
+   * list of available resources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetResourcesRequest
+   * @param options The options parameters.
+   */
+  getResources(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetResourcesRequest,
+    options?: OrganizationsGetResourcesOptionalParams,
+  ): Promise<OrganizationsGetResourcesResponse>;
+  /**
+   * list of available roles.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetRolesRequest
+   * @param options The options parameters.
+   */
+  getRoles(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetRolesRequest,
+    options?: OrganizationsGetRolesOptionalParams,
+  ): Promise<OrganizationsGetRolesResponse>;
+  /**
+   * list of users with roles.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of GetUsersRequest
+   * @param options The options parameters.
+   */
+  getUsers(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: GetUsersRequest,
+    options?: OrganizationsGetUsersOptionalParams,
+  ): Promise<OrganizationsGetUsersResponse>;
+  /**
+   * manage roles of users
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of ManageRolesRequest
+   * @param options The options parameters.
+   */
+  manageRoles(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: ManageRolesModel,
+    options?: OrganizationsManageRolesOptionalParams,
+  ): Promise<OrganizationsManageRolesResponse>;
+  /**
+   * remove user
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Name of the Organizations resource
+   * @param properties properties of RemoveUserRequest
+   * @param options The options parameters.
+   */
+  removeUser(
+    resourceGroupName: string,
+    organizationName: string,
+    properties: RemoveUserRequest,
+    options?: OrganizationsRemoveUserOptionalParams,
+  ): Promise<void>;
 }
