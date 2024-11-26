@@ -848,6 +848,173 @@ export const ServiceResourceList: coreClient.CompositeMapper = {
   },
 };
 
+export const FaultSimulationParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FaultSimulationParameters",
+    uberParent: "FaultSimulationParameters",
+    polymorphicDiscriminator: {
+      serializedName: "faultKind",
+      clientName: "faultKind",
+    },
+    modelProperties: {
+      faultKind: {
+        serializedName: "faultKind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      force: {
+        serializedName: "force",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const FaultSimulation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FaultSimulation",
+    modelProperties: {
+      clusterId: {
+        serializedName: "clusterId",
+        type: {
+          name: "String",
+        },
+      },
+      simulationId: {
+        serializedName: "simulationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationId: {
+        serializedName: "operationId",
+        type: {
+          name: "String",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      nodeTypeFaultSimulation: {
+        serializedName: "nodeTypeFaultSimulation",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NodeTypeFaultSimulation",
+            },
+          },
+        },
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "FaultSimulationParameters",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypeFaultSimulation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeFaultSimulation",
+    modelProperties: {
+      nodeTypeName: {
+        serializedName: "nodeTypeName",
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      operationId: {
+        serializedName: "operationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationStatus: {
+        serializedName: "operationStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FaultSimulationIdParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FaultSimulationIdParameters",
+    modelProperties: {
+      simulationId: {
+        serializedName: "simulationId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FaultSimulationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FaultSimulationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FaultSimulation",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1932,6 +2099,156 @@ export const AvailableOperationDisplay: coreClient.CompositeMapper = {
   },
 };
 
+export const NodeTypeActionParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeActionParameters",
+    modelProperties: {
+      nodes: {
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      force: {
+        serializedName: "force",
+        type: {
+          name: "Boolean",
+        },
+      },
+      updateType: {
+        serializedName: "updateType",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypeListSkuResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeListSkuResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NodeTypeAvailableSku",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypeAvailableSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeAvailableSku",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "NodeTypeSupportedSku",
+        },
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "NodeTypeSkuCapacity",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypeSupportedSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeSupportedSku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tier: {
+        serializedName: "tier",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypeSkuCapacity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypeSkuCapacity",
+    modelProperties: {
+      minimum: {
+        serializedName: "minimum",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      maximum: {
+        serializedName: "maximum",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      default: {
+        serializedName: "default",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      scaleType: {
+        defaultValue: "None",
+        serializedName: "scaleType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const NodeTypeListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2591,156 +2908,6 @@ export const ManagedProxyResource: coreClient.CompositeMapper = {
   },
 };
 
-export const NodeTypeActionParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeTypeActionParameters",
-    modelProperties: {
-      nodes: {
-        serializedName: "nodes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      force: {
-        serializedName: "force",
-        type: {
-          name: "Boolean",
-        },
-      },
-      updateType: {
-        serializedName: "updateType",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const NodeTypeListSkuResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeTypeListSkuResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NodeTypeAvailableSku",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const NodeTypeAvailableSku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeTypeAvailableSku",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "NodeTypeSupportedSku",
-        },
-      },
-      capacity: {
-        serializedName: "capacity",
-        type: {
-          name: "Composite",
-          className: "NodeTypeSkuCapacity",
-        },
-      },
-    },
-  },
-};
-
-export const NodeTypeSupportedSku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeTypeSupportedSku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tier: {
-        serializedName: "tier",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const NodeTypeSkuCapacity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeTypeSkuCapacity",
-    modelProperties: {
-      minimum: {
-        serializedName: "minimum",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      maximum: {
-        serializedName: "maximum",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      default: {
-        serializedName: "default",
-        readOnly: true,
-        type: {
-          name: "Number",
-        },
-      },
-      scaleType: {
-        defaultValue: "None",
-        serializedName: "scaleType",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const NodeTypeUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3266,6 +3433,26 @@ export const AverageServiceLoadScalingTrigger: coreClient.CompositeMapper = {
   },
 };
 
+export const ZoneFaultSimulationParameters: coreClient.CompositeMapper = {
+  serializedName: "Zone",
+  type: {
+    name: "Composite",
+    className: "ZoneFaultSimulationParameters",
+    uberParent: "FaultSimulationParameters",
+    polymorphicDiscriminator:
+      FaultSimulationParameters.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FaultSimulationParameters.type.modelProperties,
+      zone: {
+        serializedName: "zone",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedCluster: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3585,10 +3772,10 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      customFqdn: {
-        serializedName: "properties.customFqdn",
+      allocatedOutboundPorts: {
+        serializedName: "properties.allocatedOutboundPorts",
         type: {
-          name: "String",
+          name: "Number",
         },
       },
     },
@@ -4277,6 +4464,50 @@ export const ServicesDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const ManagedClustersStartFaultSimulationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersStartFaultSimulationHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ManagedClustersStopFaultSimulationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClustersStopFaultSimulationHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ManagedClustersCreateOrUpdateHeaders: coreClient.CompositeMapper =
   {
     type: {
@@ -4398,10 +4629,137 @@ export const NodeTypesDeleteNodeHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const NodeTypesDeallocateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesDeallocateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypesStartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesStartHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypesRedeployHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesRedeployHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypesStartFaultSimulationHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NodeTypesStartFaultSimulationHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NodeTypesStopFaultSimulationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesStopFaultSimulationHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const NodeTypesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NodeTypesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeTypesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeTypesUpdateHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
@@ -4445,6 +4803,7 @@ export let discriminators = {
   ServicePlacementPolicy: ServicePlacementPolicy,
   ScalingMechanism: ScalingMechanism,
   ScalingTrigger: ScalingTrigger,
+  FaultSimulationParameters: FaultSimulationParameters,
   "Partition.Named": NamedPartitionScheme,
   "Partition.Singleton": SingletonPartitionScheme,
   "Partition.UniformInt64Range": UniformInt64RangePartitionScheme,
@@ -4465,6 +4824,7 @@ export let discriminators = {
   "ScalingTrigger.AveragePartitionLoadTrigger":
     AveragePartitionLoadScalingTrigger,
   "ScalingTrigger.AverageServiceLoadTrigger": AverageServiceLoadScalingTrigger,
+  "FaultSimulationParameters.Zone": ZoneFaultSimulationParameters,
   "ServiceResourceProperties.Stateful": StatefulServiceProperties,
   "ServiceResourceProperties.Stateless": StatelessServiceProperties,
 };
