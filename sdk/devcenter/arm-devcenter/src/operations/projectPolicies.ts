@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Schedules } from "../operationsInterfaces";
+import { ProjectPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,29 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  Schedule,
-  SchedulesListByPoolNextOptionalParams,
-  SchedulesListByPoolOptionalParams,
-  SchedulesListByPoolResponse,
-  SchedulesGetOptionalParams,
-  SchedulesGetResponse,
-  SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse,
-  ScheduleUpdate,
-  SchedulesUpdateOptionalParams,
-  SchedulesUpdateResponse,
-  SchedulesDeleteOptionalParams,
-  SchedulesDeleteResponse,
-  SchedulesListByPoolNextResponse,
+  ProjectPolicy,
+  ProjectPoliciesListByDevCenterNextOptionalParams,
+  ProjectPoliciesListByDevCenterOptionalParams,
+  ProjectPoliciesListByDevCenterResponse,
+  ProjectPoliciesGetOptionalParams,
+  ProjectPoliciesGetResponse,
+  ProjectPoliciesCreateOrUpdateOptionalParams,
+  ProjectPoliciesCreateOrUpdateResponse,
+  ProjectPolicyUpdate,
+  ProjectPoliciesUpdateOptionalParams,
+  ProjectPoliciesUpdateResponse,
+  ProjectPoliciesDeleteOptionalParams,
+  ProjectPoliciesDeleteResponse,
+  ProjectPoliciesListByDevCenterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Schedules operations. */
-export class SchedulesImpl implements Schedules {
+/** Class containing ProjectPolicies operations. */
+export class ProjectPoliciesImpl implements ProjectPolicies {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Schedules class.
+   * Initialize a new instance of the class ProjectPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -50,22 +50,19 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists schedules for a pool
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  public listByPool(
+  public listByDevCenter(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): PagedAsyncIterableIterator<Schedule> {
-    const iter = this.listByPoolPagingAll(
+    devCenterName: string,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): PagedAsyncIterableIterator<ProjectPolicy> {
+    const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
-      projectName,
-      poolName,
+      devCenterName,
       options,
     );
     return {
@@ -79,10 +76,9 @@ export class SchedulesImpl implements Schedules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPoolPagingPage(
+        return this.listByDevCenterPagingPage(
           resourceGroupName,
-          projectName,
-          poolName,
+          devCenterName,
           options,
           settings,
         );
@@ -90,20 +86,18 @@ export class SchedulesImpl implements Schedules {
     };
   }
 
-  private async *listByPoolPagingPage(
+  private async *listByDevCenterPagingPage(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
+    devCenterName: string,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Schedule[]> {
-    let result: SchedulesListByPoolResponse;
+  ): AsyncIterableIterator<ProjectPolicy[]> {
+    let result: ProjectPoliciesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPool(
+      result = await this._listByDevCenter(
         resourceGroupName,
-        projectName,
-        poolName,
+        devCenterName,
         options,
       );
       let page = result.value || [];
@@ -112,10 +106,9 @@ export class SchedulesImpl implements Schedules {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPoolNext(
+      result = await this._listByDevCenterNext(
         resourceGroupName,
-        projectName,
-        poolName,
+        devCenterName,
         continuationToken,
         options,
       );
@@ -126,16 +119,14 @@ export class SchedulesImpl implements Schedules {
     }
   }
 
-  private async *listByPoolPagingAll(
+  private async *listByDevCenterPagingAll(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): AsyncIterableIterator<Schedule> {
-    for await (const page of this.listByPoolPagingPage(
+    devCenterName: string,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): AsyncIterableIterator<ProjectPolicy> {
+    for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
-      projectName,
-      poolName,
+      devCenterName,
       options,
     )) {
       yield* page;
@@ -143,71 +134,65 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists schedules for a pool
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
+   * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
-  private _listByPool(
+  private _listByDevCenter(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    options?: SchedulesListByPoolOptionalParams,
-  ): Promise<SchedulesListByPoolResponse> {
+    devCenterName: string,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, options },
-      listByPoolOperationSpec,
+      { resourceGroupName, devCenterName, options },
+      listByDevCenterOperationSpec,
     );
   }
 
   /**
-   * Gets a schedule resource.
+   * Gets a specific project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesGetOptionalParams,
-  ): Promise<SchedulesGetResponse> {
+    devCenterName: string,
+    projectPolicyName: string,
+    options?: ProjectPoliciesGetOptionalParams,
+  ): Promise<ProjectPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, scheduleName, options },
+      { resourceGroupName, devCenterName, projectPolicyName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a Schedule.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams,
+    devCenterName: string,
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesCreateOrUpdateResponse>,
-      SchedulesCreateOrUpdateResponse
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>,
+      ProjectPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesCreateOrUpdateResponse> => {
+    ): Promise<ProjectPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -246,17 +231,16 @@ export class SchedulesImpl implements Schedules {
       sendOperationFn,
       args: {
         resourceGroupName,
-        projectName,
-        poolName,
-        scheduleName,
+        devCenterName,
+        projectPolicyName,
         body,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesCreateOrUpdateResponse,
-      OperationState<SchedulesCreateOrUpdateResponse>
+      ProjectPoliciesCreateOrUpdateResponse,
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -267,27 +251,24 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Creates or updates a Schedule.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams,
-  ): Promise<SchedulesCreateOrUpdateResponse> {
+    devCenterName: string,
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<ProjectPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      projectPolicyName,
       body,
       options,
     );
@@ -295,31 +276,29 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Partially updates a Scheduled.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams,
+    devCenterName: string,
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesUpdateResponse>,
-      SchedulesUpdateResponse
+      OperationState<ProjectPoliciesUpdateResponse>,
+      ProjectPoliciesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesUpdateResponse> => {
+    ): Promise<ProjectPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -358,17 +337,16 @@ export class SchedulesImpl implements Schedules {
       sendOperationFn,
       args: {
         resourceGroupName,
-        projectName,
-        poolName,
-        scheduleName,
+        devCenterName,
+        projectPolicyName,
         body,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesUpdateResponse,
-      OperationState<SchedulesUpdateResponse>
+      ProjectPoliciesUpdateResponse,
+      OperationState<ProjectPoliciesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -379,27 +357,24 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Partially updates a Scheduled.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
-   * @param body Represents a scheduled task.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    body: ScheduleUpdate,
-    options?: SchedulesUpdateOptionalParams,
-  ): Promise<SchedulesUpdateResponse> {
+    devCenterName: string,
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
+  ): Promise<ProjectPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      projectPolicyName,
       body,
       options,
     );
@@ -407,29 +382,27 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Deletes a Scheduled.
+   * Deletes an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesDeleteOptionalParams,
+    devCenterName: string,
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SchedulesDeleteResponse>,
-      SchedulesDeleteResponse
+      OperationState<ProjectPoliciesDeleteResponse>,
+      ProjectPoliciesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SchedulesDeleteResponse> => {
+    ): Promise<ProjectPoliciesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -466,12 +439,12 @@ export class SchedulesImpl implements Schedules {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, projectName, poolName, scheduleName, options },
+      args: { resourceGroupName, devCenterName, projectPolicyName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SchedulesDeleteResponse,
-      OperationState<SchedulesDeleteResponse>
+      ProjectPoliciesDeleteResponse,
+      OperationState<ProjectPoliciesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -482,60 +455,55 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Deletes a Scheduled.
+   * Deletes an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param scheduleName The name of the schedule that uniquely identifies it.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
-    scheduleName: string,
-    options?: SchedulesDeleteOptionalParams,
-  ): Promise<SchedulesDeleteResponse> {
+    devCenterName: string,
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
+  ): Promise<ProjectPoliciesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      projectName,
-      poolName,
-      scheduleName,
+      devCenterName,
+      projectPolicyName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByPoolNext
+   * ListByDevCenterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param projectName The name of the project.
-   * @param poolName Name of the pool.
-   * @param nextLink The nextLink from the previous successful call to the ListByPool method.
+   * @param devCenterName The name of the devcenter.
+   * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.
    */
-  private _listByPoolNext(
+  private _listByDevCenterNext(
     resourceGroupName: string,
-    projectName: string,
-    poolName: string,
+    devCenterName: string,
     nextLink: string,
-    options?: SchedulesListByPoolNextOptionalParams,
-  ): Promise<SchedulesListByPoolNextResponse> {
+    options?: ProjectPoliciesListByDevCenterNextOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, poolName, nextLink, options },
-      listByPoolNextOperationSpec,
+      { resourceGroupName, devCenterName, nextLink, options },
+      listByDevCenterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByPoolOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules",
+const listByDevCenterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -546,141 +514,136 @@ const listByPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
+    Parameters.devCenterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     201: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     202: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     204: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body18,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     201: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     202: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     204: {
-      bodyMapper: Mappers.Schedule,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body19,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SchedulesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.poolName,
-    Parameters.scheduleName,
+    Parameters.devCenterName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByPoolNextOperationSpec: coreClient.OperationSpec = {
+const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -690,9 +653,8 @@ const listByPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.devCenterName,
     Parameters.nextLink,
-    Parameters.projectName,
-    Parameters.poolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

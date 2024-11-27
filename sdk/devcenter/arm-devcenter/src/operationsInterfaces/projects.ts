@@ -21,6 +21,8 @@ import {
   ProjectsUpdateResponse,
   ProjectsDeleteOptionalParams,
   ProjectsDeleteResponse,
+  ProjectsGetInheritedSettingsOptionalParams,
+  ProjectsGetInheritedSettingsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -142,4 +144,15 @@ export interface Projects {
     projectName: string,
     options?: ProjectsDeleteOptionalParams,
   ): Promise<ProjectsDeleteResponse>;
+  /**
+   * Gets applicable inherited settings for this project.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param projectName The name of the project.
+   * @param options The options parameters.
+   */
+  getInheritedSettings(
+    resourceGroupName: string,
+    projectName: string,
+    options?: ProjectsGetInheritedSettingsOptionalParams,
+  ): Promise<ProjectsGetInheritedSettingsResponse>;
 }

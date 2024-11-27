@@ -14,6 +14,8 @@ import {
 import {
   DevCenter as DevCenterMapper,
   DevCenterUpdate as DevCenterUpdateMapper,
+  ProjectPolicy as ProjectPolicyMapper,
+  ProjectPolicyUpdate as ProjectPolicyUpdateMapper,
   Project as ProjectMapper,
   ProjectUpdate as ProjectUpdateMapper,
   AttachedNetworkConnection as AttachedNetworkConnectionMapper,
@@ -63,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-01",
+    defaultValue: "2025-02-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -161,6 +163,32 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const projectPolicyName: OperationURLParameter = {
+  parameterPath: "projectPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "projectPolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: ProjectPolicyMapper,
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: ProjectPolicyUpdateMapper,
+};
+
 export const projectName: OperationURLParameter = {
   parameterPath: "projectName",
   mapper: {
@@ -177,12 +205,12 @@ export const projectName: OperationURLParameter = {
   },
 };
 
-export const body2: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: "body",
   mapper: ProjectMapper,
 };
 
-export const body3: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: "body",
   mapper: ProjectUpdateMapper,
 };
@@ -203,7 +231,7 @@ export const attachedNetworkConnectionName: OperationURLParameter = {
   },
 };
 
-export const body4: OperationParameter = {
+export const body6: OperationParameter = {
   parameterPath: "body",
   mapper: AttachedNetworkConnectionMapper,
 };
@@ -224,12 +252,12 @@ export const catalogName: OperationURLParameter = {
   },
 };
 
-export const body5: OperationParameter = {
+export const body7: OperationParameter = {
   parameterPath: "body",
   mapper: CatalogMapper,
 };
 
-export const body6: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: CatalogUpdateMapper,
 };
@@ -266,7 +294,7 @@ export const galleryName: OperationURLParameter = {
   },
 };
 
-export const body7: OperationParameter = {
+export const body9: OperationParameter = {
   parameterPath: "body",
   mapper: GalleryMapper,
 };
@@ -277,6 +305,22 @@ export const imageName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-.]{0,78}[a-zA-Z0-9]$"),
       MaxLength: 80,
+      MinLength: 3,
+    },
+    serializedName: "imageName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const imageName1: OperationURLParameter = {
+  parameterPath: "imageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9~][a-zA-Z0-9-.~]{0,151}[a-zA-Z0-9]$"),
+      MaxLength: 153,
       MinLength: 3,
     },
     serializedName: "imageName",
@@ -319,22 +363,22 @@ export const environmentTypeName: OperationURLParameter = {
   },
 };
 
-export const body8: OperationParameter = {
+export const body10: OperationParameter = {
   parameterPath: "body",
   mapper: EnvironmentTypeMapper,
 };
 
-export const body9: OperationParameter = {
+export const body11: OperationParameter = {
   parameterPath: "body",
   mapper: EnvironmentTypeUpdateMapper,
 };
 
-export const body10: OperationParameter = {
+export const body12: OperationParameter = {
   parameterPath: "body",
   mapper: ProjectEnvironmentTypeMapper,
 };
 
-export const body11: OperationParameter = {
+export const body13: OperationParameter = {
   parameterPath: "body",
   mapper: ProjectEnvironmentTypeUpdateMapper,
 };
@@ -355,12 +399,12 @@ export const devBoxDefinitionName: OperationURLParameter = {
   },
 };
 
-export const body12: OperationParameter = {
+export const body14: OperationParameter = {
   parameterPath: "body",
   mapper: DevBoxDefinitionMapper,
 };
 
-export const body13: OperationParameter = {
+export const body15: OperationParameter = {
   parameterPath: "body",
   mapper: DevBoxDefinitionUpdateMapper,
 };
@@ -397,6 +441,54 @@ export const nameAvailabilityRequest1: OperationParameter = {
   mapper: CheckScopedNameAvailabilityRequestMapper,
 };
 
+export const taskName: OperationURLParameter = {
+  parameterPath: "taskName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "taskName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const imageDefinitionName: OperationURLParameter = {
+  parameterPath: "imageDefinitionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "imageDefinitionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const buildName: OperationURLParameter = {
+  parameterPath: "buildName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "buildName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const poolName: OperationURLParameter = {
   parameterPath: "poolName",
   mapper: {
@@ -413,12 +505,12 @@ export const poolName: OperationURLParameter = {
   },
 };
 
-export const body14: OperationParameter = {
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: PoolMapper,
 };
 
-export const body15: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: PoolUpdateMapper,
 };
@@ -439,12 +531,12 @@ export const scheduleName: OperationURLParameter = {
   },
 };
 
-export const body16: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: "body",
   mapper: ScheduleMapper,
 };
 
-export const body17: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: "body",
   mapper: ScheduleUpdateMapper,
 };
@@ -465,12 +557,12 @@ export const networkConnectionName: OperationURLParameter = {
   },
 };
 
-export const body18: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkConnectionMapper,
 };
 
-export const body19: OperationParameter = {
+export const body21: OperationParameter = {
   parameterPath: "body",
   mapper: NetworkConnectionUpdateMapper,
 };

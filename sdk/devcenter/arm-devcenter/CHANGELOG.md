@@ -1,15 +1,142 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 1.2.0 (2024-11-27)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group CustomizationTasks
+  - Added operation group ProjectCatalogImageDefinitionBuild
+  - Added operation group ProjectCatalogImageDefinitionBuilds
+  - Added operation group ProjectCatalogImageDefinitions
+  - Added operation group ProjectPolicies
+  - Added operation Images.getByProject
+  - Added operation Images.listByProject
+  - Added operation ImageVersions.getByProject
+  - Added operation ImageVersions.listByProject
+  - Added operation Projects.getInheritedSettings
+  - Added operation Skus.listByProject
+  - Added Interface CustomizationTask
+  - Added Interface CustomizationTaskInput
+  - Added Interface CustomizationTaskListResult
+  - Added Interface CustomizationTasksGetErrorDetailsOptionalParams
+  - Added Interface CustomizationTasksGetOptionalParams
+  - Added Interface CustomizationTasksListByCatalogNextOptionalParams
+  - Added Interface CustomizationTasksListByCatalogOptionalParams
+  - Added Interface DevBoxProvisioningSettings
+  - Added Interface DevCenterNetworkSettings
+  - Added Interface ImageCreationErrorDetails
+  - Added Interface ImageDefinition
+  - Added Interface ImageDefinitionBuild
+  - Added Interface ImageDefinitionBuildDetails
+  - Added Interface ImageDefinitionBuildListResult
+  - Added Interface ImageDefinitionBuildTask
+  - Added Interface ImageDefinitionBuildTaskGroup
+  - Added Interface ImageDefinitionBuildTaskParametersItem
+  - Added Interface ImageDefinitionListResult
+  - Added Interface ImagesGetByProjectOptionalParams
+  - Added Interface ImagesListByProjectNextOptionalParams
+  - Added Interface ImagesListByProjectOptionalParams
+  - Added Interface ImageVersionsGetByProjectOptionalParams
+  - Added Interface ImageVersionsListByProjectNextOptionalParams
+  - Added Interface ImageVersionsListByProjectOptionalParams
+  - Added Interface InheritedSettingsForProject
+  - Added Interface LatestImageBuild
+  - Added Interface PoolDevBoxDefinition
+  - Added Interface ProjectCatalogImageDefinitionBuildCancelHeaders
+  - Added Interface ProjectCatalogImageDefinitionBuildCancelOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetBuildDetailsOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildGetOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionBuildsListByImageDefinitionOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsBuildImageHeaders
+  - Added Interface ProjectCatalogImageDefinitionsBuildImageOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsGetByProjectCatalogOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsListByProjectCatalogNextOptionalParams
+  - Added Interface ProjectCatalogImageDefinitionsListByProjectCatalogOptionalParams
+  - Added Interface ProjectNetworkSettings
+  - Added Interface ProjectPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ProjectPoliciesDeleteHeaders
+  - Added Interface ProjectPoliciesDeleteOptionalParams
+  - Added Interface ProjectPoliciesGetOptionalParams
+  - Added Interface ProjectPoliciesListByDevCenterNextOptionalParams
+  - Added Interface ProjectPoliciesListByDevCenterOptionalParams
+  - Added Interface ProjectPoliciesUpdateHeaders
+  - Added Interface ProjectPoliciesUpdateOptionalParams
+  - Added Interface ProjectPolicy
+  - Added Interface ProjectPolicyListResult
+  - Added Interface ProjectPolicyProperties
+  - Added Interface ProjectPolicyUpdate
+  - Added Interface ProjectPolicyUpdateProperties
+  - Added Interface ProjectsGetInheritedSettingsOptionalParams
+  - Added Interface ResourcePolicy
+  - Added Interface SkusListByProjectNextOptionalParams
+  - Added Interface SkusListByProjectOptionalParams
+  - Added Interface StopOnNoConnectConfiguration
+  - Added Type Alias CustomizationTaskInputType
+  - Added Type Alias CustomizationTasksGetErrorDetailsResponse
+  - Added Type Alias CustomizationTasksGetResponse
+  - Added Type Alias CustomizationTasksListByCatalogNextResponse
+  - Added Type Alias CustomizationTasksListByCatalogResponse
+  - Added Type Alias DevCenterResourceType
+  - Added Type Alias ImageDefinitionBuildStatus
+  - Added Type Alias ImagesGetByProjectResponse
+  - Added Type Alias ImagesListByProjectNextResponse
+  - Added Type Alias ImagesListByProjectResponse
+  - Added Type Alias ImageVersionsGetByProjectResponse
+  - Added Type Alias ImageVersionsListByProjectNextResponse
+  - Added Type Alias ImageVersionsListByProjectResponse
+  - Added Type Alias InstallAzureMonitorAgentEnableStatus
+  - Added Type Alias MicrosoftHostedNetworkEnableStatus
+  - Added Type Alias PoolDevBoxDefinitionType
+  - Added Type Alias ProjectCatalogImageDefinitionBuildCancelResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildGetBuildDetailsResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildGetResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildsListByImageDefinitionNextResponse
+  - Added Type Alias ProjectCatalogImageDefinitionBuildsListByImageDefinitionResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsBuildImageResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsGetByProjectCatalogResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsListByProjectCatalogNextResponse
+  - Added Type Alias ProjectCatalogImageDefinitionsListByProjectCatalogResponse
+  - Added Type Alias ProjectPoliciesCreateOrUpdateResponse
+  - Added Type Alias ProjectPoliciesDeleteResponse
+  - Added Type Alias ProjectPoliciesGetResponse
+  - Added Type Alias ProjectPoliciesListByDevCenterNextResponse
+  - Added Type Alias ProjectPoliciesListByDevCenterResponse
+  - Added Type Alias ProjectPoliciesUpdateResponse
+  - Added Type Alias ProjectsGetInheritedSettingsResponse
+  - Added Type Alias SkusListByProjectNextResponse
+  - Added Type Alias SkusListByProjectResponse
+  - Added Type Alias StopOnNoConnectEnableStatus
+  - Interface DevCenter has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenter has a new optional parameter networkSettings
+  - Interface DevCenter has a new optional parameter restrictedResourceTypes
+  - Interface DevCenterUpdate has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdate has a new optional parameter networkSettings
+  - Interface DevCenterUpdate has a new optional parameter restrictedResourceTypes
+  - Interface DevCenterUpdateProperties has a new optional parameter devBoxProvisioningSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter networkSettings
+  - Interface DevCenterUpdateProperties has a new optional parameter restrictedResourceTypes
+  - Interface Pool has a new optional parameter devBoxDefinition
+  - Interface Pool has a new optional parameter devBoxDefinitionType
+  - Interface Pool has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdate has a new optional parameter devBoxDefinition
+  - Interface PoolUpdate has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdate has a new optional parameter stopOnNoConnect
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinition
+  - Interface PoolUpdateProperties has a new optional parameter devBoxDefinitionType
+  - Interface PoolUpdateProperties has a new optional parameter stopOnNoConnect
+  - Added Enum KnownCustomizationTaskInputType
+  - Added Enum KnownDevCenterResourceType
+  - Added Enum KnownImageDefinitionBuildStatus
+  - Added Enum KnownInstallAzureMonitorAgentEnableStatus
+  - Added Enum KnownMicrosoftHostedNetworkEnableStatus
+  - Added Enum KnownPoolDevBoxDefinitionType
+  - Added Enum KnownStopOnNoConnectEnableStatus
+  - Enum KnownCatalogItemType has a new value ImageDefinition
+  - Enum KnownDomainJoinType has a new value None
+  - Enum KnownHealthCheckStatus has a new value Informational
+    
+    
 ## 1.1.0 (2024-04-22)
     
 ### Features Added
