@@ -132,7 +132,7 @@ export const caCertificateName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-12-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
