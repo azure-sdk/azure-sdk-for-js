@@ -4778,7 +4778,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -16403,7 +16403,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-+5tR0/8imeG87xGD8pU1peJPQTPEgNuwJry5owZ5p8AtQ3bqkWV6MiUQkUWfC7p4Tc/gpgDTxbSOCxFzDt1GeA==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-tY42ztC0XhPfikjOkAb1ce5mPqvW4+2xj77u+eTATzRSCAAaZN8ogJ3evnA++k+iNmzJZRsMB9aUME+3cvCN/g==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -16411,15 +16411,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.66)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.66
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.66)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

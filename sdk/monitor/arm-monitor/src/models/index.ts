@@ -28,6 +28,521 @@ export type MultiMetricCriteriaUnion =
   | MetricCriteria
   | DynamicMetricCriteria;
 
+/** Result of a list NSP (network security perimeter) configurations request. */
+export interface NetworkSecurityPerimeterConfigurationListResult {
+  /** Array of network security perimeter results. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The link used to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /**
+   * Provisioning state of a network security perimeter configuration that is being created or updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /**
+   * List of provisioning issues, if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about a network security perimeter (NSP) */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about resource association */
+  resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
+  profile?: NetworkSecurityProfile;
+}
+
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /**
+   * Name of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /**
+   * Type of issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueType?: IssueType;
+  /**
+   * Severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * Description of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedResourceIds?: string[];
+  /**
+   * Access rules that can be added to the network security profile (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
+  name?: string;
+  /** Properties of Access Rule */
+  properties?: AccessRuleProperties;
+}
+
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
+}
+
+/** Subscription identifiers */
+export interface AccessRulePropertiesSubscriptionsItem {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
+  id?: string;
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
+  perimeterGuid?: string;
+  /** Location of the network security perimeter */
+  location?: string;
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** An email receiver. */
+export interface EmailReceiver {
+  /** The name of the email receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address of this receiver. */
+  emailAddress: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /**
+   * The receiver status of the e-mail.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** An SMS receiver. */
+export interface SmsReceiver {
+  /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the SMS receiver. */
+  countryCode: string;
+  /** The phone number of the SMS receiver. */
+  phoneNumber: string;
+  /**
+   * The status of the receiver.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ReceiverStatus;
+}
+
+/** A webhook receiver. */
+export interface WebhookReceiver {
+  /** The name of the webhook receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The URI where webhooks should be sent. */
+  serviceUri: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** Indicates whether or not use AAD authentication. */
+  useAadAuth?: boolean;
+  /** Indicates the webhook app object Id for aad auth. */
+  objectId?: string;
+  /** Indicates the identifier uri for aad auth. */
+  identifierUri?: string;
+  /** Indicates the tenant id for aad auth. */
+  tenantId?: string;
+}
+
+/** An Itsm receiver. */
+export interface ItsmReceiver {
+  /** The name of the Itsm receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** OMS LA instance identifier. */
+  workspaceId: string;
+  /** Unique identification of ITSM connection among multiple defined in above workspace. */
+  connectionId: string;
+  /** JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well. */
+  ticketConfiguration: string;
+  /** Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope' */
+  region: string;
+}
+
+/** The Azure mobile App push notification receiver. */
+export interface AzureAppPushReceiver {
+  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address registered for the Azure mobile app. */
+  emailAddress: string;
+}
+
+/** The Azure Automation Runbook notification receiver. */
+export interface AutomationRunbookReceiver {
+  /** The Azure automation account Id which holds this runbook and authenticate to Azure resource. */
+  automationAccountId: string;
+  /** The name for this runbook. */
+  runbookName: string;
+  /** The resource id for webhook linked to this runbook. */
+  webhookResourceId: string;
+  /** Indicates whether this instance is global runbook. */
+  isGlobalRunbook: boolean;
+  /** Indicates name of the webhook. */
+  name?: string;
+  /** The URI where webhooks should be sent. */
+  serviceUri?: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** A voice receiver. */
+export interface VoiceReceiver {
+  /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the voice receiver. */
+  countryCode: string;
+  /** The phone number of the voice receiver. */
+  phoneNumber: string;
+}
+
+/** A logic app receiver. */
+export interface LogicAppReceiver {
+  /** The name of the logic app receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The azure resource id of the logic app receiver. */
+  resourceId: string;
+  /** The callback url where http request sent to. */
+  callbackUrl: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An azure function receiver. */
+export interface AzureFunctionReceiver {
+  /** The name of the azure function receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The azure resource id of the function app. */
+  functionAppResourceId: string;
+  /** The function name in the function app. */
+  functionName: string;
+  /** The http trigger url where http request sent to. */
+  httpTriggerUrl: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An arm role receiver. */
+export interface ArmRoleReceiver {
+  /** The name of the arm role receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The arm role id. */
+  roleId: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+}
+
+/** An Event hub receiver. */
+export interface EventHubReceiver {
+  /** The name of the Event hub receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The Event Hub namespace */
+  eventHubNameSpace: string;
+  /** The name of the specific Event Hub queue */
+  eventHubName: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** The tenant Id for the subscription containing this event hub */
+  tenantId?: string;
+  /** The Id for the subscription containing this event hub */
+  subscriptionId: string;
+}
+
+/** An Incident receiver. */
+export interface IncidentReceiver {
+  /** The name of the Incident receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The incident service connection */
+  connection: IncidentServiceConnection;
+  /** The incident management service type */
+  incidentManagementService: IncidentManagementService;
+  /** Field mappings for the incident service */
+  mappings: { [propertyName: string]: string };
+}
+
+/** The connection info for Incident Receiver. */
+export interface IncidentServiceConnection {
+  /** The name of the connection. */
+  name: string;
+  /** GUID value representing the connection ID for the incident management service. */
+  id: string;
+}
+
+/** An azure resource object */
+export interface AzureResource {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Describes the format of Error response. */
+export interface ErrorResponseAutoGenerated {
+  /** Error code */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** An action group object for the body of patch operations. */
+export interface ActionGroupPatchBody {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
+  enabled?: boolean;
+}
+
+/** The request body which contain contact detail metadata */
+export interface NotificationRequestBody {
+  /** The value of the supported alert type. Supported alert type values are: servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert, webtestalert, logalertv1numresult, logalertv1metricmeasurement, resourcehealth, activitylog, actualcostbudget, forecastedbudget */
+  alertType: string;
+  /** The list of email receivers that are part of this action group. */
+  emailReceivers?: EmailReceiver[];
+  /** The list of SMS receivers that are part of this action group. */
+  smsReceivers?: SmsReceiver[];
+  /** The list of webhook receivers that are part of this action group. */
+  webhookReceivers?: WebhookReceiver[];
+  /** The list of ITSM receivers that are part of this action group. */
+  itsmReceivers?: ItsmReceiver[];
+  /** The list of AzureAppPush receivers that are part of this action group. */
+  azureAppPushReceivers?: AzureAppPushReceiver[];
+  /** The list of AutomationRunbook receivers that are part of this action group. */
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
+  /** The list of voice receivers that are part of this action group. */
+  voiceReceivers?: VoiceReceiver[];
+  /** The list of logic app receivers that are part of this action group. */
+  logicAppReceivers?: LogicAppReceiver[];
+  /** The list of azure function receivers that are part of this action group. */
+  azureFunctionReceivers?: AzureFunctionReceiver[];
+  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
+  armRoleReceivers?: ArmRoleReceiver[];
+  /** The list of event hub receivers that are part of this action group. */
+  eventHubReceivers?: EventHubReceiver[];
+  /** The list of incident receivers that are part of this action group. */
+  incidentReceivers?: IncidentReceiver[];
+}
+
+/** The details of the test notification results. */
+export interface TestNotificationDetailsResponse {
+  /** The context info */
+  context?: Context;
+  /** The overall state */
+  state: string;
+  /** The completed time */
+  completedTime?: string;
+  /** The created time */
+  createdTime?: string;
+  /** The list of action detail */
+  actionDetails?: ActionDetail[];
+}
+
+/** The context info */
+export interface Context {
+  /** The source of the notification request */
+  notificationSource?: string;
+  /** The context id type */
+  contextType?: string;
+}
+
+/** The action detail */
+export interface ActionDetail {
+  /** The mechanism type */
+  mechanismType?: string;
+  /** The name of the action */
+  name?: string;
+  /** The status of the action */
+  status?: string;
+  /** The substatus of the action */
+  subState?: string;
+  /** The send time */
+  sendTime?: string;
+  /** The detail of the friendly error message */
+  detail?: string;
+}
+
+/** A list of action groups. */
+export interface ActionGroupList {
+  /** The list of action groups. */
+  value?: ActionGroupResource[];
+  /** Provides the link to retrieve the next set of elements. */
+  nextLink?: string;
+}
+
+/** Describes a receiver that should be resubscribed. */
+export interface EnableRequest {
+  /** The name of the receiver to resubscribe. */
+  receiverName: string;
+}
+
 /** Represents collection of metric namespaces. */
 export interface MetricNamespaceCollection {
   /** The values for the metric namespaces. */
@@ -52,14 +567,6 @@ export interface MetricNamespace {
 export interface MetricNamespaceName {
   /** The metric namespace name. */
   metricNamespaceName?: string;
-}
-
-/** Describes the format of Error response. */
-export interface ErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
 }
 
 /** Represents collection of metric definitions. */
@@ -117,11 +624,11 @@ export interface MetricAvailability {
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
 export interface ErrorContract {
   /** The error object. */
-  error?: ErrorResponseAutoGenerated;
+  error?: ErrorResponseAutoGenerated2;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface ErrorResponseAutoGenerated {
+export interface ErrorResponseAutoGenerated2 {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -141,26 +648,12 @@ export interface ErrorResponseAutoGenerated {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorResponseAutoGenerated[];
+  readonly details?: ErrorResponseAutoGenerated2[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** Represents collection of metric definitions. */
@@ -344,11 +837,8 @@ export interface AzureMonitorWorkspace {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccess;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Properties related to the metrics container in the Azure Monitor Workspace */
@@ -399,7 +889,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
+export interface ResourceAutoGenerated {
   /**
    * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -422,24 +912,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceAutoGenerated {
+export interface ResourceAutoGenerated2 {
   /**
    * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -463,13 +937,13 @@ export interface ResourceAutoGenerated {
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponseAutoGenerated2 {
+export interface ErrorResponseAutoGenerated3 {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetailAutoGenerated;
 }
 
 /** The error detail. */
-export interface ErrorDetail {
+export interface ErrorDetailAutoGenerated {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -489,7 +963,7 @@ export interface ErrorDetail {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDetail[];
+  readonly details?: ErrorDetailAutoGenerated[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -724,7 +1198,7 @@ export interface PredictiveAutoscalePolicy {
 }
 
 /** The autoscale setting resource. */
-export interface ResourceAutoGenerated2 {
+export interface ResourceAutoGenerated3 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -913,7 +1387,7 @@ export interface RuleAction {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated3 {
+export interface ResourceAutoGenerated4 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -975,7 +1449,7 @@ export interface RetentionPolicy {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated4 {
+export interface ResourceAutoGenerated5 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1044,7 +1518,7 @@ export interface LogSettings {
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface ResourceAutoGenerated5 {
+export interface ResourceAutoGenerated6 {
   /**
    * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1072,267 +1546,6 @@ export interface DiagnosticSettingsResourceCollection {
 export interface DiagnosticSettingsCategoryResourceCollection {
   /** The collection of diagnostic settings category resources. */
   value?: DiagnosticSettingsCategoryResource[];
-}
-
-/** An email receiver. */
-export interface EmailReceiver {
-  /** The name of the email receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The email address of this receiver. */
-  emailAddress: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /**
-   * The receiver status of the e-mail.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ReceiverStatus;
-}
-
-/** An SMS receiver. */
-export interface SmsReceiver {
-  /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The country code of the SMS receiver. */
-  countryCode: string;
-  /** The phone number of the SMS receiver. */
-  phoneNumber: string;
-  /**
-   * The status of the receiver.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: ReceiverStatus;
-}
-
-/** A webhook receiver. */
-export interface WebhookReceiver {
-  /** The name of the webhook receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The URI where webhooks should be sent. */
-  serviceUri: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /** Indicates whether or not use AAD authentication. */
-  useAadAuth?: boolean;
-  /** Indicates the webhook app object Id for aad auth. */
-  objectId?: string;
-  /** Indicates the identifier uri for aad auth. */
-  identifierUri?: string;
-  /** Indicates the tenant id for aad auth. */
-  tenantId?: string;
-}
-
-/** An Itsm receiver. */
-export interface ItsmReceiver {
-  /** The name of the Itsm receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** OMS LA instance identifier. */
-  workspaceId: string;
-  /** Unique identification of ITSM connection among multiple defined in above workspace. */
-  connectionId: string;
-  /** JSON blob for the configurations of the ITSM action. CreateMultipleWorkItems option will be part of this blob as well. */
-  ticketConfiguration: string;
-  /** Region in which workspace resides. Supported values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope' */
-  region: string;
-}
-
-/** The Azure mobile App push notification receiver. */
-export interface AzureAppPushReceiver {
-  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The email address registered for the Azure mobile app. */
-  emailAddress: string;
-}
-
-/** The Azure Automation Runbook notification receiver. */
-export interface AutomationRunbookReceiver {
-  /** The Azure automation account Id which holds this runbook and authenticate to Azure resource. */
-  automationAccountId: string;
-  /** The name for this runbook. */
-  runbookName: string;
-  /** The resource id for webhook linked to this runbook. */
-  webhookResourceId: string;
-  /** Indicates whether this instance is global runbook. */
-  isGlobalRunbook: boolean;
-  /** Indicates name of the webhook. */
-  name?: string;
-  /** The URI where webhooks should be sent. */
-  serviceUri?: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** A voice receiver. */
-export interface VoiceReceiver {
-  /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The country code of the voice receiver. */
-  countryCode: string;
-  /** The phone number of the voice receiver. */
-  phoneNumber: string;
-}
-
-/** A logic app receiver. */
-export interface LogicAppReceiver {
-  /** The name of the logic app receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The azure resource id of the logic app receiver. */
-  resourceId: string;
-  /** The callback url where http request sent to. */
-  callbackUrl: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An azure function receiver. */
-export interface AzureFunctionReceiver {
-  /** The name of the azure function receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The azure resource id of the function app. */
-  functionAppResourceId: string;
-  /** The function name in the function app. */
-  functionName: string;
-  /** The http trigger url where http request sent to. */
-  httpTriggerUrl: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An arm role receiver. */
-export interface ArmRoleReceiver {
-  /** The name of the arm role receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The arm role id. */
-  roleId: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-}
-
-/** An Event hub receiver. */
-export interface EventHubReceiver {
-  /** The name of the Event hub receiver. Names must be unique across all receivers within an action group. */
-  name: string;
-  /** The Event Hub namespace */
-  eventHubNameSpace: string;
-  /** The name of the specific Event Hub queue */
-  eventHubName: string;
-  /** Indicates whether to use common alert schema. */
-  useCommonAlertSchema?: boolean;
-  /** The tenant Id for the subscription containing this event hub */
-  tenantId?: string;
-  /** The Id for the subscription containing this event hub */
-  subscriptionId: string;
-}
-
-/** An azure resource object */
-export interface AzureResource {
-  /**
-   * Azure resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** An action group object for the body of patch operations. */
-export interface ActionGroupPatchBody {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
-  enabled?: boolean;
-}
-
-/** The request body which contain contact detail metadata */
-export interface NotificationRequestBody {
-  /** The value of the supported alert type. Supported alert type values are: servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert, webtestalert, logalertv1numresult, logalertv1metricmeasurement, resourcehealth, activitylog, actualcostbudget, forecastedbudget */
-  alertType: string;
-  /** The list of email receivers that are part of this action group. */
-  emailReceivers?: EmailReceiver[];
-  /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: SmsReceiver[];
-  /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: WebhookReceiver[];
-  /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ItsmReceiver[];
-  /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: AzureAppPushReceiver[];
-  /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: AutomationRunbookReceiver[];
-  /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: VoiceReceiver[];
-  /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: LogicAppReceiver[];
-  /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: AzureFunctionReceiver[];
-  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ArmRoleReceiver[];
-  /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: EventHubReceiver[];
-}
-
-/** The details of the test notification results. */
-export interface TestNotificationDetailsResponse {
-  /** The context info */
-  context?: Context;
-  /** The overall state */
-  state: string;
-  /** The completed time */
-  completedTime?: string;
-  /** The created time */
-  createdTime?: string;
-  /** The list of action detail */
-  actionDetails?: ActionDetail[];
-}
-
-/** The context info */
-export interface Context {
-  /** The source of the notification request */
-  notificationSource?: string;
-  /** The context id type */
-  contextType?: string;
-}
-
-/** The action detail */
-export interface ActionDetail {
-  /** The mechanism type */
-  mechanismType?: string;
-  /** The name of the action */
-  name?: string;
-  /** The status of the action */
-  status?: string;
-  /** The substatus of the action */
-  subState?: string;
-  /** The send time */
-  sendTime?: string;
-  /** The detail of the friendly error message */
-  detail?: string;
-}
-
-/** A list of action groups. */
-export interface ActionGroupList {
-  /** The list of action groups. */
-  value?: ActionGroupResource[];
-  /** Provides the link to retrieve the next set of elements. */
-  nextLink?: string;
-}
-
-/** Describes a receiver that should be resubscribed. */
-export interface EnableRequest {
-  /** The name of the receiver to resubscribe. */
-  receiverName: string;
 }
 
 /** An email receiver. */
@@ -1464,13 +1677,13 @@ export interface ActionDetailAutoGenerated {
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponseAutoGenerated3 {
+export interface ErrorResponseAutoGenerated4 {
   /** The error object. */
-  error?: ErrorDetailAutoGenerated;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** The error detail. */
-export interface ErrorDetailAutoGenerated {
+export interface ErrorDetailAutoGenerated2 {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1490,7 +1703,7 @@ export interface ErrorDetailAutoGenerated {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorDetailAutoGenerated[];
+  readonly details?: ErrorDetailAutoGenerated2[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1756,7 +1969,7 @@ export interface MetricAlertAction {
 }
 
 /** An azure resource object */
-export interface ResourceAutoGenerated6 {
+export interface ResourceAutoGenerated7 {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1936,7 +2149,7 @@ export interface ScheduledQueryRuleResource {
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of the kind LogAlert. */
   autoMitigate?: boolean;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of the kind LogAlert. */
-  ruleResolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: RuleResolveConfiguration;
 }
 
 /** Identity for the resource. */
@@ -2087,7 +2300,7 @@ export interface ScheduledQueryRuleResourcePatch {
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of the kind LogAlert. */
   autoMitigate?: boolean;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of the kind LogAlert. */
-  ruleResolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: RuleResolveConfiguration;
 }
 
 /** Information about a container with data for a given resource. */
@@ -2107,7 +2320,7 @@ export interface WorkspaceInfo {
 }
 
 /** An azure resource object */
-export interface ProxyResource {
+export interface ProxyResourceAutoGenerated {
   /**
    * Azure resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2179,7 +2392,7 @@ export interface AccessModeSettingsExclusion {
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface DefaultErrorResponse {
   /** The error object. */
-  error?: ErrorDetailAutoGenerated;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a PrivateLinkScope instance. */
@@ -2201,7 +2414,7 @@ export interface OperationStatus {
   /** The status of the operation. */
   status?: string;
   /** The error detail of the operation if any. */
-  error?: ErrorDetailAutoGenerated;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** A list of private link resources */
@@ -2290,7 +2503,7 @@ export interface AzureResourceAutoGenerated {
 }
 
 /** The error response. */
-export interface ErrorResponseAutoGenerated4 {
+export interface ErrorResponseAutoGenerated5 {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2498,6 +2711,11 @@ export interface Metadata {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisionedByResourceId?: string;
+  /**
+   * Immutable Id of azure offering managing this resource on-behalf-of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedByImmutableId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -2537,7 +2755,7 @@ export interface UserAssignedIdentity {
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponseCommonV2 {
   /** The error object. */
-  error?: ErrorDetailAutoGenerated;
+  error?: ErrorDetailAutoGenerated2;
 }
 
 /** Definition of ARM tracked top level resource properties for update operation. */
@@ -2678,6 +2896,15 @@ export interface DataCollectionRuleResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2712,6 +2939,15 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metadata?: DataCollectionRuleMetadata;
+  /**
+   * Defines the ingestion endpoints to send data to via this rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: DataCollectionRuleEndpoints;
+  /** Defines all the references that may be used in other sections of the DCR */
+  references?: DataCollectionRuleReferences;
+  /** Agent settings used to modify agent behavior on a given host */
+  agentSettings?: DataCollectionRuleAgentSettings;
   /** Declaration of custom streams used in this rule. */
   streamDeclarations?: { [propertyName: string]: StreamDeclaration };
   /**
@@ -2728,6 +2964,60 @@ export interface DataCollectionRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
+}
+
+/** This defines all the ingestion endpoints that can be used by this rule */
+export interface EndpointsSpec {
+  /**
+   * The ingestion endpoint for logs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logsIngestion?: string;
+  /**
+   * The ingestion endpoint for metrics
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricsIngestion?: string;
+}
+
+/** This section defines all the references that may be used in other sections of the DCR */
+export interface ReferencesSpec {
+  /** All the enrichment data sources referenced in data flows */
+  enrichmentData?: ReferencesSpecEnrichmentData;
+}
+
+/** All the enrichment data sources referenced in data flows */
+export interface EnrichmentData {
+  /** All the storage blobs used as enrichment data sources */
+  storageBlobs?: StorageBlob[];
+}
+
+export interface StorageBlob {
+  /** Resource Id of the storage account that hosts the blob */
+  resourceId?: string;
+  /** Url of the storage blob */
+  blobUrl?: string;
+  /** The type of lookup to perform on the blob */
+  lookupType?: KnownStorageBlobLookupType;
+  /** The name of the enrichment data source used as an alias when referencing this data source in data flows */
+  name?: string;
+}
+
+/** An agent setting */
+export interface AgentSettingsSpec {
+  /** All the settings that are applicable to the logs agent (AMA) */
+  logs?: AgentSetting[];
+}
+
+/** A setting used to control an agent behavior on a host machine */
+export interface AgentSetting {
+  /**
+   * The name of the setting.
+   * Must be part of the list of supported settings
+   */
+  name?: KnownAgentSettingName;
+  /** The value of the setting */
+  value?: string;
 }
 
 /** Declaration of a custom stream. */
@@ -2786,6 +3076,8 @@ export interface PerfCounterDataSource {
    * To get a list of performance counters on Windows, run the command 'typeperf'.
    */
   counterSpecifiers?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2805,6 +3097,8 @@ export interface WindowsEventLogDataSource {
   streams?: KnownWindowsEventLogDataSourceStreams[];
   /** A list of Windows Event Log queries in XPATH format. */
   xPathQueries?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2826,6 +3120,8 @@ export interface SyslogDataSource {
   facilityNames?: KnownSyslogDataSourceFacilityNames[];
   /** The log levels to collect. */
   logLevels?: KnownSyslogDataSourceLogLevels[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2869,6 +3165,8 @@ export interface LogFilesDataSource {
   format: KnownLogFilesDataSourceFormat;
   /** The log files specific settings. */
   settings?: LogFilesDataSourceSettings;
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2894,6 +3192,8 @@ export interface IisLogsDataSource {
   streams: string[];
   /** Absolute paths file location */
   logDirectories?: string[];
+  /** The KQL query to transform the data source. */
+  transformKql?: string;
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2905,6 +3205,8 @@ export interface IisLogsDataSource {
 export interface WindowsFirewallLogsDataSource {
   /** Firewall logs streams */
   streams: string[];
+  /** Firewall logs profile filter */
+  profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
   /**
    * A friendly name for the data source.
    * This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -2975,6 +3277,10 @@ export interface DestinationsSpec {
   storageTablesDirect?: StorageTableDestination[];
   /** List of storage accounts destinations. */
   storageAccounts?: StorageBlobDestination[];
+  /** List of Microsoft Fabric destinations. */
+  microsoftFabric?: MicrosoftFabricDestination[];
+  /** List of Azure Data Explorer destinations. */
+  azureDataExplorer?: AdxDestination[];
 }
 
 /** Log Analytics destination. */
@@ -3062,6 +3368,41 @@ export interface StorageTableDestination {
   name?: string;
 }
 
+/** Microsoft Fabric destination (non-Azure). */
+export interface MicrosoftFabricDestination {
+  /** The tenant id of the Microsoft Fabric resource. */
+  tenantId?: string;
+  /** The artifact id of the Microsoft Fabric resource. */
+  artifactId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /** The ingestion uri of the Microsoft Fabric resource. */
+  ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
+/** Azure Data Explorer (Adx) destination. */
+export interface AdxDestination {
+  /** The ARM resource id of the Adx resource. */
+  resourceId?: string;
+  /** The name of the database to which data will be ingested. */
+  databaseName?: string;
+  /**
+   * The ingestion uri of the Adx resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestionUri?: string;
+  /**
+   * A friendly name for the destination.
+   * This name should be unique across all destinations (regardless of type) within the data collection rule.
+   */
+  name?: string;
+}
+
 /** Definition of which streams are sent to which destinations. */
 export interface DataFlow {
   /** List of streams for this data flow. */
@@ -3074,6 +3415,8 @@ export interface DataFlow {
   outputStream?: string;
   /** The builtIn transform to transform stream data */
   builtInTransform?: string;
+  /** Flag to enable overflow column in LA destinations */
+  captureOverflow?: boolean;
 }
 
 /** The claims for a rule management event data source. */
@@ -3130,6 +3473,69 @@ export interface DynamicThresholdFailingPeriods {
   minFailingPeriodsToAlert: number;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionEndpointResourceSystemData extends SystemData {}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData
+  extends SystemData {}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface DataCollectionRuleResourceSystemData extends SystemData {}
+
+/** An action group resource. */
+export interface ActionGroupResource extends AzureResource {
+  /** The short name of the action group. This will be used in SMS messages. */
+  groupShortName?: string;
+  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
+  enabled?: boolean;
+  /** The list of email receivers that are part of this action group. */
+  emailReceivers?: EmailReceiver[];
+  /** The list of SMS receivers that are part of this action group. */
+  smsReceivers?: SmsReceiver[];
+  /** The list of webhook receivers that are part of this action group. */
+  webhookReceivers?: WebhookReceiver[];
+  /** The list of ITSM receivers that are part of this action group. */
+  itsmReceivers?: ItsmReceiver[];
+  /** The list of AzureAppPush receivers that are part of this action group. */
+  azureAppPushReceivers?: AzureAppPushReceiver[];
+  /** The list of AutomationRunbook receivers that are part of this action group. */
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
+  /** The list of voice receivers that are part of this action group. */
+  voiceReceivers?: VoiceReceiver[];
+  /** The list of logic app receivers that are part of this action group. */
+  logicAppReceivers?: LogicAppReceiver[];
+  /** The list of azure function receivers that are part of this action group. */
+  azureFunctionReceivers?: AzureFunctionReceiver[];
+  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
+  armRoleReceivers?: ArmRoleReceiver[];
+  /** The list of event hub receivers that are part of this action group. */
+  eventHubReceivers?: EventHubReceiver[];
+  /** The list of incident receivers that are part of this action group. */
+  incidentReceivers?: IncidentReceiver[];
+}
+
+/** A tenant action group resource. */
+export interface TenantActionGroupResource extends AzureResource {
+  /** The short name of the action group. This will be used in SMS messages. */
+  groupShortName?: string;
+  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
+  enabled?: boolean;
+  /** The list of email receivers that are part of this tenant action group. */
+  emailReceivers?: EmailReceiverAutoGenerated[];
+  /** The list of SMS receivers that are part of this tenant action group. */
+  smsReceivers?: SmsReceiverAutoGenerated[];
+  /** The list of webhook receivers that are part of this tenant action group. */
+  webhookReceivers?: WebhookReceiverAutoGenerated[];
+  /** The list of AzureAppPush receivers that are part of this tenant action group. */
+  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
+  /** The list of voice receivers that are part of this tenant action group. */
+  voiceReceivers?: VoiceReceiverAutoGenerated[];
+}
+
 /** Resource properties */
 export interface AzureMonitorWorkspaceResourceProperties
   extends AzureMonitorWorkspace {}
@@ -3142,7 +3548,7 @@ export interface AzureMonitorWorkspaceDefaultIngestionSettings
   extends IngestionSettings {}
 
 /** The private endpoint connection resource. */
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateEndpointConnection extends ResourceAutoGenerated {
   /**
    * The group ids for the private endpoint resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3156,18 +3562,8 @@ export interface PrivateEndpointConnection extends Resource {
   provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionEndpointResourceSystemData extends SystemData {}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleAssociationProxyOnlyResourceSystemData
-  extends SystemData {}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface DataCollectionRuleResourceSystemData extends SystemData {}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends ResourceAutoGenerated {
+export interface TrackedResource extends ResourceAutoGenerated2 {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
@@ -3175,7 +3571,7 @@ export interface TrackedResource extends ResourceAutoGenerated {
 }
 
 /** The autoscale setting resource. */
-export interface AutoscaleSettingResource extends ResourceAutoGenerated2 {
+export interface AutoscaleSettingResource extends ResourceAutoGenerated3 {
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
   profiles: AutoscaleProfile[];
   /** the collection of notifications. */
@@ -3277,7 +3673,7 @@ export interface RuleWebhookAction extends RuleAction {
 }
 
 /** The alert rule resource. */
-export interface AlertRuleResource extends ResourceAutoGenerated3 {
+export interface AlertRuleResource extends ResourceAutoGenerated4 {
   /** the name of the alert rule. */
   namePropertiesName: string;
   /** the description of the alert rule that will be included in the alert email. */
@@ -3300,7 +3696,7 @@ export interface AlertRuleResource extends ResourceAutoGenerated3 {
 }
 
 /** The log profile resource. */
-export interface LogProfileResource extends ResourceAutoGenerated4 {
+export interface LogProfileResource extends ResourceAutoGenerated5 {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -3314,7 +3710,7 @@ export interface LogProfileResource extends ResourceAutoGenerated4 {
 }
 
 /** The diagnostic setting resource. */
-export interface DiagnosticSettingsResource extends ResourceAutoGenerated5 {
+export interface DiagnosticSettingsResource extends ResourceAutoGenerated6 {
   /**
    * The system metadata related to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3342,7 +3738,7 @@ export interface DiagnosticSettingsResource extends ResourceAutoGenerated5 {
 
 /** The diagnostic settings category resource. */
 export interface DiagnosticSettingsCategoryResource
-  extends ResourceAutoGenerated5 {
+  extends ResourceAutoGenerated6 {
   /**
    * The system metadata related to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3356,7 +3752,7 @@ export interface DiagnosticSettingsCategoryResource
 
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionAutoGenerated
-  extends ResourceAutoGenerated5 {
+  extends ResourceAutoGenerated6 {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpointAutoGenerated;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -3366,7 +3762,7 @@ export interface PrivateEndpointConnectionAutoGenerated
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated5 {
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated6 {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
@@ -3374,7 +3770,7 @@ export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated5 {
 }
 
 /** A private link resource */
-export interface PrivateLinkResource extends ResourceAutoGenerated5 {
+export interface PrivateLinkResource extends ResourceAutoGenerated6 {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3390,55 +3786,7 @@ export interface PrivateLinkResource extends ResourceAutoGenerated5 {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResourceAutoGenerated extends ResourceAutoGenerated5 {}
-
-/** An action group resource. */
-export interface ActionGroupResource extends AzureResource {
-  /** The short name of the action group. This will be used in SMS messages. */
-  groupShortName?: string;
-  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
-  enabled?: boolean;
-  /** The list of email receivers that are part of this action group. */
-  emailReceivers?: EmailReceiver[];
-  /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: SmsReceiver[];
-  /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: WebhookReceiver[];
-  /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ItsmReceiver[];
-  /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: AzureAppPushReceiver[];
-  /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: AutomationRunbookReceiver[];
-  /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: VoiceReceiver[];
-  /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: LogicAppReceiver[];
-  /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: AzureFunctionReceiver[];
-  /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ArmRoleReceiver[];
-  /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: EventHubReceiver[];
-}
-
-/** A tenant action group resource. */
-export interface TenantActionGroupResource extends AzureResource {
-  /** The short name of the action group. This will be used in SMS messages. */
-  groupShortName?: string;
-  /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
-  enabled?: boolean;
-  /** The list of email receivers that are part of this tenant action group. */
-  emailReceivers?: EmailReceiverAutoGenerated[];
-  /** The list of SMS receivers that are part of this tenant action group. */
-  smsReceivers?: SmsReceiverAutoGenerated[];
-  /** The list of webhook receivers that are part of this tenant action group. */
-  webhookReceivers?: WebhookReceiverAutoGenerated[];
-  /** The list of AzureAppPush receivers that are part of this tenant action group. */
-  azureAppPushReceivers?: AzureAppPushReceiverAutoGenerated[];
-  /** The list of voice receivers that are part of this tenant action group. */
-  voiceReceivers?: VoiceReceiverAutoGenerated[];
-}
+export interface ProxyResourceAutoGenerated2 extends ResourceAutoGenerated6 {}
 
 /** Specifies the metric alert criteria for a single resource that has multiple metric criteria. */
 export interface MetricAlertSingleResourceMultipleMetricCriteria
@@ -3472,7 +3820,7 @@ export interface MetricAlertMultipleResourceMultipleMetricCriteria
 }
 
 /** The metric alert resource. */
-export interface MetricAlertResource extends ResourceAutoGenerated6 {
+export interface MetricAlertResource extends ResourceAutoGenerated7 {
   /** the description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -3508,7 +3856,7 @@ export interface MetricAlertResource extends ResourceAutoGenerated6 {
 }
 
 /** VM Insights onboarding status for a resource. */
-export interface VMInsightsOnboardingStatus extends ProxyResource {
+export interface VMInsightsOnboardingStatus extends ProxyResourceAutoGenerated {
   /** Azure Resource Manager identifier of the resource whose onboarding status is being represented. */
   resourceId?: string;
   /** The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded. */
@@ -3599,6 +3947,18 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceProperties
 export interface DataCollectionRuleResourceProperties
   extends DataCollectionRule {}
 
+/** Defines the ingestion endpoints to send data to via this rule. */
+export interface DataCollectionRuleEndpoints extends EndpointsSpec {}
+
+/** Defines all the references that may be used in other sections of the DCR */
+export interface DataCollectionRuleReferences extends ReferencesSpec {}
+
+/** All the enrichment data sources referenced in data flows */
+export interface ReferencesSpecEnrichmentData extends EnrichmentData {}
+
+/** Agent settings used to modify agent behavior on a given host */
+export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {}
+
 /**
  * The specification of data sources.
  * This property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint.
@@ -3648,6 +4008,12 @@ export interface DynamicMetricCriteria extends MultiMetricCriteria {
   ignoreDataBefore?: Date;
 }
 
+/** Network security perimeter (NSP) configuration resource */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
 /** An Azure Monitor Workspace definition */
 export interface AzureMonitorWorkspaceResource extends TrackedResource {
   /**
@@ -3680,11 +4046,8 @@ export interface AzureMonitorWorkspaceResource extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Gets or sets allow or disallow public network access to Azure Monitor Workspace
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccess;
+  /** Gets or sets allow or disallow public network access to Azure Monitor Workspace */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** An Azure Monitor PrivateLinkScope definition. */
@@ -3710,7 +4073,7 @@ export interface AzureMonitorPrivateLinkScope
 }
 
 /** A private link scoped resource */
-export interface ScopedResource extends ProxyResourceAutoGenerated {
+export interface ScopedResource extends ProxyResourceAutoGenerated2 {
   /**
    * System data
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3725,9 +4088,8 @@ export interface ScopedResource extends ProxyResourceAutoGenerated {
   readonly provisioningState?: string;
 }
 
-/** Defines headers for AzureMonitorWorkspaces_delete operation. */
-export interface AzureMonitorWorkspacesDeleteHeaders {
-  azureAsyncOperation?: string;
+/** Defines headers for ActionGroups_reconcileNSP operation. */
+export interface ActionGroupsReconcileNSPHeaders {
   location?: string;
 }
 
@@ -3737,11 +4099,180 @@ export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeader
   location?: string;
 }
 
+/** Defines headers for DataCollectionEndpoints_reconcileNSP operation. */
+export interface DataCollectionEndpointsReconcileNSPHeaders {
+  location?: string;
+}
+
+/** Defines headers for ScheduledQueryRule_reconcileNSP operation. */
+export interface ScheduledQueryRuleReconcileNSPHeaders {
+  location?: string;
+}
+
+/** Defines headers for AzureMonitorWorkspaces_delete operation. */
+export interface AzureMonitorWorkspacesDeleteHeaders {
+  azureAsyncOperation?: string;
+  location?: string;
+}
+
 /** Defines headers for MonitorClient_createNotificationsAtTenantActionGroupResourceLevel operation. */
 export interface MonitorClientCreateNotificationsAtTenantActionGroupResourceLevelHeaders {
   /** The location header that has the polling uri. */
   location?: string;
 }
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+/** Known values of {@link AccessRuleDirection} that the service accepts. */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for AccessRuleDirection. \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+/** Known values of {@link ResourceAssociationAccessMode} that the service accepts. */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Defines values for ResourceAssociationAccessMode. \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link IncidentManagementService} that the service accepts. */
+export enum KnownIncidentManagementService {
+  /** Icm */
+  Icm = "Icm",
+}
+
+/**
+ * Defines values for IncidentManagementService. \
+ * {@link KnownIncidentManagementService} can be used interchangeably with IncidentManagementService,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Icm**
+ */
+export type IncidentManagementService = string;
 
 /** Known values of {@link NamespaceClassification} that the service accepts. */
 export enum KnownNamespaceClassification {
@@ -3961,30 +4492,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
@@ -4418,6 +4925,42 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
  */
 export type KnownDataCollectionRuleAssociationProvisioningState = string;
 
+/** Known values of {@link KnownStorageBlobLookupType} that the service accepts. */
+export enum KnownKnownStorageBlobLookupType {
+  /** String */
+  String = "String",
+  /** Cidr */
+  Cidr = "Cidr",
+}
+
+/**
+ * Defines values for KnownStorageBlobLookupType. \
+ * {@link KnownKnownStorageBlobLookupType} can be used interchangeably with KnownStorageBlobLookupType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Cidr**
+ */
+export type KnownStorageBlobLookupType = string;
+
+/** Known values of {@link KnownAgentSettingName} that the service accepts. */
+export enum KnownKnownAgentSettingName {
+  /** MaxDiskQuotaInMB */
+  MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
+  /** UseTimeReceivedForForwardedEvents */
+  UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents",
+}
+
+/**
+ * Defines values for KnownAgentSettingName. \
+ * {@link KnownKnownAgentSettingName} can be used interchangeably with KnownAgentSettingName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MaxDiskQuotaInMB** \
+ * **UseTimeReceivedForForwardedEvents**
+ */
+export type KnownAgentSettingName = string;
+
 /** Known values of {@link KnownColumnDefinitionType} that the service accepts. */
 export enum KnownKnownColumnDefinitionType {
   /** String */
@@ -4504,6 +5047,8 @@ export type KnownSyslogDataSourceStreams = string;
 
 /** Known values of {@link KnownSyslogDataSourceFacilityNames} that the service accepts. */
 export enum KnownKnownSyslogDataSourceFacilityNames {
+  /** Asterisk */
+  Asterisk = "*",
   /** Alert */
   Alert = "alert",
   /** Audit */
@@ -4522,6 +5067,22 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   Ftp = "ftp",
   /** Kern */
   Kern = "kern",
+  /** Local0 */
+  Local0 = "local0",
+  /** Local1 */
+  Local1 = "local1",
+  /** Local2 */
+  Local2 = "local2",
+  /** Local3 */
+  Local3 = "local3",
+  /** Local4 */
+  Local4 = "local4",
+  /** Local5 */
+  Local5 = "local5",
+  /** Local6 */
+  Local6 = "local6",
+  /** Local7 */
+  Local7 = "local7",
   /** Lpr */
   Lpr = "lpr",
   /** Mail */
@@ -4540,24 +5101,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   User = "user",
   /** Uucp */
   Uucp = "uucp",
-  /** Local0 */
-  Local0 = "local0",
-  /** Local1 */
-  Local1 = "local1",
-  /** Local2 */
-  Local2 = "local2",
-  /** Local3 */
-  Local3 = "local3",
-  /** Local4 */
-  Local4 = "local4",
-  /** Local5 */
-  Local5 = "local5",
-  /** Local6 */
-  Local6 = "local6",
-  /** Local7 */
-  Local7 = "local7",
-  /** Asterisk */
-  Asterisk = "*",
 }
 
 /**
@@ -4565,6 +5108,7 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * {@link KnownKnownSyslogDataSourceFacilityNames} can be used interchangeably with KnownSyslogDataSourceFacilityNames,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * ***** \
  * **alert** \
  * **audit** \
  * **auth** \
@@ -4574,15 +5118,6 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **daemon** \
  * **ftp** \
  * **kern** \
- * **lpr** \
- * **mail** \
- * **mark** \
- * **news** \
- * **nopri** \
- * **ntp** \
- * **syslog** \
- * **user** \
- * **uucp** \
  * **local0** \
  * **local1** \
  * **local2** \
@@ -4591,7 +5126,15 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
  * **local5** \
  * **local6** \
  * **local7** \
- * *****
+ * **lpr** \
+ * **mail** \
+ * **mark** \
+ * **news** \
+ * **nopri** \
+ * **ntp** \
+ * **syslog** \
+ * **user** \
+ * **uucp**
  */
 export type KnownSyslogDataSourceFacilityNames = string;
 
@@ -4663,6 +5206,8 @@ export type KnownExtensionDataSourceStreams = string;
 
 /** Known values of {@link KnownLogFilesDataSourceFormat} that the service accepts. */
 export enum KnownKnownLogFilesDataSourceFormat {
+  /** Json */
+  Json = "json",
   /** Text */
   Text = "text",
 }
@@ -4672,6 +5217,7 @@ export enum KnownKnownLogFilesDataSourceFormat {
  * {@link KnownKnownLogFilesDataSourceFormat} can be used interchangeably with KnownLogFilesDataSourceFormat,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **json** \
  * **text**
  */
 export type KnownLogFilesDataSourceFormat = string;
@@ -4714,6 +5260,27 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
  * **yyyy-MM-ddTHH:mm:ssK**
  */
 export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
+
+/** Known values of {@link KnownWindowsFirewallLogsDataSourceProfileFilter} that the service accepts. */
+export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
+  /** Domain */
+  Domain = "Domain",
+  /** Private */
+  Private = "Private",
+  /** Public */
+  Public = "Public",
+}
+
+/**
+ * Defines values for KnownWindowsFirewallLogsDataSourceProfileFilter. \
+ * {@link KnownKnownWindowsFirewallLogsDataSourceProfileFilter} can be used interchangeably with KnownWindowsFirewallLogsDataSourceProfileFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Domain** \
+ * **Private** \
+ * **Public**
+ */
+export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
 
 /** Known values of {@link KnownPrometheusForwarderDataSourceStreams} that the service accepts. */
 export enum KnownKnownPrometheusForwarderDataSourceStreams {
@@ -4918,6 +5485,8 @@ export enum KnownDynamicThresholdSensitivity {
  * **High**
  */
 export type DynamicThresholdSensitivity = string;
+/** Defines values for ReceiverStatus. */
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 /** Defines values for AggregationType. */
 export type AggregationType =
   | "None"
@@ -4969,8 +5538,6 @@ export type PredictiveAutoscalePolicyScaleMode =
   | "Disabled"
   | "ForecastOnly"
   | "Enabled";
-/** Defines values for ReceiverStatus. */
-export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 /** Defines values for EventLevel. */
 export type EventLevel =
   | "Critical"
@@ -4994,6 +5561,244 @@ export type TimeAggregationOperator =
   | "Maximum"
   | "Total"
   | "Last";
+
+/** Optional parameters. */
+export interface ActionGroupsListNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSP operation. */
+export type ActionGroupsListNSPResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface ActionGroupsGetNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNSP operation. */
+export type ActionGroupsGetNSPResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface ActionGroupsReconcileNSPOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcileNSP operation. */
+export type ActionGroupsReconcileNSPResponse = ActionGroupsReconcileNSPHeaders;
+
+/** Optional parameters. */
+export interface ActionGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ActionGroupsCreateOrUpdateResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ActionGroupsGetResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ActionGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ActionGroupsUpdateResponse = ActionGroupResource;
+
+/** Optional parameters. */
+export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
+export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
+
+/** Optional parameters. */
+export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
+export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
+
+/** Optional parameters. */
+export interface ActionGroupsListBySubscriptionIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionId operation. */
+export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
+
+/** Optional parameters. */
+export interface ActionGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
+
+/** Optional parameters. */
+export interface ActionGroupsEnableReceiverOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ActionGroupsListNSPNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSPNext operation. */
+export type ActionGroupsListNSPNextResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSP operation. */
+export type DataCollectionEndpointsListNSPResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsGetNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNSP operation. */
+export type DataCollectionEndpointsGetNSPResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsReconcileNSPOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcileNSP operation. */
+export type DataCollectionEndpointsReconcileNSPResponse =
+  DataCollectionEndpointsReconcileNSPHeaders;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type DataCollectionEndpointsListByResourceGroupResponse =
+  DataCollectionEndpointResourceListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type DataCollectionEndpointsListBySubscriptionResponse =
+  DataCollectionEndpointResourceListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DataCollectionEndpointsGetResponse = DataCollectionEndpointResource;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The payload */
+  body?: DataCollectionEndpointResource;
+}
+
+/** Contains response data for the create operation. */
+export type DataCollectionEndpointsCreateResponse =
+  DataCollectionEndpointResource;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The payload */
+  body?: ResourceForUpdate;
+}
+
+/** Contains response data for the update operation. */
+export type DataCollectionEndpointsUpdateResponse =
+  DataCollectionEndpointResource;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListNSPNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSPNext operation. */
+export type DataCollectionEndpointsListNSPNextResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DataCollectionEndpointsListByResourceGroupNextResponse =
+  DataCollectionEndpointResourceListResult;
+
+/** Optional parameters. */
+export interface DataCollectionEndpointsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DataCollectionEndpointsListBySubscriptionNextResponse =
+  DataCollectionEndpointResourceListResult;
+
+/** Optional parameters. */
+export interface ScheduledQueryRuleListNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSP operation. */
+export type ScheduledQueryRuleListNSPResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface ScheduledQueryRuleGetNSPOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNSP operation. */
+export type ScheduledQueryRuleGetNSPResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface ScheduledQueryRuleReconcileNSPOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcileNSP operation. */
+export type ScheduledQueryRuleReconcileNSPResponse =
+  ScheduledQueryRuleReconcileNSPHeaders;
+
+/** Optional parameters. */
+export interface ScheduledQueryRuleListNSPNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNSPNext operation. */
+export type ScheduledQueryRuleListNSPNextResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
 export interface MetricNamespacesListOptionalParams
@@ -5448,70 +6253,6 @@ export interface DiagnosticSettingsCategoryListOptionalParams
 /** Contains response data for the list operation. */
 export type DiagnosticSettingsCategoryListResponse =
   DiagnosticSettingsCategoryResourceCollection;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ActionGroupsCreateOrUpdateResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ActionGroupsGetResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ActionGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ActionGroupsUpdateResponse = ActionGroupResource;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
-  TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
-  TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsListBySubscriptionIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionId operation. */
-export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
-
-/** Optional parameters. */
-export interface ActionGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ActionGroupsListByResourceGroupResponse = ActionGroupList;
-
-/** Optional parameters. */
-export interface ActionGroupsEnableReceiverOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TenantActionGroupsCreateOrUpdateOptionalParams
@@ -5976,71 +6717,6 @@ export interface ActivityLogAlertsListByResourceGroupNextOptionalParams
 export type ActivityLogAlertsListByResourceGroupNextResponse = AlertRuleList;
 
 /** Optional parameters. */
-export interface DataCollectionEndpointsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DataCollectionEndpointsListByResourceGroupResponse =
-  DataCollectionEndpointResourceListResult;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type DataCollectionEndpointsListBySubscriptionResponse =
-  DataCollectionEndpointResourceListResult;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DataCollectionEndpointsGetResponse = DataCollectionEndpointResource;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The payload */
-  body?: DataCollectionEndpointResource;
-}
-
-/** Contains response data for the create operation. */
-export type DataCollectionEndpointsCreateResponse =
-  DataCollectionEndpointResource;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The payload */
-  body?: ResourceForUpdate;
-}
-
-/** Contains response data for the update operation. */
-export type DataCollectionEndpointsUpdateResponse =
-  DataCollectionEndpointResource;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DataCollectionEndpointsListByResourceGroupNextResponse =
-  DataCollectionEndpointResourceListResult;
-
-/** Optional parameters. */
-export interface DataCollectionEndpointsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type DataCollectionEndpointsListBySubscriptionNextResponse =
-  DataCollectionEndpointResourceListResult;
-
-/** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -6156,7 +6832,10 @@ export type DataCollectionRulesUpdateResponse = DataCollectionRuleResource;
 
 /** Optional parameters. */
 export interface DataCollectionRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** If set to 'true' then all associations of this data collection rule will also be deleted */
+  deleteAssociations?: boolean;
+}
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupNextOptionalParams

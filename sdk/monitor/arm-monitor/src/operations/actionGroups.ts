@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ActionGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,11 +20,19 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
+  NetworkSecurityPerimeterConfiguration,
+  ActionGroupsListNSPNextOptionalParams,
+  ActionGroupsListNSPOptionalParams,
+  ActionGroupsListNSPResponse,
   ActionGroupResource,
   ActionGroupsListBySubscriptionIdOptionalParams,
   ActionGroupsListBySubscriptionIdResponse,
   ActionGroupsListByResourceGroupOptionalParams,
   ActionGroupsListByResourceGroupResponse,
+  ActionGroupsGetNSPOptionalParams,
+  ActionGroupsGetNSPResponse,
+  ActionGroupsReconcileNSPOptionalParams,
+  ActionGroupsReconcileNSPResponse,
   ActionGroupsCreateOrUpdateOptionalParams,
   ActionGroupsCreateOrUpdateResponse,
   ActionGroupsGetOptionalParams,
@@ -39,6 +48,7 @@ import {
   ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse,
   EnableRequest,
   ActionGroupsEnableReceiverOptionalParams,
+  ActionGroupsListNSPNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,6 +62,86 @@ export class ActionGroupsImpl implements ActionGroups {
    */
   constructor(client: MonitorClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets a list of NSP configurations for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param options The options parameters.
+   */
+  public listNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: ActionGroupsListNSPOptionalParams,
+  ): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
+    const iter = this.listNSPPagingAll(
+      resourceGroupName,
+      actionGroupName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listNSPPagingPage(
+          resourceGroupName,
+          actionGroupName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listNSPPagingPage(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: ActionGroupsListNSPOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration[]> {
+    let result: ActionGroupsListNSPResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listNSP(resourceGroupName, actionGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNSPNext(
+        resourceGroupName,
+        actionGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listNSPPagingAll(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: ActionGroupsListNSPOptionalParams,
+  ): AsyncIterableIterator<NetworkSecurityPerimeterConfiguration> {
+    for await (const page of this.listNSPPagingPage(
+      resourceGroupName,
+      actionGroupName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -145,6 +235,150 @@ export class ActionGroupsImpl implements ActionGroups {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of NSP configurations for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param options The options parameters.
+   */
+  private _listNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    options?: ActionGroupsListNSPOptionalParams,
+  ): Promise<ActionGroupsListNSPResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, actionGroupName, options },
+      listNSPOperationSpec,
+    );
+  }
+
+  /**
+   * Gets a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  getNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsGetNSPOptionalParams,
+  ): Promise<ActionGroupsGetNSPResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        actionGroupName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      },
+      getNSPOperationSpec,
+    );
+  }
+
+  /**
+   * Reconciles a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  async beginReconcileNSP(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsReconcileNSPOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ActionGroupsReconcileNSPResponse>,
+      ActionGroupsReconcileNSPResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ActionGroupsReconcileNSPResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        actionGroupName,
+        networkSecurityPerimeterConfigurationName,
+        options,
+      },
+      spec: reconcileNSPOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ActionGroupsReconcileNSPResponse,
+      OperationState<ActionGroupsReconcileNSPResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reconciles a specified NSP configuration for specified action group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param networkSecurityPerimeterConfigurationName The name for a network security perimeter
+   *                                                  configuration
+   * @param options The options parameters.
+   */
+  async beginReconcileNSPAndWait(
+    resourceGroupName: string,
+    actionGroupName: string,
+    networkSecurityPerimeterConfigurationName: string,
+    options?: ActionGroupsReconcileNSPOptionalParams,
+  ): Promise<ActionGroupsReconcileNSPResponse> {
+    const poller = await this.beginReconcileNSP(
+      resourceGroupName,
+      actionGroupName,
+      networkSecurityPerimeterConfigurationName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -386,10 +620,103 @@ export class ActionGroupsImpl implements ActionGroups {
       enableReceiverOperationSpec,
     );
   }
+
+  /**
+   * ListNSPNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param actionGroupName The name of the action group.
+   * @param nextLink The nextLink from the previous successful call to the ListNSP method.
+   * @param options The options parameters.
+   */
+  private _listNSPNext(
+    resourceGroupName: string,
+    actionGroupName: string,
+    nextLink: string,
+    options?: ActionGroupsListNSPNextOptionalParams,
+  ): Promise<ActionGroupsListNSPNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, actionGroupName, nextLink, options },
+      listNSPNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/networkSecurityPerimeterConfigurations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkSecurityPerimeterConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const reconcileNSPOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ActionGroupsReconcileNSPHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ActionGroupsReconcileNSPHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ActionGroupsReconcileNSPHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ActionGroupsReconcileNSPHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkSecurityPerimeterConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}",
   httpMethod: "PUT",
@@ -401,16 +728,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActionGroupResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   requestBody: Parameters.actionGroup,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -424,15 +751,15 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActionGroupResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -444,15 +771,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -465,16 +792,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActionGroupResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   requestBody: Parameters.actionGroupPatch,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -498,16 +825,16 @@ const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.Ope
         bodyMapper: Mappers.TestNotificationDetailsResponse,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
       },
     },
     requestBody: Parameters.notificationRequest,
-    queryParameters: [Parameters.apiVersion6],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.resourceGroupName,
-      Parameters.actionGroupName,
+      Parameters.subscriptionId,
+      Parameters.actionGroupName1,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
     mediaType: "json",
@@ -522,15 +849,15 @@ const getTestNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.Op
         bodyMapper: Mappers.TestNotificationDetailsResponse,
       },
       default: {
-        bodyMapper: Mappers.ErrorResponse,
+        bodyMapper: Mappers.ErrorResponseAutoGenerated,
       },
     },
-    queryParameters: [Parameters.apiVersion6],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.resourceGroupName,
-      Parameters.actionGroupName,
+      Parameters.subscriptionId,
+      Parameters.actionGroupName1,
       Parameters.notificationId,
     ],
     headerParameters: [Parameters.accept],
@@ -544,10 +871,10 @@ const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActionGroupList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -560,14 +887,14 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActionGroupList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -581,18 +908,39 @@ const enableReceiverOperationSpec: coreClient.OperationSpec = {
       isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   requestBody: Parameters.enableRequest,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.actionGroupName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const listNSPNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.actionGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
