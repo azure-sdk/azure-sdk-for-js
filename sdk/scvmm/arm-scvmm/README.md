@@ -4,10 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 The Microsoft.ScVmm Rest API spec.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/scvmm/arm-scvmm) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-scvmm) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-scvmm) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-scvmm)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-preview)
 
 ## Getting started
 
@@ -30,7 +30,7 @@ Install the Azure ScVmm client library for JavaScript with `npm`:
 npm install @azure/arm-scvmm
 ```
 
-### Create and authenticate a `ScVmm`
+### Create and authenticate a `ScVmmClient`
 
 To create a client object to access the Azure ScVmm API, you will need the `endpoint` of your Azure ScVmm resource and a `credential`. The Azure ScVmm client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure ScVmm resource in the [Azure Portal][azure_portal].
@@ -49,19 +49,19 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { ScVmm } = require("@azure/arm-scvmm");
+const { ScVmmClient } = require("@azure/arm-scvmm");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ScVmm(new DefaultAzureCredential(), subscriptionId);
+const client = new ScVmmClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new ScVmm(credential, subscriptionId);
+// const client = new ScVmmClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ScVmm
+### ScVmmClient
 
-`ScVmm` is the primary interface for developers using the Azure ScVmm client library. Explore the methods on this client object to understand the different features of the Azure ScVmm service that you can access.
+`ScVmmClient` is the primary interface for developers using the Azure ScVmm client library. Explore the methods on this client object to understand the different features of the Azure ScVmm service that you can access.
 
 ## Troubleshooting
 
@@ -87,9 +87,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -99,10 +96,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fscvmm%2Farm-scvmm%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
