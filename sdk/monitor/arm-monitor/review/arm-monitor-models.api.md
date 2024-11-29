@@ -4,15 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
 
@@ -48,42 +39,6 @@ export interface AzureMonitorWorkspaceProperties {
 }
 
 // @public
-export interface AzureMonitorWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AzureMonitorWorkspacesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface AzureMonitorWorkspacesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AzureMonitorWorkspacesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AzureMonitorWorkspacesOperations {
-    createOrUpdate: (resourceGroupName: string, azureMonitorWorkspaceName: string, resource: AzureMonitorWorkspace, options?: AzureMonitorWorkspacesCreateOrUpdateOptionalParams) => PollerLike<OperationState<AzureMonitorWorkspace>, AzureMonitorWorkspace>;
-    delete: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: AzureMonitorWorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, azureMonitorWorkspaceName: string, options?: AzureMonitorWorkspacesGetOptionalParams) => Promise<AzureMonitorWorkspace>;
-    listByResourceGroup: (resourceGroupName: string, options?: AzureMonitorWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AzureMonitorWorkspace>;
-    listBySubscription: (options?: AzureMonitorWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AzureMonitorWorkspace>;
-    update: (resourceGroupName: string, azureMonitorWorkspaceName: string, properties: AzureMonitorWorkspaceUpdate, options?: AzureMonitorWorkspacesUpdateOptionalParams) => Promise<AzureMonitorWorkspace>;
-}
-
-// @public
-export interface AzureMonitorWorkspacesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface AzureMonitorWorkspaceUpdate {
     properties?: AzureMonitorWorkspaceUpdateProperties;
     tags?: Record<string, string>;
@@ -111,11 +66,6 @@ export interface ConcurrencyConfiguration {
     batchQueueSize?: number;
     workerCount?: number;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -282,20 +232,6 @@ export interface Metrics {
     readonly prometheusQueryEndpoint?: string;
 }
 
-// @public (undocumented)
-export class MonitorClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: MonitorClientOptionalParams);
-    readonly azureMonitorWorkspaces: AzureMonitorWorkspacesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline_2;
-    readonly pipelineGroups: PipelineGroupsOperations;
-}
-
-// @public
-export interface MonitorClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface NetworkingConfiguration {
     externalNetworkingMode: ExternalNetworkingMode;
@@ -329,32 +265,11 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
 
 // @public
 export interface OtlpReceiver {
     endpoint: string;
-}
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
 }
 
 // @public
@@ -386,43 +301,6 @@ export interface PipelineGroupProperties {
     receivers: Receiver[];
     replicas?: number;
     service: Service;
-}
-
-// @public
-export interface PipelineGroupsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineGroupsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PipelineGroupsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PipelineGroupsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PipelineGroupsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PipelineGroupsOperations {
-    createOrUpdate: (resourceGroupName: string, pipelineGroupName: string, resource: PipelineGroup, options?: PipelineGroupsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PipelineGroup>, PipelineGroup>;
-    delete: (resourceGroupName: string, pipelineGroupName: string, options?: PipelineGroupsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, pipelineGroupName: string, options?: PipelineGroupsGetOptionalParams) => Promise<PipelineGroup>;
-    listByResourceGroup: (resourceGroupName: string, options?: PipelineGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PipelineGroup>;
-    listBySubscription: (options?: PipelineGroupsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<PipelineGroup>;
-    update: (resourceGroupName: string, pipelineGroupName: string, properties: PipelineGroupUpdate, options?: PipelineGroupsUpdateOptionalParams) => PollerLike<OperationState<PipelineGroup>, PipelineGroup>;
-}
-
-// @public
-export interface PipelineGroupsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -521,16 +399,6 @@ export interface Resource {
 export interface ResourceMap {
     from: string;
     to: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MonitorClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
