@@ -59,7 +59,12 @@ export async function servicesGet(
   serviceName: string,
   options: ServicesGetOptionalParams = { requestOptions: {} },
 ): Promise<ServiceResource> {
-  const result = await _servicesGetSend(context, resourceUri, serviceName, options);
+  const result = await _servicesGetSend(
+    context,
+    resourceUri,
+    serviceName,
+    options,
+  );
   return _servicesGetDeserialize(result);
 }
 
@@ -126,7 +131,9 @@ export function _servicesDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _servicesDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _servicesDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -142,7 +149,12 @@ export async function servicesDelete(
   serviceName: string,
   options: ServicesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _servicesDeleteSend(context, resourceUri, serviceName, options);
+  const result = await _servicesDeleteSend(
+    context,
+    resourceUri,
+    serviceName,
+    options,
+  );
   return _servicesDeleteDeserialize(result);
 }
 
