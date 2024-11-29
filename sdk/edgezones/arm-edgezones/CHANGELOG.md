@@ -1,15 +1,18 @@
 # Release History
-
-## 1.0.0-beta.4 (Unreleased)
-
+    
+## 1.0.0-beta.4 (2024-11-29)
+Compared with version 1.0.0-beta.3
+    
 ### Features Added
+
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVersions
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownResourceProvisioningState
+    
+    
 ## 1.0.0-beta.3 (2024-11-07)
 
 ### Bugs Fixed

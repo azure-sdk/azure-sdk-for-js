@@ -58,7 +58,12 @@ export async function extendedZonesGet(
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
 ): Promise<ExtendedZone> {
-  const result = await _extendedZonesGetSend(context, subscriptionId, extendedZoneName, options);
+  const result = await _extendedZonesGetSend(
+    context,
+    subscriptionId,
+    extendedZoneName,
+    options,
+  );
   return _extendedZonesGetDeserialize(result);
 }
 
@@ -98,7 +103,8 @@ export function extendedZonesListBySubscription(
 ): PagedAsyncIterableIterator<ExtendedZone> {
   return buildPagedAsyncIterator(
     context,
-    () => _extendedZonesListBySubscriptionSend(context, subscriptionId, options),
+    () =>
+      _extendedZonesListBySubscriptionSend(context, subscriptionId, options),
     _extendedZonesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -11,9 +11,8 @@ export { EdgeZonesClient } from "./edgeZonesClient.js";
 export {
   ExtendedZone,
   ExtendedZoneProperties,
+  KnownProvisioningState,
   ProvisioningState,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
   KnownRegistrationState,
   RegistrationState,
   ProxyResource,
@@ -30,6 +29,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models/index.js";
 export {
   EdgeZonesClientOptionalParams,
@@ -39,5 +39,8 @@ export {
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
 } from "./api/index.js";
-export { ExtendedZonesOperations, OperationsOperations } from "./classic/index.js";
+export {
+  ExtendedZonesOperations,
+  OperationsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
