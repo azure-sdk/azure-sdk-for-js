@@ -8,25 +8,25 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to virtualMachinesExecuteHibernate: executeHibernate for a virtual machine
  *
  * @summary virtualMachinesExecuteHibernate: executeHibernate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteHibernate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesExecuteHibernate_MaximumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
+async function scheduledActionsVirtualMachinesExecuteHibernateMaximumSetGenGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
+  const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.virtualMachinesExecuteHibernate(
-    "sejdmamuhhvfpljomwumsplc",
+    "cjlwfuuanpzptgvnzyjthdgajrpp",
     {
       executionParameters: {
         optimizationPreference: "Cost",
-        retryPolicy: { retryCount: 30, retryWindowInMinutes: 27 },
+        retryPolicy: { retryCount: 27, retryWindowInMinutes: 27 },
       },
       resources: {
         ids: [
           "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
         ],
       },
-      correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
+      correlationid: "vyhi",
     },
   );
   console.log(result);
@@ -36,27 +36,30 @@ async function scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximum
  * This sample demonstrates how to virtualMachinesExecuteHibernate: executeHibernate for a virtual machine
  *
  * @summary virtualMachinesExecuteHibernate: executeHibernate for a virtual machine
- * x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteHibernate_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesExecuteHibernate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
+async function scheduledActionsVirtualMachinesExecuteHibernateMaximumSetGenGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
+  const subscriptionId = "D8E30CC0-2763-4FCC-84A8-3C5659281032";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesExecuteHibernate("kga", {
-    executionParameters: {},
-    resources: {
-      ids: [
-        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
-      ],
+  const result = await client.scheduledActions.virtualMachinesExecuteHibernate(
+    "zzrmqofhzmxvuhcd",
+    {
+      executionParameters: {},
+      resources: {
+        ids: [
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
+        ],
+      },
+      correlationid: "vyhi",
     },
-    correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
-  });
+  );
   console.log(result);
 }
 
 async function main() {
-  scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
-  scheduledActionsVirtualMachinesExecuteHibernateGeneratedByMaximumSetRuleGeneratedByMinimumSetRule();
+  scheduledActionsVirtualMachinesExecuteHibernateMaximumSetGenGeneratedByMaximumSetRule();
+  scheduledActionsVirtualMachinesExecuteHibernateMaximumSetGenGeneratedByMinimumSetRule();
 }
 
 main().catch(console.error);

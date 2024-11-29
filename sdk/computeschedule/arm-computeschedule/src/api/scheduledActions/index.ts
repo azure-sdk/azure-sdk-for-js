@@ -2,43 +2,55 @@
 // Licensed under the MIT License.
 
 import {
-  scheduleSerializer,
-  executionParametersSerializer,
-  resourcesSerializer,
-  SubmitDeallocateRequest,
-  DeallocateResourceOperationResponse,
-  SubmitHibernateRequest,
-  HibernateResourceOperationResponse,
-  SubmitStartRequest,
-  StartResourceOperationResponse,
-  ExecuteDeallocateRequest,
-  ExecuteHibernateRequest,
-  ExecuteStartRequest,
-  GetOperationStatusRequest,
-  GetOperationStatusResponse,
-  CancelOperationsRequest,
-  CancelOperationsResponse,
-  GetOperationErrorsRequest,
-  GetOperationErrorsResponse,
-} from "../../models/models.js";
-import { ComputeScheduleContext as Client } from "../index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import {
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ComputeScheduleContext as Client,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
   ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-} from "../../models/options.js";
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+} from "../index.js";
+import {
+  SubmitDeallocateRequest,
+  submitDeallocateRequestSerializer,
+  DeallocateResourceOperationResponse,
+  deallocateResourceOperationResponseDeserializer,
+  SubmitHibernateRequest,
+  submitHibernateRequestSerializer,
+  HibernateResourceOperationResponse,
+  hibernateResourceOperationResponseDeserializer,
+  SubmitStartRequest,
+  submitStartRequestSerializer,
+  StartResourceOperationResponse,
+  startResourceOperationResponseDeserializer,
+  ExecuteDeallocateRequest,
+  executeDeallocateRequestSerializer,
+  ExecuteHibernateRequest,
+  executeHibernateRequestSerializer,
+  ExecuteStartRequest,
+  executeStartRequestSerializer,
+  GetOperationStatusRequest,
+  getOperationStatusRequestSerializer,
+  GetOperationStatusResponse,
+  getOperationStatusResponseDeserializer,
+  CancelOperationsRequest,
+  cancelOperationsRequestSerializer,
+  CancelOperationsResponse,
+  cancelOperationsResponseDeserializer,
+  GetOperationErrorsRequest,
+  getOperationErrorsRequestSerializer,
+  GetOperationErrorsResponse,
+  getOperationErrorsResponseDeserializer,
+} from "../../models/models.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _scheduledActionsVirtualMachinesSubmitDeallocateSend(
   context: Client,
@@ -57,12 +69,7 @@ export function _scheduledActionsVirtualMachinesSubmitDeallocateSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: submitDeallocateRequestSerializer(requestBody),
     });
 }
 
@@ -74,46 +81,7 @@ export async function _scheduledActionsVirtualMachinesSubmitDeallocateDeserializ
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return deallocateResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine */
@@ -153,12 +121,7 @@ export function _scheduledActionsVirtualMachinesSubmitHibernateSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: submitHibernateRequestSerializer(requestBody),
     });
 }
 
@@ -170,46 +133,7 @@ export async function _scheduledActionsVirtualMachinesSubmitHibernateDeserialize
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return hibernateResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesSubmitHibernate: submitHibernate for a virtual machine */
@@ -249,12 +173,7 @@ export function _scheduledActionsVirtualMachinesSubmitStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: submitStartRequestSerializer(requestBody),
     });
 }
 
@@ -266,46 +185,7 @@ export async function _scheduledActionsVirtualMachinesSubmitStartDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return startResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesSubmitStart: submitStart for a virtual machine */
@@ -345,11 +225,7 @@ export function _scheduledActionsVirtualMachinesExecuteDeallocateSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: executeDeallocateRequestSerializer(requestBody),
     });
 }
 
@@ -361,46 +237,7 @@ export async function _scheduledActionsVirtualMachinesExecuteDeallocateDeseriali
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return deallocateResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesExecuteDeallocate: executeDeallocate for a virtual machine */
@@ -440,11 +277,7 @@ export function _scheduledActionsVirtualMachinesExecuteHibernateSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: executeHibernateRequestSerializer(requestBody),
     });
 }
 
@@ -456,46 +289,7 @@ export async function _scheduledActionsVirtualMachinesExecuteHibernateDeserializ
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return hibernateResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesExecuteHibernate: executeHibernate for a virtual machine */
@@ -535,11 +329,7 @@ export function _scheduledActionsVirtualMachinesExecuteStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        executionParameters: executionParametersSerializer(requestBody.executionParameters),
-        resources: resourcesSerializer(requestBody.resources),
-        correlationid: requestBody["correlationid"],
-      },
+      body: executeStartRequestSerializer(requestBody),
     });
 }
 
@@ -551,46 +341,7 @@ export async function _scheduledActionsVirtualMachinesExecuteStartDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    description: result.body["description"],
-    type: result.body["type"],
-    location: result.body["location"],
-    results:
-      result.body["results"] === undefined
-        ? result.body["results"]
-        : result.body["results"].map((p: any) => {
-            return {
-              resourceId: p["resourceId"],
-              errorCode: p["errorCode"],
-              errorDetails: p["errorDetails"],
-              operation: !p.operation
-                ? undefined
-                : {
-                    operationId: p.operation?.["operationId"],
-                    resourceId: p.operation?.["resourceId"],
-                    opType: p.operation?.["opType"],
-                    subscriptionId: p.operation?.["subscriptionId"],
-                    deadline: p.operation?.["deadline"],
-                    deadlineType: p.operation?.["deadlineType"],
-                    state: p.operation?.["state"],
-                    timeZone: p.operation?.["timeZone"],
-                    resourceOperationError: !p.operation?.resourceOperationError
-                      ? undefined
-                      : {
-                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                        },
-                    completedAt: p.operation?.["completedAt"],
-                    retryPolicy: !p.operation?.retryPolicy
-                      ? undefined
-                      : {
-                          retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                        },
-                  },
-            };
-          }),
-  };
+  return startResourceOperationResponseDeserializer(result.body);
 }
 
 /** virtualMachinesExecuteStart: executeStart for a virtual machine */
@@ -630,10 +381,7 @@ export function _scheduledActionsVirtualMachinesGetOperationStatusSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        operationIds: requestBody["operationIds"],
-        correlationid: requestBody["correlationid"],
-      },
+      body: getOperationStatusRequestSerializer(requestBody),
     });
 }
 
@@ -645,40 +393,7 @@ export async function _scheduledActionsVirtualMachinesGetOperationStatusDeserial
     throw createRestError(result);
   }
 
-  return {
-    results: result.body["results"].map((p: any) => {
-      return {
-        resourceId: p["resourceId"],
-        errorCode: p["errorCode"],
-        errorDetails: p["errorDetails"],
-        operation: !p.operation
-          ? undefined
-          : {
-              operationId: p.operation?.["operationId"],
-              resourceId: p.operation?.["resourceId"],
-              opType: p.operation?.["opType"],
-              subscriptionId: p.operation?.["subscriptionId"],
-              deadline: p.operation?.["deadline"],
-              deadlineType: p.operation?.["deadlineType"],
-              state: p.operation?.["state"],
-              timeZone: p.operation?.["timeZone"],
-              resourceOperationError: !p.operation?.resourceOperationError
-                ? undefined
-                : {
-                    errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                    errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                  },
-              completedAt: p.operation?.["completedAt"],
-              retryPolicy: !p.operation?.retryPolicy
-                ? undefined
-                : {
-                    retryCount: p.operation?.retryPolicy?.["retryCount"],
-                    retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                  },
-            },
-      };
-    }),
-  };
+  return getOperationStatusResponseDeserializer(result.body);
 }
 
 /** virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine */
@@ -718,10 +433,7 @@ export function _scheduledActionsVirtualMachinesCancelOperationsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        operationIds: requestBody["operationIds"],
-        correlationid: requestBody["correlationid"],
-      },
+      body: cancelOperationsRequestSerializer(requestBody),
     });
 }
 
@@ -733,40 +445,7 @@ export async function _scheduledActionsVirtualMachinesCancelOperationsDeserializ
     throw createRestError(result);
   }
 
-  return {
-    results: result.body["results"].map((p: any) => {
-      return {
-        resourceId: p["resourceId"],
-        errorCode: p["errorCode"],
-        errorDetails: p["errorDetails"],
-        operation: !p.operation
-          ? undefined
-          : {
-              operationId: p.operation?.["operationId"],
-              resourceId: p.operation?.["resourceId"],
-              opType: p.operation?.["opType"],
-              subscriptionId: p.operation?.["subscriptionId"],
-              deadline: p.operation?.["deadline"],
-              deadlineType: p.operation?.["deadlineType"],
-              state: p.operation?.["state"],
-              timeZone: p.operation?.["timeZone"],
-              resourceOperationError: !p.operation?.resourceOperationError
-                ? undefined
-                : {
-                    errorCode: p.operation?.resourceOperationError?.["errorCode"],
-                    errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
-                  },
-              completedAt: p.operation?.["completedAt"],
-              retryPolicy: !p.operation?.retryPolicy
-                ? undefined
-                : {
-                    retryCount: p.operation?.retryPolicy?.["retryCount"],
-                    retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
-                  },
-            },
-      };
-    }),
-  };
+  return cancelOperationsResponseDeserializer(result.body);
 }
 
 /** virtualMachinesCancelOperations: cancelOperations for a virtual machine */
@@ -806,7 +485,7 @@ export function _scheduledActionsVirtualMachinesGetOperationErrorsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { operationIds: requestBody["operationIds"] },
+      body: getOperationErrorsRequestSerializer(requestBody),
     });
 }
 
@@ -818,29 +497,7 @@ export async function _scheduledActionsVirtualMachinesGetOperationErrorsDeserial
     throw createRestError(result);
   }
 
-  return {
-    results: result.body["results"].map((p: any) => {
-      return {
-        operationId: p["operationId"],
-        creationTime: p["creationTime"],
-        activationTime: p["activationTime"],
-        completedAt: p["completedAt"],
-        operationErrors:
-          p["operationErrors"] === undefined
-            ? p["operationErrors"]
-            : p["operationErrors"].map((p: any) => {
-                return {
-                  errorCode: p["errorCode"],
-                  errorDetails: p["errorDetails"],
-                  timeStamp: p["timeStamp"],
-                  crpOperationId: p["crpOperationId"],
-                };
-              }),
-        requestErrorCode: p["requestErrorCode"],
-        requestErrorDetails: p["requestErrorDetails"],
-      };
-    }),
-  };
+  return getOperationErrorsResponseDeserializer(result.body);
 }
 
 /** virtualMachinesGetOperationErrors: getOperationErrors associated with an operation on a virtual machine */
