@@ -3,9 +3,31 @@
 
 export {
   createMongoClusterManagement,
-  DocumentDBContext,
+  MongoClusterManagementContext,
   MongoClusterManagementClientOptionalParams,
 } from "./mongoClusterManagementContext.js";
+export {
+  OperationsListOptionalParams,
+  MongoClustersGetOptionalParams,
+  MongoClustersCreateOrUpdateOptionalParams,
+  MongoClustersUpdateOptionalParams,
+  MongoClustersDeleteOptionalParams,
+  MongoClustersListByResourceGroupOptionalParams,
+  MongoClustersListOptionalParams,
+  MongoClustersListConnectionStringsOptionalParams,
+  MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersPromoteOptionalParams,
+  FirewallRulesGetOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateLinksListByMongoClusterOptionalParams,
+  ReplicasListByParentOptionalParams,
+} from "./options.js";
 export {
   firewallRulesGet,
   firewallRulesCreateOrUpdate,

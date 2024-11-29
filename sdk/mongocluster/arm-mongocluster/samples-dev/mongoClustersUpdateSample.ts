@@ -14,9 +14,11 @@ async function updatesTheDiskSizeOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
-    properties: { storage: { sizeGb: 256 } },
-  });
+  const result = await client.mongoClusters.update(
+    "TestResourceGroup",
+    "myMongoCluster",
+    { properties: { storage: { sizeGb: 256 } } },
+  );
   console.log(result);
 }
 
@@ -30,9 +32,11 @@ async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEnd
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
-    properties: { publicNetworkAccess: "Disabled" },
-  });
+  const result = await client.mongoClusters.update(
+    "TestResourceGroup",
+    "myMongoCluster",
+    { properties: { publicNetworkAccess: "Disabled" } },
+  );
   console.log(result);
 }
 
@@ -46,11 +50,15 @@ async function resetsTheAdministratorLoginPassword() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
-    properties: {
-      administrator: { userName: "mongoAdmin", password: "password" },
+  const result = await client.mongoClusters.update(
+    "TestResourceGroup",
+    "myMongoCluster",
+    {
+      properties: {
+        administrator: { userName: "mongoAdmin", password: "password" },
+      },
     },
-  });
+  );
   console.log(result);
 }
 
@@ -64,18 +72,22 @@ async function updatesAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
-    properties: {
-      administrator: { userName: "mongoAdmin" },
-      serverVersion: "5.0",
-      storage: { sizeGb: 256 },
-      compute: { tier: "M50" },
-      sharding: { shardCount: 4 },
-      highAvailability: { targetMode: "SameZone" },
-      previewFeatures: [],
-      publicNetworkAccess: "Enabled",
+  const result = await client.mongoClusters.update(
+    "TestResourceGroup",
+    "myMongoCluster",
+    {
+      properties: {
+        administrator: { userName: "mongoAdmin" },
+        serverVersion: "5.0",
+        storage: { sizeGb: 256 },
+        compute: { tier: "M50" },
+        sharding: { shardCount: 4 },
+        highAvailability: { targetMode: "SameZone" },
+        previewFeatures: [],
+        publicNetworkAccess: "Enabled",
+      },
     },
-  });
+  );
   console.log(result);
 }
 

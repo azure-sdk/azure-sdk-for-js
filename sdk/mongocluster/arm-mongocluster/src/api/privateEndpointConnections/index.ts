@@ -2,29 +2,31 @@
 // Licensed under the MIT License.
 
 import {
-  privateEndpointConnectionPropertiesSerializer,
-  PrivateEndpointConnectionResource,
-  _PrivateEndpointConnectionResourceListResult,
-} from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
+  MongoClusterManagementContext as Client,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+  _PrivateEndpointConnectionResourceListResult,
+  _privateEndpointConnectionResourceListResultDeserializer,
+  PrivateEndpointConnectionResource,
+  privateEndpointConnectionResourceSerializer,
+  privateEndpointConnectionResourceDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _privateEndpointConnectionsListByMongoClusterSend(
   context: Client,
@@ -53,46 +55,7 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              groupIds: p.properties?.["groupIds"],
-              privateEndpoint: !p.properties?.privateEndpoint
-                ? undefined
-                : { id: p.properties?.privateEndpoint?.["id"] },
-              privateLinkServiceConnectionState: {
-                status: p.properties?.privateLinkServiceConnectionState["status"],
-                description: p.properties?.privateLinkServiceConnectionState["description"],
-                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
-              },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _privateEndpointConnectionResourceListResultDeserializer(result.body);
 }
 
 /** List existing private connections */
@@ -148,42 +111,7 @@ export async function _privateEndpointConnectionsGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          groupIds: result.body.properties?.["groupIds"],
-          privateEndpoint: !result.body.properties?.privateEndpoint
-            ? undefined
-            : { id: result.body.properties?.privateEndpoint?.["id"] },
-          privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState["status"],
-            description: result.body.properties?.privateLinkServiceConnectionState["description"],
-            actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return privateEndpointConnectionResourceDeserializer(result.body);
 }
 
 /** Get a specific private connection */
@@ -227,11 +155,7 @@ export function _privateEndpointConnectionsCreateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        properties: !resource.properties
-          ? resource.properties
-          : privateEndpointConnectionPropertiesSerializer(resource.properties),
-      },
+      body: privateEndpointConnectionResourceSerializer(resource),
     });
 }
 
@@ -243,42 +167,7 @@ export async function _privateEndpointConnectionsCreateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          groupIds: result.body.properties?.["groupIds"],
-          privateEndpoint: !result.body.properties?.privateEndpoint
-            ? undefined
-            : { id: result.body.properties?.privateEndpoint?.["id"] },
-          privateLinkServiceConnectionState: {
-            status: result.body.properties?.privateLinkServiceConnectionState["status"],
-            description: result.body.properties?.privateLinkServiceConnectionState["description"],
-            actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return privateEndpointConnectionResourceDeserializer(result.body);
 }
 
 /** Create a Private endpoint connection */
