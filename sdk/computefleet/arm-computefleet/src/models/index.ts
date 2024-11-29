@@ -157,6 +157,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -170,4 +173,5 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models.js";

@@ -2,11 +2,12 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureFleet client.
 
-Azure Fleet Service
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computefleet/arm-computefleet) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-computefleet) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview) |
+
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computefleet)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview)
 
 ## Getting started
 
