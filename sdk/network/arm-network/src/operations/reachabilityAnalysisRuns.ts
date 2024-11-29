@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { RoutingRules } from "../operationsInterfaces";
+import { ReachabilityAnalysisRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,25 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  RoutingRule,
-  RoutingRulesListNextOptionalParams,
-  RoutingRulesListOptionalParams,
-  RoutingRulesListResponse,
-  RoutingRulesGetOptionalParams,
-  RoutingRulesGetResponse,
-  RoutingRulesCreateOrUpdateOptionalParams,
-  RoutingRulesCreateOrUpdateResponse,
-  RoutingRulesDeleteOptionalParams,
-  RoutingRulesListNextResponse,
+  ReachabilityAnalysisRun,
+  ReachabilityAnalysisRunsListNextOptionalParams,
+  ReachabilityAnalysisRunsListOptionalParams,
+  ReachabilityAnalysisRunsListResponse,
+  ReachabilityAnalysisRunsGetOptionalParams,
+  ReachabilityAnalysisRunsGetResponse,
+  ReachabilityAnalysisRunsCreateOptionalParams,
+  ReachabilityAnalysisRunsCreateResponse,
+  ReachabilityAnalysisRunsDeleteOptionalParams,
+  ReachabilityAnalysisRunsDeleteResponse,
+  ReachabilityAnalysisRunsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RoutingRules operations. */
-export class RoutingRulesImpl implements RoutingRules {
+/** Class containing ReachabilityAnalysisRuns operations. */
+export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class RoutingRules class.
+   * Initialize a new instance of the class ReachabilityAnalysisRuns class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -46,25 +47,22 @@ export class RoutingRulesImpl implements RoutingRules {
   }
 
   /**
-   * List all network manager routing configuration routing rules.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Reachability Analysis Runs.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: RoutingRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<RoutingRule> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): PagedAsyncIterableIterator<ReachabilityAnalysisRun> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      workspaceName,
       options,
     );
     return {
@@ -81,8 +79,7 @@ export class RoutingRulesImpl implements RoutingRules {
         return this.listPagingPage(
           resourceGroupName,
           networkManagerName,
-          configurationName,
-          ruleCollectionName,
+          workspaceName,
           options,
           settings,
         );
@@ -93,19 +90,17 @@ export class RoutingRulesImpl implements RoutingRules {
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: RoutingRulesListOptionalParams,
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<RoutingRule[]> {
-    let result: RoutingRulesListResponse;
+  ): AsyncIterableIterator<ReachabilityAnalysisRun[]> {
+    let result: ReachabilityAnalysisRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         options,
       );
       let page = result.value || [];
@@ -117,8 +112,7 @@ export class RoutingRulesImpl implements RoutingRules {
       result = await this._listNext(
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         continuationToken,
         options,
       );
@@ -132,15 +126,13 @@ export class RoutingRulesImpl implements RoutingRules {
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: RoutingRulesListOptionalParams,
-  ): AsyncIterableIterator<RoutingRule> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): AsyncIterableIterator<ReachabilityAnalysisRun> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
+      workspaceName,
       options,
     )) {
       yield* page;
@@ -148,56 +140,45 @@ export class RoutingRulesImpl implements RoutingRules {
   }
 
   /**
-   * List all network manager routing configuration routing rules.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Reachability Analysis Runs.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    options?: RoutingRulesListOptionalParams,
-  ): Promise<RoutingRulesListResponse> {
+    workspaceName: string,
+    options?: ReachabilityAnalysisRunsListOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        options,
-      },
+      { resourceGroupName, networkManagerName, workspaceName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets a network manager routing configuration routing rule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
-   * @param ruleName The name of the rule.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: RoutingRulesGetOptionalParams,
-  ): Promise<RoutingRulesGetResponse> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsGetOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
+        workspaceName,
+        reachabilityAnalysisRunName,
         options,
       },
       getOperationSpec,
@@ -205,59 +186,59 @@ export class RoutingRulesImpl implements RoutingRules {
   }
 
   /**
-   * Creates or updates an routing rule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Creates Reachability Analysis Runs.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
-   * @param ruleName The name of the rule.
-   * @param routingRule The routing rule to create or update
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
+   * @param body Analysis Run resource object to create/update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    routingRule: RoutingRule,
-    options?: RoutingRulesCreateOrUpdateOptionalParams,
-  ): Promise<RoutingRulesCreateOrUpdateResponse> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    body: ReachabilityAnalysisRun,
+    options?: ReachabilityAnalysisRunsCreateOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
-        routingRule,
+        workspaceName,
+        reachabilityAnalysisRunName,
+        body,
         options,
       },
-      createOrUpdateOperationSpec,
+      createOperationSpec,
     );
   }
 
   /**
-   * Deletes a routing rule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Deletes Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
-   * @param ruleName The name of the rule.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: RoutingRulesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>,
+      ReachabilityAnalysisRunsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ReachabilityAnalysisRunsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -297,14 +278,16 @@ export class RoutingRulesImpl implements RoutingRules {
       args: {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
-        ruleName,
+        workspaceName,
+        reachabilityAnalysisRunName,
         options,
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ReachabilityAnalysisRunsDeleteResponse,
+      OperationState<ReachabilityAnalysisRunsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -314,28 +297,25 @@ export class RoutingRulesImpl implements RoutingRules {
   }
 
   /**
-   * Deletes a routing rule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Deletes Reachability Analysis Run.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
-   * @param ruleName The name of the rule.
+   * @param workspaceName Workspace name.
+   * @param reachabilityAnalysisRunName Reachability Analysis Run name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
-    ruleName: string,
-    options?: RoutingRulesDeleteOptionalParams,
-  ): Promise<void> {
+    workspaceName: string,
+    reachabilityAnalysisRunName: string,
+    options?: ReachabilityAnalysisRunsDeleteOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
-      ruleCollectionName,
-      ruleName,
+      workspaceName,
+      reachabilityAnalysisRunName,
       options,
     );
     return poller.pollUntilDone();
@@ -343,27 +323,24 @@ export class RoutingRulesImpl implements RoutingRules {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Routing Configuration.
-   * @param ruleCollectionName The name of the network manager routing Configuration rule collection.
+   * @param workspaceName Workspace name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    ruleCollectionName: string,
+    workspaceName: string,
     nextLink: string,
-    options?: RoutingRulesListNextOptionalParams,
-  ): Promise<RoutingRulesListNextResponse> {
+    options?: ReachabilityAnalysisRunsListNextOptionalParams,
+  ): Promise<ReachabilityAnalysisRunsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkManagerName,
-        configurationName,
-        ruleCollectionName,
+        workspaceName,
         nextLink,
         options,
       },
@@ -375,106 +352,113 @@ export class RoutingRulesImpl implements RoutingRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingRuleListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-    Parameters.ruleCollectionName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-    Parameters.ruleCollectionName,
-    Parameters.ruleName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     201: {
-      bodyMapper: Mappers.RoutingRule,
+      bodyMapper: Mappers.ReachabilityAnalysisRun,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.routingRule,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-    Parameters.ruleCollectionName,
-    Parameters.ruleName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/routingConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}/reachabilityAnalysisRuns/{reachabilityAnalysisRunName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ReachabilityAnalysisRunsDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-    Parameters.ruleCollectionName,
-    Parameters.ruleName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+    Parameters.reachabilityAnalysisRunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -484,20 +468,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoutingRuleListResult,
+      bodyMapper: Mappers.ReachabilityAnalysisRunListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
-    Parameters.ruleCollectionName,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
