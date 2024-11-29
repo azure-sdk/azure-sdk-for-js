@@ -30,6 +30,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
   ConnectedCachePatchResource,
   MccCacheNodeInstallDetails,
   CacheNodeInstallProperties,

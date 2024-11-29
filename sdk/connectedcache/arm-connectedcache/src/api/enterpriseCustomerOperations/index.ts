@@ -126,7 +126,10 @@ export function enterpriseCustomerOperationsCreateOrUpdate(
   options: EnterpriseCustomerOperationsCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<EnterprisePreviewResource>, EnterprisePreviewResource> {
+): PollerLike<
+  OperationState<EnterprisePreviewResource>,
+  EnterprisePreviewResource
+> {
   return getLongRunningPoller(
     context,
     _enterpriseCustomerOperationsCreateOrUpdateDeserialize,
@@ -145,7 +148,10 @@ export function enterpriseCustomerOperationsCreateOrUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<EnterprisePreviewResource>, EnterprisePreviewResource>;
+  ) as PollerLike<
+    OperationState<EnterprisePreviewResource>,
+    EnterprisePreviewResource
+  >;
 }
 
 export function _enterpriseCustomerOperationsUpdateSend(
@@ -342,7 +348,12 @@ export function enterpriseCustomerOperationsListBySubscription(
 ): PagedAsyncIterableIterator<EnterprisePreviewResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _enterpriseCustomerOperationsListBySubscriptionSend(context, subscriptionId, options),
+    () =>
+      _enterpriseCustomerOperationsListBySubscriptionSend(
+        context,
+        subscriptionId,
+        options,
+      ),
     _enterpriseCustomerOperationsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

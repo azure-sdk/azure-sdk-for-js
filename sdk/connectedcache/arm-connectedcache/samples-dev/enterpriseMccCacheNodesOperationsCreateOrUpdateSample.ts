@@ -40,7 +40,9 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
         statusText: "Success",
         statusDetails: "lgljxmyyoakw",
         additionalCacheNodeProperties: {
-          cacheNodePropertiesDetailsIssuesList: ["ennbzfpuszgalzpawmwicaofqcwcj"],
+          cacheNodePropertiesDetailsIssuesList: [
+            "ennbzfpuszgalzpawmwicaofqcwcj",
+          ],
           driveConfiguration: [
             {
               physicalPath: "pcbkezoofhamkycot",

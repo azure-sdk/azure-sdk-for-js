@@ -10,7 +10,10 @@ import {
   cacheNodesOperationsListByResourceGroup,
   cacheNodesOperationsListBySubscription,
 } from "../../api/cacheNodesOperations/index.js";
-import { ConnectedCachePatchResource, CacheNodePreviewResource } from "../../models/models.js";
+import {
+  ConnectedCachePatchResource,
+  CacheNodePreviewResource,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -36,7 +39,10 @@ export interface CacheNodesOperationsOperations {
     customerResourceName: string,
     resource: CacheNodePreviewResource,
     options?: CacheNodesOperationsCreateorUpdateOptionalParams,
-  ) => PollerLike<OperationState<CacheNodePreviewResource>, CacheNodePreviewResource>;
+  ) => PollerLike<
+    OperationState<CacheNodePreviewResource>,
+    CacheNodePreviewResource
+  >;
   /** Deletes an existing cache Node */
   delete: (
     resourceGroupName: string,
@@ -61,7 +67,10 @@ export interface CacheNodesOperationsOperations {
   ) => PagedAsyncIterableIterator<CacheNodePreviewResource>;
 }
 
-export function getCacheNodesOperations(context: ConnectedCacheContext, subscriptionId: string) {
+export function getCacheNodesOperations(
+  context: ConnectedCacheContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -119,8 +128,15 @@ export function getCacheNodesOperations(context: ConnectedCacheContext, subscrip
       resourceGroupName: string,
       options?: CacheNodesOperationsListByResourceGroupOptionalParams,
     ) =>
-      cacheNodesOperationsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: CacheNodesOperationsListBySubscriptionOptionalParams) =>
+      cacheNodesOperationsListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
+    listBySubscription: (
+      options?: CacheNodesOperationsListBySubscriptionOptionalParams,
+    ) =>
       cacheNodesOperationsListBySubscription(context, subscriptionId, options),
   };
 }

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectedCacheContext as Client, OperationsListOptionalParams } from "../index.js";
+import {
+  ConnectedCacheContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
 import {
   _OperationListResult,
   _operationListResultDeserializer,
