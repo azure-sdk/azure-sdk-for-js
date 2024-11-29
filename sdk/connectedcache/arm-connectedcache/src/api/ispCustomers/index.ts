@@ -119,20 +119,25 @@ export function ispCustomersCreateOrUpdate(
   resource: IspCustomerResource,
   options: IspCustomersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<IspCustomerResource>, IspCustomerResource> {
-  return getLongRunningPoller(context, _ispCustomersCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _ispCustomersCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<IspCustomerResource>, IspCustomerResource>;
+  return getLongRunningPoller(
+    context,
+    _ispCustomersCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _ispCustomersCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          customerResourceName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<IspCustomerResource>, IspCustomerResource>;
 }
 
 export function _ispCustomersUpdateSend(
@@ -204,7 +209,9 @@ export function _ispCustomersDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _ispCustomersDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _ispCustomersDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -221,19 +228,24 @@ export function ispCustomersDelete(
   customerResourceName: string,
   options: IspCustomersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _ispCustomersDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _ispCustomersDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _ispCustomersDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _ispCustomersDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          customerResourceName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _ispCustomersListByResourceGroupSend(
@@ -275,7 +287,13 @@ export function ispCustomersListByResourceGroup(
 ): PagedAsyncIterableIterator<IspCustomerResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _ispCustomersListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _ispCustomersListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _ispCustomersListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

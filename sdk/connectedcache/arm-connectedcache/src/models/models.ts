@@ -64,11 +64,15 @@ export function cacheNodePropertySerializer(item: CacheNodeProperty): any {
       : cacheNodeEntitySerializer(item["cacheNode"]),
     additionalCacheNodeProperties: !item["additionalCacheNodeProperties"]
       ? item["additionalCacheNodeProperties"]
-      : additionalCacheNodePropertiesSerializer(item["additionalCacheNodeProperties"]),
+      : additionalCacheNodePropertiesSerializer(
+          item["additionalCacheNodeProperties"],
+        ),
     statusCode: item["statusCode"],
     statusText: item["statusText"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDetailSerializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailSerializer(item["error"]),
   };
 }
 
@@ -80,12 +84,16 @@ export function cacheNodePropertyDeserializer(item: any): CacheNodeProperty {
       : cacheNodeEntityDeserializer(item["cacheNode"]),
     additionalCacheNodeProperties: !item["additionalCacheNodeProperties"]
       ? item["additionalCacheNodeProperties"]
-      : additionalCacheNodePropertiesDeserializer(item["additionalCacheNodeProperties"]),
+      : additionalCacheNodePropertiesDeserializer(
+          item["additionalCacheNodeProperties"],
+        ),
     statusCode: item["statusCode"],
     statusText: item["statusText"],
     statusDetails: item["statusDetails"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -317,7 +325,9 @@ export function cacheNodeEntityDeserializer(item: any): CacheNodeEntity {
     configurationStateText: item["configurationStateText"],
     addressSpace: item["addressSpace"],
     workerConnections: item["workerConnections"],
-    workerConnectionsLastUpdatedDateTime: !item["workerConnectionsLastUpdatedDateTime"]
+    workerConnectionsLastUpdatedDateTime: !item[
+      "workerConnectionsLastUpdatedDateTime"
+    ]
       ? item["workerConnectionsLastUpdatedDateTime"]
       : new Date(item["workerConnectionsLastUpdatedDateTime"]),
     containerResyncTrigger: item["containerResyncTrigger"],
@@ -459,9 +469,13 @@ export interface AdditionalCacheNodeProperties {
   optionalProperty5?: string;
 }
 
-export function additionalCacheNodePropertiesSerializer(item: AdditionalCacheNodeProperties): any {
+export function additionalCacheNodePropertiesSerializer(
+  item: AdditionalCacheNodeProperties,
+): any {
   return {
-    cacheNodePropertiesDetailsIssuesList: !item["cacheNodePropertiesDetailsIssuesList"]
+    cacheNodePropertiesDetailsIssuesList: !item[
+      "cacheNodePropertiesDetailsIssuesList"
+    ]
       ? item["cacheNodePropertiesDetailsIssuesList"]
       : item["cacheNodePropertiesDetailsIssuesList"].map((p: any) => {
           return p;
@@ -494,7 +508,9 @@ export function additionalCacheNodePropertiesDeserializer(
   item: any,
 ): AdditionalCacheNodeProperties {
   return {
-    cacheNodePropertiesDetailsIssuesList: !item["cacheNodePropertiesDetailsIssuesList"]
+    cacheNodePropertiesDetailsIssuesList: !item[
+      "cacheNodePropertiesDetailsIssuesList"
+    ]
       ? item["cacheNodePropertiesDetailsIssuesList"]
       : item["cacheNodePropertiesDetailsIssuesList"].map((p: any) => {
           return p;
@@ -509,7 +525,9 @@ export function additionalCacheNodePropertiesDeserializer(
     cacheNodeState: item["cacheNodeState"],
     driveConfiguration: !item["driveConfiguration"]
       ? item["driveConfiguration"]
-      : cacheNodeDriveConfigurationArrayDeserializer(item["driveConfiguration"]),
+      : cacheNodeDriveConfigurationArrayDeserializer(
+          item["driveConfiguration"],
+        ),
     bgpConfiguration: !item["bgpConfiguration"]
       ? item["bgpConfiguration"]
       : bgpConfigurationDeserializer(item["bgpConfiguration"]),
@@ -574,7 +592,9 @@ export interface CacheNodeDriveConfiguration {
   nginxMapping?: string;
 }
 
-export function cacheNodeDriveConfigurationSerializer(item: CacheNodeDriveConfiguration): any {
+export function cacheNodeDriveConfigurationSerializer(
+  item: CacheNodeDriveConfiguration,
+): any {
   return {
     physicalPath: item["physicalPath"],
     sizeInGb: item["sizeInGb"],
@@ -583,7 +603,9 @@ export function cacheNodeDriveConfigurationSerializer(item: CacheNodeDriveConfig
   };
 }
 
-export function cacheNodeDriveConfigurationDeserializer(item: any): CacheNodeDriveConfiguration {
+export function cacheNodeDriveConfigurationDeserializer(
+  item: any,
+): CacheNodeDriveConfiguration {
   return {
     physicalPath: item["physicalPath"],
     sizeInGb: item["sizeInGb"],
@@ -614,11 +636,15 @@ export interface ProxyUrlConfiguration {
   proxyUrl?: string;
 }
 
-export function proxyUrlConfigurationSerializer(item: ProxyUrlConfiguration): any {
+export function proxyUrlConfigurationSerializer(
+  item: ProxyUrlConfiguration,
+): any {
   return { proxyUrl: item["proxyUrl"] };
 }
 
-export function proxyUrlConfigurationDeserializer(item: any): ProxyUrlConfiguration {
+export function proxyUrlConfigurationDeserializer(
+  item: any,
+): ProxyUrlConfiguration {
   return {
     proxyUrl: item["proxyUrl"],
   };
@@ -707,7 +733,9 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
@@ -720,13 +748,17 @@ export function errorDetailArraySerializer(result: Array<ErrorDetail>): any[] {
   });
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -740,17 +772,23 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -826,7 +864,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -859,13 +899,29 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
 /** Mcc PATCH operation properties. */
 export interface ConnectedCachePatchResource {
   /** Resource tags. */
   tags?: Record<string, string>;
 }
 
-export function connectedCachePatchResourceSerializer(item: ConnectedCachePatchResource): any {
+export function connectedCachePatchResourceSerializer(
+  item: ConnectedCachePatchResource,
+): any {
   return { tags: item["tags"] };
 }
 
@@ -908,7 +964,9 @@ export interface MccCacheNodeInstallDetails extends TrackedResource {
   properties?: CacheNodeInstallProperties;
 }
 
-export function mccCacheNodeInstallDetailsDeserializer(item: any): MccCacheNodeInstallDetails {
+export function mccCacheNodeInstallDetailsDeserializer(
+  item: any,
+): MccCacheNodeInstallDetails {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -938,7 +996,9 @@ export interface CacheNodeInstallProperties {
   readonly registrationKey?: string;
 }
 
-export function cacheNodeInstallPropertiesDeserializer(item: any): CacheNodeInstallProperties {
+export function cacheNodeInstallPropertiesDeserializer(
+  item: any,
+): CacheNodeInstallProperties {
   return {
     customerId: item["customerId"],
     cacheNodeId: item["cacheNodeId"],
@@ -954,7 +1014,9 @@ export interface EnterpriseMccCustomerResource extends TrackedResource {
   properties?: CustomerProperty;
 }
 
-export function enterpriseMccCustomerResourceSerializer(item: EnterpriseMccCustomerResource): any {
+export function enterpriseMccCustomerResourceSerializer(
+  item: EnterpriseMccCustomerResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1004,25 +1066,35 @@ export interface CustomerProperty {
 
 export function customerPropertySerializer(item: CustomerProperty): any {
   return {
-    customer: !item["customer"] ? item["customer"] : customerEntitySerializer(item["customer"]),
+    customer: !item["customer"]
+      ? item["customer"]
+      : customerEntitySerializer(item["customer"]),
     additionalCustomerProperties: !item["additionalCustomerProperties"]
       ? item["additionalCustomerProperties"]
-      : additionalCustomerPropertiesSerializer(item["additionalCustomerProperties"]),
+      : additionalCustomerPropertiesSerializer(
+          item["additionalCustomerProperties"],
+        ),
   };
 }
 
 export function customerPropertyDeserializer(item: any): CustomerProperty {
   return {
     provisioningState: item["provisioningState"],
-    customer: !item["customer"] ? item["customer"] : customerEntityDeserializer(item["customer"]),
+    customer: !item["customer"]
+      ? item["customer"]
+      : customerEntityDeserializer(item["customer"]),
     additionalCustomerProperties: !item["additionalCustomerProperties"]
       ? item["additionalCustomerProperties"]
-      : additionalCustomerPropertiesDeserializer(item["additionalCustomerProperties"]),
+      : additionalCustomerPropertiesDeserializer(
+          item["additionalCustomerProperties"],
+        ),
     statusCode: item["statusCode"],
     statusText: item["statusText"],
     statusDetails: item["statusDetails"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -1175,7 +1247,9 @@ export interface AdditionalCustomerProperties {
   optionalProperty5?: string;
 }
 
-export function additionalCustomerPropertiesSerializer(item: AdditionalCustomerProperties): any {
+export function additionalCustomerPropertiesSerializer(
+  item: AdditionalCustomerProperties,
+): any {
   return {
     customerEmail: item["customerEmail"],
     customerTransitAsn: item["customerTransitAsn"],
@@ -1184,7 +1258,8 @@ export function additionalCustomerPropertiesSerializer(item: AdditionalCustomerP
     customerEntitlementSkuId: item["customerEntitlementSkuId"],
     customerEntitlementSkuGuid: item["customerEntitlementSkuGuid"],
     customerEntitlementSkuName: item["customerEntitlementSkuName"],
-    customerEntitlementExpiration: item["customerEntitlementExpiration"]?.toISOString(),
+    customerEntitlementExpiration:
+      item["customerEntitlementExpiration"]?.toISOString(),
     optionalProperty1: item["optionalProperty1"],
     optionalProperty2: item["optionalProperty2"],
     optionalProperty3: item["optionalProperty3"],
@@ -1193,22 +1268,28 @@ export function additionalCustomerPropertiesSerializer(item: AdditionalCustomerP
   };
 }
 
-export function additionalCustomerPropertiesDeserializer(item: any): AdditionalCustomerProperties {
+export function additionalCustomerPropertiesDeserializer(
+  item: any,
+): AdditionalCustomerProperties {
   return {
     peeringDbLastUpdateTime: !item["peeringDbLastUpdateTime"]
       ? item["peeringDbLastUpdateTime"]
       : new Date(item["peeringDbLastUpdateTime"]),
-    customerPropertiesOverviewCacheEfficiency: item["customerPropertiesOverviewCacheEfficiency"],
+    customerPropertiesOverviewCacheEfficiency:
+      item["customerPropertiesOverviewCacheEfficiency"],
     customerPropertiesOverviewAverageEgressMbps:
       item["customerPropertiesOverviewAverageEgressMbps"],
-    customerPropertiesOverviewAverageMissMbps: item["customerPropertiesOverviewAverageMissMbps"],
-    customerPropertiesOverviewEgressMbpsMax: item["customerPropertiesOverviewEgressMbpsMax"],
+    customerPropertiesOverviewAverageMissMbps:
+      item["customerPropertiesOverviewAverageMissMbps"],
+    customerPropertiesOverviewEgressMbpsMax:
+      item["customerPropertiesOverviewEgressMbpsMax"],
     customerPropertiesOverviewEgressMbpsMaxDateTime: !item[
       "customerPropertiesOverviewEgressMbpsMaxDateTime"
     ]
       ? item["customerPropertiesOverviewEgressMbpsMaxDateTime"]
       : new Date(item["customerPropertiesOverviewEgressMbpsMaxDateTime"]),
-    customerPropertiesOverviewMissMbpsMax: item["customerPropertiesOverviewMissMbpsMax"],
+    customerPropertiesOverviewMissMbpsMax:
+      item["customerPropertiesOverviewMissMbpsMax"],
     customerPropertiesOverviewMissMbpsMaxDateTime: !item[
       "customerPropertiesOverviewMissMbpsMaxDateTime"
     ]
@@ -1231,7 +1312,8 @@ export function additionalCustomerPropertiesDeserializer(item: any): AdditionalC
     customerTransitAsn: item["customerTransitAsn"],
     customerTransitState: item["customerTransitState"],
     customerAsn: item["customerAsn"],
-    customerAsnEstimatedEgressPeekGbps: item["customerAsnEstimatedEgressPeekGbps"],
+    customerAsnEstimatedEgressPeekGbps:
+      item["customerAsnEstimatedEgressPeekGbps"],
     customerEntitlementSkuId: item["customerEntitlementSkuId"],
     customerEntitlementSkuGuid: item["customerEntitlementSkuGuid"],
     customerEntitlementSkuName: item["customerEntitlementSkuName"],
@@ -1306,7 +1388,9 @@ export interface IspCacheNodeResource extends TrackedResource {
   properties?: CacheNodeProperty;
 }
 
-export function ispCacheNodeResourceSerializer(item: IspCacheNodeResource): any {
+export function ispCacheNodeResourceSerializer(
+  item: IspCacheNodeResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1316,7 +1400,9 @@ export function ispCacheNodeResourceSerializer(item: IspCacheNodeResource): any 
   };
 }
 
-export function ispCacheNodeResourceDeserializer(item: any): IspCacheNodeResource {
+export function ispCacheNodeResourceDeserializer(
+  item: any,
+): IspCacheNodeResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1349,13 +1435,17 @@ export function _ispCacheNodeResourceListResultDeserializer(
   };
 }
 
-export function ispCacheNodeResourceArraySerializer(result: Array<IspCacheNodeResource>): any[] {
+export function ispCacheNodeResourceArraySerializer(
+  result: Array<IspCacheNodeResource>,
+): any[] {
   return result.map((item) => {
     return ispCacheNodeResourceSerializer(item);
   });
 }
 
-export function ispCacheNodeResourceArrayDeserializer(result: Array<IspCacheNodeResource>): any[] {
+export function ispCacheNodeResourceArrayDeserializer(
+  result: Array<IspCacheNodeResource>,
+): any[] {
   return result.map((item) => {
     return ispCacheNodeResourceDeserializer(item);
   });
@@ -1367,7 +1457,9 @@ export interface MccCacheNodeBgpCidrDetails extends TrackedResource {
   properties?: BgpCidrsConfiguration;
 }
 
-export function mccCacheNodeBgpCidrDetailsDeserializer(item: any): MccCacheNodeBgpCidrDetails {
+export function mccCacheNodeBgpCidrDetailsDeserializer(
+  item: any,
+): MccCacheNodeBgpCidrDetails {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1389,7 +1481,9 @@ export interface BgpCidrsConfiguration {
   readonly bgpCidrs?: string[];
 }
 
-export function bgpCidrsConfigurationDeserializer(item: any): BgpCidrsConfiguration {
+export function bgpCidrsConfigurationDeserializer(
+  item: any,
+): BgpCidrsConfiguration {
   return {
     bgpCidrs: !item["bgpCidrs"]
       ? item["bgpCidrs"]
@@ -1415,7 +1509,9 @@ export function ispCustomerResourceSerializer(item: IspCustomerResource): any {
   };
 }
 
-export function ispCustomerResourceDeserializer(item: any): IspCustomerResource {
+export function ispCustomerResourceDeserializer(
+  item: any,
+): IspCustomerResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1448,13 +1544,17 @@ export function _ispCustomerResourceListResultDeserializer(
   };
 }
 
-export function ispCustomerResourceArraySerializer(result: Array<IspCustomerResource>): any[] {
+export function ispCustomerResourceArraySerializer(
+  result: Array<IspCustomerResource>,
+): any[] {
   return result.map((item) => {
     return ispCustomerResourceSerializer(item);
   });
 }
 
-export function ispCustomerResourceArrayDeserializer(result: Array<IspCustomerResource>): any[] {
+export function ispCustomerResourceArrayDeserializer(
+  result: Array<IspCustomerResource>,
+): any[] {
   return result.map((item) => {
     return ispCustomerResourceDeserializer(item);
   });
@@ -1466,7 +1566,9 @@ export interface CacheNodePreviewResource extends TrackedResource {
   properties?: CacheNodeOldResponse;
 }
 
-export function cacheNodePreviewResourceSerializer(item: CacheNodePreviewResource): any {
+export function cacheNodePreviewResourceSerializer(
+  item: CacheNodePreviewResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1476,7 +1578,9 @@ export function cacheNodePreviewResourceSerializer(item: CacheNodePreviewResourc
   };
 }
 
-export function cacheNodePreviewResourceDeserializer(item: any): CacheNodePreviewResource {
+export function cacheNodePreviewResourceDeserializer(
+  item: any,
+): CacheNodePreviewResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1508,23 +1612,31 @@ export interface CacheNodeOldResponse {
   error?: ErrorDetail;
 }
 
-export function cacheNodeOldResponseSerializer(item: CacheNodeOldResponse): any {
+export function cacheNodeOldResponseSerializer(
+  item: CacheNodeOldResponse,
+): any {
   return {
     statusCode: item["statusCode"],
     statusText: item["statusText"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDetailSerializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailSerializer(item["error"]),
   };
 }
 
-export function cacheNodeOldResponseDeserializer(item: any): CacheNodeOldResponse {
+export function cacheNodeOldResponseDeserializer(
+  item: any,
+): CacheNodeOldResponse {
   return {
     provisioningState: item["provisioningState"],
     statusCode: item["statusCode"],
     statusText: item["statusText"],
     statusDetails: item["statusDetails"],
     status: item["status"],
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -1567,7 +1679,9 @@ export interface EnterprisePreviewResource extends TrackedResource {
   properties?: CacheNodeOldResponse;
 }
 
-export function enterprisePreviewResourceSerializer(item: EnterprisePreviewResource): any {
+export function enterprisePreviewResourceSerializer(
+  item: EnterprisePreviewResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1577,7 +1691,9 @@ export function enterprisePreviewResourceSerializer(item: EnterprisePreviewResou
   };
 }
 
-export function enterprisePreviewResourceDeserializer(item: any): EnterprisePreviewResource {
+export function enterprisePreviewResourceDeserializer(
+  item: any,
+): EnterprisePreviewResource {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -1634,7 +1750,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1665,7 +1783,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -1692,14 +1812,14 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
   };
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
-  User = "user",
-  /** system */
-  System = "system",
-  /** user,system */
-  UserSystem = "user,system",
+  /** Indicates the operation is initiated by a user. */
+  user = "user",
+  /** Indicates the operation is initiated by a system. */
+  system = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  "user,system" = "user,system",
 }
 
 /**
@@ -1707,9 +1827,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
