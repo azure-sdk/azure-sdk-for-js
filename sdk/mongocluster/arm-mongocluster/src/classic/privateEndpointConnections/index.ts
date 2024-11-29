@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
-import { PrivateEndpointConnectionResource } from "../../models/models.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import {
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+} from "../../api/options.js";
 import {
   privateEndpointConnectionsListByMongoCluster,
   privateEndpointConnectionsGet,
   privateEndpointConnectionsCreate,
   privateEndpointConnectionsDelete,
 } from "../../api/privateEndpointConnections/index.js";
+import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
@@ -53,7 +53,10 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
+export function getPrivateEndpointConnections(
+  context: MongoClusterManagementContext,
+  subscriptionId: string,
+) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
@@ -115,7 +118,7 @@ export function getPrivateEndpointConnections(context: DocumentDBContext, subscr
 }
 
 export function getPrivateEndpointConnectionsOperations(
-  context: DocumentDBContext,
+  context: MongoClusterManagementContext,
   subscriptionId: string,
 ): PrivateEndpointConnectionsOperations {
   return {
