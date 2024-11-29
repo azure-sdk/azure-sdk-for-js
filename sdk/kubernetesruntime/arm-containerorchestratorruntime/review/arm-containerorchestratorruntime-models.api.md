@@ -40,6 +40,26 @@ export type CreatedByType = string;
 export type DataResilienceTier = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtensionResource extends Resource {
 }
 
@@ -94,9 +114,9 @@ export enum KnownNfsDirectoryActionOnVolumeDeletion {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -126,6 +146,11 @@ export enum KnownSCType {
     NFS = "NFS",
     RWX = "RWX",
     SMB = "SMB"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_03_01 = "2024-03-01"
 }
 
 // @public

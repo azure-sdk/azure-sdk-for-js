@@ -43,7 +43,9 @@ export function _bgpPeersGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _bgpPeersGetDeserialize(result: PathUncheckedResponse): Promise<BgpPeer> {
+export async function _bgpPeersGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BgpPeer> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -59,7 +61,12 @@ export async function bgpPeersGet(
   bgpPeerName: string,
   options: BgpPeersGetOptionalParams = { requestOptions: {} },
 ): Promise<BgpPeer> {
-  const result = await _bgpPeersGetSend(context, resourceUri, bgpPeerName, options);
+  const result = await _bgpPeersGetSend(
+    context,
+    resourceUri,
+    bgpPeerName,
+    options,
+  );
   return _bgpPeersGetDeserialize(result);
 }
 
@@ -101,13 +108,24 @@ export function bgpPeersCreateOrUpdate(
   resource: BgpPeer,
   options: BgpPeersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BgpPeer>, BgpPeer> {
-  return getLongRunningPoller(context, _bgpPeersCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _bgpPeersCreateOrUpdateSend(context, resourceUri, bgpPeerName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BgpPeer>, BgpPeer>;
+  return getLongRunningPoller(
+    context,
+    _bgpPeersCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _bgpPeersCreateOrUpdateSend(
+          context,
+          resourceUri,
+          bgpPeerName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<BgpPeer>, BgpPeer>;
 }
 
 export function _bgpPeersDeleteSend(
@@ -125,7 +143,9 @@ export function _bgpPeersDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _bgpPeersDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _bgpPeersDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -141,7 +161,12 @@ export async function bgpPeersDelete(
   bgpPeerName: string,
   options: BgpPeersDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _bgpPeersDeleteSend(context, resourceUri, bgpPeerName, options);
+  const result = await _bgpPeersDeleteSend(
+    context,
+    resourceUri,
+    bgpPeerName,
+    options,
+  );
   return _bgpPeersDeleteDeserialize(result);
 }
 

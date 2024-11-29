@@ -12,13 +12,16 @@ export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   ServiceResource,
   ServiceProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   ExtensionResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   BgpPeer,
   BgpPeerProperties,
   LoadBalancer,
@@ -59,6 +62,7 @@ export {
   StorageClassResourceUpdate,
   StorageClassPropertiesUpdate,
   StorageClassTypePropertiesUpdate,
+  KnownVersions,
 } from "./models/index.js";
 export {
   KubernetesRuntimeClientOptionalParams,

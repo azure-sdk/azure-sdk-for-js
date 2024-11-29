@@ -64,7 +64,12 @@ export async function storageClassGet(
   storageClassName: string,
   options: StorageClassGetOptionalParams = { requestOptions: {} },
 ): Promise<StorageClassResource> {
-  const result = await _storageClassGetSend(context, resourceUri, storageClassName, options);
+  const result = await _storageClassGetSend(
+    context,
+    resourceUri,
+    storageClassName,
+    options,
+  );
   return _storageClassGetDeserialize(result);
 }
 
@@ -106,13 +111,24 @@ export function storageClassCreateOrUpdate(
   resource: StorageClassResource,
   options: StorageClassCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageClassResource>, StorageClassResource> {
-  return getLongRunningPoller(context, _storageClassCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _storageClassCreateOrUpdateSend(context, resourceUri, storageClassName, resource, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
+  return getLongRunningPoller(
+    context,
+    _storageClassCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _storageClassCreateOrUpdateSend(
+          context,
+          resourceUri,
+          storageClassName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
 }
 
 export function _storageClassUpdateSend(
@@ -153,13 +169,24 @@ export function storageClassUpdate(
   properties: StorageClassResourceUpdate,
   options: StorageClassUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageClassResource>, StorageClassResource> {
-  return getLongRunningPoller(context, _storageClassUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _storageClassUpdateSend(context, resourceUri, storageClassName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
+  return getLongRunningPoller(
+    context,
+    _storageClassUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _storageClassUpdateSend(
+          context,
+          resourceUri,
+          storageClassName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
 }
 
 export function _storageClassDeleteSend(
@@ -177,7 +204,9 @@ export function _storageClassDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _storageClassDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _storageClassDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -193,13 +222,23 @@ export function storageClassDelete(
   storageClassName: string,
   options: StorageClassDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _storageClassDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _storageClassDeleteSend(context, resourceUri, storageClassName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _storageClassDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _storageClassDeleteSend(
+          context,
+          resourceUri,
+          storageClassName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _storageClassListSend(
@@ -208,10 +247,10 @@ export function _storageClassListSend(
   options: StorageClassListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses", {
-      value: resourceUri,
-      allowReserved: true,
-    })
+    .path(
+      "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses",
+      { value: resourceUri, allowReserved: true },
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
