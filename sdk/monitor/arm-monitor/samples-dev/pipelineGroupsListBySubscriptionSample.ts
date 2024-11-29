@@ -5,17 +5,17 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list the operations for the provider
+ * This sample demonstrates how to lists all workspaces in the specified subscription
  *
- * @summary list the operations for the provider
- * x-ms-original-file: 2023-10-01-preview/OperationsList.json
+ * @summary lists all workspaces in the specified subscription
+ * x-ms-original-file: 2023-10-01-preview/PipelineGroupListBySubscription.json
  */
-async function listsTheMicrosoftMonitorResourceProviderOperations() {
+async function listPipelineGroupsBySubscription() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (let item of client.pipelineGroups.listBySubscription()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listsTheMicrosoftMonitorResourceProviderOperations() {
 }
 
 async function main() {
-  listsTheMicrosoftMonitorResourceProviderOperations();
+  listPipelineGroupsBySubscription();
 }
 
 main().catch(console.error);

@@ -5,25 +5,25 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updates part of a workspace
+ * This sample demonstrates how to create or update a workspace
  *
- * @summary updates part of a workspace
- * x-ms-original-file: 2023-10-01-preview/AzureMonitorWorkspaceUpdate.json
+ * @summary create or update a workspace
+ * x-ms-original-file: 2023-10-01-preview/AzureMonitorWorkspaceCreate.json
  */
-async function updatesAnAzureMonitorWorkspace() {
+async function createsAnAzureMonitorWorkspace() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.azureMonitorWorkspaces.update(
+  const result = await client.azureMonitorWorkspaces.createOrUpdate(
     "myResourceGroup",
     "myAzureMonitorWorkspace",
-    { tags: { tag1: "A", tag2: "B", tag3: "C" } },
+    { location: "eastus", properties: {} },
   );
   console.log(result);
 }
 
 async function main() {
-  updatesAnAzureMonitorWorkspace();
+  createsAnAzureMonitorWorkspace();
 }
 
 main().catch(console.error);
