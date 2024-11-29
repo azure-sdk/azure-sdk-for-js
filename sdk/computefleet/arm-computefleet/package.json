@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-computefleet",
-  "version": "1.0.1",
-  "description": "Azure Fleet Service",
+  "version": "2.0.0",
+  "description": "A generated SDK for AzureFleetClient.",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@azure/core-util": "^1.9.2",
-    "@azure-rest/core-client": "^2.1.0",
+    "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
@@ -67,9 +67,11 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
-    "eslint": "^9.9.0",
+    "eslint": "^8.55.0",
     "typescript": "~5.6.2",
+    "tshy": "^2.0.0",
     "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
@@ -82,10 +84,10 @@
   },
   "scripts": {
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "extract-api": "dev-tool run vendored rimraf review && mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
@@ -102,7 +104,8 @@
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "update-snippets": "echo skipped"
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-computefleet",
@@ -116,44 +119,36 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     },
     "./models": {
       "browser": {
-        "source": "./src/models/index.ts",
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
       },
       "react-native": {
-        "source": "./src/models/index.ts",
         "types": "./dist/react-native/models/index.d.ts",
         "default": "./dist/react-native/models/index.js"
       },
       "import": {
-        "source": "./src/models/index.ts",
         "types": "./dist/esm/models/index.d.ts",
         "default": "./dist/esm/models/index.js"
       },
       "require": {
-        "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
       }
