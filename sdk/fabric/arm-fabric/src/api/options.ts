@@ -7,7 +7,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface FabricCapacitiesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FabricCapacitiesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface FabricCapacitiesCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -25,10 +26,12 @@ export interface FabricCapacitiesDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FabricCapacitiesListByResourceGroupOptionalParams extends OperationOptions {}
+export interface FabricCapacitiesListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FabricCapacitiesListBySubscriptionOptionalParams extends OperationOptions {}
+export interface FabricCapacitiesListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface FabricCapacitiesResumeOptionalParams extends OperationOptions {
@@ -37,19 +40,23 @@ export interface FabricCapacitiesResumeOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FabricCapacitiesSuspendOptionalParams extends OperationOptions {
+export interface FabricCapacitiesSuspendOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {}
+export interface FabricCapacitiesCheckNameAvailabilityOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FabricCapacitiesListSkusForCapacityOptionalParams extends OperationOptions {}
+export interface FabricCapacitiesListSkusForCapacityOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions {}
+export interface FabricCapacitiesListSkusOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams extends OperationOptions {}

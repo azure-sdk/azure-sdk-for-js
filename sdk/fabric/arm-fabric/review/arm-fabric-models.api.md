@@ -32,6 +32,26 @@ export interface CheckNameAvailabilityResponse {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FabricCapacity extends TrackedResource {
     properties: FabricCapacityProperties;
     sku: RpSku;
@@ -77,9 +97,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -110,7 +130,12 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownRpSkuTier {
-    Fabric = "Fabric"
+    fabric = "Fabric"
+}
+
+// @public
+export enum KnownVersions {
+    v2023_11_01 = "2023-11-01"
 }
 
 // @public

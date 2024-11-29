@@ -34,11 +34,11 @@ import {
   _rpSkuEnumerationForNewResourceResultDeserializer,
   RpSkuDetailsForNewResource,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -138,20 +138,25 @@ export function fabricCapacitiesCreateOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
 export function _fabricCapacitiesUpdateSend(
@@ -195,20 +200,25 @@ export function fabricCapacitiesUpdate(
   properties: FabricCapacityUpdate,
   options: FabricCapacitiesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<FabricCapacity>, FabricCapacity> {
-  return getLongRunningPoller(context, _fabricCapacitiesUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        properties,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
 }
 
 export function _fabricCapacitiesDeleteSend(
@@ -247,19 +257,24 @@ export function fabricCapacitiesDelete(
   capacityName: string,
   options: FabricCapacitiesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesListByResourceGroupSend(
@@ -302,7 +317,12 @@ export function fabricCapacitiesListByResourceGroup(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _fabricCapacitiesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+      _fabricCapacitiesListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _fabricCapacitiesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -317,7 +337,10 @@ export function _fabricCapacitiesListBySubscriptionSend(
   },
 ): StreamableMethod {
   return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/capacities",
+      subscriptionId,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -342,7 +365,8 @@ export function fabricCapacitiesListBySubscription(
 ): PagedAsyncIterableIterator<FabricCapacity> {
   return buildPagedAsyncIterator(
     context,
-    () => _fabricCapacitiesListBySubscriptionSend(context, subscriptionId, options),
+    () =>
+      _fabricCapacitiesListBySubscriptionSend(context, subscriptionId, options),
     _fabricCapacitiesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -385,19 +409,24 @@ export function fabricCapacitiesResume(
   capacityName: string,
   options: FabricCapacitiesResumeOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesResumeDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesResumeSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesResumeDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesResumeSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesSuspendSend(
@@ -436,19 +465,24 @@ export function fabricCapacitiesSuspend(
   capacityName: string,
   options: FabricCapacitiesSuspendOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fabricCapacitiesSuspendDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fabricCapacitiesSuspendSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fabricCapacitiesSuspendDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fabricCapacitiesSuspendSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          capacityName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fabricCapacitiesCheckNameAvailabilitySend(
@@ -565,7 +599,10 @@ export function _fabricCapacitiesListSkusSend(
   options: FabricCapacitiesListSkusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/skus",
+      subscriptionId,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
