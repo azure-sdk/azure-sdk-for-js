@@ -1,13 +1,13 @@
-# Azure InformaticaDataManagement client library for JavaScript
+# Azure DataManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure InformaticaDataManagement client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DataManagement client.
 
 
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/informatica/arm-informaticadatamanagement) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-informaticadatamanagement) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-informaticadatamanagement)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview)
 
 ## Getting started
 
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-informaticadatamanagement` package
 
-Install the Azure InformaticaDataManagement client library for JavaScript with `npm`:
+Install the Azure DataManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-informaticadatamanagement
 ```
 
-### Create and authenticate a `InformaticaDataManagement`
+### Create and authenticate a `DataManagementClient`
 
-To create a client object to access the Azure InformaticaDataManagement API, you will need the `endpoint` of your Azure InformaticaDataManagement resource and a `credential`. The Azure InformaticaDataManagement client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure InformaticaDataManagement resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure DataManagement API, you will need the `endpoint` of your Azure DataManagement resource and a `credential`. The Azure DataManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure DataManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,25 +43,25 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure InformaticaDataManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure DataManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { InformaticaDataManagement } = require("@azure/arm-informaticadatamanagement");
+const { DataManagementClient } = require("@azure/arm-informaticadatamanagement");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new InformaticaDataManagement(new DefaultAzureCredential(), subscriptionId);
+const client = new DataManagementClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new InformaticaDataManagement(credential, subscriptionId);
+// const client = new DataManagementClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### InformaticaDataManagement
+### DataManagementClient
 
-`InformaticaDataManagement` is the primary interface for developers using the Azure InformaticaDataManagement client library. Explore the methods on this client object to understand the different features of the Azure InformaticaDataManagement service that you can access.
+`DataManagementClient` is the primary interface for developers using the Azure DataManagement client library. Explore the methods on this client object to understand the different features of the Azure DataManagement service that you can access.
 
 ## Troubleshooting
 
@@ -87,9 +87,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -99,10 +96,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Finformatica%2Farm-informaticadatamanagement%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

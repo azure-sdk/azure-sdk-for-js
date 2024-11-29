@@ -4,15 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
 
@@ -82,26 +73,7 @@ export interface ComputeUnitsMetadata {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
-
-// @public (undocumented)
-export class DataManagementClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: DataManagementClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly organizations: OrganizationsOperations;
-    readonly pipeline: Pipeline;
-    readonly serverlessRuntimes: ServerlessRuntimesOperations;
-}
-
-// @public
-export interface DataManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -331,15 +303,6 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OrganizationProperties {
     companyDetails?: CompanyDetails;
     informaticaProperties?: InformaticaProperties;
@@ -359,65 +322,7 @@ export interface OrganizationPropertiesCustomUpdate {
 }
 
 // @public
-export interface OrganizationsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OrganizationsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface OrganizationsGetAllServerlessRuntimesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsGetServerlessMetadataOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OrganizationsOperations {
-    createOrUpdate: (resourceGroupName: string, organizationName: string, resource: InformaticaOrganizationResource, options?: OrganizationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<InformaticaOrganizationResource>, InformaticaOrganizationResource>;
-    delete: (resourceGroupName: string, organizationName: string, options?: OrganizationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetOptionalParams) => Promise<InformaticaOrganizationResource>;
-    getAllServerlessRuntimes: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetAllServerlessRuntimesOptionalParams) => Promise<InformaticaServerlessRuntimeResourceList>;
-    getServerlessMetadata: (resourceGroupName: string, organizationName: string, options?: OrganizationsGetServerlessMetadataOptionalParams) => Promise<ServerlessMetadataResponse>;
-    listByResourceGroup: (resourceGroupName: string, options?: OrganizationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<InformaticaOrganizationResource>;
-    listBySubscription: (options?: OrganizationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<InformaticaOrganizationResource>;
-    update: (resourceGroupName: string, organizationName: string, properties: InformaticaOrganizationResourceUpdate, options?: OrganizationsUpdateOptionalParams) => Promise<InformaticaOrganizationResource>;
-}
-
-// @public
-export interface OrganizationsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type PlatformType = string;
@@ -441,16 +346,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -518,52 +413,6 @@ export interface ServerlessRuntimePropertiesCustomUpdate {
     serverlessRuntimeTags?: ServerlessRuntimeTag[];
     serverlessRuntimeUserContextProperties?: ServerlessRuntimeUserContextPropertiesUpdate;
     supplementaryFileLocation?: string;
-}
-
-// @public
-export interface ServerlessRuntimesCheckDependenciesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServerlessRuntimesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ServerlessRuntimesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ServerlessRuntimesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServerlessRuntimesOperations {
-    checkDependencies: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesCheckDependenciesOptionalParams) => Promise<CheckDependenciesResponse>;
-    createOrUpdate: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, resource: InformaticaServerlessRuntimeResource, options?: ServerlessRuntimesCreateOrUpdateOptionalParams) => PollerLike<OperationState<InformaticaServerlessRuntimeResource>, InformaticaServerlessRuntimeResource>;
-    delete: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesGetOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
-    listByInformaticaOrganizationResource: (resourceGroupName: string, organizationName: string, options?: ServerlessRuntimesListByInformaticaOrganizationResourceOptionalParams) => PagedAsyncIterableIterator<InformaticaServerlessRuntimeResource>;
-    serverlessResourceById: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesServerlessResourceByIdOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
-    startFailedServerlessRuntime: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, options?: ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams) => Promise<void>;
-    update: (resourceGroupName: string, organizationName: string, serverlessRuntimeName: string, properties: InformaticaServerlessRuntimeResourceUpdate, options?: ServerlessRuntimesUpdateOptionalParams) => Promise<InformaticaServerlessRuntimeResource>;
-}
-
-// @public
-export interface ServerlessRuntimesServerlessResourceByIdOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServerlessRuntimesStartFailedServerlessRuntimeOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServerlessRuntimesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
