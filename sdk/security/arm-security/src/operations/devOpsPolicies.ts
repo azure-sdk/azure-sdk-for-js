@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { GitLabGroups } from "../operationsInterfaces";
+import { DevOpsPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  GitLabGroup,
-  GitLabGroupsListNextOptionalParams,
-  GitLabGroupsListOptionalParams,
-  GitLabGroupsListResponse,
-  GitLabGroupsListAvailableOptionalParams,
-  GitLabGroupsListAvailableResponse,
-  GitLabGroupsGetOptionalParams,
-  GitLabGroupsGetResponse,
-  GitLabGroupsListNextResponse,
+  DevOpsPolicy,
+  DevOpsPoliciesListNextOptionalParams,
+  DevOpsPoliciesListOptionalParams,
+  DevOpsPoliciesListResponse,
+  DevOpsPoliciesGetOptionalParams,
+  DevOpsPoliciesGetResponse,
+  DevOpsPoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GitLabGroups operations. */
-export class GitLabGroupsImpl implements GitLabGroups {
+/** Class containing DevOpsPolicies operations. */
+export class DevOpsPoliciesImpl implements DevOpsPolicies {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class GitLabGroups class.
+   * Initialize a new instance of the class DevOpsPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -39,7 +37,7 @@ export class GitLabGroupsImpl implements GitLabGroups {
   }
 
   /**
-   * Returns a list of GitLab groups onboarded to the connector.
+   * Returns a list of DevOps Policies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
@@ -47,8 +45,8 @@ export class GitLabGroupsImpl implements GitLabGroups {
   public list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: GitLabGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<GitLabGroup> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): PagedAsyncIterableIterator<DevOpsPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       securityConnectorName,
@@ -78,10 +76,10 @@ export class GitLabGroupsImpl implements GitLabGroups {
   private async *listPagingPage(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: GitLabGroupsListOptionalParams,
+    options?: DevOpsPoliciesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<GitLabGroup[]> {
-    let result: GitLabGroupsListResponse;
+  ): AsyncIterableIterator<DevOpsPolicy[]> {
+    let result: DevOpsPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -111,8 +109,8 @@ export class GitLabGroupsImpl implements GitLabGroups {
   private async *listPagingAll(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: GitLabGroupsListOptionalParams,
-  ): AsyncIterableIterator<GitLabGroup> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): AsyncIterableIterator<DevOpsPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       securityConnectorName,
@@ -123,24 +121,7 @@ export class GitLabGroupsImpl implements GitLabGroups {
   }
 
   /**
-   * Returns a list of all GitLab groups accessible by the user token consumed by the connector.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param securityConnectorName The security connector name.
-   * @param options The options parameters.
-   */
-  listAvailable(
-    resourceGroupName: string,
-    securityConnectorName: string,
-    options?: GitLabGroupsListAvailableOptionalParams,
-  ): Promise<GitLabGroupsListAvailableResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, securityConnectorName, options },
-      listAvailableOperationSpec,
-    );
-  }
-
-  /**
-   * Returns a list of GitLab groups onboarded to the connector.
+   * Returns a list of DevOps Policies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
@@ -148,8 +129,8 @@ export class GitLabGroupsImpl implements GitLabGroups {
   private _list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: GitLabGroupsListOptionalParams,
-  ): Promise<GitLabGroupsListResponse> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): Promise<DevOpsPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, options },
       listOperationSpec,
@@ -157,20 +138,20 @@ export class GitLabGroupsImpl implements GitLabGroups {
   }
 
   /**
-   * Returns a monitored GitLab Group resource for a given fully-qualified name.
+   * Returns a DevOps Policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param groupFQName The GitLab group fully-qualified name.
+   * @param policyName The policy name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     securityConnectorName: string,
-    groupFQName: string,
-    options?: GitLabGroupsGetOptionalParams,
-  ): Promise<GitLabGroupsGetResponse> {
+    policyName: string,
+    options?: DevOpsPoliciesGetOptionalParams,
+  ): Promise<DevOpsPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, securityConnectorName, groupFQName, options },
+      { resourceGroupName, securityConnectorName, policyName, options },
       getOperationSpec,
     );
   }
@@ -186,8 +167,8 @@ export class GitLabGroupsImpl implements GitLabGroups {
     resourceGroupName: string,
     securityConnectorName: string,
     nextLink: string,
-    options?: GitLabGroupsListNextOptionalParams,
-  ): Promise<GitLabGroupsListNextResponse> {
+    options?: DevOpsPoliciesListNextOptionalParams,
+  ): Promise<DevOpsPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, nextLink, options },
       listNextOperationSpec,
@@ -197,39 +178,18 @@ export class GitLabGroupsImpl implements GitLabGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAvailableOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/listAvailableGitLabGroups",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GitLabGroupListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponseAutoGenerated2,
-    },
-  },
-  queryParameters: [Parameters.apiVersion16],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.securityConnectorName,
-    Parameters.resourceGroupName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/gitLabGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GitLabGroupListResponse,
+      bodyMapper: Mappers.DevOpsPolicyListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
     },
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [Parameters.apiVersion16, Parameters.devOpsPolicyType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -240,11 +200,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/gitLabGroups/{groupFQName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policies/{policyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GitLabGroup,
+      bodyMapper: Mappers.DevOpsPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
@@ -256,7 +216,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
-    Parameters.groupFQName,
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -266,7 +226,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GitLabGroupListResponse,
+      bodyMapper: Mappers.DevOpsPolicyListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
