@@ -16052,7 +16052,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-+5tR0/8imeG87xGD8pU1peJPQTPEgNuwJry5owZ5p8AtQ3bqkWV6MiUQkUWfC7p4Tc/gpgDTxbSOCxFzDt1GeA==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-QcINGXYXB8ASuYTwZW6nt0SE//25XahJIzJjEdUa/adxTBdg0KcuhDEKLaENdG8QnNN+wOJLJocTy7A8zH8xJg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -16068,6 +16068,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
