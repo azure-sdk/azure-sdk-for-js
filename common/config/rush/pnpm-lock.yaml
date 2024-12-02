@@ -1412,6 +1412,19 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-msi@2.1.0:
+    resolution: {integrity: sha512-qP2BXpXkZ/I5gO479Dj6HFVkgSrAlYOG2AGVTqxTu0YIVdZdmrlZLH7SNl1Um9id+p7uNGNRdVKIBO5rcQgeJw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network@32.2.0:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
@@ -15189,7 +15202,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-c7XSTAu4eiKGa8w7gZydqCYKvOxGnBj2qVRzhB15cGQ0IZWS27MYEhwoYe8hq6O+iPF9yregg2l33ASY0vREmw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-ZDRCg4UaYU3An2ce65+I6zp94xZX8ocF/rSpNKIg5UwrSg5rL6HEL5F5VKsfG9woL1PQgjKPHysIqLK/ISPpCQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -15197,6 +15210,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/arm-compute': 21.6.0
+      '@azure/arm-msi': 2.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
@@ -16076,7 +16090,7 @@ packages:
     dev: false
 
   file:projects/arm-msi.tgz:
-    resolution: {integrity: sha512-qlbY+DddnbljL9sOMygqjVNhhZ5gksINQ/T3jBKJG1X0kx5XORTV2u85Wq8px0NaEHSuYERny95YqU5H/Dty4Q==, tarball: file:projects/arm-msi.tgz}
+    resolution: {integrity: sha512-ywKw3sM8HZNgRcBNScwfJG0muzPSKO3oY/xfQf3RxdYYDmD2dRDIhwDisozKyH7ztUXNQbM1gMnzn+3OskigNw==, tarball: file:projects/arm-msi.tgz}
     name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
@@ -16090,6 +16104,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
