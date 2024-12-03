@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
+  MongoClusterManagementContext as Client,
+  PrivateLinksListByMongoClusterOptionalParams,
+} from "../index.js";
+import {
+  _PrivateLinkResourceListResult,
+  _privateLinkResourceListResultDeserializer,
+  PrivateLinkResource,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _privateLinksListByMongoClusterSend(
   context: Client,
@@ -42,39 +48,7 @@ export async function _privateLinksListByMongoClusterDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              groupId: p.properties?.["groupId"],
-              requiredMembers: p.properties?.["requiredMembers"],
-              requiredZoneNames: p.properties?.["requiredZoneNames"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _privateLinkResourceListResultDeserializer(result.body);
 }
 
 /** list private links on the given resource */

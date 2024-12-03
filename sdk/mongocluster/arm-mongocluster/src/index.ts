@@ -7,17 +7,9 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  MongoClusterManagementClient,
-  MongoClusterManagementClientOptionalParams,
-} from "./mongoClusterManagementClient.js";
+export { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ProxyResource,
   Replica,
   MongoClusterProperties,
   KnownCreateMode,
@@ -26,6 +18,7 @@ export {
   MongoClusterReplicaParameters,
   AdministratorProperties,
   KnownProvisioningState,
+  ProvisioningState,
   KnownMongoClusterStatus,
   MongoClusterStatus,
   KnownPublicNetworkAccess,
@@ -37,6 +30,9 @@ export {
   ShardingProperties,
   ComputeProperties,
   BackupProperties,
+  DataApiProperties,
+  KnownDataApiMode,
+  DataApiMode,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
@@ -52,13 +48,21 @@ export {
   ReplicationRole,
   KnownReplicationState,
   ReplicationState,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  ProxyResource,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   PrivateEndpointConnectionResource,
   FirewallRule,
   FirewallRuleProperties,
-  TrackedResource,
   MongoCluster,
+  TrackedResource,
   MongoClusterUpdate,
   MongoClusterUpdateProperties,
   ListConnectionStringsResult,
@@ -78,7 +82,10 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
+  KnownVersions,
+} from "./models/index.js";
+export {
+  MongoClusterManagementClientOptionalParams,
   OperationsListOptionalParams,
   MongoClustersGetOptionalParams,
   MongoClustersCreateOrUpdateOptionalParams,
@@ -99,7 +106,7 @@ export {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateLinksListByMongoClusterOptionalParams,
   ReplicasListByParentOptionalParams,
-} from "./models/index.js";
+} from "./api/index.js";
 export {
   FirewallRulesOperations,
   MongoClustersOperations,

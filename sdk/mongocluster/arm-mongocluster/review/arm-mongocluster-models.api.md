@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -55,6 +53,34 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export type DataApiMode = string;
+
+// @public
+export interface DataApiProperties {
+    mode?: DataApiMode;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -64,24 +90,6 @@ export interface FirewallRuleProperties {
     endIpAddress: string;
     readonly provisioningState?: ProvisioningState;
     startIpAddress: string;
-}
-
-// @public
-export interface FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -120,6 +128,12 @@ export enum KnownCreateMode {
 }
 
 // @public
+export enum KnownDataApiMode {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownHighAvailabilityMode {
     Disabled = "Disabled",
     SameZone = "SameZone",
@@ -139,9 +153,9 @@ export enum KnownMongoClusterStatus {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -208,6 +222,14 @@ export enum KnownReplicationState {
 }
 
 // @public
+export enum KnownVersions {
+    v2024_03_01_preview = "2024-03-01-preview",
+    v2024_06_01_preview = "2024-06-01-preview",
+    v2024_07_01 = "2024-07-01",
+    v2024_10_01_preview = "2024-10-01-preview"
+}
+
+// @public
 export interface ListConnectionStringsResult {
     readonly connectionStrings?: ConnectionString[];
 }
@@ -225,6 +247,7 @@ export interface MongoClusterProperties {
     compute?: ComputeProperties;
     readonly connectionString?: string;
     createMode?: CreateMode;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
     previewFeatures?: PreviewFeature[];
@@ -252,47 +275,7 @@ export interface MongoClusterRestoreParameters {
 }
 
 // @public
-export interface MongoClustersCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListConnectionStringsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersPromoteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type MongoClusterStatus = string;
-
-// @public
-export interface MongoClustersUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface MongoClusterUpdate {
@@ -305,6 +288,7 @@ export interface MongoClusterUpdateProperties {
     administrator?: AdministratorProperties;
     backup?: BackupProperties;
     compute?: ComputeProperties;
+    dataApi?: DataApiProperties;
     highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
@@ -328,10 +312,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -367,24 +347,6 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {
-}
-
-// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -404,10 +366,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -435,10 +393,6 @@ export type PublicNetworkAccess = string;
 // @public
 export interface Replica extends ProxyResource {
     properties?: MongoClusterProperties;
-}
-
-// @public
-export interface ReplicasListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
