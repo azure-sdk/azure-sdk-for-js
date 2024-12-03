@@ -1,15 +1,13 @@
 # Release History
-
-## 21.3.1 (Unreleased)
-
+    
+## 21.4.0 (2024-12-03)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AgentPool has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+    
+    
 ## 21.3.0 (2024-11-15)
     
 ### Features Added

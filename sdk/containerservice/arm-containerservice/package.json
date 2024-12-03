@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceClient.",
-  "version": "21.3.1",
+  "version": "21.4.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,7 +28,6 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-containerservice.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.31.1",
     "typescript": "~5.6.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
@@ -103,13 +102,5 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservice",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-containerservice?view=azure-node-preview"
-  }
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservice"
 }
