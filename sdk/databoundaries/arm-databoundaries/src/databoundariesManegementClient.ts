@@ -14,8 +14,8 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { DataBoundariesImpl } from "./operations";
-import { DataBoundaries } from "./operationsInterfaces";
+import { OperationsImpl, DataBoundariesImpl } from "./operations";
+import { Operations, DataBoundaries } from "./operationsInterfaces";
 import { DataboundariesManegementClientOptionalParams } from "./models";
 
 export class DataboundariesManegementClient extends coreClient.ServiceClient {
@@ -44,7 +44,7 @@ export class DataboundariesManegementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-databoundaries/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-databoundaries/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -97,6 +97,7 @@ export class DataboundariesManegementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-08-01";
+    this.operations = new OperationsImpl(this);
     this.dataBoundaries = new DataBoundariesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -129,5 +130,6 @@ export class DataboundariesManegementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  operations: Operations;
   dataBoundaries: DataBoundaries;
 }
