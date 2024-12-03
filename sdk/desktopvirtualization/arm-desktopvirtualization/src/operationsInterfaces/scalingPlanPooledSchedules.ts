@@ -14,9 +14,10 @@ import {
   ScalingPlanPooledSchedulesGetResponse,
   ScalingPlanPooledSchedulesCreateOptionalParams,
   ScalingPlanPooledSchedulesCreateResponse,
-  ScalingPlanPooledSchedulesDeleteOptionalParams,
+  ScalingPlanPooledSchedulePatch,
   ScalingPlanPooledSchedulesUpdateOptionalParams,
   ScalingPlanPooledSchedulesUpdateResponse,
+  ScalingPlanPooledSchedulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,16 +52,31 @@ export interface ScalingPlanPooledSchedules {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
    * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
-   * @param scalingPlanSchedule Object containing ScalingPlanPooledSchedule definitions.
+   * @param resource Object containing ScalingPlanPooledSchedule definitions.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    scalingPlanSchedule: ScalingPlanPooledSchedule,
+    resource: ScalingPlanPooledSchedule,
     options?: ScalingPlanPooledSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesCreateResponse>;
+  /**
+   * Update a ScalingPlanPooledSchedule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
+   * @param properties Object containing ScalingPlanPooledSchedule definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    properties: ScalingPlanPooledSchedulePatch,
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
+  ): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
   /**
    * Remove a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -74,17 +90,4 @@ export interface ScalingPlanPooledSchedules {
     scalingPlanScheduleName: string,
     options?: ScalingPlanPooledSchedulesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update a ScalingPlanPooledSchedule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
-   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
-  ): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
 }

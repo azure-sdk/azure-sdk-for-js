@@ -16,43 +16,37 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  WorkspacesImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  ScalingPlansImpl,
-  ScalingPlanPooledSchedulesImpl,
-  ScalingPlanPersonalSchedulesImpl,
+  AppAttachPackagesImpl,
   ApplicationGroupsImpl,
-  StartMenuItemsImpl,
+  HostPoolsImpl,
+  MsixPackagesImpl,
+  ScalingPlansImpl,
+  WorkspacesImpl,
   ApplicationsImpl,
   DesktopsImpl,
-  HostPoolsImpl,
-  UserSessionsImpl,
+  PrivateEndpointConnectionOnHostPoolWithSystemDataOperationGroupImpl,
   SessionHostsImpl,
-  MsixPackagesImpl,
-  AppAttachPackageInfoImpl,
-  MsixImagesImpl,
-  AppAttachPackageOperationsImpl,
+  UserSessionsImpl,
+  ScalingPlanPersonalSchedulesImpl,
+  ScalingPlanPooledSchedulesImpl,
+  PrivateEndpointConnectionOnWorkspaceWithSystemDataOperationGroupImpl,
 } from "./operations";
 import {
   Operations,
-  Workspaces,
-  PrivateEndpointConnections,
-  PrivateLinkResources,
-  ScalingPlans,
-  ScalingPlanPooledSchedules,
-  ScalingPlanPersonalSchedules,
+  AppAttachPackages,
   ApplicationGroups,
-  StartMenuItems,
+  HostPools,
+  MsixPackages,
+  ScalingPlans,
+  Workspaces,
   Applications,
   Desktops,
-  HostPools,
-  UserSessions,
+  PrivateEndpointConnectionOnHostPoolWithSystemDataOperationGroup,
   SessionHosts,
-  MsixPackages,
-  AppAttachPackageInfo,
-  MsixImages,
-  AppAttachPackageOperations,
+  UserSessions,
+  ScalingPlanPersonalSchedules,
+  ScalingPlanPooledSchedules,
+  PrivateEndpointConnectionOnWorkspaceWithSystemDataOperationGroup,
 } from "./operationsInterfaces";
 import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
 
@@ -88,7 +82,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-desktopvirtualization/1.2.1`;
+    const packageDetails = `azsdk-js-arm-desktopvirtualization/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,27 +136,30 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-03";
+    this.apiVersion = options.apiVersion || "2024-09-10";
     this.operations = new OperationsImpl(this);
-    this.workspaces = new WorkspacesImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.appAttachPackages = new AppAttachPackagesImpl(this);
+    this.applicationGroups = new ApplicationGroupsImpl(this);
+    this.hostPools = new HostPoolsImpl(this);
+    this.msixPackages = new MsixPackagesImpl(this);
     this.scalingPlans = new ScalingPlansImpl(this);
-    this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
+    this.applications = new ApplicationsImpl(this);
+    this.desktops = new DesktopsImpl(this);
+    this.privateEndpointConnectionOnHostPoolWithSystemDataOperationGroup =
+      new PrivateEndpointConnectionOnHostPoolWithSystemDataOperationGroupImpl(
+        this,
+      );
+    this.sessionHosts = new SessionHostsImpl(this);
+    this.userSessions = new UserSessionsImpl(this);
     this.scalingPlanPersonalSchedules = new ScalingPlanPersonalSchedulesImpl(
       this,
     );
-    this.applicationGroups = new ApplicationGroupsImpl(this);
-    this.startMenuItems = new StartMenuItemsImpl(this);
-    this.applications = new ApplicationsImpl(this);
-    this.desktops = new DesktopsImpl(this);
-    this.hostPools = new HostPoolsImpl(this);
-    this.userSessions = new UserSessionsImpl(this);
-    this.sessionHosts = new SessionHostsImpl(this);
-    this.msixPackages = new MsixPackagesImpl(this);
-    this.appAttachPackageInfo = new AppAttachPackageInfoImpl(this);
-    this.msixImages = new MsixImagesImpl(this);
-    this.appAttachPackageOperations = new AppAttachPackageOperationsImpl(this);
+    this.scalingPlanPooledSchedules = new ScalingPlanPooledSchedulesImpl(this);
+    this.privateEndpointConnectionOnWorkspaceWithSystemDataOperationGroup =
+      new PrivateEndpointConnectionOnWorkspaceWithSystemDataOperationGroupImpl(
+        this,
+      );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -195,21 +192,18 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  workspaces: Workspaces;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
-  scalingPlans: ScalingPlans;
-  scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
-  scalingPlanPersonalSchedules: ScalingPlanPersonalSchedules;
+  appAttachPackages: AppAttachPackages;
   applicationGroups: ApplicationGroups;
-  startMenuItems: StartMenuItems;
+  hostPools: HostPools;
+  msixPackages: MsixPackages;
+  scalingPlans: ScalingPlans;
+  workspaces: Workspaces;
   applications: Applications;
   desktops: Desktops;
-  hostPools: HostPools;
-  userSessions: UserSessions;
+  privateEndpointConnectionOnHostPoolWithSystemDataOperationGroup: PrivateEndpointConnectionOnHostPoolWithSystemDataOperationGroup;
   sessionHosts: SessionHosts;
-  msixPackages: MsixPackages;
-  appAttachPackageInfo: AppAttachPackageInfo;
-  msixImages: MsixImages;
-  appAttachPackageOperations: AppAttachPackageOperations;
+  userSessions: UserSessions;
+  scalingPlanPersonalSchedules: ScalingPlanPersonalSchedules;
+  scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
+  privateEndpointConnectionOnWorkspaceWithSystemDataOperationGroup: PrivateEndpointConnectionOnWorkspaceWithSystemDataOperationGroup;
 }

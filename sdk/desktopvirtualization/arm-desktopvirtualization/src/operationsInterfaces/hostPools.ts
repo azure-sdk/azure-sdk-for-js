@@ -9,24 +9,44 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   HostPool,
-  HostPoolsListByResourceGroupOptionalParams,
   HostPoolsListOptionalParams,
+  HostPoolsListByResourceGroupOptionalParams,
+  ExpandMsixImage,
+  MsixImageURI,
+  HostPoolsExpandOptionalParams,
+  AppAttachPackage,
+  ImportPackageInfoRequest,
+  HostPoolsImportAppAttachPackageInfoOptionalParams,
+  ScalingPlan,
+  HostPoolsListByHostPoolOptionalParams,
+  PrivateLinkResource,
+  HostPoolsPrivateLinkResourcesListByHostPoolOptionalParams,
+  UserSession,
+  HostPoolsUserSessionsListByHostPoolOptionalParams,
   HostPoolsGetOptionalParams,
   HostPoolsGetResponse,
   HostPoolsCreateOrUpdateOptionalParams,
   HostPoolsCreateOrUpdateResponse,
-  HostPoolsDeleteOptionalParams,
+  HostPoolPatch,
   HostPoolsUpdateOptionalParams,
   HostPoolsUpdateResponse,
-  HostPoolsRetrieveRegistrationTokenOptionalParams,
-  HostPoolsRetrieveRegistrationTokenResponse,
+  HostPoolsDeleteOptionalParams,
   HostPoolsListRegistrationTokensOptionalParams,
   HostPoolsListRegistrationTokensResponse,
+  HostPoolsRetrieveRegistrationTokenOptionalParams,
+  HostPoolsRetrieveRegistrationTokenResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HostPools. */
 export interface HostPools {
+  /**
+   * List hostPools in subscription.
+   * @param options The options parameters.
+   */
+  list(
+    options?: HostPoolsListOptionalParams,
+  ): PagedAsyncIterableIterator<HostPool>;
   /**
    * List hostPools.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -37,12 +57,64 @@ export interface HostPools {
     options?: HostPoolsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<HostPool>;
   /**
-   * List hostPools in subscription.
+   * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param body Object containing URI to MSIX Image
    * @param options The options parameters.
    */
-  list(
-    options?: HostPoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool>;
+  listExpand(
+    resourceGroupName: string,
+    hostPoolName: string,
+    body: MsixImageURI,
+    options?: HostPoolsExpandOptionalParams,
+  ): PagedAsyncIterableIterator<ExpandMsixImage>;
+  /**
+   * Gets information from a package given the path to the package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param body Object containing URI to package image and other optional properties
+   * @param options The options parameters.
+   */
+  listImportAppAttachPackageInfo(
+    resourceGroupName: string,
+    hostPoolName: string,
+    body: ImportPackageInfoRequest,
+    options?: HostPoolsImportAppAttachPackageInfoOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage>;
+  /**
+   * List scaling plan associated with hostpool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  listByHostPool(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: HostPoolsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<ScalingPlan>;
+  /**
+   * List the private link resources available for this hostpool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  listPrivateLinkResourcesListByHostPool(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: HostPoolsPrivateLinkResourcesListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+  /**
+   * List userSessions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  listUserSessionsListByHostPool(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: HostPoolsUserSessionsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<UserSession>;
   /**
    * Get a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -58,15 +130,28 @@ export interface HostPools {
    * Create or update a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param hostPool Object containing HostPool definitions.
+   * @param resource Object containing HostPool definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     hostPoolName: string,
-    hostPool: HostPool,
+    resource: HostPool,
     options?: HostPoolsCreateOrUpdateOptionalParams,
   ): Promise<HostPoolsCreateOrUpdateResponse>;
+  /**
+   * Update a host pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param properties Object containing HostPool definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    hostPoolName: string,
+    properties: HostPoolPatch,
+    options?: HostPoolsUpdateOptionalParams,
+  ): Promise<HostPoolsUpdateResponse>;
   /**
    * Remove a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -79,16 +164,16 @@ export interface HostPools {
     options?: HostPoolsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Update a host pool.
+   * Operation to list the RegistrationTokens associated with the HostPool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  update(
+  listRegistrationTokens(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsUpdateOptionalParams,
-  ): Promise<HostPoolsUpdateResponse>;
+    options?: HostPoolsListRegistrationTokensOptionalParams,
+  ): Promise<HostPoolsListRegistrationTokensResponse>;
   /**
    * Registration token of the host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -100,15 +185,4 @@ export interface HostPools {
     hostPoolName: string,
     options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
   ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
-  /**
-   * Operation to list the RegistrationTokens associated with the HostPool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  listRegistrationTokens(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsListRegistrationTokensOptionalParams,
-  ): Promise<HostPoolsListRegistrationTokensResponse>;
 }

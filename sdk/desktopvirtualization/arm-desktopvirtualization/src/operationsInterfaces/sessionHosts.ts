@@ -12,9 +12,10 @@ import {
   SessionHostsListOptionalParams,
   SessionHostsGetOptionalParams,
   SessionHostsGetResponse,
-  SessionHostsDeleteOptionalParams,
+  SessionHostPatch,
   SessionHostsUpdateOptionalParams,
   SessionHostsUpdateResponse,
+  SessionHostsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,6 +46,21 @@ export interface SessionHosts {
     options?: SessionHostsGetOptionalParams,
   ): Promise<SessionHostsGetResponse>;
   /**
+   * Update a session host.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param sessionHostName The name of the session host within the specified host pool
+   * @param properties Object containing SessionHost definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    hostPoolName: string,
+    sessionHostName: string,
+    properties: SessionHostPatch,
+    options?: SessionHostsUpdateOptionalParams,
+  ): Promise<SessionHostsUpdateResponse>;
+  /**
    * Remove a SessionHost.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
@@ -57,17 +73,4 @@ export interface SessionHosts {
     sessionHostName: string,
     options?: SessionHostsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update a session host.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsUpdateOptionalParams,
-  ): Promise<SessionHostsUpdateResponse>;
 }

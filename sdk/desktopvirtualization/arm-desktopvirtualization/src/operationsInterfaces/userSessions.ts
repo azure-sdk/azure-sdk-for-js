@@ -9,29 +9,18 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   UserSession,
-  UserSessionsListByHostPoolOptionalParams,
   UserSessionsListOptionalParams,
   UserSessionsGetOptionalParams,
   UserSessionsGetResponse,
   UserSessionsDeleteOptionalParams,
   UserSessionsDisconnectOptionalParams,
+  SendMessage,
   UserSessionsSendMessageOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserSessions. */
 export interface UserSessions {
-  /**
-   * List userSessions.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  listByHostPool(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: UserSessionsListByHostPoolOptionalParams,
-  ): PagedAsyncIterableIterator<UserSession>;
   /**
    * List userSessions.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,6 +85,7 @@ export interface UserSessions {
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param sessionHostName The name of the session host within the specified host pool
    * @param userSessionId The name of the user session within the specified session host
+   * @param body Object containing message includes title and message body
    * @param options The options parameters.
    */
   sendMessage(
@@ -103,6 +93,7 @@ export interface UserSessions {
     hostPoolName: string,
     sessionHostName: string,
     userSessionId: string,
+    body: SendMessage,
     options?: UserSessionsSendMessageOptionalParams,
   ): Promise<void>;
 }

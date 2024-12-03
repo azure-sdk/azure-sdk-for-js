@@ -15,25 +15,22 @@ import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
   ScalingPlan,
-  ScalingPlansListByResourceGroupNextOptionalParams,
-  ScalingPlansListByResourceGroupOptionalParams,
-  ScalingPlansListByResourceGroupResponse,
   ScalingPlansListBySubscriptionNextOptionalParams,
   ScalingPlansListBySubscriptionOptionalParams,
   ScalingPlansListBySubscriptionResponse,
-  ScalingPlansListByHostPoolNextOptionalParams,
-  ScalingPlansListByHostPoolOptionalParams,
-  ScalingPlansListByHostPoolResponse,
+  ScalingPlansListByResourceGroupNextOptionalParams,
+  ScalingPlansListByResourceGroupOptionalParams,
+  ScalingPlansListByResourceGroupResponse,
   ScalingPlansGetOptionalParams,
   ScalingPlansGetResponse,
   ScalingPlansCreateOptionalParams,
   ScalingPlansCreateResponse,
-  ScalingPlansDeleteOptionalParams,
+  ScalingPlanPatch,
   ScalingPlansUpdateOptionalParams,
   ScalingPlansUpdateResponse,
-  ScalingPlansListByResourceGroupNextResponse,
+  ScalingPlansDeleteOptionalParams,
   ScalingPlansListBySubscriptionNextResponse,
-  ScalingPlansListByHostPoolNextResponse,
+  ScalingPlansListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,6 +44,60 @@ export class ScalingPlansImpl implements ScalingPlans {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * List scaling plans in subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: ScalingPlansListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ScalingPlan> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: ScalingPlansListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ScalingPlan[]> {
+    let result: ScalingPlansListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: ScalingPlansListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ScalingPlan> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -122,138 +173,28 @@ export class ScalingPlansImpl implements ScalingPlans {
    * List scaling plans in subscription.
    * @param options The options parameters.
    */
-  public listBySubscription(
+  private _listBySubscription(
     options?: ScalingPlansListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<ScalingPlan> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: ScalingPlansListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<ScalingPlan[]> {
-    let result: ScalingPlansListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: ScalingPlansListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<ScalingPlan> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  ): Promise<ScalingPlansListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
   /**
-   * List scaling plan associated with hostpool.
+   * List scaling plans.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  public listByHostPool(
+  private _listByResourceGroup(
     resourceGroupName: string,
-    hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams,
-  ): PagedAsyncIterableIterator<ScalingPlan> {
-    const iter = this.listByHostPoolPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      options,
+    options?: ScalingPlansListByResourceGroupOptionalParams,
+  ): Promise<ScalingPlansListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
     );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByHostPoolPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByHostPoolPagingPage(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<ScalingPlan[]> {
-    let result: ScalingPlansListByHostPoolResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByHostPoolNext(
-        resourceGroupName,
-        hostPoolName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByHostPoolPagingAll(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams,
-  ): AsyncIterableIterator<ScalingPlan> {
-    for await (const page of this.listByHostPoolPagingPage(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -277,18 +218,37 @@ export class ScalingPlansImpl implements ScalingPlans {
    * Create or update a scaling plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
-   * @param scalingPlan Object containing scaling plan definitions.
+   * @param resource Object containing scaling plan definitions.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     scalingPlanName: string,
-    scalingPlan: ScalingPlan,
+    resource: ScalingPlan,
     options?: ScalingPlansCreateOptionalParams,
   ): Promise<ScalingPlansCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scalingPlanName, scalingPlan, options },
+      { resourceGroupName, scalingPlanName, resource, options },
       createOperationSpec,
+    );
+  }
+
+  /**
+   * Update a scaling plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param properties Object containing scaling plan definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    properties: ScalingPlanPatch,
+    options?: ScalingPlansUpdateOptionalParams,
+  ): Promise<ScalingPlansUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, scalingPlanName, properties, options },
+      updateOperationSpec,
     );
   }
 
@@ -310,64 +270,17 @@ export class ScalingPlansImpl implements ScalingPlans {
   }
 
   /**
-   * Update a scaling plan.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  update(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    options?: ScalingPlansUpdateOptionalParams,
-  ): Promise<ScalingPlansUpdateResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: ScalingPlansListBySubscriptionNextOptionalParams,
+  ): Promise<ScalingPlansListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, scalingPlanName, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * List scaling plans.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ScalingPlansListByResourceGroupOptionalParams,
-  ): Promise<ScalingPlansListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * List scaling plans in subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ScalingPlansListBySubscriptionOptionalParams,
-  ): Promise<ScalingPlansListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * List scaling plan associated with hostpool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  private _listByHostPool(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams,
-  ): Promise<ScalingPlansListByHostPoolResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
-      listByHostPoolOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -387,44 +300,56 @@ export class ScalingPlansImpl implements ScalingPlans {
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: ScalingPlansListBySubscriptionNextOptionalParams,
-  ): Promise<ScalingPlansListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListByHostPoolNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param nextLink The nextLink from the previous successful call to the ListByHostPool method.
-   * @param options The options parameters.
-   */
-  private _listByHostPoolNext(
-    resourceGroupName: string,
-    hostPoolName: string,
-    nextLink: string,
-    options?: ScalingPlansListByHostPoolNextOptionalParams,
-  ): Promise<ScalingPlansListByHostPoolNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, nextLink, options },
-      listByHostPoolNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScalingPlanList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScalingPlanList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
   httpMethod: "GET",
@@ -433,7 +358,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlan,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -457,10 +382,33 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlan,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.scalingPlan,
+  requestBody: Parameters.resource4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.scalingPlanName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScalingPlan,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -479,7 +427,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -488,121 +436,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlan,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.scalingPlan1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.scalingPlanName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/scalingPlans",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -615,7 +448,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlanList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -626,7 +459,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -634,7 +467,7 @@ const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlanList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
@@ -642,7 +475,6 @@ const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
