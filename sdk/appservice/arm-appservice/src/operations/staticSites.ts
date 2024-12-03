@@ -113,6 +113,9 @@ import {
   StaticSitesUpdateBuildDatabaseConnectionResponse,
   StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
   StaticSitesGetBuildDatabaseConnectionWithDetailsResponse,
+  StaticSiteZipDeployARMResource,
+  StaticSitesZipDeployStagingOptionalParams,
+  StaticSitesZipDeployStagingResponse,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
@@ -152,6 +155,8 @@ import {
   StaticSitesUpdateDatabaseConnectionResponse,
   StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
   StaticSitesGetDatabaseConnectionWithDetailsResponse,
+  StaticSitesZipDeployOptionalParams,
+  StaticSitesZipDeployResponse,
   StaticSitesDetachStaticSiteOptionalParams,
   StaticSitesListStaticSiteAppSettingsOptionalParams,
   StaticSitesListStaticSiteAppSettingsResponse,
@@ -2307,6 +2312,113 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Description for Deploys zipped content to a static site onto a specified static sites environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeployStaging properties. See
+   *                           example.
+   * @param options The options parameters.
+   */
+  async beginZipDeployStaging(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployStagingOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticSitesZipDeployStagingResponse>,
+      StaticSitesZipDeployStagingResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<StaticSitesZipDeployStagingResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        name,
+        environmentName,
+        staticSiteEnvelope,
+        options,
+      },
+      spec: zipDeployStagingOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StaticSitesZipDeployStagingResponse,
+      OperationState<StaticSitesZipDeployStagingResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Deploys zipped content to a static site onto a specified static sites environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeployStaging properties. See
+   *                           example.
+   * @param options The options parameters.
+   */
+  async beginZipDeployStagingAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployStagingOptionalParams,
+  ): Promise<StaticSitesZipDeployStagingResponse> {
+    const poller = await this.beginZipDeployStaging(
+      resourceGroupName,
+      name,
+      environmentName,
+      staticSiteEnvelope,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Description for Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -3235,6 +3347,100 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, databaseConnectionName, options },
       getDatabaseConnectionWithDetailsOperationSpec,
     );
+  }
+
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeploy properties. See example.
+   * @param options The options parameters.
+   */
+  async beginZipDeploy(
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticSitesZipDeployResponse>,
+      StaticSitesZipDeployResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<StaticSitesZipDeployResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, staticSiteEnvelope, options },
+      spec: zipDeployOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StaticSitesZipDeployResponse,
+      OperationState<StaticSitesZipDeployResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeploy properties. See example.
+   * @param options The options parameters.
+   */
+  async beginZipDeployAndWait(
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployOptionalParams,
+  ): Promise<StaticSitesZipDeployResponse> {
+    const poller = await this.beginZipDeploy(
+      resourceGroupName,
+      name,
+      staticSiteEnvelope,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -5315,6 +5521,39 @@ const getBuildDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSp
     headerParameters: [Parameters.accept],
     serializer,
   };
+const zipDeployStagingOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/deploy",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.StaticSitesZipDeployStagingHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StaticSitesZipDeployStagingHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StaticSitesZipDeployStagingHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StaticSitesZipDeployStagingHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteEnvelope2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listStaticSiteBuildFunctionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
   httpMethod: "GET",
@@ -5936,6 +6175,38 @@ const getDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec =
     headerParameters: [Parameters.accept],
     serializer,
   };
+const zipDeployOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/deploy",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.StaticSitesZipDeployHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StaticSitesZipDeployHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StaticSitesZipDeployHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StaticSitesZipDeployHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteEnvelope2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const detachStaticSiteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
   httpMethod: "POST",
