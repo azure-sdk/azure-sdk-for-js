@@ -132,7 +132,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2025-01-01";
     this.vaultCertificates = new VaultCertificatesImpl(this);
     this.registeredIdentities = new RegisteredIdentitiesImpl(this);
     this.replicationUsages = new ReplicationUsagesImpl(this);

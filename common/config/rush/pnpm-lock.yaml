@@ -16958,7 +16958,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-lgLpygYuQNiWsXLb0oIP1YCn5/wsTRbxUq6iN7JkQGzd29OyxFnAeWiNYHBbyW+QAhMdKEJGpfkXrJV/jgCEpg==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-Qu7YuTI9ayhGgwLhLGDHpEsakYkOsTkexqlB6nIuDQGpn/izpkmmCXM8NzEUVSQZ7AliPKIDsFqF8S/XrMU6dw==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -16975,6 +16975,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
