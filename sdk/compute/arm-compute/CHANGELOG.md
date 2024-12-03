@@ -1,15 +1,16 @@
 # Release History
-
-## 22.1.1 (Unreleased)
-
+    
+## 22.2.0 (2024-12-03)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Placement
+  - Added Type Alias ZonePlacementPolicyType
+  - Interface StorageProfile has a new optional parameter alignRegionalDisksToVMZone
+  - Interface VirtualMachine has a new optional parameter placement
+  - Added Enum KnownZonePlacementPolicyType
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +580,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 

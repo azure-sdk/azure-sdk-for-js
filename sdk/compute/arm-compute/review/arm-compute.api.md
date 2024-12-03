@@ -4064,6 +4064,11 @@ export enum KnownZonalPlatformFaultDomainAlignMode {
 }
 
 // @public
+export enum KnownZonePlacementPolicyType {
+    Any = "Any"
+}
+
+// @public
 export interface LastPatchInstallationSummary {
     readonly error?: ApiError;
     readonly excludedPatchCount?: number;
@@ -4457,6 +4462,13 @@ export interface PirResource {
 // @public
 export interface PirSharedGalleryResource extends PirResource {
     uniqueId?: string;
+}
+
+// @public
+export interface Placement {
+    excludeZones?: string[];
+    includeZones?: string[];
+    zonePlacementPolicy?: ZonePlacementPolicyType;
 }
 
 // @public
@@ -5846,6 +5858,7 @@ export type StorageAccountTypes = string;
 
 // @public
 export interface StorageProfile {
+    alignRegionalDisksToVMZone?: boolean;
     dataDisks?: DataDisk[];
     diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
@@ -6100,6 +6113,7 @@ export interface VirtualMachine extends Resource {
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
+    placement?: Placement;
     plan?: Plan;
     platformFaultDomain?: number;
     priority?: VirtualMachinePriorityTypes;
@@ -8386,6 +8400,9 @@ export interface WinRMListener {
 
 // @public
 export type ZonalPlatformFaultDomainAlignMode = string;
+
+// @public
+export type ZonePlacementPolicyType = string;
 
 // (No @packageDocumentation comment for this package)
 
