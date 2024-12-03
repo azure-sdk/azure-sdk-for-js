@@ -775,6 +775,7 @@ export interface BackupEngineBaseResource extends Resource {
 
 // @public
 export interface BackupEngineBaseResourceList extends ResourceList {
+    nextLink?: string;
     value?: BackupEngineBaseResource[];
 }
 
@@ -2039,6 +2040,7 @@ export interface JobResource extends Resource {
 
 // @public
 export interface JobResourceList extends ResourceList {
+    nextLink?: string;
     value?: JobResource[];
 }
 
@@ -3088,6 +3090,7 @@ export interface ProtectableContainerResource extends Resource {
 
 // @public
 export interface ProtectableContainerResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectableContainerResource[];
 }
 
@@ -3187,6 +3190,7 @@ export interface ProtectedItemResource extends Resource {
 
 // @public
 export interface ProtectedItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectedItemResource[];
 }
 
@@ -3262,6 +3266,7 @@ export interface ProtectionContainerResource extends Resource {
 
 // @public
 export interface ProtectionContainerResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionContainerResource[];
 }
 
@@ -3362,6 +3367,7 @@ export interface ProtectionIntentResource extends Resource {
 
 // @public
 export interface ProtectionIntentResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionIntentResource[];
 }
 
@@ -3450,6 +3456,7 @@ export interface ProtectionPolicyResource extends Resource {
 
 // @public
 export interface ProtectionPolicyResourceList extends ResourceList {
+    nextLink?: string;
     value?: ProtectionPolicyResource[];
 }
 
@@ -3509,6 +3516,7 @@ export interface RecoveryPointResource extends Resource {
 
 // @public
 export interface RecoveryPointResourceList extends ResourceList {
+    nextLink?: string;
     value?: RecoveryPointResource[];
 }
 
@@ -3782,6 +3790,7 @@ export interface ResourceGuardProxyBaseResource extends Resource {
 
 // @public
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
+    nextLink?: string;
     value?: ResourceGuardProxyBaseResource[];
 }
 
@@ -4298,6 +4307,7 @@ export interface WorkloadItemResource extends Resource {
 
 // @public
 export interface WorkloadItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: WorkloadItemResource[];
 }
 
@@ -4323,6 +4333,7 @@ export interface WorkloadProtectableItemResource extends Resource {
 
 // @public
 export interface WorkloadProtectableItemResourceList extends ResourceList {
+    nextLink?: string;
     value?: WorkloadProtectableItemResource[];
 }
 
