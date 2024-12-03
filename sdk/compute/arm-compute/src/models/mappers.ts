@@ -4573,6 +4573,12 @@ export const StorageProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      alignRegionalDisksToVMZone: {
+        serializedName: "alignRegionalDisksToVMZone",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -5860,6 +5866,43 @@ export const LastPatchInstallationSummary: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ApiError",
+        },
+      },
+    },
+  },
+};
+
+export const Placement: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Placement",
+    modelProperties: {
+      zonePlacementPolicy: {
+        serializedName: "zonePlacementPolicy",
+        type: {
+          name: "String",
+        },
+      },
+      includeZones: {
+        serializedName: "includeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      excludeZones: {
+        serializedName: "excludeZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -13878,6 +13921,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      placement: {
+        serializedName: "placement",
+        type: {
+          name: "Composite",
+          className: "Placement",
         },
       },
       hardwareProfile: {
