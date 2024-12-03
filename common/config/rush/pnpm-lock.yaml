@@ -4593,7 +4593,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -14250,7 +14250,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceregistry.tgz:
-    resolution: {integrity: sha512-quCDiEA+ReWg69Cr/mNGXWYJgBUcRiUNEx0297eq9t8js5mUlpBgSkqHoV4D8gp4CqCGDFsicizrO4gooDMPeA==, tarball: file:projects/arm-deviceregistry.tgz}
+    resolution: {integrity: sha512-UuNXQZVP0v2DSfy7MczvQc20OatT1zbDhyozBUtHWklc2h5npUCbTItfHM9HlgX0NBwjehb9AnMVliFmJYpQ2g==, tarball: file:projects/arm-deviceregistry.tgz}
     name: '@rush-temp/arm-deviceregistry'
     version: 0.0.0
     dependencies:
@@ -14258,20 +14258,42 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 9.16.0
       esm: 3.2.25
       mocha: 10.8.2
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
