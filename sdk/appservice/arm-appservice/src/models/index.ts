@@ -100,7 +100,7 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** Kind of resource. */
+  /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
   /** Resource Location. */
   location: string;
@@ -1947,6 +1947,55 @@ export interface VnetInfo {
   isSwift?: boolean;
 }
 
+/** SwiftVirtualNetwork resource specific properties */
+export interface SwiftVirtualNetworkProperties {
+  /** The Virtual Network subnet's Azure resource ID */
+  subnetResourceId?: string;
+  /** Boolean flag indicating whether Swift integration is supported */
+  swiftSupported?: boolean;
+  /** IP allocation for a Swift Subnet */
+  subnetIpAllocation?: SwiftVirtualNetworkPropertiesSubnetIpAllocation;
+  /** Swift Connection allocations for an App Service Plan */
+  vnetConnectionAllocation?: SwiftVirtualNetworkPropertiesVnetConnectionAllocation;
+  /** Resources (sites and serverfarms) allocated to this subnet */
+  resourceAllocation?: SwiftVirtualNetworkPropertiesResourceAllocation;
+}
+
+/** IP allocation for a Swift Subnet */
+export interface SwiftVirtualNetworkPropertiesSubnetIpAllocation {
+  /** The number of IP addresses available in the Swift subnet address space */
+  subnetIpAddressesAvailable?: number;
+  /** The number of IP addresses that have already been used in the Swift subnet address space */
+  subnetIpAddressesUsed?: number;
+}
+
+/** Swift Connection allocations for an App Service Plan */
+export interface SwiftVirtualNetworkPropertiesVnetConnectionAllocation {
+  /** The number of Swift Connections used for an App Service Plan */
+  vnetConnectionsUsed?: number;
+  /** The maximum number of Swift Connections available for an App Service Plan */
+  vnetConnectionsMax?: number;
+}
+
+/** Resources (sites and serverfarms) allocated to this subnet */
+export interface SwiftVirtualNetworkPropertiesResourceAllocation {
+  /** The list of all ServerFarms' Azure resource ID that are using the VNET */
+  connectedServerFarmsId?: string[];
+  /** The list of all Sites' Azure resource ID that are using the VNET */
+  connectedSitesId?: string[];
+}
+
+/** Collection of Swift Virtual Networks */
+export interface SwiftVirtualNetworkCollection {
+  /** Collection of resources. */
+  value: SwiftVirtualNetwork[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Collection of certificates. */
 export interface CertificateCollection {
   /** Collection of resources. */
@@ -3083,6 +3132,20 @@ export interface GlobalCsmSkuDescription {
   locations?: string[];
   /** Capabilities of the SKU, e.g., is traffic manager enabled? */
   capabilities?: Capability[];
+}
+
+/** Virtual Network Integration request content. */
+export interface VirtualNetworkIntegrationRequest {
+  /** The Azure Resource ID of the subnet */
+  subnetResourceId: string;
+}
+
+/** Response wrapper for PurgedUnusedVirtualNetworkIntegrations. */
+export interface VirtualNetworkIntegrationResponse {
+  /** Description of the result */
+  message?: VirtualNetworkIntegrationResponseMessage;
+  /** The Swift Virtual Network object */
+  swiftVirtualNetwork?: SwiftVirtualNetworkProperties;
 }
 
 /** Object with a list of the resources that need to be moved and the resource group they should be moved to. */
@@ -5085,6 +5148,12 @@ export interface WorkflowVersionListResult {
   nextLink?: string;
 }
 
+/** Describes valid TLS cipher suites. */
+export interface CipherSuites {
+  /** List of TLS Cipher Suites that are supported by App Service. */
+  suites?: string[];
+}
+
 /** Github access token for Appservice CLI github integration. */
 export interface AppserviceGithubToken {
   /** Github access token for Appservice CLI github integration */
@@ -5479,6 +5548,10 @@ export interface Site extends Resource {
   clientCertMode?: ClientCertMode;
   /** client certificate authentication comma-separated exclusion paths */
   clientCertExclusionPaths?: string;
+  /** Specifies the IP mode of the app. */
+  ipMode?: IPMode;
+  /** Whether to use end to end encryption between the FrontEnd and the Worker */
+  endToEndEncryptionEnabled?: boolean;
   /**
    * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
    *  If <code>true</code>, the app is only accessible via API management process.
@@ -5551,6 +5624,8 @@ export interface Site extends Resource {
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
   keyVaultReferenceIdentity?: string;
+  /** Specifies the scope of uniqueness for the default hostname during resource creation */
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /**
    * Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.
    * This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
@@ -5558,6 +5633,11 @@ export interface Site extends Resource {
   virtualNetworkSubnetId?: string;
   /** Azure Resource Manager ID of the customer's selected Managed Environment on which to host this app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
   managedEnvironmentId?: string;
+  /**
+   * Current SKU of application based on associated App Service Plan. Some valid SKU values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: string;
 }
 
 /** App Service plan. */
@@ -6564,6 +6644,12 @@ export interface VnetGateway extends ProxyOnlyResource {
   vnetName?: string;
   /** The URI where the VPN package can be downloaded. */
   vpnPackageUri?: string;
+}
+
+/** Swift Virtual Network Contract. This is used to enable the new Swift way of doing virtual network integration. */
+export interface SwiftVirtualNetwork extends ProxyOnlyResource {
+  /** SwiftVirtualNetwork resource specific properties */
+  properties?: SwiftVirtualNetworkProperties;
 }
 
 /** ARM resource for a certificate. */
@@ -8501,6 +8587,8 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
   healthCheckUrl?: string;
   /** Dictionary of <ContainerInfo> */
   containers?: { [propertyName: string]: ContainerInfo };
+  /** The physical zone that the instance is in */
+  physicalZone?: string;
 }
 
 /** Process Thread Information. */
@@ -8685,14 +8773,6 @@ export interface MigrateMySqlStatus extends ProxyOnlyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly localMySqlEnabled?: boolean;
-}
-
-/** Swift Virtual Network Contract. This is used to enable the new Swift way of doing virtual network integration. */
-export interface SwiftVirtualNetwork extends ProxyOnlyResource {
-  /** The Virtual Network subnet's resource ID. This is the subnet that this Web App will join. This subnet must have a delegation to Microsoft.Web/serverFarms defined first. */
-  subnetResourceId?: string;
-  /** A flag that specifies if the scale unit this Web App is on supports Swift integration. */
-  swiftSupported?: boolean;
 }
 
 /** Full view of network features for an app (presently VNET integration and Hybrid Connections). */
@@ -10205,6 +10285,27 @@ export enum KnownSkuName {
  */
 export type SkuName = string;
 
+/** Known values of {@link VirtualNetworkIntegrationResponseMessage} that the service accepts. */
+export enum KnownVirtualNetworkIntegrationResponseMessage {
+  /** OperationIsNotSupportedAtTheMoment */
+  OperationIsNotSupportedAtTheMoment = "Operation is not supported at the moment.",
+  /** PurgedUnusedVirtualNetworkIntegration */
+  PurgedUnusedVirtualNetworkIntegration = "Purged unused virtual network integration.",
+  /** ErrorConflictVirtualNetworkIntegrationIsStillInUse */
+  ErrorConflictVirtualNetworkIntegrationIsStillInUse = "<ERROR> Conflict: Virtual network integration is still in use.",
+}
+
+/**
+ * Defines values for VirtualNetworkIntegrationResponseMessage. \
+ * {@link KnownVirtualNetworkIntegrationResponseMessage} can be used interchangeably with VirtualNetworkIntegrationResponseMessage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Operation is not supported at the moment.** \
+ * **Purged unused virtual network integration.** \
+ * **<ERROR> Conflict: Virtual network integration is still in use.**
+ */
+export type VirtualNetworkIntegrationResponseMessage = string;
+
 /** Known values of {@link ValidateResourceTypes} that the service accepts. */
 export enum KnownValidateResourceTypes {
   /** ServerFarm */
@@ -11010,7 +11111,8 @@ export type SiteLoadBalancing =
   | "LeastResponseTime"
   | "WeightedTotalTraffic"
   | "RequestHash"
-  | "PerSiteRoundRobin";
+  | "PerSiteRoundRobin"
+  | "LeastRequestsWithTieBreaker";
 /** Defines values for AutoHealActionType. */
 export type AutoHealActionType = "Recycle" | "LogEvent" | "CustomAction";
 /** Defines values for AzureStorageType. */
@@ -11026,6 +11128,8 @@ export type ClientCertMode =
   | "Required"
   | "Optional"
   | "OptionalInteractiveUser";
+/** Defines values for IPMode. */
+export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 /** Defines values for RedundancyMode. */
 export type RedundancyMode =
   | "None"
@@ -11033,6 +11137,12 @@ export type RedundancyMode =
   | "Failover"
   | "ActiveActive"
   | "GeoRedundant";
+/** Defines values for AutoGeneratedDomainNameLabelScope. */
+export type AutoGeneratedDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for ManagedServiceIdentityType. */
 export type ManagedServiceIdentityType =
   | "SystemAssigned"
@@ -11436,6 +11546,22 @@ export type CertificateRegistrationProviderListOperationsNextResponse =
   CsmOperationCollection;
 
 /** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperations operation. */
+export type DomainRegistrationProviderListOperationsResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperationsNext operation. */
+export type DomainRegistrationProviderListOperationsNextResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
 export interface DomainsCheckAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -11613,22 +11739,6 @@ export interface TopLevelDomainsListAgreementsNextOptionalParams
 /** Contains response data for the listAgreementsNext operation. */
 export type TopLevelDomainsListAgreementsNextResponse =
   TldLegalAgreementCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type DomainRegistrationProviderListOperationsResponse =
-  CsmOperationCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type DomainRegistrationProviderListOperationsNextResponse =
-  CsmOperationCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListOptionalParams
@@ -12415,6 +12525,22 @@ export interface AppServicePlansUpdateVnetRouteOptionalParams
 export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
 
 /** Optional parameters. */
+export interface AppServicePlansGetVirtualNetworkIntegrationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getVirtualNetworkIntegration operation. */
+export type AppServicePlansGetVirtualNetworkIntegrationResponse =
+  SwiftVirtualNetwork;
+
+/** Optional parameters. */
+export interface AppServicePlansListByVirtualNetworkIntegrationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVirtualNetworkIntegrations operation. */
+export type AppServicePlansListByVirtualNetworkIntegrationsResponse =
+  SwiftVirtualNetworkCollection;
+
+/** Optional parameters. */
 export interface AppServicePlansRebootWorkerOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12462,6 +12588,14 @@ export interface AppServicePlansListUsagesNextOptionalParams
 
 /** Contains response data for the listUsagesNext operation. */
 export type AppServicePlansListUsagesNextResponse = CsmUsageQuotaCollection;
+
+/** Optional parameters. */
+export interface AppServicePlansListByVirtualNetworkIntegrationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVirtualNetworkIntegrationsNext operation. */
+export type AppServicePlansListByVirtualNetworkIntegrationsNextResponse =
+  SwiftVirtualNetworkCollection;
 
 /** Optional parameters. */
 export interface CertificatesListOptionalParams
@@ -13501,6 +13635,21 @@ export interface ListSkusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
 export type ListSkusResponse = SkuInfos;
+
+/** Optional parameters. */
+export interface ListVirtualNetworkIntegrationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listVirtualNetworkIntegrations operation. */
+export type ListVirtualNetworkIntegrationsResponse = SwiftVirtualNetwork;
+
+/** Optional parameters. */
+export interface PurgeUnusedVirtualNetworkIntegrationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the purgeUnusedVirtualNetworkIntegrations operation. */
+export type PurgeUnusedVirtualNetworkIntegrationsResponse =
+  VirtualNetworkIntegrationResponse;
 
 /** Optional parameters. */
 export interface VerifyHostingEnvironmentVnetOptionalParams
@@ -15235,6 +15384,13 @@ export interface WebAppsListSyncFunctionTriggersOptionalParams
 
 /** Contains response data for the listSyncFunctionTriggers operation. */
 export type WebAppsListSyncFunctionTriggersResponse = FunctionSecrets;
+
+/** Optional parameters. */
+export interface WebAppsUpdateMachineKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateMachineKey operation. */
+export type WebAppsUpdateMachineKeyResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsMigrateStorageOptionalParams

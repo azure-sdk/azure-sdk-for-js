@@ -19,6 +19,8 @@ import {
   AppServicePlansListWebAppsOptionalParams,
   CsmUsageQuota,
   AppServicePlansListUsagesOptionalParams,
+  SwiftVirtualNetwork,
+  AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
   AppServicePlansGetOptionalParams,
   AppServicePlansGetResponse,
   AppServicePlansCreateOrUpdateOptionalParams,
@@ -58,6 +60,8 @@ import {
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteResponse,
+  AppServicePlansGetVirtualNetworkIntegrationOptionalParams,
+  AppServicePlansGetVirtualNetworkIntegrationResponse,
   AppServicePlansRebootWorkerOptionalParams,
 } from "../models";
 
@@ -128,6 +132,18 @@ export interface AppServicePlans {
     name: string,
     options?: AppServicePlansListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<CsmUsageQuota>;
+  /**
+   * Get all Virtual Networks associated with an App Service plan and their properties, such as IP
+   * allocation and resource allocation
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param options The options parameters.
+   */
+  listByVirtualNetworkIntegrations(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+  ): PagedAsyncIterableIterator<SwiftVirtualNetwork>;
   /**
    * Description for Get an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -416,6 +432,20 @@ export interface AppServicePlans {
     route: VnetRoute,
     options?: AppServicePlansUpdateVnetRouteOptionalParams,
   ): Promise<AppServicePlansUpdateVnetRouteResponse>;
+  /**
+   * Get a Virtual Network associated with an App Service plan and its properties, such as IP allocation
+   * and resource allocation
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param vnetName Name of the Virtual Network in the form of <vnetGuid>_<subnetName>
+   * @param options The options parameters.
+   */
+  getVirtualNetworkIntegration(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: AppServicePlansGetVirtualNetworkIntegrationOptionalParams,
+  ): Promise<AppServicePlansGetVirtualNetworkIntegrationResponse>;
   /**
    * Description for Reboot a worker machine in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

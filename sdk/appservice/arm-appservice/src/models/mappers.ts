@@ -2964,6 +2964,7 @@ export const SiteConfig: coreClient.CompositeMapper = {
             "WeightedTotalTraffic",
             "RequestHash",
             "PerSiteRoundRobin",
+            "LeastRequestsWithTieBreaker",
           ],
         },
       },
@@ -5925,6 +5926,176 @@ export const VnetInfo: coreClient.CompositeMapper = {
         xmlName: "isSwift",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SwiftVirtualNetworkProperties: coreClient.CompositeMapper = {
+  serializedName: "SwiftVirtualNetworkProperties",
+  type: {
+    name: "Composite",
+    className: "SwiftVirtualNetworkProperties",
+    modelProperties: {
+      subnetResourceId: {
+        serializedName: "subnetResourceId",
+        xmlName: "subnetResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      swiftSupported: {
+        serializedName: "swiftSupported",
+        xmlName: "swiftSupported",
+        type: {
+          name: "Boolean",
+        },
+      },
+      subnetIpAllocation: {
+        serializedName: "subnetIpAllocation",
+        xmlName: "subnetIpAllocation",
+        type: {
+          name: "Composite",
+          className: "SwiftVirtualNetworkPropertiesSubnetIpAllocation",
+        },
+      },
+      vnetConnectionAllocation: {
+        serializedName: "vnetConnectionAllocation",
+        xmlName: "vnetConnectionAllocation",
+        type: {
+          name: "Composite",
+          className: "SwiftVirtualNetworkPropertiesVnetConnectionAllocation",
+        },
+      },
+      resourceAllocation: {
+        serializedName: "resourceAllocation",
+        xmlName: "resourceAllocation",
+        type: {
+          name: "Composite",
+          className: "SwiftVirtualNetworkPropertiesResourceAllocation",
+        },
+      },
+    },
+  },
+};
+
+export const SwiftVirtualNetworkPropertiesSubnetIpAllocation: coreClient.CompositeMapper =
+  {
+    serializedName: "SwiftVirtualNetworkPropertiesSubnetIpAllocation",
+    type: {
+      name: "Composite",
+      className: "SwiftVirtualNetworkPropertiesSubnetIpAllocation",
+      modelProperties: {
+        subnetIpAddressesAvailable: {
+          serializedName: "subnetIpAddressesAvailable",
+          xmlName: "subnetIpAddressesAvailable",
+          type: {
+            name: "Number",
+          },
+        },
+        subnetIpAddressesUsed: {
+          serializedName: "subnetIpAddressesUsed",
+          xmlName: "subnetIpAddressesUsed",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const SwiftVirtualNetworkPropertiesVnetConnectionAllocation: coreClient.CompositeMapper =
+  {
+    serializedName: "SwiftVirtualNetworkPropertiesVnetConnectionAllocation",
+    type: {
+      name: "Composite",
+      className: "SwiftVirtualNetworkPropertiesVnetConnectionAllocation",
+      modelProperties: {
+        vnetConnectionsUsed: {
+          serializedName: "vnetConnectionsUsed",
+          xmlName: "vnetConnectionsUsed",
+          type: {
+            name: "Number",
+          },
+        },
+        vnetConnectionsMax: {
+          serializedName: "vnetConnectionsMax",
+          xmlName: "vnetConnectionsMax",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const SwiftVirtualNetworkPropertiesResourceAllocation: coreClient.CompositeMapper =
+  {
+    serializedName: "SwiftVirtualNetworkPropertiesResourceAllocation",
+    type: {
+      name: "Composite",
+      className: "SwiftVirtualNetworkPropertiesResourceAllocation",
+      modelProperties: {
+        connectedServerFarmsId: {
+          serializedName: "connectedServerFarmsId",
+          xmlName: "connectedServerFarmsId",
+          xmlElementName:
+            "SwiftVirtualNetworkProperties-resourceAllocation-connectedServerFarmsIdItem",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        connectedSitesId: {
+          serializedName: "connectedSitesId",
+          xmlName: "connectedSitesId",
+          xmlElementName:
+            "SwiftVirtualNetworkProperties-resourceAllocation-connectedSitesIdItem",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const SwiftVirtualNetworkCollection: coreClient.CompositeMapper = {
+  serializedName: "SwiftVirtualNetworkCollection",
+  type: {
+    name: "Composite",
+    className: "SwiftVirtualNetworkCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        xmlName: "value",
+        xmlElementName: "SwiftVirtualNetwork",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SwiftVirtualNetwork",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -9168,6 +9339,49 @@ export const GlobalCsmSkuDescription: coreClient.CompositeMapper = {
               className: "Capability",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const VirtualNetworkIntegrationRequest: coreClient.CompositeMapper = {
+  serializedName: "VirtualNetworkIntegrationRequest",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkIntegrationRequest",
+    modelProperties: {
+      subnetResourceId: {
+        serializedName: "subnetResourceId",
+        required: true,
+        xmlName: "subnetResourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const VirtualNetworkIntegrationResponse: coreClient.CompositeMapper = {
+  serializedName: "VirtualNetworkIntegrationResponse",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkIntegrationResponse",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        xmlName: "message",
+        type: {
+          name: "String",
+        },
+      },
+      swiftVirtualNetwork: {
+        serializedName: "swiftVirtualNetwork",
+        xmlName: "swiftVirtualNetwork",
+        type: {
+          name: "Composite",
+          className: "SwiftVirtualNetworkProperties",
         },
       },
     },
@@ -15353,6 +15567,29 @@ export const WorkflowVersionListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const CipherSuites: coreClient.CompositeMapper = {
+  serializedName: "CipherSuites",
+  type: {
+    name: "Composite",
+    className: "CipherSuites",
+    modelProperties: {
+      suites: {
+        serializedName: "suites",
+        xmlName: "suites",
+        xmlElementName: "CipherSuitesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const AppserviceGithubToken: coreClient.CompositeMapper = {
   serializedName: "AppserviceGithubToken",
   type: {
@@ -16472,6 +16709,21 @@ export const Site: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      ipMode: {
+        serializedName: "properties.ipMode",
+        xmlName: "properties.ipMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["IPv4", "IPv6", "IPv4AndIPv6"],
+        },
+      },
+      endToEndEncryptionEnabled: {
+        serializedName: "properties.endToEndEncryptionEnabled",
+        xmlName: "properties.endToEndEncryptionEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         xmlName: "properties.hostNamesDisabled",
@@ -16622,6 +16874,19 @@ export const Site: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      autoGeneratedDomainNameLabelScope: {
+        serializedName: "properties.autoGeneratedDomainNameLabelScope",
+        xmlName: "properties.autoGeneratedDomainNameLabelScope",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "TenantReuse",
+            "SubscriptionReuse",
+            "ResourceGroupReuse",
+            "NoReuse",
+          ],
+        },
+      },
       virtualNetworkSubnetId: {
         serializedName: "properties.virtualNetworkSubnetId",
         xmlName: "properties.virtualNetworkSubnetId",
@@ -16632,6 +16897,14 @@ export const Site: coreClient.CompositeMapper = {
       managedEnvironmentId: {
         serializedName: "properties.managedEnvironmentId",
         xmlName: "properties.managedEnvironmentId",
+        type: {
+          name: "String",
+        },
+      },
+      sku: {
+        serializedName: "properties.sku",
+        readOnly: true,
+        xmlName: "properties.sku",
         type: {
           name: "String",
         },
@@ -19274,6 +19547,25 @@ export const VnetGateway: coreClient.CompositeMapper = {
         xmlName: "properties.vpnPackageUri",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SwiftVirtualNetwork: coreClient.CompositeMapper = {
+  serializedName: "SwiftVirtualNetwork",
+  type: {
+    name: "Composite",
+    className: "SwiftVirtualNetwork",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        xmlName: "properties",
+        type: {
+          name: "Composite",
+          className: "SwiftVirtualNetworkProperties",
         },
       },
     },
@@ -23022,6 +23314,7 @@ export const SiteConfigResource: coreClient.CompositeMapper = {
             "WeightedTotalTraffic",
             "RequestHash",
             "PerSiteRoundRobin",
+            "LeastRequestsWithTieBreaker",
           ],
         },
       },
@@ -24632,6 +24925,13 @@ export const WebSiteInstanceStatus: coreClient.CompositeMapper = {
           value: { type: { name: "Composite", className: "ContainerInfo" } },
         },
       },
+      physicalZone: {
+        serializedName: "properties.physicalZone",
+        xmlName: "properties.physicalZone",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -25231,31 +25531,6 @@ export const MigrateMySqlStatus: coreClient.CompositeMapper = {
         serializedName: "properties.localMySqlEnabled",
         readOnly: true,
         xmlName: "properties.localMySqlEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
-    },
-  },
-};
-
-export const SwiftVirtualNetwork: coreClient.CompositeMapper = {
-  serializedName: "SwiftVirtualNetwork",
-  type: {
-    name: "Composite",
-    className: "SwiftVirtualNetwork",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      subnetResourceId: {
-        serializedName: "properties.subnetResourceId",
-        xmlName: "properties.subnetResourceId",
-        type: {
-          name: "String",
-        },
-      },
-      swiftSupported: {
-        serializedName: "properties.swiftSupported",
-        xmlName: "properties.swiftSupported",
         type: {
           name: "Boolean",
         },
