@@ -15392,7 +15392,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-+Zynps5rECLM22IFGDWuOsLks6pDM8ITZ0kWZyZ4Z8o9EGwdKw+RY4cugVqdK5V8sjKOorv79ItDiB7YZHNyHA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-UvvfY83MPCv0DYzBDLz2HoIzBlIt9DuqWIrvi9YYbAoYfqXyoV52l5ZF+vdEQVEqeJZ3e7+NAKMa2kIBoKULQA==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -15408,6 +15408,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
