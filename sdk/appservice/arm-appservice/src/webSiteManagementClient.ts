@@ -20,9 +20,9 @@ import {
   AppServiceCertificateOrdersImpl,
   CertificateOrdersDiagnosticsImpl,
   CertificateRegistrationProviderImpl,
+  DomainRegistrationProviderImpl,
   DomainsImpl,
   TopLevelDomainsImpl,
-  DomainRegistrationProviderImpl,
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
@@ -52,9 +52,9 @@ import {
   AppServiceCertificateOrders,
   CertificateOrdersDiagnostics,
   CertificateRegistrationProvider,
+  DomainRegistrationProvider,
   Domains,
   TopLevelDomains,
-  DomainRegistrationProvider,
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
@@ -129,6 +129,11 @@ import {
   GetSubscriptionDeploymentLocationsResponse,
   ListSkusOptionalParams,
   ListSkusResponse,
+  VirtualNetworkIntegrationRequest,
+  ListVirtualNetworkIntegrationsOptionalParams,
+  ListVirtualNetworkIntegrationsResponse,
+  PurgeUnusedVirtualNetworkIntegrationsOptionalParams,
+  PurgeUnusedVirtualNetworkIntegrationsResponse,
   VnetParameters,
   VerifyHostingEnvironmentVnetOptionalParams,
   VerifyHostingEnvironmentVnetResponse,
@@ -195,7 +200,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/15.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/16.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -249,7 +254,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01";
+    this.apiVersion = options.apiVersion || "2024-11-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -258,9 +263,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.certificateRegistrationProvider =
       new CertificateRegistrationProviderImpl(this);
+    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.domains = new DomainsImpl(this);
     this.topLevelDomains = new TopLevelDomainsImpl(this);
-    this.domainRegistrationProvider = new DomainRegistrationProviderImpl(this);
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
@@ -912,6 +917,42 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Retrieve information regarding the provided virtual network integration, such as its allocated
+   * resources and its allocated IP
+   * @param location The name of the Azure region.
+   * @param request Object contains the subnetResourceId
+   * @param options The options parameters.
+   */
+  listVirtualNetworkIntegrations(
+    location: string,
+    request: VirtualNetworkIntegrationRequest,
+    options?: ListVirtualNetworkIntegrationsOptionalParams,
+  ): Promise<ListVirtualNetworkIntegrationsResponse> {
+    return this.sendOperationRequest(
+      { location, request, options },
+      listVirtualNetworkIntegrationsOperationSpec,
+    );
+  }
+
+  /**
+   * Delete orphaned (unused) VNET integration, otherwise fail the call if there are sites that are still
+   * using the VNET integrations
+   * @param location The name of the Azure region.
+   * @param request Object contains the subnetResourceId
+   * @param options The options parameters.
+   */
+  purgeUnusedVirtualNetworkIntegrations(
+    location: string,
+    request: VirtualNetworkIntegrationRequest,
+    options?: PurgeUnusedVirtualNetworkIntegrationsOptionalParams,
+  ): Promise<PurgeUnusedVirtualNetworkIntegrationsResponse> {
+    return this.sendOperationRequest(
+      { location, request, options },
+      purgeUnusedVirtualNetworkIntegrationsOperationSpec,
+    );
+  }
+
+  /**
    * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the
    * Network Security Group rules.
    * @param parameters VNET information
@@ -1090,9 +1131,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceCertificateOrders: AppServiceCertificateOrders;
   certificateOrdersDiagnostics: CertificateOrdersDiagnostics;
   certificateRegistrationProvider: CertificateRegistrationProvider;
+  domainRegistrationProvider: DomainRegistrationProvider;
   domains: Domains;
   topLevelDomains: TopLevelDomains;
-  domainRegistrationProvider: DomainRegistrationProvider;
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
@@ -1373,6 +1414,51 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const listVirtualNetworkIntegrationsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/listVirtualNetworkIntegrations",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.request1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const purgeUnusedVirtualNetworkIntegrationsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/purgeUnusedVirtualNetworkIntegration",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.VirtualNetworkIntegrationResponse,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
+    },
+    requestBody: Parameters.request1,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.location1,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
 const verifyHostingEnvironmentVnetOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet",
   httpMethod: "POST",

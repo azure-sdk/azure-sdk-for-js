@@ -42,6 +42,10 @@ import {
   AppServicePlansListUsagesNextOptionalParams,
   AppServicePlansListUsagesOptionalParams,
   AppServicePlansListUsagesResponse,
+  SwiftVirtualNetwork,
+  AppServicePlansListByVirtualNetworkIntegrationsNextOptionalParams,
+  AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+  AppServicePlansListByVirtualNetworkIntegrationsResponse,
   AppServicePlansGetOptionalParams,
   AppServicePlansGetResponse,
   AppServicePlansCreateOrUpdateOptionalParams,
@@ -81,6 +85,8 @@ import {
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteResponse,
+  AppServicePlansGetVirtualNetworkIntegrationOptionalParams,
+  AppServicePlansGetVirtualNetworkIntegrationResponse,
   AppServicePlansRebootWorkerOptionalParams,
   AppServicePlansListNextResponse,
   AppServicePlansListByResourceGroupNextResponse,
@@ -88,6 +94,7 @@ import {
   AppServicePlansListHybridConnectionsNextResponse,
   AppServicePlansListWebAppsNextResponse,
   AppServicePlansListUsagesNextResponse,
+  AppServicePlansListByVirtualNetworkIntegrationsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -556,6 +563,91 @@ export class AppServicePlansImpl implements AppServicePlans {
     options?: AppServicePlansListUsagesOptionalParams,
   ): AsyncIterableIterator<CsmUsageQuota> {
     for await (const page of this.listUsagesPagingPage(
+      resourceGroupName,
+      name,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get all Virtual Networks associated with an App Service plan and their properties, such as IP
+   * allocation and resource allocation
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param options The options parameters.
+   */
+  public listByVirtualNetworkIntegrations(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+  ): PagedAsyncIterableIterator<SwiftVirtualNetwork> {
+    const iter = this.listByVirtualNetworkIntegrationsPagingAll(
+      resourceGroupName,
+      name,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByVirtualNetworkIntegrationsPagingPage(
+          resourceGroupName,
+          name,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByVirtualNetworkIntegrationsPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SwiftVirtualNetwork[]> {
+    let result: AppServicePlansListByVirtualNetworkIntegrationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVirtualNetworkIntegrations(
+        resourceGroupName,
+        name,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByVirtualNetworkIntegrationsNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByVirtualNetworkIntegrationsPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+  ): AsyncIterableIterator<SwiftVirtualNetwork> {
+    for await (const page of this.listByVirtualNetworkIntegrationsPagingPage(
       resourceGroupName,
       name,
       options,
@@ -1134,6 +1226,44 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
+   * Get a Virtual Network associated with an App Service plan and its properties, such as IP allocation
+   * and resource allocation
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param vnetName Name of the Virtual Network in the form of <vnetGuid>_<subnetName>
+   * @param options The options parameters.
+   */
+  getVirtualNetworkIntegration(
+    resourceGroupName: string,
+    name: string,
+    vnetName: string,
+    options?: AppServicePlansGetVirtualNetworkIntegrationOptionalParams,
+  ): Promise<AppServicePlansGetVirtualNetworkIntegrationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, vnetName, options },
+      getVirtualNetworkIntegrationOperationSpec,
+    );
+  }
+
+  /**
+   * Get all Virtual Networks associated with an App Service plan and their properties, such as IP
+   * allocation and resource allocation
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param options The options parameters.
+   */
+  private _listByVirtualNetworkIntegrations(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsOptionalParams,
+  ): Promise<AppServicePlansListByVirtualNetworkIntegrationsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      listByVirtualNetworkIntegrationsOperationSpec,
+    );
+  }
+
+  /**
    * Description for Reboot a worker machine in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
@@ -1262,6 +1392,26 @@ export class AppServicePlansImpl implements AppServicePlans {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
       listUsagesNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByVirtualNetworkIntegrationsNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service plan.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListByVirtualNetworkIntegrations method.
+   * @param options The options parameters.
+   */
+  private _listByVirtualNetworkIntegrationsNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: AppServicePlansListByVirtualNetworkIntegrationsNextOptionalParams,
+  ): Promise<AppServicePlansListByVirtualNetworkIntegrationsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      listByVirtualNetworkIntegrationsNextOperationSpec,
     );
   }
 }
@@ -1899,6 +2049,50 @@ const updateVnetRouteOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const getVirtualNetworkIntegrationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkIntegrations/{vnetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.vnetName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByVirtualNetworkIntegrationsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkIntegrations",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SwiftVirtualNetworkCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.name,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const rebootWorkerOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot",
   httpMethod: "POST",
@@ -2045,3 +2239,25 @@ const listUsagesNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const listByVirtualNetworkIntegrationsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SwiftVirtualNetworkCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DefaultErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.name,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

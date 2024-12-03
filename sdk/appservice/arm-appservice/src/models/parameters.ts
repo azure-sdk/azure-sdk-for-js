@@ -44,6 +44,7 @@ import {
   User as UserMapper,
   SourceControl as SourceControlMapper,
   ResourceNameAvailabilityRequest as ResourceNameAvailabilityRequestMapper,
+  VirtualNetworkIntegrationRequest as VirtualNetworkIntegrationRequestMapper,
   VnetParameters as VnetParametersMapper,
   CsmMoveResourceEnvelope as CsmMoveResourceEnvelopeMapper,
   ValidateRequest as ValidateRequestMapper,
@@ -141,7 +142,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-12-01",
+    defaultValue: "2024-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -623,6 +624,23 @@ export const route: OperationParameter = {
   mapper: VnetRouteMapper,
 };
 
+export const vnetName1: OperationURLParameter = {
+  parameterPath: "vnetName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}_.+$",
+      ),
+    },
+    serializedName: "vnetName",
+    required: true,
+    xmlName: "vnetName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const workerName: OperationURLParameter = {
   parameterPath: "workerName",
   mapper: {
@@ -965,19 +983,9 @@ export const linuxDynamicWorkersEnabled: OperationQueryParameter = {
   },
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: VnetParametersMapper,
-};
-
-export const moveResourceEnvelope: OperationParameter = {
-  parameterPath: "moveResourceEnvelope",
-  mapper: CsmMoveResourceEnvelopeMapper,
-};
-
-export const validateRequest: OperationParameter = {
-  parameterPath: "validateRequest",
-  mapper: ValidateRequestMapper,
+export const request1: OperationParameter = {
+  parameterPath: "request",
+  mapper: VirtualNetworkIntegrationRequestMapper,
 };
 
 export const location1: OperationURLParameter = {
@@ -993,6 +1001,21 @@ export const location1: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VnetParametersMapper,
+};
+
+export const moveResourceEnvelope: OperationParameter = {
+  parameterPath: "moveResourceEnvelope",
+  mapper: CsmMoveResourceEnvelopeMapper,
+};
+
+export const validateRequest: OperationParameter = {
+  parameterPath: "validateRequest",
+  mapper: ValidateRequestMapper,
 };
 
 export const staticSitesWorkflowPreviewRequest: OperationParameter = {
@@ -1249,7 +1272,7 @@ export const slotSwapEntity: OperationParameter = {
   mapper: CsmSlotEntityMapper,
 };
 
-export const request1: OperationParameter = {
+export const request2: OperationParameter = {
   parameterPath: "request",
   mapper: BackupRequestMapper,
 };
@@ -1266,7 +1289,7 @@ export const backupId: OperationURLParameter = {
   },
 };
 
-export const request2: OperationParameter = {
+export const request3: OperationParameter = {
   parameterPath: "request",
   mapper: RestoreRequestMapper,
 };
@@ -1736,7 +1759,7 @@ export const containerName: OperationURLParameter = {
   },
 };
 
-export const request3: OperationParameter = {
+export const request4: OperationParameter = {
   parameterPath: "request",
   mapper: SiteContainerMapper,
 };
