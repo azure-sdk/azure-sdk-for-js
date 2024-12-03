@@ -54,6 +54,7 @@ import {
   StringDictionary as StringDictionaryMapper,
   DatabaseConnection as DatabaseConnectionMapper,
   DatabaseConnectionPatchRequest as DatabaseConnectionPatchRequestMapper,
+  StaticSiteZipDeployARMResource as StaticSiteZipDeployARMResourceMapper,
   StaticSiteUserProvidedFunctionAppARMResource as StaticSiteUserProvidedFunctionAppARMResourceMapper,
   StaticSiteZipDeploymentARMResource as StaticSiteZipDeploymentARMResourceMapper,
   StaticSiteBasicAuthPropertiesARMResource as StaticSiteBasicAuthPropertiesARMResourceMapper,
@@ -141,7 +142,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-12-01",
+    defaultValue: "2024-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1094,6 +1095,11 @@ export const databaseConnectionRequestEnvelope: OperationParameter = {
 export const databaseConnectionRequestEnvelope1: OperationParameter = {
   parameterPath: "databaseConnectionRequestEnvelope",
   mapper: DatabaseConnectionPatchRequestMapper,
+};
+
+export const staticSiteEnvelope2: OperationParameter = {
+  parameterPath: "staticSiteEnvelope",
+  mapper: StaticSiteZipDeployARMResourceMapper,
 };
 
 export const functionAppName: OperationURLParameter = {

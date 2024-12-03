@@ -68,6 +68,9 @@ import {
   StaticSitesUpdateBuildDatabaseConnectionResponse,
   StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
   StaticSitesGetBuildDatabaseConnectionWithDetailsResponse,
+  StaticSiteZipDeployARMResource,
+  StaticSitesZipDeployStagingOptionalParams,
+  StaticSitesZipDeployStagingResponse,
   StaticSitesListStaticSiteBuildAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
@@ -107,6 +110,8 @@ import {
   StaticSitesUpdateDatabaseConnectionResponse,
   StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
   StaticSitesGetDatabaseConnectionWithDetailsResponse,
+  StaticSitesZipDeployOptionalParams,
+  StaticSitesZipDeployResponse,
   StaticSitesDetachStaticSiteOptionalParams,
   StaticSitesListStaticSiteAppSettingsOptionalParams,
   StaticSitesListStaticSiteAppSettingsResponse,
@@ -618,6 +623,43 @@ export interface StaticSites {
     options?: StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams,
   ): Promise<StaticSitesGetBuildDatabaseConnectionWithDetailsResponse>;
   /**
+   * Description for Deploys zipped content to a static site onto a specified static sites environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeployStaging properties. See
+   *                           example.
+   * @param options The options parameters.
+   */
+  beginZipDeployStaging(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployStagingOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticSitesZipDeployStagingResponse>,
+      StaticSitesZipDeployStagingResponse
+    >
+  >;
+  /**
+   * Description for Deploys zipped content to a static site onto a specified static sites environment.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeployStaging properties. See
+   *                           example.
+   * @param options The options parameters.
+   */
+  beginZipDeployStagingAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployStagingOptionalParams,
+  ): Promise<StaticSitesZipDeployStagingResponse>;
+  /**
    * Description for Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -995,6 +1037,37 @@ export interface StaticSites {
     databaseConnectionName: string,
     options?: StaticSitesGetDatabaseConnectionWithDetailsOptionalParams,
   ): Promise<StaticSitesGetDatabaseConnectionWithDetailsResponse>;
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeploy properties. See example.
+   * @param options The options parameters.
+   */
+  beginZipDeploy(
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<StaticSitesZipDeployResponse>,
+      StaticSitesZipDeployResponse
+    >
+  >;
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteEnvelope A JSON representation of the StaticSiteZipDeploy properties. See example.
+   * @param options The options parameters.
+   */
+  beginZipDeployAndWait(
+    resourceGroupName: string,
+    name: string,
+    staticSiteEnvelope: StaticSiteZipDeployARMResource,
+    options?: StaticSitesZipDeployOptionalParams,
+  ): Promise<StaticSitesZipDeployResponse>;
   /**
    * Description for Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
