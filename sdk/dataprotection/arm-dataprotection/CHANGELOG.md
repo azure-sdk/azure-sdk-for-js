@@ -1,15 +1,22 @@
 # Release History
-
-## 2.1.1 (Unreleased)
-
+    
+## 2.2.0 (2024-12-04)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias AKSVolumeTypes
+  - Interface AzureBackupJobResourceList has a new optional parameter nextLink
+  - Interface AzureBackupRecoveryPointResourceList has a new optional parameter nextLink
+  - Interface BackupInstanceResourceList has a new optional parameter nextLink
+  - Interface BackupVaultResourceList has a new optional parameter nextLink
+  - Interface BaseBackupPolicyResourceList has a new optional parameter nextLink
+  - Interface DeletedBackupInstanceResourceList has a new optional parameter nextLink
+  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter includedVolumeTypes
+  - Interface ResourceGuardProxyBaseResourceList has a new optional parameter nextLink
+  - Interface ResourceGuardResourceList has a new optional parameter nextLink
+  - Added Enum KnownAKSVolumeTypes
+    
+    
 ## 2.1.0 (2024-07-08)
     
 ### Features Added

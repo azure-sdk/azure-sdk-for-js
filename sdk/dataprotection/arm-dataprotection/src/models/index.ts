@@ -1461,42 +1461,56 @@ export interface ResourceGuardResource extends DppBaseTrackedResource {
 export interface BackupVaultResourceList extends DppResourceList {
   /** List of resources. */
   value?: BackupVaultResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of BaseBackupPolicy resources */
 export interface BaseBackupPolicyResourceList extends DppResourceList {
   /** List of resources. */
   value?: BaseBackupPolicyResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** BackupInstance Resource list response */
 export interface BackupInstanceResourceList extends DppResourceList {
   /** List of resources. */
   value?: BackupInstanceResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Azure backup recoveryPoint resource list */
 export interface AzureBackupRecoveryPointResourceList extends DppResourceList {
   /** List of resources. */
   value?: AzureBackupRecoveryPointResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of AzureBackup Job resources */
 export interface AzureBackupJobResourceList extends DppResourceList {
   /** List of resources. */
   value?: AzureBackupJobResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of DeletedBackupInstance resources */
 export interface DeletedBackupInstanceResourceList extends DppResourceList {
   /** List of resources. */
   value?: DeletedBackupInstanceResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Operation Job Extended Info */
@@ -1603,6 +1617,8 @@ export interface KubernetesClusterBackupDatasourceParameters
   objectType: "KubernetesClusterBackupDatasourceParameters";
   /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during backup. */
   snapshotVolumes: boolean;
+  /** Gets or sets the include volume types property. This property sets the volume types to be included during backup. */
+  includedVolumeTypes?: AKSVolumeTypes[];
   /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during backup. */
   includeClusterScopeResources: boolean;
   /** Gets or sets the include namespaces property. This property sets the namespaces to be included during backup. */
@@ -1719,6 +1735,8 @@ export interface RestoreTargetInfo extends RestoreTargetInfoBase {
 export interface ResourceGuardResourceList extends DppTrackedResourceList {
   /** List of resources. */
   value?: ResourceGuardResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Delete option with duration */
@@ -2730,6 +2748,24 @@ export enum KnownRecoveryPointCompletionState {
  * **Partial**
  */
 export type RecoveryPointCompletionState = string;
+
+/** Known values of {@link AKSVolumeTypes} that the service accepts. */
+export enum KnownAKSVolumeTypes {
+  /** AzureDisk */
+  AzureDisk = "AzureDisk",
+  /** AzureFileShareSMB */
+  AzureFileShareSMB = "AzureFileShareSMB",
+}
+
+/**
+ * Defines values for AKSVolumeTypes. \
+ * {@link KnownAKSVolumeTypes} can be used interchangeably with AKSVolumeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureDisk** \
+ * **AzureFileShareSMB**
+ */
+export type AKSVolumeTypes = string;
 
 /** Known values of {@link FeatureType} that the service accepts. */
 export enum KnownFeatureType {
