@@ -3745,6 +3745,12 @@ export const BackupVaultResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3767,6 +3773,12 @@ export const BaseBackupPolicyResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3787,6 +3799,12 @@ export const BackupInstanceResourceList: coreClient.CompositeMapper = {
               className: "BackupInstanceResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3812,6 +3830,12 @@ export const AzureBackupRecoveryPointResourceList: coreClient.CompositeMapper =
             },
           },
         },
+        nextLink: {
+          serializedName: "nextLink",
+          type: {
+            name: "String",
+          },
+        },
       },
     },
   };
@@ -3832,6 +3856,12 @@ export const AzureBackupJobResourceList: coreClient.CompositeMapper = {
               className: "AzureBackupJobResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -3856,6 +3886,12 @@ export const DeletedBackupInstanceResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3876,6 +3912,12 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardProxyBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -4155,6 +4197,17 @@ export const KubernetesClusterBackupDatasourceParameters: coreClient.CompositeMa
           required: true,
           type: {
             name: "Boolean",
+          },
+        },
+        includedVolumeTypes: {
+          serializedName: "includedVolumeTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
           },
         },
         includeClusterScopeResources: {
@@ -4552,6 +4605,12 @@ export const ResourceGuardResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },

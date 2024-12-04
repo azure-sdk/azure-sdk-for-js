@@ -43,6 +43,9 @@ export interface AdhocBasedTriggerContext extends TriggerContext {
 }
 
 // @public
+export type AKSVolumeTypes = string;
+
+// @public
 export type AlertsState = string;
 
 // @public
@@ -147,6 +150,7 @@ export interface AzureBackupJobResource extends DppResource {
 
 // @public
 export interface AzureBackupJobResourceList extends DppResourceList {
+    nextLink?: string;
     value?: AzureBackupJobResource[];
 }
 
@@ -178,6 +182,7 @@ export interface AzureBackupRecoveryPointResource extends DppResource {
 
 // @public
 export interface AzureBackupRecoveryPointResourceList extends DppResourceList {
+    nextLink?: string;
     value?: AzureBackupRecoveryPointResource[];
 }
 
@@ -287,6 +292,7 @@ export interface BackupInstanceResource extends DppProxyResource {
 
 // @public
 export interface BackupInstanceResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BackupInstanceResource[];
 }
 
@@ -692,6 +698,7 @@ export interface BackupVaultResource extends DppTrackedResource {
 
 // @public
 export interface BackupVaultResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BackupVaultResource[];
 }
 
@@ -792,6 +799,7 @@ export interface BaseBackupPolicyResource extends DppResource {
 
 // @public
 export interface BaseBackupPolicyResourceList extends DppResourceList {
+    nextLink?: string;
     value?: BaseBackupPolicyResource[];
 }
 
@@ -1129,6 +1137,7 @@ export interface DeletedBackupInstanceResource extends DppResource {
 
 // @public
 export interface DeletedBackupInstanceResourceList extends DppResourceList {
+    nextLink?: string;
     value?: DeletedBackupInstanceResource[];
 }
 
@@ -1636,6 +1645,12 @@ export enum KnownAbsoluteMarker {
 }
 
 // @public
+export enum KnownAKSVolumeTypes {
+    AzureDisk = "AzureDisk",
+    AzureFileShareSMB = "AzureFileShareSMB"
+}
+
+// @public
 export enum KnownAlertsState {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1927,6 +1942,7 @@ export interface KubernetesClusterBackupDatasourceParameters extends BackupDatas
     includeClusterScopeResources: boolean;
     includedNamespaces?: string[];
     includedResourceTypes?: string[];
+    includedVolumeTypes?: AKSVolumeTypes[];
     labelSelectors?: string[];
     objectType: "KubernetesClusterBackupDatasourceParameters";
     snapshotVolumes: boolean;
@@ -2255,6 +2271,7 @@ export interface ResourceGuardProxyBaseResource extends DppResource {
 
 // @public
 export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
+    nextLink?: string;
     value?: ResourceGuardProxyBaseResource[];
 }
 
@@ -2265,6 +2282,7 @@ export interface ResourceGuardResource extends DppBaseTrackedResource {
 
 // @public
 export interface ResourceGuardResourceList extends DppTrackedResourceList {
+    nextLink?: string;
     value?: ResourceGuardResource[];
 }
 
