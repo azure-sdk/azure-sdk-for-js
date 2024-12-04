@@ -8,7 +8,7 @@
 
 import {
   SqlPoolMaintenanceWindowOptionsGetOptionalParams,
-  SqlPoolMaintenanceWindowOptionsGetResponse
+  SqlPoolMaintenanceWindowOptionsGetResponse,
 } from "../models";
 
 /** Interface representing a SqlPoolMaintenanceWindowOptions. */
@@ -26,6 +26,6 @@ export interface SqlPoolMaintenanceWindowOptions {
     workspaceName: string,
     sqlPoolName: string,
     maintenanceWindowOptionsName: string,
-    options?: SqlPoolMaintenanceWindowOptionsGetOptionalParams
+    options?: SqlPoolMaintenanceWindowOptionsGetOptionalParams,
   ): Promise<SqlPoolMaintenanceWindowOptionsGetResponse>;
 }

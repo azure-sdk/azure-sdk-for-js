@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AzureADOnlyAuthentication,
   AzureADOnlyAuthenticationsListNextOptionalParams,
@@ -25,13 +29,14 @@ import {
   AzureADOnlyAuthenticationsGetResponse,
   AzureADOnlyAuthenticationsCreateOptionalParams,
   AzureADOnlyAuthenticationsCreateResponse,
-  AzureADOnlyAuthenticationsListNextResponse
+  AzureADOnlyAuthenticationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureADOnlyAuthentications operations. */
 export class AzureADOnlyAuthenticationsImpl
-  implements AzureADOnlyAuthentications {
+  implements AzureADOnlyAuthentications
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -51,7 +56,7 @@ export class AzureADOnlyAuthenticationsImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AzureADOnlyAuthenticationsListOptionalParams
+    options?: AzureADOnlyAuthenticationsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureADOnlyAuthentication> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -69,9 +74,9 @@ export class AzureADOnlyAuthenticationsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +84,7 @@ export class AzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: AzureADOnlyAuthenticationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureADOnlyAuthentication[]> {
     let result: AzureADOnlyAuthenticationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +100,7 @@ export class AzureADOnlyAuthenticationsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +112,12 @@ export class AzureADOnlyAuthenticationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AzureADOnlyAuthenticationsListOptionalParams
+    options?: AzureADOnlyAuthenticationsListOptionalParams,
   ): AsyncIterableIterator<AzureADOnlyAuthentication> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,16 +134,16 @@ export class AzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
-    options?: AzureADOnlyAuthenticationsGetOptionalParams
+    options?: AzureADOnlyAuthenticationsGetOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         azureADOnlyAuthenticationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -155,30 +160,29 @@ export class AzureADOnlyAuthenticationsImpl
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
     azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication,
-    options?: AzureADOnlyAuthenticationsCreateOptionalParams
+    options?: AzureADOnlyAuthenticationsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureADOnlyAuthenticationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AzureADOnlyAuthenticationsCreateResponse>,
       AzureADOnlyAuthenticationsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AzureADOnlyAuthenticationsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -187,8 +191,8 @@ export class AzureADOnlyAuthenticationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -196,26 +200,29 @@ export class AzureADOnlyAuthenticationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         azureADOnlyAuthenticationName,
         azureADOnlyAuthenticationInfo,
-        options
+        options,
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AzureADOnlyAuthenticationsCreateResponse,
+      OperationState<AzureADOnlyAuthenticationsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -234,14 +241,14 @@ export class AzureADOnlyAuthenticationsImpl
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
     azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication,
-    options?: AzureADOnlyAuthenticationsCreateOptionalParams
+    options?: AzureADOnlyAuthenticationsCreateOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       azureADOnlyAuthenticationName,
       azureADOnlyAuthenticationInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -255,11 +262,11 @@ export class AzureADOnlyAuthenticationsImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AzureADOnlyAuthenticationsListOptionalParams
+    options?: AzureADOnlyAuthenticationsListOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -274,11 +281,11 @@ export class AzureADOnlyAuthenticationsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: AzureADOnlyAuthenticationsListNextOptionalParams
+    options?: AzureADOnlyAuthenticationsListNextOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -286,16 +293,15 @@ export class AzureADOnlyAuthenticationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications/{azureADOnlyAuthenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications/{azureADOnlyAuthenticationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthentication,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -303,31 +309,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.azureADOnlyAuthenticationName
+    Parameters.azureADOnlyAuthenticationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications/{azureADOnlyAuthenticationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications/{azureADOnlyAuthenticationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthentication,
     },
     201: {
-      bodyMapper: Mappers.AzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthentication,
     },
     202: {
-      bodyMapper: Mappers.AzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthentication,
     },
     204: {
-      bodyMapper: Mappers.AzureADOnlyAuthentication
+      bodyMapper: Mappers.AzureADOnlyAuthentication,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.azureADOnlyAuthenticationInfo,
   queryParameters: [Parameters.apiVersion],
@@ -336,52 +341,51 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.azureADOnlyAuthenticationName
+    Parameters.azureADOnlyAuthenticationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/azureADOnlyAuthentications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADOnlyAuthenticationListResult
+      bodyMapper: Mappers.AzureADOnlyAuthenticationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureADOnlyAuthenticationListResult
+      bodyMapper: Mappers.AzureADOnlyAuthenticationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

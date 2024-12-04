@@ -18180,7 +18180,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-S5WnuTQi2aWK6q5toiunog3uKzjMhwq0Y3CQ1JAtlJyGa3oIEO760qFTIhycvbhVuiRcmUui5mQGgLV6ChZcHA==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-A6RClJzKgGiGN1juEqb/y6Mus0bXmeagP4Ldk/09Zug+23LMgKNPUG8dhJ9wS3pHwxNWf/6MAW/B/uQqCGcscA==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -18196,6 +18196,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -20682,7 +20683,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-/KAKSZD3InlQSaS4sF7RFi5sxZH+38eHjRbVP6/AzVtzz6e9cR9rAJvG9ffbEEodn0znE1We00qAVbMQQB0dqg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-oFZBCkmzOfAe/6o3MolyvY6IlmFANQFBxz2x99rmNOwYWrWFstP5LWTOluKzFAnafGtkPTb8PdzL/Uyk0LgKuw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:

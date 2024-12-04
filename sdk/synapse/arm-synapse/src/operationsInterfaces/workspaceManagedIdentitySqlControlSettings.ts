@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams,
   WorkspaceManagedIdentitySqlControlSettingsGetResponse,
   ManagedIdentitySqlControlSettingsModel,
   WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
-  WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
+  WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /** Interface representing a WorkspaceManagedIdentitySqlControlSettings. */
@@ -26,7 +26,7 @@ export interface WorkspaceManagedIdentitySqlControlSettings {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams,
   ): Promise<WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
   /**
    * Create or update Managed Identity Sql Control Settings
@@ -39,12 +39,10 @@ export interface WorkspaceManagedIdentitySqlControlSettings {
     resourceGroupName: string,
     workspaceName: string,
     managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel,
-    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>,
       WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
     >
   >;
@@ -59,6 +57,6 @@ export interface WorkspaceManagedIdentitySqlControlSettings {
     resourceGroupName: string,
     workspaceName: string,
     managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel,
-    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
   ): Promise<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
 }

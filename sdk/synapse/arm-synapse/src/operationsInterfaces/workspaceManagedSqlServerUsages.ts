@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ServerUsage,
-  WorkspaceManagedSqlServerUsagesListOptionalParams
+  WorkspaceManagedSqlServerUsagesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface WorkspaceManagedSqlServerUsages {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerUsagesListOptionalParams
+    options?: WorkspaceManagedSqlServerUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage>;
 }

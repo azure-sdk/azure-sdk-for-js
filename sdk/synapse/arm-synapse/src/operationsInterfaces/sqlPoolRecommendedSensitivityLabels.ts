@@ -8,7 +8,7 @@
 
 import {
   RecommendedSensitivityLabelUpdateList,
-  SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams
+  SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams,
 } from "../models";
 
 /** Interface representing a SqlPoolRecommendedSensitivityLabels. */
@@ -26,6 +26,6 @@ export interface SqlPoolRecommendedSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     parameters: RecommendedSensitivityLabelUpdateList,
-    options?: SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams
+    options?: SqlPoolRecommendedSensitivityLabelsUpdateOptionalParams,
   ): Promise<void>;
 }

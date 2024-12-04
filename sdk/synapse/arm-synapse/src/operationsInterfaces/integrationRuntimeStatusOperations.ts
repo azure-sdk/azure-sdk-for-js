@@ -8,7 +8,7 @@
 
 import {
   IntegrationRuntimeStatusGetOptionalParams,
-  IntegrationRuntimeStatusGetResponse
+  IntegrationRuntimeStatusGetResponse,
 } from "../models";
 
 /** Interface representing a IntegrationRuntimeStatusOperations. */
@@ -24,6 +24,6 @@ export interface IntegrationRuntimeStatusOperations {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeStatusGetOptionalParams
+    options?: IntegrationRuntimeStatusGetOptionalParams,
   ): Promise<IntegrationRuntimeStatusGetResponse>;
 }

@@ -15,7 +15,8 @@ import { IntegrationRuntimeCredentialsSyncOptionalParams } from "../models";
 
 /** Class containing IntegrationRuntimeCredentials operations. */
 export class IntegrationRuntimeCredentialsImpl
-  implements IntegrationRuntimeCredentials {
+  implements IntegrationRuntimeCredentials
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -40,11 +41,11 @@ export class IntegrationRuntimeCredentialsImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeCredentialsSyncOptionalParams
+    options?: IntegrationRuntimeCredentialsSyncOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      syncOperationSpec
+      syncOperationSpec,
     );
   }
 }
@@ -52,14 +53,13 @@ export class IntegrationRuntimeCredentialsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const syncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -67,8 +67,8 @@ const syncOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -11,18 +11,23 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IntegrationRuntimeObjectMetadataListOptionalParams,
   IntegrationRuntimeObjectMetadataListResponse,
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
-  IntegrationRuntimeObjectMetadataRefreshResponse
+  IntegrationRuntimeObjectMetadataRefreshResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimeObjectMetadata operations. */
 export class IntegrationRuntimeObjectMetadataImpl
-  implements IntegrationRuntimeObjectMetadata {
+  implements IntegrationRuntimeObjectMetadata
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -44,11 +49,11 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataListOptionalParams
+    options?: IntegrationRuntimeObjectMetadataListOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -63,30 +68,29 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
       IntegrationRuntimeObjectMetadataRefreshResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -95,8 +99,8 @@ export class IntegrationRuntimeObjectMetadataImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -104,20 +108,28 @@ export class IntegrationRuntimeObjectMetadataImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      refreshOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        integrationRuntimeName,
+        options,
+      },
+      spec: refreshOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IntegrationRuntimeObjectMetadataRefreshResponse,
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -134,13 +146,13 @@ export class IntegrationRuntimeObjectMetadataImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse> {
     const poller = await this.beginRefresh(
       resourceGroupName,
       workspaceName,
       integrationRuntimeName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -149,16 +161,15 @@ export class IntegrationRuntimeObjectMetadataImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SsisObjectMetadataListResponse
+      bodyMapper: Mappers.SsisObjectMetadataListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.getMetadataRequest,
   queryParameters: [Parameters.apiVersion1],
@@ -167,32 +178,31 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     201: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     202: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     204: {
-      bodyMapper: Mappers.SsisObjectMetadataStatusResponse
+      bodyMapper: Mappers.SsisObjectMetadataStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -200,8 +210,8 @@ const refreshOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

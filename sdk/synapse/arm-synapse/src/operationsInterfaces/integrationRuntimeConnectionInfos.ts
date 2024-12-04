@@ -8,7 +8,7 @@
 
 import {
   IntegrationRuntimeConnectionInfosGetOptionalParams,
-  IntegrationRuntimeConnectionInfosGetResponse
+  IntegrationRuntimeConnectionInfosGetResponse,
 } from "../models";
 
 /** Interface representing a IntegrationRuntimeConnectionInfos. */
@@ -24,6 +24,6 @@ export interface IntegrationRuntimeConnectionInfos {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeConnectionInfosGetOptionalParams
+    options?: IntegrationRuntimeConnectionInfosGetOptionalParams,
   ): Promise<IntegrationRuntimeConnectionInfosGetResponse>;
 }
