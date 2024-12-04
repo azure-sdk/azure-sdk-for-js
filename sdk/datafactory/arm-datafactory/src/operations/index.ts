@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./factories";
 export * from "./exposureControl";
+export * from "./factories";
 export * from "./integrationRuntimes";
 export * from "./integrationRuntimeObjectMetadata";
 export * from "./integrationRuntimeNodes";

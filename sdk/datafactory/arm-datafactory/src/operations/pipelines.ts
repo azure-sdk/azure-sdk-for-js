@@ -284,8 +284,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.pipelineName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
   ],
   mediaType: "json",
@@ -361,7 +361,7 @@ const createRunOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.pipelineName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -378,10 +378,10 @@ const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

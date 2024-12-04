@@ -133,8 +133,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
   ],
   mediaType: "json",
