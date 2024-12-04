@@ -15432,7 +15432,7 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-FS2Wh1SRGyCAjRiE6MHcYEanZ8xXG765WyfHkdOMHnYlzSspQ4lkP5vU+4qfG7Q9ikSlQGFiWPvyzuCiHj0Eog==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-kqHkcXYGG7l+5xnD/H4gvq5djcYaVoQ3Q5I8/rkAiaEEFdSDn44QjGpvIncdjnEvaf0oyhMVirNc7tqMT95fvg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
@@ -15448,6 +15448,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -20698,7 +20699,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-/KAKSZD3InlQSaS4sF7RFi5sxZH+38eHjRbVP6/AzVtzz6e9cR9rAJvG9ffbEEodn0znE1We00qAVbMQQB0dqg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-oFZBCkmzOfAe/6o3MolyvY6IlmFANQFBxz2x99rmNOwYWrWFstP5LWTOluKzFAnafGtkPTb8PdzL/Uyk0LgKuw==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
