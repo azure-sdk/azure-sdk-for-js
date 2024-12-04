@@ -206,7 +206,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

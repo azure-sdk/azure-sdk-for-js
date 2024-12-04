@@ -12,13 +12,12 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  FactoryRepoUpdate as FactoryRepoUpdateMapper,
+  ExposureControlRequest as ExposureControlRequestMapper,
+  ExposureControlBatchRequest as ExposureControlBatchRequestMapper,
   Factory as FactoryMapper,
   FactoryUpdateParameters as FactoryUpdateParametersMapper,
   GitHubAccessTokenRequest as GitHubAccessTokenRequestMapper,
   UserAccessPolicy as UserAccessPolicyMapper,
-  ExposureControlRequest as ExposureControlRequestMapper,
-  ExposureControlBatchRequest as ExposureControlBatchRequestMapper,
   IntegrationRuntimeResource as IntegrationRuntimeResourceMapper,
   UpdateIntegrationRuntimeRequest as UpdateIntegrationRuntimeRequestMapper,
   IntegrationRuntimeRegenerateKeyParameters as IntegrationRuntimeRegenerateKeyParametersMapper,
@@ -45,6 +44,23 @@ import {
   ChangeDataCaptureResource as ChangeDataCaptureResourceMapper,
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const exposureControlRequest: OperationParameter = {
+  parameterPath: "exposureControlRequest",
+  mapper: ExposureControlRequestMapper,
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -69,30 +85,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2018-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -104,28 +96,23 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const locationId: OperationURLParameter = {
+  parameterPath: "locationId",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "locationId",
+    required: true,
     type: {
       name: "String",
     },
   },
 };
 
-export const factoryRepoUpdate: OperationParameter = {
-  parameterPath: "factoryRepoUpdate",
-  mapper: FactoryRepoUpdateMapper,
-};
-
-export const locationId: OperationURLParameter = {
-  parameterPath: "locationId",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "locationId",
-    required: true,
+    defaultValue: "2018-06-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String",
     },
@@ -148,11 +135,6 @@ export const resourceGroupName: OperationURLParameter = {
   },
 };
 
-export const factory: OperationParameter = {
-  parameterPath: "factory",
-  mapper: FactoryMapper,
-};
-
 export const factoryName: OperationURLParameter = {
   parameterPath: "factoryName",
   mapper: {
@@ -167,6 +149,16 @@ export const factoryName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const exposureControlBatchRequest: OperationParameter = {
+  parameterPath: "exposureControlBatchRequest",
+  mapper: ExposureControlBatchRequestMapper,
+};
+
+export const factory: OperationParameter = {
+  parameterPath: "factory",
+  mapper: FactoryMapper,
 };
 
 export const ifMatch: OperationParameter = {
@@ -204,14 +196,16 @@ export const policy: OperationParameter = {
   mapper: UserAccessPolicyMapper,
 };
 
-export const exposureControlRequest: OperationParameter = {
-  parameterPath: "exposureControlRequest",
-  mapper: ExposureControlRequestMapper,
-};
-
-export const exposureControlBatchRequest: OperationParameter = {
-  parameterPath: "exposureControlBatchRequest",
-  mapper: ExposureControlBatchRequestMapper,
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const integrationRuntime: OperationParameter = {

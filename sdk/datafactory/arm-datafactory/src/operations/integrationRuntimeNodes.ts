@@ -214,7 +214,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.integrationRuntimeName,
     Parameters.nodeName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

@@ -428,7 +428,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -472,7 +472,7 @@ const addDataFlowOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -493,7 +493,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -525,7 +525,7 @@ const executeCommandOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -542,10 +542,10 @@ const queryByFactoryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

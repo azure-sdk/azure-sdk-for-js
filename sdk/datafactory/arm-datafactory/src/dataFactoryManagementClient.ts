@@ -15,9 +15,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  FactoriesImpl,
   ExposureControlImpl,
+  FactoriesImpl,
   IntegrationRuntimesImpl,
   IntegrationRuntimeObjectMetadataImpl,
   IntegrationRuntimeNodesImpl,
@@ -40,9 +39,8 @@ import {
   ChangeDataCaptureImpl,
 } from "./operations";
 import {
-  Operations,
-  Factories,
   ExposureControl,
+  Factories,
   IntegrationRuntimes,
   IntegrationRuntimeObjectMetadata,
   IntegrationRuntimeNodes,
@@ -68,8 +66,8 @@ import { DataFactoryManagementClientOptionalParams } from "./models";
 
 export class DataFactoryManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the DataFactoryManagementClient class.
@@ -98,7 +96,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/17.0.1`;
+    const packageDetails = `azsdk-js-arm-datafactory/18.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -153,9 +151,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2018-06-01";
-    this.operations = new OperationsImpl(this);
-    this.factories = new FactoriesImpl(this);
     this.exposureControl = new ExposureControlImpl(this);
+    this.factories = new FactoriesImpl(this);
     this.integrationRuntimes = new IntegrationRuntimesImpl(this);
     this.integrationRuntimeObjectMetadata =
       new IntegrationRuntimeObjectMetadataImpl(this);
@@ -208,9 +205,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
-  factories: Factories;
   exposureControl: ExposureControl;
+  factories: Factories;
   integrationRuntimes: IntegrationRuntimes;
   integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
   integrationRuntimeNodes: IntegrationRuntimeNodes;

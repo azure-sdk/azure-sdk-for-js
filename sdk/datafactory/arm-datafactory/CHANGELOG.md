@@ -1,15 +1,48 @@
 # Release History
-
-## 17.0.1 (Unreleased)
-
+    
+## 18.0.0 (2024-12-04)
+    
 ### Features Added
+
+  - Added Interface IcebergDataset
+  - Added Interface IcebergSink
+  - Added Interface IcebergWriteSettings
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter commandTimeout
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter database
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter encoding
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter port
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter readBufferSize
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter server
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter sslMode
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter timeout
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter timezone
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter trustServerCertificate
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter username
+  - Interface MariaDBLinkedService has a new optional parameter sslMode
+  - Interface MariaDBLinkedService has a new optional parameter useSystemTrustStore
+  - Interface MySqlLinkedService has a new optional parameter allowZeroDateTime
+  - Interface MySqlLinkedService has a new optional parameter connectionTimeout
+  - Interface MySqlLinkedService has a new optional parameter convertZeroDateTime
+  - Interface MySqlLinkedService has a new optional parameter guidFormat
+  - Interface MySqlLinkedService has a new optional parameter sslCert
+  - Interface MySqlLinkedService has a new optional parameter sslKey
+  - Interface MySqlLinkedService has a new optional parameter treatTinyAsBoolean
+  - Interface SalesforceV2Source has a new optional parameter pageSize
+  - Interface ServiceNowV2Source has a new optional parameter pageSize
+  - Interface SnowflakeV2LinkedService has a new optional parameter host
+  - Type of parameter type of interface CopySink is changed from "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink" to "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink"
+  - Type of parameter type of interface Dataset is changed from "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakeHouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object" to "AmazonS3Object" | "Avro" | "Excel" | "Parquet" | "DelimitedText" | "Json" | "Xml" | "Orc" | "Binary" | "Iceberg" | "AzureBlob" | "AzureTable" | "AzureSqlTable" | "AzureSqlMITable" | "AzureSqlDWTable" | "CassandraTable" | "CustomDataset" | "CosmosDbSqlApiCollection" | "DocumentDbCollection" | "DynamicsEntity" | "DynamicsCrmEntity" | "CommonDataServiceForAppsEntity" | "AzureDataLakeStoreFile" | "AzureBlobFSFile" | "Office365Table" | "FileShare" | "MongoDbCollection" | "MongoDbAtlasCollection" | "MongoDbV2Collection" | "CosmosDbMongoDbApiCollection" | "ODataResource" | "OracleTable" | "AmazonRdsForOracleTable" | "TeradataTable" | "AzureMySqlTable" | "AmazonRedshiftTable" | "Db2Table" | "RelationalTable" | "InformixTable" | "OdbcTable" | "MySqlTable" | "PostgreSqlTable" | "PostgreSqlV2Table" | "MicrosoftAccessTable" | "SalesforceObject" | "SalesforceServiceCloudObject" | "SybaseTable" | "SapBwCube" | "SapCloudForCustomerResource" | "SapEccResource" | "SapHanaTable" | "SapOpenHubTable" | "SqlServerTable" | "AmazonRdsForSqlServerTable" | "RestResource" | "SapTableResource" | "SapOdpResource" | "WebTable" | "AzureSearchIndex" | "HttpFile" | "AmazonMWSObject" | "AzurePostgreSqlTable" | "ConcurObject" | "CouchbaseTable" | "DrillTable" | "EloquaObject" | "GoogleBigQueryObject" | "GoogleBigQueryV2Object" | "GreenplumTable" | "HBaseObject" | "HiveObject" | "HubspotObject" | "ImpalaObject" | "JiraObject" | "MagentoObject" | "MariaDBTable" | "AzureMariaDBTable" | "MarketoObject" | "PaypalObject" | "PhoenixObject" | "PrestoObject" | "QuickBooksObject" | "ServiceNowObject" | "ShopifyObject" | "SparkObject" | "SquareObject" | "XeroObject" | "ZohoObject" | "NetezzaTable" | "VerticaTable" | "SalesforceMarketingCloudObject" | "ResponsysObject" | "DynamicsAXResource" | "OracleServiceCloudObject" | "AzureDataExplorerTable" | "GoogleAdWordsObject" | "SnowflakeTable" | "SnowflakeV2Table" | "SharePointOnlineListResource" | "AzureDatabricksDeltaLakeDataset" | "LakeHouseTable" | "SalesforceV2Object" | "SalesforceServiceCloudV2Object" | "WarehouseTable" | "ServiceNowV2Object"
+  - Type of parameter type of interface FormatWriteSettings is changed from "AvroWriteSettings" | "OrcWriteSettings" | "ParquetWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings" to "AvroWriteSettings" | "OrcWriteSettings" | "ParquetWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings" | "IcebergWriteSettings"
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Operations
+  - Removed operation Factories.configureFactoryRepo
+  - Removed operation Factories.list
+  - Interface PostgreSqlV2LinkedService has a new required parameter authenticationType
+  - Class DataFactoryManagementClient no longer has parameter operations
+    
+    
 ## 17.0.0 (2024-08-27)
     
 ### Features Added
