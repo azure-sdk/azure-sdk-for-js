@@ -17145,7 +17145,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-Tq2/M1AEYoDXB1IkOCAKO04hoS9Dmwt6riEJgKX3+xThxsQPm1lO/YvBqWwlXi48XmpJ3IDL5zNZbTxAVADNtQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-w96+kfd7ROowuwRwfLaDgNjLDBDXmXC05HMsBvvcTdosx9Ue8OdQH1yKhrpZaSZAc5dRsph8h0XoYP8Wn5+naw==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -17162,6 +17162,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
