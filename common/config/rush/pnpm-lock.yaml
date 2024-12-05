@@ -815,6 +815,9 @@ dependencies:
   '@rush-temp/attestation':
     specifier: file:./projects/attestation.tgz
     version: file:projects/attestation.tgz
+  '@rush-temp/azure-appconfiguration-rest':
+    specifier: file:./projects/azure-appconfiguration-rest.tgz
+    version: file:projects/azure-appconfiguration-rest.tgz
   '@rush-temp/batch':
     specifier: file:./projects/batch.tgz
     version: file:projects/batch.tgz
@@ -3858,7 +3861,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3877,7 +3880,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3907,7 +3910,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -4133,7 +4136,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.67
+      '@types/node': 20.17.9
     dev: false
 
   /@types/ws@8.5.13:
@@ -18610,6 +18613,43 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
+  file:projects/azure-appconfiguration-rest.tgz:
+    resolution: {integrity: sha512-y1uGx+RW/6X4E3B5oXqp8Q6y9mbZ/HFLM07jdecnEVrYQCqULrls8t4qoaaOe2mJz96GO/neQwOEwjgoh3SgUg==, tarball: file:projects/azure-appconfiguration-rest.tgz}
+    name: '@rush-temp/azure-appconfiguration-rest'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
+      '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.5
+      eslint: 9.16.0
+      playwright: 1.49.0
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
