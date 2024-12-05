@@ -11710,10 +11710,11 @@ packages:
     dev: false
 
   file:projects/ai-content-safety.tgz:
-    resolution: {integrity: sha512-wYg56r/F6an8nPb6NlNYV4IkMT+vOk6QewQFK3Gef2DuAHLtxmq5feJG247k4z4jVkEE2pf9BOC3dLPGp/rPCQ==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-TOYQgoc0Lsl73Y6JH/Vmjk7kX65R8COxZ16SCPHdXWgkXUUegL+x2Qjza8AmTeiM7WCYnTHEJ7uCum8ux8Zfiw==, tarball: file:projects/ai-content-safety.tgz}
     name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -19268,7 +19269,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-6Ndvi5/p0CWnmqcNgx+DzBjt0PPk8zokaRjgjEVI0W2Cpf+3sUUVwTLUfoR/0GX93EqftGyFYD5pdcLS+eBxhg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-AHxtCyVOmgFDmFKYr3jgh/D9GLdlJJaGeuvAhCxciN8PpRLPF/CUjp+eNzZeAd+h352yM1xYh/luQzCHcsLKtw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:

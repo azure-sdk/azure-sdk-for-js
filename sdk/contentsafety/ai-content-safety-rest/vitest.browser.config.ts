@@ -1,28 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.browser.shared.config.ts";
-import copy from "rollup-plugin-copy";
-import { dirname, resolve } from "path";
-import { fileURLToPath } from "node:url";
+import { defineConfig } from "vitest/config";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const sourceImage = resolve(__dirname, "./samples-dev/example-data/image.png");
-const dest = resolve(__dirname, "./dist-test/browser/samples-dev/example-data");
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
-export default mergeConfig(
-  viteConfig,
-  defineConfig({
-    plugins: [
-      copy({
-        targets: [{ src: sourceImage, dest: dest }],
-      }),
-    ],
-    test: {
-      include: ["dist-test/browser/test/**/*.spec.js"],
-      hookTimeout: 5000000,
-      testTimeout: 5000000,
+export default defineConfig({
+  define: {
+    "process.env": process.env,
+  },
+  test: {
+    reporters: ["basic", "junit"],
+    outputFile: {
+      junit: "test-results.browser.xml",
     },
-  }),
-);
+    browser: {
+      enabled: true,
+      headless: true,
+      name: "chromium",
+      provider: "playwright",
+    },
+    fakeTimers: {
+      toFake: ["setTimeout", "Date"],
+    },
+    watch: false,
+    include: ["dist-test/browser/**/*.spec.js"],
+    coverage: {
+      include: ["dist-test/browser/**/*.spec.js"],
+      provider: "istanbul",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "coverage-browser",
+    },
+    testTimeout: 1200000,
+    hookTimeout: 1200000,
+  },
+});
