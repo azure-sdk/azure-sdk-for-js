@@ -6,6 +6,7 @@ The Azure Terraform management API provides a RESTful set of web services that u
 
 Key links:
 
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/terraform/arm-terraform)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-terraform)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-terraform?view=azure-node-preview)
 
@@ -44,7 +45,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to AzureTerraformResourceProvider** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 

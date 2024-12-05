@@ -4,7 +4,10 @@
 import { AzureTerraformContext } from "../../api/azureTerraformContext.js";
 import { TerraformExportTerraformOptionalParams } from "../../api/options.js";
 import { terraformExportTerraform } from "../../api/terraform/index.js";
-import { BaseExportModelUnion, TerraformOperationStatus } from "../../models/models.js";
+import {
+  BaseExportModelUnion,
+  TerraformOperationStatus,
+} from "../../models/models.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Terraform operations. */
@@ -13,10 +16,16 @@ export interface TerraformOperations {
   exportTerraform: (
     body: BaseExportModelUnion,
     options?: TerraformExportTerraformOptionalParams,
-  ) => PollerLike<OperationState<TerraformOperationStatus>, TerraformOperationStatus>;
+  ) => PollerLike<
+    OperationState<TerraformOperationStatus>,
+    TerraformOperationStatus
+  >;
 }
 
-export function getTerraform(context: AzureTerraformContext, subscriptionId: string) {
+export function getTerraform(
+  context: AzureTerraformContext,
+  subscriptionId: string,
+) {
   return {
     exportTerraform: (
       body: BaseExportModelUnion,

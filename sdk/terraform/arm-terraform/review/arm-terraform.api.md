@@ -61,6 +61,11 @@ export interface ErrorDetail {
 }
 
 // @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExportQuery extends BaseExportModel {
     namePattern?: string;
     query: string;
@@ -98,9 +103,9 @@ export enum KnownActionType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
