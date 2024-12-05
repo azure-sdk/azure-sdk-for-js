@@ -56,7 +56,8 @@ export function skuListByLocation(
 ): PagedAsyncIterableIterator<ResourceSku> {
   return buildPagedAsyncIterator(
     context,
-    () => _skuListByLocationSend(context, subscriptionId, locationName, options),
+    () =>
+      _skuListByLocationSend(context, subscriptionId, locationName, options),
     _skuListByLocationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

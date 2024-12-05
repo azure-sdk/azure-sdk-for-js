@@ -60,7 +60,13 @@ export function resourceDetailsListByPool(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _resourceDetailsListByPoolSend(context, subscriptionId, resourceGroupName, poolName, options),
+      _resourceDetailsListByPoolSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        options,
+      ),
     _resourceDetailsListByPoolDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -61,9 +61,16 @@ export interface PoolsOperations {
   ) => PagedAsyncIterableIterator<Pool>;
 }
 
-export function getPools(context: DevOpsInfrastructureContext, subscriptionId: string) {
+export function getPools(
+  context: DevOpsInfrastructureContext,
+  subscriptionId: string,
+) {
   return {
-    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) =>
+    get: (
+      resourceGroupName: string,
+      poolName: string,
+      options?: PoolsGetOptionalParams,
+    ) =>
       poolsGet(context, subscriptionId, resourceGroupName, poolName, options),
     createOrUpdate: (
       resourceGroupName: string,
@@ -71,19 +78,50 @@ export function getPools(context: DevOpsInfrastructureContext, subscriptionId: s
       resource: Pool,
       options?: PoolsCreateOrUpdateOptionalParams,
     ) =>
-      poolsCreateOrUpdate(context, subscriptionId, resourceGroupName, poolName, resource, options),
+      poolsCreateOrUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        resource,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       poolName: string,
       properties: PoolUpdate,
       options?: PoolsUpdateOptionalParams,
-    ) => poolsUpdate(context, subscriptionId, resourceGroupName, poolName, properties, options),
-    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) =>
-      poolsDelete(context, subscriptionId, resourceGroupName, poolName, options),
+    ) =>
+      poolsUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        properties,
+        options,
+      ),
+    delete: (
+      resourceGroupName: string,
+      poolName: string,
+      options?: PoolsDeleteOptionalParams,
+    ) =>
+      poolsDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PoolsListByResourceGroupOptionalParams,
-    ) => poolsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      poolsListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) =>
       poolsListBySubscription(context, subscriptionId, options),
   };
