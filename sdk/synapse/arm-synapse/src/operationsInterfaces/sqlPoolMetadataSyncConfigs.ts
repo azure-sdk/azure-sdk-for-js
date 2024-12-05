@@ -11,7 +11,7 @@ import {
   SqlPoolMetadataSyncConfigsGetResponse,
   MetadataSyncConfig,
   SqlPoolMetadataSyncConfigsCreateOptionalParams,
-  SqlPoolMetadataSyncConfigsCreateResponse
+  SqlPoolMetadataSyncConfigsCreateResponse,
 } from "../models";
 
 /** Interface representing a SqlPoolMetadataSyncConfigs. */
@@ -27,7 +27,7 @@ export interface SqlPoolMetadataSyncConfigs {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolMetadataSyncConfigsGetOptionalParams
+    options?: SqlPoolMetadataSyncConfigsGetOptionalParams,
   ): Promise<SqlPoolMetadataSyncConfigsGetResponse>;
   /**
    * Set the metadata sync configuration for a SQL pool
@@ -42,6 +42,6 @@ export interface SqlPoolMetadataSyncConfigs {
     workspaceName: string,
     sqlPoolName: string,
     metadataSyncConfiguration: MetadataSyncConfig,
-    options?: SqlPoolMetadataSyncConfigsCreateOptionalParams
+    options?: SqlPoolMetadataSyncConfigsCreateOptionalParams,
   ): Promise<SqlPoolMetadataSyncConfigsCreateResponse>;
 }

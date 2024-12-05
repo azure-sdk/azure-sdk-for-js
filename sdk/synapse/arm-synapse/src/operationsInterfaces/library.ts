@@ -21,6 +21,6 @@ export interface Library {
     resourceGroupName: string,
     libraryName: string,
     workspaceName: string,
-    options?: LibraryGetOptionalParams
+    options?: LibraryGetOptionalParams,
   ): Promise<LibraryGetResponse>;
 }

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IpFirewallRuleInfo,
   IpFirewallRulesListByWorkspaceNextOptionalParams,
@@ -29,7 +33,7 @@ import {
   ReplaceAllIpFirewallRulesRequest,
   IpFirewallRulesReplaceAllOptionalParams,
   IpFirewallRulesReplaceAllResponse,
-  IpFirewallRulesListByWorkspaceNextResponse
+  IpFirewallRulesListByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +58,12 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IpFirewallRulesListByWorkspaceOptionalParams
+    options?: IpFirewallRulesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IpFirewallRuleInfo> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +80,9 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +90,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     options?: IpFirewallRulesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpFirewallRuleInfo[]> {
     let result: IpFirewallRulesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +98,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +110,7 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +122,12 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IpFirewallRulesListByWorkspaceOptionalParams
+    options?: IpFirewallRulesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<IpFirewallRuleInfo> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +142,11 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IpFirewallRulesListByWorkspaceOptionalParams
+    options?: IpFirewallRulesListByWorkspaceOptionalParams,
   ): Promise<IpFirewallRulesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -159,30 +163,29 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     workspaceName: string,
     ruleName: string,
     ipFirewallRuleInfo: IpFirewallRuleInfo,
-    options?: IpFirewallRulesCreateOrUpdateOptionalParams
+    options?: IpFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>,
       IpFirewallRulesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpFirewallRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -191,8 +194,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -200,26 +203,29 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         ruleName,
         ipFirewallRuleInfo,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesCreateOrUpdateResponse,
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -238,14 +244,14 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     workspaceName: string,
     ruleName: string,
     ipFirewallRuleInfo: IpFirewallRuleInfo,
-    options?: IpFirewallRulesCreateOrUpdateOptionalParams
+    options?: IpFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<IpFirewallRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       ruleName,
       ipFirewallRuleInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -261,30 +267,29 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesDeleteOptionalParams
+    options?: IpFirewallRulesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesDeleteResponse>,
       IpFirewallRulesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpFirewallRulesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +298,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,20 +307,23 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, ruleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, ruleName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesDeleteResponse,
+      OperationState<IpFirewallRulesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -332,13 +340,13 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesDeleteOptionalParams
+    options?: IpFirewallRulesDeleteOptionalParams,
   ): Promise<IpFirewallRulesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       ruleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -354,11 +362,11 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesGetOptionalParams
+    options?: IpFirewallRulesGetOptionalParams,
   ): Promise<IpFirewallRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, ruleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -373,30 +381,29 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     request: ReplaceAllIpFirewallRulesRequest,
-    options?: IpFirewallRulesReplaceAllOptionalParams
+    options?: IpFirewallRulesReplaceAllOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesReplaceAllResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesReplaceAllResponse>,
       IpFirewallRulesReplaceAllResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpFirewallRulesReplaceAllResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -405,8 +412,8 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -414,20 +421,23 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, request, options },
-      replaceAllOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, request, options },
+      spec: replaceAllOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      IpFirewallRulesReplaceAllResponse,
+      OperationState<IpFirewallRulesReplaceAllResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -444,13 +454,13 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     request: ReplaceAllIpFirewallRulesRequest,
-    options?: IpFirewallRulesReplaceAllOptionalParams
+    options?: IpFirewallRulesReplaceAllOptionalParams,
   ): Promise<IpFirewallRulesReplaceAllResponse> {
     const poller = await this.beginReplaceAll(
       resourceGroupName,
       workspaceName,
       request,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -466,11 +476,11 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: IpFirewallRulesListByWorkspaceNextOptionalParams
+    options?: IpFirewallRulesListByWorkspaceNextOptionalParams,
   ): Promise<IpFirewallRulesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -478,47 +488,45 @@ export class IpFirewallRulesImpl implements IpFirewallRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpFirewallRuleInfoListResult
+      bodyMapper: Mappers.IpFirewallRuleInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     201: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     202: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     204: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.ipFirewallRuleInfo,
   queryParameters: [Parameters.apiVersion],
@@ -527,32 +535,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     201: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     202: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     204: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -560,22 +567,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/firewallRules/{ruleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpFirewallRuleInfo
+      bodyMapper: Mappers.IpFirewallRuleInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -583,31 +589,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.ruleName
+    Parameters.ruleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const replaceAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/replaceAllIpFirewallRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/replaceAllIpFirewallRules",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse
+      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse,
     },
     201: {
-      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse
+      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse,
     },
     202: {
-      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse
+      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse,
     },
     204: {
-      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse
+      bodyMapper: Mappers.ReplaceAllFirewallRulesOperationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
@@ -615,30 +620,30 @@ const replaceAllOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpFirewallRuleInfoListResult
+      bodyMapper: Mappers.IpFirewallRuleInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

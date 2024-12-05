@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   IntegrationRuntimeStatusGetOptionalParams,
-  IntegrationRuntimeStatusGetResponse
+  IntegrationRuntimeStatusGetResponse,
 } from "../models";
 
 /** Class containing IntegrationRuntimeStatusOperations operations. */
 export class IntegrationRuntimeStatusOperationsImpl
-  implements IntegrationRuntimeStatusOperations {
+  implements IntegrationRuntimeStatusOperations
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -40,11 +41,11 @@ export class IntegrationRuntimeStatusOperationsImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeStatusGetOptionalParams
+    options?: IntegrationRuntimeStatusGetOptionalParams,
   ): Promise<IntegrationRuntimeStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -52,16 +53,15 @@ export class IntegrationRuntimeStatusOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStatusResponse
+      bodyMapper: Mappers.IntegrationRuntimeStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -69,8 +69,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

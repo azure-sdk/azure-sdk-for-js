@@ -14,12 +14,13 @@ import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   DataWarehouseUserActivityName,
   SqlPoolDataWarehouseUserActivitiesGetOptionalParams,
-  SqlPoolDataWarehouseUserActivitiesGetResponse
+  SqlPoolDataWarehouseUserActivitiesGetResponse,
 } from "../models";
 
 /** Class containing SqlPoolDataWarehouseUserActivities operations. */
 export class SqlPoolDataWarehouseUserActivitiesImpl
-  implements SqlPoolDataWarehouseUserActivities {
+  implements SqlPoolDataWarehouseUserActivities
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class SqlPoolDataWarehouseUserActivitiesImpl
     workspaceName: string,
     sqlPoolName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: SqlPoolDataWarehouseUserActivitiesGetOptionalParams
+    options?: SqlPoolDataWarehouseUserActivitiesGetOptionalParams,
   ): Promise<SqlPoolDataWarehouseUserActivitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class SqlPoolDataWarehouseUserActivitiesImpl
         workspaceName,
         sqlPoolName,
         dataWarehouseUserActivityName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -61,14 +62,13 @@ export class SqlPoolDataWarehouseUserActivitiesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataWarehouseUserActivities/{dataWarehouseUserActivityName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataWarehouseUserActivities
+      bodyMapper: Mappers.DataWarehouseUserActivities,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -77,8 +77,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.dataWarehouseUserActivityName
+    Parameters.dataWarehouseUserActivityName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SqlPoolColumn,
-  SqlPoolTableColumnsListByTableNameOptionalParams
+  SqlPoolTableColumnsListByTableNameOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,6 +30,6 @@ export interface SqlPoolTableColumns {
     sqlPoolName: string,
     schemaName: string,
     tableName: string,
-    options?: SqlPoolTableColumnsListByTableNameOptionalParams
+    options?: SqlPoolTableColumnsListByTableNameOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolColumn>;
 }

@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   SparkConfigurationGetOptionalParams,
-  SparkConfigurationGetResponse
+  SparkConfigurationGetResponse,
 } from "../models";
 
 /** Class containing SparkConfiguration operations. */
@@ -39,11 +39,11 @@ export class SparkConfigurationImpl implements SparkConfiguration {
     resourceGroupName: string,
     sparkConfigurationName: string,
     workspaceName: string,
-    options?: SparkConfigurationGetOptionalParams
+    options?: SparkConfigurationGetOptionalParams,
   ): Promise<SparkConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sparkConfigurationName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class SparkConfigurationImpl implements SparkConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations/{sparkConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkConfigurationResource
+      bodyMapper: Mappers.SparkConfigurationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sparkConfigurationName
+    Parameters.sparkConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

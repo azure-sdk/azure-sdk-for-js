@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   RestorePoint,
   SqlPoolRestorePointsListNextOptionalParams,
@@ -26,7 +30,7 @@ import {
   SqlPoolRestorePointsGetOptionalParams,
   SqlPoolRestorePointsGetResponse,
   SqlPoolRestorePointsDeleteOptionalParams,
-  SqlPoolRestorePointsListNextResponse
+  SqlPoolRestorePointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +57,13 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolRestorePointsListOptionalParams
+    options?: SqlPoolRestorePointsListOptionalParams,
   ): PagedAsyncIterableIterator<RestorePoint> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +81,9 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +92,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolRestorePointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RestorePoint[]> {
     let result: SqlPoolRestorePointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +101,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +114,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +127,13 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolRestorePointsListOptionalParams
+    options?: SqlPoolRestorePointsListOptionalParams,
   ): AsyncIterableIterator<RestorePoint> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +150,11 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolRestorePointsListOptionalParams
+    options?: SqlPoolRestorePointsListOptionalParams,
   ): Promise<SqlPoolRestorePointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -167,30 +171,29 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     parameters: CreateSqlPoolRestorePointDefinition,
-    options?: SqlPoolRestorePointsCreateOptionalParams
+    options?: SqlPoolRestorePointsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolRestorePointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolRestorePointsCreateResponse>,
       SqlPoolRestorePointsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolRestorePointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -199,8 +202,8 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -208,20 +211,29 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        parameters,
+        options,
+      },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolRestorePointsCreateResponse,
+      OperationState<SqlPoolRestorePointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -240,14 +252,14 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     parameters: CreateSqlPoolRestorePointDefinition,
-    options?: SqlPoolRestorePointsCreateOptionalParams
+    options?: SqlPoolRestorePointsCreateOptionalParams,
   ): Promise<SqlPoolRestorePointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -265,7 +277,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     restorePointName: string,
-    options?: SqlPoolRestorePointsGetOptionalParams
+    options?: SqlPoolRestorePointsGetOptionalParams,
   ): Promise<SqlPoolRestorePointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -273,9 +285,9 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         workspaceName,
         sqlPoolName,
         restorePointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -292,7 +304,7 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     restorePointName: string,
-    options?: SqlPoolRestorePointsDeleteOptionalParams
+    options?: SqlPoolRestorePointsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -300,9 +312,9 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
         workspaceName,
         sqlPoolName,
         restorePointName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -319,11 +331,11 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolRestorePointsListNextOptionalParams
+    options?: SqlPoolRestorePointsListNextOptionalParams,
   ): Promise<SqlPoolRestorePointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -331,69 +343,15 @@ export class SqlPoolRestorePointsImpl implements SqlPoolRestorePoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorePointListResult
+      bodyMapper: Mappers.RestorePointListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePoint
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.RestorePoint
-    },
-    202: {
-      bodyMapper: Mappers.RestorePoint
-    },
-    204: {
-      bodyMapper: Mappers.RestorePoint
-    },
-    default: {}
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePoint
-    },
-    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -402,14 +360,64 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.restorePointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    201: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    202: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    204: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    default: {},
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePoint,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.restorePointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -419,20 +427,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.restorePointName
+    Parameters.restorePointName,
   ],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorePointListResult
+      bodyMapper: Mappers.RestorePointListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -440,8 +448,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
