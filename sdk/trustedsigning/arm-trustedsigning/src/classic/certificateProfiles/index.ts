@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { CodeSigningContext } from "../../api/codeSigningContext.js";
-import { CertificateProfile, RevokeCertificate } from "../../models/models.js";
 import {
-  get,
-  create,
-  $delete,
-  listByCodeSigningAccount,
-  revokeCertificate,
+  certificateProfilesGet,
+  certificateProfilesCreate,
+  certificateProfilesDelete,
+  certificateProfilesListByCodeSigningAccount,
+  certificateProfilesRevokeCertificate,
 } from "../../api/certificateProfiles/index.js";
+import { CertificateProfile, RevokeCertificate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -18,7 +18,7 @@ import {
   CertificateProfilesDeleteOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesRevokeCertificateOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a CertificateProfiles operations. */
 export interface CertificateProfilesOperations {
@@ -38,11 +38,6 @@ export interface CertificateProfilesOperations {
     options?: CertificateProfilesCreateOptionalParams,
   ) => PollerLike<OperationState<CertificateProfile>, CertificateProfile>;
   /** Delete a certificate profile. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -65,14 +60,25 @@ export interface CertificateProfilesOperations {
   ) => Promise<void>;
 }
 
-export function getCertificateProfiles(context: CodeSigningContext, subscriptionId: string) {
+export function getCertificateProfiles(
+  context: CodeSigningContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       accountName: string,
       profileName: string,
       options?: CertificateProfilesGetOptionalParams,
-    ) => get(context, subscriptionId, resourceGroupName, accountName, profileName, options),
+    ) =>
+      certificateProfilesGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        profileName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       accountName: string,
@@ -80,7 +86,7 @@ export function getCertificateProfiles(context: CodeSigningContext, subscription
       resource: CertificateProfile,
       options?: CertificateProfilesCreateOptionalParams,
     ) =>
-      create(
+      certificateProfilesCreate(
         context,
         subscriptionId,
         resourceGroupName,
@@ -94,12 +100,27 @@ export function getCertificateProfiles(context: CodeSigningContext, subscription
       accountName: string,
       profileName: string,
       options?: CertificateProfilesDeleteOptionalParams,
-    ) => $delete(context, subscriptionId, resourceGroupName, accountName, profileName, options),
+    ) =>
+      certificateProfilesDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        profileName,
+        options,
+      ),
     listByCodeSigningAccount: (
       resourceGroupName: string,
       accountName: string,
       options?: CertificateProfilesListByCodeSigningAccountOptionalParams,
-    ) => listByCodeSigningAccount(context, subscriptionId, resourceGroupName, accountName, options),
+    ) =>
+      certificateProfilesListByCodeSigningAccount(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     revokeCertificate: (
       resourceGroupName: string,
       accountName: string,
@@ -107,7 +128,7 @@ export function getCertificateProfiles(context: CodeSigningContext, subscription
       body: RevokeCertificate,
       options?: CertificateProfilesRevokeCertificateOptionalParams,
     ) =>
-      revokeCertificate(
+      certificateProfilesRevokeCertificate(
         context,
         subscriptionId,
         resourceGroupName,

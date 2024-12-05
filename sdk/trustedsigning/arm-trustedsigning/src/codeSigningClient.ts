@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getCodeSigningAccountsOperations,
   CodeSigningAccountsOperations,
@@ -17,6 +18,8 @@ import {
   CodeSigningContext,
   CodeSigningClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { CodeSigningClientOptionalParams } from "./api/codeSigningContext.js";
 
@@ -34,15 +37,21 @@ export class CodeSigningClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createCodeSigning(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.codeSigningAccounts = getCodeSigningAccountsOperations(this._client, subscriptionId);
-    this.certificateProfiles = getCertificateProfilesOperations(this._client, subscriptionId);
+    this.codeSigningAccounts = getCodeSigningAccountsOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.certificateProfiles = getCertificateProfilesOperations(
+      this._client,
+      subscriptionId,
+    );
   }
 
   /** The operation groups for Operations */

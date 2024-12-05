@@ -3,20 +3,20 @@
 
 import { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
+  codeSigningAccountsGet,
+  codeSigningAccountsCreate,
+  codeSigningAccountsUpdate,
+  codeSigningAccountsDelete,
+  codeSigningAccountsListByResourceGroup,
+  codeSigningAccountsListBySubscription,
+  codeSigningAccountsCheckNameAvailability,
+} from "../../api/codeSigningAccounts/index.js";
+import {
   CodeSigningAccount,
   CodeSigningAccountPatch,
   CheckNameAvailability,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import {
-  get,
-  create,
-  update,
-  $delete,
-  listByResourceGroup,
-  listBySubscription,
-  checkNameAvailability,
-} from "../../api/codeSigningAccounts/index.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -27,7 +27,7 @@ import {
   CodeSigningAccountsListByResourceGroupOptionalParams,
   CodeSigningAccountsListBySubscriptionOptionalParams,
   CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a CodeSigningAccounts operations. */
 export interface CodeSigningAccountsOperations {
@@ -52,11 +52,6 @@ export interface CodeSigningAccountsOperations {
     options?: CodeSigningAccountsUpdateOptionalParams,
   ) => PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
   /** Delete a trusted signing account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -78,40 +73,87 @@ export interface CodeSigningAccountsOperations {
   ) => Promise<CheckNameAvailabilityResult>;
 }
 
-export function getCodeSigningAccounts(context: CodeSigningContext, subscriptionId: string) {
+export function getCodeSigningAccounts(
+  context: CodeSigningContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       accountName: string,
       options?: CodeSigningAccountsGetOptionalParams,
-    ) => get(context, subscriptionId, resourceGroupName, accountName, options),
+    ) =>
+      codeSigningAccountsGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       accountName: string,
       resource: CodeSigningAccount,
       options?: CodeSigningAccountsCreateOptionalParams,
-    ) => create(context, subscriptionId, resourceGroupName, accountName, resource, options),
+    ) =>
+      codeSigningAccountsCreate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        resource,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       accountName: string,
       properties: CodeSigningAccountPatch,
       options?: CodeSigningAccountsUpdateOptionalParams,
-    ) => update(context, subscriptionId, resourceGroupName, accountName, properties, options),
+    ) =>
+      codeSigningAccountsUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        properties,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,
       options?: CodeSigningAccountsDeleteOptionalParams,
-    ) => $delete(context, subscriptionId, resourceGroupName, accountName, options),
+    ) =>
+      codeSigningAccountsDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: CodeSigningAccountsListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: CodeSigningAccountsListBySubscriptionOptionalParams) =>
-      listBySubscription(context, subscriptionId, options),
+    ) =>
+      codeSigningAccountsListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
+    listBySubscription: (
+      options?: CodeSigningAccountsListBySubscriptionOptionalParams,
+    ) =>
+      codeSigningAccountsListBySubscription(context, subscriptionId, options),
     checkNameAvailability: (
       body: CheckNameAvailability,
       options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,
-    ) => checkNameAvailability(context, subscriptionId, body, options),
+    ) =>
+      codeSigningAccountsCheckNameAvailability(
+        context,
+        subscriptionId,
+        body,
+        options,
+      ),
   };
 }
 
