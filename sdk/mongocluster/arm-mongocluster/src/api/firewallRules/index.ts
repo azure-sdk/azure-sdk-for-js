@@ -2,29 +2,31 @@
 // Licensed under the MIT License.
 
 import {
-  firewallRulePropertiesSerializer,
-  FirewallRule,
-  _FirewallRuleListResult,
-} from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
+  MongoClusterManagementContext as Client,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesGetOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+  FirewallRule,
+  firewallRuleSerializer,
+  firewallRuleDeserializer,
+  _FirewallRuleListResult,
+  _firewallRuleListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
-  FirewallRulesGetOptionalParams,
-  FirewallRulesCreateOrUpdateOptionalParams,
-  FirewallRulesDeleteOptionalParams,
-  FirewallRulesListByMongoClusterOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _firewallRulesGetSend(
   context: Client,
@@ -53,34 +55,7 @@ export async function _firewallRulesGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          startIpAddress: result.body.properties?.["startIpAddress"],
-          endIpAddress: result.body.properties?.["endIpAddress"],
-        },
-  };
+  return firewallRuleDeserializer(result.body);
 }
 
 /** Gets information about a mongo cluster firewall rule. */
@@ -122,11 +97,7 @@ export function _firewallRulesCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        properties: !resource.properties
-          ? resource.properties
-          : firewallRulePropertiesSerializer(resource.properties),
-      },
+      body: firewallRuleSerializer(resource),
     });
 }
 
@@ -138,34 +109,7 @@ export async function _firewallRulesCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          startIpAddress: result.body.properties?.["startIpAddress"],
-          endIpAddress: result.body.properties?.["endIpAddress"],
-        },
-  };
+  return firewallRuleDeserializer(result.body);
 }
 
 /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
@@ -239,20 +183,25 @@ export function firewallRulesDelete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _firewallRulesDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        firewallRuleName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _firewallRulesDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _firewallRulesDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          mongoClusterName,
+          firewallRuleName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _firewallRulesListByMongoClusterSend(
@@ -282,39 +231,7 @@ export async function _firewallRulesListByMongoClusterDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              provisioningState: p.properties?.["provisioningState"],
-              startIpAddress: p.properties?.["startIpAddress"],
-              endIpAddress: p.properties?.["endIpAddress"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _firewallRuleListResultDeserializer(result.body);
 }
 
 /** List all the firewall rules in a given mongo cluster. */
