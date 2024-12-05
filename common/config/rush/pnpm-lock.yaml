@@ -14750,10 +14750,11 @@ packages:
     dev: false
 
   file:projects/arm-fabric.tgz:
-    resolution: {integrity: sha512-ICWVjR6hU0iagAV8KUf4dINj8JVMdphqd+y6bJH97q45JuzNuOdSFTw4XA/cI7bZn6OuanDSpwQN0JIFlgZZnw==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-Fh6KCTmH+pHuIsM7StEw5E+nZLcyu0bSx6T55ypasGkrXSqh20wLsQPXwlpaPJ3NRV1OzoO1mGxTUHYtOSzs6w==, tarball: file:projects/arm-fabric.tgz}
     name: '@rush-temp/arm-fabric'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -20631,7 +20632,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-CmpydjzCLyYe9pOqREnO9zXh+Ofszpi3S3jklILN3p2XDuGvzi78TNabj7HfeEyZqhS5JjUvmbGDjvYBBhoycw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-cPpTxfD+emujmd87h4AkgVwMIGV5tZpD/rAmx10EVBYQo3KREJ3sp9dKA5Aq+oPQVcNeslrJM+lth3+ume9vMg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:

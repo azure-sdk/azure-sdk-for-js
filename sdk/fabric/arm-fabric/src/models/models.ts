@@ -9,11 +9,19 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -34,7 +42,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -64,11 +74,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -97,10 +107,90 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
   return result.map((item) => {
-    return operationDeserializer(item);
+    return errorDetailDeserializer(item);
   });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
 }
 
 /** Fabric Capacity resource */
@@ -145,59 +235,53 @@ export interface FabricCapacityProperties {
   administration: CapacityAdministration;
 }
 
-export function fabricCapacityPropertiesSerializer(item: FabricCapacityProperties): any {
+export function fabricCapacityPropertiesSerializer(
+  item: FabricCapacityProperties,
+): any {
   return {
     administration: capacityAdministrationSerializer(item["administration"]),
   };
 }
 
-export function fabricCapacityPropertiesDeserializer(item: any): FabricCapacityProperties {
+export function fabricCapacityPropertiesDeserializer(
+  item: any,
+): FabricCapacityProperties {
   return {
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
     state: item["state"],
     administration: capacityAdministrationDeserializer(item["administration"]),
   };
 }
 
-/** Known values of {@link ProvisioningState} that the service accepts. */
+/** The provisioning state of the Fabric capacity resource. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Deleting */
+  /** Resource is deleting */
   Deleting = "Deleting",
-  /** Provisioning */
+  /** Resource is provisioning */
   Provisioning = "Provisioning",
-  /** Updating */
+  /** Resource is updating */
   Updating = "Updating",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The provisioning state of the Fabric capacity resource. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Deleting** \
- * **Provisioning** \
- * **Updating**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleting**: Resource is deleting \
+ * **Provisioning**: Resource is provisioning \
+ * **Updating**: Resource is updating
  */
-/** Alias for ProvisioningState */
 export type ProvisioningState = string;
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
 
 /** The state of the Fabric capacity resource. */
 export enum KnownResourceState {
@@ -253,7 +337,9 @@ export interface CapacityAdministration {
   members: string[];
 }
 
-export function capacityAdministrationSerializer(item: CapacityAdministration): any {
+export function capacityAdministrationSerializer(
+  item: CapacityAdministration,
+): any {
   return {
     members: item["members"].map((p: any) => {
       return p;
@@ -261,7 +347,9 @@ export function capacityAdministrationSerializer(item: CapacityAdministration): 
   };
 }
 
-export function capacityAdministrationDeserializer(item: any): CapacityAdministration {
+export function capacityAdministrationDeserializer(
+  item: any,
+): CapacityAdministration {
   return {
     members: item["members"].map((p: any) => {
       return p;
@@ -291,7 +379,7 @@ export function rpSkuDeserializer(item: any): RpSku {
 /** The name of the Azure pricing tier to which the SKU applies. */
 export enum KnownRpSkuTier {
   /** Fabric tier */
-  Fabric = "Fabric",
+  fabric = "Fabric",
 }
 
 /**
@@ -375,7 +463,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -418,7 +508,9 @@ export interface FabricCapacityUpdate {
   properties?: FabricCapacityUpdateProperties;
 }
 
-export function fabricCapacityUpdateSerializer(item: FabricCapacityUpdate): any {
+export function fabricCapacityUpdateSerializer(
+  item: FabricCapacityUpdate,
+): any {
   return {
     sku: !item["sku"] ? item["sku"] : rpSkuSerializer(item["sku"]),
     tags: item["tags"],
@@ -452,20 +544,26 @@ export interface _FabricCapacityListResult {
   nextLink?: string;
 }
 
-export function _fabricCapacityListResultDeserializer(item: any): _FabricCapacityListResult {
+export function _fabricCapacityListResultDeserializer(
+  item: any,
+): _FabricCapacityListResult {
   return {
     value: fabricCapacityArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function fabricCapacityArraySerializer(result: Array<FabricCapacity>): any[] {
+export function fabricCapacityArraySerializer(
+  result: Array<FabricCapacity>,
+): any[] {
   return result.map((item) => {
     return fabricCapacitySerializer(item);
   });
 }
 
-export function fabricCapacityArrayDeserializer(result: Array<FabricCapacity>): any[] {
+export function fabricCapacityArrayDeserializer(
+  result: Array<FabricCapacity>,
+): any[] {
   return result.map((item) => {
     return fabricCapacityDeserializer(item);
   });
@@ -479,7 +577,9 @@ export interface CheckNameAvailabilityRequest {
   type?: string;
 }
 
-export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
+export function checkNameAvailabilityRequestSerializer(
+  item: CheckNameAvailabilityRequest,
+): any {
   return { name: item["name"], type: item["type"] };
 }
 
@@ -538,6 +638,14 @@ export function _rpSkuEnumerationForExistingResourceResultDeserializer(
   };
 }
 
+export function rpSkuDetailsForExistingResourceArrayDeserializer(
+  result: Array<RpSkuDetailsForExistingResource>,
+): any[] {
+  return result.map((item) => {
+    return rpSkuDetailsForExistingResourceDeserializer(item);
+  });
+}
+
 /** An object that represents SKU details for existing resources */
 export interface RpSkuDetailsForExistingResource {
   /** The resource type */
@@ -553,14 +661,6 @@ export function rpSkuDetailsForExistingResourceDeserializer(
     resourceType: item["resourceType"],
     sku: rpSkuDeserializer(item["sku"]),
   };
-}
-
-export function rpSkuDetailsForExistingResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForExistingResource>,
-): any[] {
-  return result.map((item) => {
-    return rpSkuDetailsForExistingResourceDeserializer(item);
-  });
 }
 
 /** An object that represents enumerating SKUs for new resources. */
@@ -580,6 +680,14 @@ export function _rpSkuEnumerationForNewResourceResultDeserializer(
   };
 }
 
+export function rpSkuDetailsForNewResourceArrayDeserializer(
+  result: Array<RpSkuDetailsForNewResource>,
+): any[] {
+  return result.map((item) => {
+    return rpSkuDetailsForNewResourceDeserializer(item);
+  });
+}
+
 /** The SKU details */
 export interface RpSkuDetailsForNewResource {
   /** The resource type */
@@ -590,7 +698,9 @@ export interface RpSkuDetailsForNewResource {
   locations: string[];
 }
 
-export function rpSkuDetailsForNewResourceDeserializer(item: any): RpSkuDetailsForNewResource {
+export function rpSkuDetailsForNewResourceDeserializer(
+  item: any,
+): RpSkuDetailsForNewResource {
   return {
     resourceType: item["resourceType"],
     name: item["name"],
@@ -600,10 +710,8 @@ export function rpSkuDetailsForNewResourceDeserializer(item: any): RpSkuDetailsF
   };
 }
 
-export function rpSkuDetailsForNewResourceArrayDeserializer(
-  result: Array<RpSkuDetailsForNewResource>,
-): any[] {
-  return result.map((item) => {
-    return rpSkuDetailsForNewResourceDeserializer(item);
-  });
+/** The available API versions. */
+export enum KnownVersions {
+  /** 2023-11-01 version */
+  v2023_11_01 = "2023-11-01",
 }
