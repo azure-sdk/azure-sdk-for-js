@@ -11,19 +11,24 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams,
   WorkspaceManagedIdentitySqlControlSettingsGetResponse,
   ManagedIdentitySqlControlSettingsModel,
   WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
-  WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
+  WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse,
 } from "../models";
 
 /** Class containing WorkspaceManagedIdentitySqlControlSettings operations. */
 export class WorkspaceManagedIdentitySqlControlSettingsImpl
-  implements WorkspaceManagedIdentitySqlControlSettings {
+  implements WorkspaceManagedIdentitySqlControlSettings
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,11 +48,11 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsGetOptionalParams,
   ): Promise<WorkspaceManagedIdentitySqlControlSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -62,32 +67,29 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel,
-    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>,
       WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -96,8 +98,8 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -105,25 +107,28 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         managedIdentitySqlControlSettings,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse,
+      OperationState<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -140,13 +145,13 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
     resourceGroupName: string,
     workspaceName: string,
     managedIdentitySqlControlSettings: ManagedIdentitySqlControlSettingsModel,
-    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateOptionalParams,
   ): Promise<WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       managedIdentitySqlControlSettings,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -155,47 +160,45 @@ export class WorkspaceManagedIdentitySqlControlSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
+      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
+      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel,
     },
     201: {
-      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
+      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel,
     },
     202: {
-      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
+      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel,
     },
     204: {
-      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
+      bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.managedIdentitySqlControlSettings,
   queryParameters: [Parameters.apiVersion],
@@ -203,9 +206,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

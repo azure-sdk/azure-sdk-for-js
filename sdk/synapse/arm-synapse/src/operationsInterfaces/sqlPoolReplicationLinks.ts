@@ -11,7 +11,7 @@ import {
   ReplicationLink,
   SqlPoolReplicationLinksListOptionalParams,
   SqlPoolReplicationLinksGetByNameOptionalParams,
-  SqlPoolReplicationLinksGetByNameResponse
+  SqlPoolReplicationLinksGetByNameResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface SqlPoolReplicationLinks {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolReplicationLinksListOptionalParams
+    options?: SqlPoolReplicationLinksListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink>;
   /**
    * Get SQL pool replication link by name.
@@ -43,6 +43,6 @@ export interface SqlPoolReplicationLinks {
     workspaceName: string,
     sqlPoolName: string,
     linkId: string,
-    options?: SqlPoolReplicationLinksGetByNameOptionalParams
+    options?: SqlPoolReplicationLinksGetByNameOptionalParams,
   ): Promise<SqlPoolReplicationLinksGetByNameResponse>;
 }
