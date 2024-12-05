@@ -14010,7 +14010,7 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-DvAsBS5CEwhbvzn1jxO533XjCgtgNrnM0vbxH4Lh6A7UUj1EOkF47Ctrk5kaVXNAFm1RFtMHlkCzOs2aGCH0hQ==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-w5wcAwaInSlpCFFcdGNxKyGTTGDxqqcGBBVX1BnzA+q5e4Be65bl66+Y9RG4APYgnlDg4M87+todfhuUEzUZxA==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
@@ -14026,6 +14026,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -20631,7 +20632,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-CmpydjzCLyYe9pOqREnO9zXh+Ofszpi3S3jklILN3p2XDuGvzi78TNabj7HfeEyZqhS5JjUvmbGDjvYBBhoycw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-cPpTxfD+emujmd87h4AkgVwMIGV5tZpD/rAmx10EVBYQo3KREJ3sp9dKA5Aq+oPQVcNeslrJM+lth3+ume9vMg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
