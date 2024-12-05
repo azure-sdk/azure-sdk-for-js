@@ -20262,13 +20262,15 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-J9WSaHbb572Gh+WpNvDx5NF+NAaY9HTSAOWuBNfzplXZG1h5e7wilvy86TqheypQqdxhsau7IhbsRHEOEeFAPA==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-7jFTJbW3CdhmxZPo9qWzx4GQIVnvzZFEJ+HxpDDq3IZ8ihEpuSSr+9tx/voOiRj1qllVJyiaJgv5zWRKFWtSkQ==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
@@ -22468,7 +22470,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-Z3nbjtT2fFbAIB8CjTV7tcuQ4ZrEr0FSmVoiZmAi1OJ/qUz9m2DtJLvmJCm8HidshZrrqEZ8644blq1oJhfi3g==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-EaLGlOUQ2CrimwA50SUS/N7P2x6i+uyHvqbqHFRgMCWB8g3vyl8dDQH5Y3EMcQiO41fAg75nTPtwatsIkAYNLg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22480,6 +22482,7 @@ packages:
       '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.16.0
