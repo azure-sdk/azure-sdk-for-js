@@ -128,6 +128,8 @@ export interface ErrorAdditionalInfo {
 
 export interface CreateResourceSupportedResponseList {
   value?: CreateResourceSupportedResponse[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
 }
 
 /** Datadog resource can be created or not. */
@@ -220,6 +222,8 @@ export interface LinkedResourceListResponse {
 export interface LinkedResource {
   /** The ARM id of the linked resource. */
   id?: string;
+  /** The location of the linked resource. */
+  location?: string;
 }
 
 /** Response of a list operation. */
@@ -313,7 +317,7 @@ export interface DatadogMonitorResource {
 }
 
 export interface ResourceSku {
-  /** Name of the SKU in {PlanId} format. For Terraform, the only allowed value is 'linking'. */
+  /** Name of the SKU in {PlanId} format. For Terraform, the only allowed value is 'Linked'. */
   name: string;
 }
 
@@ -405,6 +409,38 @@ export interface MonitorUpdateProperties {
   cspm?: boolean;
 }
 
+/** Marketplace Subscription and Organization details to which resource gets billed into. */
+export interface BillingInfoResponse {
+  /** Marketplace Subscription details */
+  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** Partner Billing Entity details: Organization Info */
+  partnerBillingEntity?: PartnerBillingEntity;
+}
+
+/** Marketplace SAAS Info of the resource. */
+export interface MarketplaceSaaSInfo {
+  /** Marketplace Subscription Id. This is a GUID-formatted string. */
+  marketplaceSubscriptionId?: string;
+  /** Marketplace Subscription Details: SAAS Name */
+  marketplaceName?: string;
+  /** Marketplace Subscription Details: SaaS Subscription Status */
+  marketplaceStatus?: string;
+  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
+  billedAzureSubscriptionId?: string;
+  /** Flag specifying if the Marketplace status is subscribed or not. */
+  subscribed?: boolean;
+}
+
+/** Partner Billing details associated with the resource. */
+export interface PartnerBillingEntity {
+  /** The Datadog Organization Id. */
+  id?: string;
+  /** The Datadog Organization Name. */
+  name?: string;
+  /** Link to the datadog organization page */
+  partnerEntityUri?: string;
+}
+
 export interface DatadogSetPasswordLink {
   setPasswordLink?: string;
 }
@@ -453,6 +489,8 @@ export interface MonitoringTagRulesProperties {
   metricRules?: MetricRules;
   /** Configuration to enable/disable auto-muting flag */
   automuting?: boolean;
+  /** Configuration to enable/disable custom metrics. If enabled, custom metrics from app insights will be sent. */
+  customMetrics?: boolean;
 }
 
 /** Set of rules for sending logs for the Monitor resource. */
@@ -531,6 +569,8 @@ export interface DatadogSingleSignOnProperties {
 
 export interface MonitoredSubscriptionPropertiesList {
   value?: MonitoredSubscriptionProperties[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
 }
 
 /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
@@ -583,7 +623,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -617,7 +657,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -642,7 +682,7 @@ export enum KnownMonitoringStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -664,7 +704,7 @@ export enum KnownMarketplaceSubscriptionStatus {
   /** Suspended */
   Suspended = "Suspended",
   /** Unsubscribed */
-  Unsubscribed = "Unsubscribed"
+  Unsubscribed = "Unsubscribed",
 }
 
 /**
@@ -684,7 +724,7 @@ export enum KnownLiftrResourceCategories {
   /** Unknown */
   Unknown = "Unknown",
   /** MonitorLogs */
-  MonitorLogs = "MonitorLogs"
+  MonitorLogs = "MonitorLogs",
 }
 
 /**
@@ -702,7 +742,7 @@ export enum KnownManagedIdentityTypes {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -720,7 +760,7 @@ export enum KnownTagAction {
   /** Include */
   Include = "Include",
   /** Exclude */
-  Exclude = "Exclude"
+  Exclude = "Exclude",
 }
 
 /**
@@ -742,7 +782,7 @@ export enum KnownSingleSignOnStates {
   /** Disable */
   Disable = "Disable",
   /** Existing */
-  Existing = "Existing"
+  Existing = "Existing",
 }
 
 /**
@@ -768,7 +808,7 @@ export enum KnownOperation {
   /** DeleteComplete */
   DeleteComplete = "DeleteComplete",
   /** Active */
-  Active = "Active"
+  Active = "Active",
 }
 
 /**
@@ -793,7 +833,7 @@ export enum KnownStatus {
   /** Failed */
   Failed = "Failed",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -813,7 +853,8 @@ export interface MarketplaceAgreementsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MarketplaceAgreementsListResponse = DatadogAgreementResourceListResponse;
+export type MarketplaceAgreementsListResponse =
+  DatadogAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsCreateOrUpdateOptionalParams
@@ -822,14 +863,16 @@ export interface MarketplaceAgreementsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type MarketplaceAgreementsCreateOrUpdateResponse = DatadogAgreementResource;
+export type MarketplaceAgreementsCreateOrUpdateResponse =
+  DatadogAgreementResource;
 
 /** Optional parameters. */
 export interface MarketplaceAgreementsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type MarketplaceAgreementsListNextResponse = DatadogAgreementResourceListResponse;
+export type MarketplaceAgreementsListNextResponse =
+  DatadogAgreementResourceListResponse;
 
 /** Optional parameters. */
 export interface CreationSupportedListOptionalParams
@@ -844,6 +887,14 @@ export interface CreationSupportedGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
+
+/** Optional parameters. */
+export interface CreationSupportedListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CreationSupportedListNextResponse =
+  CreateResourceSupportedResponseList;
 
 /** Optional parameters. */
 export interface MonitorsListApiKeysOptionalParams
@@ -884,7 +935,8 @@ export interface MonitorsListMonitoredResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMonitoredResources operation. */
-export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListOptionalParams
@@ -898,7 +950,8 @@ export interface MonitorsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type MonitorsListByResourceGroupResponse = DatadogMonitorResourceListResponse;
+export type MonitorsListByResourceGroupResponse =
+  DatadogMonitorResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsGetOptionalParams
@@ -969,14 +1022,16 @@ export interface MonitorsListLinkedResourcesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listLinkedResourcesNext operation. */
-export type MonitorsListLinkedResourcesNextResponse = LinkedResourceListResponse;
+export type MonitorsListLinkedResourcesNextResponse =
+  LinkedResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListMonitoredResourcesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMonitoredResourcesNext operation. */
-export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
+export type MonitorsListMonitoredResourcesNextResponse =
+  MonitoredResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsListNextOptionalParams
@@ -990,7 +1045,8 @@ export interface MonitorsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type MonitorsListByResourceGroupNextResponse = DatadogMonitorResourceListResponse;
+export type MonitorsListByResourceGroupNextResponse =
+  DatadogMonitorResourceListResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1005,6 +1061,13 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface BillingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingInfoGetResponse = BillingInfoResponse;
 
 /** Optional parameters. */
 export interface TagRulesListOptionalParams
@@ -1042,7 +1105,8 @@ export interface SingleSignOnConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type SingleSignOnConfigurationsListResponse = DatadogSingleSignOnResourceListResponse;
+export type SingleSignOnConfigurationsListResponse =
+  DatadogSingleSignOnResourceListResponse;
 
 /** Optional parameters. */
 export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams
@@ -1055,7 +1119,8 @@ export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SingleSignOnConfigurationsCreateOrUpdateResponse = DatadogSingleSignOnResource;
+export type SingleSignOnConfigurationsCreateOrUpdateResponse =
+  DatadogSingleSignOnResource;
 
 /** Optional parameters. */
 export interface SingleSignOnConfigurationsGetOptionalParams
@@ -1069,14 +1134,16 @@ export interface SingleSignOnConfigurationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SingleSignOnConfigurationsListNextResponse = DatadogSingleSignOnResourceListResponse;
+export type SingleSignOnConfigurationsListNextResponse =
+  DatadogSingleSignOnResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitoredSubscriptionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
+export type MonitoredSubscriptionsListResponse =
+  MonitoredSubscriptionPropertiesList;
 
 /** Optional parameters. */
 export interface MonitoredSubscriptionsGetOptionalParams
@@ -1097,7 +1164,8 @@ export interface MonitoredSubscriptionsCreateorUpdateOptionalParams
 }
 
 /** Contains response data for the createorUpdate operation. */
-export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+export type MonitoredSubscriptionsCreateorUpdateResponse =
+  MonitoredSubscriptionProperties;
 
 /** Optional parameters. */
 export interface MonitoredSubscriptionsUpdateOptionalParams
@@ -1111,7 +1179,8 @@ export interface MonitoredSubscriptionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
+export type MonitoredSubscriptionsUpdateResponse =
+  MonitoredSubscriptionProperties;
 
 /** Optional parameters. */
 export interface MonitoredSubscriptionsDeleteOptionalParams
@@ -1121,6 +1190,14 @@ export interface MonitoredSubscriptionsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface MonitoredSubscriptionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MonitoredSubscriptionsListNextResponse =
+  MonitoredSubscriptionPropertiesList;
 
 /** Optional parameters. */
 export interface MicrosoftDatadogClientOptionalParams
