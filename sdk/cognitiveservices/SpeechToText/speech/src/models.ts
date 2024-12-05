@@ -1,0 +1,178 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/** Transcription */
+export interface Transcription {
+  /** TranscriptionLinks */
+  links?: TranscriptionLinks;
+  /** TranscriptionProperties */
+  properties: TranscriptionProperties;
+  /** EntityReference */
+  model?: EntityReference;
+  /** EntityReference */
+  dataset?: EntityReference;
+  /**
+   * A list of content urls to get audio files to transcribe. Up to 1000 urls are allowed.
+   * This property will not be returned in a response.
+   */
+  contentUrls?: string[];
+  /**
+   * A URL for an Azure blob container that contains the audio files. A container is allowed to have a maximum size of 5GB and a maximum number of 10000 blobs.
+   * The maximum size for a blob is 2.5GB.
+   * Container SAS should contain 'r' (read) and 'l' (list) permissions.
+   * This property will not be returned in a response.
+   */
+  contentContainerUrl?: string;
+  /** The locale of the contained data. If Language Identification is used, this locale is used to transcribe speech for which no language could be detected. */
+  locale: string;
+  /** The display name of the object. */
+  displayName: string;
+  /** The description of the object. */
+  description?: string;
+  /**
+   * The custom properties of this entity. The maximum allowed key length is 64 characters, the maximum
+   * allowed value length is 256 characters and the count of allowed entries is 10.
+   */
+  customProperties?: Record<string, string>;
+  /**
+   * The status of the object
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed"
+   */
+  status?: Status;
+}
+
+/** TranscriptionUpdate */
+export interface TranscriptionLinks {}
+
+/** TranscriptionProperties */
+export interface TranscriptionProperties {
+  /** A value indicating whether word level timestamps are requested. The default value is false. */
+  wordLevelTimestampsEnabled?: boolean;
+  /** A value indicating whether word level timestamps for the display form are requested. The default value is false. */
+  displayFormWordLevelTimestampsEnabled?: boolean;
+  /** A collection of the requested channel numbers. In the default case, the channels 0 and 1 are considered. */
+  channels?: number[];
+  /**
+   * The requested destination container.
+   *
+   * Remarks
+   *
+   * When a destination container is used in combination with a timeToLive, the metadata of a transcription will be deleted normally, but the data stored in the destination container, including transcription results, will remain untouched, because no delete permissions are required for this container.
+   *
+   * To support automatic cleanup, either configure blob lifetimes on the container, or use "Bring your own Storage (BYOS)" instead of destinationContainerUrl, where blobs can be cleaned up.
+   */
+  destinationContainerUrl?: string;
+  /**
+   * The mode used for punctuation.
+   *
+   * Possible values: "None", "Dictated", "Automatic", "DictatedAndAutomatic"
+   */
+  punctuationMode?: PunctuationMode;
+  /**
+   * Mode of profanity filtering.
+   *
+   * Possible values: "None", "Removed", "Tags", "Masked"
+   */
+  profanityFilterMode?: ProfanityFilterMode;
+  /**
+   * How long the transcription will be kept in the system after it has completed. Once the transcription reaches the time to live after completion (successful or failed) it will be automatically deleted.
+   *
+   * Note: When using BYOS (bring your own storage), the result files on the customer owned storage account will also be deleted. Use either destinationContainerUrl to specify a separate container for result files which will not be deleted when the timeToLive expires, or retrieve the result files through the API and store them as needed.
+   *
+   * The shortest supported duration is 6h, the longest supported duration is 31 days. 2 days ("P2D") is the recommended default value when data is consumed directly. The duration is encoded as ISO 8601 duration ("PnYnMnDTnHnMnS", see https://en.wikipedia.org/wiki/ISO_8601#Durations).
+   */
+  timeToLive: string;
+  /** EntityError */
+  error?: EntityError;
+  /** DiarizationProperties */
+  diarization?: DiarizationProperties;
+  /** LanguageIdentificationProperties */
+  languageIdentification?: LanguageIdentificationProperties;
+}
+
+/** EntityError */
+export interface EntityError {}
+
+/** DiarizationProperties */
+export interface DiarizationProperties {
+  /** A value indicating whether speaker diarization is enabled. */
+  enabled?: boolean;
+  /** A hint for the maximum number of speakers for diarization. Must be greater than 1 and less than 36. */
+  maxSpeakers?: number;
+}
+
+/** LanguageIdentificationProperties */
+export interface LanguageIdentificationProperties {
+  /**
+   * The mode used for language identification.
+   *
+   * Possible values: "Continuous", "Single"
+   */
+  mode?: LanguageIdentificationMode;
+  /** The candidate locales for language identification (example ["en-US", "de-DE", "es-ES"]). A minimum of 2 and a maximum of 10 candidate locales, including the main locale for the transcription, is supported for continuous mode. For single language identification, the maximum number of candidate locales is unbounded. */
+  candidateLocales: string[];
+  /**
+   * An optional mapping of locales to speech model entities. If no model is given for a locale, the default base model is used.
+   * Keys must be locales contained in the candidate locales, values are entities for models of the respective locales.
+   */
+  speechModelMapping?: Record<string, EntityReference>;
+}
+
+/** EntityReference */
+export interface EntityReference {
+  /** The location of the referenced entity. */
+  self: string;
+}
+
+/** TranscriptionUpdate */
+export interface TranscriptionUpdate {
+  /** The name of the object. */
+  displayName?: string;
+  /** The description of the object. */
+  description?: string;
+  /**
+   * The custom properties of this entity. The maximum allowed key length is 64 characters, the maximum
+   * allowed value length is 256 characters and the count of allowed entries is 10.
+   */
+  customProperties?: Record<string, string>;
+  /** EntityReference */
+  project?: EntityReference;
+}
+
+/** Metadata for a fast transcription request. */
+export interface TranscribeDefinition {
+  /** A list of possible locales for the transcription. If not specified, the locale of the speech in the audio is detected automatically from all supported locales. */
+  locales?: string[];
+  /** Maps some or all candidate locales to a model URI to be used for transcription. If no mapping is given, the default model for the locale is used. */
+  models?: Record<string, string>;
+  /**
+   * Mode of profanity filtering.
+   *
+   * Possible values: "None", "Removed", "Tags", "Masked"
+   */
+  profanityFilterMode?: ProfanityFilterMode;
+  /** Mode of diarization. */
+  diarization?: TranscribeDiarizationProperties;
+  /** The 0-based indices of the channels to be transcribed separately. If not specified, multiple channels are merged and transcribed jointly. Only up to two channels are supported. */
+  channels?: number[];
+}
+
+/** The diarization settings. Diarization settings must be specified to enable diarization. */
+export interface TranscribeDiarizationProperties {
+  /** Gets or sets a value indicating whether speaker diarization is enabled. */
+  enabled?: boolean;
+  /** Gets or sets a hint for the maximum number of speakers for diarization. Must be greater than 1 and less than 36. */
+  maxSpeakers?: number;
+}
+
+/** Alias for ServiceApiVersions */
+export type ServiceApiVersions = "2024-05-15-preview" | "2024-11-15";
+/** Alias for PunctuationMode */
+export type PunctuationMode = string;
+/** Alias for ProfanityFilterMode */
+export type ProfanityFilterMode = string;
+/** Alias for LanguageIdentificationMode */
+export type LanguageIdentificationMode = string;
+/** Alias for Status */
+export type Status = string;
