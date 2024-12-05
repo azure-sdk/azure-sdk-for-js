@@ -18,7 +18,7 @@ import {
   CredentialCreateOrUpdateResponse,
   CredentialUpdateParameters,
   CredentialUpdateOptionalParams,
-  CredentialUpdateResponse
+  CredentialUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface CredentialOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: CredentialListByAutomationAccountOptionalParams
+    options?: CredentialListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Credential>;
   /**
    * Delete the credential.
@@ -46,7 +46,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     credentialName: string,
-    options?: CredentialDeleteOptionalParams
+    options?: CredentialDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the credential identified by credential name.
@@ -59,7 +59,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     automationAccountName: string,
     credentialName: string,
-    options?: CredentialGetOptionalParams
+    options?: CredentialGetOptionalParams,
   ): Promise<CredentialGetResponse>;
   /**
    * Create a credential.
@@ -74,7 +74,7 @@ export interface CredentialOperations {
     automationAccountName: string,
     credentialName: string,
     parameters: CredentialCreateOrUpdateParameters,
-    options?: CredentialCreateOrUpdateOptionalParams
+    options?: CredentialCreateOrUpdateOptionalParams,
   ): Promise<CredentialCreateOrUpdateResponse>;
   /**
    * Update a credential.
@@ -89,6 +89,6 @@ export interface CredentialOperations {
     automationAccountName: string,
     credentialName: string,
     parameters: CredentialUpdateParameters,
-    options?: CredentialUpdateOptionalParams
+    options?: CredentialUpdateOptionalParams,
   ): Promise<CredentialUpdateResponse>;
 }

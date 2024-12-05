@@ -29,7 +29,7 @@ import {
   WebhookUpdateParameters,
   WebhookUpdateOptionalParams,
   WebhookUpdateResponse,
-  WebhookListByAutomationAccountNextResponse
+  WebhookListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,12 +54,12 @@ export class WebhookOperationsImpl implements WebhookOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookListByAutomationAccountOptionalParams
+    options?: WebhookListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Webhook> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class WebhookOperationsImpl implements WebhookOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class WebhookOperationsImpl implements WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: WebhookListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Webhook[]> {
     let result: WebhookListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class WebhookOperationsImpl implements WebhookOperations {
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class WebhookOperationsImpl implements WebhookOperations {
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -118,12 +118,12 @@ export class WebhookOperationsImpl implements WebhookOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookListByAutomationAccountOptionalParams
+    options?: WebhookListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Webhook> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class WebhookOperationsImpl implements WebhookOperations {
   generateUri(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookGenerateUriOptionalParams
+    options?: WebhookGenerateUriOptionalParams,
   ): Promise<WebhookGenerateUriResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      generateUriOperationSpec
+      generateUriOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class WebhookOperationsImpl implements WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     webhookName: string,
-    options?: WebhookDeleteOptionalParams
+    options?: WebhookDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, webhookName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -176,11 +176,11 @@ export class WebhookOperationsImpl implements WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     webhookName: string,
-    options?: WebhookGetOptionalParams
+    options?: WebhookGetOptionalParams,
   ): Promise<WebhookGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, webhookName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -197,7 +197,7 @@ export class WebhookOperationsImpl implements WebhookOperations {
     automationAccountName: string,
     webhookName: string,
     parameters: WebhookCreateOrUpdateParameters,
-    options?: WebhookCreateOrUpdateOptionalParams
+    options?: WebhookCreateOrUpdateOptionalParams,
   ): Promise<WebhookCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -205,9 +205,9 @@ export class WebhookOperationsImpl implements WebhookOperations {
         automationAccountName,
         webhookName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -224,7 +224,7 @@ export class WebhookOperationsImpl implements WebhookOperations {
     automationAccountName: string,
     webhookName: string,
     parameters: WebhookUpdateParameters,
-    options?: WebhookUpdateOptionalParams
+    options?: WebhookUpdateOptionalParams,
   ): Promise<WebhookUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -232,9 +232,9 @@ export class WebhookOperationsImpl implements WebhookOperations {
         automationAccountName,
         webhookName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -247,11 +247,11 @@ export class WebhookOperationsImpl implements WebhookOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookListByAutomationAccountOptionalParams
+    options?: WebhookListByAutomationAccountOptionalParams,
   ): Promise<WebhookListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -267,11 +267,11 @@ export class WebhookOperationsImpl implements WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: WebhookListByAutomationAccountNextOptionalParams
+    options?: WebhookListByAutomationAccountNextOptionalParams,
   ): Promise<WebhookListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -279,164 +279,158 @@ export class WebhookOperationsImpl implements WebhookOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const generateUriOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/generateUri",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/generateUri",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: { type: { name: "String" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.webhookName
+    Parameters.subscriptionId,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.webhookName
+    Parameters.subscriptionId,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     201: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters37,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters40,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.webhookName
+    Parameters.subscriptionId,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks/{webhookName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Webhook
+      bodyMapper: Mappers.Webhook,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters41,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.webhookName
+    Parameters.subscriptionId,
+    Parameters.webhookName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/webhooks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebhookListResult
+      bodyMapper: Mappers.WebhookListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebhookListResult
+      bodyMapper: Mappers.WebhookListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
