@@ -18,7 +18,9 @@ export function _privateLinkResourceListResultDeserializer(
   };
 }
 
-export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
+export function privateLinkResourceArrayDeserializer(
+  result: Array<PrivateLinkResource>,
+): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
   });
@@ -30,7 +32,9 @@ export interface PrivateLinkResource extends ProxyResource {
   properties?: PrivateLinkResourceProperties;
 }
 
-export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
+export function privateLinkResourceDeserializer(
+  item: any,
+): PrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -137,7 +141,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -169,6 +175,92 @@ export enum KnownCreatedByType {
  * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
 
 /** Holder for private endpoint connections */
 export interface PrivateEndpointConnectionResource extends ProxyResource {
@@ -221,9 +313,10 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item["privateLinkServiceConnectionState"],
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item["privateLinkServiceConnectionState"],
+      ),
   };
 }
 
@@ -239,9 +332,10 @@ export function privateEndpointConnectionPropertiesDeserializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
-      item["privateLinkServiceConnectionState"],
-    ),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateDeserializer(
+        item["privateLinkServiceConnectionState"],
+      ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -422,17 +516,23 @@ export interface DeidServiceProperties {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-export function deidServicePropertiesSerializer(item: DeidServiceProperties): any {
+export function deidServicePropertiesSerializer(
+  item: DeidServiceProperties,
+): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
-export function deidServicePropertiesDeserializer(item: any): DeidServiceProperties {
+export function deidServicePropertiesDeserializer(
+  item: any,
+): DeidServiceProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceUrl: item["serviceUrl"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
+      : privateEndpointConnectionArrayDeserializer(
+          item["privateEndpointConnections"],
+        ),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
@@ -484,7 +584,9 @@ export interface PrivateEndpointConnection extends Resource {
   properties?: PrivateEndpointConnectionProperties;
 }
 
-export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
+export function privateEndpointConnectionDeserializer(
+  item: any,
+): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -513,14 +615,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -538,7 +644,7 @@ export enum KnownManagedServiceIdentityType {
   /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
   /** System and user assigned managed identity. */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -561,11 +667,15 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -605,7 +715,9 @@ export interface _DeidServiceListResult {
   nextLink?: string;
 }
 
-export function _deidServiceListResultDeserializer(item: any): _DeidServiceListResult {
+export function _deidServiceListResultDeserializer(
+  item: any,
+): _DeidServiceListResult {
   return {
     value: deidServiceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -618,7 +730,9 @@ export function deidServiceArraySerializer(result: Array<DeidService>): any[] {
   });
 }
 
-export function deidServiceArrayDeserializer(result: Array<DeidService>): any[] {
+export function deidServiceArrayDeserializer(
+  result: Array<DeidService>,
+): any[] {
   return result.map((item) => {
     return deidServiceDeserializer(item);
   });
@@ -654,7 +768,9 @@ export interface ManagedServiceIdentityUpdate {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
+export function managedServiceIdentityUpdateSerializer(
+  item: ManagedServiceIdentityUpdate,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
@@ -667,7 +783,9 @@ export interface DeidPropertiesUpdate {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-export function deidPropertiesUpdateSerializer(item: DeidPropertiesUpdate): any {
+export function deidPropertiesUpdateSerializer(
+  item: DeidPropertiesUpdate,
+): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
@@ -679,7 +797,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -710,7 +830,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -740,11 +862,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -776,5 +898,5 @@ export type ActionType = string;
 /** Supported API versions for the Microsoft.HealthDataAIServices resource provider. */
 export enum KnownVersions {
   /** The 2024-09-20 version. */
-  V2024_09_20 = "2024-09-20",
+  v2024_09_20 = "2024-09-20",
 }

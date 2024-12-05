@@ -15049,7 +15049,7 @@ packages:
     dev: false
 
   file:projects/arm-healthdataaiservices.tgz:
-    resolution: {integrity: sha512-dJpfHl/LBPMZLu5rkXUEgX979cUA42TJ6FTsucJK5453bRpMnVioKezlFOUIxPkcVoS7WTd+aYg1kwLDhzprfg==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-XZ5TGUKIhZMvLCal+ZDNrf4RMoojffSm4kUt/aBa9N0X67PPThvky9k9C6rRebY2KsAJjTopj47c+Ck9BFWWwQ==, tarball: file:projects/arm-healthdataaiservices.tgz}
     name: '@rush-temp/arm-healthdataaiservices'
     version: 0.0.0
     dependencies:
@@ -15058,7 +15058,7 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
-      eslint: 8.57.1
+      eslint: 9.16.0
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
@@ -15069,6 +15069,7 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
@@ -20631,7 +20632,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-CmpydjzCLyYe9pOqREnO9zXh+Ofszpi3S3jklILN3p2XDuGvzi78TNabj7HfeEyZqhS5JjUvmbGDjvYBBhoycw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-cPpTxfD+emujmd87h4AkgVwMIGV5tZpD/rAmx10EVBYQo3KREJ3sp9dKA5Aq+oPQVcNeslrJM+lth3+ume9vMg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
