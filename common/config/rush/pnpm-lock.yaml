@@ -18503,7 +18503,7 @@ packages:
     dev: false
 
   file:projects/arm-workloadssapvirtualinstance.tgz:
-    resolution: {integrity: sha512-jzDm+jPkBcBG4bAIvtw3t8ZxD1hvQPvdI/zVSbkYM0PQeuuJtnqcdKF8uk21zXZBZxlSfXzmURvcpXQym3SFzw==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-oFJxZgEG27uOB3jlSpON+XfWg4oLM2kgrg+au1chjk1Az5s5OynToxYlt3gtbll05nN8m2l1a8p4ZEbYhk4h/g==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     name: '@rush-temp/arm-workloadssapvirtualinstance'
     version: 0.0.0
     dependencies:
@@ -18511,19 +18511,41 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 9.16.0
       mocha: 10.8.2
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-workspaces.tgz:
@@ -20631,7 +20653,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-CmpydjzCLyYe9pOqREnO9zXh+Ofszpi3S3jklILN3p2XDuGvzi78TNabj7HfeEyZqhS5JjUvmbGDjvYBBhoycw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-cPpTxfD+emujmd87h4AkgVwMIGV5tZpD/rAmx10EVBYQo3KREJ3sp9dKA5Aq+oPQVcNeslrJM+lth3+ume9vMg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
