@@ -4,24 +4,31 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AADProfileProperties {
+    serverId: string;
+    tenantId: string;
+}
 
 // @public
 export type ActionType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface EndpointAccessResource {
-    readonly accessKey?: string;
-    expiresOn?: number;
-    hybridConnectionName?: string;
-    namespaceName?: string;
-    namespaceNameSuffix?: string;
-    serviceConfigurationToken?: string;
+    relay?: RelayNamespaceAccessProperties;
 }
 
 // @public
@@ -32,95 +39,61 @@ export interface EndpointProperties {
 }
 
 // @public
-export interface EndpointResource extends ProxyResource {
+export interface EndpointResource extends ExtensionResource {
     properties?: EndpointProperties;
 }
 
 // @public
-export interface Endpoints {
-    createOrUpdate(resourceUri: string, endpointName: string, endpointResource: EndpointResource, options?: EndpointsCreateOrUpdateOptionalParams): Promise<EndpointsCreateOrUpdateResponse>;
-    delete(resourceUri: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<void>;
-    get(resourceUri: string, endpointName: string, options?: EndpointsGetOptionalParams): Promise<EndpointsGetResponse>;
-    list(resourceUri: string, options?: EndpointsListOptionalParams): PagedAsyncIterableIterator<EndpointResource>;
-    listCredentials(resourceUri: string, endpointName: string, options?: EndpointsListCredentialsOptionalParams): Promise<EndpointsListCredentialsResponse>;
-    listIngressGatewayCredentials(resourceUri: string, endpointName: string, options?: EndpointsListIngressGatewayCredentialsOptionalParams): Promise<EndpointsListIngressGatewayCredentialsResponse>;
-    listManagedProxyDetails(resourceUri: string, endpointName: string, managedProxyRequest: ManagedProxyRequest, options?: EndpointsListManagedProxyDetailsOptionalParams): Promise<EndpointsListManagedProxyDetailsResponse>;
-    update(resourceUri: string, endpointName: string, endpointResource: EndpointResource, options?: EndpointsUpdateOptionalParams): Promise<EndpointsUpdateResponse>;
+export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsCreateOrUpdateResponse = EndpointResource;
-
-// @public
-export interface EndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EndpointsGetResponse = EndpointResource;
-
-// @public
-export interface EndpointsList {
-    nextLink?: string;
-    value?: EndpointResource[];
-}
-
-// @public
-export interface EndpointsListCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsListCredentialsOptionalParams extends OperationOptions {
     expiresin?: number;
     listCredentialsRequest?: ListCredentialsRequest;
 }
 
 // @public
-export type EndpointsListCredentialsResponse = EndpointAccessResource;
-
-// @public
-export interface EndpointsListIngressGatewayCredentialsOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsListIngressGatewayCredentialsOptionalParams extends OperationOptions {
     expiresin?: number;
     listIngressGatewayCredentialsRequest?: ListIngressGatewayCredentialsRequest;
 }
 
 // @public
-export type EndpointsListIngressGatewayCredentialsResponse = IngressGatewayResource;
-
-// @public
-export interface EndpointsListManagedProxyDetailsOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsListManagedProxyDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsListManagedProxyDetailsResponse = ManagedProxyResource;
-
-// @public
-export interface EndpointsListNextOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsListNextResponse = EndpointsList;
-
-// @public
-export interface EndpointsListOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsOperations {
+    createOrUpdate: (resourceUri: string, endpointName: string, endpointResource: EndpointResource, options?: EndpointsCreateOrUpdateOptionalParams) => Promise<EndpointResource>;
+    delete: (resourceUri: string, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<void>;
+    get: (resourceUri: string, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<EndpointResource>;
+    list: (resourceUri: string, options?: EndpointsListOptionalParams) => PagedAsyncIterableIterator<EndpointResource>;
+    listCredentials: (resourceUri: string, endpointName: string, options?: EndpointsListCredentialsOptionalParams) => Promise<EndpointAccessResource>;
+    listIngressGatewayCredentials: (resourceUri: string, endpointName: string, options?: EndpointsListIngressGatewayCredentialsOptionalParams) => Promise<IngressGatewayResource>;
+    listManagedProxyDetails: (resourceUri: string, endpointName: string, managedProxyRequest: ManagedProxyRequest, options?: EndpointsListManagedProxyDetailsOptionalParams) => Promise<ManagedProxyResource>;
+    update: (resourceUri: string, endpointName: string, endpointResource: EndpointResource, options?: EndpointsUpdateOptionalParams) => Promise<EndpointResource>;
 }
 
 // @public
-export type EndpointsListResponse = EndpointsList;
-
-// @public
-export interface EndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type EndpointsUpdateResponse = EndpointResource;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -139,41 +112,33 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface ExtensionResource extends Resource {
+}
 
 // @public (undocumented)
-export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: HybridConnectivityManagementAPIOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    endpoints: Endpoints;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    serviceConfigurations: ServiceConfigurations;
+export class HybridConnectivityManagementAPIClient {
+    constructor(credential: TokenCredential, options?: HybridConnectivityManagementAPIClientOptionalParams);
+    readonly endpoints: EndpointsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly serviceConfigurations: ServiceConfigurationsOperations;
 }
 
 // @public
-export interface HybridConnectivityManagementAPIOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface HybridConnectivityManagementAPIClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
 export interface IngressGatewayResource {
-    readonly accessKey?: string;
-    expiresOn?: number;
-    hostname?: string;
-    hybridConnectionName?: string;
-    namespaceName?: string;
-    namespaceNameSuffix?: string;
-    serverId?: string;
-    serviceConfigurationToken?: string;
-    tenantId?: string;
+    ingress?: IngressProfileProperties;
+    relay?: RelayNamespaceAccessProperties;
+}
+
+// @public
+export interface IngressProfileProperties {
+    aadProfile: AADProfileProperties;
+    hostname: string;
 }
 
 // @public
@@ -191,30 +156,44 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServiceName {
+    // (undocumented)
     SSH = "SSH",
+    // (undocumented)
     WAC = "WAC"
 }
 
 // @public
 export enum KnownType {
-    Custom = "custom",
-    Default = "default"
+    // (undocumented)
+    custom = "custom",
+    // (undocumented)
+    "default" = "default"
+}
+
+// @public
+export enum KnownVersions {
+    v2023_03_15 = "2023-03-15"
 }
 
 // @public
@@ -242,8 +221,8 @@ export interface ManagedProxyResource {
 
 // @public
 export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
+    actionType?: ActionType;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -258,38 +237,40 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource extends Resource {
+export interface RelayNamespaceAccessProperties {
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hybridConnectionName: string;
+    namespaceName: string;
+    namespaceNameSuffix: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
@@ -301,71 +282,56 @@ export interface Resource {
 }
 
 // @public
-export interface ServiceConfigurationList {
-    nextLink?: string;
-    value?: ServiceConfigurationResource[];
-}
-
-// @public
-export interface ServiceConfigurationResource extends ProxyResource {
+export interface ServiceConfigurationProperties {
     port?: number;
     readonly provisioningState?: ProvisioningState;
     resourceId?: string;
-    serviceName?: ServiceName;
+    serviceName: ServiceName;
+}
+
+// @public
+export interface ServiceConfigurationPropertiesPatch {
+    port?: number;
+}
+
+// @public
+export interface ServiceConfigurationResource extends ExtensionResource {
+    properties?: ServiceConfigurationProperties;
 }
 
 // @public
 export interface ServiceConfigurationResourcePatch {
-    port?: number;
+    properties?: ServiceConfigurationPropertiesPatch;
 }
 
 // @public
-export interface ServiceConfigurations {
-    createOrupdate(resourceUri: string, endpointName: string, serviceConfigurationName: string, serviceConfigurationResource: ServiceConfigurationResource, options?: ServiceConfigurationsCreateOrupdateOptionalParams): Promise<ServiceConfigurationsCreateOrupdateResponse>;
-    delete(resourceUri: string, endpointName: string, serviceConfigurationName: string, options?: ServiceConfigurationsDeleteOptionalParams): Promise<void>;
-    get(resourceUri: string, endpointName: string, serviceConfigurationName: string, options?: ServiceConfigurationsGetOptionalParams): Promise<ServiceConfigurationsGetResponse>;
-    listByEndpointResource(resourceUri: string, endpointName: string, options?: ServiceConfigurationsListByEndpointResourceOptionalParams): PagedAsyncIterableIterator<ServiceConfigurationResource>;
-    update(resourceUri: string, endpointName: string, serviceConfigurationName: string, serviceConfigurationResource: ServiceConfigurationResourcePatch, options?: ServiceConfigurationsUpdateOptionalParams): Promise<ServiceConfigurationsUpdateResponse>;
+export interface ServiceConfigurationsCreateOrupdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServiceConfigurationsCreateOrupdateOptionalParams extends coreClient.OperationOptions {
+export interface ServiceConfigurationsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceConfigurationsCreateOrupdateResponse = ServiceConfigurationResource;
-
-// @public
-export interface ServiceConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ServiceConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServiceConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ServiceConfigurationsListByEndpointResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceConfigurationsGetResponse = ServiceConfigurationResource;
-
-// @public
-export interface ServiceConfigurationsListByEndpointResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface ServiceConfigurationsOperations {
+    createOrupdate: (resourceUri: string, endpointName: string, serviceConfigurationName: string, serviceConfigurationResource: ServiceConfigurationResource, options?: ServiceConfigurationsCreateOrupdateOptionalParams) => Promise<ServiceConfigurationResource>;
+    delete: (resourceUri: string, endpointName: string, serviceConfigurationName: string, options?: ServiceConfigurationsDeleteOptionalParams) => Promise<void>;
+    get: (resourceUri: string, endpointName: string, serviceConfigurationName: string, options?: ServiceConfigurationsGetOptionalParams) => Promise<ServiceConfigurationResource>;
+    listByEndpointResource: (resourceUri: string, endpointName: string, options?: ServiceConfigurationsListByEndpointResourceOptionalParams) => PagedAsyncIterableIterator<ServiceConfigurationResource>;
+    update: (resourceUri: string, endpointName: string, serviceConfigurationName: string, serviceConfigurationResource: ServiceConfigurationResourcePatch, options?: ServiceConfigurationsUpdateOptionalParams) => Promise<ServiceConfigurationResource>;
 }
 
 // @public
-export type ServiceConfigurationsListByEndpointResourceNextResponse = ServiceConfigurationList;
-
-// @public
-export interface ServiceConfigurationsListByEndpointResourceOptionalParams extends coreClient.OperationOptions {
+export interface ServiceConfigurationsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServiceConfigurationsListByEndpointResourceResponse = ServiceConfigurationList;
-
-// @public
-export interface ServiceConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceConfigurationsUpdateResponse = ServiceConfigurationResource;
 
 // @public
 export type ServiceName = string;
