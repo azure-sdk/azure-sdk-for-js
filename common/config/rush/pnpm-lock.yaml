@@ -16683,7 +16683,7 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-bhBwI3jHqE9BwNM6Zz2sOoVSJ/myKFL8ug90fuybXDO5+kO8gL9Y738UIk7qwsrZbfVPBhh8Zp2KrSdenZx9NQ==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-oIKVAn3uUy/82vAFEYdbg3xKK1cKklycjc/RxiBW7MdaLrladgWS+O+k/ilklpHAZX88QFDiqoosFKr3Ekjl9A==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
@@ -16691,19 +16691,41 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 9.16.0
       mocha: 10.8.2
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-policy-profile-2020-09-01-hybrid.tgz:
