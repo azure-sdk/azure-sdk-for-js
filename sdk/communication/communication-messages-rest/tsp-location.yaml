@@ -1,4 +1,4 @@
 directory: specification/communication/Communication.Messages
-commit: abe3209e7c6924a58ab560ebab2349bc8fde6aa7
-repo: Azure/azure-rest-api-specs
+commit: 62aec0935ead563a921d6f3c9401426e912a4431
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
 additionalDirectories: 
