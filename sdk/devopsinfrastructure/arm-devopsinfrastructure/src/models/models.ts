@@ -9,14 +9,18 @@ export interface _ImageVersionListResult {
   nextLink?: string;
 }
 
-export function _imageVersionListResultDeserializer(item: any): _ImageVersionListResult {
+export function _imageVersionListResultDeserializer(
+  item: any,
+): _ImageVersionListResult {
   return {
     value: imageVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function imageVersionArrayDeserializer(result: Array<ImageVersion>): any[] {
+export function imageVersionArrayDeserializer(
+  result: Array<ImageVersion>,
+): any[] {
   return result.map((item) => {
     return imageVersionDeserializer(item);
   });
@@ -48,7 +52,9 @@ export interface ImageVersionProperties {
   version: string;
 }
 
-export function imageVersionPropertiesDeserializer(item: any): ImageVersionProperties {
+export function imageVersionPropertiesDeserializer(
+  item: any,
+): ImageVersionProperties {
   return {
     version: item["version"],
   };
@@ -115,7 +121,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -147,6 +155,92 @@ export enum KnownCreatedByType {
  * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"]
+      ? item["error"]
+      : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"]
+      ? item["details"]
+      : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(
+  result: Array<ErrorDetail>,
+): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(
+  result: Array<ErrorAdditionalInfo>,
+): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: Record<string, any>;
+}
+
+export function errorAdditionalInfoDeserializer(
+  item: any,
+): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: !item["info"]
+      ? item["info"]
+      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+  };
+}
+
+/** model interface _ErrorAdditionalInfoInfo */
+export interface _ErrorAdditionalInfoInfo {}
+
+export function _errorAdditionalInfoInfoDeserializer(
+  item: any,
+): _ErrorAdditionalInfoInfo {
+  return item;
+}
 
 /** Paged collection of Quota items */
 export interface _PagedQuota {
@@ -216,14 +310,18 @@ export interface _ResourceSkuListResult {
   nextLink?: string;
 }
 
-export function _resourceSkuListResultDeserializer(item: any): _ResourceSkuListResult {
+export function _resourceSkuListResultDeserializer(
+  item: any,
+): _ResourceSkuListResult {
   return {
     value: resourceSkuArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function resourceSkuArrayDeserializer(result: Array<ResourceSku>): any[] {
+export function resourceSkuArrayDeserializer(
+  result: Array<ResourceSku>,
+): any[] {
   return result.map((item) => {
     return resourceSkuDeserializer(item);
   });
@@ -269,7 +367,9 @@ export interface ResourceSkuProperties {
   restrictions: ResourceSkuRestrictions[];
 }
 
-export function resourceSkuPropertiesDeserializer(item: any): ResourceSkuProperties {
+export function resourceSkuPropertiesDeserializer(
+  item: any,
+): ResourceSkuProperties {
   return {
     resourceType: item["resourceType"],
     tier: item["tier"],
@@ -278,9 +378,15 @@ export function resourceSkuPropertiesDeserializer(item: any): ResourceSkuPropert
     locations: item["locations"].map((p: any) => {
       return p;
     }),
-    locationInfo: resourceSkuLocationInfoArrayDeserializer(item["locationInfo"]),
-    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
-    restrictions: resourceSkuRestrictionsArrayDeserializer(item["restrictions"]),
+    locationInfo: resourceSkuLocationInfoArrayDeserializer(
+      item["locationInfo"],
+    ),
+    capabilities: resourceSkuCapabilitiesArrayDeserializer(
+      item["capabilities"],
+    ),
+    restrictions: resourceSkuRestrictionsArrayDeserializer(
+      item["restrictions"],
+    ),
   };
 }
 
@@ -302,7 +408,9 @@ export interface ResourceSkuLocationInfo {
   zoneDetails: ResourceSkuZoneDetails[];
 }
 
-export function resourceSkuLocationInfoDeserializer(item: any): ResourceSkuLocationInfo {
+export function resourceSkuLocationInfoDeserializer(
+  item: any,
+): ResourceSkuLocationInfo {
   return {
     location: item["location"],
     zones: item["zones"].map((p: any) => {
@@ -328,12 +436,16 @@ export interface ResourceSkuZoneDetails {
   capabilities: ResourceSkuCapabilities[];
 }
 
-export function resourceSkuZoneDetailsDeserializer(item: any): ResourceSkuZoneDetails {
+export function resourceSkuZoneDetailsDeserializer(
+  item: any,
+): ResourceSkuZoneDetails {
   return {
     name: item["name"].map((p: any) => {
       return p;
     }),
-    capabilities: resourceSkuCapabilitiesArrayDeserializer(item["capabilities"]),
+    capabilities: resourceSkuCapabilitiesArrayDeserializer(
+      item["capabilities"],
+    ),
   };
 }
 
@@ -353,7 +465,9 @@ export interface ResourceSkuCapabilities {
   value: string;
 }
 
-export function resourceSkuCapabilitiesDeserializer(item: any): ResourceSkuCapabilities {
+export function resourceSkuCapabilitiesDeserializer(
+  item: any,
+): ResourceSkuCapabilities {
   return {
     name: item["name"],
     value: item["value"],
@@ -380,13 +494,17 @@ export interface ResourceSkuRestrictions {
   reasonCode?: ResourceSkuRestrictionsReasonCode;
 }
 
-export function resourceSkuRestrictionsDeserializer(item: any): ResourceSkuRestrictions {
+export function resourceSkuRestrictionsDeserializer(
+  item: any,
+): ResourceSkuRestrictions {
   return {
     type: item["type"],
     values: item["values"].map((p: any) => {
       return p;
     }),
-    restrictionInfo: resourceSkuRestrictionInfoDeserializer(item["restrictionInfo"]),
+    restrictionInfo: resourceSkuRestrictionInfoDeserializer(
+      item["restrictionInfo"],
+    ),
     reasonCode: item["reasonCode"],
   };
 }
@@ -417,7 +535,9 @@ export interface ResourceSkuRestrictionInfo {
   zones?: string[];
 }
 
-export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRestrictionInfo {
+export function resourceSkuRestrictionInfoDeserializer(
+  item: any,
+): ResourceSkuRestrictionInfo {
   return {
     locations: !item["locations"]
       ? item["locations"]
@@ -481,7 +601,9 @@ export interface ResourceDetailsObject extends ProxyResource {
   properties?: ResourceDetailsObjectProperties;
 }
 
-export function resourceDetailsObjectDeserializer(item: any): ResourceDetailsObject {
+export function resourceDetailsObjectDeserializer(
+  item: any,
+): ResourceDetailsObject {
   return {
     id: item["id"],
     name: item["name"],
@@ -620,7 +742,9 @@ export function poolPropertiesSerializer(item: PoolProperties): any {
   return {
     provisioningState: item["provisioningState"],
     maximumConcurrency: item["maximumConcurrency"],
-    organizationProfile: organizationProfileUnionSerializer(item["organizationProfile"]),
+    organizationProfile: organizationProfileUnionSerializer(
+      item["organizationProfile"],
+    ),
     agentProfile: agentProfileUnionSerializer(item["agentProfile"]),
     fabricProfile: fabricProfileUnionSerializer(item["fabricProfile"]),
     devCenterProjectResourceId: item["devCenterProjectResourceId"],
@@ -631,7 +755,9 @@ export function poolPropertiesDeserializer(item: any): PoolProperties {
   return {
     provisioningState: item["provisioningState"],
     maximumConcurrency: item["maximumConcurrency"],
-    organizationProfile: organizationProfileUnionDeserializer(item["organizationProfile"]),
+    organizationProfile: organizationProfileUnionDeserializer(
+      item["organizationProfile"],
+    ),
     agentProfile: agentProfileUnionDeserializer(item["agentProfile"]),
     fabricProfile: fabricProfileUnionDeserializer(item["fabricProfile"]),
     devCenterProjectResourceId: item["devCenterProjectResourceId"],
@@ -682,7 +808,9 @@ export function organizationProfileSerializer(item: OrganizationProfile): any {
   return { kind: item["kind"] };
 }
 
-export function organizationProfileDeserializer(item: any): OrganizationProfile {
+export function organizationProfileDeserializer(
+  item: any,
+): OrganizationProfile {
   return {
     kind: item["kind"],
   };
@@ -694,26 +822,38 @@ export type OrganizationProfileUnion =
   | AzureDevOpsOrganizationProfile
   | OrganizationProfile;
 
-export function organizationProfileUnionSerializer(item: OrganizationProfileUnion): any {
+export function organizationProfileUnionSerializer(
+  item: OrganizationProfileUnion,
+): any {
   switch (item.kind) {
     case "GitHub":
-      return gitHubOrganizationProfileSerializer(item as GitHubOrganizationProfile);
+      return gitHubOrganizationProfileSerializer(
+        item as GitHubOrganizationProfile,
+      );
 
     case "AzureDevOps":
-      return azureDevOpsOrganizationProfileSerializer(item as AzureDevOpsOrganizationProfile);
+      return azureDevOpsOrganizationProfileSerializer(
+        item as AzureDevOpsOrganizationProfile,
+      );
 
     default:
       return organizationProfileSerializer(item);
   }
 }
 
-export function organizationProfileUnionDeserializer(item: any): OrganizationProfileUnion {
+export function organizationProfileUnionDeserializer(
+  item: any,
+): OrganizationProfileUnion {
   switch (item.kind) {
     case "GitHub":
-      return gitHubOrganizationProfileDeserializer(item as GitHubOrganizationProfile);
+      return gitHubOrganizationProfileDeserializer(
+        item as GitHubOrganizationProfile,
+      );
 
     case "AzureDevOps":
-      return azureDevOpsOrganizationProfileDeserializer(item as AzureDevOpsOrganizationProfile);
+      return azureDevOpsOrganizationProfileDeserializer(
+        item as AzureDevOpsOrganizationProfile,
+      );
 
     default:
       return organizationProfileDeserializer(item);
@@ -728,27 +868,35 @@ export interface GitHubOrganizationProfile extends OrganizationProfile {
   organizations: GitHubOrganization[];
 }
 
-export function gitHubOrganizationProfileSerializer(item: GitHubOrganizationProfile): any {
+export function gitHubOrganizationProfileSerializer(
+  item: GitHubOrganizationProfile,
+): any {
   return {
     kind: item["kind"],
     organizations: gitHubOrganizationArraySerializer(item["organizations"]),
   };
 }
 
-export function gitHubOrganizationProfileDeserializer(item: any): GitHubOrganizationProfile {
+export function gitHubOrganizationProfileDeserializer(
+  item: any,
+): GitHubOrganizationProfile {
   return {
     kind: item["kind"],
     organizations: gitHubOrganizationArrayDeserializer(item["organizations"]),
   };
 }
 
-export function gitHubOrganizationArraySerializer(result: Array<GitHubOrganization>): any[] {
+export function gitHubOrganizationArraySerializer(
+  result: Array<GitHubOrganization>,
+): any[] {
   return result.map((item) => {
     return gitHubOrganizationSerializer(item);
   });
 }
 
-export function gitHubOrganizationArrayDeserializer(result: Array<GitHubOrganization>): any[] {
+export function gitHubOrganizationArrayDeserializer(
+  result: Array<GitHubOrganization>,
+): any[] {
   return result.map((item) => {
     return gitHubOrganizationDeserializer(item);
   });
@@ -818,13 +966,17 @@ export function azureDevOpsOrganizationProfileDeserializer(
   };
 }
 
-export function organizationArraySerializer(result: Array<Organization>): any[] {
+export function organizationArraySerializer(
+  result: Array<Organization>,
+): any[] {
   return result.map((item) => {
     return organizationSerializer(item);
   });
 }
 
-export function organizationArrayDeserializer(result: Array<Organization>): any[] {
+export function organizationArrayDeserializer(
+  result: Array<Organization>,
+): any[] {
   return result.map((item) => {
     return organizationDeserializer(item);
   });
@@ -874,7 +1026,9 @@ export interface AzureDevOpsPermissionProfile {
   groups?: string[];
 }
 
-export function azureDevOpsPermissionProfileSerializer(item: AzureDevOpsPermissionProfile): any {
+export function azureDevOpsPermissionProfileSerializer(
+  item: AzureDevOpsPermissionProfile,
+): any {
   return {
     kind: item["kind"],
     users: !item["users"]
@@ -890,7 +1044,9 @@ export function azureDevOpsPermissionProfileSerializer(item: AzureDevOpsPermissi
   };
 }
 
-export function azureDevOpsPermissionProfileDeserializer(item: any): AzureDevOpsPermissionProfile {
+export function azureDevOpsPermissionProfileDeserializer(
+  item: any,
+): AzureDevOpsPermissionProfile {
   return {
     kind: item["kind"],
     users: !item["users"]
@@ -945,7 +1101,9 @@ export function agentProfileSerializer(item: AgentProfile): any {
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionSerializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
   };
 }
@@ -957,7 +1115,9 @@ export function agentProfileDeserializer(item: any): AgentProfile {
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionDeserializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
   };
 }
@@ -998,7 +1158,9 @@ export function resourcePredictionsSerializer(item: ResourcePredictions): any {
   return item;
 }
 
-export function resourcePredictionsDeserializer(item: any): ResourcePredictions {
+export function resourcePredictionsDeserializer(
+  item: any,
+): ResourcePredictions {
   return item;
 }
 
@@ -1009,11 +1171,15 @@ export interface ResourcePredictionsProfile {
   kind: ResourcePredictionsProfileType;
 }
 
-export function resourcePredictionsProfileSerializer(item: ResourcePredictionsProfile): any {
+export function resourcePredictionsProfileSerializer(
+  item: ResourcePredictionsProfile,
+): any {
   return { kind: item["kind"] };
 }
 
-export function resourcePredictionsProfileDeserializer(item: any): ResourcePredictionsProfile {
+export function resourcePredictionsProfileDeserializer(
+  item: any,
+): ResourcePredictionsProfile {
   return {
     kind: item["kind"],
   };
@@ -1030,7 +1196,9 @@ export function resourcePredictionsProfileUnionSerializer(
 ): any {
   switch (item.kind) {
     case "Manual":
-      return manualResourcePredictionsProfileSerializer(item as ManualResourcePredictionsProfile);
+      return manualResourcePredictionsProfileSerializer(
+        item as ManualResourcePredictionsProfile,
+      );
 
     case "Automatic":
       return automaticResourcePredictionsProfileSerializer(
@@ -1047,7 +1215,9 @@ export function resourcePredictionsProfileUnionDeserializer(
 ): ResourcePredictionsProfileUnion {
   switch (item.kind) {
     case "Manual":
-      return manualResourcePredictionsProfileDeserializer(item as ManualResourcePredictionsProfile);
+      return manualResourcePredictionsProfileDeserializer(
+        item as ManualResourcePredictionsProfile,
+      );
 
     case "Automatic":
       return automaticResourcePredictionsProfileDeserializer(
@@ -1078,7 +1248,8 @@ export enum KnownResourcePredictionsProfileType {
 export type ResourcePredictionsProfileType = string;
 
 /** Customer provides the stand-by agent scheme. */
-export interface ManualResourcePredictionsProfile extends ResourcePredictionsProfile {
+export interface ManualResourcePredictionsProfile
+  extends ResourcePredictionsProfile {
   /** Customer provides the stand-by agent scheme. */
   kind: "Manual";
 }
@@ -1098,7 +1269,8 @@ export function manualResourcePredictionsProfileDeserializer(
 }
 
 /** The stand-by agent scheme is determined based on historical demand. */
-export interface AutomaticResourcePredictionsProfile extends ResourcePredictionsProfile {
+export interface AutomaticResourcePredictionsProfile
+  extends ResourcePredictionsProfile {
   /** The stand-by agent scheme is determined based on historical demand. */
   kind: "Automatic";
   /** Determines the balance between cost and performance. */
@@ -1156,26 +1328,34 @@ export interface StatelessAgentProfile extends AgentProfile {
   kind: "Stateless";
 }
 
-export function statelessAgentProfileSerializer(item: StatelessAgentProfile): any {
+export function statelessAgentProfileSerializer(
+  item: StatelessAgentProfile,
+): any {
   return {
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionSerializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
   };
 }
 
-export function statelessAgentProfileDeserializer(item: any): StatelessAgentProfile {
+export function statelessAgentProfileDeserializer(
+  item: any,
+): StatelessAgentProfile {
   return {
     resourcePredictions: !item["resourcePredictions"]
       ? item["resourcePredictions"]
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionDeserializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
   };
 }
@@ -1197,7 +1377,9 @@ export function statefulSerializer(item: Stateful): any {
       : resourcePredictionsSerializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionSerializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionSerializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
@@ -1211,7 +1393,9 @@ export function statefulDeserializer(item: any): Stateful {
       : resourcePredictionsDeserializer(item["resourcePredictions"]),
     resourcePredictionsProfile: !item["resourcePredictionsProfile"]
       ? item["resourcePredictionsProfile"]
-      : resourcePredictionsProfileUnionDeserializer(item["resourcePredictionsProfile"]),
+      : resourcePredictionsProfileUnionDeserializer(
+          item["resourcePredictionsProfile"],
+        ),
     kind: item["kind"],
     maxAgentLifetime: item["maxAgentLifetime"],
     gracePeriodTimeSpan: item["gracePeriodTimeSpan"],
@@ -1279,7 +1463,9 @@ export function vmssFabricProfileSerializer(item: VmssFabricProfile): any {
     kind: item["kind"],
     sku: devOpsAzureSkuSerializer(item["sku"]),
     images: poolImageArraySerializer(item["images"]),
-    osProfile: !item["osProfile"] ? item["osProfile"] : osProfileSerializer(item["osProfile"]),
+    osProfile: !item["osProfile"]
+      ? item["osProfile"]
+      : osProfileSerializer(item["osProfile"]),
     storageProfile: !item["storageProfile"]
       ? item["storageProfile"]
       : storageProfileSerializer(item["storageProfile"]),
@@ -1294,7 +1480,9 @@ export function vmssFabricProfileDeserializer(item: any): VmssFabricProfile {
     kind: item["kind"],
     sku: devOpsAzureSkuDeserializer(item["sku"]),
     images: poolImageArrayDeserializer(item["images"]),
-    osProfile: !item["osProfile"] ? item["osProfile"] : osProfileDeserializer(item["osProfile"]),
+    osProfile: !item["osProfile"]
+      ? item["osProfile"]
+      : osProfileDeserializer(item["osProfile"]),
     storageProfile: !item["storageProfile"]
       ? item["storageProfile"]
       : storageProfileDeserializer(item["storageProfile"]),
@@ -1391,7 +1579,9 @@ export function osProfileDeserializer(item: any): OsProfile {
   return {
     secretsManagementSettings: !item["secretsManagementSettings"]
       ? item["secretsManagementSettings"]
-      : secretsManagementSettingsDeserializer(item["secretsManagementSettings"]),
+      : secretsManagementSettingsDeserializer(
+          item["secretsManagementSettings"],
+        ),
     logonType: item["logonType"],
   };
 }
@@ -1406,7 +1596,9 @@ export interface SecretsManagementSettings {
   keyExportable: boolean;
 }
 
-export function secretsManagementSettingsSerializer(item: SecretsManagementSettings): any {
+export function secretsManagementSettingsSerializer(
+  item: SecretsManagementSettings,
+): any {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
@@ -1416,7 +1608,9 @@ export function secretsManagementSettingsSerializer(item: SecretsManagementSetti
   };
 }
 
-export function secretsManagementSettingsDeserializer(item: any): SecretsManagementSettings {
+export function secretsManagementSettingsDeserializer(
+  item: any,
+): SecretsManagementSettings {
   return {
     certificateStoreLocation: item["certificateStoreLocation"],
     observedCertificates: item["observedCertificates"].map((p: any) => {
@@ -1455,7 +1649,9 @@ export interface StorageProfile {
 export function storageProfileSerializer(item: StorageProfile): any {
   return {
     osDiskStorageAccountType: item["osDiskStorageAccountType"],
-    dataDisks: !item["dataDisks"] ? item["dataDisks"] : dataDiskArraySerializer(item["dataDisks"]),
+    dataDisks: !item["dataDisks"]
+      ? item["dataDisks"]
+      : dataDiskArraySerializer(item["dataDisks"]),
   };
 }
 
@@ -1607,14 +1803,18 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+export function managedServiceIdentitySerializer(
+  item: ManagedServiceIdentity,
+): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -1632,7 +1832,7 @@ export enum KnownManagedServiceIdentityType {
   /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
   /** System and user assigned managed identity. */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1655,11 +1855,15 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -1729,7 +1933,9 @@ export interface PoolUpdateProperties {
   devCenterProjectResourceId?: string;
 }
 
-export function poolUpdatePropertiesSerializer(item: PoolUpdateProperties): any {
+export function poolUpdatePropertiesSerializer(
+  item: PoolUpdateProperties,
+): any {
   return {
     provisioningState: item["provisioningState"],
     maximumConcurrency: item["maximumConcurrency"],
@@ -1773,6 +1979,94 @@ export function poolArrayDeserializer(result: Array<Pool>): any[] {
   });
 }
 
+/** The parameters used to check the availability of a resource. */
+export interface CheckNameAvailability {
+  /** The name of the resource. */
+  name: string;
+  /** The type of resource that is used as the scope of the availability check. */
+  type: DevOpsInfrastructureResourceType;
+}
+
+export function checkNameAvailabilitySerializer(
+  item: CheckNameAvailability,
+): any {
+  return { name: item["name"], type: item["type"] };
+}
+
+/** The type of resource. */
+export enum KnownDevOpsInfrastructureResourceType {
+  /** DevOpsInfrastructure pool resource. */
+  "Microsoft.DevOpsInfrastructure/pools" = "Microsoft.DevOpsInfrastructure/pools",
+}
+
+/**
+ * The type of resource. \
+ * {@link KnownDevOpsInfrastructureResourceType} can be used interchangeably with DevOpsInfrastructureResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.DevOpsInfrastructure\/pools**: DevOpsInfrastructure pool resource.
+ */
+export type DevOpsInfrastructureResourceType = string;
+
+/** The CheckNameAvailability operation response. */
+export interface CheckNameAvailabilityResult {
+  /** Availability status of the name. */
+  available: AvailabilityStatus;
+  /** A message explaining why the name is unavailable. Will be null if the name is available. */
+  message: string;
+  /** The name whose availability was checked. */
+  name: string;
+  /** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+  reason: CheckNameAvailabilityReason;
+}
+
+export function checkNameAvailabilityResultDeserializer(
+  item: any,
+): CheckNameAvailabilityResult {
+  return {
+    available: item["available"],
+    message: item["message"],
+    name: item["name"],
+    reason: item["reason"],
+  };
+}
+
+/** AvailabilityStatus of a name. */
+export enum KnownAvailabilityStatus {
+  /** The name is available. */
+  Available = "Available",
+  /** The name is unavailable */
+  Unavailable = "Unavailable",
+}
+
+/**
+ * AvailabilityStatus of a name. \
+ * {@link KnownAvailabilityStatus} can be used interchangeably with AvailabilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The name is available. \
+ * **Unavailable**: The name is unavailable
+ */
+export type AvailabilityStatus = string;
+
+/** The reason code explaining why the name is unavailable. Will be null if the name is available. */
+export enum KnownCheckNameAvailabilityReason {
+  /** The name is invalid. */
+  Invalid = "Invalid",
+  /** The name already exists. */
+  AlreadyExists = "AlreadyExists",
+}
+
+/**
+ * The reason code explaining why the name is unavailable. Will be null if the name is available. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: The name is invalid. \
+ * **AlreadyExists**: The name already exists.
+ */
+export type CheckNameAvailabilityReason = string;
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1781,7 +2075,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1812,7 +2108,9 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -1842,11 +2140,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -1878,5 +2176,5 @@ export type ActionType = string;
 /** Api versions */
 export enum KnownVersions {
   /** 2024-10-19 version */
-  "V2024-10-19" = "2024-10-19",
+  "2024-10-19" = "2024-10-19",
 }
