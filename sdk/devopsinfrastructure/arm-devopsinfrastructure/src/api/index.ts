@@ -14,6 +14,7 @@ export {
   PoolsDeleteOptionalParams,
   PoolsListByResourceGroupOptionalParams,
   PoolsListBySubscriptionOptionalParams,
+  PoolsCheckNameAvailabilityOptionalParams,
   ResourceDetailsListByPoolOptionalParams,
   SkuListByLocationOptionalParams,
   SubscriptionUsagesUsagesOptionalParams,
@@ -28,6 +29,7 @@ export {
   poolsDelete,
   poolsListByResourceGroup,
   poolsListBySubscription,
+  poolsCheckNameAvailability,
 } from "./pools/index.js";
 export { resourceDetailsListByPool } from "./resourceDetails/index.js";
 export { skuListByLocation } from "./sku/index.js";

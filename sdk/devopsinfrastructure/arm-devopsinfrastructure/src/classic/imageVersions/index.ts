@@ -17,13 +17,23 @@ export interface ImageVersionsOperations {
   ) => PagedAsyncIterableIterator<ImageVersion>;
 }
 
-export function getImageVersions(context: DevOpsInfrastructureContext, subscriptionId: string) {
+export function getImageVersions(
+  context: DevOpsInfrastructureContext,
+  subscriptionId: string,
+) {
   return {
     listByImage: (
       resourceGroupName: string,
       imageName: string,
       options?: ImageVersionsListByImageOptionalParams,
-    ) => imageVersionsListByImage(context, subscriptionId, resourceGroupName, imageName, options),
+    ) =>
+      imageVersionsListByImage(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        imageName,
+        options,
+      ),
   };
 }
 

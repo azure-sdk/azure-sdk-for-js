@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import { getPoolsOperations, PoolsOperations } from "./classic/pools/index.js";
 import {
   getResourceDetailsOperations,
@@ -47,10 +50,19 @@ export class DevOpsInfrastructureClient {
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
     this.pools = getPoolsOperations(this._client, subscriptionId);
-    this.resourceDetails = getResourceDetailsOperations(this._client, subscriptionId);
+    this.resourceDetails = getResourceDetailsOperations(
+      this._client,
+      subscriptionId,
+    );
     this.sku = getSkuOperations(this._client, subscriptionId);
-    this.subscriptionUsages = getSubscriptionUsagesOperations(this._client, subscriptionId);
-    this.imageVersions = getImageVersionsOperations(this._client, subscriptionId);
+    this.subscriptionUsages = getSubscriptionUsagesOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.imageVersions = getImageVersionsOperations(
+      this._client,
+      subscriptionId,
+    );
   }
 
   /** The operation groups for Operations */
