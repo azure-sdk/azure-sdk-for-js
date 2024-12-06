@@ -20500,10 +20500,11 @@ packages:
     dev: false
 
   file:projects/health-deidentification.tgz:
-    resolution: {integrity: sha512-6LdN/I3/IT+r5A4w8Ac5rRXYnfUzCGhSyEhSq0zB1vEsyX0oOz5viCnGYYqmiyOOfGvgqaMBOk4KwrCCeMcTOA==, tarball: file:projects/health-deidentification.tgz}
+    resolution: {integrity: sha512-UmI085QeO7kUZ6n5F6vQ4t4RZHOUNQpm74yjDIAgJcB17mb7QTqbzsMD6jlQJsGQfgY9EfB3QH40gPACmWumkA==, tarball: file:projects/health-deidentification.tgz}
     name: '@rush-temp/health-deidentification'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
