@@ -13197,7 +13197,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-p8cFZ7EmqQU/LtbbMyulQ4MEozyzGFuvwZ//2CYbQCzcGy/60Iqi808+jBPCv/xKqCwURySZrNJOLMqaTH8puQ==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-lwC79Nq86AXcnxvPbipY6lzONtyg3WE6zqBiZaWyc0KGQ9HggFwk1mJJspCAxH0p/2Cpndj9uG36yDeC6V71ZQ==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -13214,6 +13214,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
