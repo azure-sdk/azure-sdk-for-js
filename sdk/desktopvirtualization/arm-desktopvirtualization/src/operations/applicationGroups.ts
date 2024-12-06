@@ -15,21 +15,27 @@ import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
   ApplicationGroup,
-  ApplicationGroupsListByResourceGroupNextOptionalParams,
-  ApplicationGroupsListByResourceGroupOptionalParams,
-  ApplicationGroupsListByResourceGroupResponse,
   ApplicationGroupsListBySubscriptionNextOptionalParams,
   ApplicationGroupsListBySubscriptionOptionalParams,
   ApplicationGroupsListBySubscriptionResponse,
+  ApplicationGroupsListByResourceGroupNextOptionalParams,
+  ApplicationGroupsListByResourceGroupOptionalParams,
+  ApplicationGroupsListByResourceGroupResponse,
+  StartMenuItem,
+  ApplicationGroupsListNextOptionalParams,
+  ApplicationGroupsListOptionalParams,
+  ApplicationGroupsListResponse,
   ApplicationGroupsGetOptionalParams,
   ApplicationGroupsGetResponse,
   ApplicationGroupsCreateOrUpdateOptionalParams,
   ApplicationGroupsCreateOrUpdateResponse,
-  ApplicationGroupsDeleteOptionalParams,
+  ApplicationGroupPatch,
   ApplicationGroupsUpdateOptionalParams,
   ApplicationGroupsUpdateResponse,
-  ApplicationGroupsListByResourceGroupNextResponse,
+  ApplicationGroupsDeleteOptionalParams,
   ApplicationGroupsListBySubscriptionNextResponse,
+  ApplicationGroupsListByResourceGroupNextResponse,
+  ApplicationGroupsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,6 +49,60 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * List applicationGroups in subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ApplicationGroup> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<ApplicationGroup[]> {
+    let result: ApplicationGroupsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<ApplicationGroup> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -115,13 +175,21 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
   }
 
   /**
-   * List applicationGroups in subscription.
+   * List start menu items in the given application group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
    * @param options The options parameters.
    */
-  public listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<ApplicationGroup> {
-    const iter = this.listBySubscriptionPagingAll(options);
+  public list(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: ApplicationGroupsListOptionalParams,
+  ): PagedAsyncIterableIterator<StartMenuItem> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      applicationGroupName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -133,26 +201,42 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBySubscriptionPagingPage(options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          applicationGroupName,
+          options,
+          settings,
+        );
       },
     };
   }
 
-  private async *listBySubscriptionPagingPage(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  private async *listPagingPage(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: ApplicationGroupsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ApplicationGroup[]> {
-    let result: ApplicationGroupsListBySubscriptionResponse;
+  ): AsyncIterableIterator<StartMenuItem[]> {
+    let result: ApplicationGroupsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySubscription(options);
+      result = await this._list(
+        resourceGroupName,
+        applicationGroupName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        applicationGroupName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -160,12 +244,46 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
     }
   }
 
-  private async *listBySubscriptionPagingAll(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<ApplicationGroup> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
+  private async *listPagingAll(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: ApplicationGroupsListOptionalParams,
+  ): AsyncIterableIterator<StartMenuItem> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      applicationGroupName,
+      options,
+    )) {
       yield* page;
     }
+  }
+
+  /**
+   * List applicationGroups in subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): Promise<ApplicationGroupsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * List applicationGroups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ApplicationGroupsListByResourceGroupOptionalParams,
+  ): Promise<ApplicationGroupsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -189,18 +307,37 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
    * Create or update an applicationGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
-   * @param applicationGroup Object containing ApplicationGroup definitions.
+   * @param resource Object containing ApplicationGroup definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     applicationGroupName: string,
-    applicationGroup: ApplicationGroup,
+    resource: ApplicationGroup,
     options?: ApplicationGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGroupsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, applicationGroup, options },
+      { resourceGroupName, applicationGroupName, resource, options },
       createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Update an applicationGroup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param properties Object containing ApplicationGroup definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    properties: ApplicationGroupPatch,
+    options?: ApplicationGroupsUpdateOptionalParams,
+  ): Promise<ApplicationGroupsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, applicationGroupName, properties, options },
+      updateOperationSpec,
     );
   }
 
@@ -222,47 +359,34 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
   }
 
   /**
-   * Update an applicationGroup.
+   * List start menu items in the given application group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
    * @param options The options parameters.
    */
-  update(
+  private _list(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationGroupsUpdateOptionalParams,
-  ): Promise<ApplicationGroupsUpdateResponse> {
+    options?: ApplicationGroupsListOptionalParams,
+  ): Promise<ApplicationGroupsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationGroupName, options },
-      updateOperationSpec,
+      listOperationSpec,
     );
   }
 
   /**
-   * List applicationGroups.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ApplicationGroupsListByResourceGroupOptionalParams,
-  ): Promise<ApplicationGroupsListByResourceGroupResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: ApplicationGroupsListBySubscriptionNextOptionalParams,
+  ): Promise<ApplicationGroupsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * List applicationGroups in subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
-  ): Promise<ApplicationGroupsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -284,23 +408,69 @@ export class ApplicationGroupsImpl implements ApplicationGroups {
   }
 
   /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listBySubscriptionNext(
+  private _listNext(
+    resourceGroupName: string,
+    applicationGroupName: string,
     nextLink: string,
-    options?: ApplicationGroupsListBySubscriptionNextOptionalParams,
-  ): Promise<ApplicationGroupsListBySubscriptionNextResponse> {
+    options?: ApplicationGroupsListNextOptionalParams,
+  ): Promise<ApplicationGroupsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
+      { resourceGroupName, applicationGroupName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGroupList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGroupList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
   httpMethod: "GET",
@@ -309,7 +479,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -333,10 +503,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationGroup,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.applicationGroup,
+  requestBody: Parameters.resource1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGroup,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -355,7 +548,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -368,38 +561,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.applicationGroup1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/list",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationGroupList,
+      bodyMapper: Mappers.StartMenuItemList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -407,48 +577,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.pageSize,
     Parameters.isDescending,
     Parameters.initialSkip,
-    Parameters.filter,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationGroupList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationGroupList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -461,13 +595,54 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApplicationGroupList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGroupList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StartMenuItemList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
