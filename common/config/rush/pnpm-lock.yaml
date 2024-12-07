@@ -21076,11 +21076,12 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-XdGtBXoiBvpODd8UhGwxazB7/nQiYZxp2/mMGE/pwVKyi64zTVMa7FZKGnJolBlWvycaJJ8Qxql3Eg3c9EvDOg==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-sM0lvJ1M59VB0p0UvCr9Za0cL2yCLYuh3B3GGjDwgfHQWFqr+ztCGCnl9Y4nrpNcyM+Xi+5zG+E5P6QFWait0A==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
@@ -21090,21 +21091,8 @@ packages:
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
     dev: false
 
   file:projects/load-testing.tgz:
