@@ -20966,11 +20966,12 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-hHHFZjEUX2s1FPN5WTYcqoT1hqSFS7iJnQvqh6nFyknX+Z9pOUl5+gU6gaxGxwYiLV3yPo+wYN4+w/S9K9x7DQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-yPIJrxwCOm53lgr/lg7hPOIJon/CMo72RXE78NNsCeejOEfCEaBXZ93ma86Iy9gXwONEvycFSCKP9bZJbb18Ig==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -20981,25 +20982,8 @@ packages:
       typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
     dev: false
 
   file:projects/keyvault-common.tgz:
