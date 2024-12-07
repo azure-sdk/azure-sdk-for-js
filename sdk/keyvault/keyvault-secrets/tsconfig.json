@@ -1,22 +1,10 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "lib": ["dom"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/keyvault-secrets": ["./src/index"]
-    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.cts",
-    "test/**/*.mts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts"]
 }
