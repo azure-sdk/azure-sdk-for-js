@@ -5,8 +5,15 @@ import {
   getFabricCapacitiesOperations,
   FabricCapacitiesOperations,
 } from "./classic/fabricCapacities/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  createFabric,
+  FabricContext,
+  FabricClientOptionalParams,
+} from "./api/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -25,13 +32,16 @@ export class FabricClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createFabric(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.fabricCapacities = getFabricCapacitiesOperations(this._client, subscriptionId);
+    this.fabricCapacities = getFabricCapacitiesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.operations = getOperationsOperations(this._client);
   }
 

@@ -14,6 +14,7 @@ import {
   fabricCapacitiesCheckNameAvailability,
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
+  fabricCapacitiesListUsages,
 } from "../../api/fabricCapacities/index.js";
 import {
   FabricCapacity,
@@ -22,6 +23,7 @@ import {
   CheckNameAvailabilityResponse,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  RpUsageAndQuotaDetailsForExistingResource,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -37,6 +39,7 @@ import {
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a FabricCapacities operations. */
@@ -104,15 +107,30 @@ export interface FabricCapacitiesOperations {
   listSkus: (
     options?: FabricCapacitiesListSkusOptionalParams,
   ) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
+  /** List the current consumption and limit in this location for the provided subscription */
+  listUsages: (
+    location: string,
+    options?: FabricCapacitiesListUsagesOptionalParams,
+  ) => PagedAsyncIterableIterator<RpUsageAndQuotaDetailsForExistingResource>;
 }
 
-export function getFabricCapacities(context: FabricContext, subscriptionId: string) {
+export function getFabricCapacities(
+  context: FabricContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesGetOptionalParams,
-    ) => fabricCapacitiesGet(context, subscriptionId, resourceGroupName, capacityName, options),
+    ) =>
+      fabricCapacitiesGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        capacityName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       capacityName: string,
@@ -145,28 +163,63 @@ export function getFabricCapacities(context: FabricContext, subscriptionId: stri
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesDeleteOptionalParams,
-    ) => fabricCapacitiesDelete(context, subscriptionId, resourceGroupName, capacityName, options),
+    ) =>
+      fabricCapacitiesDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        capacityName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: FabricCapacitiesListByResourceGroupOptionalParams,
-    ) => fabricCapacitiesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: FabricCapacitiesListBySubscriptionOptionalParams) =>
-      fabricCapacitiesListBySubscription(context, subscriptionId, options),
+    ) =>
+      fabricCapacitiesListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
+    listBySubscription: (
+      options?: FabricCapacitiesListBySubscriptionOptionalParams,
+    ) => fabricCapacitiesListBySubscription(context, subscriptionId, options),
     resume: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesResumeOptionalParams,
-    ) => fabricCapacitiesResume(context, subscriptionId, resourceGroupName, capacityName, options),
+    ) =>
+      fabricCapacitiesResume(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        capacityName,
+        options,
+      ),
     suspend: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesSuspendOptionalParams,
-    ) => fabricCapacitiesSuspend(context, subscriptionId, resourceGroupName, capacityName, options),
+    ) =>
+      fabricCapacitiesSuspend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        capacityName,
+        options,
+      ),
     checkNameAvailability: (
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: FabricCapacitiesCheckNameAvailabilityOptionalParams,
-    ) => fabricCapacitiesCheckNameAvailability(context, subscriptionId, location, body, options),
+    ) =>
+      fabricCapacitiesCheckNameAvailability(
+        context,
+        subscriptionId,
+        location,
+        body,
+        options,
+      ),
     listSkusForCapacity: (
       resourceGroupName: string,
       capacityName: string,
@@ -181,6 +234,10 @@ export function getFabricCapacities(context: FabricContext, subscriptionId: stri
       ),
     listSkus: (options?: FabricCapacitiesListSkusOptionalParams) =>
       fabricCapacitiesListSkus(context, subscriptionId, options),
+    listUsages: (
+      location: string,
+      options?: FabricCapacitiesListUsagesOptionalParams,
+    ) => fabricCapacitiesListUsages(context, subscriptionId, location, options),
   };
 }
 

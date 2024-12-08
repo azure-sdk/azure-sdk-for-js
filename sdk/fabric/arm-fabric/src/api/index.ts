@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createFabric, FabricContext, FabricClientOptionalParams } from "./fabricContext.js";
+export {
+  createFabric,
+  FabricContext,
+  FabricClientOptionalParams,
+} from "./fabricContext.js";
 export {
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
@@ -14,6 +18,7 @@ export {
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
   OperationsListOptionalParams,
 } from "./options.js";
 export {
@@ -28,5 +33,6 @@ export {
   fabricCapacitiesCheckNameAvailability,
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
+  fabricCapacitiesListUsages,
 } from "./fabricCapacities/index.js";
 export { operationsList } from "./operations/index.js";
