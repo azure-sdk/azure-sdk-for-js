@@ -4664,7 +4664,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -11909,10 +11909,11 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-rK979Zu3i9HdmjhkPAgXOzd0NeXbFrY3YZVRjpjV2wogivrRPGkZZzbNRYCJ7jJbjdFmyOW0xaVddvmfvbqYuw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-4BkkAJcixTSpwVv4Xx0fpFUWuS4/Yvc/G2axoSXRmVmX4oBy5hILDfqMfJwIiMmEFQG/5juuDztUyNEDnivBFQ==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -22607,7 +22608,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-3S94WjpWXw7riA1c+tkPKkCHWJJ9jqEbdpx4k2Z8cYJXfS2N8eH3bd4Mhk7qY7DdoOOG4qeOT6ofNyXT3WRXlg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-/zkv3RZpvF5SXN3aKwaX8QidH+/p6MUfd4j7BYtJRrTp+HCbscmtm+DrGZwqRHhUAUBdsbLQ3E/CXDMlfuOpig==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
