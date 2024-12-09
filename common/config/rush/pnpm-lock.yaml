@@ -13536,10 +13536,11 @@ packages:
     dev: false
 
   file:projects/arm-computeschedule.tgz:
-    resolution: {integrity: sha512-LikjGLDhppCKtO9/RI42l+TovuXgyFifllzgtNrGC3+mkan99xV0Vw/2jCqTL0v+HrFXKsPwrHzvtaWrGfJ14g==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-huVcaqqgeWnHZNsCJW6edUCHy4mMjrLxo+/517o2xo5m0A5yaWk/U+CE6IFTFGy4Cg1BvRBoa5a0BpoNglQfbg==, tarball: file:projects/arm-computeschedule.tgz}
     name: '@rush-temp/arm-computeschedule'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -19721,7 +19722,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -22607,7 +22608,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-3S94WjpWXw7riA1c+tkPKkCHWJJ9jqEbdpx4k2Z8cYJXfS2N8eH3bd4Mhk7qY7DdoOOG4qeOT6ofNyXT3WRXlg==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-/zkv3RZpvF5SXN3aKwaX8QidH+/p6MUfd4j7BYtJRrTp+HCbscmtm+DrGZwqRHhUAUBdsbLQ3E/CXDMlfuOpig==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
