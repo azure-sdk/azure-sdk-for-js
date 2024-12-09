@@ -9,20 +9,30 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Workspace,
-  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  PrivateLinkResource,
+  WorkspacesListByWorkspaceOptionalParams,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
-  WorkspacesDeleteOptionalParams,
+  WorkspacePatch,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
+  WorkspacesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
 export interface Workspaces {
+  /**
+   * List workspaces in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Workspace>;
   /**
    * List workspaces.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -33,12 +43,16 @@ export interface Workspaces {
     options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
-   * List workspaces in subscription.
+   * List the private link resources available for this workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
    * @param options The options parameters.
    */
-  listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Workspace>;
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * Get a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,15 +68,28 @@ export interface Workspaces {
    * Create or update a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param workspace Object containing Workspace definitions.
+   * @param resource Object containing Workspace definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
+    resource: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
+  /**
+   * Update a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param properties Object containing Workspace definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    properties: WorkspacePatch,
+    options?: WorkspacesUpdateOptionalParams,
+  ): Promise<WorkspacesUpdateResponse>;
   /**
    * Remove a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -74,15 +101,4 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update a workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesUpdateOptionalParams,
-  ): Promise<WorkspacesUpdateResponse>;
 }
