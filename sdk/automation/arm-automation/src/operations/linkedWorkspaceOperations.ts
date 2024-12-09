@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
   LinkedWorkspaceGetOptionalParams,
-  LinkedWorkspaceGetResponse
+  LinkedWorkspaceGetResponse,
 } from "../models";
 
 /** Class containing LinkedWorkspaceOperations operations. */
 export class LinkedWorkspaceOperationsImpl
-  implements LinkedWorkspaceOperations {
+  implements LinkedWorkspaceOperations
+{
   private readonly client: AutomationClient;
 
   /**
@@ -38,11 +39,11 @@ export class LinkedWorkspaceOperationsImpl
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: LinkedWorkspaceGetOptionalParams
+    options?: LinkedWorkspaceGetOptionalParams,
   ): Promise<LinkedWorkspaceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class LinkedWorkspaceOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/linkedWorkspace",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/linkedWorkspace",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedWorkspace
+      bodyMapper: Mappers.LinkedWorkspace,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

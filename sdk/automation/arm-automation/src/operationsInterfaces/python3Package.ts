@@ -9,23 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Module,
-  ModuleListByAutomationAccountOptionalParams,
-  ModuleDeleteOptionalParams,
-  ModuleGetOptionalParams,
-  ModuleGetResponse,
-  ModuleCreateOrUpdateParameters,
-  ModuleCreateOrUpdateOptionalParams,
-  ModuleCreateOrUpdateResponse,
-  ModuleUpdateParameters,
-  ModuleUpdateOptionalParams,
-  ModuleUpdateResponse,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ModuleOperations. */
-export interface ModuleOperations {
+/** Interface representing a Python3Package. */
+export interface Python3Package {
   /**
-   * Retrieve a list of modules.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -33,62 +33,62 @@ export interface ModuleOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module>;
   /**
-   * Delete the module by name.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleDeleteOptionalParams,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve the module identified by module name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The module name.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    options?: ModuleGetOptionalParams,
-  ): Promise<ModuleGetResponse>;
+    packageName: string,
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse>;
   /**
-   * Create or Update the module identified by module name.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The create or update parameters for module.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams,
-  ): Promise<ModuleCreateOrUpdateResponse>;
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse>;
   /**
-   * Update the module identified by module name.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param moduleName The name of module.
-   * @param parameters The update parameters for module.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    moduleName: string,
-    parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams,
-  ): Promise<ModuleUpdateResponse>;
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse>;
 }

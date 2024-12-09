@@ -17,7 +17,7 @@ import {
   HybridRunbookWorkerGroupCreateOptionalParams,
   HybridRunbookWorkerGroupCreateResponse,
   HybridRunbookWorkerGroupUpdateOptionalParams,
-  HybridRunbookWorkerGroupUpdateResponse
+  HybridRunbookWorkerGroupUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface HybridRunbookWorkerGroupOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams
+    options?: HybridRunbookWorkerGroupListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<HybridRunbookWorkerGroup>;
   /**
    * Delete a hybrid runbook worker group.
@@ -45,7 +45,7 @@ export interface HybridRunbookWorkerGroupOperations {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkerGroupDeleteOptionalParams
+    options?: HybridRunbookWorkerGroupDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve a hybrid runbook worker group.
@@ -58,7 +58,7 @@ export interface HybridRunbookWorkerGroupOperations {
     resourceGroupName: string,
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
-    options?: HybridRunbookWorkerGroupGetOptionalParams
+    options?: HybridRunbookWorkerGroupGetOptionalParams,
   ): Promise<HybridRunbookWorkerGroupGetResponse>;
   /**
    * Create a hybrid runbook worker group.
@@ -74,7 +74,7 @@ export interface HybridRunbookWorkerGroupOperations {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerGroupCreationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters,
-    options?: HybridRunbookWorkerGroupCreateOptionalParams
+    options?: HybridRunbookWorkerGroupCreateOptionalParams,
   ): Promise<HybridRunbookWorkerGroupCreateResponse>;
   /**
    * Update a hybrid runbook worker group.
@@ -89,6 +89,6 @@ export interface HybridRunbookWorkerGroupOperations {
     automationAccountName: string,
     hybridRunbookWorkerGroupName: string,
     hybridRunbookWorkerGroupUpdationParameters: HybridRunbookWorkerGroupCreateOrUpdateParameters,
-    options?: HybridRunbookWorkerGroupUpdateOptionalParams
+    options?: HybridRunbookWorkerGroupUpdateOptionalParams,
   ): Promise<HybridRunbookWorkerGroupUpdateResponse>;
 }
