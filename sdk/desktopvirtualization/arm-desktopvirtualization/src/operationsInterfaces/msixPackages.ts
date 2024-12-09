@@ -14,9 +14,10 @@ import {
   MsixPackagesGetResponse,
   MsixPackagesCreateOrUpdateOptionalParams,
   MsixPackagesCreateOrUpdateResponse,
-  MsixPackagesDeleteOptionalParams,
+  MsixPackagePatch,
   MsixPackagesUpdateOptionalParams,
   MsixPackagesUpdateResponse,
+  MsixPackagesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,71 +25,53 @@ import {
 export interface MsixPackages {
   /**
    * List MSIX packages in hostpool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
   list(
-    resourceGroupName: string,
-    hostPoolName: string,
     options?: MsixPackagesListOptionalParams,
   ): PagedAsyncIterableIterator<MsixPackage>;
   /**
    * Get a msixpackage.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixPackageFullName The version specific package full name of the MSIX package within
    *                            specified hostpool
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    hostPoolName: string,
     msixPackageFullName: string,
     options?: MsixPackagesGetOptionalParams,
   ): Promise<MsixPackagesGetResponse>;
   /**
    * Create or update a MSIX package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixPackageFullName The version specific package full name of the MSIX package within
    *                            specified hostpool
-   * @param msixPackage Object containing  MSIX Package definitions.
+   * @param resource Object containing  MSIX Package definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
-    resourceGroupName: string,
-    hostPoolName: string,
     msixPackageFullName: string,
-    msixPackage: MsixPackage,
+    resource: MsixPackage,
     options?: MsixPackagesCreateOrUpdateOptionalParams,
   ): Promise<MsixPackagesCreateOrUpdateResponse>;
   /**
+   * Update an  MSIX Package.
+   * @param msixPackageFullName The version specific package full name of the MSIX package within
+   *                            specified hostpool
+   * @param properties Object containing MSIX Package definitions.
+   * @param options The options parameters.
+   */
+  update(
+    msixPackageFullName: string,
+    properties: MsixPackagePatch,
+    options?: MsixPackagesUpdateOptionalParams,
+  ): Promise<MsixPackagesUpdateResponse>;
+  /**
    * Remove an MSIX Package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixPackageFullName The version specific package full name of the MSIX package within
    *                            specified hostpool
    * @param options The options parameters.
    */
   delete(
-    resourceGroupName: string,
-    hostPoolName: string,
     msixPackageFullName: string,
     options?: MsixPackagesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an  MSIX Package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesUpdateOptionalParams,
-  ): Promise<MsixPackagesUpdateResponse>;
 }

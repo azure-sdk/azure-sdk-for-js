@@ -9,20 +9,30 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationGroup,
-  ApplicationGroupsListByResourceGroupOptionalParams,
   ApplicationGroupsListBySubscriptionOptionalParams,
+  ApplicationGroupsListByResourceGroupOptionalParams,
+  StartMenuItem,
+  ApplicationGroupsListOptionalParams,
   ApplicationGroupsGetOptionalParams,
   ApplicationGroupsGetResponse,
   ApplicationGroupsCreateOrUpdateOptionalParams,
   ApplicationGroupsCreateOrUpdateResponse,
-  ApplicationGroupsDeleteOptionalParams,
+  ApplicationGroupPatch,
   ApplicationGroupsUpdateOptionalParams,
   ApplicationGroupsUpdateResponse,
+  ApplicationGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationGroups. */
 export interface ApplicationGroups {
+  /**
+   * List applicationGroups in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * List applicationGroups.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -33,12 +43,16 @@ export interface ApplicationGroups {
     options?: ApplicationGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
-   * List applicationGroups in subscription.
+   * List start menu items in the given application group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
    * @param options The options parameters.
    */
-  listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<ApplicationGroup>;
+  list(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: ApplicationGroupsListOptionalParams,
+  ): PagedAsyncIterableIterator<StartMenuItem>;
   /**
    * Get an application group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,15 +68,28 @@ export interface ApplicationGroups {
    * Create or update an applicationGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
-   * @param applicationGroup Object containing ApplicationGroup definitions.
+   * @param resource Object containing ApplicationGroup definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     applicationGroupName: string,
-    applicationGroup: ApplicationGroup,
+    resource: ApplicationGroup,
     options?: ApplicationGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGroupsCreateOrUpdateResponse>;
+  /**
+   * Update an applicationGroup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param properties Object containing ApplicationGroup definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    properties: ApplicationGroupPatch,
+    options?: ApplicationGroupsUpdateOptionalParams,
+  ): Promise<ApplicationGroupsUpdateResponse>;
   /**
    * Remove an applicationGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -74,15 +101,4 @@ export interface ApplicationGroups {
     applicationGroupName: string,
     options?: ApplicationGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an applicationGroup.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationGroupsUpdateOptionalParams,
-  ): Promise<ApplicationGroupsUpdateResponse>;
 }

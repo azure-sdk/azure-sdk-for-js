@@ -14,9 +14,10 @@ import {
   ApplicationsGetResponse,
   ApplicationsCreateOrUpdateOptionalParams,
   ApplicationsCreateOrUpdateResponse,
-  ApplicationsDeleteOptionalParams,
+  ApplicationPatch,
   ApplicationsUpdateOptionalParams,
   ApplicationsUpdateResponse,
+  ApplicationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,16 +52,31 @@ export interface Applications {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
    * @param applicationName The name of the application within the specified application group
-   * @param application Object containing Application definitions.
+   * @param resource Object containing Application definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     applicationGroupName: string,
     applicationName: string,
-    application: Application,
+    resource: Application,
     options?: ApplicationsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationsCreateOrUpdateResponse>;
+  /**
+   * Update an application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param applicationName The name of the application within the specified application group
+   * @param properties Object containing Application definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    applicationName: string,
+    properties: ApplicationPatch,
+    options?: ApplicationsUpdateOptionalParams,
+  ): Promise<ApplicationsUpdateResponse>;
   /**
    * Remove an application.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -74,17 +90,4 @@ export interface Applications {
     applicationName: string,
     options?: ApplicationsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an application.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param applicationName The name of the application within the specified application group
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    applicationName: string,
-    options?: ApplicationsUpdateOptionalParams,
-  ): Promise<ApplicationsUpdateResponse>;
 }
