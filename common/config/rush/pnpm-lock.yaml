@@ -19059,10 +19059,11 @@ packages:
     dev: false
 
   file:projects/communication-messages.tgz:
-    resolution: {integrity: sha512-IcDGaDqJ1GhWIIajWNiyS4FUnZB3JEvDYXG7mopGzk4wgpUfOhVoVrJuz07pg3unKTn48Oqlm4EOWFmAm0wbag==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-iTokfARn+j8j32u6ePJ5+hRBTJsqRebY49clBkg9RgsgOcIW1XuwY+Vc7dWg13BaaZ9XO5DqJNMl6bSFwPeLyQ==, tarball: file:projects/communication-messages.tgz}
     name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
