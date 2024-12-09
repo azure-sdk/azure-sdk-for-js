@@ -18087,7 +18087,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-l2Wcfxom/e7/BgHLnHf6eHWy320/DwTLdVw0TiOWDbC3bJmXygyf3NMcR4rpyObEZP4pNsx6sT3g6u7iHVA1Dw==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-ckn5TGAom6PxWLVWUuvNq0Qx/Sd4PHPZbKKKBA1PnLLvPYS8fZfMrs9JZbDN7AaD4Jz6bZeXfe1WhJxDgvTUaQ==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -18104,6 +18104,7 @@ packages:
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
