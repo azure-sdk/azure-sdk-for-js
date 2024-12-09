@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./workspaces";
 export * from "./usages";
 export * from "./virtualMachineSizes";
 export * from "./quotas";
 export * from "./computeOperations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./workspaceConnections";
-export * from "./managedNetworkSettingsRule";
-export * from "./managedNetworkProvisions";
 export * from "./registryCodeContainers";
 export * from "./registryCodeVersions";
 export * from "./registryComponentContainers";
@@ -54,3 +47,10 @@ export * from "./schedules";
 export * from "./serverlessEndpoints";
 export * from "./registries";
 export * from "./workspaceFeatures";
+export * from "./operations";
+export * from "./workspaces";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./workspaceConnections";
+export * from "./managedNetworkSettingsRule";
+export * from "./managedNetworkProvisions";
