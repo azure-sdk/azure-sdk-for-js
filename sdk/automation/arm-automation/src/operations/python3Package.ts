@@ -8,35 +8,35 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { ConnectionOperations } from "../operationsInterfaces";
+import { Python3Package } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AutomationClient } from "../automationClient";
 import {
-  Connection,
-  ConnectionListByAutomationAccountNextOptionalParams,
-  ConnectionListByAutomationAccountOptionalParams,
-  ConnectionListByAutomationAccountResponse,
-  ConnectionDeleteOptionalParams,
-  ConnectionGetOptionalParams,
-  ConnectionGetResponse,
-  ConnectionCreateOrUpdateParameters,
-  ConnectionCreateOrUpdateOptionalParams,
-  ConnectionCreateOrUpdateResponse,
-  ConnectionUpdateParameters,
-  ConnectionUpdateOptionalParams,
-  ConnectionUpdateResponse,
-  ConnectionListByAutomationAccountNextResponse,
+  Module,
+  Python3PackageListByAutomationAccountNextOptionalParams,
+  Python3PackageListByAutomationAccountOptionalParams,
+  Python3PackageListByAutomationAccountResponse,
+  Python3PackageDeleteOptionalParams,
+  Python3PackageGetOptionalParams,
+  Python3PackageGetResponse,
+  PythonPackageCreateParameters,
+  Python3PackageCreateOrUpdateOptionalParams,
+  Python3PackageCreateOrUpdateResponse,
+  PythonPackageUpdateParameters,
+  Python3PackageUpdateOptionalParams,
+  Python3PackageUpdateResponse,
+  Python3PackageListByAutomationAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ConnectionOperations operations. */
-export class ConnectionOperationsImpl implements ConnectionOperations {
+/** Class containing Python3Package operations. */
+export class Python3PackageImpl implements Python3Package {
   private readonly client: AutomationClient;
 
   /**
-   * Initialize a new instance of the class ConnectionOperations class.
+   * Initialize a new instance of the class Python3Package class.
    * @param client Reference to the service client
    */
   constructor(client: AutomationClient) {
@@ -44,7 +44,7 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Retrieve a list of connections.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -52,8 +52,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): PagedAsyncIterableIterator<Connection> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): PagedAsyncIterableIterator<Module> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
@@ -83,10 +83,10 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
+    options?: Python3PackageListByAutomationAccountOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Connection[]> {
-    let result: ConnectionListByAutomationAccountResponse;
+  ): AsyncIterableIterator<Module[]> {
+    let result: Python3PackageListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByAutomationAccount(
@@ -116,8 +116,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): AsyncIterableIterator<Connection> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): AsyncIterableIterator<Module> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
@@ -128,63 +128,63 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Delete the connection.
+   * Delete the python 3 package by name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionName The name of connection.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     automationAccountName: string,
-    connectionName: string,
-    options?: ConnectionDeleteOptionalParams,
+    packageName: string,
+    options?: Python3PackageDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, connectionName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve the connection identified by connection name.
+   * Retrieve the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionName The name of connection.
+   * @param packageName The python package name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    connectionName: string,
-    options?: ConnectionGetOptionalParams,
-  ): Promise<ConnectionGetResponse> {
+    packageName: string,
+    options?: Python3PackageGetOptionalParams,
+  ): Promise<Python3PackageGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, automationAccountName, connectionName, options },
+      { resourceGroupName, automationAccountName, packageName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a connection.
+   * Create or Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionName The parameters supplied to the create or update connection operation.
-   * @param parameters The parameters supplied to the create or update connection operation.
+   * @param packageName The name of python package.
+   * @param parameters The create or update parameters for python package.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     automationAccountName: string,
-    connectionName: string,
-    parameters: ConnectionCreateOrUpdateParameters,
-    options?: ConnectionCreateOrUpdateOptionalParams,
-  ): Promise<ConnectionCreateOrUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageCreateParameters,
+    options?: Python3PackageCreateOrUpdateOptionalParams,
+  ): Promise<Python3PackageCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        connectionName,
+        packageName,
         parameters,
         options,
       },
@@ -193,25 +193,25 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Update a connection.
+   * Update the python 3 package identified by package name.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
-   * @param connectionName The parameters supplied to the update a connection operation.
-   * @param parameters The parameters supplied to the update a connection operation.
+   * @param packageName The name of python package.
+   * @param parameters The update parameters for python package.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     automationAccountName: string,
-    connectionName: string,
-    parameters: ConnectionUpdateParameters,
-    options?: ConnectionUpdateOptionalParams,
-  ): Promise<ConnectionUpdateResponse> {
+    packageName: string,
+    parameters: PythonPackageUpdateParameters,
+    options?: Python3PackageUpdateOptionalParams,
+  ): Promise<Python3PackageUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
-        connectionName,
+        packageName,
         parameters,
         options,
       },
@@ -220,7 +220,7 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   }
 
   /**
-   * Retrieve a list of connections.
+   * Retrieve a list of python 3 packages.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param options The options parameters.
@@ -228,8 +228,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams,
-  ): Promise<ConnectionListByAutomationAccountResponse> {
+    options?: Python3PackageListByAutomationAccountOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
       listByAutomationAccountOperationSpec,
@@ -248,8 +248,8 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: ConnectionListByAutomationAccountNextOptionalParams,
-  ): Promise<ConnectionListByAutomationAccountNextResponse> {
+    options?: Python3PackageListByAutomationAccountNextOptionalParams,
+  ): Promise<Python3PackageListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
       listByAutomationAccountNextOperationSpec,
@@ -260,7 +260,7 @@ export class ConnectionOperationsImpl implements ConnectionOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -275,17 +275,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Connection,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -297,68 +297,68 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Connection,
+      bodyMapper: Mappers.Module,
     },
     201: {
-      bodyMapper: Mappers.Connection,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections/{connectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages/{packageName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Connection,
+      bodyMapper: Mappers.Module,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
     Parameters.subscriptionId,
-    Parameters.connectionName,
+    Parameters.packageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/connections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/python3Packages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -379,7 +379,7 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionListResult,
+      bodyMapper: Mappers.ModuleListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

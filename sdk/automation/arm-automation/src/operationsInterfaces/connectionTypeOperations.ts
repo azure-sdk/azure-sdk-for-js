@@ -15,7 +15,7 @@ import {
   ConnectionTypeGetResponse,
   ConnectionTypeCreateOrUpdateParameters,
   ConnectionTypeCreateOrUpdateOptionalParams,
-  ConnectionTypeCreateOrUpdateResponse
+  ConnectionTypeCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ConnectionTypeOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionTypeListByAutomationAccountOptionalParams
+    options?: ConnectionTypeListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionType>;
   /**
    * Delete the connection type.
@@ -43,7 +43,7 @@ export interface ConnectionTypeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     connectionTypeName: string,
-    options?: ConnectionTypeDeleteOptionalParams
+    options?: ConnectionTypeDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the connection type identified by connection type name.
@@ -56,7 +56,7 @@ export interface ConnectionTypeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     connectionTypeName: string,
-    options?: ConnectionTypeGetOptionalParams
+    options?: ConnectionTypeGetOptionalParams,
   ): Promise<ConnectionTypeGetResponse>;
   /**
    * Create a connection type.
@@ -71,6 +71,6 @@ export interface ConnectionTypeOperations {
     automationAccountName: string,
     connectionTypeName: string,
     parameters: ConnectionTypeCreateOrUpdateParameters,
-    options?: ConnectionTypeCreateOrUpdateOptionalParams
+    options?: ConnectionTypeCreateOrUpdateOptionalParams,
   ): Promise<ConnectionTypeCreateOrUpdateResponse>;
 }
