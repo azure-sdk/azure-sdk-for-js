@@ -19,6 +19,9 @@ export {
   KnownOperationState,
   OperationState,
   ResourceOperationError,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   SubmitHibernateRequest,
   HibernateResourceOperationResponse,
   SubmitStartRequest,
@@ -40,16 +43,5 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models.js";
-export {
-  OperationsListOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-} from "./options.js";
