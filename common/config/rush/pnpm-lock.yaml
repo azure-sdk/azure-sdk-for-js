@@ -13276,7 +13276,7 @@ packages:
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-xAHnPXuiOMEaEA93S1o2AI4rbXcVhQWypOyC/AaWd/3XsE+lQ5P+eeI4xrhiEln0iDx5fvBo/Ta/SAk0vFCT6Q==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-3hSTYC8nJ2C/avdyE81n6TIMk7vxWIBLBMH1ugzDdQidjTQ/88CGM7tKgkOTqs/zd/YWRAZb0LIjnq3kXD1fVA==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
@@ -13286,9 +13286,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14027,7 +14029,7 @@ packages:
     dev: false
 
   file:projects/arm-databoundaries.tgz:
-    resolution: {integrity: sha512-wLUftGbWKL+TPyHmCr3+R57RJnDnmMiq39F/5jj9LT6+nkZC5dQqzi/6xQMjel0eO5Hb/gpJPrS0Bh4cVIzodw==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-PHBYljfQWTdrph/9//F4MuysABXbLDz7xMfUkwhEgfve0KvGvKzAK1sQOMa9l1rbFMtwS/4YwppgE6WOxbo/gg==, tarball: file:projects/arm-databoundaries.tgz}
     name: '@rush-temp/arm-databoundaries'
     version: 0.0.0
     dependencies:
@@ -14040,12 +14042,12 @@ packages:
       chai: 4.5.0
       dotenv: 16.4.7
       mkdirp: 3.0.1
-      mocha: 11.0.2
+      mocha: 10.8.2
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.5.4
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -14946,7 +14948,7 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-soUDcRTTSIxaFoxhHY+Br3eQbDoC32FoD0tRWcp4iEtMPx8xg1SR0WzTrUQjBrcA6T0hcUD/xifLdRI/f6PGrg==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-KnlzSaPbNVySEVau5Sguzbgpec3BZS5HYZ7SPnkFttn65TrqaWAkTZA00wZtrx+cMY8SDEOPg2g5aHxDx4hgeg==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -14956,9 +14958,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -15686,7 +15690,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-yy09FGeGBBKCMifaMklQr1ATSTBohwxDvzgkQTBHYN6d8gwL8xNoqs/XMoe7MgWmqCsM4HI144RdiV5fOd2Z8g==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-91kpyJpDt688iXdc998jCUgttsSXFwIjFcHjnpHo8EhPp80QubCC/gZMs0uckt/ToTZc6EUAGJkGAQ7UV7XwTA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -15696,9 +15700,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -15752,7 +15758,7 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-GMn+Vj8HH/zCkhGM4WCxx5haz4uaIIhdfZOL6d/+UKDKLLa14FczlyPmr3YGp/j8UZwoYh4kpDW89NX1lgpcHQ==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-ni9eaSkqLLMbsovNk1MI0sOkNEMU5LQBrzzmTJQ8wCKeKNkc+s1YgULrWY8FjP1dotTcK1kxF6jRKmk8cFZgew==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -15762,9 +15768,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -15889,7 +15897,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-DZ0QO9C7MJ9Ipe6oFSaCVWZfdsrAmpgjxetJckZAG7M2TE0ybKAIhz3toZd+RMI1Dz+sU7tzF4/fRMtRiZLL+Q==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-Y97txYCZToFruGOd6Puy/6Ubmn9Rv1SbIQ8b7RdAE26VqOPgaE3gQSsobhXig1+5neyG5OHi92bl2t4K0ZZA/Q==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -15902,9 +15910,10 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -16825,7 +16834,7 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-dnzae8wqMqBt9Noeke9GV/ZjFShAipdbFxvf/B77e498QBKvVhc77W0dPEJ71gvpn6hXrtJRaKfuuUijU7kXbA==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-On3nZscNhuTtC0n6uPYcCXSfiC+ZH1GN2aw2IGYILVcasYVCdFi6WSLWXbsA+JN9QCkuL56Qh8XPAZraeRVu/Q==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -16836,9 +16845,10 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -17442,7 +17452,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-eOV6/AQ6x+Duu7SU0VYAgE293uri9RmSKCQW0t6+ND0bQe+0hkhyKhqpYvYcA51K1t8F0RwHpe5L+a3MX0BQug==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-08PIgQoQH4C555L9/SxKEztDE26J009KsxvR7g7G46UnAZI8FjbEpMasNVB+0kkF1I3Z2LuI/ufKZgdCgQgPOA==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -17453,9 +17463,10 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -17464,7 +17475,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-Z5o8wSKtwptEh6C9wnr2XfNKWE9TVUqbbtrUzET8J9ZbA7hIdfGehg7oA/zobUBy6BTORv+AvxcWwMb3T4otUA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-pTlmBlhmkhj7zshzjhd5o9NqWuUYCvaZzV26t5SdrkmvRx/L+srzzXNgQFpKJ8iG8ftHpFT8c8RYFwz5ezzWLw==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -17477,9 +17488,10 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -17488,7 +17500,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcesdeploymentstacks.tgz:
-    resolution: {integrity: sha512-Z1tI4du1XM08k7N4w6B6lZfV2OUZRU/vRihoSoA8UtjwsAhrJUr/eEg7zoTqJROk/UsTV543WKudEs+E9Uybuw==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-x06oHvf1A5sJFyp8XDlsvLSq3q+EJEwTj4X12Swr5W78R8OTPAF+DDJOy4Jbqd1GIV8mQvD7heb+AopiMuAXaA==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
@@ -17501,7 +17513,7 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
@@ -18372,7 +18384,7 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-a9Z7C23xpdyQKGO5lC1Cq8z+jysc7Fz3aDnO/hqYfiWKKzk+SEJxyGTj/A+LKV1GF0ef+X3n/gZ/XpQBXadz1A==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-jjPkJBN0wa50T8WcgEdGscJ1ZUM5/ZwLkYQP5FBroRLMdV1HlMU6L7sTPKaaFsY9DXu8BWN2tFPK1oGvAyyGrA==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -18382,9 +18394,11 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -19748,7 +19762,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
