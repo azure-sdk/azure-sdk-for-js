@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import {
   SchemaGroupsOutput,
   SchemaVersionsOutput,
   SchemaContentTypeValuesOutput,
@@ -139,7 +139,8 @@ export interface GetSchemaPropertiesByContentDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetSchemaPropertiesByContentDefaultResponse extends HttpResponse {
+export interface GetSchemaPropertiesByContentDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetSchemaPropertiesByContentDefaultHeaders;
