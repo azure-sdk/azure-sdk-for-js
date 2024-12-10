@@ -15797,7 +15797,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-BoTVjtbcJi5mj0hcFrrcJDujK4MT1Ewcm9hHXb1yLpCUfC6haAUwPWEgv4aNMYl0ivclWNsVN4LJK0JXIhfy5w==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-zo37Rnwa/uC0Sd2geBhgbPuswY/hkLhXVK/PuwSXuW+hAI3jJ5AnQi9CKyv7Gv7kUXKhCSspIIL55quUv6dm+g==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
@@ -15810,7 +15810,7 @@ packages:
       '@types/node': 18.19.67
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
@@ -19748,7 +19748,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
