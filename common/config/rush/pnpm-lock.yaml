@@ -14477,7 +14477,7 @@ packages:
     dev: false
 
   file:projects/arm-devopsinfrastructure.tgz:
-    resolution: {integrity: sha512-26NUbY9nDuqLqDF06QZFrMoNdmuI3nmYfTx5FjpwRcMR+jJobCAbvrAD5AKLz8AM1cdbls6LoEXEEd9XmsgALA==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    resolution: {integrity: sha512-reg7kdJUR7DpVt8zsE/sm3nsy225szX22CQxMzRlpphrYFgqYDhuS3cm82l6uEupB/yivhbJfUnjS9rLAreUmA==, tarball: file:projects/arm-devopsinfrastructure.tgz}
     name: '@rush-temp/arm-devopsinfrastructure'
     version: 0.0.0
     dependencies:
@@ -14486,7 +14486,7 @@ packages:
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      eslint: 8.57.1
+      eslint: 9.16.0
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
@@ -14497,6 +14497,7 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss
@@ -19748,7 +19749,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:

@@ -21,8 +21,10 @@ export function getSubscriptionUsages(
   subscriptionId: string,
 ) {
   return {
-    usages: (location: string, options?: SubscriptionUsagesUsagesOptionalParams) =>
-      subscriptionUsagesUsages(context, subscriptionId, location, options),
+    usages: (
+      location: string,
+      options?: SubscriptionUsagesUsagesOptionalParams,
+    ) => subscriptionUsagesUsages(context, subscriptionId, location, options),
   };
 }
 
