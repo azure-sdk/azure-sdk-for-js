@@ -19748,7 +19748,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-mJ6yU1aJSHYVmT31VIT4SQSNzaMvqNi0IAWz+DHH2XZj+GTcVazXvt3x02xgQMraoXRuBuaEBiW5RfwqK99Jiw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -20327,13 +20327,15 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-J9WSaHbb572Gh+WpNvDx5NF+NAaY9HTSAOWuBNfzplXZG1h5e7wilvy86TqheypQqdxhsau7IhbsRHEOEeFAPA==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-7jFTJbW3CdhmxZPo9qWzx4GQIVnvzZFEJ+HxpDDq3IZ8ihEpuSSr+9tx/voOiRj1qllVJyiaJgv5zWRKFWtSkQ==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
