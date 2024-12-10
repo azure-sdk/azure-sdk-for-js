@@ -9,6 +9,7 @@ import {
   PoolsDeleteOptionalParams,
   PoolsListByResourceGroupOptionalParams,
   PoolsListBySubscriptionOptionalParams,
+  PoolsCheckNameAvailabilityOptionalParams,
 } from "../../api/options.js";
 import {
   poolsGet,
@@ -17,8 +18,14 @@ import {
   poolsDelete,
   poolsListByResourceGroup,
   poolsListBySubscription,
+  poolsCheckNameAvailability,
 } from "../../api/pools/index.js";
-import { Pool, PoolUpdate } from "../../models/models.js";
+import {
+  Pool,
+  PoolUpdate,
+  CheckNameAvailability,
+  CheckNameAvailabilityResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -59,11 +66,23 @@ export interface PoolsOperations {
   listBySubscription: (
     options?: PoolsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<Pool>;
+  /** Checks that the pool name is valid and is not already in use. */
+  checkNameAvailability: (
+    body: CheckNameAvailability,
+    options?: PoolsCheckNameAvailabilityOptionalParams,
+  ) => Promise<CheckNameAvailabilityResult>;
 }
 
-export function getPools(context: DevOpsInfrastructureContext, subscriptionId: string) {
+export function getPools(
+  context: DevOpsInfrastructureContext,
+  subscriptionId: string,
+) {
   return {
-    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) =>
+    get: (
+      resourceGroupName: string,
+      poolName: string,
+      options?: PoolsGetOptionalParams,
+    ) =>
       poolsGet(context, subscriptionId, resourceGroupName, poolName, options),
     createOrUpdate: (
       resourceGroupName: string,
@@ -71,21 +90,56 @@ export function getPools(context: DevOpsInfrastructureContext, subscriptionId: s
       resource: Pool,
       options?: PoolsCreateOrUpdateOptionalParams,
     ) =>
-      poolsCreateOrUpdate(context, subscriptionId, resourceGroupName, poolName, resource, options),
+      poolsCreateOrUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        resource,
+        options,
+      ),
     update: (
       resourceGroupName: string,
       poolName: string,
       properties: PoolUpdate,
       options?: PoolsUpdateOptionalParams,
-    ) => poolsUpdate(context, subscriptionId, resourceGroupName, poolName, properties, options),
-    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) =>
-      poolsDelete(context, subscriptionId, resourceGroupName, poolName, options),
+    ) =>
+      poolsUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        properties,
+        options,
+      ),
+    delete: (
+      resourceGroupName: string,
+      poolName: string,
+      options?: PoolsDeleteOptionalParams,
+    ) =>
+      poolsDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        poolName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PoolsListByResourceGroupOptionalParams,
-    ) => poolsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      poolsListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) =>
       poolsListBySubscription(context, subscriptionId, options),
+    checkNameAvailability: (
+      body: CheckNameAvailability,
+      options?: PoolsCheckNameAvailabilityOptionalParams,
+    ) => poolsCheckNameAvailability(context, subscriptionId, body, options),
   };
 }
 

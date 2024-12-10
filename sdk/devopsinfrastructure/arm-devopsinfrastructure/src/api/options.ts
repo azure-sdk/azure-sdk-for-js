@@ -28,19 +28,28 @@ export interface PoolsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PoolsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface PoolsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PoolsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface PoolsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ResourceDetailsListByPoolOptionalParams extends OperationOptions {}
+export interface PoolsCheckNameAvailabilityOptionalParams
+  extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ResourceDetailsListByPoolOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SkuListByLocationOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SubscriptionUsagesUsagesOptionalParams extends OperationOptions {}
+export interface SubscriptionUsagesUsagesOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ImageVersionsListByImageOptionalParams extends OperationOptions {}
+export interface ImageVersionsListByImageOptionalParams
+  extends OperationOptions {}

@@ -24,6 +24,9 @@ export interface AutomaticResourcePredictionsProfile extends ResourcePredictions
 }
 
 // @public
+export type AvailabilityStatus = string;
+
+// @public
 export interface AzureDevOpsOrganizationProfile extends OrganizationProfile {
     kind: "AzureDevOps";
     organizations: Organization[];
@@ -44,6 +47,23 @@ export type AzureDevOpsPermissionType = string;
 export type CachingType = string;
 
 // @public
+export interface CheckNameAvailability {
+    name: string;
+    type: DevOpsInfrastructureResourceType;
+}
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityResult {
+    available: AvailabilityStatus;
+    message: string;
+    name: string;
+    reason: CheckNameAvailabilityReason;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -57,6 +77,29 @@ export interface DataDisk {
 // @public
 export interface DevOpsAzureSku {
     name: string;
+}
+
+// @public
+export type DevOpsInfrastructureResourceType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -95,6 +138,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAvailabilityStatus {
+    Available = "Available",
+    Unavailable = "Unavailable"
+}
+
+// @public
 export enum KnownAzureDevOpsPermissionType {
     CreatorOnly = "CreatorOnly",
     Inherit = "Inherit",
@@ -109,11 +158,22 @@ export enum KnownCachingType {
 }
 
 // @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDevOpsInfrastructureResourceType {
+    "Microsoft.DevOpsInfrastructure/pools" = "Microsoft.DevOpsInfrastructure/pools"
 }
 
 // @public
@@ -124,17 +184,17 @@ export enum KnownLogonType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -208,7 +268,7 @@ export enum KnownStorageAccountType {
 
 // @public
 export enum KnownVersions {
-    "V2024-10-19" = "2024-10-19"
+    "2024-10-19" = "2024-10-19"
 }
 
 // @public

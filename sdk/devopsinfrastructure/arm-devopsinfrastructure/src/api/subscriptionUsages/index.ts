@@ -5,7 +5,11 @@ import {
   DevOpsInfrastructureContext as Client,
   SubscriptionUsagesUsagesOptionalParams,
 } from "../index.js";
-import { _PagedQuota, _pagedQuotaDeserializer, Quota } from "../../models/models.js";
+import {
+  _PagedQuota,
+  _pagedQuotaDeserializer,
+  Quota,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
@@ -52,7 +56,8 @@ export function subscriptionUsagesUsages(
 ): PagedAsyncIterableIterator<Quota> {
   return buildPagedAsyncIterator(
     context,
-    () => _subscriptionUsagesUsagesSend(context, subscriptionId, location, options),
+    () =>
+      _subscriptionUsagesUsagesSend(context, subscriptionId, location, options),
     _subscriptionUsagesUsagesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

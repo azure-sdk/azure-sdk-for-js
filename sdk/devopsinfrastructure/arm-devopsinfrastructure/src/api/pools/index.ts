@@ -3,6 +3,7 @@
 
 import {
   DevOpsInfrastructureContext as Client,
+  PoolsCheckNameAvailabilityOptionalParams,
   PoolsCreateOrUpdateOptionalParams,
   PoolsDeleteOptionalParams,
   PoolsGetOptionalParams,
@@ -18,12 +19,16 @@ import {
   poolUpdateSerializer,
   _PoolListResult,
   _poolListResultDeserializer,
+  CheckNameAvailability,
+  checkNameAvailabilitySerializer,
+  CheckNameAvailabilityResult,
+  checkNameAvailabilityResultDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -49,7 +54,9 @@ export function _poolsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _poolsGetDeserialize(result: PathUncheckedResponse): Promise<Pool> {
+export async function _poolsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Pool> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -66,7 +73,13 @@ export async function poolsGet(
   poolName: string,
   options: PoolsGetOptionalParams = { requestOptions: {} },
 ): Promise<Pool> {
-  const result = await _poolsGetSend(context, subscriptionId, resourceGroupName, poolName, options);
+  const result = await _poolsGetSend(
+    context,
+    subscriptionId,
+    resourceGroupName,
+    poolName,
+    options,
+  );
   return _poolsGetDeserialize(result);
 }
 
@@ -111,20 +124,25 @@ export function poolsCreateOrUpdate(
   resource: Pool,
   options: PoolsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Pool>, Pool> {
-  return getLongRunningPoller(context, _poolsCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _poolsCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        poolName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Pool>, Pool>;
+  return getLongRunningPoller(
+    context,
+    _poolsCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _poolsCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          poolName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Pool>, Pool>;
 }
 
 export function _poolsUpdateSend(
@@ -148,7 +166,9 @@ export function _poolsUpdateSend(
     });
 }
 
-export async function _poolsUpdateDeserialize(result: PathUncheckedResponse): Promise<Pool> {
+export async function _poolsUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Pool> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -166,13 +186,25 @@ export function poolsUpdate(
   properties: PoolUpdate,
   options: PoolsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Pool>, Pool> {
-  return getLongRunningPoller(context, _poolsUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _poolsUpdateSend(context, subscriptionId, resourceGroupName, poolName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Pool>, Pool>;
+  return getLongRunningPoller(
+    context,
+    _poolsUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _poolsUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          poolName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Pool>, Pool>;
 }
 
 export function _poolsDeleteSend(
@@ -192,7 +224,9 @@ export function _poolsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _poolsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _poolsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -209,13 +243,24 @@ export function poolsDelete(
   poolName: string,
   options: PoolsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _poolsDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _poolsDeleteSend(context, subscriptionId, resourceGroupName, poolName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _poolsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _poolsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          poolName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _poolsListByResourceGroupSend(
@@ -253,7 +298,13 @@ export function poolsListByResourceGroup(
 ): PagedAsyncIterableIterator<Pool> {
   return buildPagedAsyncIterator(
     context,
-    () => _poolsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _poolsListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _poolsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -297,4 +348,48 @@ export function poolsListBySubscription(
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
+}
+
+export function _poolsCheckNameAvailabilitySend(
+  context: Client,
+  subscriptionId: string,
+  body: CheckNameAvailability,
+  options: PoolsCheckNameAvailabilityOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/checkNameAvailability",
+      subscriptionId,
+    )
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: checkNameAvailabilitySerializer(body),
+    });
+}
+
+export async function _poolsCheckNameAvailabilityDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CheckNameAvailabilityResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return checkNameAvailabilityResultDeserializer(result.body);
+}
+
+/** Checks that the pool name is valid and is not already in use. */
+export async function poolsCheckNameAvailability(
+  context: Client,
+  subscriptionId: string,
+  body: CheckNameAvailability,
+  options: PoolsCheckNameAvailabilityOptionalParams = { requestOptions: {} },
+): Promise<CheckNameAvailabilityResult> {
+  const result = await _poolsCheckNameAvailabilitySend(
+    context,
+    subscriptionId,
+    body,
+    options,
+  );
+  return _poolsCheckNameAvailabilityDeserialize(result);
 }

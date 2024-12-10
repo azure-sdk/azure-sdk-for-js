@@ -60,7 +60,13 @@ export function imageVersionsListByImage(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _imageVersionsListByImageSend(context, subscriptionId, resourceGroupName, imageName, options),
+      _imageVersionsListByImageSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        imageName,
+        options,
+      ),
     _imageVersionsListByImageDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
