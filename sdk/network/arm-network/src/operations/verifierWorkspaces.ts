@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SecurityUserConfigurations } from "../operationsInterfaces";
+import { VerifierWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -20,27 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  SecurityUserConfiguration,
-  SecurityUserConfigurationsListNextOptionalParams,
-  SecurityUserConfigurationsListOptionalParams,
-  SecurityUserConfigurationsListResponse,
-  SecurityUserConfigurationsGetOptionalParams,
-  SecurityUserConfigurationsGetResponse,
-  SecurityUserConfigurationsCreateOrUpdateOptionalParams,
-  SecurityUserConfigurationsCreateOrUpdateResponse,
-  SecurityUserConfigurationsDeleteOptionalParams,
-  SecurityUserConfigurationsListNextResponse,
+  VerifierWorkspace,
+  VerifierWorkspacesListNextOptionalParams,
+  VerifierWorkspacesListOptionalParams,
+  VerifierWorkspacesListResponse,
+  VerifierWorkspacesGetOptionalParams,
+  VerifierWorkspacesGetResponse,
+  VerifierWorkspacesCreateOptionalParams,
+  VerifierWorkspacesCreateResponse,
+  VerifierWorkspacesUpdateOptionalParams,
+  VerifierWorkspacesUpdateResponse,
+  VerifierWorkspacesDeleteOptionalParams,
+  VerifierWorkspacesDeleteResponse,
+  VerifierWorkspacesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SecurityUserConfigurations operations. */
-export class SecurityUserConfigurationsImpl
-  implements SecurityUserConfigurations
-{
+/** Class containing VerifierWorkspaces operations. */
+export class VerifierWorkspacesImpl implements VerifierWorkspaces {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class SecurityUserConfigurations class.
+   * Initialize a new instance of the class VerifierWorkspaces class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -48,17 +49,16 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Lists all the network manager security user configurations in a network manager, in a paginated
-   * format.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Verifier Workspaces.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<SecurityUserConfiguration> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): PagedAsyncIterableIterator<VerifierWorkspace> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
@@ -88,10 +88,10 @@ export class SecurityUserConfigurationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
+    options?: VerifierWorkspacesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SecurityUserConfiguration[]> {
-    let result: SecurityUserConfigurationsListResponse;
+  ): AsyncIterableIterator<VerifierWorkspace[]> {
+    let result: VerifierWorkspacesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, networkManagerName, options);
@@ -117,8 +117,8 @@ export class SecurityUserConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): AsyncIterableIterator<SecurityUserConfiguration> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): AsyncIterableIterator<VerifierWorkspace> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
@@ -129,17 +129,16 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Lists all the network manager security user configurations in a network manager, in a paginated
-   * format.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets list of Verifier Workspaces.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: SecurityUserConfigurationsListOptionalParams,
-  ): Promise<SecurityUserConfigurationsListResponse> {
+    options?: VerifierWorkspacesListOptionalParams,
+  ): Promise<VerifierWorkspacesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, options },
       listOperationSpec,
@@ -147,68 +146,86 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Retrieves a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Gets Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsGetOptionalParams,
-  ): Promise<SecurityUserConfigurationsGetResponse> {
+    workspaceName: string,
+    options?: VerifierWorkspacesGetOptionalParams,
+  ): Promise<VerifierWorkspacesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, networkManagerName, configurationName, options },
+      { resourceGroupName, networkManagerName, workspaceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Creates Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
-   * @param securityUserConfiguration The security user configuration to create or update
+   * @param workspaceName Workspace name.
+   * @param body Verifier Workspace object to create/update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  create(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    securityUserConfiguration: SecurityUserConfiguration,
-    options?: SecurityUserConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<SecurityUserConfigurationsCreateOrUpdateResponse> {
+    workspaceName: string,
+    body: VerifierWorkspace,
+    options?: VerifierWorkspacesCreateOptionalParams,
+  ): Promise<VerifierWorkspacesCreateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        securityUserConfiguration,
-        options,
-      },
-      createOrUpdateOperationSpec,
+      { resourceGroupName, networkManagerName, workspaceName, body, options },
+      createOperationSpec,
     );
   }
 
   /**
-   * Deletes a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Updates Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param workspaceName Workspace name.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    networkManagerName: string,
+    workspaceName: string,
+    options?: VerifierWorkspacesUpdateOptionalParams,
+  ): Promise<VerifierWorkspacesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, networkManagerName, workspaceName, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkManagerName The name of the network manager.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    workspaceName: string,
+    options?: VerifierWorkspacesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VerifierWorkspacesDeleteResponse>,
+      VerifierWorkspacesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<VerifierWorkspacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -245,15 +262,13 @@ export class SecurityUserConfigurationsImpl
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkManagerName,
-        configurationName,
-        options,
-      },
+      args: { resourceGroupName, networkManagerName, workspaceName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      VerifierWorkspacesDeleteResponse,
+      OperationState<VerifierWorkspacesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -263,22 +278,22 @@ export class SecurityUserConfigurationsImpl
   }
 
   /**
-   * Deletes a network manager security user configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * Deletes Verifier Workspace.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
-   * @param configurationName The name of the network manager Security Configuration.
+   * @param workspaceName Workspace name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     networkManagerName: string,
-    configurationName: string,
-    options?: SecurityUserConfigurationsDeleteOptionalParams,
-  ): Promise<void> {
+    workspaceName: string,
+    options?: VerifierWorkspacesDeleteOptionalParams,
+  ): Promise<VerifierWorkspacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
-      configurationName,
+      workspaceName,
       options,
     );
     return poller.pollUntilDone();
@@ -286,7 +301,7 @@ export class SecurityUserConfigurationsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param networkManagerName The name of the network manager.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -295,8 +310,8 @@ export class SecurityUserConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     nextLink: string,
-    options?: SecurityUserConfigurationsListNextOptionalParams,
-  ): Promise<SecurityUserConfigurationsListNextResponse> {
+    options?: VerifierWorkspacesListNextOptionalParams,
+  ): Promise<VerifierWorkspacesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, nextLink, options },
       listNextOperationSpec,
@@ -307,98 +322,133 @@ export class SecurityUserConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfigurationListResult,
+      bodyMapper: Mappers.VerifierWorkspaceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
+    Parameters.skipToken,
+    Parameters.skip,
+    Parameters.top1,
+    Parameters.sortKey,
+    Parameters.sortValue,
   ],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
+    Parameters.networkManagerName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     201: {
-      bodyMapper: Mappers.SecurityUserConfiguration,
+      bodyMapper: Mappers.VerifierWorkspace,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.securityUserConfiguration,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VerifierWorkspace,
+    },
+    default: {
+      bodyMapper: Mappers.CommonErrorResponse,
+    },
+  },
+  requestBody: Parameters.body6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityUserConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/verifierWorkspaces/{workspaceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VerifierWorkspacesDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
-    Parameters.configurationName1,
+    Parameters.networkManagerName1,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -408,18 +458,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityUserConfigurationListResult,
+      bodyMapper: Mappers.VerifierWorkspaceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
-    Parameters.networkManagerName2,
+    Parameters.networkManagerName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
