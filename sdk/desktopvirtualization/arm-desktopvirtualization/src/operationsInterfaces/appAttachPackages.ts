@@ -9,20 +9,28 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AppAttachPackage,
-  AppAttachPackageListByResourceGroupOptionalParams,
-  AppAttachPackageListBySubscriptionOptionalParams,
-  AppAttachPackageGetOptionalParams,
-  AppAttachPackageGetResponse,
-  AppAttachPackageCreateOrUpdateOptionalParams,
-  AppAttachPackageCreateOrUpdateResponse,
-  AppAttachPackageDeleteOptionalParams,
-  AppAttachPackageUpdateOptionalParams,
-  AppAttachPackageUpdateResponse,
+  AppAttachPackagesListBySubscriptionOptionalParams,
+  AppAttachPackagesListByResourceGroupOptionalParams,
+  AppAttachPackagesGetOptionalParams,
+  AppAttachPackagesGetResponse,
+  AppAttachPackagesCreateOrUpdateOptionalParams,
+  AppAttachPackagesCreateOrUpdateResponse,
+  AppAttachPackagePatch,
+  AppAttachPackagesUpdateOptionalParams,
+  AppAttachPackagesUpdateResponse,
+  AppAttachPackagesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AppAttachPackageOperations. */
-export interface AppAttachPackageOperations {
+/** Interface representing a AppAttachPackages. */
+export interface AppAttachPackages {
+  /**
+   * List App Attach packages in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: AppAttachPackagesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage>;
   /**
    * List App Attach packages in resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -30,14 +38,7 @@ export interface AppAttachPackageOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AppAttachPackageListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<AppAttachPackage>;
-  /**
-   * List App Attach packages in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: AppAttachPackageListBySubscriptionOptionalParams,
+    options?: AppAttachPackagesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AppAttachPackage>;
   /**
    * Get an app attach package.
@@ -48,21 +49,34 @@ export interface AppAttachPackageOperations {
   get(
     resourceGroupName: string,
     appAttachPackageName: string,
-    options?: AppAttachPackageGetOptionalParams,
-  ): Promise<AppAttachPackageGetResponse>;
+    options?: AppAttachPackagesGetOptionalParams,
+  ): Promise<AppAttachPackagesGetResponse>;
   /**
    * Create or update an App Attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param appAttachPackageName The name of the App Attach package
-   * @param appAttachPackage Object containing App Attach Package definitions.
+   * @param resource Object containing App Attach Package definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     appAttachPackageName: string,
-    appAttachPackage: AppAttachPackage,
-    options?: AppAttachPackageCreateOrUpdateOptionalParams,
-  ): Promise<AppAttachPackageCreateOrUpdateResponse>;
+    resource: AppAttachPackage,
+    options?: AppAttachPackagesCreateOrUpdateOptionalParams,
+  ): Promise<AppAttachPackagesCreateOrUpdateResponse>;
+  /**
+   * Update an App Attach Package
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appAttachPackageName The name of the App Attach package
+   * @param properties Object containing App Attach Package definition.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    appAttachPackageName: string,
+    properties: AppAttachPackagePatch,
+    options?: AppAttachPackagesUpdateOptionalParams,
+  ): Promise<AppAttachPackagesUpdateResponse>;
   /**
    * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -72,17 +86,6 @@ export interface AppAttachPackageOperations {
   delete(
     resourceGroupName: string,
     appAttachPackageName: string,
-    options?: AppAttachPackageDeleteOptionalParams,
+    options?: AppAttachPackagesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an App Attach Package
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    appAttachPackageName: string,
-    options?: AppAttachPackageUpdateOptionalParams,
-  ): Promise<AppAttachPackageUpdateResponse>;
 }
