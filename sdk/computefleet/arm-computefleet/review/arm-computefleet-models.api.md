@@ -151,6 +151,26 @@ export interface EncryptionIdentity {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export type EvictionPolicy = string;
 
 // @public
@@ -343,9 +363,9 @@ export enum KnownLocalStorageDiskType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -357,7 +377,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    V20201101 = "2020-11-01"
+    v2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -384,9 +404,9 @@ export enum KnownOperatingSystemTypes {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -452,13 +472,18 @@ export enum KnownSpotAllocationStrategy {
 
 // @public
 export enum KnownStorageAccountTypes {
-    PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
-    PremiumZRS = "Premium_ZRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS",
-    UltraSSDLRS = "UltraSSD_LRS"
+    Premium_LRS = "Premium_LRS",
+    Premium_ZRS = "Premium_ZRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
+    Standard_LRS = "Standard_LRS",
+    StandardSSD_LRS = "StandardSSD_LRS",
+    StandardSSD_ZRS = "StandardSSD_ZRS",
+    UltraSSD_LRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_11_01 = "2024-11-01"
 }
 
 // @public
