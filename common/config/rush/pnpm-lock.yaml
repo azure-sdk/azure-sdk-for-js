@@ -12881,7 +12881,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-SoJVn7fzwPdktgviquaucBfzq6I/i8xLrmqeFrlGn9GDc4JGL+qi1mUKfbTq5VlT7ZoLOkfak1RZNj4BvyntZw==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-loIPSXkRzym+mtDiiDYRooK8FbGRV9I0NxOav4VAaJ3P5/4UsvmEmJfzG7r3L+CtS4rQC8lU0VHa2SQeHbNXSg==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
@@ -12894,7 +12894,7 @@ packages:
       '@types/node': 18.19.67
       chai: 4.3.10
       dotenv: 16.4.5
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
