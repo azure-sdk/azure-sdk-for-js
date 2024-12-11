@@ -23,9 +23,9 @@ export interface KeyProperties {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -184,9 +184,9 @@ export interface ManagedHsmKeyProperties {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -533,7 +533,7 @@ export interface VaultPatchProperties {
   enablePurgeProtection?: boolean;
   /** A collection of rules governing the accessibility of the vault from specific network locations. */
   networkAcls?: NetworkRuleSet;
-  /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. */
+  /** Property to specify whether the vault will accept traffic from public internet. If set to 'disabled' all traffic except private endpoint traffic and that that originates from trusted services will be blocked. This will override the set firewall rules, meaning that even if the firewall rules are present we will not honor the rules. If set to 'SecuredByPerimeter' then only network security perimeter rules will apply; trusted services will not be allowed through. */
   publicNetworkAccess?: string;
 }
 
@@ -687,6 +687,181 @@ export interface PrivateEndpointConnectionListResult {
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
+}
+
+/** Result of a list NSP (network security perimeter) configurations request. */
+export interface NetworkSecurityPerimeterConfigurationListResult {
+  /** Array of network security perimeter results. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The link used to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /**
+   * Provisioning state of a network security perimeter configuration that is being created or updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /**
+   * List of provisioning issues, if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about a network security perimeter (NSP) */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about resource association */
+  resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
+  profile?: NetworkSecurityProfile;
+}
+
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /**
+   * Name of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /**
+   * Type of issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueType?: IssueType;
+  /**
+   * Severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * Description of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedResourceIds?: string[];
+  /**
+   * Access rules that can be added to the network security profile (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
+  name?: string;
+  /** Properties of Access Rule */
+  properties?: AccessRuleProperties;
+}
+
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
+}
+
+/** Subscription identifiers */
+export interface AccessRulePropertiesSubscriptionsItem {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
+  id?: string;
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
+  perimeterGuid?: string;
+  /** Location of the network security perimeter */
+  location?: string;
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemDataAutoGenerated;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemDataAutoGenerated {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Properties of the managed HSM Pool */
@@ -1213,9 +1388,9 @@ export interface Key extends Resource {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -1274,9 +1449,9 @@ export interface ManagedHsmKey extends ProxyResourceWithoutSystemData {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -1293,6 +1468,9 @@ export interface ManagedHsmKey extends ProxyResourceWithoutSystemData {
   /** Key release policy in response. It will be used for both output and input. Omitted if empty */
   releasePolicy?: ManagedHsmKeyReleasePolicy;
 }
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends ResourceAutoGenerated {}
 
 /** Resource information with extended details. */
 export interface ManagedHsm extends ManagedHsmResource {
@@ -1330,6 +1508,12 @@ export interface MhsmPrivateLinkResource extends ManagedHsmResource {
 
 /** The secret management attributes. */
 export interface SecretAttributes extends Attributes {}
+
+/** Network security perimeter (NSP) configuration resource */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
 
 /** Defines headers for PrivateEndpointConnections_put operation. */
 export interface PrivateEndpointConnectionsPutHeaders {
@@ -1394,7 +1578,7 @@ export enum KnownDeletionRecoveryLevel {
   /** Recoverable */
   Recoverable = "Recoverable",
   /** RecoverableProtectedSubscription */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription"
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
 }
 
 /**
@@ -1418,7 +1602,7 @@ export enum KnownJsonWebKeyType {
   /** RSA */
   RSA = "RSA",
   /** RSAHSM */
-  RSAHSM = "RSA-HSM"
+  RSAHSM = "RSA-HSM",
 }
 
 /**
@@ -1450,7 +1634,7 @@ export enum KnownJsonWebKeyOperation {
   /** Import */
   Import = "import",
   /** Release */
-  Release = "release"
+  Release = "release",
 }
 
 /**
@@ -1478,7 +1662,7 @@ export enum KnownJsonWebKeyCurveName {
   /** P521 */
   P521 = "P-521",
   /** P256K */
-  P256K = "P-256K"
+  P256K = "P-256K",
 }
 
 /**
@@ -1496,7 +1680,7 @@ export type JsonWebKeyCurveName = string;
 /** Known values of {@link SkuFamily} that the service accepts. */
 export enum KnownSkuFamily {
   /** A */
-  A = "A"
+  A = "A",
 }
 
 /**
@@ -1551,7 +1735,7 @@ export enum KnownKeyPermissions {
   /** Getrotationpolicy */
   Getrotationpolicy = "getrotationpolicy",
   /** Setrotationpolicy */
-  Setrotationpolicy = "setrotationpolicy"
+  Setrotationpolicy = "setrotationpolicy",
 }
 
 /**
@@ -1602,7 +1786,7 @@ export enum KnownSecretPermissions {
   /** Recover */
   Recover = "recover",
   /** Purge */
-  Purge = "purge"
+  Purge = "purge",
 }
 
 /**
@@ -1657,7 +1841,7 @@ export enum KnownCertificatePermissions {
   /** Backup */
   Backup = "backup",
   /** Restore */
-  Restore = "restore"
+  Restore = "restore",
 }
 
 /**
@@ -1716,7 +1900,7 @@ export enum KnownStoragePermissions {
   /** Getsas */
   Getsas = "getsas",
   /** Deletesas */
-  Deletesas = "deletesas"
+  Deletesas = "deletesas",
 }
 
 /**
@@ -1747,7 +1931,7 @@ export enum KnownNetworkRuleBypassOptions {
   /** AzureServices */
   AzureServices = "AzureServices",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1765,7 +1949,7 @@ export enum KnownNetworkRuleAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1783,7 +1967,7 @@ export enum KnownVaultProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** RegisteringDns */
-  RegisteringDns = "RegisteringDns"
+  RegisteringDns = "RegisteringDns",
 }
 
 /**
@@ -1805,7 +1989,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1823,7 +2007,7 @@ export type PrivateEndpointServiceConnectionStatus = string;
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1848,7 +2032,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1874,7 +2058,7 @@ export enum KnownIdentityType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1888,6 +2072,144 @@ export enum KnownIdentityType {
  * **Key**
  */
 export type IdentityType = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+/** Known values of {@link AccessRuleDirection} that the service accepts. */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for AccessRuleDirection. \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+/** Known values of {@link ResourceAssociationAccessMode} that the service accepts. */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Defines values for ResourceAssociationAccessMode. \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -1906,7 +2228,7 @@ export enum KnownProvisioningState {
   /** The managed HSM pool is waiting for a security domain restore action. */
   SecurityDomainRestore = "SecurityDomainRestore",
   /** The managed HSM pool is being restored from full HSM backup. */
-  Restoring = "Restoring"
+  Restoring = "Restoring",
 }
 
 /**
@@ -1938,7 +2260,7 @@ export enum KnownGeoReplicationRegionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Cleanup */
-  Cleanup = "Cleanup"
+  Cleanup = "Cleanup",
 }
 
 /**
@@ -1960,7 +2282,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1982,7 +2304,7 @@ export enum KnownActivationStatus {
   /** An unknown error occurred while activating managed hsm. */
   Unknown = "Unknown",
   /** Failed to activate managed hsm. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -2000,7 +2322,9 @@ export type ActivationStatus = string;
 /** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
 export enum KnownManagedHsmSkuFamily {
   /** B */
-  B = "B"
+  B = "B",
+  /** C */
+  C = "C",
 }
 
 /**
@@ -2008,7 +2332,8 @@ export enum KnownManagedHsmSkuFamily {
  * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **B**
+ * **B** \
+ * **C**
  */
 export type ManagedHsmSkuFamily = string;
 
@@ -2021,7 +2346,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -2046,7 +2371,12 @@ export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 /** Defines values for Reason. */
 export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for ManagedHsmSkuName. */
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6";
+export type ManagedHsmSkuName =
+  | "Standard_B1"
+  | "Custom_B32"
+  | "Custom_B6"
+  | "Custom_C42"
+  | "Custom_C10";
 
 /** Optional parameters. */
 export interface KeysCreateIfNotExistOptionalParams
@@ -2279,8 +2609,8 @@ export interface PrivateEndpointConnectionsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPutHeaders &
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsPutResponse =
+  PrivateEndpointConnectionsPutHeaders & PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -2292,28 +2622,48 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByVaultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVault operation. */
-export type PrivateLinkResourcesListByVaultResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByVaultResponse =
+  PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterListConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listConfiguration operation. */
+export type NetworkSecurityPerimeterListConfigurationResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterGetConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getConfiguration operation. */
+export type NetworkSecurityPerimeterGetConfigurationResponse =
+  NetworkSecurityPerimeterConfiguration;
 
 /** Optional parameters. */
 export interface ManagedHsmsCreateOrUpdateOptionalParams
@@ -2406,7 +2756,8 @@ export interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMhsmNameAvailability operation. */
-export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabilityResult;
+export type ManagedHsmsCheckMhsmNameAvailabilityResponse =
+  CheckMhsmNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsListByResourceGroupNextOptionalParams
@@ -2434,22 +2785,24 @@ export interface MhsmPrivateEndpointConnectionsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type MhsmPrivateEndpointConnectionsListByResourceResponse = MhsmPrivateEndpointConnectionsListResult;
+export type MhsmPrivateEndpointConnectionsListByResourceResponse =
+  MhsmPrivateEndpointConnectionsListResult;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MhsmPrivateEndpointConnectionsGetResponse = MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsGetResponse =
+  MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type MhsmPrivateEndpointConnectionsPutResponse = MhsmPrivateEndpointConnectionsPutHeaders &
-  MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsPutResponse =
+  MhsmPrivateEndpointConnectionsPutHeaders & MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
@@ -2461,21 +2814,24 @@ export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type MhsmPrivateEndpointConnectionsDeleteResponse = MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsDeleteResponse =
+  MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type MhsmPrivateEndpointConnectionsListByResourceNextResponse = MhsmPrivateEndpointConnectionsListResult;
+export type MhsmPrivateEndpointConnectionsListByResourceNextResponse =
+  MhsmPrivateEndpointConnectionsListResult;
 
 /** Optional parameters. */
 export interface MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByMhsmResource operation. */
-export type MhsmPrivateLinkResourcesListByMhsmResourceResponse = MhsmPrivateLinkResourceListResult;
+export type MhsmPrivateLinkResourcesListByMhsmResourceResponse =
+  MhsmPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface MhsmRegionsListByResourceOptionalParams

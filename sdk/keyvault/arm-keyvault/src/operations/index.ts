@@ -11,6 +11,7 @@ export * from "./managedHsmKeys";
 export * from "./vaults";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
+export * from "./networkSecurityPerimeterOperations";
 export * from "./managedHsms";
 export * from "./mhsmPrivateEndpointConnections";
 export * from "./mhsmPrivateLinkResources";
