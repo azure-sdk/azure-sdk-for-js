@@ -15842,7 +15842,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtesting.tgz:
-    resolution: {integrity: sha512-/sE8n6gEBRDa6YOXrAHAeK6yGL5Q8LR82DkKgywKk3cj2sdXOQyhN/JTBpr3rtCeKodddiqlDSbSG7UaEe8Zow==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-+jaQZwTTsdezANOCnPqpES30nCQm7z9DzncgDLyYA7F6M5l/48EpgPGnZDRFMc9y1gXrO8ZvQxQE4LQbj9xSDw==, tarball: file:projects/arm-loadtesting.tgz}
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
@@ -15854,9 +15854,10 @@ packages:
       '@types/node': 18.19.67
       chai: 4.3.10
       dotenv: 16.4.5
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
