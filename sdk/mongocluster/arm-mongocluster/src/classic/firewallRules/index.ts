@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
-import { FirewallRule } from "../../models/models.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
   firewallRulesGet,
   firewallRulesCreateOrUpdate,
   firewallRulesDelete,
   firewallRulesListByMongoCluster,
 } from "../../api/firewallRules/index.js";
+import { FirewallRule } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesListByMongoClusterOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
@@ -50,7 +50,10 @@ export interface FirewallRulesOperations {
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
-export function getFirewallRules(context: DocumentDBContext, subscriptionId: string) {
+export function getFirewallRules(
+  context: MongoClusterManagementContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -112,7 +115,7 @@ export function getFirewallRules(context: DocumentDBContext, subscriptionId: str
 }
 
 export function getFirewallRulesOperations(
-  context: DocumentDBContext,
+  context: MongoClusterManagementContext,
   subscriptionId: string,
 ): FirewallRulesOperations {
   return {
