@@ -14,9 +14,6 @@ import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AccessTokenMethod = string;
-
-// @public
 export type ActionType = string;
 
 // @public
@@ -25,9 +22,6 @@ export interface AdvancedSettings {
     encryptInternalTraffic?: OperationalMode;
     internalCerts?: CertManagerCertOptions;
 }
-
-// @public
-export type AnonymousMethod = string;
 
 // @public
 export interface AuthorizationConfig {
@@ -340,7 +334,7 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export type DataExplorerAuthMethod = ManagedIdentityMethod;
+export type DataExplorerAuthMethod = string;
 
 // @public
 export interface DataflowBuiltInTransformationDataset {
@@ -687,7 +681,7 @@ export interface DataflowSourceOperationSettings {
 }
 
 // @public
-export type DataLakeStorageAuthMethod = ManagedIdentityMethod | AccessTokenMethod;
+export type DataLakeStorageAuthMethod = string;
 
 // @public
 export interface DiagnosticsLogs {
@@ -705,6 +699,26 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;
@@ -714,7 +728,7 @@ export interface ExtendedLocation {
 export type ExtendedLocationType = string;
 
 // @public
-export type FabricOneLakeAuthMethod = ManagedIdentityMethod;
+export type FabricOneLakeAuthMethod = string;
 
 // @public
 export type FilterType = string;
@@ -808,21 +822,11 @@ export interface IoTOperationsClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export type KafkaAuthMethod = ManagedIdentityMethod | SaslMethod | X509CertificateMethod | AnonymousMethod;
-
-// @public
-export enum KnownAccessTokenMethod {
-    AccessToken = "AccessToken"
-}
+export type KafkaAuthMethod = string;
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
-}
-
-// @public
-export enum KnownAnonymousMethod {
-    Anonymous = "Anonymous"
 }
 
 // @public
@@ -874,6 +878,12 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDataExplorerAuthMethod {
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownDataflowEndpointAuthenticationSaslType {
     Plain = "Plain",
     ScramSha256 = "ScramSha256",
@@ -919,6 +929,13 @@ export enum KnownDataflowMappingType {
 }
 
 // @public
+export enum KnownDataLakeStorageAuthMethod {
+    AccessToken = "AccessToken",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
 export enum KnownEndpointType {
     DataExplorer = "DataExplorer",
     DataLakeStorage = "DataLakeStorage",
@@ -934,22 +951,40 @@ export enum KnownExtendedLocationType {
 }
 
 // @public
-export enum KnownFilterType {
-    Filter = "Filter"
-}
-
-// @public
-export enum KnownManagedIdentityMethod {
+export enum KnownFabricOneLakeAuthMethod {
     SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
     UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
+export enum KnownFilterType {
+    Filter = "Filter"
+}
+
+// @public
+export enum KnownKafkaAuthMethod {
+    Anonymous = "Anonymous",
+    Sasl = "Sasl",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+    X509Certificate = "X509Certificate"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownMqttAuthMethod {
+    Anonymous = "Anonymous",
+    ServiceAccountToken = "ServiceAccountToken",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
+    X509Certificate = "X509Certificate"
 }
 
 // @public
@@ -981,9 +1016,9 @@ export enum KnownOperatorValues {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -1012,16 +1047,6 @@ export enum KnownProvisioningState {
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownSaslMethod {
-    Sasl = "Sasl"
-}
-
-// @public
-export enum KnownServiceAccountTokenMethod {
-    ServiceAccountToken = "ServiceAccountToken"
 }
 
 // @public
@@ -1070,8 +1095,8 @@ export enum KnownTransformationSerializationFormat {
 }
 
 // @public
-export enum KnownX509CertificateMethod {
-    X509Certificate = "X509Certificate"
+export enum KnownVersions {
+    "2024-11-01" = "2024-11-01"
 }
 
 // @public
@@ -1100,9 +1125,6 @@ export interface LocalKubernetesReference {
 }
 
 // @public
-export type ManagedIdentityMethod = string;
-
-// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -1119,7 +1141,7 @@ export interface Metrics {
 }
 
 // @public
-export type MqttAuthMethod = ManagedIdentityMethod | ServiceAccountTokenMethod | X509CertificateMethod | AnonymousMethod;
+export type MqttAuthMethod = string;
 
 // @public
 export type MqttRetainType = string;
@@ -1225,9 +1247,6 @@ export interface SanForCert {
 }
 
 // @public
-export type SaslMethod = string;
-
-// @public
 export interface SchemaRegistryRef {
     resourceId: string;
 }
@@ -1244,9 +1263,6 @@ export interface SelfTracing {
     intervalSeconds?: number;
     mode?: OperationalMode;
 }
-
-// @public
-export type ServiceAccountTokenMethod = string;
 
 // @public
 export type ServiceType = string;
@@ -1355,9 +1371,6 @@ export interface VolumeClaimSpecSelectorMatchExpressions {
     operator: OperatorValues;
     values?: string[];
 }
-
-// @public
-export type X509CertificateMethod = string;
 
 // @public
 export interface X509ManualCertificate {
