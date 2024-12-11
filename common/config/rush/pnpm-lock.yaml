@@ -18882,10 +18882,11 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-XuL+PYlzGB/YmNDbnPrIq9AjDzOIhnjUFAr7XTwTGR8huP18WZWmL/m0YW4MlwP69ewEyjD8dWCAb0KmJl92pQ==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-66eXDVkb8yvSINH26xa04Q5mDeA2SPCK5GgHfa5DXFBvkfVjAelMPiZcurPqLjz1DSw4XLD3lZxPO+HuonsOUw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
       '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
