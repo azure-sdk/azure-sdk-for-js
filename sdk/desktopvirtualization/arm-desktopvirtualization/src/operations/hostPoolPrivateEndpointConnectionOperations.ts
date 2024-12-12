@@ -8,32 +8,33 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SessionHosts } from "../operationsInterfaces";
+import { HostPoolPrivateEndpointConnectionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  SessionHost,
-  SessionHostsListNextOptionalParams,
-  SessionHostsListOptionalParams,
-  SessionHostsListResponse,
-  SessionHostsGetOptionalParams,
-  SessionHostsGetResponse,
-  SessionHostPatch,
-  SessionHostsUpdateOptionalParams,
-  SessionHostsUpdateResponse,
-  SessionHostsDeleteOptionalParams,
-  SessionHostsListNextResponse,
+  PrivateEndpointConnection,
+  HostPoolPrivateEndpointConnectionOperationsListByHostPoolNextOptionalParams,
+  HostPoolPrivateEndpointConnectionOperationsListByHostPoolOptionalParams,
+  HostPoolPrivateEndpointConnectionOperationsListByHostPoolResponse,
+  HostPoolPrivateEndpointConnectionOperationsGetByHostPoolOptionalParams,
+  HostPoolPrivateEndpointConnectionOperationsGetByHostPoolResponse,
+  HostPoolPrivateEndpointConnectionOperationsUpdateByHostPoolOptionalParams,
+  HostPoolPrivateEndpointConnectionOperationsUpdateByHostPoolResponse,
+  HostPoolPrivateEndpointConnectionOperationsDeleteByHostPoolOptionalParams,
+  HostPoolPrivateEndpointConnectionOperationsListByHostPoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SessionHosts operations. */
-export class SessionHostsImpl implements SessionHosts {
+/** Class containing HostPoolPrivateEndpointConnectionOperations operations. */
+export class HostPoolPrivateEndpointConnectionOperationsImpl
+  implements HostPoolPrivateEndpointConnectionOperations
+{
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class SessionHosts class.
+   * Initialize a new instance of the class HostPoolPrivateEndpointConnectionOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -41,17 +42,21 @@ export class SessionHostsImpl implements SessionHosts {
   }
 
   /**
-   * List sessionHosts.
+   * Get a PrivateEndpointConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  public list(
+  public listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): PagedAsyncIterableIterator<SessionHost> {
-    const iter = this.listPagingAll(resourceGroupName, hostPoolName, options);
+    options?: HostPoolPrivateEndpointConnectionOperationsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    const iter = this.listByHostPoolPagingAll(
+      resourceGroupName,
+      hostPoolName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -63,7 +68,7 @@ export class SessionHostsImpl implements SessionHosts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
           options,
@@ -73,23 +78,27 @@ export class SessionHostsImpl implements SessionHosts {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
+    options?: HostPoolPrivateEndpointConnectionOperationsListByHostPoolOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<SessionHost[]> {
-    let result: SessionHostsListResponse;
+  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    let result: HostPoolPrivateEndpointConnectionOperationsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, hostPoolName, options);
+      result = await this._listByHostPool(
+        resourceGroupName,
+        hostPoolName,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByHostPoolNext(
         resourceGroupName,
         hostPoolName,
         continuationToken,
@@ -102,12 +111,12 @@ export class SessionHostsImpl implements SessionHosts {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByHostPoolPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): AsyncIterableIterator<SessionHost> {
-    for await (const page of this.listPagingPage(
+    options?: HostPoolPrivateEndpointConnectionOperationsListByHostPoolOptionalParams,
+  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    for await (const page of this.listByHostPoolPagingPage(
       resourceGroupName,
       hostPoolName,
       options,
@@ -117,135 +126,125 @@ export class SessionHostsImpl implements SessionHosts {
   }
 
   /**
-   * List sessionHosts.
+   * Get a PrivateEndpointConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  private _list(
+  private _listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams,
-  ): Promise<SessionHostsListResponse> {
+    options?: HostPoolPrivateEndpointConnectionOperationsListByHostPoolOptionalParams,
+  ): Promise<HostPoolPrivateEndpointConnectionOperationsListByHostPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listOperationSpec,
+      listByHostPoolOperationSpec,
     );
   }
 
   /**
-   * Get a session host.
+   * Get a PrivateEndpointConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
+   * @param privateEndpointConnectionName The name parameter for private endpoint
    * @param options The options parameters.
    */
-  get(
+  getByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsGetOptionalParams,
-  ): Promise<SessionHostsGetResponse> {
+    privateEndpointConnectionName: string,
+    options?: HostPoolPrivateEndpointConnectionOperationsGetByHostPoolOptionalParams,
+  ): Promise<HostPoolPrivateEndpointConnectionOperationsGetByHostPoolResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
-      getOperationSpec,
+      {
+        resourceGroupName,
+        hostPoolName,
+        privateEndpointConnectionName,
+        options,
+      },
+      getByHostPoolOperationSpec,
     );
   }
 
   /**
-   * Update a session host.
+   * Create a PrivateEndpointConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param properties Object containing SessionHost definitions.
+   * @param privateEndpointConnectionName The name parameter for private endpoint
+   * @param body Resource create parameters.
    * @param options The options parameters.
    */
-  update(
+  updateByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    properties: SessionHostPatch,
-    options?: SessionHostsUpdateOptionalParams,
-  ): Promise<SessionHostsUpdateResponse> {
+    privateEndpointConnectionName: string,
+    body: PrivateEndpointConnection,
+    options?: HostPoolPrivateEndpointConnectionOperationsUpdateByHostPoolOptionalParams,
+  ): Promise<HostPoolPrivateEndpointConnectionOperationsUpdateByHostPoolResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, properties, options },
-      updateOperationSpec,
+      {
+        resourceGroupName,
+        hostPoolName,
+        privateEndpointConnectionName,
+        body,
+        options,
+      },
+      updateByHostPoolOperationSpec,
     );
   }
 
   /**
-   * Remove a SessionHost.
+   * Delete a PrivateEndpointConnection
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
+   * @param privateEndpointConnectionName The name parameter for private endpoint
    * @param options The options parameters.
    */
-  delete(
+  deleteByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    options?: SessionHostsDeleteOptionalParams,
+    privateEndpointConnectionName: string,
+    options?: HostPoolPrivateEndpointConnectionOperationsDeleteByHostPoolOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, sessionHostName, options },
-      deleteOperationSpec,
+      {
+        resourceGroupName,
+        hostPoolName,
+        privateEndpointConnectionName,
+        options,
+      },
+      deleteByHostPoolOperationSpec,
     );
   }
 
   /**
-   * ListNext
+   * ListByHostPoolNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param nextLink The nextLink from the previous successful call to the ListByHostPool method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByHostPoolNext(
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: SessionHostsListNextOptionalParams,
-  ): Promise<SessionHostsListNextResponse> {
+    options?: HostPoolPrivateEndpointConnectionOperationsListByHostPoolNextOptionalParams,
+  ): Promise<HostPoolPrivateEndpointConnectionOperationsListByHostPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listNextOperationSpec,
+      listByHostPoolNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts",
+const listByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHostList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SessionHost,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -257,37 +256,61 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
-  httpMethod: "PATCH",
+const getByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHost,
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties8,
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    201: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostPoolName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
+const deleteByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -296,23 +319,23 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.force],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.sessionHostName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SessionHostList,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
