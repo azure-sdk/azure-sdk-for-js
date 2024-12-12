@@ -7,19 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ResourceProviderOperation,
-  OperationsListOptionalParams,
-} from "../models";
+import { Operation, OperationsListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all of the available operations the Desktop Virtualization resource provider supports.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(
     options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<ResourceProviderOperation>;
+  ): PagedAsyncIterableIterator<Operation>;
 }
