@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -55,6 +53,26 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FirewallRule extends ProxyResource {
     properties?: FirewallRuleProperties;
 }
@@ -64,24 +82,6 @@ export interface FirewallRuleProperties {
     endIpAddress: string;
     readonly provisioningState?: ProvisioningState;
     startIpAddress: string;
-}
-
-// @public
-export interface FirewallRulesCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FirewallRulesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FirewallRulesListByMongoClusterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -139,9 +139,9 @@ export enum KnownMongoClusterStatus {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -181,7 +181,7 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded",
-    Updating = "Updating"
+    UpdatingTest2 = "UpdatingTest2"
 }
 
 // @public
@@ -205,6 +205,11 @@ export enum KnownReplicationState {
     Provisioning = "Provisioning",
     Reconfiguring = "Reconfiguring",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_07_01 = "2024-07-01"
 }
 
 // @public
@@ -252,47 +257,7 @@ export interface MongoClusterRestoreParameters {
 }
 
 // @public
-export interface MongoClustersCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface MongoClustersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListConnectionStringsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface MongoClustersPromoteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type MongoClusterStatus = string;
-
-// @public
-export interface MongoClustersUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface MongoClusterUpdate {
@@ -331,10 +296,6 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
 export type Origin = string;
 
 // @public
@@ -367,24 +328,6 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByMongoClusterOptionalParams extends OperationOptions {
-}
-
-// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -404,10 +347,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -435,10 +374,6 @@ export type PublicNetworkAccess = string;
 // @public
 export interface Replica extends ProxyResource {
     properties?: MongoClusterProperties;
-}
-
-// @public
-export interface ReplicasListByParentOptionalParams extends OperationOptions {
 }
 
 // @public
