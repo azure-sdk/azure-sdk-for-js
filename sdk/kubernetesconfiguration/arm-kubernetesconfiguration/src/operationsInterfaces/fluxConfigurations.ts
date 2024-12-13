@@ -18,7 +18,7 @@ import {
   FluxConfigurationPatch,
   FluxConfigurationsUpdateOptionalParams,
   FluxConfigurationsUpdateResponse,
-  FluxConfigurationsDeleteOptionalParams
+  FluxConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface FluxConfigurations {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: FluxConfigurationsListOptionalParams
+    options?: FluxConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<FluxConfiguration>;
   /**
    * Gets details of the Flux Configuration.
@@ -58,7 +58,7 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsGetOptionalParams
+    options?: FluxConfigurationsGetOptionalParams,
   ): Promise<FluxConfigurationsGetResponse>;
   /**
    * Create a new Kubernetes Flux Configuration.
@@ -79,7 +79,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
-    options?: FluxConfigurationsCreateOrUpdateOptionalParams
+    options?: FluxConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FluxConfigurationsCreateOrUpdateResponse>,
@@ -105,7 +105,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfiguration: FluxConfiguration,
-    options?: FluxConfigurationsCreateOrUpdateOptionalParams
+    options?: FluxConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<FluxConfigurationsCreateOrUpdateResponse>;
   /**
    * Update an existing Kubernetes Flux Configuration.
@@ -126,7 +126,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
-    options?: FluxConfigurationsUpdateOptionalParams
+    options?: FluxConfigurationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FluxConfigurationsUpdateResponse>,
@@ -152,7 +152,7 @@ export interface FluxConfigurations {
     clusterName: string,
     fluxConfigurationName: string,
     fluxConfigurationPatch: FluxConfigurationPatch,
-    options?: FluxConfigurationsUpdateOptionalParams
+    options?: FluxConfigurationsUpdateOptionalParams,
   ): Promise<FluxConfigurationsUpdateResponse>;
   /**
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
@@ -172,7 +172,7 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsDeleteOptionalParams
+    options?: FluxConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync from
@@ -192,6 +192,6 @@ export interface FluxConfigurations {
     clusterResourceName: string,
     clusterName: string,
     fluxConfigurationName: string,
-    options?: FluxConfigurationsDeleteOptionalParams
+    options?: FluxConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }
