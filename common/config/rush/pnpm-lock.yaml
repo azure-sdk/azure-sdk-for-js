@@ -2591,7 +2591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
-    resolution: {integrity: sha512-Qv78CyKrBKjLg4TmEzdrNcH5S+/LUwd3Tl+Qok0xxR9+JIueJ1KVI0lh41Dw96PyeuzhznIsbK9ZiQgfbvBiFg==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-WbfzrQjfqamdTB4VK+BWYyAED2jKkyldjz4Ut3GLBRiO35iw+1VxljqvWENNQB9gRVL+i7WjDaeJvfeqbNpA3w==, tarball: file:projects/arm-appinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz':
@@ -11029,9 +11029,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
