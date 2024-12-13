@@ -3011,7 +3011,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
-    resolution: {integrity: sha512-g9yGHBzb+hffJ46WX30LznZ6vPNuz+fJIwvMqpbHsw4an4C5jF+LjEtdjJpIHge26uOYU842afp5ZG1GKLnQDQ==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-kqHkcXYGG7l+5xnD/H4gvq5djcYaVoQ3Q5I8/rkAiaEEFdSDn44QjGpvIncdjnEvaf0oyhMVirNc7tqMT95fvg==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kusto@file:projects/arm-kusto.tgz':
@@ -3599,7 +3599,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
-    resolution: {integrity: sha512-AHxtCyVOmgFDmFKYr3jgh/D9GLdlJJaGeuvAhCxciN8PpRLPF/CUjp+eNzZeAd+h352yM1xYh/luQzCHcsLKtw==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-TiZ/Z7Ox5LgTvY4HsWVTLaLv+P137p9P473qmw1lqDcrffv+rrg8tQhLFYdK/xc5I+rypBVT75msDDqwPrRBGA==, tarball: file:projects/container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
@@ -3819,7 +3819,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-5qP0zZ0UdyW9xi3gsXl0Ar3Lk75CnP51irHf/jsG21TLZYA39yv6xYQDCFGw+O8DN7MtjzQ4xyDHhsnIde+VQg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-xsjW4M06eNJllSD3XxEBc9of8nqfjVGDaQKZX8mXhUi2sAbl3/yaz81QZr5z2E/LDopf+jEyybFZXmb86CGj5A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
@@ -6662,6 +6662,11 @@ packages:
 
   mlly@1.7.3:
     resolution: {integrity: sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==}
+
+  mocha@10.8.2:
+    resolution: {integrity: sha512-VZlYo/WE8t1tstuRmqgeyBgCbJc/lEdopaa+axcKzTBJ+UIdlAB9XnmvTCAH4pwR4ElNInaedhEBmZD8iCSVEg==}
+    engines: {node: '>= 14.0.0'}
+    hasBin: true
 
   mocha@11.0.2:
     resolution: {integrity: sha512-IpLqigxxL825rKCce2hlJL6qiUNgxbjhpS79SA6NN+Quzrf6wzLezwk4LcfIJp/OUD5BVWTM/nCYc3oQ5uqmfw==}
@@ -13065,16 +13070,16 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -22941,6 +22946,29 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.1
       ufo: 1.5.4
+
+  mocha@10.8.2:
+    dependencies:
+      ansi-colors: 4.1.3
+      browser-stdout: 1.3.1
+      chokidar: 3.6.0
+      debug: 4.4.0(supports-color@8.1.1)
+      diff: 5.2.0
+      escape-string-regexp: 4.0.0
+      find-up: 5.0.0
+      glob: 8.1.0
+      he: 1.2.0
+      js-yaml: 4.1.0
+      log-symbols: 4.1.0
+      minimatch: 5.1.6
+      ms: 2.1.3
+      serialize-javascript: 6.0.2
+      strip-json-comments: 3.1.1
+      supports-color: 8.1.1
+      workerpool: 6.5.1
+      yargs: 16.2.0
+      yargs-parser: 20.2.9
+      yargs-unparser: 2.0.0
 
   mocha@11.0.2:
     dependencies:

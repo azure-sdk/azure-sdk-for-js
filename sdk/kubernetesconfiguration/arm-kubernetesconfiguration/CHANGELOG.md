@@ -1,15 +1,38 @@
 # Release History
-
-## 6.1.1 (Unreleased)
-
+    
+## 7.0.0 (2024-12-13)
+    
 ### Features Added
+
+  - Added Interface LayerSelectorDefinition
+  - Added Interface LayerSelectorPatchDefinition
+  - Added Interface MatchOidcIdentityDefinition
+  - Added Interface MatchOidcIdentityPatchDefinition
+  - Added Interface OCIRepositoryDefinition
+  - Added Interface OCIRepositoryPatchDefinition
+  - Added Interface OCIRepositoryRefDefinition
+  - Added Interface OCIRepositoryRefPatchDefinition
+  - Added Interface PostBuildPatchDefinition
+  - Added Interface SubstituteFromPatchDefinition
+  - Added Interface TlsConfigDefinition
+  - Added Interface TlsConfigPatchDefinition
+  - Added Interface VerifyDefinition
+  - Added Interface VerifyPatchDefinition
+  - Added Type Alias OperationType
+  - Added Type Alias ProviderType
+  - Interface FluxConfiguration has a new optional parameter ociRepository
+  - Interface FluxConfigurationPatch has a new optional parameter ociRepository
+  - Interface GitRepositoryDefinition has a new optional parameter provider
+  - Interface GitRepositoryPatchDefinition has a new optional parameter provider
+  - Added Enum KnownOperationType
+  - Added Enum KnownProviderType
+  - Enum KnownSourceKindType has a new value OCIRepository
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter postBuild of interface KustomizationPatchDefinition is changed from PostBuildDefinition to PostBuildPatchDefinition
+    
+    
 ## 6.1.0 (2023-09-06)
     
 ### Features Added
@@ -65,4 +88,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
