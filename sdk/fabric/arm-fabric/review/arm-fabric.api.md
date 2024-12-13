@@ -4,14 +4,11 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
@@ -38,81 +35,212 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
-export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
-export interface FabricCapacitiesCreateOrUpdateOptionalParams extends OperationOptions {
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface FabricCapacities {
+    beginCreateOrUpdate(resourceGroupName: string, capacityName: string, resource: FabricCapacity, options?: FabricCapacitiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FabricCapacitiesCreateOrUpdateResponse>, FabricCapacitiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, capacityName: string, resource: FabricCapacity, options?: FabricCapacitiesCreateOrUpdateOptionalParams): Promise<FabricCapacitiesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FabricCapacitiesDeleteResponse>, FabricCapacitiesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesDeleteOptionalParams): Promise<FabricCapacitiesDeleteResponse>;
+    beginResume(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesResumeOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginResumeAndWait(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesResumeOptionalParams): Promise<void>;
+    beginSuspend(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesSuspendOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginSuspendAndWait(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesSuspendOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, capacityName: string, properties: FabricCapacityUpdate, options?: FabricCapacitiesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FabricCapacitiesUpdateResponse>, FabricCapacitiesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, capacityName: string, properties: FabricCapacityUpdate, options?: FabricCapacitiesUpdateOptionalParams): Promise<FabricCapacitiesUpdateResponse>;
+    checkNameAvailability(location: string, body: CheckNameAvailabilityRequest, options?: FabricCapacitiesCheckNameAvailabilityOptionalParams): Promise<FabricCapacitiesCheckNameAvailabilityResponse>;
+    get(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesGetOptionalParams): Promise<FabricCapacitiesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: FabricCapacitiesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FabricCapacity>;
+    listBySubscription(options?: FabricCapacitiesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FabricCapacity>;
+    listSkus(options?: FabricCapacitiesListSkusOptionalParams): PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
+    listSkusForCapacity(resourceGroupName: string, capacityName: string, options?: FabricCapacitiesListSkusForCapacityOptionalParams): PagedAsyncIterableIterator<RpSkuDetailsForExistingResource>;
+    listUsages(location: string, options?: FabricCapacitiesListUsagesOptionalParams): PagedAsyncIterableIterator<RpUsageAndQuotaDetailsForExistingResource>;
+}
+
+// @public
+export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
+export interface FabricCapacitiesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricCapacitiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FabricCapacitiesDeleteOptionalParams extends OperationOptions {
+export type FabricCapacitiesCreateOrUpdateResponse = FabricCapacity;
+
+// @public
+export interface FabricCapacitiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricCapacitiesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FabricCapacitiesGetOptionalParams extends OperationOptions {
+export type FabricCapacitiesDeleteResponse = FabricCapacitiesDeleteHeaders;
+
+// @public
+export interface FabricCapacitiesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesListByResourceGroupOptionalParams extends OperationOptions {
+export type FabricCapacitiesGetResponse = FabricCapacity;
+
+// @public
+export interface FabricCapacitiesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesListBySubscriptionOptionalParams extends OperationOptions {
+export type FabricCapacitiesListByResourceGroupNextResponse = FabricCapacityListResult;
+
+// @public
+export interface FabricCapacitiesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesListSkusForCapacityOptionalParams extends OperationOptions {
+export type FabricCapacitiesListByResourceGroupResponse = FabricCapacityListResult;
+
+// @public
+export interface FabricCapacitiesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions {
+export type FabricCapacitiesListBySubscriptionNextResponse = FabricCapacityListResult;
+
+// @public
+export interface FabricCapacitiesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesOperations {
-    checkNameAvailability: (location: string, body: CheckNameAvailabilityRequest, options?: FabricCapacitiesCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
-    createOrUpdate: (resourceGroupName: string, capacityName: string, resource: FabricCapacity, options?: FabricCapacitiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
-    delete: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesGetOptionalParams) => Promise<FabricCapacity>;
-    listByResourceGroup: (resourceGroupName: string, options?: FabricCapacitiesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FabricCapacity>;
-    listBySubscription: (options?: FabricCapacitiesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FabricCapacity>;
-    listSkus: (options?: FabricCapacitiesListSkusOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
-    listSkusForCapacity: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesListSkusForCapacityOptionalParams) => PagedAsyncIterableIterator<RpSkuDetailsForExistingResource>;
-    resume: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesResumeOptionalParams) => PollerLike<OperationState<void>, void>;
-    suspend: (resourceGroupName: string, capacityName: string, options?: FabricCapacitiesSuspendOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, capacityName: string, properties: FabricCapacityUpdate, options?: FabricCapacitiesUpdateOptionalParams) => PollerLike<OperationState<FabricCapacity>, FabricCapacity>;
+export type FabricCapacitiesListBySubscriptionResponse = FabricCapacityListResult;
+
+// @public
+export interface FabricCapacitiesListSkusForCapacityNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface FabricCapacitiesResumeOptionalParams extends OperationOptions {
+export type FabricCapacitiesListSkusForCapacityNextResponse = RpSkuEnumerationForExistingResourceResult;
+
+// @public
+export interface FabricCapacitiesListSkusForCapacityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesListSkusForCapacityResponse = RpSkuEnumerationForExistingResourceResult;
+
+// @public
+export interface FabricCapacitiesListSkusNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesListSkusNextResponse = RpSkuEnumerationForNewResourceResult;
+
+// @public
+export interface FabricCapacitiesListSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesListSkusResponse = RpSkuEnumerationForNewResourceResult;
+
+// @public
+export interface FabricCapacitiesListUsagesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesListUsagesNextResponse = RpUsageAndQuotaEnumerationForExistingResourceResult;
+
+// @public
+export interface FabricCapacitiesListUsagesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricCapacitiesListUsagesResponse = RpUsageAndQuotaEnumerationForExistingResourceResult;
+
+// @public
+export interface FabricCapacitiesResumeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricCapacitiesResumeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FabricCapacitiesSuspendOptionalParams extends OperationOptions {
+export interface FabricCapacitiesSuspendHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricCapacitiesSuspendOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface FabricCapacitiesUpdateOptionalParams extends OperationOptions {
+export interface FabricCapacitiesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricCapacitiesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type FabricCapacitiesUpdateResponse = FabricCapacity;
 
 // @public
 export interface FabricCapacity extends TrackedResource {
     properties: FabricCapacityProperties;
     sku: RpSku;
+}
+
+// @public
+export interface FabricCapacityListResult {
+    nextLink?: string;
+    value: FabricCapacity[];
 }
 
 // @public
@@ -126,7 +254,9 @@ export interface FabricCapacityProperties {
 export interface FabricCapacityUpdate {
     properties?: FabricCapacityUpdateProperties;
     sku?: RpSku;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -134,18 +264,8 @@ export interface FabricCapacityUpdateProperties {
     administration?: CapacityAdministration;
 }
 
-// @public (undocumented)
-export class FabricClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: FabricClientOptionalParams);
-    readonly fabricCapacities: FabricCapacitiesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
 // @public
-export interface FabricClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
@@ -204,10 +324,32 @@ export enum KnownRpSkuTier {
     Fabric = "Fabric"
 }
 
+// @public (undocumented)
+export class MicrosoftFabricManagementService extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftFabricManagementServiceOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    fabricCapacities: FabricCapacities;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    subscriptionId: string;
+}
+
+// @public
+export interface MicrosoftFabricManagementServiceOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
+}
+
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -222,28 +364,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;
@@ -258,16 +404,6 @@ export interface Resource {
 
 // @public
 export type ResourceState = string;
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: FabricClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface RpSku {
@@ -289,7 +425,37 @@ export interface RpSkuDetailsForNewResource {
 }
 
 // @public
+export interface RpSkuEnumerationForExistingResourceResult {
+    nextLink?: string;
+    value: RpSkuDetailsForExistingResource[];
+}
+
+// @public
+export interface RpSkuEnumerationForNewResourceResult {
+    nextLink?: string;
+    value: RpSkuDetailsForNewResource[];
+}
+
+// @public
+export interface RpSkuProperties {
+    locations: string[];
+    name: string;
+}
+
+// @public
 export type RpSkuTier = string;
+
+// @public
+export interface RpUsageAndQuotaDetailsForExistingResource {
+    currentValue: number;
+    limit: number;
+}
+
+// @public
+export interface RpUsageAndQuotaEnumerationForExistingResourceResult {
+    nextLink?: string;
+    value: RpUsageAndQuotaDetailsForExistingResource[];
+}
 
 // @public
 export interface SystemData {
@@ -304,7 +470,9 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // (No @packageDocumentation comment for this package)
