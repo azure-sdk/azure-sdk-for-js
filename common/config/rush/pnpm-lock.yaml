@@ -499,6 +499,9 @@ importers:
       '@rush-temp/arm-migrate':
         specifier: file:./projects/arm-migrate.tgz
         version: file:projects/arm-migrate.tgz
+      '@rush-temp/arm-migrationassessment':
+        specifier: file:./projects/arm-migrationassessment.tgz
+        version: file:projects/arm-migrationassessment.tgz
       '@rush-temp/arm-migrationdiscoverysap':
         specifier: file:./projects/arm-migrationdiscoverysap.tgz
         version: file:projects/arm-migrationdiscoverysap.tgz
@@ -3099,6 +3102,10 @@ packages:
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
     resolution: {integrity: sha512-/jIx38kSm77xuhLwYqRNMKkkXrQ8fVeX/tNe0l2A4Vgn66v2BB8pF12LICEHec0B+SpYxuJuMj+xPOA42D2EhQ==, tarball: file:projects/arm-migrate.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-migrationassessment@file:projects/arm-migrationassessment.tgz':
+    resolution: {integrity: sha512-3wsd0X4dP6DPAeJi03dUEEbXBZF4wn0oZ5amjaZLxBxIenmZo+oG1gJWgt4Mvv6Z9GMpjVzjVzGPWlEeZTAqgg==, tarball: file:projects/arm-migrationassessment.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
@@ -6680,6 +6687,11 @@ packages:
 
   mlly@1.7.3:
     resolution: {integrity: sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==}
+
+  mocha@10.8.2:
+    resolution: {integrity: sha512-VZlYo/WE8t1tstuRmqgeyBgCbJc/lEdopaa+axcKzTBJ+UIdlAB9XnmvTCAH4pwR4ElNInaedhEBmZD8iCSVEg==}
+    engines: {node: '>= 14.0.0'}
+    hasBin: true
 
   mocha@11.0.2:
     resolution: {integrity: sha512-IpLqigxxL825rKCce2hlJL6qiUNgxbjhpS79SA6NN+Quzrf6wzLezwk4LcfIJp/OUD5BVWTM/nCYc3oQ5uqmfw==}
@@ -13493,6 +13505,26 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
+  '@rush-temp/arm-migrationassessment@file:projects/arm-migrationassessment.tgz':
+    dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
+      '@types/node': 18.19.68
+      chai: 4.5.0
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
+      tslib: 2.8.1
+      tsx: 4.19.2
+      typescript: 5.6.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
     dependencies:
       '@azure-tools/test-credential': 1.3.1
@@ -20149,11 +20181,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20171,7 +20203,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20179,7 +20211,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -20187,7 +20219,7 @@ snapshots:
 
   '@types/decompress@4.2.7':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/deep-eql@4.0.2': {}
 
@@ -20206,7 +20238,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -20221,16 +20253,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -20241,21 +20273,21 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/jws@3.2.10':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -20284,11 +20316,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.68':
@@ -20313,7 +20345,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -20321,7 +20353,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.17.10
+      '@types/node': 22.7.9
       kleur: 3.0.3
 
   '@types/qs@6.9.17': {}
@@ -20330,7 +20362,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -20341,12 +20373,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -20361,11 +20393,11 @@ snapshots:
 
   '@types/stoppable@1.1.3':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -20381,11 +20413,11 @@ snapshots:
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/ws@8.5.13':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -20395,7 +20427,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.17.0)(typescript@5.6.3))(eslint@9.17.0)(typescript@5.6.3)':
@@ -21483,7 +21515,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -23013,6 +23045,29 @@ snapshots:
       pkg-types: 1.2.1
       ufo: 1.5.4
 
+  mocha@10.8.2:
+    dependencies:
+      ansi-colors: 4.1.3
+      browser-stdout: 1.3.1
+      chokidar: 3.6.0
+      debug: 4.4.0(supports-color@8.1.1)
+      diff: 5.2.0
+      escape-string-regexp: 4.0.0
+      find-up: 5.0.0
+      glob: 8.1.0
+      he: 1.2.0
+      js-yaml: 4.1.0
+      log-symbols: 4.1.0
+      minimatch: 5.1.6
+      ms: 2.1.3
+      serialize-javascript: 6.0.2
+      strip-json-comments: 3.1.1
+      supports-color: 8.1.1
+      workerpool: 6.5.1
+      yargs: 16.2.0
+      yargs-parser: 20.2.9
+      yargs-unparser: 2.0.0
+
   mocha@11.0.2:
     dependencies:
       ansi-colors: 4.1.3
@@ -23640,7 +23695,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.68
+      '@types/node': 22.7.9
       long: 5.2.3
 
   proxy-addr@2.0.7:
@@ -24466,7 +24521,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
 
   tshy@2.0.1:
@@ -24480,7 +24535,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
 
   tslib@2.8.1: {}
