@@ -2,34 +2,35 @@
 // Licensed under the MIT License.
 
 import {
-  standbyContainerGroupPoolResourcePropertiesSerializer,
-  standbyContainerGroupPoolResourceUpdatePropertiesSerializer,
-  StandbyContainerGroupPoolResource,
-  StandbyContainerGroupPoolResourceUpdate,
-  _StandbyContainerGroupPoolResourceListResult,
-} from "../../models/models.js";
-import { StandbyPoolContext as Client } from "../index.js";
+  StandbyPoolManagementContext as Client,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+  StandbyContainerGroupPoolResource,
+  standbyContainerGroupPoolResourceSerializer,
+  standbyContainerGroupPoolResourceDeserializer,
+  StandbyContainerGroupPoolResourceUpdate,
+  standbyContainerGroupPoolResourceUpdateSerializer,
+  _StandbyContainerGroupPoolResourceListResult,
+  _standbyContainerGroupPoolResourceListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
-  StandbyContainerGroupPoolsGetOptionalParams,
-  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
-  StandbyContainerGroupPoolsDeleteOptionalParams,
-  StandbyContainerGroupPoolsUpdateOptionalParams,
-  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
-  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _standbyContainerGroupPoolsGetSend(
   context: Client,
@@ -56,51 +57,7 @@ export async function _standbyContainerGroupPoolsGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
 /** Get a StandbyContainerGroupPoolResource */
@@ -140,13 +97,7 @@ export function _standbyContainerGroupPoolsCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : standbyContainerGroupPoolResourcePropertiesSerializer(resource.properties),
-      },
+      body: standbyContainerGroupPoolResourceSerializer(resource),
     });
 }
 
@@ -158,51 +109,7 @@ export async function _standbyContainerGroupPoolsCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
 /** Create a StandbyContainerGroupPoolResource */
@@ -322,12 +229,7 @@ export function _standbyContainerGroupPoolsUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        properties: !properties.properties
-          ? properties.properties
-          : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(properties.properties),
-      },
+      body: standbyContainerGroupPoolResourceUpdateSerializer(properties),
     });
 }
 
@@ -339,51 +241,7 @@ export async function _standbyContainerGroupPoolsUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: {
-            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
-          },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
-              revision:
-                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
-            },
-            subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
-                ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                    return { id: p["id"] };
-                  }),
-          },
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyContainerGroupPoolResourceDeserializer(result.body);
 }
 
 /** Update a StandbyContainerGroupPoolResource */
@@ -433,56 +291,7 @@ export async function _standbyContainerGroupPoolsListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: {
-                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
-                refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
-              },
-              containerGroupProperties: {
-                containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
-                  revision:
-                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
-                },
-                subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] === undefined
-                    ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                        return { id: p["id"] };
-                      }),
-              },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyContainerGroupPoolResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyContainerGroupPoolResource resources by resource group */
@@ -532,56 +341,7 @@ export async function _standbyContainerGroupPoolsListBySubscriptionDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: {
-                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
-                refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
-              },
-              containerGroupProperties: {
-                containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
-                  revision:
-                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
-                },
-                subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] === undefined
-                    ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
-                        return { id: p["id"] };
-                      }),
-              },
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyContainerGroupPoolResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyContainerGroupPoolResource resources by subscription ID */
@@ -594,7 +354,12 @@ export function standbyContainerGroupPoolsListBySubscription(
 ): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
   return buildPagedAsyncIterator(
     context,
-    () => _standbyContainerGroupPoolsListBySubscriptionSend(context, subscriptionId, options),
+    () =>
+      _standbyContainerGroupPoolsListBySubscriptionSend(
+        context,
+        subscriptionId,
+        options,
+      ),
     _standbyContainerGroupPoolsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
 import {
-  StandbyVirtualMachinePoolResource,
-  StandbyVirtualMachinePoolResourceUpdate,
-} from "../../models/models.js";
+  StandbyVirtualMachinePoolsGetOptionalParams,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+} from "../../api/options.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   standbyVirtualMachinePoolsGet,
   standbyVirtualMachinePoolsCreateOrUpdate,
@@ -14,16 +18,12 @@ import {
   standbyVirtualMachinePoolsListByResourceGroup,
   standbyVirtualMachinePoolsListBySubscription,
 } from "../../api/standbyVirtualMachinePools/index.js";
+import {
+  StandbyVirtualMachinePoolResource,
+  StandbyVirtualMachinePoolResourceUpdate,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  StandbyVirtualMachinePoolsGetOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a StandbyVirtualMachinePools operations. */
 export interface StandbyVirtualMachinePoolsOperations {
@@ -67,7 +67,10 @@ export interface StandbyVirtualMachinePoolsOperations {
   ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
 }
 
-export function getStandbyVirtualMachinePools(context: StandbyPoolContext, subscriptionId: string) {
+export function getStandbyVirtualMachinePools(
+  context: StandbyPoolManagementContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -131,13 +134,19 @@ export function getStandbyVirtualMachinePools(context: StandbyPoolContext, subsc
         resourceGroupName,
         options,
       ),
-    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) =>
-      standbyVirtualMachinePoolsListBySubscription(context, subscriptionId, options),
+    listBySubscription: (
+      options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+    ) =>
+      standbyVirtualMachinePoolsListBySubscription(
+        context,
+        subscriptionId,
+        options,
+      ),
   };
 }
 
 export function getStandbyVirtualMachinePoolsOperations(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ): StandbyVirtualMachinePoolsOperations {
   return {
