@@ -1,15 +1,13 @@
 # Release History
-
-## 2.2.0-beta.2 (Unreleased)
-
+    
+## 2.2.0 (2024-12-16)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Scale has a new optional parameter cooldownPeriod
+  - Interface Scale has a new optional parameter pollingInterval
+    
+    
 ## 2.2.0-beta.1 (2024-10-18)
 Compared with version 2.1.0
     
