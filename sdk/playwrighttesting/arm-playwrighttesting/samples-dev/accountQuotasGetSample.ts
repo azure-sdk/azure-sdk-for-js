@@ -5,29 +5,25 @@ import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a Account
+ * This sample demonstrates how to get quota by name for an account.
  *
- * @summary create a Account
- * x-ms-original-file: 2024-12-01/Accounts_CreateOrUpdate.json
+ * @summary get quota by name for an account.
+ * x-ms-original-file: 2024-12-01/AccountQuotas_Get.json
  */
-async function accountsCreateOrUpdate() {
+async function accountQuotasGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate(
+  const result = await client.accountQuotas.get(
     "dummyrg",
     "myPlaywrightAccount",
-    {
-      location: "westus",
-      tags: { Team: "Dev Exp" },
-      properties: { regionalAffinity: "Enabled" },
-    },
+    "ScalableExecution",
   );
   console.log(result);
 }
 
 async function main() {
-  accountsCreateOrUpdate();
+  accountQuotasGet();
 }
 
 main().catch(console.error);
