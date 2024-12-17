@@ -368,10 +368,10 @@ export const UserAssignedIdentity: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosExperimentStep: coreClient.CompositeMapper = {
+export const Step: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChaosExperimentStep",
+    className: "Step",
     modelProperties: {
       name: {
         constraints: {
@@ -395,7 +395,7 @@ export const ChaosExperimentStep: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChaosExperimentBranch",
+              className: "Branch",
             },
           },
         },
@@ -404,10 +404,10 @@ export const ChaosExperimentStep: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosExperimentBranch: coreClient.CompositeMapper = {
+export const Branch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChaosExperimentBranch",
+    className: "Branch",
     modelProperties: {
       name: {
         constraints: {
@@ -431,7 +431,7 @@ export const ChaosExperimentBranch: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChaosExperimentAction",
+              className: "Action",
             },
           },
         },
@@ -440,11 +440,11 @@ export const ChaosExperimentBranch: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosExperimentAction: coreClient.CompositeMapper = {
+export const Action: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChaosExperimentAction",
-    uberParent: "ChaosExperimentAction",
+    className: "Action",
+    uberParent: "Action",
     polymorphicDiscriminator: {
       serializedName: "type",
       clientName: "type",
@@ -471,12 +471,12 @@ export const ChaosExperimentAction: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosTargetSelector: coreClient.CompositeMapper = {
-  serializedName: "ChaosTargetSelector",
+export const Selector: coreClient.CompositeMapper = {
+  serializedName: "Selector",
   type: {
     name: "Composite",
-    className: "ChaosTargetSelector",
-    uberParent: "ChaosTargetSelector",
+    className: "Selector",
+    uberParent: "Selector",
     additionalProperties: { type: { name: "Object" } },
     polymorphicDiscriminator: {
       serializedName: "type",
@@ -504,18 +504,18 @@ export const ChaosTargetSelector: coreClient.CompositeMapper = {
         serializedName: "filter",
         type: {
           name: "Composite",
-          className: "ChaosTargetFilter",
+          className: "Filter",
         },
       },
     },
   },
 };
 
-export const ChaosTargetFilter: coreClient.CompositeMapper = {
+export const Filter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChaosTargetFilter",
-    uberParent: "ChaosTargetFilter",
+    className: "Filter",
+    uberParent: "Filter",
     polymorphicDiscriminator: {
       serializedName: "type",
       clientName: "type",
@@ -1088,10 +1088,10 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   },
 };
 
-export const TargetTypeListResult: coreClient.CompositeMapper = {
+export const TargetListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TargetTypeListResult",
+    className: "TargetListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1101,7 +1101,7 @@ export const TargetTypeListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TargetType",
+              className: "Target",
             },
           },
         },
@@ -1121,10 +1121,10 @@ export const TargetTypeListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const TargetListResult: coreClient.CompositeMapper = {
+export const TargetTypeListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TargetListResult",
+    className: "TargetTypeListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1134,7 +1134,7 @@ export const TargetListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Target",
+              className: "TargetType",
             },
           },
         },
@@ -1211,10 +1211,10 @@ export const TargetReference: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosTargetSimpleFilterParameters: coreClient.CompositeMapper = {
+export const SimpleFilterParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChaosTargetSimpleFilterParameters",
+    className: "SimpleFilterParameters",
     modelProperties: {
       zones: {
         serializedName: "zones",
@@ -1420,6 +1420,37 @@ export const TrackedResource: coreClient.CompositeMapper = {
   },
 };
 
+export const Target: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Target",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
 export const TargetType: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1479,37 +1510,6 @@ export const TargetType: coreClient.CompositeMapper = {
   },
 };
 
-export const Target: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Target",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      properties: {
-        serializedName: "properties",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
 export const OperationStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1530,14 +1530,16 @@ export const OperationStatus: coreClient.CompositeMapper = {
       },
       startTime: {
         serializedName: "startTime",
+        readOnly: true,
         type: {
-          name: "String",
+          name: "DateTime",
         },
       },
       endTime: {
         serializedName: "endTime",
+        readOnly: true,
         type: {
-          name: "String",
+          name: "DateTime",
         },
       },
       status: {
@@ -1555,11 +1557,10 @@ export const DelayAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DelayAction",
-    uberParent: "ChaosExperimentAction",
-    polymorphicDiscriminator:
-      ChaosExperimentAction.type.polymorphicDiscriminator,
+    uberParent: "Action",
+    polymorphicDiscriminator: Action.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosExperimentAction.type.modelProperties,
+      ...Action.type.modelProperties,
       duration: {
         serializedName: "duration",
         required: true,
@@ -1576,11 +1577,10 @@ export const DiscreteAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DiscreteAction",
-    uberParent: "ChaosExperimentAction",
-    polymorphicDiscriminator:
-      ChaosExperimentAction.type.polymorphicDiscriminator,
+    uberParent: "Action",
+    polymorphicDiscriminator: Action.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosExperimentAction.type.modelProperties,
+      ...Action.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         required: true,
@@ -1613,11 +1613,10 @@ export const ContinuousAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContinuousAction",
-    uberParent: "ChaosExperimentAction",
-    polymorphicDiscriminator:
-      ChaosExperimentAction.type.polymorphicDiscriminator,
+    uberParent: "Action",
+    polymorphicDiscriminator: Action.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosExperimentAction.type.modelProperties,
+      ...Action.type.modelProperties,
       duration: {
         serializedName: "duration",
         required: true,
@@ -1652,16 +1651,16 @@ export const ContinuousAction: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosTargetListSelector: coreClient.CompositeMapper = {
+export const ListSelector: coreClient.CompositeMapper = {
   serializedName: "List",
   type: {
     name: "Composite",
-    className: "ChaosTargetListSelector",
-    uberParent: "ChaosTargetSelector",
+    className: "ListSelector",
+    uberParent: "Selector",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: ChaosTargetSelector.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: Selector.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosTargetSelector.type.modelProperties,
+      ...Selector.type.modelProperties,
       targets: {
         constraints: {
           MinItems: 1,
@@ -1683,16 +1682,16 @@ export const ChaosTargetListSelector: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosTargetQuerySelector: coreClient.CompositeMapper = {
+export const QuerySelector: coreClient.CompositeMapper = {
   serializedName: "Query",
   type: {
     name: "Composite",
-    className: "ChaosTargetQuerySelector",
-    uberParent: "ChaosTargetSelector",
+    className: "QuerySelector",
+    uberParent: "Selector",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: ChaosTargetSelector.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: Selector.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosTargetSelector.type.modelProperties,
+      ...Selector.type.modelProperties,
       queryString: {
         serializedName: "queryString",
         required: true,
@@ -1719,20 +1718,20 @@ export const ChaosTargetQuerySelector: coreClient.CompositeMapper = {
   },
 };
 
-export const ChaosTargetSimpleFilter: coreClient.CompositeMapper = {
+export const SimpleFilter: coreClient.CompositeMapper = {
   serializedName: "Simple",
   type: {
     name: "Composite",
-    className: "ChaosTargetSimpleFilter",
-    uberParent: "ChaosTargetFilter",
-    polymorphicDiscriminator: ChaosTargetFilter.type.polymorphicDiscriminator,
+    className: "SimpleFilter",
+    uberParent: "Filter",
+    polymorphicDiscriminator: Filter.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ChaosTargetFilter.type.modelProperties,
+      ...Filter.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "ChaosTargetSimpleFilterParameters",
+          className: "SimpleFilterParameters",
         },
       },
     },
@@ -1810,7 +1809,7 @@ export const Experiment: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChaosExperimentStep",
+              className: "Step",
             },
           },
         },
@@ -1826,7 +1825,7 @@ export const Experiment: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ChaosTargetSelector",
+              className: "Selector",
             },
           },
         },
@@ -1836,13 +1835,13 @@ export const Experiment: coreClient.CompositeMapper = {
 };
 
 export let discriminators = {
-  ChaosExperimentAction: ChaosExperimentAction,
-  ChaosTargetSelector: ChaosTargetSelector,
-  ChaosTargetFilter: ChaosTargetFilter,
-  "ChaosExperimentAction.delay": DelayAction,
-  "ChaosExperimentAction.discrete": DiscreteAction,
-  "ChaosExperimentAction.continuous": ContinuousAction,
-  "ChaosTargetSelector.List": ChaosTargetListSelector,
-  "ChaosTargetSelector.Query": ChaosTargetQuerySelector,
-  "ChaosTargetFilter.Simple": ChaosTargetSimpleFilter,
+  Action: Action,
+  Selector: Selector,
+  Filter: Filter,
+  "Action.delay": DelayAction,
+  "Action.discrete": DiscreteAction,
+  "Action.continuous": ContinuousAction,
+  "Selector.List": ListSelector,
+  "Selector.Query": QuerySelector,
+  "Filter.Simple": SimpleFilter,
 };
