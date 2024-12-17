@@ -2646,7 +2646,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-xAHnPXuiOMEaEA93S1o2AI4rbXcVhQWypOyC/AaWd/3XsE+lQ5P+eeI4xrhiEln0iDx5fvBo/Ta/SAk0vFCT6Q==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-3hSTYC8nJ2C/avdyE81n6TIMk7vxWIBLBMH1ugzDdQidjTQ/88CGM7tKgkOTqs/zd/YWRAZb0LIjnq3kXD1fVA==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2758,7 +2758,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
-    resolution: {integrity: sha512-wLUftGbWKL+TPyHmCr3+R57RJnDnmMiq39F/5jj9LT6+nkZC5dQqzi/6xQMjel0eO5Hb/gpJPrS0Bh4cVIzodw==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-PHBYljfQWTdrph/9//F4MuysABXbLDz7xMfUkwhEgfve0KvGvKzAK1sQOMa9l1rbFMtwS/4YwppgE6WOxbo/gg==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
@@ -2906,7 +2906,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-soUDcRTTSIxaFoxhHY+Br3eQbDoC32FoD0tRWcp4iEtMPx8xg1SR0WzTrUQjBrcA6T0hcUD/xifLdRI/f6PGrg==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-KnlzSaPbNVySEVau5Sguzbgpec3BZS5HYZ7SPnkFttn65TrqaWAkTZA00wZtrx+cMY8SDEOPg2g5aHxDx4hgeg==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
@@ -3026,7 +3026,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz':
-    resolution: {integrity: sha512-yy09FGeGBBKCMifaMklQr1ATSTBohwxDvzgkQTBHYN6d8gwL8xNoqs/XMoe7MgWmqCsM4HI144RdiV5fOd2Z8g==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-91kpyJpDt688iXdc998jCUgttsSXFwIjFcHjnpHo8EhPp80QubCC/gZMs0uckt/ToTZc6EUAGJkGAQ7UV7XwTA==, tarball: file:projects/arm-links.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-loadtesting@file:projects/arm-loadtesting.tgz':
@@ -3038,7 +3038,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz':
-    resolution: {integrity: sha512-GMn+Vj8HH/zCkhGM4WCxx5haz4uaIIhdfZOL6d/+UKDKLLa14FczlyPmr3YGp/j8UZwoYh4kpDW89NX1lgpcHQ==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-ni9eaSkqLLMbsovNk1MI0sOkNEMU5LQBrzzmTJQ8wCKeKNkc+s1YgULrWY8FjP1dotTcK1kxF6jRKmk8cFZgew==, tarball: file:projects/arm-locks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-logic@file:projects/arm-logic.tgz':
@@ -3062,7 +3062,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
-    resolution: {integrity: sha512-DZ0QO9C7MJ9Ipe6oFSaCVWZfdsrAmpgjxetJckZAG7M2TE0ybKAIhz3toZd+RMI1Dz+sU7tzF4/fRMtRiZLL+Q==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-Y97txYCZToFruGOd6Puy/6Ubmn9Rv1SbIQ8b7RdAE26VqOPgaE3gQSsobhXig1+5neyG5OHi92bl2t4K0ZZA/Q==, tarball: file:projects/arm-managedapplications.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managednetworkfabric@file:projects/arm-managednetworkfabric.tgz':
@@ -3214,7 +3214,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-dnzae8wqMqBt9Noeke9GV/ZjFShAipdbFxvf/B77e498QBKvVhc77W0dPEJ71gvpn6hXrtJRaKfuuUijU7kXbA==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-On3nZscNhuTtC0n6uPYcCXSfiC+ZH1GN2aw2IGYILVcasYVCdFi6WSLWXbsA+JN9QCkuL56Qh8XPAZraeRVu/Q==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3318,15 +3318,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz':
-    resolution: {integrity: sha512-eOV6/AQ6x+Duu7SU0VYAgE293uri9RmSKCQW0t6+ND0bQe+0hkhyKhqpYvYcA51K1t8F0RwHpe5L+a3MX0BQug==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-08PIgQoQH4C555L9/SxKEztDE26J009KsxvR7g7G46UnAZI8FjbEpMasNVB+0kkF1I3Z2LuI/ufKZgdCgQgPOA==, tarball: file:projects/arm-resources-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-Z5o8wSKtwptEh6C9wnr2XfNKWE9TVUqbbtrUzET8J9ZbA7hIdfGehg7oA/zobUBy6BTORv+AvxcWwMb3T4otUA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-pTlmBlhmkhj7zshzjhd5o9NqWuUYCvaZzV26t5SdrkmvRx/L+srzzXNgQFpKJ8iG8ftHpFT8c8RYFwz5ezzWLw==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
-    resolution: {integrity: sha512-Z1tI4du1XM08k7N4w6B6lZfV2OUZRU/vRihoSoA8UtjwsAhrJUr/eEg7zoTqJROk/UsTV543WKudEs+E9Uybuw==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-x06oHvf1A5sJFyp8XDlsvLSq3q+EJEwTj4X12Swr5W78R8OTPAF+DDJOy4Jbqd1GIV8mQvD7heb+AopiMuAXaA==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-scvmm@file:projects/arm-scvmm.tgz':
@@ -3470,7 +3470,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz':
-    resolution: {integrity: sha512-a9Z7C23xpdyQKGO5lC1Cq8z+jysc7Fz3aDnO/hqYfiWKKzk+SEJxyGTj/A+LKV1GF0ef+X3n/gZ/XpQBXadz1A==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-jjPkJBN0wa50T8WcgEdGscJ1ZUM5/ZwLkYQP5FBroRLMdV1HlMU6L7sTPKaaFsY9DXu8BWN2tFPK1oGvAyyGrA==, tarball: file:projects/arm-templatespecs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
@@ -3846,11 +3846,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-ai-form-recognizer@file:projects/perf-ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-gkKmxzBKsrY/wyXCcGI4WhO/F0V4SDHGHfWyMe9+vTOsbqVxR54QTrYClJ0JlKmmogFold3Da1pDIJRP9YJvJw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-p6M8KE5r+eju7mdFu51fAPG+Q2ui88B4SKhIU+X1MjAEGxYnvvs5q1Am12FOGPbMDpCpKIQc9GmQhvgdnm9JZw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-language-text@file:projects/perf-ai-language-text.tgz':
-    resolution: {integrity: sha512-YLzvAF50r4GeP+YOEtkC2jc7m1NsfuDk7I6RCU8Qp9tlnxEukxP2VoVt+Yn9tbpRuNGZBe1HFoIdUQcS0cLB2g==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-nieSyETytAM0xPUnovc0mrNCOoEu+igHjJ1Ak0yZQdDpJgesfvkWZ2RMK1uu33oIVGC5B/qFHUSEMkCkY/q4tg==, tarball: file:projects/perf-ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-ai-metrics-advisor@file:projects/perf-ai-metrics-advisor.tgz':
@@ -3866,7 +3866,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-container-registry@file:projects/perf-container-registry.tgz':
-    resolution: {integrity: sha512-GsW1EvTmOLWMlaJa7m9yf/xvgplmqpkQ4EuIXhNpuZWayCCAdqlRnKQ4CgpyywNCweKEpgptqNCB6/4DVCVuZw==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-6J3aCs2BR1Fax6SWXRZEFxn8wlkRUoiRVIb8QrbjgHDUYy950dYuomYjISAiG3qptNHs8jvny4Y5tZmheI+Bww==, tarball: file:projects/perf-container-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-core-rest-pipeline@file:projects/perf-core-rest-pipeline.tgz':
@@ -3874,7 +3874,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-data-tables@file:projects/perf-data-tables.tgz':
-    resolution: {integrity: sha512-7WuM+VxSyy1vUPKLLasOhvvBLoDVj0py2ePQ60WqxGXGY2bPAdzm+hnyi7BCFcCTT0IsxHxwjRfUarne98jGlw==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-WO8vtk6tP1pRgwbdzhoFGnqVdi3USclFI9zsdyCYbXnVX97ha83TJDTrtX/h5XyfHqffhCKxmw+FxVcDELbmbQ==, tarball: file:projects/perf-data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-event-hubs@file:projects/perf-event-hubs.tgz':
@@ -3882,31 +3882,31 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
-    resolution: {integrity: sha512-ZYkjk1Pz46OB0szqPrpg0Ymo7rNaSbRqu9gIfv9ntX3li6ol/f8HhNenejnokCbHjCi+bb1mN2pD/2WdRUdF8w==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-dt3yEhJhegjfan5c/jJLs7T+Minp/kWPcsRLcm5esNfmjQFBuroYQ1W1Zc6CAJxDojw7AeUVW5X5P1K2Lt15mQ==, tarball: file:projects/perf-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
-    resolution: {integrity: sha512-A7aeJKxdmV27Fkdz2zrFh/3n3U/WQ/ay+4X+o13PrT1AeqXPALD6tt4wdLT0QW3ymM2D2WGFgW9M3oLVhP00qw==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-Ky6GozlRP3Wr8LDCvUlndPP0ZhHIo77wy1Cf58/W2brw9NUBLV8aHki070fjpXSFobKJKUGTWpBFbFyRmU1gVg==, tarball: file:projects/perf-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
-    resolution: {integrity: sha512-vzsSPptQv8Y3pbBGjHRmJPRzTuJuP+usNSwZVZYDSs4t3OG4MK3576QV9oH4MtUCfE10kC9ECq4t+d4z6yJUow==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-m+XXXPUCWfLR+4RfVNAmbFuaZdzGYWEvk+z4xCQImvCq+F17q5bcO5mnGCwpoDOGbMaTHi53yLK5e2B4mRGgKw==, tarball: file:projects/perf-keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
-    resolution: {integrity: sha512-GytYZta0ioUfmiPAcQuo7jpRdiy64l+82lMDnj6y66FdrlvD5lfSTPxSH6XdrYJkKOjm2O8XHLZB5nYaX/0zGw==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-7Y3Fs0TxYz6C686H2FYyLAQnpwlTxypIz/YasYJXs62Tv4I6J9r1/EgelJNs0uDTDTVG+UoZvm6i++lohbWkXQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
-    resolution: {integrity: sha512-MqZSqQo/G6QZYa4vNiEpCukkUwCRo4mzVUHawlp1nqAmvlrrXoLumGyF48rJBVJh1sUEXFxw3koVBm+5asCNZw==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-W82F++lmwp3GlLHRWCpr9q97cnmDOM+CsTOMpXND1ZMki5E4x6kJezFTtrzYYcZeh8+/z8EDCAYKzWMfOFETLw==, tarball: file:projects/perf-keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
-    resolution: {integrity: sha512-7Th0T7Nf0UNrvJPsjjNs/3KqkzRMWElB/HvNsNalfRxqHobWS/uIdXRo1zoLIZFh6dAKXlK5pyhboxzSczyeYQ==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-OQ69bcFfSdEWvM22k3EJz0mCKje9dTppw0bFA5uf9arJN8cBdLnG6CF+tq1Yrp6cLKR5b/QARyQP8AY6WEo39g==, tarball: file:projects/perf-monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-sMNiUWBPW0AcKHeMgc9WM7mDbz3LoOlK0SrZRvZ5CZ+stYIu1f5AQQsQScqOF4upL1X5wEtolDa0dwxaVDUGbA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-xUDDX7s9/9jA+L93I13fMZP90yzlJUNgt+zy0KhCNthiEtzu/GIvPdjGEOyT2k1+Z6yhPAM2o2hQuMF2o+oxqw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -3914,7 +3914,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
-    resolution: {integrity: sha512-QtAa+7ijpuBTTP6lmfJ/sFlMH8ihneNRqOmmObNiTwa3dDYAaymQ881zsh6p4pFDsboP6c+MJleulyBbz313xw==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-LfY5zyGD6QV6ne63pKBXb4nZJdlGTFB6HTFXOzfy8jdan73lnd/VEnyAOKV97geKuA5DIfFJQ0MLUUY6ON1vLg==, tarball: file:projects/perf-schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-search-documents@file:projects/perf-search-documents.tgz':
@@ -3926,11 +3926,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-gC/6yI3RAsLz8yW4HuwmY/hZJdfQ4WpTasQrnaGM2o0ADvshX7BbTMziACBVC1IJ+SZS0f25nzWdMrf1cKEPUA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-ndiUIY/2sTD1nix+Km5dGfvJTrKRYDCL3/ZJhWfh2pWc1cup85tDdC3hl6hOnT746dWFMpTo1bhatoOOcjeEYA==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-/Ci5NG7Th6jCRFjxNQnQIN066A0l8K8hkuTPVCvaChixw0hduEm6MN1HeVT+Qmwkko8uVFlLNu1s7HgLwy8rLw==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-kKfSIqcwmfwLH0qRThgHMSnjxtBrAApzNIu4wh+0CChWNEXxyxO4EUHHLTpsz5ErMnVWi17tF6IT5tvsw0rMSQ==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
@@ -6683,6 +6683,11 @@ packages:
 
   mlly@1.7.3:
     resolution: {integrity: sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==}
+
+  mocha@10.8.2:
+    resolution: {integrity: sha512-VZlYo/WE8t1tstuRmqgeyBgCbJc/lEdopaa+axcKzTBJ+UIdlAB9XnmvTCAH4pwR4ElNInaedhEBmZD8iCSVEg==}
+    engines: {node: '>= 14.0.0'}
+    hasBin: true
 
   mocha@11.0.2:
     resolution: {integrity: sha512-IpLqigxxL825rKCce2hlJL6qiUNgxbjhpS79SA6NN+Quzrf6wzLezwk4LcfIJp/OUD5BVWTM/nCYc3oQ5uqmfw==}
@@ -11132,9 +11137,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -11767,19 +11774,16 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mkdirp: 3.0.1
-      mocha: 11.0.2
-      rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.5.4)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.5.4
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -12542,9 +12546,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -13162,9 +13168,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -13216,9 +13224,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -13325,16 +13335,16 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14120,9 +14130,10 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14633,9 +14644,10 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14646,16 +14658,16 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14666,14 +14678,13 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
@@ -15410,9 +15421,11 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
+      dotenv: 16.4.7
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -18477,12 +18490,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18525,12 +18535,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18554,12 +18561,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18594,75 +18598,53 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
     dependencies:
       '@types/node': 18.19.68
-      '@types/uuid': 8.3.4
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
     dependencies:
       '@types/node': 18.19.68
-      '@types/uuid': 8.3.4
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      uuid: 8.3.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
     dependencies:
       '@types/node': 18.19.68
-      '@types/uuid': 8.3.4
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      uuid: 8.3.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
     dependencies:
       '@types/node': 18.19.68
-      '@types/uuid': 8.3.4
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      uuid: 8.3.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18671,12 +18653,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18714,12 +18693,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18751,12 +18727,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18765,12 +18738,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -23023,6 +22993,29 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.1
       ufo: 1.5.4
+
+  mocha@10.8.2:
+    dependencies:
+      ansi-colors: 4.1.3
+      browser-stdout: 1.3.1
+      chokidar: 3.6.0
+      debug: 4.4.0(supports-color@8.1.1)
+      diff: 5.2.0
+      escape-string-regexp: 4.0.0
+      find-up: 5.0.0
+      glob: 8.1.0
+      he: 1.2.0
+      js-yaml: 4.1.0
+      log-symbols: 4.1.0
+      minimatch: 5.1.6
+      ms: 2.1.3
+      serialize-javascript: 6.0.2
+      strip-json-comments: 3.1.1
+      supports-color: 8.1.1
+      workerpool: 6.5.1
+      yargs: 16.2.0
+      yargs-parser: 20.2.9
+      yargs-unparser: 2.0.0
 
   mocha@11.0.2:
     dependencies:
