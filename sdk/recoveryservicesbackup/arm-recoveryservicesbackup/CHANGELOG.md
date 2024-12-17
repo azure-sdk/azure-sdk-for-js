@@ -1,15 +1,263 @@
 # Release History
-
-## 13.1.1 (Unreleased)
-
+    
+## 14.0.0 (2024-12-17)
+    
 ### Features Added
+
+  - Added operation group AadProperties
+  - Added operation group BackupCrrJobDetails
+  - Added operation group BackupCrrJobs
+  - Added operation group BackupProtectedItemsCrr
+  - Added operation group BackupResourceStorageConfigs
+  - Added operation group BackupUsageSummariesCRR
+  - Added operation group CrossRegionRestore
+  - Added operation group CrrOperationResults
+  - Added operation group CrrOperationStatus
+  - Added operation group RecoveryPointsCrr
+  - Added operation RecoveryPoints.getAccessToken
+  - Added Interface AADProperties
+  - Added Interface AadPropertiesGetOptionalParams
+  - Added Interface AADPropertiesResource
+  - Added Interface BackupCrrJobDetailsGetOptionalParams
+  - Added Interface BackupCrrJobsListNextOptionalParams
+  - Added Interface BackupCrrJobsListOptionalParams
+  - Added Interface BackupProtectedItemsCrrListNextOptionalParams
+  - Added Interface BackupProtectedItemsCrrListOptionalParams
+  - Added Interface BackupResourceStorageConfigsGetOptionalParams
+  - Added Interface BackupResourceStorageConfigsPatchOptionalParams
+  - Added Interface BackupResourceStorageConfigsUpdateOptionalParams
+  - Added Interface BackupUsageSummariesCRRListOptionalParams
+  - Added Interface BmsaadPropertiesQueryObject
+  - Added Interface CrossRegionRestoreRequest
+  - Added Interface CrossRegionRestoreRequestResource
+  - Added Interface CrossRegionRestoreTriggerOptionalParams
+  - Added Interface CrrAccessToken
+  - Added Interface CrrAccessTokenResource
+  - Added Interface CrrJobRequest
+  - Added Interface CrrJobRequestResource
+  - Added Interface CrrOperationResultsGetOptionalParams
+  - Added Interface CrrOperationStatusGetOptionalParams
+  - Added Interface OperationStatusRecoveryPointExtendedInfo
+  - Added Interface RecoveryPointsCrrGetOptionalParams
+  - Added Interface RecoveryPointsCrrListNextOptionalParams
+  - Added Interface RecoveryPointsCrrListOptionalParams
+  - Added Interface RecoveryPointsGetAccessTokenOptionalParams
+  - Added Interface WorkloadCrrAccessToken
+  - Added Type Alias AadPropertiesGetResponse
+  - Added Type Alias BackupCrrJobDetailsGetResponse
+  - Added Type Alias BackupCrrJobsListNextResponse
+  - Added Type Alias BackupCrrJobsListResponse
+  - Added Type Alias BackupProtectedItemsCrrListNextResponse
+  - Added Type Alias BackupProtectedItemsCrrListResponse
+  - Added Type Alias BackupResourceStorageConfigsGetResponse
+  - Added Type Alias BackupResourceStorageConfigsUpdateResponse
+  - Added Type Alias BackupUsageSummariesCRRListResponse
+  - Added Type Alias CrrAccessTokenUnion
+  - Added Type Alias CrrOperationStatusGetResponse
+  - Added Type Alias RecoveryPointsCrrGetResponse
+  - Added Type Alias RecoveryPointsCrrListNextResponse
+  - Added Type Alias RecoveryPointsCrrListResponse
+  - Added Type Alias RecoveryPointsGetAccessTokenResponse
+  - Interface AzureFileshareProtectedItem has a new optional parameter healthStatus
+  - Interface AzureFileShareRecoveryPoint has a new optional parameter crossRegionRestoreState
+  - Interface JobResourceList has a new optional parameter nextLink
+  - Interface ProtectedItemResourceList has a new optional parameter nextLink
+  - Interface RecoveryPointResourceList has a new optional parameter nextLink
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group BackupEngines
+  - Removed operation group BackupJobs
+  - Removed operation group BackupOperationResults
+  - Removed operation group BackupOperationStatuses
+  - Removed operation group BackupPolicies
+  - Removed operation group BackupProtectableItems
+  - Removed operation group BackupProtectedItems
+  - Removed operation group BackupProtectionContainers
+  - Removed operation group BackupProtectionIntent
+  - Removed operation group BackupResourceEncryptionConfigs
+  - Removed operation group BackupResourceStorageConfigsNonCRR
+  - Removed operation group BackupResourceVaultConfigs
+  - Removed operation group Backups
+  - Removed operation group BackupStatus
+  - Removed operation group BackupUsageSummaries
+  - Removed operation group BackupWorkloadItems
+  - Removed operation group BMSPrepareDataMoveOperationResult
+  - Removed operation group DeletedProtectionContainers
+  - Removed operation group ExportJobsOperationResults
+  - Removed operation group FeatureSupport
+  - Removed operation group FetchTieringCost
+  - Removed operation group GetTieringCostOperationResult
+  - Removed operation group ItemLevelRecoveryConnections
+  - Removed operation group JobCancellations
+  - Removed operation group JobDetails
+  - Removed operation group JobOperationResults
+  - Removed operation group Jobs
+  - Removed operation group Operation
+  - Removed operation group Operations
+  - Removed operation group PrivateEndpointConnectionOperations
+  - Removed operation group PrivateEndpointOperations
+  - Removed operation group ProtectableContainers
+  - Removed operation group ProtectedItemOperationResults
+  - Removed operation group ProtectedItemOperationStatuses
+  - Removed operation group ProtectedItems
+  - Removed operation group ProtectionContainerOperationResults
+  - Removed operation group ProtectionContainerRefreshOperationResults
+  - Removed operation group ProtectionContainers
+  - Removed operation group ProtectionIntentOperations
+  - Removed operation group ProtectionPolicies
+  - Removed operation group ProtectionPolicyOperationResults
+  - Removed operation group ProtectionPolicyOperationStatuses
+  - Removed operation group RecoveryPointsRecommendedForMove
+  - Removed operation group ResourceGuardProxies
+  - Removed operation group ResourceGuardProxy
+  - Removed operation group Restores
+  - Removed operation group SecurityPINs
+  - Removed operation group TieringCostOperationStatus
+  - Removed operation group ValidateOperation
+  - Removed operation group ValidateOperationResults
+  - Removed operation group ValidateOperationStatuses
+  - Removed operation RecoveryPoints.get
+  - Removed operation RecoveryPoints.list
+  - Interface AzureIaaSVMJob no longer has parameter containerName
+  - Interface AzureIaaSVMJob no longer has parameter isUserTriggered
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInVault
+  - Interface AzureStorageJob no longer has parameter isUserTriggered
+  - Interface AzureVmWorkloadProtectedItem no longer has parameter nodesList
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInVault
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter recoveryModel
+  - Interface AzureWorkloadRestoreRequest no longer has parameter snapshotRestoreParameters
+  - Interface AzureWorkloadRestoreRequest no longer has parameter targetResourceGroupName
+  - Interface AzureWorkloadRestoreRequest no longer has parameter userAssignedManagedIdentityDetails
+  - Interface BackupResourceConfig no longer has parameter dedupState
+  - Interface BackupResourceConfig no longer has parameter xcoolState
+  - Interface ExtendedProperties no longer has parameter linuxVmApplicationName
+  - Interface IaasVMRecoveryPoint no longer has parameter extendedLocation
+  - Interface IaasVMRecoveryPoint no longer has parameter isPrivateAccessEnabledOnAnyDisk
+  - Interface IaasVMRecoveryPoint no longer has parameter securityType
+  - Interface IaasVMRestoreRequest no longer has parameter extendedLocation
+  - Interface IaasVMRestoreRequest no longer has parameter securedVMDetails
+  - Interface IaasVMRestoreRequest no longer has parameter targetDiskNetworkAccessSettings
+  - Interface ProtectedItem no longer has parameter isArchiveEnabled
+  - Interface ProtectedItem no longer has parameter policyName
+  - Interface ProtectedItem no longer has parameter softDeleteRetentionPeriodInDays
+  - Interface ProtectedItem no longer has parameter vaultId
+  - Interface RestoreRequest no longer has parameter resourceGuardOperationRequests
+  - Type of parameter protectedItemType of interface AzureVmWorkloadProtectedItem is changed from "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" to "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase"
+  - Type of parameter recoveryPointTierDetails of interface AzureWorkloadRecoveryPoint is changed from RecoveryPointTierInformationV2[] to RecoveryPointTierInformation[]
+  - Type of parameter objectType of interface AzureWorkloadRestoreRequest is changed from "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" to "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest"
+  - Type of parameter objectType of interface AzureWorkloadSAPHanaPointInTimeRestoreRequest is changed from "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" to "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
+  - Type of parameter objectType of interface AzureWorkloadSAPHanaRestoreRequest is changed from "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" to "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
+  - Type of parameter objectType of interface AzureWorkloadSQLPointInTimeRestoreRequest is changed from "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" to "AzureWorkloadSQLPointInTimeRestoreRequest"
+  - Type of parameter objectType of interface AzureWorkloadSQLRestoreRequest is changed from "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" to "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest"
+  - Type of parameter recoveryPointTierDetails of interface IaasVMRecoveryPoint is changed from RecoveryPointTierInformationV2[] to RecoveryPointTierInformation[]
+  - Type of parameter objectType of interface IaasVMRestoreRequest is changed from "IaasVMRestoreRequest" | "IaasVMRestoreWithRehydrationRequest" to "IaasVMRestoreRequest"
+  - Type of parameter jobType of interface Job is changed from "AzureIaaSVMJob" | "AzureIaaSVMJobV2" | "AzureStorageJob" | "AzureWorkloadJob" | "DpmJob" | "MabJob" | "VaultJob" to "AzureIaaSVMJob" | "AzureStorageJob" | "AzureWorkloadJob" | "DpmJob" | "MabJob"
+  - Type of parameter objectType of interface OperationStatusExtendedInfo is changed from "OperationStatusJobExtendedInfo" | "OperationStatusJobsExtendedInfo" | "OperationStatusProvisionILRExtendedInfo" | "OperationStatusValidateOperationExtendedInfo" to "OperationStatusJobExtendedInfo" | "OperationStatusJobsExtendedInfo" | "OperationStatusProvisionILRExtendedInfo" | "OperationStatusRecoveryPointExtendedInfo"
+  - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem"
+  - Type of parameter objectType of interface RestoreRequest is changed from "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest" | "AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest" | "AzureWorkloadSQLRestoreWithRehydrateRequest" | "IaasVMRestoreWithRehydrationRequest" to "AzureFileShareRestoreRequest" | "AzureWorkloadRestoreRequest" | "AzureWorkloadPointInTimeRestoreRequest" | "AzureWorkloadSAPHanaRestoreRequest" | "AzureWorkloadSAPHanaPointInTimeRestoreRequest" | "AzureWorkloadSQLRestoreRequest" | "AzureWorkloadSQLPointInTimeRestoreRequest" | "IaasVMRestoreRequest"
+  - Class RecoveryServicesBackupClient no longer has parameter backupEngines
+  - Class RecoveryServicesBackupClient no longer has parameter backupJobs
+  - Class RecoveryServicesBackupClient no longer has parameter backupOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter backupOperationStatuses
+  - Class RecoveryServicesBackupClient no longer has parameter backupPolicies
+  - Class RecoveryServicesBackupClient no longer has parameter backupProtectableItems
+  - Class RecoveryServicesBackupClient no longer has parameter backupProtectedItems
+  - Class RecoveryServicesBackupClient no longer has parameter backupProtectionContainers
+  - Class RecoveryServicesBackupClient no longer has parameter backupProtectionIntent
+  - Class RecoveryServicesBackupClient no longer has parameter backupResourceEncryptionConfigs
+  - Class RecoveryServicesBackupClient no longer has parameter backupResourceStorageConfigsNonCRR
+  - Class RecoveryServicesBackupClient no longer has parameter backupResourceVaultConfigs
+  - Class RecoveryServicesBackupClient no longer has parameter backups
+  - Class RecoveryServicesBackupClient no longer has parameter backupStatus
+  - Class RecoveryServicesBackupClient no longer has parameter backupUsageSummaries
+  - Class RecoveryServicesBackupClient no longer has parameter backupWorkloadItems
+  - Class RecoveryServicesBackupClient no longer has parameter bMSPrepareDataMoveOperationResult
+  - Class RecoveryServicesBackupClient no longer has parameter deletedProtectionContainers
+  - Class RecoveryServicesBackupClient no longer has parameter exportJobsOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter featureSupport
+  - Class RecoveryServicesBackupClient no longer has parameter fetchTieringCost
+  - Class RecoveryServicesBackupClient no longer has parameter getTieringCostOperationResult
+  - Class RecoveryServicesBackupClient no longer has parameter itemLevelRecoveryConnections
+  - Class RecoveryServicesBackupClient no longer has parameter jobCancellations
+  - Class RecoveryServicesBackupClient no longer has parameter jobDetails
+  - Class RecoveryServicesBackupClient no longer has parameter jobOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter jobs
+  - Class RecoveryServicesBackupClient no longer has parameter operation
+  - Class RecoveryServicesBackupClient no longer has parameter operations
+  - Class RecoveryServicesBackupClient no longer has parameter privateEndpointConnectionOperations
+  - Class RecoveryServicesBackupClient no longer has parameter privateEndpointOperations
+  - Class RecoveryServicesBackupClient no longer has parameter protectableContainers
+  - Class RecoveryServicesBackupClient no longer has parameter protectedItemOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter protectedItemOperationStatuses
+  - Class RecoveryServicesBackupClient no longer has parameter protectedItems
+  - Class RecoveryServicesBackupClient no longer has parameter protectionContainerOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter protectionContainerRefreshOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter protectionContainers
+  - Class RecoveryServicesBackupClient no longer has parameter protectionIntentOperations
+  - Class RecoveryServicesBackupClient no longer has parameter protectionPolicies
+  - Class RecoveryServicesBackupClient no longer has parameter protectionPolicyOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter protectionPolicyOperationStatuses
+  - Class RecoveryServicesBackupClient no longer has parameter recoveryPointsRecommendedForMove
+  - Class RecoveryServicesBackupClient no longer has parameter resourceGuardProxies
+  - Class RecoveryServicesBackupClient no longer has parameter resourceGuardProxy
+  - Class RecoveryServicesBackupClient no longer has parameter restores
+  - Class RecoveryServicesBackupClient no longer has parameter securityPINs
+  - Class RecoveryServicesBackupClient no longer has parameter tieringCostOperationStatus
+  - Class RecoveryServicesBackupClient no longer has parameter validateOperation
+  - Class RecoveryServicesBackupClient no longer has parameter validateOperationResults
+  - Class RecoveryServicesBackupClient no longer has parameter validateOperationStatuses
+  - Removed Enum KnownAcquireStorageAccountLock
+  - Removed Enum KnownAzureFileShareType
+  - Removed Enum KnownBackupEngineType
+  - Removed Enum KnownBackupItemType
+  - Removed Enum KnownBackupType
+  - Removed Enum KnownContainerType
+  - Removed Enum KnownDataMoveLevel
+  - Removed Enum KnownDedupState
+  - Removed Enum KnownEncryptionAtRestType
+  - Removed Enum KnownEnhancedSecurityState
+  - Removed Enum KnownFabricName
+  - Removed Enum KnownIaasvmPolicyType
+  - Removed Enum KnownIaasVMSnapshotConsistencyType
+  - Removed Enum KnownInfrastructureEncryptionState
+  - Removed Enum KnownInquiryStatus
+  - Removed Enum KnownIntentItemType
+  - Removed Enum KnownLastUpdateStatus
+  - Removed Enum KnownOperationType
+  - Removed Enum KnownPolicyType
+  - Removed Enum KnownPrivateEndpointConnectionStatus
+  - Removed Enum KnownProtectionIntentItemType
+  - Removed Enum KnownProtectionStatus
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownRehydrationPriority
+  - Removed Enum KnownRetentionDurationType
+  - Removed Enum KnownRetentionScheduleFormat
+  - Removed Enum KnownScheduleRunType
+  - Removed Enum KnownSoftDeleteFeatureState
+  - Removed Enum KnownSupportStatus
+  - Removed Enum KnownTieringMode
+  - Removed Enum KnownValidationStatus
+  - Removed Enum KnownVaultSubResourceType
+  - Removed Enum KnownWorkloadItemType
+  - Removed Enum KnownXcoolState
+  - Enum KnownDataSourceType no longer has value SAPHanaDBInstance
+  - Enum KnownProtectedItemState no longer has value BackupsSuspended
+  - Enum KnownProtectionState no longer has value BackupsSuspended
+  - Enum KnownRecoveryMode no longer has value RecoveryUsingSnapshot
+  - Enum KnownRecoveryMode no longer has value SnapshotAttach
+  - Enum KnownRecoveryMode no longer has value SnapshotAttachAndRecover
+  - Enum KnownRestorePointQueryType no longer has value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointQueryType no longer has value SnapshotFull
+  - Enum KnownRestorePointType no longer has value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointType no longer has value SnapshotFull
+  - Enum KnownWorkloadType no longer has value SAPHanaDBInstance
+    
+    
 ## 13.1.0 (2024-05-08)
     
 ### Features Added

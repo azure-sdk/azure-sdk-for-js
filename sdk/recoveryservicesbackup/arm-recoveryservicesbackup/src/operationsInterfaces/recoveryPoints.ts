@@ -6,55 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  RecoveryPointResource,
-  RecoveryPointsListOptionalParams,
-  RecoveryPointsGetOptionalParams,
-  RecoveryPointsGetResponse,
+  AADPropertiesResource,
+  RecoveryPointsGetAccessTokenOptionalParams,
+  RecoveryPointsGetAccessTokenResponse,
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoveryPoints. */
 export interface RecoveryPoints {
   /**
-   * Lists the backup copies for the backed up item.
+   * Returns the Access token for communication between BMS and Protection service
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
-   * @param fabricName Fabric name associated with the backed up item.
-   * @param containerName Container name associated with the backed up item.
-   * @param protectedItemName Backed up item whose backup copies are to be fetched.
+   * @param fabricName Fabric name associated with the container.
+   * @param containerName Name of the container.
+   * @param protectedItemName Name of the Protected Item.
+   * @param recoveryPointId Recovery Point Id
+   * @param parameters Get Access Token request
    * @param options The options parameters.
    */
-  list(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams,
-  ): PagedAsyncIterableIterator<RecoveryPointResource>;
-  /**
-   * Provides the information of the backed up data identified using RecoveryPointID. This is an
-   * asynchronous operation.
-   * To know the status of the operation, call the GetProtectedItemOperationResult API.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param fabricName Fabric name associated with backed up item.
-   * @param containerName Container name associated with backed up item.
-   * @param protectedItemName Backed up item name whose backup data needs to be fetched.
-   * @param recoveryPointId RecoveryPointID represents the backed up data to be fetched.
-   * @param options The options parameters.
-   */
-  get(
+  getAccessToken(
     vaultName: string,
     resourceGroupName: string,
     fabricName: string,
     containerName: string,
     protectedItemName: string,
     recoveryPointId: string,
-    options?: RecoveryPointsGetOptionalParams,
-  ): Promise<RecoveryPointsGetResponse>;
+    parameters: AADPropertiesResource,
+    options?: RecoveryPointsGetAccessTokenOptionalParams,
+  ): Promise<RecoveryPointsGetAccessTokenResponse>;
 }
