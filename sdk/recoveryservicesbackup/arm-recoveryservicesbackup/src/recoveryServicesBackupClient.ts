@@ -15,132 +15,32 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
-import {
-  BackupResourceStorageConfigsNonCRRImpl,
-  ProtectionIntentOperationsImpl,
-  BackupStatusImpl,
-  FeatureSupportImpl,
-  BackupProtectionIntentImpl,
-  BackupUsageSummariesImpl,
-  OperationsImpl,
-  BackupResourceVaultConfigsImpl,
-  BackupResourceEncryptionConfigsImpl,
-  PrivateEndpointConnectionOperationsImpl,
-  PrivateEndpointOperationsImpl,
-  BMSPrepareDataMoveOperationResultImpl,
-  ProtectedItemsImpl,
-  ProtectedItemOperationResultsImpl,
+  BackupUsageSummariesCRRImpl,
+  AadPropertiesImpl,
+  CrossRegionRestoreImpl,
+  BackupCrrJobDetailsImpl,
+  BackupCrrJobsImpl,
+  CrrOperationResultsImpl,
+  CrrOperationStatusImpl,
   RecoveryPointsImpl,
-  RestoresImpl,
-  BackupPoliciesImpl,
-  ProtectionPoliciesImpl,
-  ProtectionPolicyOperationResultsImpl,
-  BackupJobsImpl,
-  JobDetailsImpl,
-  JobCancellationsImpl,
-  JobOperationResultsImpl,
-  ExportJobsOperationResultsImpl,
-  JobsImpl,
-  BackupProtectedItemsImpl,
-  OperationImpl,
-  ValidateOperationImpl,
-  ValidateOperationResultsImpl,
-  ValidateOperationStatusesImpl,
-  BackupEnginesImpl,
-  ProtectionContainerRefreshOperationResultsImpl,
-  ProtectableContainersImpl,
-  ProtectionContainersImpl,
-  BackupWorkloadItemsImpl,
-  ProtectionContainerOperationResultsImpl,
-  BackupsImpl,
-  ProtectedItemOperationStatusesImpl,
-  ItemLevelRecoveryConnectionsImpl,
-  BackupOperationResultsImpl,
-  BackupOperationStatusesImpl,
-  ProtectionPolicyOperationStatusesImpl,
-  BackupProtectableItemsImpl,
-  BackupProtectionContainersImpl,
-  DeletedProtectionContainersImpl,
-  SecurityPINsImpl,
-  RecoveryPointsRecommendedForMoveImpl,
-  ResourceGuardProxiesImpl,
-  ResourceGuardProxyImpl,
-  FetchTieringCostImpl,
-  GetTieringCostOperationResultImpl,
-  TieringCostOperationStatusImpl,
+  BackupResourceStorageConfigsImpl,
+  RecoveryPointsCrrImpl,
+  BackupProtectedItemsCrrImpl,
 } from "./operations";
 import {
-  BackupResourceStorageConfigsNonCRR,
-  ProtectionIntentOperations,
-  BackupStatus,
-  FeatureSupport,
-  BackupProtectionIntent,
-  BackupUsageSummaries,
-  Operations,
-  BackupResourceVaultConfigs,
-  BackupResourceEncryptionConfigs,
-  PrivateEndpointConnectionOperations,
-  PrivateEndpointOperations,
-  BMSPrepareDataMoveOperationResult,
-  ProtectedItems,
-  ProtectedItemOperationResults,
+  BackupUsageSummariesCRR,
+  AadProperties,
+  CrossRegionRestore,
+  BackupCrrJobDetails,
+  BackupCrrJobs,
+  CrrOperationResults,
+  CrrOperationStatus,
   RecoveryPoints,
-  Restores,
-  BackupPolicies,
-  ProtectionPolicies,
-  ProtectionPolicyOperationResults,
-  BackupJobs,
-  JobDetails,
-  JobCancellations,
-  JobOperationResults,
-  ExportJobsOperationResults,
-  Jobs,
-  BackupProtectedItems,
-  Operation,
-  ValidateOperation,
-  ValidateOperationResults,
-  ValidateOperationStatuses,
-  BackupEngines,
-  ProtectionContainerRefreshOperationResults,
-  ProtectableContainers,
-  ProtectionContainers,
-  BackupWorkloadItems,
-  ProtectionContainerOperationResults,
-  Backups,
-  ProtectedItemOperationStatuses,
-  ItemLevelRecoveryConnections,
-  BackupOperationResults,
-  BackupOperationStatuses,
-  ProtectionPolicyOperationStatuses,
-  BackupProtectableItems,
-  BackupProtectionContainers,
-  DeletedProtectionContainers,
-  SecurityPINs,
-  RecoveryPointsRecommendedForMove,
-  ResourceGuardProxies,
-  ResourceGuardProxy,
-  FetchTieringCost,
-  GetTieringCostOperationResult,
-  TieringCostOperationStatus,
+  BackupResourceStorageConfigs,
+  RecoveryPointsCrr,
+  BackupProtectedItemsCrr,
 } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
-import {
-  RecoveryServicesBackupClientOptionalParams,
-  GetOperationStatusOptionalParams,
-  GetOperationStatusResponse,
-  PrepareDataMoveRequest,
-  BMSPrepareDataMoveOptionalParams,
-  TriggerDataMoveRequest,
-  BMSTriggerDataMoveOptionalParams,
-  MoveRPAcrossTiersRequest,
-  MoveRecoveryPointOptionalParams,
-} from "./models";
+import { RecoveryServicesBackupClientOptionalParams } from "./models";
 
 export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   $host: string;
@@ -174,7 +74,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/13.1.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/14.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -228,77 +128,20 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
-    this.backupResourceStorageConfigsNonCRR =
-      new BackupResourceStorageConfigsNonCRRImpl(this);
-    this.protectionIntentOperations = new ProtectionIntentOperationsImpl(this);
-    this.backupStatus = new BackupStatusImpl(this);
-    this.featureSupport = new FeatureSupportImpl(this);
-    this.backupProtectionIntent = new BackupProtectionIntentImpl(this);
-    this.backupUsageSummaries = new BackupUsageSummariesImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.backupResourceVaultConfigs = new BackupResourceVaultConfigsImpl(this);
-    this.backupResourceEncryptionConfigs =
-      new BackupResourceEncryptionConfigsImpl(this);
-    this.privateEndpointConnectionOperations =
-      new PrivateEndpointConnectionOperationsImpl(this);
-    this.privateEndpointOperations = new PrivateEndpointOperationsImpl(this);
-    this.bMSPrepareDataMoveOperationResult =
-      new BMSPrepareDataMoveOperationResultImpl(this);
-    this.protectedItems = new ProtectedItemsImpl(this);
-    this.protectedItemOperationResults = new ProtectedItemOperationResultsImpl(
-      this,
-    );
+    this.apiVersion = options.apiVersion || "2024-11-15";
+    this.backupUsageSummariesCRR = new BackupUsageSummariesCRRImpl(this);
+    this.aadProperties = new AadPropertiesImpl(this);
+    this.crossRegionRestore = new CrossRegionRestoreImpl(this);
+    this.backupCrrJobDetails = new BackupCrrJobDetailsImpl(this);
+    this.backupCrrJobs = new BackupCrrJobsImpl(this);
+    this.crrOperationResults = new CrrOperationResultsImpl(this);
+    this.crrOperationStatus = new CrrOperationStatusImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
-    this.restores = new RestoresImpl(this);
-    this.backupPolicies = new BackupPoliciesImpl(this);
-    this.protectionPolicies = new ProtectionPoliciesImpl(this);
-    this.protectionPolicyOperationResults =
-      new ProtectionPolicyOperationResultsImpl(this);
-    this.backupJobs = new BackupJobsImpl(this);
-    this.jobDetails = new JobDetailsImpl(this);
-    this.jobCancellations = new JobCancellationsImpl(this);
-    this.jobOperationResults = new JobOperationResultsImpl(this);
-    this.exportJobsOperationResults = new ExportJobsOperationResultsImpl(this);
-    this.jobs = new JobsImpl(this);
-    this.backupProtectedItems = new BackupProtectedItemsImpl(this);
-    this.operation = new OperationImpl(this);
-    this.validateOperation = new ValidateOperationImpl(this);
-    this.validateOperationResults = new ValidateOperationResultsImpl(this);
-    this.validateOperationStatuses = new ValidateOperationStatusesImpl(this);
-    this.backupEngines = new BackupEnginesImpl(this);
-    this.protectionContainerRefreshOperationResults =
-      new ProtectionContainerRefreshOperationResultsImpl(this);
-    this.protectableContainers = new ProtectableContainersImpl(this);
-    this.protectionContainers = new ProtectionContainersImpl(this);
-    this.backupWorkloadItems = new BackupWorkloadItemsImpl(this);
-    this.protectionContainerOperationResults =
-      new ProtectionContainerOperationResultsImpl(this);
-    this.backups = new BackupsImpl(this);
-    this.protectedItemOperationStatuses =
-      new ProtectedItemOperationStatusesImpl(this);
-    this.itemLevelRecoveryConnections = new ItemLevelRecoveryConnectionsImpl(
+    this.backupResourceStorageConfigs = new BackupResourceStorageConfigsImpl(
       this,
     );
-    this.backupOperationResults = new BackupOperationResultsImpl(this);
-    this.backupOperationStatuses = new BackupOperationStatusesImpl(this);
-    this.protectionPolicyOperationStatuses =
-      new ProtectionPolicyOperationStatusesImpl(this);
-    this.backupProtectableItems = new BackupProtectableItemsImpl(this);
-    this.backupProtectionContainers = new BackupProtectionContainersImpl(this);
-    this.deletedProtectionContainers = new DeletedProtectionContainersImpl(
-      this,
-    );
-    this.securityPINs = new SecurityPINsImpl(this);
-    this.recoveryPointsRecommendedForMove =
-      new RecoveryPointsRecommendedForMoveImpl(this);
-    this.resourceGuardProxies = new ResourceGuardProxiesImpl(this);
-    this.resourceGuardProxy = new ResourceGuardProxyImpl(this);
-    this.fetchTieringCost = new FetchTieringCostImpl(this);
-    this.getTieringCostOperationResult = new GetTieringCostOperationResultImpl(
-      this,
-    );
-    this.tieringCostOperationStatus = new TieringCostOperationStatusImpl(this);
+    this.recoveryPointsCrr = new RecoveryPointsCrrImpl(this);
+    this.backupProtectedItemsCrr = new BackupProtectedItemsCrrImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -330,470 +173,15 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  /**
-   * Fetches operation status for data move operation on vault
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param operationId
-   * @param options The options parameters.
-   */
-  getOperationStatus(
-    vaultName: string,
-    resourceGroupName: string,
-    operationId: string,
-    options?: GetOperationStatusOptionalParams,
-  ): Promise<GetOperationStatusResponse> {
-    return this.sendOperationRequest(
-      { vaultName, resourceGroupName, operationId, options },
-      getOperationStatusOperationSpec,
-    );
-  }
-
-  /**
-   * Prepares source vault for Data Move operation
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param parameters Prepare data move request
-   * @param options The options parameters.
-   */
-  async beginBMSPrepareDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: PrepareDataMoveRequest,
-    options?: BMSPrepareDataMoveOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { vaultName, resourceGroupName, parameters, options },
-      spec: bMSPrepareDataMoveOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Prepares source vault for Data Move operation
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param parameters Prepare data move request
-   * @param options The options parameters.
-   */
-  async beginBMSPrepareDataMoveAndWait(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: PrepareDataMoveRequest,
-    options?: BMSPrepareDataMoveOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginBMSPrepareDataMove(
-      vaultName,
-      resourceGroupName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Triggers Data Move Operation on target vault
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param parameters Trigger data move request
-   * @param options The options parameters.
-   */
-  async beginBMSTriggerDataMove(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: TriggerDataMoveRequest,
-    options?: BMSTriggerDataMoveOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { vaultName, resourceGroupName, parameters, options },
-      spec: bMSTriggerDataMoveOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Triggers Data Move Operation on target vault
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param parameters Trigger data move request
-   * @param options The options parameters.
-   */
-  async beginBMSTriggerDataMoveAndWait(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: TriggerDataMoveRequest,
-    options?: BMSTriggerDataMoveOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginBMSTriggerDataMove(
-      vaultName,
-      resourceGroupName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Move recovery point from one datastore to another store.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param fabricName
-   * @param containerName
-   * @param protectedItemName
-   * @param recoveryPointId
-   * @param parameters Move Resource Across Tiers Request
-   * @param options The options parameters.
-   */
-  async beginMoveRecoveryPoint(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    recoveryPointId: string,
-    parameters: MoveRPAcrossTiersRequest,
-    options?: MoveRecoveryPointOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        vaultName,
-        resourceGroupName,
-        fabricName,
-        containerName,
-        protectedItemName,
-        recoveryPointId,
-        parameters,
-        options,
-      },
-      spec: moveRecoveryPointOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Move recovery point from one datastore to another store.
-   * @param vaultName The name of the recovery services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
-   * @param fabricName
-   * @param containerName
-   * @param protectedItemName
-   * @param recoveryPointId
-   * @param parameters Move Resource Across Tiers Request
-   * @param options The options parameters.
-   */
-  async beginMoveRecoveryPointAndWait(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    protectedItemName: string,
-    recoveryPointId: string,
-    parameters: MoveRPAcrossTiersRequest,
-    options?: MoveRecoveryPointOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginMoveRecoveryPoint(
-      vaultName,
-      resourceGroupName,
-      fabricName,
-      containerName,
-      protectedItemName,
-      recoveryPointId,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  backupResourceStorageConfigsNonCRR: BackupResourceStorageConfigsNonCRR;
-  protectionIntentOperations: ProtectionIntentOperations;
-  backupStatus: BackupStatus;
-  featureSupport: FeatureSupport;
-  backupProtectionIntent: BackupProtectionIntent;
-  backupUsageSummaries: BackupUsageSummaries;
-  operations: Operations;
-  backupResourceVaultConfigs: BackupResourceVaultConfigs;
-  backupResourceEncryptionConfigs: BackupResourceEncryptionConfigs;
-  privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
-  privateEndpointOperations: PrivateEndpointOperations;
-  bMSPrepareDataMoveOperationResult: BMSPrepareDataMoveOperationResult;
-  protectedItems: ProtectedItems;
-  protectedItemOperationResults: ProtectedItemOperationResults;
+  backupUsageSummariesCRR: BackupUsageSummariesCRR;
+  aadProperties: AadProperties;
+  crossRegionRestore: CrossRegionRestore;
+  backupCrrJobDetails: BackupCrrJobDetails;
+  backupCrrJobs: BackupCrrJobs;
+  crrOperationResults: CrrOperationResults;
+  crrOperationStatus: CrrOperationStatus;
   recoveryPoints: RecoveryPoints;
-  restores: Restores;
-  backupPolicies: BackupPolicies;
-  protectionPolicies: ProtectionPolicies;
-  protectionPolicyOperationResults: ProtectionPolicyOperationResults;
-  backupJobs: BackupJobs;
-  jobDetails: JobDetails;
-  jobCancellations: JobCancellations;
-  jobOperationResults: JobOperationResults;
-  exportJobsOperationResults: ExportJobsOperationResults;
-  jobs: Jobs;
-  backupProtectedItems: BackupProtectedItems;
-  operation: Operation;
-  validateOperation: ValidateOperation;
-  validateOperationResults: ValidateOperationResults;
-  validateOperationStatuses: ValidateOperationStatuses;
-  backupEngines: BackupEngines;
-  protectionContainerRefreshOperationResults: ProtectionContainerRefreshOperationResults;
-  protectableContainers: ProtectableContainers;
-  protectionContainers: ProtectionContainers;
-  backupWorkloadItems: BackupWorkloadItems;
-  protectionContainerOperationResults: ProtectionContainerOperationResults;
-  backups: Backups;
-  protectedItemOperationStatuses: ProtectedItemOperationStatuses;
-  itemLevelRecoveryConnections: ItemLevelRecoveryConnections;
-  backupOperationResults: BackupOperationResults;
-  backupOperationStatuses: BackupOperationStatuses;
-  protectionPolicyOperationStatuses: ProtectionPolicyOperationStatuses;
-  backupProtectableItems: BackupProtectableItems;
-  backupProtectionContainers: BackupProtectionContainers;
-  deletedProtectionContainers: DeletedProtectionContainers;
-  securityPINs: SecurityPINs;
-  recoveryPointsRecommendedForMove: RecoveryPointsRecommendedForMove;
-  resourceGuardProxies: ResourceGuardProxies;
-  resourceGuardProxy: ResourceGuardProxy;
-  fetchTieringCost: FetchTieringCost;
-  getTieringCostOperationResult: GetTieringCostOperationResult;
-  tieringCostOperationStatus: TieringCostOperationStatus;
+  backupResourceStorageConfigs: BackupResourceStorageConfigs;
+  recoveryPointsCrr: RecoveryPointsCrr;
+  backupProtectedItemsCrr: BackupProtectedItemsCrr;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const getOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationStatus,
-    },
-    default: {
-      bodyMapper: Mappers.NewErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.operationId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const bMSPrepareDataMoveOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.NewErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const bMSTriggerDataMoveOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.NewErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters9,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const moveRecoveryPointOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointId}/move",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.vaultName,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.fabricName,
-    Parameters.containerName,
-    Parameters.protectedItemName,
-    Parameters.recoveryPointId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
