@@ -10,7 +10,7 @@ import {
   SqlPoolMaintenanceWindowsGetOptionalParams,
   SqlPoolMaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams
+  SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams,
 } from "../models";
 
 /** Interface representing a SqlPoolMaintenanceWindows. */
@@ -28,7 +28,7 @@ export interface SqlPoolMaintenanceWindows {
     workspaceName: string,
     sqlPoolName: string,
     maintenanceWindowName: string,
-    options?: SqlPoolMaintenanceWindowsGetOptionalParams
+    options?: SqlPoolMaintenanceWindowsGetOptionalParams,
   ): Promise<SqlPoolMaintenanceWindowsGetResponse>;
   /**
    * Creates or updates a Sql pool's maintenance windows settings.
@@ -45,6 +45,6 @@ export interface SqlPoolMaintenanceWindows {
     sqlPoolName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams
+    options?: SqlPoolMaintenanceWindowsCreateOrUpdateOptionalParams,
   ): Promise<void>;
 }

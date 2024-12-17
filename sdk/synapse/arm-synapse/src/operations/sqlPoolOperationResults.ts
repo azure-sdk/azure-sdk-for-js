@@ -11,11 +11,15 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
-  SqlPoolOperationResultsGetLocationHeaderResultResponse
+  SqlPoolOperationResultsGetLocationHeaderResultResponse,
 } from "../models";
 
 /** Class containing SqlPoolOperationResults operations. */
@@ -43,32 +47,29 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
     workspaceName: string,
     sqlPoolName: string,
     operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
+    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlPoolOperationResultsGetLocationHeaderResultResponse
-      >,
+    SimplePollerLike<
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>,
       SqlPoolOperationResultsGetLocationHeaderResultResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -77,8 +78,8 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -86,19 +87,28 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, operationId, options },
-      getLocationHeaderResultOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        operationId,
+        options,
+      },
+      spec: getLocationHeaderResultOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolOperationResultsGetLocationHeaderResultResponse,
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -117,14 +127,14 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
     workspaceName: string,
     sqlPoolName: string,
     operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
+    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   ): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse> {
     const poller = await this.beginGetLocationHeaderResult(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
       operationId,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -133,25 +143,24 @@ export class SqlPoolOperationResultsImpl implements SqlPoolOperationResults {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getLocationHeaderResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -160,8 +169,8 @@ const getLocationHeaderResultOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.operationId,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

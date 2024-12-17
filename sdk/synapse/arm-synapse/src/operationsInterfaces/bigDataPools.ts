@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BigDataPoolResourceInfo,
   BigDataPoolsListByWorkspaceOptionalParams,
@@ -19,7 +19,7 @@ import {
   BigDataPoolsCreateOrUpdateOptionalParams,
   BigDataPoolsCreateOrUpdateResponse,
   BigDataPoolsDeleteOptionalParams,
-  BigDataPoolsDeleteResponse
+  BigDataPoolsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface BigDataPools {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BigDataPoolsListByWorkspaceOptionalParams
+    options?: BigDataPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<BigDataPoolResourceInfo>;
   /**
    * Get a Big Data pool.
@@ -47,7 +47,7 @@ export interface BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsGetOptionalParams
+    options?: BigDataPoolsGetOptionalParams,
   ): Promise<BigDataPoolsGetResponse>;
   /**
    * Patch a Big Data pool.
@@ -62,7 +62,7 @@ export interface BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolPatchInfo: BigDataPoolPatchInfo,
-    options?: BigDataPoolsUpdateOptionalParams
+    options?: BigDataPoolsUpdateOptionalParams,
   ): Promise<BigDataPoolsUpdateResponse>;
   /**
    * Create a new Big Data pool.
@@ -77,10 +77,10 @@ export interface BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolInfo: BigDataPoolResourceInfo,
-    options?: BigDataPoolsCreateOrUpdateOptionalParams
+    options?: BigDataPoolsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsCreateOrUpdateResponse>,
       BigDataPoolsCreateOrUpdateResponse
     >
   >;
@@ -97,7 +97,7 @@ export interface BigDataPools {
     workspaceName: string,
     bigDataPoolName: string,
     bigDataPoolInfo: BigDataPoolResourceInfo,
-    options?: BigDataPoolsCreateOrUpdateOptionalParams
+    options?: BigDataPoolsCreateOrUpdateOptionalParams,
   ): Promise<BigDataPoolsCreateOrUpdateResponse>;
   /**
    * Delete a Big Data pool from the workspace.
@@ -110,10 +110,10 @@ export interface BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsDeleteOptionalParams
+    options?: BigDataPoolsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BigDataPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<BigDataPoolsDeleteResponse>,
       BigDataPoolsDeleteResponse
     >
   >;
@@ -128,6 +128,6 @@ export interface BigDataPools {
     resourceGroupName: string,
     workspaceName: string,
     bigDataPoolName: string,
-    options?: BigDataPoolsDeleteOptionalParams
+    options?: BigDataPoolsDeleteOptionalParams,
   ): Promise<BigDataPoolsDeleteResponse>;
 }

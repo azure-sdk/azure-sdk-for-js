@@ -15,7 +15,7 @@ import {
   KeysCreateOrUpdateOptionalParams,
   KeysCreateOrUpdateResponse,
   KeysDeleteOptionalParams,
-  KeysDeleteResponse
+  KeysDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Keys {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: KeysListByWorkspaceOptionalParams
+    options?: KeysListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<Key>;
   /**
    * Gets a workspace key
@@ -43,7 +43,7 @@ export interface Keys {
     resourceGroupName: string,
     workspaceName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse>;
   /**
    * Creates or updates a workspace key
@@ -58,7 +58,7 @@ export interface Keys {
     workspaceName: string,
     keyName: string,
     keyProperties: Key,
-    options?: KeysCreateOrUpdateOptionalParams
+    options?: KeysCreateOrUpdateOptionalParams,
   ): Promise<KeysCreateOrUpdateResponse>;
   /**
    * Deletes a workspace key
@@ -71,6 +71,6 @@ export interface Keys {
     resourceGroupName: string,
     workspaceName: string,
     keyName: string,
-    options?: KeysDeleteOptionalParams
+    options?: KeysDeleteOptionalParams,
   ): Promise<KeysDeleteResponse>;
 }

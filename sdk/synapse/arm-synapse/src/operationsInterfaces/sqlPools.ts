@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlPool,
   SqlPoolsListByWorkspaceOptionalParams,
@@ -24,8 +24,6 @@ import {
   SqlPoolsPauseResponse,
   SqlPoolsResumeOptionalParams,
   SqlPoolsResumeResponse,
-  ResourceMoveDefinition,
-  SqlPoolsRenameOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +38,7 @@ export interface SqlPools {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SqlPoolsListByWorkspaceOptionalParams
+    options?: SqlPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SqlPool>;
   /**
    * Get SQL pool properties
@@ -53,7 +51,7 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsGetOptionalParams
+    options?: SqlPoolsGetOptionalParams,
   ): Promise<SqlPoolsGetResponse>;
   /**
    * Apply a partial update to a SQL pool
@@ -68,10 +66,10 @@ export interface SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPoolPatchInfo,
-    options?: SqlPoolsUpdateOptionalParams
+    options?: SqlPoolsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsUpdateResponse>,
       SqlPoolsUpdateResponse
     >
   >;
@@ -88,7 +86,7 @@ export interface SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPoolPatchInfo,
-    options?: SqlPoolsUpdateOptionalParams
+    options?: SqlPoolsUpdateOptionalParams,
   ): Promise<SqlPoolsUpdateResponse>;
   /**
    * Create a SQL pool
@@ -103,10 +101,10 @@ export interface SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPool,
-    options?: SqlPoolsCreateOptionalParams
+    options?: SqlPoolsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsCreateResponse>,
       SqlPoolsCreateResponse
     >
   >;
@@ -123,7 +121,7 @@ export interface SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPool,
-    options?: SqlPoolsCreateOptionalParams
+    options?: SqlPoolsCreateOptionalParams,
   ): Promise<SqlPoolsCreateResponse>;
   /**
    * Delete a SQL pool
@@ -136,10 +134,10 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsDeleteOptionalParams
+    options?: SqlPoolsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsDeleteResponse>,
       SqlPoolsDeleteResponse
     >
   >;
@@ -154,7 +152,7 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsDeleteOptionalParams
+    options?: SqlPoolsDeleteOptionalParams,
   ): Promise<SqlPoolsDeleteResponse>;
   /**
    * Pause a SQL pool
@@ -167,9 +165,12 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsPauseOptionalParams
+    options?: SqlPoolsPauseOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>
+    SimplePollerLike<
+      OperationState<SqlPoolsPauseResponse>,
+      SqlPoolsPauseResponse
+    >
   >;
   /**
    * Pause a SQL pool
@@ -182,7 +183,7 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsPauseOptionalParams
+    options?: SqlPoolsPauseOptionalParams,
   ): Promise<SqlPoolsPauseResponse>;
   /**
    * Resume a SQL pool
@@ -195,10 +196,10 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsResumeOptionalParams
+    options?: SqlPoolsResumeOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsResumeResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsResumeResponse>,
       SqlPoolsResumeResponse
     >
   >;
@@ -213,21 +214,6 @@ export interface SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsResumeOptionalParams
+    options?: SqlPoolsResumeOptionalParams,
   ): Promise<SqlPoolsResumeResponse>;
-  /**
-   * Rename a SQL pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param parameters The resource move definition for renaming this Sql pool.
-   * @param options The options parameters.
-   */
-  rename(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    parameters: ResourceMoveDefinition,
-    options?: SqlPoolsRenameOptionalParams
-  ): Promise<void>;
 }

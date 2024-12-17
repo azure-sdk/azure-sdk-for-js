@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   SqlPoolColumnsGetOptionalParams,
-  SqlPoolColumnsGetResponse
+  SqlPoolColumnsGetResponse,
 } from "../models";
 
 /** Class containing SqlPoolColumns operations. */
@@ -45,7 +45,7 @@ export class SqlPoolColumnsImpl implements SqlPoolColumns {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolColumnsGetOptionalParams
+    options?: SqlPoolColumnsGetOptionalParams,
   ): Promise<SqlPoolColumnsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +55,9 @@ export class SqlPoolColumnsImpl implements SqlPoolColumns {
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -65,14 +65,13 @@ export class SqlPoolColumnsImpl implements SqlPoolColumns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolColumn
+      bodyMapper: Mappers.SqlPoolColumn,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -83,8 +82,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.sqlPoolName,
     Parameters.schemaName,
     Parameters.tableName,
-    Parameters.columnName
+    Parameters.columnName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
