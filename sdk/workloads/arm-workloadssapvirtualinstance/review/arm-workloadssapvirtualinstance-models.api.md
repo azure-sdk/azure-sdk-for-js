@@ -4,15 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
 
@@ -62,11 +53,6 @@ export interface CentralServerVmDetails {
     readonly type?: CentralServerVirtualMachineType;
     readonly virtualMachineId?: string;
 }
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
@@ -523,15 +509,6 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export interface OperationStatusResult {
     endTime?: Date;
     error?: ErrorDetail;
@@ -572,18 +549,6 @@ export interface OsSapConfiguration {
 export type OSType = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -592,63 +557,8 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkloadsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface SAPApplicationServerInstance extends TrackedResource {
     properties?: SAPApplicationServerProperties;
-}
-
-// @public
-export interface SAPApplicationServerInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPApplicationServerInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPApplicationServerInstancesOperations {
-    create: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, resource: SAPApplicationServerInstance, options?: SAPApplicationServerInstancesCreateOptionalParams) => PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
-    delete: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesGetOptionalParams) => Promise<SAPApplicationServerInstance>;
-    list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPApplicationServerInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPApplicationServerInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, properties: UpdateSAPApplicationInstanceRequest, options?: SAPApplicationServerInstancesUpdateOptionalParams) => Promise<SAPApplicationServerInstance>;
-}
-
-// @public
-export interface SAPApplicationServerInstancesStartOptionalParams extends OperationOptions {
-    body?: StartRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesStopOptionalParams extends OperationOptions {
-    body?: StopRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -695,51 +605,6 @@ export interface SAPCentralServerInstance extends TrackedResource {
 }
 
 // @public
-export interface SAPCentralServerInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPCentralServerInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPCentralServerInstancesOperations {
-    create: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, resource: SAPCentralServerInstance, options?: SAPCentralServerInstancesCreateOptionalParams) => PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
-    delete: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesGetOptionalParams) => Promise<SAPCentralServerInstance>;
-    list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPCentralServerInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPCentralServerInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, properties: UpdateSAPCentralInstanceRequest, options?: SAPCentralServerInstancesUpdateOptionalParams) => Promise<SAPCentralServerInstance>;
-}
-
-// @public
-export interface SAPCentralServerInstancesStartOptionalParams extends OperationOptions {
-    body?: StartRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesStopOptionalParams extends OperationOptions {
-    body?: StopRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SAPCentralServerProperties {
     enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
     enqueueServerProperties?: EnqueueServerProperties;
@@ -771,51 +636,6 @@ export type SAPConfigurationUnion = DiscoveryConfiguration | DeploymentConfigura
 // @public
 export interface SAPDatabaseInstance extends TrackedResource {
     properties?: SAPDatabaseProperties;
-}
-
-// @public
-export interface SAPDatabaseInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPDatabaseInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPDatabaseInstancesOperations {
-    create: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, resource: SAPDatabaseInstance, options?: SAPDatabaseInstancesCreateOptionalParams) => PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance>;
-    delete: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesGetOptionalParams) => Promise<SAPDatabaseInstance>;
-    list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPDatabaseInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPDatabaseInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, properties: UpdateSAPDatabaseInstanceRequest, options?: SAPDatabaseInstancesUpdateOptionalParams) => Promise<SAPDatabaseInstance>;
-}
-
-// @public
-export interface SAPDatabaseInstancesStartOptionalParams extends OperationOptions {
-    body?: StartRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesStopOptionalParams extends OperationOptions {
-    body?: StopRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -966,81 +786,10 @@ export interface SAPVirtualInstanceProperties {
 export type SapVirtualInstanceProvisioningState = string;
 
 // @public
-export interface SAPVirtualInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetSapSupportedSkuOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetSizingRecommendationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesOperations {
-    create: (resourceGroupName: string, sapVirtualInstanceName: string, resource: SAPVirtualInstance, options?: SAPVirtualInstancesCreateOptionalParams) => PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
-    delete: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesGetOptionalParams) => Promise<SAPVirtualInstance>;
-    getAvailabilityZoneDetails: (location: string, body: SAPAvailabilityZoneDetailsRequest, options?: SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams) => Promise<SAPAvailabilityZoneDetailsResult>;
-    getDiskConfigurations: (location: string, body: SAPDiskConfigurationsRequest, options?: SAPVirtualInstancesGetDiskConfigurationsOptionalParams) => Promise<SAPDiskConfigurationsResult>;
-    getSapSupportedSku: (location: string, body: SAPSupportedSkusRequest, options?: SAPVirtualInstancesGetSapSupportedSkuOptionalParams) => Promise<SAPSupportedResourceSkusResult>;
-    getSizingRecommendations: (location: string, body: SAPSizingRecommendationRequest, options?: SAPVirtualInstancesGetSizingRecommendationsOptionalParams) => Promise<SAPSizingRecommendationResultUnion>;
-    listByResourceGroup: (resourceGroupName: string, options?: SAPVirtualInstancesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SAPVirtualInstance>;
-    listBySubscription: (options?: SAPVirtualInstancesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SAPVirtualInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    update: (resourceGroupName: string, sapVirtualInstanceName: string, properties: UpdateSAPVirtualInstanceRequest, options?: SAPVirtualInstancesUpdateOptionalParams) => PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
-}
-
-// @public
-export interface SAPVirtualInstancesStartOptionalParams extends OperationOptions {
-    body?: StartRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions {
-    body?: StopRequest;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type SAPVirtualInstanceState = string;
 
 // @public
 export type SAPVirtualInstanceStatus = string;
-
-// @public
-export interface SAPVirtualInstancesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
@@ -1248,22 +997,6 @@ export interface VirtualMachineResourceNames {
 // @public
 export interface WindowsConfiguration extends OSConfiguration {
     osType: "Windows";
-}
-
-// @public (undocumented)
-export class WorkloadsClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: WorkloadsClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly sAPApplicationServerInstances: SAPApplicationServerInstancesOperations;
-    readonly sAPCentralServerInstances: SAPCentralServerInstancesOperations;
-    readonly sAPDatabaseInstances: SAPDatabaseInstancesOperations;
-    readonly sAPVirtualInstances: SAPVirtualInstancesOperations;
-}
-
-// @public
-export interface WorkloadsClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // (No @packageDocumentation comment for this package)
