@@ -414,26 +414,26 @@ export interface AzureLargeStorageInstance extends TrackedResource {
 
 /** Defines headers for AzureLargeInstance_restart operation. */
 export interface AzureLargeInstanceRestartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_shutdown operation. */
 export interface AzureLargeInstanceShutdownHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_start operation. */
 export interface AzureLargeInstanceStartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -783,21 +783,6 @@ export enum KnownAzureLargeInstanceForcePowerState {
  * **inactive**: Inactive means that the restart operation will not terminate and halt existing processes that may be running on the server
  */
 export type AzureLargeInstanceForcePowerState = string;
-
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** Azure Large Instance api version 2023-07-20-preview. */
-  V20230720Preview = "2023-07-20-preview",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-07-20-preview**: Azure Large Instance api version 2023-07-20-preview.
- */
-export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
