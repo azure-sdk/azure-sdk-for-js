@@ -56,9 +56,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -71,7 +71,12 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownRefillPolicy {
-    Always = "always"
+    always = "always"
+}
+
+// @public
+export enum KnownVersions {
+    "2024-03-01" = "2024-03-01"
 }
 
 // @public
@@ -82,8 +87,8 @@ export enum KnownVirtualMachineState {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
