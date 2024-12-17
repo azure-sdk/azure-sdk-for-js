@@ -24,6 +24,6 @@ export interface IntegrationRuntimeCredentials {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeCredentialsSyncOptionalParams
+    options?: IntegrationRuntimeCredentialsSyncOptionalParams,
   ): Promise<void>;
 }

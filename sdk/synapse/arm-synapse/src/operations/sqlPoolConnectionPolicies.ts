@@ -14,12 +14,13 @@ import { SynapseManagementClient } from "../synapseManagementClient";
 import {
   ConnectionPolicyName,
   SqlPoolConnectionPoliciesGetOptionalParams,
-  SqlPoolConnectionPoliciesGetResponse
+  SqlPoolConnectionPoliciesGetResponse,
 } from "../models";
 
 /** Class containing SqlPoolConnectionPolicies operations. */
 export class SqlPoolConnectionPoliciesImpl
-  implements SqlPoolConnectionPolicies {
+  implements SqlPoolConnectionPolicies
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class SqlPoolConnectionPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     connectionPolicyName: ConnectionPolicyName,
-    options?: SqlPoolConnectionPoliciesGetOptionalParams
+    options?: SqlPoolConnectionPoliciesGetOptionalParams,
   ): Promise<SqlPoolConnectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class SqlPoolConnectionPoliciesImpl
         workspaceName,
         sqlPoolName,
         connectionPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -61,16 +62,15 @@ export class SqlPoolConnectionPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolConnectionPolicy
+      bodyMapper: Mappers.SqlPoolConnectionPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -79,8 +79,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.connectionPolicyName
+    Parameters.connectionPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
