@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
-import { StandbyVirtualMachinePoolRuntimeViewResource } from "../../models/models.js";
+import {
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+} from "../../api/options.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   standbyVirtualMachinePoolRuntimeViewsGet,
   standbyVirtualMachinePoolRuntimeViewsListByStandbyPool,
 } from "../../api/standbyVirtualMachinePoolRuntimeViews/index.js";
+import { StandbyVirtualMachinePoolRuntimeViewResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import {
-  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
-  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a StandbyVirtualMachinePoolRuntimeViews operations. */
 export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
@@ -31,7 +31,7 @@ export interface StandbyVirtualMachinePoolRuntimeViewsOperations {
 }
 
 export function getStandbyVirtualMachinePoolRuntimeViews(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ) {
   return {
@@ -65,7 +65,7 @@ export function getStandbyVirtualMachinePoolRuntimeViews(
 }
 
 export function getStandbyVirtualMachinePoolRuntimeViewsOperations(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ): StandbyVirtualMachinePoolRuntimeViewsOperations {
   return {
