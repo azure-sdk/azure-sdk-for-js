@@ -1,15 +1,19 @@
 # Release History
-
-## 2.2.0-beta.2 (Unreleased)
-
+    
+## 2.2.0 (2024-12-18)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CustomScaleRule has a new optional parameter identity
+  - Interface HttpScaleRule has a new optional parameter identity
+  - Interface JobScaleRule has a new optional parameter identity
+  - Interface QueueScaleRule has a new optional parameter accountName
+  - Interface QueueScaleRule has a new optional parameter identity
+  - Interface Scale has a new optional parameter cooldownPeriod
+  - Interface Scale has a new optional parameter pollingInterval
+  - Interface TcpScaleRule has a new optional parameter identity
+    
+    
 ## 2.2.0-beta.1 (2024-10-18)
 Compared with version 2.1.0
     
