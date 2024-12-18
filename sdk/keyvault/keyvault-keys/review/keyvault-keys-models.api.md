@@ -4,31 +4,9 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface BackupKeyOptionalParams extends OperationOptions {
-}
-
 // @public
 export interface BackupKeyResult {
     readonly value?: Uint8Array;
-}
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
-export interface CreateKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DecryptOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -55,54 +33,11 @@ export interface DeletedKeyItem {
 }
 
 // @public
-export interface DeleteKeyOptionalParams extends OperationOptions {
-}
-
-// @public
 export type DeletionRecoveryLevel = string;
-
-// @public
-export interface EncryptOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetDeletedKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetDeletedKeysOptionalParams extends OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export interface GetKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetKeyRotationPolicyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetKeysOptionalParams extends OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export interface GetKeyVersionsOptionalParams extends OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export interface GetRandomBytesOptionalParams extends OperationOptions {
-}
 
 // @public
 export interface GetRandomBytesRequest {
     count: number;
-}
-
-// @public
-export interface ImportKeyOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -267,41 +202,6 @@ export interface KeyUpdateParameters {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
-export class KeyVaultClient {
-    constructor(vaultBaseUrl: string, credential: TokenCredential, options?: KeyVaultClientOptionalParams);
-    backupKey(keyName: string, options?: BackupKeyOptionalParams): Promise<BackupKeyResult>;
-    createKey(keyName: string, parameters: KeyCreateParameters, options?: CreateKeyOptionalParams): Promise<KeyBundle>;
-    decrypt(keyName: string, keyVersion: string, parameters: KeyOperationsParameters, options?: DecryptOptionalParams): Promise<KeyOperationResult>;
-    deleteKey(keyName: string, options?: DeleteKeyOptionalParams): Promise<DeletedKeyBundle>;
-    encrypt(keyName: string, keyVersion: string, parameters: KeyOperationsParameters, options?: EncryptOptionalParams): Promise<KeyOperationResult>;
-    getDeletedKey(keyName: string, options?: GetDeletedKeyOptionalParams): Promise<DeletedKeyBundle>;
-    getDeletedKeys(options?: GetDeletedKeysOptionalParams): PagedAsyncIterableIterator<DeletedKeyItem>;
-    getKey(keyName: string, keyVersion: string, options?: GetKeyOptionalParams): Promise<KeyBundle>;
-    getKeyRotationPolicy(keyName: string, options?: GetKeyRotationPolicyOptionalParams): Promise<KeyRotationPolicy>;
-    getKeys(options?: GetKeysOptionalParams): PagedAsyncIterableIterator<KeyItem>;
-    getKeyVersions(keyName: string, options?: GetKeyVersionsOptionalParams): PagedAsyncIterableIterator<KeyItem>;
-    getRandomBytes(parameters: GetRandomBytesRequest, options?: GetRandomBytesOptionalParams): Promise<RandomBytes>;
-    importKey(keyName: string, parameters: KeyImportParameters, options?: ImportKeyOptionalParams): Promise<KeyBundle>;
-    readonly pipeline: Pipeline;
-    purgeDeletedKey(keyName: string, options?: PurgeDeletedKeyOptionalParams): Promise<void>;
-    recoverDeletedKey(keyName: string, options?: RecoverDeletedKeyOptionalParams): Promise<KeyBundle>;
-    release(keyName: string, keyVersion: string, parameters: KeyReleaseParameters, options?: ReleaseOptionalParams): Promise<KeyReleaseResult>;
-    restoreKey(parameters: KeyRestoreParameters, options?: RestoreKeyOptionalParams): Promise<KeyBundle>;
-    rotateKey(keyName: string, options?: RotateKeyOptionalParams): Promise<KeyBundle>;
-    sign(keyName: string, keyVersion: string, parameters: KeySignParameters, options?: SignOptionalParams): Promise<KeyOperationResult>;
-    unwrapKey(keyName: string, keyVersion: string, parameters: KeyOperationsParameters, options?: UnwrapKeyOptionalParams): Promise<KeyOperationResult>;
-    updateKey(keyName: string, keyVersion: string, parameters: KeyUpdateParameters, options?: UpdateKeyOptionalParams): Promise<KeyBundle>;
-    updateKeyRotationPolicy(keyName: string, keyRotationPolicy: KeyRotationPolicy, options?: UpdateKeyRotationPolicyOptionalParams): Promise<KeyRotationPolicy>;
-    verify(keyName: string, keyVersion: string, parameters: KeyVerifyParameters, options?: VerifyOptionalParams): Promise<KeyVerifyResult>;
-    wrapKey(keyName: string, keyVersion: string, parameters: KeyOperationsParameters, options?: WrapKeyOptionalParams): Promise<KeyOperationResult>;
-}
-
-// @public
-export interface KeyVaultClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface KeyVerifyParameters {
     algorithm: JsonWebKeySignatureAlgorithm;
@@ -422,64 +322,8 @@ export interface LifetimeActionsType {
 }
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
-export interface PurgeDeletedKeyOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface RandomBytes {
     value: Uint8Array;
-}
-
-// @public
-export interface RecoverDeletedKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ReleaseOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RestoreKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RotateKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SignOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UnwrapKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UpdateKeyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UpdateKeyRotationPolicyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface VerifyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface WrapKeyOptionalParams extends OperationOptions {
 }
 
 // (No @packageDocumentation comment for this package)
