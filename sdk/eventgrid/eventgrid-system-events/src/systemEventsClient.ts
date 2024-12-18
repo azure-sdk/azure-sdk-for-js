@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import { logger } from "../logger.js";
-import type { SystemEventsContext } from "./clientDefinitions.js";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import { SystemEventsClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface SystemEventsContextOptions extends ClientOptions {}
+export interface SystemEventsClientOptions extends ClientOptions {}
 
 /**
- * Initialize a new instance of `SystemEventsContext`
+ * Initialize a new instance of `SystemEventsClient`
  * @param endpointParam - The parameter endpointParam
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   endpointParam: string,
-  options: SystemEventsContextOptions = {},
-): SystemEventsContext {
+  options: SystemEventsClientOptions = {},
+): SystemEventsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-eventgrid-system-events/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-eventgrid-system-events-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -33,7 +32,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
   };
-  const client = getClient(endpointUrl, options) as SystemEventsContext;
+  const client = getClient(endpointUrl, options) as SystemEventsClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   if (options.apiVersion) {
