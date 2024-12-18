@@ -1302,6 +1302,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-network@33.4.0':
+    resolution: {integrity: sha512-UmYG6dQ7p4MVHh/9UvVQDLlvMsA252EJKJBBeG1KkYsiKwwE1xxFbV5Mk0kt8lFe4h26ElnXXTe2B++u00ukoA==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -3110,7 +3114,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-uHXY8aiy59HNsKOlADr+OcpDG8TihgYdOW4ZXH1ap6Lc+nlMFoMVFYFbM2O0w40S2Me9pQaUbHOe+/94MCjoWQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-lfEX/MNy4BjwajKfv7V7bZWKy8BWVMvd2mKUtPJ8VSFf1D03lrtMyavP1tLr9bQlnwyLzpRdYNONVVqGCrA+uA==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3142,7 +3146,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
-    resolution: {integrity: sha512-cVAhqcWQjDSupwUm6IMgEy+sUMRBkJz2v4JtXuAznwXp6lVCf6ZsVAX3mYQ5k3nTnJ4uLGShF8q4SRl5WUE0tQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-gEfTX82tHzQaJJYS0byxWzSvTX8QsQxYwYp7Iq33gIJpY79jCjCrWpQI9UzuuC9JNJg9bWphU/3RLU8PxhlqDw==, tarball: file:projects/arm-network-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-profile-2020-09-01-hybrid@file:projects/arm-network-profile-2020-09-01-hybrid.tgz':
@@ -3910,7 +3914,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
-    resolution: {integrity: sha512-iSZgFDWsrLX/w4PpblJltsGErNQ9rACL1nLhGiHv+uKXQ0dXxiuvx05G760OECb5ngfpcMRBmpPG3rvk0EgCXw==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-m+3hLcmLGYB093WXGWNAaOSCB9dgMLyySPn+aL4eFJYtwSoZisks9ANmXbETekv86r9y+DxcflijsaA67r2LJg==, tarball: file:projects/perf-monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-schema-registry-avro@file:projects/perf-schema-registry-avro.tgz':
@@ -3934,7 +3938,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-PA4GNlP5egvK17bRRWDzOrPQgQ87ZxFP+UzUQxy/Wa1NwuHJdBlcsa8P3do4HTkD0UpSzTyeNQ5P7X2etFM+8A==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-HxVcq/7U436G6d4/ue7Fg1Juzus8PAOnYHic0pP00WvntD2uwexSV3WDQZCDOzsuzVKCkWEaFW3xr+tydLM8TA==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
@@ -6684,6 +6688,11 @@ packages:
   mlly@1.7.3:
     resolution: {integrity: sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==}
 
+  mocha@10.8.2:
+    resolution: {integrity: sha512-VZlYo/WE8t1tstuRmqgeyBgCbJc/lEdopaa+axcKzTBJ+UIdlAB9XnmvTCAH4pwR4ElNInaedhEBmZD8iCSVEg==}
+    engines: {node: '>= 14.0.0'}
+    hasBin: true
+
   mocha@11.0.2:
     resolution: {integrity: sha512-IpLqigxxL825rKCce2hlJL6qiUNgxbjhpS79SA6NN+Quzrf6wzLezwk4LcfIJp/OUD5BVWTM/nCYc3oQ5uqmfw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -8508,6 +8517,18 @@ snapshots:
       - supports-color
 
   '@azure/arm-network@32.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-network@33.4.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -13551,6 +13572,7 @@ snapshots:
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@azure/arm-network': 33.4.0
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -13736,14 +13758,13 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
+      mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
@@ -18665,12 +18686,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -18736,12 +18754,9 @@ snapshots:
       '@types/node': 18.19.68
       dotenv: 16.4.7
       eslint: 9.17.0
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
 
@@ -22998,6 +23013,29 @@ snapshots:
       pathe: 1.1.2
       pkg-types: 1.2.1
       ufo: 1.5.4
+
+  mocha@10.8.2:
+    dependencies:
+      ansi-colors: 4.1.3
+      browser-stdout: 1.3.1
+      chokidar: 3.6.0
+      debug: 4.4.0(supports-color@8.1.1)
+      diff: 5.2.0
+      escape-string-regexp: 4.0.0
+      find-up: 5.0.0
+      glob: 8.1.0
+      he: 1.2.0
+      js-yaml: 4.1.0
+      log-symbols: 4.1.0
+      minimatch: 5.1.6
+      ms: 2.1.3
+      serialize-javascript: 6.0.2
+      strip-json-comments: 3.1.1
+      supports-color: 8.1.1
+      workerpool: 6.5.1
+      yargs: 16.2.0
+      yargs-parser: 20.2.9
+      yargs-unparser: 2.0.0
 
   mocha@11.0.2:
     dependencies:
