@@ -1,5 +1,25 @@
 # Release History
     
+## 3.2.0 (2024-12-18)
+    
+### Features Added
+
+  - Added operation group BillingInfo
+  - Added Interface BillingInfoGetOptionalParams
+  - Added Interface BillingInfoResponse
+  - Added Interface CreationSupportedListNextOptionalParams
+  - Added Interface MarketplaceSaaSInfo
+  - Added Interface MonitoredSubscriptionsListNextOptionalParams
+  - Added Interface PartnerBillingEntity
+  - Added Type Alias BillingInfoGetResponse
+  - Added Type Alias CreationSupportedListNextResponse
+  - Added Type Alias MonitoredSubscriptionsListNextResponse
+  - Interface CreateResourceSupportedResponseList has a new optional parameter nextLink
+  - Interface LinkedResource has a new optional parameter location
+  - Interface MonitoredSubscriptionPropertiesList has a new optional parameter nextLink
+  - Interface MonitoringTagRulesProperties has a new optional parameter customMetrics
+    
+    
 ## 3.1.0 (2023-10-09)
     
 ### Features Added
@@ -46,7 +66,7 @@
 
 ## 3.0.1 (2022-04-18)
 
-### Features Added
+**features**
 
   - bug fix
 
