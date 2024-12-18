@@ -4,11 +4,6 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export interface Action {
     actionType?: CertificatePolicyAction;
@@ -20,10 +15,6 @@ export interface AdministratorDetails {
     firstName?: string;
     lastName?: string;
     phone?: string;
-}
-
-// @public
-export interface BackupCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -166,31 +157,6 @@ export interface Contacts {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
-export interface CreateCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteCertificateContactsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteCertificateIssuerOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteCertificateOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeleteCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface DeletedCertificateBundle {
     attributes?: CertificateAttributes;
     cer?: Uint8Array;
@@ -225,56 +191,6 @@ export interface ErrorModel {
     readonly code?: string;
     readonly innerError?: ErrorModel;
     readonly message?: string;
-}
-
-// @public
-export interface GetCertificateContactsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCertificateIssuerOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCertificateIssuersOptionalParams extends OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export interface GetCertificateOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCertificatePolicyOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetCertificatesOptionalParams extends OperationOptions {
-    includePending?: boolean;
-    maxresults?: number;
-}
-
-// @public
-export interface GetCertificateVersionsOptionalParams extends OperationOptions {
-    maxresults?: number;
-}
-
-// @public
-export interface GetDeletedCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface GetDeletedCertificatesOptionalParams extends OperationOptions {
-    includePending?: boolean;
-    maxresults?: number;
-}
-
-// @public
-export interface ImportCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -323,44 +239,6 @@ export interface KeyProperties {
 
 // @public
 export type KeyUsageType = string;
-
-// @public (undocumented)
-export class KeyVaultClient {
-    constructor(vaultBaseUrl: string, credential: TokenCredential, options?: KeyVaultClientOptionalParams);
-    backupCertificate(certificateName: string, options?: BackupCertificateOptionalParams): Promise<BackupCertificateResult>;
-    createCertificate(certificateName: string, parameters: CertificateCreateParameters, options?: CreateCertificateOptionalParams): Promise<CertificateOperation>;
-    deleteCertificate(certificateName: string, options?: DeleteCertificateOptionalParams): Promise<DeletedCertificateBundle>;
-    deleteCertificateContacts(options?: DeleteCertificateContactsOptionalParams): Promise<Contacts>;
-    deleteCertificateIssuer(issuerName: string, options?: DeleteCertificateIssuerOptionalParams): Promise<IssuerBundle>;
-    deleteCertificateOperation(certificateName: string, options?: DeleteCertificateOperationOptionalParams): Promise<CertificateOperation>;
-    getCertificate(certificateName: string, certificateVersion: string, options?: GetCertificateOptionalParams): Promise<CertificateBundle>;
-    getCertificateContacts(options?: GetCertificateContactsOptionalParams): Promise<Contacts>;
-    getCertificateIssuer(issuerName: string, options?: GetCertificateIssuerOptionalParams): Promise<IssuerBundle>;
-    getCertificateIssuers(options?: GetCertificateIssuersOptionalParams): PagedAsyncIterableIterator<CertificateIssuerItem>;
-    getCertificateOperation(certificateName: string, options?: GetCertificateOperationOptionalParams): Promise<CertificateOperation>;
-    getCertificatePolicy(certificateName: string, options?: GetCertificatePolicyOptionalParams): Promise<CertificatePolicy>;
-    getCertificates(options?: GetCertificatesOptionalParams): PagedAsyncIterableIterator<CertificateItem>;
-    getCertificateVersions(certificateName: string, options?: GetCertificateVersionsOptionalParams): PagedAsyncIterableIterator<CertificateItem>;
-    getDeletedCertificate(certificateName: string, options?: GetDeletedCertificateOptionalParams): Promise<DeletedCertificateBundle>;
-    getDeletedCertificates(options?: GetDeletedCertificatesOptionalParams): PagedAsyncIterableIterator<DeletedCertificateItem>;
-    importCertificate(certificateName: string, parameters: CertificateImportParameters, options?: ImportCertificateOptionalParams): Promise<CertificateBundle>;
-    mergeCertificate(certificateName: string, parameters: CertificateMergeParameters, options?: MergeCertificateOptionalParams): Promise<CertificateBundle>;
-    readonly pipeline: Pipeline;
-    purgeDeletedCertificate(certificateName: string, options?: PurgeDeletedCertificateOptionalParams): Promise<void>;
-    recoverDeletedCertificate(certificateName: string, options?: RecoverDeletedCertificateOptionalParams): Promise<CertificateBundle>;
-    restoreCertificate(parameters: CertificateRestoreParameters, options?: RestoreCertificateOptionalParams): Promise<CertificateBundle>;
-    setCertificateContacts(contacts: Contacts, options?: SetCertificateContactsOptionalParams): Promise<Contacts>;
-    setCertificateIssuer(issuerName: string, parameter: CertificateIssuerSetParameters, options?: SetCertificateIssuerOptionalParams): Promise<IssuerBundle>;
-    updateCertificate(certificateName: string, certificateVersion: string, parameters: CertificateUpdateParameters, options?: UpdateCertificateOptionalParams): Promise<CertificateBundle>;
-    updateCertificateIssuer(issuerName: string, parameter: CertificateIssuerUpdateParameters, options?: UpdateCertificateIssuerOptionalParams): Promise<IssuerBundle>;
-    updateCertificateOperation(certificateName: string, certificateOperation: CertificateOperationUpdateParameter, options?: UpdateCertificateOperationOptionalParams): Promise<CertificateOperation>;
-    updateCertificatePolicy(certificateName: string, certificatePolicy: CertificatePolicy, options?: UpdateCertificatePolicyOptionalParams): Promise<CertificatePolicy>;
-}
-
-// @public
-export interface KeyVaultClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export enum KnownDeletionRecoveryLevel {
@@ -417,50 +295,14 @@ export interface LifetimeAction {
 }
 
 // @public
-export interface MergeCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface OrganizationDetails {
     adminDetails?: AdministratorDetails[];
     id?: string;
 }
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
-
-// @public
-export interface PurgeDeletedCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RecoverDeletedCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface RestoreCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SecretProperties {
     contentType?: string;
-}
-
-// @public
-export interface SetCertificateContactsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SetCertificateIssuerOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -474,22 +316,6 @@ export interface SubjectAlternativeNames {
 export interface Trigger {
     daysBeforeExpiry?: number;
     lifetimePercentage?: number;
-}
-
-// @public
-export interface UpdateCertificateIssuerOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UpdateCertificateOperationOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UpdateCertificateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface UpdateCertificatePolicyOptionalParams extends OperationOptions {
 }
 
 // @public
