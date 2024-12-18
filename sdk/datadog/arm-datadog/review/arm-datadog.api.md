@@ -11,6 +11,24 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface BillingInfo {
+    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+}
+
+// @public
+export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+// @public
+export interface BillingInfoResponse {
+    marketplaceSaasInfo?: MarketplaceSaaSInfo;
+    partnerBillingEntity?: PartnerBillingEntity;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -26,6 +44,7 @@ export interface CreateResourceSupportedResponse {
 
 // @public (undocumented)
 export interface CreateResourceSupportedResponseList {
+    nextLink?: string;
     // (undocumented)
     value?: CreateResourceSupportedResponse[];
 }
@@ -42,6 +61,13 @@ export interface CreationSupportedGetOptionalParams extends coreClient.Operation
 
 // @public
 export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
+
+// @public
+export interface CreationSupportedListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedListNextResponse = CreateResourceSupportedResponseList;
 
 // @public
 export interface CreationSupportedListOptionalParams extends coreClient.OperationOptions {
@@ -325,6 +351,7 @@ export type LiftrResourceCategories = string;
 // @public
 export interface LinkedResource {
     id?: string;
+    location?: string;
 }
 
 // @public
@@ -374,6 +401,15 @@ export interface MarketplaceAgreementsListOptionalParams extends coreClient.Oper
 export type MarketplaceAgreementsListResponse = DatadogAgreementResourceListResponse;
 
 // @public
+export interface MarketplaceSaaSInfo {
+    billedAzureSubscriptionId?: string;
+    marketplaceName?: string;
+    marketplaceStatus?: string;
+    marketplaceSubscriptionId?: string;
+    subscribed?: boolean;
+}
+
+// @public
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
@@ -388,6 +424,8 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftDatadogClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    billingInfo: BillingInfo;
     // (undocumented)
     creationSupported: CreationSupported;
     // (undocumented)
@@ -446,6 +484,7 @@ export interface MonitoredSubscriptionProperties {
 
 // @public (undocumented)
 export interface MonitoredSubscriptionPropertiesList {
+    nextLink?: string;
     // (undocumented)
     value?: MonitoredSubscriptionProperties[];
 }
@@ -486,6 +525,13 @@ export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.Oper
 export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
 
 // @public
+export interface MonitoredSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
 export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -523,6 +569,7 @@ export interface MonitoringTagRulesListResponse {
 // @public
 export interface MonitoringTagRulesProperties {
     automuting?: boolean;
+    customMetrics?: boolean;
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
@@ -745,6 +792,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export interface PartnerBillingEntity {
+    id?: string;
+    name?: string;
+    partnerEntityUri?: string;
+}
 
 // @public
 export type ProvisioningState = string;
