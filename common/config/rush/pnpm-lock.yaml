@@ -993,7 +993,7 @@ importers:
         version: file:projects/keyvault-admin.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/keyvault-certificates':
         specifier: file:./projects/keyvault-certificates.tgz
-        version: file:projects/keyvault-certificates.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
+        version: file:projects/keyvault-certificates.tgz
       '@rush-temp/keyvault-common':
         specifier: file:./projects/keyvault-common.tgz
         version: file:projects/keyvault-common.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
@@ -3524,7 +3524,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-j9rSk+SzAA5RTLrNqnlSWmfabKPVUE/iu7X3ckI3iQyYIgHYjn1Ek+zXQaN0DYMThl2chTjnq389qCuy1OeT4Q==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-Q0aoHSErnhYNIqQdkp7d/WgWUtnU+qrPZKPZpXrxRk0+5EjOO9GNCfuK0JP6U/45Ship8xB7x6INfU5SE6qvkg==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
@@ -3744,7 +3744,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
-    resolution: {integrity: sha512-hHHFZjEUX2s1FPN5WTYcqoT1hqSFS7iJnQvqh6nFyknX+Z9pOUl5+gU6gaxGxwYiLV3yPo+wYN4+w/S9K9x7DQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-yPIJrxwCOm53lgr/lg7hPOIJon/CMo72RXE78NNsCeejOEfCEaBXZ93ma86Iy9gXwONEvycFSCKP9bZJbb18Ig==, tarball: file:projects/keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-common@file:projects/keyvault-common.tgz':
@@ -17562,38 +17562,17 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
+  '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
-      playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - utf-8-validate
-      - vite
-      - webdriverio
 
   '@rush-temp/keyvault-common@file:projects/keyvault-common.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
