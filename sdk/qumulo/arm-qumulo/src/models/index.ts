@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  FileSystemResource,
+  FileSystemResourceProperties,
+  MarketplaceDetails,
+  KnownMarketplaceSubscriptionStatus,
+  MarketplaceSubscriptionStatus,
+  KnownProvisioningState,
+  ProvisioningState,
+  UserDetails,
+  ManagedServiceIdentity,
+  KnownManagedServiceIdentityType,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  FileSystemResourceUpdate,
+  FileSystemResourceUpdateProperties,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  KnownVersions,
+} from "./models.js";
