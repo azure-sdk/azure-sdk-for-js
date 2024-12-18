@@ -1002,7 +1002,7 @@ importers:
         version: file:projects/keyvault-keys.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/keyvault-secrets':
         specifier: file:./projects/keyvault-secrets.tgz
-        version: file:projects/keyvault-secrets.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
+        version: file:projects/keyvault-secrets.tgz
       '@rush-temp/load-testing':
         specifier: file:./projects/load-testing.tgz
         version: file:projects/load-testing.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))
@@ -3524,7 +3524,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-j9rSk+SzAA5RTLrNqnlSWmfabKPVUE/iu7X3ckI3iQyYIgHYjn1Ek+zXQaN0DYMThl2chTjnq389qCuy1OeT4Q==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-Q0aoHSErnhYNIqQdkp7d/WgWUtnU+qrPZKPZpXrxRk0+5EjOO9GNCfuK0JP6U/45Ship8xB7x6INfU5SE6qvkg==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
@@ -3756,7 +3756,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
-    resolution: {integrity: sha512-XdGtBXoiBvpODd8UhGwxazB7/nQiYZxp2/mMGE/pwVKyi64zTVMa7FZKGnJolBlWvycaJJ8Qxql3Eg3c9EvDOg==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-sM0lvJ1M59VB0p0UvCr9Za0cL2yCLYuh3B3GGjDwgfHQWFqr+ztCGCnl9Y4nrpNcyM+Xi+5zG+E5P6QFWait0A==, tarball: file:projects/keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
@@ -17660,33 +17660,17 @@ snapshots:
       - vite
       - webdriverio
 
-  '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))':
+  '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
-      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
-      playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
