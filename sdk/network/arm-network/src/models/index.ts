@@ -2397,8 +2397,8 @@ export interface LoadBalancerHealthPerRule {
 export interface LoadBalancerHealthPerRulePerBackendAddress {
   /** The IP address belonging to the backend address. */
   ipAddress?: string;
-  /** The id of the network interface ip configuration belonging to the backend address */
-  networkInterfaceIPConfigurationId?: NetworkInterfaceIPConfiguration;
+  /** Resource ID of the Network Interface IP Configuration. */
+  networkInterfaceIPConfigurationId?: string;
   /** The current health of the backend instances that is associated to the LB rule. */
   state?: string;
   /** The explanation of the State */
@@ -3242,6 +3242,21 @@ export interface PartnerManagedResourceProperties {
 export interface NetworkVirtualApplianceInstanceIds {
   /** The network virtual appliance instance ids. Omitting the network virtual appliance instance ids will result in the operation being performed on all virtual machines belonging to the network virtual appliance. */
   instanceIds?: string[];
+}
+
+/** Specifies input parameters required to retrieve the boot diagnostic logs for an NVA instance */
+export interface NetworkVirtualApplianceBootDiagnosticParameters {
+  /** The network virtual appliance instance id for which boot diagnostic logs is being requested */
+  instanceId?: number;
+  /** Specifies the sas-url to the storage blob into which serial console logs for the requested instance will be written */
+  serialConsoleStorageSasUrl?: string;
+  /** Specifies the sas-url to the storage blob into which console screen shot for the requested instance will be written */
+  consoleScreenshotStorageSasUrl?: string;
+}
+
+export interface NetworkVirtualApplianceInstanceId {
+  /** The network virtual appliance instance id for which boot diagnostic logs is being requested */
+  instanceId?: number;
 }
 
 /** Response for ListNetworkVirtualAppliances API service call. */
@@ -12859,6 +12874,18 @@ export interface NetworkVirtualAppliancesRestartHeaders {
   location?: string;
 }
 
+/** Defines headers for NetworkVirtualAppliances_reimage operation. */
+export interface NetworkVirtualAppliancesReimageHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for NetworkVirtualAppliances_getBootDiagnosticLogs operation. */
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
 /** Defines headers for RouteFilters_delete operation. */
 export interface RouteFiltersDeleteHeaders {
   /**
@@ -22458,6 +22485,36 @@ export interface NetworkVirtualAppliancesRestartOptionalParams
 /** Contains response data for the restart operation. */
 export type NetworkVirtualAppliancesRestartResponse =
   NetworkVirtualApplianceInstanceIds;
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesReimageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specifies a list of virtual machine instance IDs from the Network Virtual Appliance VM instances. */
+  networkVirtualApplianceInstanceIds?: NetworkVirtualApplianceInstanceIds;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reimage operation. */
+export type NetworkVirtualAppliancesReimageResponse =
+  NetworkVirtualApplianceInstanceIds;
+
+/** Optional parameters. */
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specifies a virtual machine instance ID from the Network Virtual Appliance VM instances. */
+  instanceId?: NetworkVirtualApplianceBootDiagnosticParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getBootDiagnosticLogs operation. */
+export type NetworkVirtualAppliancesGetBootDiagnosticLogsResponse =
+  NetworkVirtualApplianceInstanceId;
 
 /** Optional parameters. */
 export interface NetworkVirtualAppliancesListByResourceGroupOptionalParams
