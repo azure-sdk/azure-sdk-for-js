@@ -24,6 +24,8 @@ import {
   VirtualMachineImagesListSkusResponse,
   VirtualMachineImagesListByEdgeZoneOptionalParams,
   VirtualMachineImagesListByEdgeZoneResponse,
+  VirtualMachineImagesListWithPropertiesOptionalParams,
+  VirtualMachineImagesListWithPropertiesResponse,
 } from "../models";
 
 /** Class containing VirtualMachineImages operations. */
@@ -148,6 +150,26 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     return this.client.sendOperationRequest(
       { location, edgeZone, options },
       listByEdgeZoneOperationSpec,
+    );
+  }
+
+  /**
+   * @param location The name of a supported Azure region.
+   * @param publisherName A valid image publisher.
+   * @param offer A valid image publisher offer.
+   * @param skus A valid image SKU.
+   * @param options The options parameters.
+   */
+  listWithProperties(
+    location: string,
+    publisherName: string,
+    offer: string,
+    skus: string,
+    options?: VirtualMachineImagesListWithPropertiesOptionalParams,
+  ): Promise<VirtualMachineImagesListWithPropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { location, publisherName, offer, skus, options },
+      listWithPropertiesOperationSpec,
     );
   }
 }
@@ -326,6 +348,41 @@ const listByEdgeZoneOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location1,
     Parameters.edgeZone,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listWithPropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "VirtualMachineImage" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.top,
+    Parameters.orderby,
+    Parameters.expand5,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.publisherName,
+    Parameters.offer,
+    Parameters.skus,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -987,8 +987,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
-   * and avoid charges. Additionally, this operation is not allowed on virtual machines in a VM scale set
-   * that are being deallocated or have already been deallocated.
+   * and avoid charges.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
@@ -1052,8 +1051,7 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   /**
    * Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
    * attached and you are getting charged for the resources. Instead, use deallocate to release resources
-   * and avoid charges. Additionally, this operation is not allowed on virtual machines in a VM scale set
-   * that are being deallocated or have already been deallocated.
+   * and avoid charges.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
