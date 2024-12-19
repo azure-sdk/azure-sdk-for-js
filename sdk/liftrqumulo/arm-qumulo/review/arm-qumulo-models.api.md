@@ -4,22 +4,8 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -55,42 +41,6 @@ export interface FileSystemResourceUpdateProperties {
     delegatedSubnetId?: string;
     marketplaceDetails?: MarketplaceDetails;
     userDetails?: UserDetails;
-}
-
-// @public
-export interface FileSystemsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FileSystemsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FileSystemsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FileSystemsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FileSystemsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FileSystemsOperations {
-    createOrUpdate: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FileSystemResource>, FileSystemResource>;
-    delete: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams) => Promise<FileSystemResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: FileSystemsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FileSystemResource>;
-    listBySubscription: (options?: FileSystemsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FileSystemResource>;
-    update: (resourceGroupName: string, fileSystemName: string, properties: FileSystemResourceUpdate, options?: FileSystemsUpdateOptionalParams) => Promise<FileSystemResource>;
-}
-
-// @public
-export interface FileSystemsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -188,28 +138,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;
@@ -220,29 +149,6 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public (undocumented)
-export class StorageClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: StorageClientOptionalParams);
-    readonly fileSystems: FileSystemsOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface StorageClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
