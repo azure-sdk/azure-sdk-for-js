@@ -22,6 +22,10 @@ import {
   NetworkVirtualAppliancesCreateOrUpdateResponse,
   NetworkVirtualAppliancesRestartOptionalParams,
   NetworkVirtualAppliancesRestartResponse,
+  NetworkVirtualAppliancesReimageOptionalParams,
+  NetworkVirtualAppliancesReimageResponse,
+  NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  NetworkVirtualAppliancesGetBootDiagnosticLogsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -147,4 +151,60 @@ export interface NetworkVirtualAppliances {
     networkVirtualApplianceName: string,
     options?: NetworkVirtualAppliancesRestartOptionalParams,
   ): Promise<NetworkVirtualAppliancesRestartResponse>;
+  /**
+   * Reimages one VM belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginReimage(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesReimageOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesReimageResponse>,
+      NetworkVirtualAppliancesReimageResponse
+    >
+  >;
+  /**
+   * Reimages one VM belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginReimageAndWait(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesReimageOptionalParams,
+  ): Promise<NetworkVirtualAppliancesReimageResponse>;
+  /**
+   * Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual
+   * Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginGetBootDiagnosticLogs(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>,
+      NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+    >
+  >;
+  /**
+   * Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual
+   * Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  beginGetBootDiagnosticLogsAndWait(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  ): Promise<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>;
 }
