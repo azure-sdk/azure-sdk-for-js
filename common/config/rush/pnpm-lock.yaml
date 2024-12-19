@@ -3428,7 +3428,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storagemover@file:projects/arm-storagemover.tgz':
-    resolution: {integrity: sha512-bCAKnCipcNgK97r9dFp6xBdMynr3/yk5qFzeddAgDwuj1Gc9mKnsDsBAi11BFdTTVr6tQLs/2ym1iQ3Nnxl1pw==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-eNk7Mg/9r+xe0qSZ8oEFtiWP3Ss9Lu0Yv1zTHn8kzlToDnGIx283mj+flzLioaAE+3wffTfkalz9HIrQMVhtKA==, tarball: file:projects/arm-storagemover.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storagesync@file:projects/arm-storagesync.tgz':
@@ -15078,18 +15078,17 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
