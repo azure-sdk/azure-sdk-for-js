@@ -4,66 +4,102 @@
 
 ```ts
 
-import { AzureLogger } from '@azure/logger';
-import type * as coreClient from '@azure/core-client';
-import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface BackupSecretOptions extends coreClient.OperationOptions {
+export interface BackupSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BeginDeleteSecretOptions extends SecretPollerOptions {
+export interface BackupSecretResult {
+    readonly value?: Uint8Array;
 }
 
 // @public
-export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
-export interface DeletedSecret {
-    deletedOn?: Date;
-    name: string;
-    properties: SecretProperties & {
-        recoveryId?: string;
-        scheduledPurgeDate?: Date;
-        deletedOn?: Date;
-    };
+export interface DeletedSecretBundle {
+    attributes?: SecretAttributes;
+    contentType?: string;
+    readonly deletedDate?: Date;
+    id?: string;
+    readonly kid?: string;
+    readonly managed?: boolean;
     recoveryId?: string;
-    scheduledPurgeDate?: Date;
+    readonly scheduledPurgeDate?: Date;
+    tags?: Record<string, string>;
     value?: string;
+}
+
+// @public
+export interface DeletedSecretItem {
+    attributes?: SecretAttributes;
+    contentType?: string;
+    readonly deletedDate?: Date;
+    id?: string;
+    readonly managed?: boolean;
+    recoveryId?: string;
+    readonly scheduledPurgeDate?: Date;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DeleteSecretOptionalParams extends OperationOptions {
 }
 
 // @public
 export type DeletionRecoveryLevel = string;
 
 // @public
-export interface GetDeletedSecretOptions extends coreClient.OperationOptions {
+export interface GetDeletedSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface GetSecretOptions extends coreClient.OperationOptions {
-    version?: string;
+export interface GetDeletedSecretsOptionalParams extends OperationOptions {
+    maxresults?: number;
 }
 
 // @public
-export interface KeyVaultSecret {
-    name: string;
-    properties: SecretProperties;
-    value?: string;
+export interface GetSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface KeyVaultSecretIdentifier {
-    name: string;
-    sourceId: string;
-    vaultUrl: string;
-    version?: string;
+export interface GetSecretsOptionalParams extends OperationOptions {
+    maxresults?: number;
+}
+
+// @public
+export interface GetSecretVersionsOptionalParams extends OperationOptions {
+    maxresults?: number;
+}
+
+// @public (undocumented)
+export class KeyVaultClient {
+    constructor(vaultBaseUrl: string, credential: TokenCredential, options?: KeyVaultClientOptionalParams);
+    backupSecret(secretName: string, options?: BackupSecretOptionalParams): Promise<BackupSecretResult>;
+    deleteSecret(secretName: string, options?: DeleteSecretOptionalParams): Promise<DeletedSecretBundle>;
+    getDeletedSecret(secretName: string, options?: GetDeletedSecretOptionalParams): Promise<DeletedSecretBundle>;
+    getDeletedSecrets(options?: GetDeletedSecretsOptionalParams): PagedAsyncIterableIterator<DeletedSecretItem>;
+    getSecret(secretName: string, secretVersion: string, options?: GetSecretOptionalParams): Promise<SecretBundle>;
+    getSecrets(options?: GetSecretsOptionalParams): PagedAsyncIterableIterator<SecretItem>;
+    getSecretVersions(secretName: string, options?: GetSecretVersionsOptionalParams): PagedAsyncIterableIterator<SecretItem>;
+    readonly pipeline: Pipeline;
+    purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptionalParams): Promise<void>;
+    recoverDeletedSecret(secretName: string, options?: RecoverDeletedSecretOptionalParams): Promise<SecretBundle>;
+    restoreSecret(parameters: SecretRestoreParameters, options?: RestoreSecretOptionalParams): Promise<SecretBundle>;
+    setSecret(secretName: string, parameters: SecretSetParameters, options?: SetSecretOptionalParams): Promise<SecretBundle>;
+    updateSecret(secretName: string, secretVersion: string, parameters: SecretUpdateParameters, options?: UpdateSecretOptionalParams): Promise<SecretBundle>;
+}
+
+// @public
+export interface KeyVaultClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
 }
 
 // @public
@@ -78,112 +114,92 @@ export enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export interface ListDeletedSecretsOptions extends coreClient.OperationOptions {
+export enum KnownVersions {
+    "v7.5" = "7.5",
+    "v7.6_preview.1" = "7.6-preview.1"
 }
 
 // @public
-export interface ListPropertiesOfSecretsOptions extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface ListPropertiesOfSecretVersionsOptions extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export const logger: AzureLogger;
-
-export { PagedAsyncIterableIterator }
-
-export { PageSettings }
-
-// @public
-export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
-
-export { PollerLike }
-
-export { PollOperationState }
-
-// @public
-export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
+export interface PurgeDeletedSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RestoreSecretBackupOptions extends coreClient.OperationOptions {
+export interface RecoverDeletedSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export class SecretClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: SecretClientOptions);
-    backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
-    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
-    getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
-    getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
-    listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret>;
-    listPropertiesOfSecrets(options?: ListPropertiesOfSecretsOptions): PagedAsyncIterableIterator<SecretProperties>;
-    listPropertiesOfSecretVersions(secretName: string, options?: ListPropertiesOfSecretVersionsOptions): PagedAsyncIterableIterator<SecretProperties>;
-    purgeDeletedSecret(secretName: string, options?: PurgeDeletedSecretOptions): Promise<void>;
-    restoreSecretBackup(secretBundleBackup: Uint8Array, options?: RestoreSecretBackupOptions): Promise<SecretProperties>;
-    setSecret(secretName: string, value: string, options?: SetSecretOptions): Promise<KeyVaultSecret>;
-    updateSecretProperties(secretName: string, secretVersion: string, options?: UpdateSecretPropertiesOptions): Promise<SecretProperties>;
-    readonly vaultUrl: string;
+export interface RestoreSecretOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SecretClientOptions extends ExtendedCommonClientOptions {
-    disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5";
-}
-
-// @public
-export interface SecretPollerOptions extends coreClient.OperationOptions {
-    intervalInMs?: number;
-    resumeFrom?: string;
-}
-
-// @public
-export interface SecretProperties {
-    readonly certificateKeyId?: string;
-    contentType?: string;
-    readonly createdOn?: Date;
+export interface SecretAttributes {
+    readonly created?: Date;
     enabled?: boolean;
-    readonly expiresOn?: Date;
-    id?: string;
-    // @deprecated
-    readonly keyId?: never;
-    readonly managed?: boolean;
-    name: string;
-    readonly notBefore?: Date;
-    recoverableDays?: number;
+    expires?: Date;
+    notBefore?: Date;
+    readonly recoverableDays?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly updatedOn?: Date;
-    vaultUrl: string;
-    version?: string;
+    readonly updated?: Date;
 }
 
 // @public
-export interface SetSecretOptions extends coreClient.OperationOptions {
+export interface SecretBundle {
+    attributes?: SecretAttributes;
     contentType?: string;
-    enabled?: boolean;
-    readonly expiresOn?: Date;
-    readonly notBefore?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    id?: string;
+    readonly kid?: string;
+    readonly managed?: boolean;
+    tags?: Record<string, string>;
+    value?: string;
 }
 
 // @public
-export interface UpdateSecretPropertiesOptions extends coreClient.OperationOptions {
+export interface SecretItem {
+    attributes?: SecretAttributes;
     contentType?: string;
-    enabled?: boolean;
-    readonly expiresOn?: Date;
-    readonly notBefore?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    id?: string;
+    readonly managed?: boolean;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SecretRestoreParameters {
+    secretBundleBackup: Uint8Array;
+}
+
+// @public
+export interface SecretSetParameters {
+    contentType?: string;
+    secretAttributes?: SecretAttributes;
+    tags?: Record<string, string>;
+    value: string;
+}
+
+// @public
+export interface SecretUpdateParameters {
+    contentType?: string;
+    secretAttributes?: SecretAttributes;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SetSecretOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UpdateSecretOptionalParams extends OperationOptions {
 }
 
 // (No @packageDocumentation comment for this package)

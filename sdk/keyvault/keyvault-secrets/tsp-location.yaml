@@ -1,0 +1,4 @@
+directory: specification/keyvault/Security.KeyVault.Secrets
+commit: 38f44919a75faa0565b4bd7aa435b901e9a3c154
+repo: ../azure-rest-api-specs
+additionalDirectories: 
