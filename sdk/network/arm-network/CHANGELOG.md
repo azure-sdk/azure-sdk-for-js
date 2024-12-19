@@ -1,6 +1,6 @@
 # Release History
     
-## 33.5.0 (2024-12-10)
+## 33.5.0 (2024-12-19)
     
 ### Features Added
 
@@ -11,6 +11,10 @@
   - Added operation group VerifierWorkspaces
   - Added operation LoadBalancerLoadBalancingRules.beginHealth
   - Added operation LoadBalancerLoadBalancingRules.beginHealthAndWait
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogsAndWait
+  - Added operation NetworkVirtualAppliances.beginReimage
+  - Added operation NetworkVirtualAppliances.beginReimageAndWait
   - Added operation VirtualNetworkGateways.beginGetFailoverAllTestDetails
   - Added operation VirtualNetworkGateways.beginGetFailoverAllTestDetailsAndWait
   - Added operation VirtualNetworkGateways.beginGetFailoverSingleTestDetails
@@ -55,6 +59,12 @@
   - Added Interface LoadBalancerHealthPerRulePerBackendAddress
   - Added Interface LoadBalancerLoadBalancingRulesHealthHeaders
   - Added Interface LoadBalancerLoadBalancingRulesHealthOptionalParams
+  - Added Interface NetworkVirtualApplianceBootDiagnosticParameters
+  - Added Interface NetworkVirtualApplianceInstanceId
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  - Added Interface NetworkVirtualAppliancesReimageHeaders
+  - Added Interface NetworkVirtualAppliancesReimageOptionalParams
   - Added Interface PoolAssociation
   - Added Interface PoolAssociationList
   - Added Interface PoolUsage
@@ -122,6 +132,8 @@
   - Added Type Alias IpType
   - Added Type Alias LoadBalancerLoadBalancingRulesHealthResponse
   - Added Type Alias NetworkProtocol
+  - Added Type Alias NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+  - Added Type Alias NetworkVirtualAppliancesReimageResponse
   - Added Type Alias ReachabilityAnalysisIntentsCreateResponse
   - Added Type Alias ReachabilityAnalysisIntentsGetResponse
   - Added Type Alias ReachabilityAnalysisIntentsListNextResponse
