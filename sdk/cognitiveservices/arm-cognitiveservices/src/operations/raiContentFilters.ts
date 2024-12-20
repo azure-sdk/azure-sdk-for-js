@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { Usages } from "../operationsInterfaces";
+import { RaiContentFilters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
 import {
-  Usage,
-  UsagesListNextOptionalParams,
-  UsagesListOptionalParams,
-  UsagesListResponse,
-  UsagesListNextResponse,
+  RaiContentFilter,
+  RaiContentFiltersListNextOptionalParams,
+  RaiContentFiltersListOptionalParams,
+  RaiContentFiltersListResponse,
+  RaiContentFiltersGetOptionalParams,
+  RaiContentFiltersGetResponse,
+  RaiContentFiltersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Usages operations. */
-export class UsagesImpl implements Usages {
+/** Class containing RaiContentFilters operations. */
+export class RaiContentFiltersImpl implements RaiContentFilters {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class Usages class.
+   * Initialize a new instance of the class RaiContentFilters class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -35,14 +37,14 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Get usages for the requested subscription
+   * List Content Filters types.
    * @param location Resource location.
    * @param options The options parameters.
    */
   public list(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): PagedAsyncIterableIterator<Usage> {
+    options?: RaiContentFiltersListOptionalParams,
+  ): PagedAsyncIterableIterator<RaiContentFilter> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -62,10 +64,10 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingPage(
     location: string,
-    options?: UsagesListOptionalParams,
+    options?: RaiContentFiltersListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Usage[]> {
-    let result: UsagesListResponse;
+  ): AsyncIterableIterator<RaiContentFilter[]> {
+    let result: RaiContentFiltersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(location, options);
@@ -85,25 +87,42 @@ export class UsagesImpl implements Usages {
 
   private async *listPagingAll(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): AsyncIterableIterator<Usage> {
+    options?: RaiContentFiltersListOptionalParams,
+  ): AsyncIterableIterator<RaiContentFilter> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Get usages for the requested subscription
+   * List Content Filters types.
    * @param location Resource location.
    * @param options The options parameters.
    */
   private _list(
     location: string,
-    options?: UsagesListOptionalParams,
-  ): Promise<UsagesListResponse> {
+    options?: RaiContentFiltersListOptionalParams,
+  ): Promise<RaiContentFiltersListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec,
+    );
+  }
+
+  /**
+   * Get Content Filters by Name.
+   * @param location Resource location.
+   * @param filterName The name of the RAI Content Filter.
+   * @param options The options parameters.
+   */
+  get(
+    location: string,
+    filterName: string,
+    options?: RaiContentFiltersGetOptionalParams,
+  ): Promise<RaiContentFiltersGetResponse> {
+    return this.client.sendOperationRequest(
+      { location, filterName, options },
+      getOperationSpec,
     );
   }
 
@@ -116,8 +135,8 @@ export class UsagesImpl implements Usages {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams,
-  ): Promise<UsagesListNextResponse> {
+    options?: RaiContentFiltersListNextOptionalParams,
+  ): Promise<RaiContentFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec,
@@ -128,21 +147,42 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/raiContentFilters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult,
+      bodyMapper: Mappers.RaiContentFilterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/raiContentFilters/{filterName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RaiContentFilter,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.filterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -152,7 +192,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult,
+      bodyMapper: Mappers.RaiContentFilterListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
