@@ -1,0 +1,350 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import {
+  AvsContext as Client,
+  PlacementPoliciesCreateOrUpdateOptionalParams,
+  PlacementPoliciesDeleteOptionalParams,
+  PlacementPoliciesGetOptionalParams,
+  PlacementPoliciesListOptionalParams,
+  PlacementPoliciesUpdateOptionalParams,
+} from "../index.js";
+import {
+  _PlacementPoliciesList,
+  _placementPoliciesListDeserializer,
+  PlacementPolicy,
+  placementPolicySerializer,
+  placementPolicyDeserializer,
+  PlacementPolicyUpdate,
+  placementPolicyUpdateSerializer,
+} from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _placementPoliciesListSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  options: PlacementPoliciesListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies",
+      subscriptionId,
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _placementPoliciesListDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PlacementPoliciesList> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _placementPoliciesListDeserializer(result.body);
+}
+
+/** List PlacementPolicy resources by Cluster */
+export function placementPoliciesList(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  options: PlacementPoliciesListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<PlacementPolicy> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _placementPoliciesListSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        options,
+      ),
+    _placementPoliciesListDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _placementPoliciesGetSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  options: PlacementPoliciesGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
+      subscriptionId,
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      placementPolicyName,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _placementPoliciesGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PlacementPolicy> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return placementPolicyDeserializer(result.body);
+}
+
+/** Get a PlacementPolicy */
+export async function placementPoliciesGet(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  options: PlacementPoliciesGetOptionalParams = { requestOptions: {} },
+): Promise<PlacementPolicy> {
+  const result = await _placementPoliciesGetSend(
+    context,
+    subscriptionId,
+    resourceGroupName,
+    privateCloudName,
+    clusterName,
+    placementPolicyName,
+    options,
+  );
+  return _placementPoliciesGetDeserialize(result);
+}
+
+export function _placementPoliciesCreateOrUpdateSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  placementPolicy: PlacementPolicy,
+  options: PlacementPoliciesCreateOrUpdateOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
+      subscriptionId,
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      placementPolicyName,
+    )
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      body: placementPolicySerializer(placementPolicy),
+    });
+}
+
+export async function _placementPoliciesCreateOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PlacementPolicy> {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return placementPolicyDeserializer(result.body);
+}
+
+/** Create a PlacementPolicy */
+export function placementPoliciesCreateOrUpdate(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  placementPolicy: PlacementPolicy,
+  options: PlacementPoliciesCreateOrUpdateOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<PlacementPolicy>, PlacementPolicy> {
+  return getLongRunningPoller(
+    context,
+    _placementPoliciesCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _placementPoliciesCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          placementPolicyName,
+          placementPolicy,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<PlacementPolicy>, PlacementPolicy>;
+}
+
+export function _placementPoliciesUpdateSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  placementPolicyUpdate: PlacementPolicyUpdate,
+  options: PlacementPoliciesUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
+      subscriptionId,
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      placementPolicyName,
+    )
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      body: placementPolicyUpdateSerializer(placementPolicyUpdate),
+    });
+}
+
+export async function _placementPoliciesUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Update a PlacementPolicy */
+export function placementPoliciesUpdate(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  placementPolicyUpdate: PlacementPolicyUpdate,
+  options: PlacementPoliciesUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _placementPoliciesUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _placementPoliciesUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          placementPolicyName,
+          placementPolicyUpdate,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
+
+export function _placementPoliciesDeleteSend(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  options: PlacementPoliciesDeleteOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
+      subscriptionId,
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      placementPolicyName,
+    )
+    .delete({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _placementPoliciesDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["200", "202", "204"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return;
+}
+
+/** Delete a PlacementPolicy */
+export function placementPoliciesDelete(
+  context: Client,
+  subscriptionId: string,
+  resourceGroupName: string,
+  privateCloudName: string,
+  clusterName: string,
+  placementPolicyName: string,
+  options: PlacementPoliciesDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
+    context,
+    _placementPoliciesDeleteDeserialize,
+    ["200", "202", "204"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _placementPoliciesDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          privateCloudName,
+          clusterName,
+          placementPolicyName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
+}
