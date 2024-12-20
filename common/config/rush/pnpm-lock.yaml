@@ -2643,7 +2643,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-VHWw1qKvig50NsvnucBYhZPhy5C4VhWqdXeJMzH6X6nEo69rLG9wO4HucSdR9HfqFZ5S44voYj7LOK5X7eQb0g==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-3hSTYC8nJ2C/avdyE81n6TIMk7vxWIBLBMH1ugzDdQidjTQ/88CGM7tKgkOTqs/zd/YWRAZb0LIjnq3kXD1fVA==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2755,7 +2755,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
-    resolution: {integrity: sha512-FTpWALpcmz7xC+OBP2z9kvG8k40tXWon1y+lZrkWRtZpv1SH3ZboZUpvDlaS1M5xSU7QQiSuiM2Nevwq3HJ1ZA==, tarball: file:projects/arm-databoundaries.tgz}
+    resolution: {integrity: sha512-PHBYljfQWTdrph/9//F4MuysABXbLDz7xMfUkwhEgfve0KvGvKzAK1sQOMa9l1rbFMtwS/4YwppgE6WOxbo/gg==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
@@ -2903,7 +2903,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-kti6F+TM3DQ/Ozti2/w9o/+20Uxa76UOFHeaffxym2Q1IyJsVxb3amRq/OSLWN++60cgbjZvsNRWxwQoO2DsUw==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-KnlzSaPbNVySEVau5Sguzbgpec3BZS5HYZ7SPnkFttn65TrqaWAkTZA00wZtrx+cMY8SDEOPg2g5aHxDx4hgeg==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
@@ -3023,7 +3023,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-links@file:projects/arm-links.tgz':
-    resolution: {integrity: sha512-/XShf6BZxAY/svvfBARXC+6Nlw0ek2FF6wIFaT3ttqzThdmqqzR5Vy2gVYtL1E7D1qbwnTG/oz7HXkA4OAaGpg==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-91kpyJpDt688iXdc998jCUgttsSXFwIjFcHjnpHo8EhPp80QubCC/gZMs0uckt/ToTZc6EUAGJkGAQ7UV7XwTA==, tarball: file:projects/arm-links.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-loadtesting@file:projects/arm-loadtesting.tgz':
@@ -3035,7 +3035,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-locks@file:projects/arm-locks.tgz':
-    resolution: {integrity: sha512-6hEhFhFro4RySLWD/sdZTG0jo4+q6FuHRXpL/5EJg+TWC4oD5LZIhQZYUgajeVqcwRZr1AP6BGJHoWeokOfN6Q==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-ni9eaSkqLLMbsovNk1MI0sOkNEMU5LQBrzzmTJQ8wCKeKNkc+s1YgULrWY8FjP1dotTcK1kxF6jRKmk8cFZgew==, tarball: file:projects/arm-locks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-logic@file:projects/arm-logic.tgz':
@@ -3059,7 +3059,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
-    resolution: {integrity: sha512-C1r0Vro0NPhvuJlOTKQEoAY+dVgznW0ar7tW58GqyLEJ/ZhsjQ72nyL0CBVfUJYb+dJBuyP5X3KN6le+LNCPDg==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-Y97txYCZToFruGOd6Puy/6Ubmn9Rv1SbIQ8b7RdAE26VqOPgaE3gQSsobhXig1+5neyG5OHi92bl2t4K0ZZA/Q==, tarball: file:projects/arm-managedapplications.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managednetworkfabric@file:projects/arm-managednetworkfabric.tgz':
@@ -3211,7 +3211,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-AoQkt+bNDS18EfmA+DO8c2Sn83z61IWWuESB30vfCVOmCppJrlCeZAj7pO1AADS3NF5Fu2qAQJyU3BsLn73ycA==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-On3nZscNhuTtC0n6uPYcCXSfiC+ZH1GN2aw2IGYILVcasYVCdFi6WSLWXbsA+JN9QCkuL56Qh8XPAZraeRVu/Q==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3315,15 +3315,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resources-subscriptions@file:projects/arm-resources-subscriptions.tgz':
-    resolution: {integrity: sha512-5GnGGfzjo/OB1Uv4xsBUPOQ99svgWbgoa8peip0lvo/YzuakScDh3ATqOY8l6KF87yxNYAVUrAOfP3d6GgLynA==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-08PIgQoQH4C555L9/SxKEztDE26J009KsxvR7g7G46UnAZI8FjbEpMasNVB+0kkF1I3Z2LuI/ufKZgdCgQgPOA==, tarball: file:projects/arm-resources-subscriptions.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-Yg3ikDGlXGok1QoLxiMEvYSoby8yPNbF+WWVkRXSwWz3YYh4d7E/rIzwyivSyTp9ofEjPTzIXqXmZtcGgfiuWA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-pTlmBlhmkhj7zshzjhd5o9NqWuUYCvaZzV26t5SdrkmvRx/L+srzzXNgQFpKJ8iG8ftHpFT8c8RYFwz5ezzWLw==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesdeploymentstacks@file:projects/arm-resourcesdeploymentstacks.tgz':
-    resolution: {integrity: sha512-MKeL96dmEcCmLzFUchFUV1e3FWp8wOM2m9WfFfDFhmfvKxr56QHp3meGly2C089g2ZdDF25ARoztiPmNzOtYgg==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-x06oHvf1A5sJFyp8XDlsvLSq3q+EJEwTj4X12Swr5W78R8OTPAF+DDJOy4Jbqd1GIV8mQvD7heb+AopiMuAXaA==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-scvmm@file:projects/arm-scvmm.tgz':
@@ -3467,7 +3467,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-templatespecs@file:projects/arm-templatespecs.tgz':
-    resolution: {integrity: sha512-+W16ggQOwxAgHYavP/guVT5fJF0QZK4t0LaxL33Z67GtG1+pJoriDhG2Yx/43mzfvdbIHNmbKJlaLz/EQ213dA==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-jjPkJBN0wa50T8WcgEdGscJ1ZUM5/ZwLkYQP5FBroRLMdV1HlMU6L7sTPKaaFsY9DXu8BWN2tFPK1oGvAyyGrA==, tarball: file:projects/arm-templatespecs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
@@ -3591,7 +3591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-Gh04SARYLYKqfJcMhnzqQ4aoQcWNw+tokGGhULmwQhutUaYCVjx69T3fzYTkEeXjWx/289eFK3zBD8TMA3p7+g==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-SJzc0t6IU+ncIo/2rsSt6PQzH5KpCAMYcFLxYBb4OripIcE4U5gKmotJfB7koFj1/r0T/9eZqpeD+1OTT0dJQQ==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
@@ -10992,10 +10992,12 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11638,19 +11640,16 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mkdirp: 3.0.1
-      mocha: 11.0.2
-      rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -12426,10 +12425,12 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13047,10 +13048,12 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13101,10 +13104,12 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13210,17 +13215,17 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -14017,10 +14022,11 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -14530,10 +14536,11 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -14543,17 +14550,17 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -14563,18 +14570,17 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15307,10 +15313,12 @@ snapshots:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      dotenv: 16.4.7
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
