@@ -933,8 +933,10 @@ export interface AzureMySqlTableDataset extends Dataset {
 
 // @public
 export interface AzurePostgreSqlLinkedService extends LinkedService {
+    azureCloudType?: any;
     commandTimeout?: any;
     connectionString?: any;
+    credential?: CredentialReference;
     database?: any;
     encoding?: any;
     encryptedCredential?: string;
@@ -942,7 +944,13 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
     port?: any;
     readBufferSize?: any;
     server?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
     sslMode?: any;
+    tenant?: any;
     timeout?: any;
     timezone?: any;
     trustServerCertificate?: any;
@@ -7704,6 +7712,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    returnMultistatementResult?: any;
     scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";
