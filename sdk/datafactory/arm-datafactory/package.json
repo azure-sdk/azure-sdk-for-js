@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DataFactoryManagementClient.",
-  "version": "18.0.0",
+  "version": "18.1.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,7 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-datafactory.d.ts",
   "devDependencies": {
-    "typescript": "~5.7.2",
+    "typescript": "~5.6.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
@@ -102,13 +102,5 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datafactory/arm-datafactory",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview"
-  }
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datafactory/arm-datafactory"
 }

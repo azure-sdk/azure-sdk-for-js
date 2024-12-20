@@ -1,5 +1,20 @@
 # Release History
     
+## 18.1.0 (2024-12-20)
+    
+### Features Added
+
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter azureCloudType
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter credential
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalEmbeddedCert
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalEmbeddedCertPassword
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalId
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter servicePrincipalKey
+  - Interface AzurePostgreSqlLinkedService has a new optional parameter tenant
+  - Interface ScriptActivity has a new optional parameter returnMultistatementResult
+    
+    
 ## 18.0.0 (2024-12-10)
     
 ### Features Added
