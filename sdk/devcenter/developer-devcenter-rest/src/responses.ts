@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import {
   PagedProjectOutput,
   ProjectOutput,
   OperationStatusOutput,
@@ -537,14 +537,16 @@ export interface CreateOrReplaceEnvironmentDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrReplaceEnvironmentDefaultResponse extends HttpResponse {
+export interface CreateOrReplaceEnvironmentDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrReplaceEnvironmentDefaultHeaders;
 }
 
 /** The final response for long-running createOrReplaceEnvironment operation */
-export interface CreateOrReplaceEnvironmentLogicalResponse extends HttpResponse {
+export interface CreateOrReplaceEnvironmentLogicalResponse
+  extends HttpResponse {
   status: "200";
   body: EnvironmentOutput;
 }
@@ -618,7 +620,8 @@ export interface GetCatalogDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitionsByProject200Response extends HttpResponse {
+export interface ListEnvironmentDefinitionsByProject200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
@@ -628,14 +631,16 @@ export interface ListEnvironmentDefinitionsByProjectDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsByProjectDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsByProjectDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsByProjectDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitionsByCatalog200Response extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalog200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
@@ -645,7 +650,8 @@ export interface ListEnvironmentDefinitionsByCatalogDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalogDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsByCatalogDefaultHeaders;
