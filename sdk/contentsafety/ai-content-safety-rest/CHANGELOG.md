@@ -1,51 +1,133 @@
 # Release History
-
-## 1.0.1 (2024-12-16)
-
-### Features Added
--refresh @azure-rest/ai-content-safety sdk
-
-## 1.0.0 (2023-12-13)
-
+    
+## 2.0.0-beta.1 (2024-12-21)
+Compared with version 1.0.0
+    
 ### Features Added
 
-- Support AAD Authentication
-- Support 8 severity levels output for Text Analyze
+  - Added operation group SimplePollerLike
+  - Added operation in Routes for path: "/image:detectIncidents"
+  - Added operation in Routes for path: "/image:detectProtectedMaterial"
+  - Added operation in Routes for path: "/text:shieldPrompt"
+  - Added operation in Routes for path: "/text:detectProtectedMaterial"
+  - Added operation in Routes for path: "/text:detectProtectedMaterialForCode"
+  - Added operation in Routes for path: "/text:analyzeCustomCategory"
+  - Added operation in Routes for path: "/text:detectIncidents"
+  - Added operation in Routes for path: "/text:detectGroundedness"
+  - Added operation in Routes for path: "/analyzeWithRaiPolicy"
+  - Added operation in Routes for path: "/raiPolicies/{raiPolicyName}"
+  - Added operation in Routes for path: "/raiPolicies"
+  - Added operation in Routes for path: "/imageWithText:analyze"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}:deploy"
+  - Added operation in Routes for path: "/text/incidents/operations/{operationId}"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}"
+  - Added operation in Routes for path: "/text/incidents"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}:addIncidentSamples"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}:removeIncidentSamples"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}/incidentSamples/{incidentSampleId}"
+  - Added operation in Routes for path: "/text/incidents/{incidentName}/incidentSamples"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}:deploy"
+  - Added operation in Routes for path: "/image/incidents/operations/{operationId}"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}"
+  - Added operation in Routes for path: "/image/incidents"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}:addIncidentSamples"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}:removeIncidentSamples"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}/incidentSamples/{incidentSampleId}"
+  - Added operation in Routes for path: "/image/incidents/{incidentName}/incidentSamples"
+  - Added operation in Routes for path: "/text/categories/{categoryName}:build"
+  - Added operation in Routes for path: "/text/categories/operations/{operationId}"
+  - Added operation in Routes for path: "/text/categories/{categoryName}"
+  - Added operation in Routes for path: "/text/categories"
+  - Added Interface ContentSafetyClientOptions
+  - Added Interface CustomCategoryLongRunningOperationStatusResultOutput
+  - Added Interface ImageIncidentOperationsDeployLogicalResponse
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface TextCustomizedCategoryOperationsBuildLogicalResponse
+  - Added Interface TextIncidentOperationsDeployLogicalResponse
+  - Added Type Alias CustomCategoryStatus
+  - Interface TextBlocklistItem has a new optional parameter isRegex
+  - Interface TextBlocklistItemOutput has a new optional parameter isRegex
+  - Added function getLongRunningPoller
+  - Added function overload "export function isUnexpected(response: ImageOperationsAnalyzeImage200Response | ImageOperationsAnalyzeImageDefaultResponse): response is ImageOperationsAnalyzeImageDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageOperationsDetectImageIncidents200Response | ImageOperationsDetectImageIncidentsDefaultResponse): response is ImageOperationsDetectImageIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageOperationsDetectImageProtectedMaterial200Response | ImageOperationsDetectImageProtectedMaterialDefaultResponse): response is ImageOperationsDetectImageProtectedMaterialDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsAnalyzeText200Response | TextOperationsAnalyzeTextDefaultResponse): response is TextOperationsAnalyzeTextDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsShieldPrompt200Response | TextOperationsShieldPromptDefaultResponse): response is TextOperationsShieldPromptDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsDetectTextProtectedMaterial200Response | TextOperationsDetectTextProtectedMaterialDefaultResponse): response is TextOperationsDetectTextProtectedMaterialDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsDetectCodeProtectedMaterial200Response | TextOperationsDetectCodeProtectedMaterialDefaultResponse): response is TextOperationsDetectCodeProtectedMaterialDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsAnalyzeTextCustomCategory200Response | TextOperationsAnalyzeTextCustomCategoryDefaultResponse): response is TextOperationsAnalyzeTextCustomCategoryDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsDetectTextIncidents200Response | TextOperationsDetectTextIncidentsDefaultResponse): response is TextOperationsDetectTextIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextOperationsDetectGroundednessOptions200Response | TextOperationsDetectGroundednessOptionsDefaultResponse): response is TextOperationsDetectGroundednessOptionsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: RaiPolicyAnalyzeOperationsAnalyzeByRaiPolicy200Response | RaiPolicyAnalyzeOperationsAnalyzeByRaiPolicyDefaultResponse): response is RaiPolicyAnalyzeOperationsAnalyzeByRaiPolicyDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsGetTextBlocklist200Response | TextBlocklistsGetTextBlocklistDefaultResponse): response is TextBlocklistsGetTextBlocklistDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsCreateOrUpdateTextBlocklist200Response | TextBlocklistsCreateOrUpdateTextBlocklist201Response | TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse): response is TextBlocklistsCreateOrUpdateTextBlocklistDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsDeleteTextBlocklist204Response | TextBlocklistsDeleteTextBlocklistDefaultResponse): response is TextBlocklistsDeleteTextBlocklistDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsListTextBlocklists200Response | TextBlocklistsListTextBlocklistsDefaultResponse): response is TextBlocklistsListTextBlocklistsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsAddOrUpdateBlocklistItems200Response | TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse): response is TextBlocklistsAddOrUpdateBlocklistItemsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsRemoveBlocklistItems204Response | TextBlocklistsRemoveBlocklistItemsDefaultResponse): response is TextBlocklistsRemoveBlocklistItemsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsGetTextBlocklistItem200Response | TextBlocklistsGetTextBlocklistItemDefaultResponse): response is TextBlocklistsGetTextBlocklistItemDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextBlocklistsListTextBlocklistItems200Response | TextBlocklistsListTextBlocklistItemsDefaultResponse): response is TextBlocklistsListTextBlocklistItemsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: RaiPolicyManagementCreateOrUpdateRaiPolicy200Response | RaiPolicyManagementCreateOrUpdateRaiPolicy201Response | RaiPolicyManagementCreateOrUpdateRaiPolicyDefaultResponse): response is RaiPolicyManagementCreateOrUpdateRaiPolicyDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: RaiPolicyManagementDeleteRaiPolicy204Response | RaiPolicyManagementDeleteRaiPolicyDefaultResponse): response is RaiPolicyManagementDeleteRaiPolicyDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: RaiPolicyManagementGetRaiPolicy200Response | RaiPolicyManagementGetRaiPolicyDefaultResponse): response is RaiPolicyManagementGetRaiPolicyDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: RaiPolicyManagementListRaiPolicies200Response | RaiPolicyManagementListRaiPoliciesDefaultResponse): response is RaiPolicyManagementListRaiPoliciesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageWithTextOperationsAnalyzeImageWithText200Response | ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse): response is ImageWithTextOperationsAnalyzeImageWithTextDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsDeploy202Response | TextIncidentOperationsDeployLogicalResponse | TextIncidentOperationsDeployDefaultResponse): response is TextIncidentOperationsDeployDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsGetLongRunningOperation200Response | TextIncidentOperationsGetLongRunningOperationDefaultResponse): response is TextIncidentOperationsGetLongRunningOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsGetIncidents200Response | TextIncidentOperationsGetIncidentsDefaultResponse): response is TextIncidentOperationsGetIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsCreateOrUpdateIncident200Response | TextIncidentOperationsCreateOrUpdateIncident201Response | TextIncidentOperationsCreateOrUpdateIncidentDefaultResponse): response is TextIncidentOperationsCreateOrUpdateIncidentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsDeleteIncident204Response | TextIncidentOperationsDeleteIncidentDefaultResponse): response is TextIncidentOperationsDeleteIncidentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsListIncidents200Response | TextIncidentOperationsListIncidentsDefaultResponse): response is TextIncidentOperationsListIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsAddIncidentSamples200Response | TextIncidentOperationsAddIncidentSamplesDefaultResponse): response is TextIncidentOperationsAddIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsRemoveIncidentSamples204Response | TextIncidentOperationsRemoveIncidentSamplesDefaultResponse): response is TextIncidentOperationsRemoveIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsGetIncidentSample200Response | TextIncidentOperationsGetIncidentSampleDefaultResponse): response is TextIncidentOperationsGetIncidentSampleDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextIncidentOperationsListIncidentSamples200Response | TextIncidentOperationsListIncidentSamplesDefaultResponse): response is TextIncidentOperationsListIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsDeploy202Response | ImageIncidentOperationsDeployLogicalResponse | ImageIncidentOperationsDeployDefaultResponse): response is ImageIncidentOperationsDeployDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsGetLongRunningOperation200Response | ImageIncidentOperationsGetLongRunningOperationDefaultResponse): response is ImageIncidentOperationsGetLongRunningOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsGetIncidents200Response | ImageIncidentOperationsGetIncidentsDefaultResponse): response is ImageIncidentOperationsGetIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsCreateOrUpdateIncident200Response | ImageIncidentOperationsCreateOrUpdateIncident201Response | ImageIncidentOperationsCreateOrUpdateIncidentDefaultResponse): response is ImageIncidentOperationsCreateOrUpdateIncidentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsDeleteIncident204Response | ImageIncidentOperationsDeleteIncidentDefaultResponse): response is ImageIncidentOperationsDeleteIncidentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsListIncidents200Response | ImageIncidentOperationsListIncidentsDefaultResponse): response is ImageIncidentOperationsListIncidentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsAddIncidentSamples200Response | ImageIncidentOperationsAddIncidentSamplesDefaultResponse): response is ImageIncidentOperationsAddIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsRemoveIncidentSamples204Response | ImageIncidentOperationsRemoveIncidentSamplesDefaultResponse): response is ImageIncidentOperationsRemoveIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsGetIncidentSample200Response | ImageIncidentOperationsGetIncidentSampleDefaultResponse): response is ImageIncidentOperationsGetIncidentSampleDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: ImageIncidentOperationsListIncidentSamples200Response | ImageIncidentOperationsListIncidentSamplesDefaultResponse): response is ImageIncidentOperationsListIncidentSamplesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsBuild202Response | TextCustomizedCategoryOperationsBuildLogicalResponse | TextCustomizedCategoryOperationsBuildDefaultResponse): response is TextCustomizedCategoryOperationsBuildDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsGetLongRunningOperation200Response | TextCustomizedCategoryOperationsGetLongRunningOperationDefaultResponse): response is TextCustomizedCategoryOperationsGetLongRunningOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsCreateTextCustomCategoryVersion200Response | TextCustomizedCategoryOperationsCreateTextCustomCategoryVersion201Response | TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionDefaultResponse): response is TextCustomizedCategoryOperationsCreateTextCustomCategoryVersionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsGetCustomizedCategory200Response | TextCustomizedCategoryOperationsGetCustomizedCategoryDefaultResponse): response is TextCustomizedCategoryOperationsGetCustomizedCategoryDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsDeleteCustomizedCategory204Response | TextCustomizedCategoryOperationsDeleteCustomizedCategoryDefaultResponse): response is TextCustomizedCategoryOperationsDeleteCustomizedCategoryDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: TextCustomizedCategoryOperationsListCustomizedCategory200Response | TextCustomizedCategoryOperationsListCustomizedCategoryDefaultResponse): response is TextCustomizedCategoryOperationsListCustomizedCategoryDefaultResponse;"
 
 ### Breaking Changes
 
-Contract change for AnalyzeText, AnalyzeImage, Blocklist management related parameters
-
-#### AnalyzeText
-
-- AnalyzeTextOptions
-  - Renamed `breakByBlocklists` to `haltOnBlocklistHit`
-  - Add `outputType`
-- AnalyzeTextResultOutput
-  - Renamed `blocklistsMatchResults` to `blocklistsMatch`
-  - Replaced `TextAnalyzeSeverityResultOutput` by `TextCategoriesAnalysisOutput`
-
-#### AnalyzeImage
-
-- AnalyzeImageOptions
-  - Add `outputType`
-- AnalyzeImageResultOutput
-  - Replaced `ImageAnalyzeSeverityResultOutput` by `ImageCategoriesAnalysisOutput`
-
-#### Blocklist management
-
-- Renamed `"/text/blocklists/{blocklistName}:addBlockItems"` to `"/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}:removeBlockItems"` to `"/text/blocklists/{blocklistName}:removeBlocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}/blockItems"` to `"/text/blocklists/{blocklistName}/blocklistItems"`
-- Renamed `"/text/blocklists/{blocklistName}/blockItems/{blockItemId}"` to `"/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}"`
-- Renamed `AddBlockItemsOptions` to `AddOrUpdateTextBlocklistItemsOptions`
-  - Renamed `blockItems` to `blocklistItems`
-- Renamed `AddBlockItemsResultOutput` to `AddOrUpdateTextBlocklistItemsResultOutput`
-    - Renamed `value` to `blocklistItems`
-- Renamed `RemoveBlockItemsOptions` to `RemoveTextBlocklistItemsOptions`
-  - Renamed `blockItemIds` to `blocklistItemIds`
-- Renamed `TextBlockItemInfo` to `TextBlocklistItem`
-
-## 1.0.0-beta.1 (2023-09-28)
-
-- This is the initial beta release for Azure AI Content Safety, see README.md for details.
+  - Type of parameter categories of interface AnalyzeImageOptions is changed from string[] to ImageCategory[]
+  - Type of parameter outputType of interface AnalyzeImageOptions is changed from string to AnalyzeImageOutputType
+  - Type of parameter categories of interface AnalyzeTextOptions is changed from string[] to TextCategory[]
+  - Type of parameter outputType of interface AnalyzeTextOptions is changed from string to AnalyzeTextOutputType
+  - Type of parameter category of interface ImageCategoriesAnalysisOutput is changed from string to ImageCategoryOutput
+  - Type of parameter category of interface TextCategoriesAnalysisOutput is changed from string to TextCategoryOutput
+  - Removed function overload "export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: CreateOrUpdateTextBlocklist200Response | CreateOrUpdateTextBlocklist201Response | CreateOrUpdateTextBlocklistDefaultResponse): response is CreateOrUpdateTextBlocklistDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse): response is DeleteTextBlocklistDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse): response is ListTextBlocklistsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse): response is AddOrUpdateBlocklistItemsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse): response is RemoveBlocklistItemsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse): response is GetTextBlocklistItemDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse): response is ListTextBlocklistItemsDefaultResponse;"
+  - Removed Type Alias AddOrUpdateBlocklistItemsParameters
+  - Removed Type Alias AnalyzeImageParameters
+  - Removed Type Alias AnalyzeTextParameters
+  - Removed Type Alias CreateOrUpdateTextBlocklistParameters
+  - Removed Type Alias DeleteTextBlocklistParameters
+  - Removed Type Alias GetTextBlocklistItemParameters
+  - Removed Type Alias GetTextBlocklistParameters
+  - Removed Type Alias ListTextBlocklistItemsParameters
+  - Removed Type Alias ListTextBlocklistsParameters
+  - Removed Type Alias PagedTextBlocklistItemOutput
+  - Removed Type Alias PagedTextBlocklistOutput
+  - Removed Type Alias RemoveBlocklistItemsParameters
+    
