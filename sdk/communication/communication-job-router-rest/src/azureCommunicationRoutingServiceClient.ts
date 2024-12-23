@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import type { AzureCommunicationRoutingServiceClient } from "./clientDefinitions.js";
+import { TokenCredential } from "@azure/core-auth";
+import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface AzureCommunicationRoutingServiceClientOptions extends ClientOptions {
+export interface AzureCommunicationRoutingServiceClientOptions
+  extends ClientOptions {
   /** The api version option of the client */
   apiVersion?: string;
 }
@@ -15,10 +16,12 @@ export interface AzureCommunicationRoutingServiceClientOptions extends ClientOpt
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
  * @param endpointParam - Uri of your Communication resource
+ * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   endpointParam: string,
+  credentials: TokenCredential,
   {
     apiVersion = "2024-01-18-preview",
     ...options
@@ -38,8 +41,17 @@ export default function createClient(
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
     },
+    credentials: {
+      scopes: options.credentials?.scopes ?? [
+        "https://communication.azure.com/.default",
+      ],
+    },
   };
-  const client = getClient(endpointUrl, options) as AzureCommunicationRoutingServiceClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as AzureCommunicationRoutingServiceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -53,6 +65,7 @@ export default function createClient(
           Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
         }api-version=${apiVersion}`;
       }
+
       return next(req);
     },
   });
