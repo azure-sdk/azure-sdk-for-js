@@ -3555,7 +3555,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
-    resolution: {integrity: sha512-8Uocnv0mBRgp67j96CXyVlpyuk+eCN38VoH2z+7n5lPcIkyTlXALBdWXSKmfqvSyHHTR1cPpLs0HvlXEokjdjA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-YQYvQTi6fxJ07jZ6HlVdteGGx5XVaQ0hsuhFeRNHFkHTnAQkicMSLBhn+LVVqy5LFbhw0XYcRACIREjCMkyriA==, tarball: file:projects/communication-job-router.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
@@ -3591,7 +3591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-Gh04SARYLYKqfJcMhnzqQ4aoQcWNw+tokGGhULmwQhutUaYCVjx69T3fzYTkEeXjWx/289eFK3zBD8TMA3p7+g==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-SJzc0t6IU+ncIo/2rsSt6PQzH5KpCAMYcFLxYBb4OripIcE4U5gKmotJfB7koFj1/r0T/9eZqpeD+1OTT0dJQQ==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
@@ -15890,15 +15890,15 @@ snapshots:
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
-      autorest: 3.7.1
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.6.8(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'

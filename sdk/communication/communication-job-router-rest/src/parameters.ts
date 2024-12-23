@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
@@ -28,7 +28,8 @@ export interface UpsertClassificationPolicyHeaders {
 }
 
 /** The resource instance. */
-export type ClassificationPolicyResourceMergeAndPatch = Partial<ClassificationPolicy>;
+export type ClassificationPolicyResourceMergeAndPatch =
+  Partial<ClassificationPolicy>;
 
 export interface UpsertClassificationPolicyBodyParam {
   /** The resource instance. */
@@ -44,10 +45,11 @@ export interface UpsertClassificationPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertClassificationPolicyParameters = UpsertClassificationPolicyHeaderParam &
-  UpsertClassificationPolicyMediaTypesParam &
-  UpsertClassificationPolicyBodyParam &
-  RequestParameters;
+export type UpsertClassificationPolicyParameters =
+  UpsertClassificationPolicyHeaderParam &
+    UpsertClassificationPolicyMediaTypesParam &
+    UpsertClassificationPolicyBodyParam &
+    RequestParameters;
 export type GetClassificationPolicyParameters = RequestParameters;
 export type DeleteClassificationPolicyParameters = RequestParameters;
 
@@ -60,8 +62,8 @@ export interface ListClassificationPoliciesQueryParam {
   queryParameters?: ListClassificationPoliciesQueryParamProperties;
 }
 
-export type ListClassificationPoliciesParameters = ListClassificationPoliciesQueryParam &
-  RequestParameters;
+export type ListClassificationPoliciesParameters =
+  ListClassificationPoliciesQueryParam & RequestParameters;
 
 export interface UpsertDistributionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -71,7 +73,8 @@ export interface UpsertDistributionPolicyHeaders {
 }
 
 /** The resource instance. */
-export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy>;
+export type DistributionPolicyResourceMergeAndPatch =
+  Partial<DistributionPolicy>;
 
 export interface UpsertDistributionPolicyBodyParam {
   /** The resource instance. */
@@ -87,10 +90,11 @@ export interface UpsertDistributionPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertDistributionPolicyParameters = UpsertDistributionPolicyHeaderParam &
-  UpsertDistributionPolicyMediaTypesParam &
-  UpsertDistributionPolicyBodyParam &
-  RequestParameters;
+export type UpsertDistributionPolicyParameters =
+  UpsertDistributionPolicyHeaderParam &
+    UpsertDistributionPolicyMediaTypesParam &
+    UpsertDistributionPolicyBodyParam &
+    RequestParameters;
 export type GetDistributionPolicyParameters = RequestParameters;
 export type DeleteDistributionPolicyParameters = RequestParameters;
 
@@ -103,8 +107,8 @@ export interface ListDistributionPoliciesQueryParam {
   queryParameters?: ListDistributionPoliciesQueryParamProperties;
 }
 
-export type ListDistributionPoliciesParameters = ListDistributionPoliciesQueryParam &
-  RequestParameters;
+export type ListDistributionPoliciesParameters =
+  ListDistributionPoliciesQueryParam & RequestParameters;
 
 export interface UpsertExceptionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -146,7 +150,8 @@ export interface ListExceptionPoliciesQueryParam {
   queryParameters?: ListExceptionPoliciesQueryParamProperties;
 }
 
-export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam & RequestParameters;
+export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam &
+  RequestParameters;
 
 export interface UpsertQueueHeaders {
   /** The request should only proceed if an entity matches this string. */
