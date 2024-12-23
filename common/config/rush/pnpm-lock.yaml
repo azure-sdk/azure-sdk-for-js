@@ -3155,7 +3155,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-D8qBS+5kWmS52C8cAVZwU8bxTzt/Rtm/ApCez9YZTUu6EG5gryBTHSAeU8Oc0JkdJ0qh+mWYmlWoYqAUouc73A==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-p7NHYdfdyAdqAedVvrGqDCMW8kajyeT1K8UKGqaHecEzIUtHel4Fio5F76FIZwRgeKz5UBeCnjNxf12E+rDNiQ==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -3591,7 +3591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
-    resolution: {integrity: sha512-Gh04SARYLYKqfJcMhnzqQ4aoQcWNw+tokGGhULmwQhutUaYCVjx69T3fzYTkEeXjWx/289eFK3zBD8TMA3p7+g==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-SJzc0t6IU+ncIo/2rsSt6PQzH5KpCAMYcFLxYBb4OripIcE4U5gKmotJfB7koFj1/r0T/9eZqpeD+1OTT0dJQQ==, tarball: file:projects/confidential-ledger.tgz}
     version: 0.0.0
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
@@ -13720,17 +13720,16 @@ snapshots:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.68)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
