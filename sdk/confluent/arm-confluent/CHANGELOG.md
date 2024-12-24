@@ -1,15 +1,95 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 3.2.0 (2024-12-24)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Cluster
+  - Added operation group Connector
+  - Added operation group Environment
+  - Added operation group Topics
+  - Added Interface AzureBlobStorageSinkConnectorServiceInfo
+  - Added Interface AzureBlobStorageSourceConnectorServiceInfo
+  - Added Interface AzureCosmosDBSinkConnectorServiceInfo
+  - Added Interface AzureCosmosDBSourceConnectorServiceInfo
+  - Added Interface AzureSynapseAnalyticsSinkConnectorServiceInfo
+  - Added Interface ClusterCreateOrUpdateOptionalParams
+  - Added Interface ClusterDeleteHeaders
+  - Added Interface ClusterDeleteOptionalParams
+  - Added Interface ConnectorCreateOrUpdateOptionalParams
+  - Added Interface ConnectorDeleteHeaders
+  - Added Interface ConnectorDeleteOptionalParams
+  - Added Interface ConnectorGetOptionalParams
+  - Added Interface ConnectorInfoBase
+  - Added Interface ConnectorListNextOptionalParams
+  - Added Interface ConnectorListOptionalParams
+  - Added Interface ConnectorResource
+  - Added Interface ConnectorServiceTypeInfoBase
+  - Added Interface EnvironmentCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentDeleteHeaders
+  - Added Interface EnvironmentDeleteOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface KafkaAzureBlobStorageSinkConnectorInfo
+  - Added Interface KafkaAzureBlobStorageSourceConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSinkConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSourceConnectorInfo
+  - Added Interface KafkaAzureSynapseAnalyticsSinkConnectorInfo
+  - Added Interface ListConnectorsSuccessResponse
+  - Added Interface ListTopicsSuccessResponse
+  - Added Interface PartnerInfoBase
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface StreamGovernanceConfig
+  - Added Interface TopicMetadataEntity
+  - Added Interface TopicRecord
+  - Added Interface TopicsCreateOptionalParams
+  - Added Interface TopicsDeleteHeaders
+  - Added Interface TopicsDeleteOptionalParams
+  - Added Interface TopicsGetOptionalParams
+  - Added Interface TopicsInputConfig
+  - Added Interface TopicsListNextOptionalParams
+  - Added Interface TopicsListOptionalParams
+  - Added Interface TopicsRelatedLink
+  - Added Type Alias AuthType
+  - Added Type Alias ClusterCreateOrUpdateResponse
+  - Added Type Alias ClusterDeleteResponse
+  - Added Type Alias ConnectorClass
+  - Added Type Alias ConnectorCreateOrUpdateResponse
+  - Added Type Alias ConnectorDeleteResponse
+  - Added Type Alias ConnectorGetResponse
+  - Added Type Alias ConnectorListNextResponse
+  - Added Type Alias ConnectorListResponse
+  - Added Type Alias ConnectorServiceType
+  - Added Type Alias ConnectorServiceTypeInfoBaseUnion
+  - Added Type Alias ConnectorStatus
+  - Added Type Alias ConnectorType
+  - Added Type Alias DataFormatType
+  - Added Type Alias EnvironmentCreateOrUpdateResponse
+  - Added Type Alias EnvironmentDeleteResponse
+  - Added Type Alias Package
+  - Added Type Alias PartnerConnectorType
+  - Added Type Alias PartnerInfoBaseUnion
+  - Added Type Alias TopicsCreateResponse
+  - Added Type Alias TopicsDeleteResponse
+  - Added Type Alias TopicsGetResponse
+  - Added Type Alias TopicsListNextResponse
+  - Added Type Alias TopicsListResponse
+  - Interface SCClusterRecord has a new optional parameter type
+  - Interface SCClusterSpecEntity has a new optional parameter package
+  - Interface SCEnvironmentRecord has a new optional parameter streamGovernanceConfig
+  - Interface SCEnvironmentRecord has a new optional parameter type
+  - Added Enum KnownAuthType
+  - Added Enum KnownConnectorClass
+  - Added Enum KnownConnectorServiceType
+  - Added Enum KnownConnectorStatus
+  - Added Enum KnownConnectorType
+  - Added Enum KnownDataFormatType
+  - Added Enum KnownPackage
+  - Added Enum KnownPartnerConnectorType
+    
+    
 ## 3.1.0 (2024-03-13)
     
 ### Features Added
