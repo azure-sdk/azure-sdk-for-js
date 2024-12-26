@@ -1305,10 +1305,6 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/arm-recoveryservices@5.4.0':
-    resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
-    engines: {node: '>=14.0.0'}
-
   '@azure/communication-common@2.3.1':
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -3315,7 +3311,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesbackup@file:projects/arm-recoveryservicesbackup.tgz':
-    resolution: {integrity: sha512-76IF5KI/OCOCdLaKuMR+C5gCzNfBLMzBCfgQ4d5cW9DovTXxhRzO9sXzKfwmgnL1+VUyvCo3GxhzTYm6ncwd7A==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-RTsnrMkBj9Ltm/kxlkj97IUfr5DHvc8xpEQB5qm4Za2S/wh/Nwc4V0p4plf2f3lYMw4dtX7+LLxx9+b7gnh9pw==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservicesdatareplication@file:projects/arm-recoveryservicesdatareplication.tgz':
@@ -8375,18 +8371,6 @@ snapshots:
       - supports-color
 
   '@azure/arm-network@32.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.18.1
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/arm-recoveryservices@5.4.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -14388,18 +14372,17 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
-      '@azure/arm-recoveryservices': 5.4.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 10.8.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
