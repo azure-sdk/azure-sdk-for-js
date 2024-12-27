@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DigitalTwinsDescription as DigitalTwinsDescriptionMapper,
@@ -17,7 +17,7 @@ import {
   CheckNameRequest as CheckNameRequestMapper,
   DigitalTwinsEndpointResource as DigitalTwinsEndpointResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  TimeSeriesDatabaseConnection as TimeSeriesDatabaseConnectionMapper
+  TimeSeriesDatabaseConnection as TimeSeriesDatabaseConnectionMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -27,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,22 +38,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-31",
+    defaultValue: "2025-03-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -62,9 +62,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -72,14 +72,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceName: OperationURLParameter = {
@@ -88,14 +88,14 @@ export const resourceName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^(?!-)[A-Za-z0-9-]{3,63}(?<!-)$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -105,38 +105,38 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const digitalTwinsCreate: OperationParameter = {
   parameterPath: "digitalTwinsCreate",
-  mapper: DigitalTwinsDescriptionMapper
+  mapper: DigitalTwinsDescriptionMapper,
 };
 
 export const digitalTwinsPatchDescription: OperationParameter = {
   parameterPath: "digitalTwinsPatchDescription",
-  mapper: DigitalTwinsPatchDescriptionMapper
+  mapper: DigitalTwinsPatchDescriptionMapper,
 };
 
 export const digitalTwinsInstanceCheckName: OperationParameter = {
   parameterPath: "digitalTwinsInstanceCheckName",
-  mapper: CheckNameRequestMapper
+  mapper: CheckNameRequestMapper,
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -145,10 +145,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const endpointName: OperationURLParameter = {
@@ -157,19 +157,19 @@ export const endpointName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"),
       MaxLength: 49,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "endpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpointDescription: OperationParameter = {
   parameterPath: "endpointDescription",
-  mapper: DigitalTwinsEndpointResourceMapper
+  mapper: DigitalTwinsEndpointResourceMapper,
 };
 
 export const resourceId: OperationURLParameter = {
@@ -178,9 +178,9 @@ export const resourceId: OperationURLParameter = {
     serializedName: "resourceId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -189,14 +189,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const timeSeriesDatabaseConnectionName: OperationURLParameter = {
@@ -205,19 +205,19 @@ export const timeSeriesDatabaseConnectionName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"),
       MaxLength: 49,
-      MinLength: 2
+      MinLength: 2,
     },
     serializedName: "timeSeriesDatabaseConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const timeSeriesDatabaseConnectionDescription: OperationParameter = {
   parameterPath: "timeSeriesDatabaseConnectionDescription",
-  mapper: TimeSeriesDatabaseConnectionMapper
+  mapper: TimeSeriesDatabaseConnectionMapper,
 };
 
 export const cleanupConnectionArtifacts: OperationQueryParameter = {
@@ -225,7 +225,7 @@ export const cleanupConnectionArtifacts: OperationQueryParameter = {
   mapper: {
     serializedName: "cleanupConnectionArtifacts",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

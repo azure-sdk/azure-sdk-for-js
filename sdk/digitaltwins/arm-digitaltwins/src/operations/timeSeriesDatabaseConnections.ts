@@ -16,7 +16,7 @@ import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,13 +30,14 @@ import {
   TimeSeriesDatabaseConnectionsCreateOrUpdateResponse,
   TimeSeriesDatabaseConnectionsDeleteOptionalParams,
   TimeSeriesDatabaseConnectionsDeleteResponse,
-  TimeSeriesDatabaseConnectionsListNextResponse
+  TimeSeriesDatabaseConnectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TimeSeriesDatabaseConnections operations. */
 export class TimeSeriesDatabaseConnectionsImpl
-  implements TimeSeriesDatabaseConnections {
+  implements TimeSeriesDatabaseConnections
+{
   private readonly client: AzureDigitalTwinsManagementClient;
 
   /**
@@ -56,7 +57,7 @@ export class TimeSeriesDatabaseConnectionsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TimeSeriesDatabaseConnectionsListOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<TimeSeriesDatabaseConnection> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -74,9 +75,9 @@ export class TimeSeriesDatabaseConnectionsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +85,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: TimeSeriesDatabaseConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TimeSeriesDatabaseConnection[]> {
     let result: TimeSeriesDatabaseConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +101,7 @@ export class TimeSeriesDatabaseConnectionsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +113,12 @@ export class TimeSeriesDatabaseConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: TimeSeriesDatabaseConnectionsListOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListOptionalParams,
   ): AsyncIterableIterator<TimeSeriesDatabaseConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +133,11 @@ export class TimeSeriesDatabaseConnectionsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TimeSeriesDatabaseConnectionsListOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -151,16 +152,16 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsGetOptionalParams
+    options?: TimeSeriesDatabaseConnectionsGetOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,7 +178,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
-    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
+    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
@@ -186,21 +187,20 @@ export class TimeSeriesDatabaseConnectionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +209,8 @@ export class TimeSeriesDatabaseConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,8 +218,8 @@ export class TimeSeriesDatabaseConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -230,16 +230,16 @@ export class TimeSeriesDatabaseConnectionsImpl
         resourceName,
         timeSeriesDatabaseConnectionName,
         timeSeriesDatabaseConnectionDescription,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TimeSeriesDatabaseConnectionsCreateOrUpdateResponse,
       OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -258,14 +258,14 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
-    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
+    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       timeSeriesDatabaseConnectionName,
       timeSeriesDatabaseConnectionDescription,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +281,7 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
+    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
@@ -290,21 +290,20 @@ export class TimeSeriesDatabaseConnectionsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TimeSeriesDatabaseConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +312,8 @@ export class TimeSeriesDatabaseConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,8 +321,8 @@ export class TimeSeriesDatabaseConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -333,16 +332,16 @@ export class TimeSeriesDatabaseConnectionsImpl
         resourceGroupName,
         resourceName,
         timeSeriesDatabaseConnectionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       TimeSeriesDatabaseConnectionsDeleteResponse,
       OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -359,13 +358,13 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
+    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
       timeSeriesDatabaseConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,11 +380,11 @@ export class TimeSeriesDatabaseConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: TimeSeriesDatabaseConnectionsListNextOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListNextOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -393,38 +392,15 @@ export class TimeSeriesDatabaseConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnectionListResult
+      bodyMapper: Mappers.TimeSeriesDatabaseConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -432,31 +408,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.timeSeriesDatabaseConnectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.timeSeriesDatabaseConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     201: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     202: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     204: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.timeSeriesDatabaseConnectionDescription,
   queryParameters: [Parameters.apiVersion],
@@ -465,65 +461,64 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.timeSeriesDatabaseConnectionName
+    Parameters.timeSeriesDatabaseConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/timeSeriesDatabaseConnections/{timeSeriesDatabaseConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     201: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     202: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     204: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnection
+      bodyMapper: Mappers.TimeSeriesDatabaseConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.cleanupConnectionArtifacts
+    Parameters.cleanupConnectionArtifacts,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.timeSeriesDatabaseConnectionName
+    Parameters.timeSeriesDatabaseConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TimeSeriesDatabaseConnectionListResult
+      bodyMapper: Mappers.TimeSeriesDatabaseConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

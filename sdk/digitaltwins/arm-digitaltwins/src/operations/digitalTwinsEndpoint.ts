@@ -16,7 +16,7 @@ import { AzureDigitalTwinsManagementClient } from "../azureDigitalTwinsManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   DigitalTwinsEndpointCreateOrUpdateResponse,
   DigitalTwinsEndpointDeleteOptionalParams,
   DigitalTwinsEndpointDeleteResponse,
-  DigitalTwinsEndpointListNextResponse
+  DigitalTwinsEndpointListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +55,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsEndpointListOptionalParams
+    options?: DigitalTwinsEndpointListOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsEndpointResource> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -73,9 +73,9 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     options?: DigitalTwinsEndpointListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DigitalTwinsEndpointResource[]> {
     let result: DigitalTwinsEndpointListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsEndpointListOptionalParams
+    options?: DigitalTwinsEndpointListOptionalParams,
   ): AsyncIterableIterator<DigitalTwinsEndpointResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +131,11 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsEndpointListOptionalParams
+    options?: DigitalTwinsEndpointListOptionalParams,
   ): Promise<DigitalTwinsEndpointListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -150,11 +150,11 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointGetOptionalParams
+    options?: DigitalTwinsEndpointGetOptionalParams,
   ): Promise<DigitalTwinsEndpointGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, endpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -171,7 +171,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceName: string,
     endpointName: string,
     endpointDescription: DigitalTwinsEndpointResource,
-    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams
+    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>,
@@ -180,21 +180,20 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DigitalTwinsEndpointCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -203,8 +202,8 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -212,8 +211,8 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -224,16 +223,16 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         resourceName,
         endpointName,
         endpointDescription,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DigitalTwinsEndpointCreateOrUpdateResponse,
       OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -252,14 +251,14 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceName: string,
     endpointName: string,
     endpointDescription: DigitalTwinsEndpointResource,
-    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams
+    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams,
   ): Promise<DigitalTwinsEndpointCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       endpointName,
       endpointDescription,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,7 +274,7 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointDeleteOptionalParams
+    options?: DigitalTwinsEndpointDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsEndpointDeleteResponse>,
@@ -284,21 +283,20 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DigitalTwinsEndpointDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -307,8 +305,8 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -316,22 +314,22 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, endpointName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DigitalTwinsEndpointDeleteResponse,
       OperationState<DigitalTwinsEndpointDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -348,13 +346,13 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointDeleteOptionalParams
+    options?: DigitalTwinsEndpointDeleteOptionalParams,
   ): Promise<DigitalTwinsEndpointDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
       endpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -370,11 +368,11 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: DigitalTwinsEndpointListNextOptionalParams
+    options?: DigitalTwinsEndpointListNextOptionalParams,
   ): Promise<DigitalTwinsEndpointListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -382,38 +380,15 @@ export class DigitalTwinsEndpointImpl implements DigitalTwinsEndpoint {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResourceListResult
+      bodyMapper: Mappers.DigitalTwinsEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -421,31 +396,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.endpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     201: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     202: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     204: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.endpointDescription,
   queryParameters: [Parameters.apiVersion],
@@ -454,32 +449,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DigitalTwins/digitalTwinsInstances/{resourceName}/endpoints/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     201: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     202: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     204: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResource
+      bodyMapper: Mappers.DigitalTwinsEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -487,29 +481,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DigitalTwinsEndpointResourceListResult
+      bodyMapper: Mappers.DigitalTwinsEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

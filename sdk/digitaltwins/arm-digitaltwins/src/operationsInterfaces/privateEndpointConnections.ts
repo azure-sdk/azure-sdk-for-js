@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnection,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse
+  PrivateEndpointConnectionsCreateOrUpdateResponse,
 } from "../models";
 
 /** Interface representing a PrivateEndpointConnections. */
@@ -29,7 +29,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): Promise<PrivateEndpointConnectionsListResponse>;
   /**
    * Get private endpoint connection properties for the given private endpoint.
@@ -42,7 +42,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Delete private endpoint connection with the specified name.
@@ -55,7 +55,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete private endpoint connection with the specified name.
@@ -68,7 +68,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update the status of a private endpoint connection with the given name.
@@ -83,7 +83,7 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
@@ -103,6 +103,6 @@ export interface PrivateEndpointConnections {
     resourceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
 }

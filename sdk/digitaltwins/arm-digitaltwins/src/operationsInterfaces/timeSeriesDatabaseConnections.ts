@@ -16,7 +16,7 @@ import {
   TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams,
   TimeSeriesDatabaseConnectionsCreateOrUpdateResponse,
   TimeSeriesDatabaseConnectionsDeleteOptionalParams,
-  TimeSeriesDatabaseConnectionsDeleteResponse
+  TimeSeriesDatabaseConnectionsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface TimeSeriesDatabaseConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: TimeSeriesDatabaseConnectionsListOptionalParams
+    options?: TimeSeriesDatabaseConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<TimeSeriesDatabaseConnection>;
   /**
    * Get the description of an existing time series database connection.
@@ -44,7 +44,7 @@ export interface TimeSeriesDatabaseConnections {
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsGetOptionalParams
+    options?: TimeSeriesDatabaseConnectionsGetOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsGetResponse>;
   /**
    * Create or update a time series database connection.
@@ -59,7 +59,7 @@ export interface TimeSeriesDatabaseConnections {
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
-    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
+    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>,
@@ -79,7 +79,7 @@ export interface TimeSeriesDatabaseConnections {
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
     timeSeriesDatabaseConnectionDescription: TimeSeriesDatabaseConnection,
-    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
+    options?: TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsCreateOrUpdateResponse>;
   /**
    * Delete a time series database connection.
@@ -92,7 +92,7 @@ export interface TimeSeriesDatabaseConnections {
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
+    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TimeSeriesDatabaseConnectionsDeleteResponse>,
@@ -110,6 +110,6 @@ export interface TimeSeriesDatabaseConnections {
     resourceGroupName: string,
     resourceName: string,
     timeSeriesDatabaseConnectionName: string,
-    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams
+    options?: TimeSeriesDatabaseConnectionsDeleteOptionalParams,
   ): Promise<TimeSeriesDatabaseConnectionsDeleteResponse>;
 }

@@ -476,11 +476,11 @@ export interface EventHub extends DigitalTwinsEndpointResourceProperties {
 export interface EventGrid extends DigitalTwinsEndpointResourceProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "EventGrid";
-  /** EventGrid Topic Endpoint. */
+  /** EventGrid Topic Endpoint for key-based or identity-based authentication. */
   topicEndpoint: string;
-  /** EventGrid secondary accesskey. Will be obfuscated during read. */
-  accessKey1: string | null;
-  /** EventGrid secondary accesskey. Will be obfuscated during read. */
+  /** EventGrid primary accesskey for key-based authentication. Will be obfuscated during read. */
+  accessKey1?: string;
+  /** EventGrid secondary accesskey for key-based authentication. Will be obfuscated during read. */
   accessKey2?: string;
 }
 
@@ -548,7 +548,7 @@ export enum KnownProvisioningState {
   /** Restoring */
   Restoring = "Restoring",
   /** Moving */
-  Moving = "Moving"
+  Moving = "Moving",
 }
 
 /**
@@ -579,7 +579,7 @@ export enum KnownConnectionPropertiesProvisioningState {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -603,7 +603,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -627,7 +627,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -647,7 +647,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -669,7 +669,7 @@ export enum KnownDigitalTwinsIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -691,7 +691,7 @@ export enum KnownEndpointType {
   /** EventGrid */
   EventGrid = "EventGrid",
   /** ServiceBus */
-  ServiceBus = "ServiceBus"
+  ServiceBus = "ServiceBus",
 }
 
 /**
@@ -730,7 +730,7 @@ export enum KnownEndpointProvisioningState {
   /** Moving */
   Moving = "Moving",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -758,7 +758,7 @@ export enum KnownAuthenticationType {
   /** KeyBased */
   KeyBased = "KeyBased",
   /** IdentityBased */
-  IdentityBased = "IdentityBased"
+  IdentityBased = "IdentityBased",
 }
 
 /**
@@ -776,7 +776,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -794,7 +794,7 @@ export enum KnownReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -810,7 +810,7 @@ export type Reason = string;
 /** Known values of {@link ConnectionType} that the service accepts. */
 export enum KnownConnectionType {
   /** AzureDataExplorer */
-  AzureDataExplorer = "AzureDataExplorer"
+  AzureDataExplorer = "AzureDataExplorer",
 }
 
 /**
@@ -847,7 +847,7 @@ export enum KnownTimeSeriesDatabaseConnectionState {
   /** Moving */
   Moving = "Moving",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -875,7 +875,7 @@ export enum KnownCleanupConnectionArtifacts {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -893,7 +893,7 @@ export enum KnownRecordPropertyAndItemRemovals {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -961,7 +961,8 @@ export interface DigitalTwinsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DigitalTwinsListByResourceGroupResponse = DigitalTwinsDescriptionListResult;
+export type DigitalTwinsListByResourceGroupResponse =
+  DigitalTwinsDescriptionListResult;
 
 /** Optional parameters. */
 export interface DigitalTwinsCheckNameAvailabilityOptionalParams
@@ -982,14 +983,16 @@ export interface DigitalTwinsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DigitalTwinsListByResourceGroupNextResponse = DigitalTwinsDescriptionListResult;
+export type DigitalTwinsListByResourceGroupNextResponse =
+  DigitalTwinsDescriptionListResult;
 
 /** Optional parameters. */
 export interface DigitalTwinsEndpointListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DigitalTwinsEndpointListResponse = DigitalTwinsEndpointResourceListResult;
+export type DigitalTwinsEndpointListResponse =
+  DigitalTwinsEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface DigitalTwinsEndpointGetOptionalParams
@@ -1008,7 +1011,8 @@ export interface DigitalTwinsEndpointCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DigitalTwinsEndpointCreateOrUpdateResponse = DigitalTwinsEndpointResource;
+export type DigitalTwinsEndpointCreateOrUpdateResponse =
+  DigitalTwinsEndpointResource;
 
 /** Optional parameters. */
 export interface DigitalTwinsEndpointDeleteOptionalParams
@@ -1027,7 +1031,8 @@ export interface DigitalTwinsEndpointListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DigitalTwinsEndpointListNextResponse = DigitalTwinsEndpointResourceListResult;
+export type DigitalTwinsEndpointListNextResponse =
+  DigitalTwinsEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1062,7 +1067,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionsResponse;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionsResponse;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1090,21 +1096,24 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TimeSeriesDatabaseConnectionsListResponse = TimeSeriesDatabaseConnectionListResult;
+export type TimeSeriesDatabaseConnectionsListResponse =
+  TimeSeriesDatabaseConnectionListResult;
 
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TimeSeriesDatabaseConnectionsGetResponse = TimeSeriesDatabaseConnection;
+export type TimeSeriesDatabaseConnectionsGetResponse =
+  TimeSeriesDatabaseConnection;
 
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
@@ -1116,7 +1125,8 @@ export interface TimeSeriesDatabaseConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse = TimeSeriesDatabaseConnection;
+export type TimeSeriesDatabaseConnectionsCreateOrUpdateResponse =
+  TimeSeriesDatabaseConnection;
 
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams
@@ -1130,14 +1140,16 @@ export interface TimeSeriesDatabaseConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type TimeSeriesDatabaseConnectionsDeleteResponse = TimeSeriesDatabaseConnection;
+export type TimeSeriesDatabaseConnectionsDeleteResponse =
+  TimeSeriesDatabaseConnection;
 
 /** Optional parameters. */
 export interface TimeSeriesDatabaseConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TimeSeriesDatabaseConnectionsListNextResponse = TimeSeriesDatabaseConnectionListResult;
+export type TimeSeriesDatabaseConnectionsListNextResponse =
+  TimeSeriesDatabaseConnectionListResult;
 
 /** Optional parameters. */
 export interface AzureDigitalTwinsManagementClientOptionalParams

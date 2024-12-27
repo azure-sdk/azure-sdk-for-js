@@ -23,7 +23,7 @@ import {
   DigitalTwinsDeleteResponse,
   CheckNameRequest,
   DigitalTwinsCheckNameAvailabilityOptionalParams,
-  DigitalTwinsCheckNameAvailabilityResponse
+  DigitalTwinsCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface DigitalTwins {
    * @param options The options parameters.
    */
   list(
-    options?: DigitalTwinsListOptionalParams
+    options?: DigitalTwinsListOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsDescription>;
   /**
    * Get all the DigitalTwinsInstances in a resource group.
@@ -43,7 +43,7 @@ export interface DigitalTwins {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DigitalTwinsListByResourceGroupOptionalParams
+    options?: DigitalTwinsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsDescription>;
   /**
    * Get DigitalTwinsInstances resource.
@@ -54,7 +54,7 @@ export interface DigitalTwins {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsGetOptionalParams
+    options?: DigitalTwinsGetOptionalParams,
   ): Promise<DigitalTwinsGetResponse>;
   /**
    * Create or update the metadata of a DigitalTwinsInstance. The usual pattern to modify a property is
@@ -69,7 +69,7 @@ export interface DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsCreate: DigitalTwinsDescription,
-    options?: DigitalTwinsCreateOrUpdateOptionalParams
+    options?: DigitalTwinsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsCreateOrUpdateResponse>,
@@ -89,7 +89,7 @@ export interface DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsCreate: DigitalTwinsDescription,
-    options?: DigitalTwinsCreateOrUpdateOptionalParams
+    options?: DigitalTwinsCreateOrUpdateOptionalParams,
   ): Promise<DigitalTwinsCreateOrUpdateResponse>;
   /**
    * Update metadata of DigitalTwinsInstance.
@@ -102,7 +102,7 @@ export interface DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsUpdateResponse>,
@@ -120,7 +120,7 @@ export interface DigitalTwins {
     resourceGroupName: string,
     resourceName: string,
     digitalTwinsPatchDescription: DigitalTwinsPatchDescription,
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<DigitalTwinsUpdateResponse>;
   /**
    * Delete a DigitalTwinsInstance.
@@ -131,7 +131,7 @@ export interface DigitalTwins {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsDeleteOptionalParams
+    options?: DigitalTwinsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsDeleteResponse>,
@@ -147,7 +147,7 @@ export interface DigitalTwins {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsDeleteOptionalParams
+    options?: DigitalTwinsDeleteOptionalParams,
   ): Promise<DigitalTwinsDeleteResponse>;
   /**
    * Check if a DigitalTwinsInstance name is available.
@@ -159,6 +159,6 @@ export interface DigitalTwins {
   checkNameAvailability(
     location: string,
     digitalTwinsInstanceCheckName: CheckNameRequest,
-    options?: DigitalTwinsCheckNameAvailabilityOptionalParams
+    options?: DigitalTwinsCheckNameAvailabilityOptionalParams,
   ): Promise<DigitalTwinsCheckNameAvailabilityResponse>;
 }

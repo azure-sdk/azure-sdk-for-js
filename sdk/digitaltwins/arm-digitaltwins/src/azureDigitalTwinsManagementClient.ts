@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,7 +20,7 @@ import {
   OperationsImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
-  TimeSeriesDatabaseConnectionsImpl
+  TimeSeriesDatabaseConnectionsImpl,
 } from "./operations";
 import {
   DigitalTwins,
@@ -28,7 +28,7 @@ import {
   Operations,
   PrivateLinkResources,
   PrivateEndpointConnections,
-  TimeSeriesDatabaseConnections
+  TimeSeriesDatabaseConnections,
 } from "./operationsInterfaces";
 import { AzureDigitalTwinsManagementClientOptionalParams } from "./models";
 
@@ -46,7 +46,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureDigitalTwinsManagementClientOptionalParams
+    options?: AzureDigitalTwinsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,10 +61,10 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
     }
     const defaults: AzureDigitalTwinsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-digitaltwins/3.3.1`;
+    const packageDetails = `azsdk-js-arm-digitaltwins/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -74,20 +74,21 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -97,7 +98,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -107,9 +108,9 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -117,14 +118,14 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-31";
+    this.apiVersion = options.apiVersion || "2025-03-31";
     this.digitalTwins = new DigitalTwinsImpl(this);
     this.digitalTwinsEndpoint = new DigitalTwinsEndpointImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.timeSeriesDatabaseConnections = new TimeSeriesDatabaseConnectionsImpl(
-      this
+      this,
     );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -138,7 +139,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -152,7 +153,7 @@ export class AzureDigitalTwinsManagementClient extends coreClient.ServiceClient 
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
