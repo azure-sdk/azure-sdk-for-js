@@ -16,7 +16,7 @@ import {
   DigitalTwinsEndpointCreateOrUpdateOptionalParams,
   DigitalTwinsEndpointCreateOrUpdateResponse,
   DigitalTwinsEndpointDeleteOptionalParams,
-  DigitalTwinsEndpointDeleteResponse
+  DigitalTwinsEndpointDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface DigitalTwinsEndpoint {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: DigitalTwinsEndpointListOptionalParams
+    options?: DigitalTwinsEndpointListOptionalParams,
   ): PagedAsyncIterableIterator<DigitalTwinsEndpointResource>;
   /**
    * Get DigitalTwinsInstances Endpoint.
@@ -44,7 +44,7 @@ export interface DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointGetOptionalParams
+    options?: DigitalTwinsEndpointGetOptionalParams,
   ): Promise<DigitalTwinsEndpointGetResponse>;
   /**
    * Create or update DigitalTwinsInstance endpoint.
@@ -59,7 +59,7 @@ export interface DigitalTwinsEndpoint {
     resourceName: string,
     endpointName: string,
     endpointDescription: DigitalTwinsEndpointResource,
-    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams
+    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsEndpointCreateOrUpdateResponse>,
@@ -79,7 +79,7 @@ export interface DigitalTwinsEndpoint {
     resourceName: string,
     endpointName: string,
     endpointDescription: DigitalTwinsEndpointResource,
-    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams
+    options?: DigitalTwinsEndpointCreateOrUpdateOptionalParams,
   ): Promise<DigitalTwinsEndpointCreateOrUpdateResponse>;
   /**
    * Delete a DigitalTwinsInstance endpoint.
@@ -92,7 +92,7 @@ export interface DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointDeleteOptionalParams
+    options?: DigitalTwinsEndpointDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DigitalTwinsEndpointDeleteResponse>,
@@ -110,6 +110,6 @@ export interface DigitalTwinsEndpoint {
     resourceGroupName: string,
     resourceName: string,
     endpointName: string,
-    options?: DigitalTwinsEndpointDeleteOptionalParams
+    options?: DigitalTwinsEndpointDeleteOptionalParams,
   ): Promise<DigitalTwinsEndpointDeleteResponse>;
 }
