@@ -44,7 +44,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure DataboundariesManegement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -53,14 +52,15 @@ const { DataboundariesManegementClient } = require("@azure/arm-databoundaries");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const client = new DataboundariesManegementClient(new DefaultAzureCredential());
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new DataboundariesManegementClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new DataboundariesManegementClient(credential);
+// const client = new DataboundariesManegementClient(credential, subscriptionId);
 ```
 
 
