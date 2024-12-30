@@ -1305,6 +1305,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-network@33.5.0':
+    resolution: {integrity: sha512-wXD34p4/J2kZrkWylabtxLzrea5TK2m9NRwYtBLCvgQXN5NFTQohHgOFhoi/7DgV6w1qaM+qGz9mo5HRxpU70w==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -3131,7 +3135,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-3WU5K6IHkIJNsqg/jZsr1LPrLS4WtMEsl+S9uch4/Nlz+PsZIq6lWZSF6qpcer0NTPcZxiL9qMfr/egukutuQA==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-UmWO1z0VPFqAcOPYVvGF4WoAhk/Q9mFG+fG35lL1jBl4EjzZ3Kpe7uuJOgfMTJTyIfYGRlkYJgR/Wzk9Sc/HBw==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3163,7 +3167,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
-    resolution: {integrity: sha512-ar1Oosj8hqVBwgZ+v5w/QDMGslyj2F/aUQXQLULArSUjENHzoEGSrrfFXCHbi+iE8AE+wShw2afER5oqqHfrrQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-X8DkmZhrtUBexRdpBzseSKvTBNxNL0HKsh10fPqqZ706gTusvTEUjg/bIqG9jUOU1he//KsjOL4TWxPJ3WEnXg==, tarball: file:projects/arm-network-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-profile-2020-09-01-hybrid@file:projects/arm-network-profile-2020-09-01-hybrid.tgz':
@@ -8365,6 +8369,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-network@33.5.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/arm-recoveryservices@5.4.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -13511,6 +13527,7 @@ snapshots:
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@azure/arm-network': 33.5.0
       '@types/node': 18.19.68
       '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -13702,11 +13719,11 @@ snapshots:
       '@types/node': 18.19.68
       chai: 4.5.0
       dotenv: 16.4.7
-      mocha: 10.8.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      mocha: 11.0.2
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
