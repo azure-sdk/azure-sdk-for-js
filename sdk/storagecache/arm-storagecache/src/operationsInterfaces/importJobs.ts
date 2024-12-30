@@ -88,7 +88,7 @@ export interface ImportJobs {
     options?: ImportJobsGetOptionalParams,
   ): Promise<ImportJobsGetResponse>;
   /**
-   * Create or update an import job. Import jobs are automatically deleted 72 hours after completion.
+   * Create or update an import job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
@@ -111,7 +111,7 @@ export interface ImportJobs {
     >
   >;
   /**
-   * Create or update an import job. Import jobs are automatically deleted 72 hours after completion.
+   * Create or update an import job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
