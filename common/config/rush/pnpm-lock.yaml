@@ -1305,6 +1305,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-operationalinsights@9.0.0':
+    resolution: {integrity: sha512-2MGyYUdi0ITlqqVq1XEHf7oX20I5VX0/OH/Lu+g4MW6h4js+sPSLjTBpVbafD/NoroLAdVdltVCOR6h3b1bTxg==}
+    engines: {node: '>=14.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -3139,7 +3143,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-monitor@file:projects/arm-monitor.tgz':
-    resolution: {integrity: sha512-M+9Vl69s/OYxdMGIxHpf3nWXrop324ZKiBi6SCycDLTo/sPmPLaeYPN/IWo6ezxTdXEkdmbz9x2/3Q0ObsicVg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Zb1H4/FQrCClKIpCKteit3cwYgafkEqYqizfrfOY47PYMGc2m+dr7YYEkIvtWgRyPunNoSBAMf0t9xaNgfeIpA==, tarball: file:projects/arm-monitor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-msi@file:projects/arm-msi.tgz':
@@ -3203,7 +3207,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-operationalinsights@file:projects/arm-operationalinsights.tgz':
-    resolution: {integrity: sha512-tgicya+465vMz+klPztgXnNOdNnNsLoSRZ6mRDfRj519DP5Ad2rPmgzyExPKW7xJiehaNBRS5CqmMIp5qtKcMQ==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-YCHpFAS2aRugVzLl+npVToh+zCRDYd0U6FRLSvjSii043KooAalN85ttlHNrTO7VtjxiH2g3FziNNKOHG8l0XA==, tarball: file:projects/arm-operationalinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-operations@file:projects/arm-operations.tgz':
@@ -8342,6 +8346,18 @@ snapshots:
       - supports-color
 
   '@azure/arm-network@32.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-operationalinsights@9.0.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -13745,6 +13761,7 @@ snapshots:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-operationalinsights': 9.0.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
@@ -14099,7 +14116,6 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
@@ -14107,9 +14123,10 @@ snapshots:
       chai: 4.5.0
       dotenv: 16.4.7
       mocha: 11.0.2
-      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.7.2)
+      ts-node: 10.9.2(@types/node@18.19.68)(typescript@5.6.3)
       tslib: 2.8.1
-      typescript: 5.7.2
+      tsx: 4.19.2
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -24381,6 +24398,24 @@ snapshots:
     dependencies:
       '@ts-morph/common': 0.26.0
       code-block-writer: 13.0.3
+
+  ts-node@10.9.2(@types/node@18.19.68)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.68
+      acorn: 8.14.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
 
   ts-node@10.9.2(@types/node@18.19.68)(typescript@5.7.2):
     dependencies:
