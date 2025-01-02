@@ -20,7 +20,10 @@ export {
   AccountQuotasGetOptionalParams,
   AccountQuotasListByAccountOptionalParams,
 } from "./options.js";
-export { accountQuotasGet, accountQuotasListByAccount } from "./accountQuotas/index.js";
+export {
+  accountQuotasGet,
+  accountQuotasListByAccount,
+} from "./accountQuotas/index.js";
 export {
   accountsGet,
   accountsCreateOrUpdate,

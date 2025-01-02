@@ -25,22 +25,27 @@ export interface AccountsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AccountsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface AccountsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface AccountsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountsCheckNameAvailabilityOptionalParams extends OperationOptions {}
+export interface AccountsCheckNameAvailabilityOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface QuotasGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface QuotasListBySubscriptionOptionalParams extends OperationOptions {}
+export interface QuotasListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AccountQuotasGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AccountQuotasListByAccountOptionalParams extends OperationOptions {}
+export interface AccountQuotasListByAccountOptionalParams
+  extends OperationOptions {}

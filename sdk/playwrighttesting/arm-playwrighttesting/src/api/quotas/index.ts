@@ -41,7 +41,9 @@ export function _quotasGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _quotasGetDeserialize(result: PathUncheckedResponse): Promise<Quota> {
+export async function _quotasGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Quota> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -58,7 +60,13 @@ export async function quotasGet(
   quotaName: QuotaNames,
   options: QuotasGetOptionalParams = { requestOptions: {} },
 ): Promise<Quota> {
-  const result = await _quotasGetSend(context, subscriptionId, location, quotaName, options);
+  const result = await _quotasGetSend(
+    context,
+    subscriptionId,
+    location,
+    quotaName,
+    options,
+  );
   return _quotasGetDeserialize(result);
 }
 
@@ -97,7 +105,8 @@ export function quotasListBySubscription(
 ): PagedAsyncIterableIterator<Quota> {
   return buildPagedAsyncIterator(
     context,
-    () => _quotasListBySubscriptionSend(context, subscriptionId, location, options),
+    () =>
+      _quotasListBySubscriptionSend(context, subscriptionId, location, options),
     _quotasListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
