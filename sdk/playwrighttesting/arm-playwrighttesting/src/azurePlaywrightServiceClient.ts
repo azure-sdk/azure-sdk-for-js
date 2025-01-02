@@ -1,9 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getAccountsOperations, AccountsOperations } from "./classic/accounts/index.js";
-import { getQuotasOperations, QuotasOperations } from "./classic/quotas/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
+import {
+  getAccountsOperations,
+  AccountsOperations,
+} from "./classic/accounts/index.js";
+import {
+  getQuotasOperations,
+  QuotasOperations,
+} from "./classic/quotas/index.js";
 import {
   getAccountQuotasOperations,
   AccountQuotasOperations,
@@ -41,7 +50,10 @@ export class AzurePlaywrightServiceClient {
     this.operations = getOperationsOperations(this._client);
     this.accounts = getAccountsOperations(this._client, subscriptionId);
     this.quotas = getQuotasOperations(this._client, subscriptionId);
-    this.accountQuotas = getAccountQuotasOperations(this._client, subscriptionId);
+    this.accountQuotas = getAccountQuotasOperations(
+      this._client,
+      subscriptionId,
+    );
   }
 
   /** The operation groups for Operations */
