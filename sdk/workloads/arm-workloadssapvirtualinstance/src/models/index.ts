@@ -14,60 +14,96 @@ export type SAPSizingRecommendationResultUnion =
   | ThreeTierRecommendationResult;
 export type SAPConfigurationUnion =
   | SAPConfiguration
-  | DiscoveryConfiguration
   | DeploymentConfiguration
-  | DeploymentWithOSConfiguration;
+  | DeploymentWithOSConfiguration
+  | DiscoveryConfiguration;
 export type OSConfigurationUnion =
   | OSConfiguration
-  | WindowsConfiguration
-  | LinuxConfiguration;
-export type SingleServerCustomResourceNamesUnion =
-  | SingleServerCustomResourceNames
-  | SingleServerFullResourceNames;
+  | LinuxConfiguration
+  | WindowsConfiguration;
+export type FileShareConfigurationUnion =
+  | FileShareConfiguration
+  | CreateAndMountFileShareConfiguration
+  | MountFileShareConfiguration
+  | SkipFileShareConfiguration;
 export type InfrastructureConfigurationUnion =
   | InfrastructureConfiguration
   | SingleServerConfiguration
   | ThreeTierConfiguration;
-export type FileShareConfigurationUnion =
-  | FileShareConfiguration
-  | SkipFileShareConfiguration
-  | CreateAndMountFileShareConfiguration
-  | MountFileShareConfiguration;
+export type SoftwareConfigurationUnion =
+  | SoftwareConfiguration
+  | ExternalInstallationSoftwareConfiguration
+  | SAPInstallWithoutOSConfigSoftwareConfiguration
+  | ServiceInitiatedSoftwareConfiguration;
+export type SingleServerCustomResourceNamesUnion =
+  | SingleServerCustomResourceNames
+  | SingleServerFullResourceNames;
 export type ThreeTierCustomResourceNamesUnion =
   | ThreeTierCustomResourceNames
   | ThreeTierFullResourceNames;
-export type SoftwareConfigurationUnion =
-  | SoftwareConfiguration
-  | ServiceInitiatedSoftwareConfiguration
-  | SAPInstallWithoutOSConfigSoftwareConfiguration
-  | ExternalInstallationSoftwareConfiguration;
 
-/** The SAP Sizing Recommendation request. */
-export interface SAPSizingRecommendationRequest {
-  /** The geo-location where the resource is to be created. */
-  appLocation: string;
-  /** Defines the environment type - Production/Non Production. */
-  environment: SAPEnvironmentType;
-  /** Defines the SAP Product type. */
-  sapProduct: SAPProductType;
-  /** The deployment type. Eg: SingleServer/ThreeTier */
-  deploymentType: SAPDeploymentType;
-  /** The SAP Application Performance Standard measurement. */
-  saps: number;
-  /** The database memory configuration. */
-  dbMemory: number;
-  /** The database type. */
-  databaseType: SAPDatabaseType;
-  /** The DB scale method. */
-  dbScaleMethod?: SAPDatabaseScaleMethod;
-  /** The high availability type. */
-  highAvailabilityType?: SAPHighAvailabilityType;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** The SAP sizing recommendation result. */
-export interface SAPSizingRecommendationResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "SingleServer" | "ThreeTier";
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -119,36 +155,28 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The SAP request to get list of supported SKUs. */
-export interface SAPSupportedSkusRequest {
-  /** The geo-location where the resource is to be created. */
+/** The SAP request to get list of availability zones. */
+export interface SAPAvailabilityZoneDetailsRequest {
+  /** The geo-location where the SAP resources will be created. */
   appLocation: string;
-  /** Defines the environment type - Production/Non Production. */
-  environment: SAPEnvironmentType;
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
-  /** The deployment type. Eg: SingleServer/ThreeTier */
-  deploymentType: SAPDeploymentType;
   /** The database type. Eg: HANA, DB2, etc */
   databaseType: SAPDatabaseType;
-  /** The high availability type. */
-  highAvailabilityType?: SAPHighAvailabilityType;
 }
 
-/** The list of supported SKUs for different resources which are part of SAP deployment. */
-export interface SAPSupportedResourceSkusResult {
-  /** Gets the list of SAP supported SKUs. */
-  supportedSkus?: SAPSupportedSku[];
+/** The list of supported availability zone pairs which are part of SAP HA deployment. */
+export interface SAPAvailabilityZoneDetailsResult {
+  /** Gets the list of availability zone pairs. */
+  availabilityZonePairs?: SAPAvailabilityZonePair[];
 }
 
-/** The SAP supported SKU. */
-export interface SAPSupportedSku {
-  /** The VM Sku. */
-  vmSku?: string;
-  /** True if the Sku is certified for App server in the SAP system. */
-  isAppServerCertified?: boolean;
-  /** True if the Sku is certified for Database server in the SAP system. */
-  isDatabaseCertified?: boolean;
+/** The SAP Availability Zone Pair. */
+export interface SAPAvailabilityZonePair {
+  /** The zone A. */
+  zoneA?: number;
+  /** The zone B. */
+  zoneB?: number;
 }
 
 /** The SAP request to get list of disk configurations. */
@@ -215,97 +243,78 @@ export interface DiskDetails {
   diskTier?: string;
 }
 
-/** The SAP request to get list of availability zones. */
-export interface SAPAvailabilityZoneDetailsRequest {
-  /** The geo-location where the SAP resources will be created. */
+/** The SAP request to get list of supported SKUs. */
+export interface SAPSupportedSkusRequest {
+  /** The geo-location where the resource is to be created. */
   appLocation: string;
-  /** Defines the SAP Product type. */
-  sapProduct: SAPProductType;
-  /** The database type. Eg: HANA, DB2, etc */
-  databaseType: SAPDatabaseType;
-}
-
-/** The list of supported availability zone pairs which are part of SAP HA deployment. */
-export interface SAPAvailabilityZoneDetailsResult {
-  /** Gets the list of availability zone pairs. */
-  availabilityZonePairs?: SAPAvailabilityZonePair[];
-}
-
-/** The SAP Availability Zone Pair. */
-export interface SAPAvailabilityZonePair {
-  /** The zone A. */
-  zoneA?: number;
-  /** The zone B. */
-  zoneB?: number;
-}
-
-/** Managed service identity (user assigned identities) */
-export interface UserAssignedServiceIdentity {
-  /** Type of manage identity */
-  type: ManagedServiceIdentityType;
-  /** User assigned identities dictionary */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentity | null;
-  };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Defines the Virtual Instance for SAP solutions resource properties. */
-export interface SAPVirtualInstanceProperties {
   /** Defines the environment type - Production/Non Production. */
   environment: SAPEnvironmentType;
   /** Defines the SAP Product type. */
   sapProduct: SAPProductType;
-  /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
-  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
-  /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
-  configuration: SAPConfigurationUnion;
-  /** Managed resource group configuration */
-  managedResourceGroupConfiguration?: ManagedRGConfiguration;
-  /**
-   * Defines the SAP Instance status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SAPVirtualInstanceStatus;
-  /**
-   * Defines the health of SAP Instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly health?: SAPHealthState;
-  /**
-   * Defines the Virtual Instance for SAP state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SAPVirtualInstanceState;
-  /**
-   * Defines the provisioning states.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: SapVirtualInstanceProvisioningState;
-  /**
-   * Indicates any errors on the Virtual Instance for SAP solutions resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: SAPVirtualInstanceError;
+  /** The deployment type. Eg: SingleServer/ThreeTier */
+  deploymentType: SAPDeploymentType;
+  /** The database type. Eg: HANA, DB2, etc */
+  databaseType: SAPDatabaseType;
+  /** The high availability type. */
+  highAvailabilityType?: SAPHighAvailabilityType;
+}
+
+/** The list of supported SKUs for different resources which are part of SAP deployment. */
+export interface SAPSupportedResourceSkusResult {
+  /** Gets the list of SAP supported SKUs. */
+  supportedSkus?: SAPSupportedSku[];
+}
+
+/** The SAP supported SKU. */
+export interface SAPSupportedSku {
+  /** The VM Sku. */
+  vmSku?: string;
+  /** True if the Sku is certified for App server in the SAP system. */
+  isAppServerCertified?: boolean;
+  /** True if the Sku is certified for Database server in the SAP system. */
+  isDatabaseCertified?: boolean;
+}
+
+/** The SAP Sizing Recommendation request. */
+export interface SAPSizingRecommendationRequest {
+  /** The geo-location where the resource is to be created. */
+  appLocation: string;
+  /** Defines the environment type - Production/Non Production. */
+  environment: SAPEnvironmentType;
+  /** Defines the SAP Product type. */
+  sapProduct: SAPProductType;
+  /** The deployment type. Eg: SingleServer/ThreeTier */
+  deploymentType: SAPDeploymentType;
+  /** The SAP Application Performance Standard measurement. */
+  saps: number;
+  /** The database memory configuration. */
+  dbMemory: number;
+  /** The database type. */
+  databaseType: SAPDatabaseType;
+  /** The DB scale method. */
+  dbScaleMethod?: SAPDatabaseScaleMethod;
+  /** The high availability type. */
+  highAvailabilityType?: SAPHighAvailabilityType;
+}
+
+/** The SAP sizing recommendation result. */
+export interface SAPSizingRecommendationResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "SingleServer" | "ThreeTier";
+}
+
+/** The response of a SAPVirtualInstance list operation. */
+export interface SAPVirtualInstanceListResult {
+  /** The SAPVirtualInstance items on this page */
+  value: SAPVirtualInstance[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The SAP Configuration. */
 export interface SAPConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Discovery" | "Deployment" | "DeploymentWithOSConfig";
+  configurationType: "Deployment" | "DeploymentWithOSConfig" | "Discovery";
 }
 
 /** Managed resource group configuration */
@@ -339,10 +348,36 @@ export interface ErrorDefinition {
   readonly details?: ErrorDefinition[];
 }
 
+/** Managed service identity (user assigned identities) */
+export interface SAPVirtualInstanceIdentity {
+  /** The type of managed identity assigned to this resource. */
+  type: SAPVirtualInstanceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: {
+    [
+      propertyName: string
+    ]: Components1IrwhnvSchemasSapvirtualinstanceidentityPropertiesUserassignedidentitiesAdditionalproperties | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -384,85 +419,113 @@ export interface UpdateSAPVirtualInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
   /** Managed service identity (user assigned identities) */
-  identity?: UserAssignedServiceIdentity;
-  /** Defines the properties to be updated for Virtual Instance for SAP. */
+  identity?: SAPVirtualInstanceIdentity;
+  /** The update properties. */
   properties?: UpdateSAPVirtualInstanceProperties;
 }
 
-/** Defines the properties to be updated for Virtual Instance for SAP. */
+/** Defines the update request body properties for updating Virtual Instance for SAP. */
 export interface UpdateSAPVirtualInstanceProperties {
   /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
   managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
 }
 
-/** Defines the collection of Virtual Instance for SAP solutions resources. */
-export interface SAPVirtualInstanceList {
-  /** Gets the list of Virtual Instances for SAP solutions resources. */
-  value?: SAPVirtualInstance[];
-  /** Gets the value of next link. */
+/** The response of a SAPApplicationServerInstance list operation. */
+export interface SAPApplicationServerInstanceListResult {
+  /** The SAPApplicationServerInstance items on this page */
+  value: SAPApplicationServerInstance[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** Defines the SAP Central Services Instance properties. */
-export interface SAPCentralServerProperties {
+/** The Load Balancer details such as Load Balancer ID. */
+export interface LoadBalancerDetails {
   /**
-   * The central services instance number.
+   * Fully qualified resource ID for the load balancer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly instanceNo?: string;
+  readonly id?: string;
+}
+
+/** The Application Server VM Details. */
+export interface ApplicationServerVmDetails {
   /**
-   * The central services instance subnet.
+   * Defines the type of application server VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly subnet?: string;
-  /** Defines the SAP message server properties. */
-  messageServerProperties?: MessageServerProperties;
-  /** Defines the SAP Enqueue Server properties. */
-  enqueueServerProperties?: EnqueueServerProperties;
-  /** Defines the SAP Gateway Server properties. */
-  gatewayServerProperties?: GatewayServerProperties;
-  /** Defines the SAP Enqueue Replication Server (ERS) properties. */
-  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
+  readonly type?: ApplicationServerVirtualMachineType;
   /**
-   * The central services instance Kernel Version.
+   * The virtual machine id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kernelVersion?: string;
+  readonly virtualMachineId?: string;
   /**
-   * The central services instance Kernel Patch level.
+   * Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kernelPatch?: string;
+  readonly storageDetails?: StorageInformation[];
+}
+
+/** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
+export interface StorageInformation {
   /**
-   * The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines
+   * Fully qualified resource ID for the storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly loadBalancerDetails?: LoadBalancerDetails;
+  readonly id?: string;
+}
+
+/** Defines the request body for updating SAP Application Instance. */
+export interface UpdateSAPApplicationInstanceRequest {
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Start SAP instance(s) request body. */
+export interface StartRequest {
+  /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
+  startVm?: boolean;
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
   /**
-   * The list of virtual machines corresponding to the Central Services instance.
+   * Fully qualified ID of the resource against which the original async operation was started.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly vmDetails?: CentralServerVmDetails[];
-  /**
-   * Defines the SAP Instance status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SAPVirtualInstanceStatus;
-  /**
-   * Defines the health of SAP Instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly health?: SAPHealthState;
-  /**
-   * Defines the provisioning states.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: SapVirtualInstanceProvisioningState;
-  /**
-   * Defines the errors related to SAP Central Services Instance resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: SAPVirtualInstanceError;
+  readonly resourceId?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** Stop SAP instance(s) request body. */
+export interface StopRequest {
+  /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
+  softStopTimeoutSeconds?: number;
+  /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
+  deallocateVm?: boolean;
+}
+
+/** The response of a SAPCentralServerInstance list operation. */
+export interface SAPCentralServerInstanceListResult {
+  /** The SAPCentralServerInstance items on this page */
+  value: SAPCentralServerInstance[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Defines the SAP message server properties. */
@@ -581,12 +644,6 @@ export interface EnqueueReplicationServerProperties {
   readonly health?: SAPHealthState;
 }
 
-/** The Load Balancer details such as Load Balancer ID. */
-export interface LoadBalancerDetails {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-}
-
 /** The SAP Central Services Instance VM details. */
 export interface CentralServerVmDetails {
   /**
@@ -594,7 +651,10 @@ export interface CentralServerVmDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: CentralServerVirtualMachineType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * The virtual machine id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly virtualMachineId?: string;
   /**
    * Storage details of all the Storage Accounts attached to the ASCS Virtual Machine. For e.g. NFS on AFS Shared Storage.
@@ -603,78 +663,26 @@ export interface CentralServerVmDetails {
   readonly storageDetails?: StorageInformation[];
 }
 
-/** Storage details of all the Storage accounts attached to the VM. For e.g. NFS on AFS Shared Storage. */
-export interface StorageInformation {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly id?: string;
-}
-
 /** Defines the request body for updating SAP Central Instance. */
 export interface UpdateSAPCentralInstanceRequest {
   /** Gets or sets the Resource tags. */
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Central Services Instance resources. */
-export interface SAPCentralInstanceList {
-  /** Gets the list of SAP central services instance resources. */
-  value?: SAPCentralServerInstance[];
-  /** Gets the value of next link. */
+/** The response of a SAPDatabaseInstance list operation. */
+export interface SAPDatabaseInstanceListResult {
+  /** The SAPDatabaseInstance items on this page */
+  value: SAPDatabaseInstance[];
+  /** The link to the next page of items */
   nextLink?: string;
-}
-
-/** Defines the Database properties. */
-export interface SAPDatabaseProperties {
-  /**
-   * Database subnet.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnet?: string;
-  /**
-   * Database SID name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseSid?: string;
-  /**
-   * Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseType?: string;
-  /**
-   * Database IP Address.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddress?: string;
-  /**
-   * The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loadBalancerDetails?: LoadBalancerDetails;
-  /**
-   * The list of virtual machines corresponding to the Database resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmDetails?: DatabaseVmDetails[];
-  /**
-   * Defines the SAP Instance status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SAPVirtualInstanceStatus;
-  /**
-   * Defines the provisioning states.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: SapVirtualInstanceProvisioningState;
-  /**
-   * Defines the errors related to Database resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errors?: SAPVirtualInstanceError;
 }
 
 /** Database VM details. */
 export interface DatabaseVmDetails {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * The virtual machine id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly virtualMachineId?: string;
   /**
    * Defines the SAP Instance status.
@@ -694,16 +702,538 @@ export interface UpdateSAPDatabaseInstanceRequest {
   tags?: { [propertyName: string]: string };
 }
 
-/** Defines the collection of SAP Database Instances. */
-export interface SAPDatabaseInstanceList {
-  /** Gets the list of SAP Database instances. */
-  value?: SAPDatabaseInstance[];
-  /** Gets the value of next link. */
-  nextLink?: string;
+/** Gets or sets the application server configuration. */
+export interface ApplicationServerConfiguration {
+  /** The subnet id. */
+  subnetId: string;
+  /** Gets or sets the virtual machine configuration. */
+  virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** The number of app server instances. */
+  instanceCount: number;
 }
 
-/** Defines the SAP Application Server instance properties. */
-export interface SAPApplicationServerProperties {
+/** Defines the virtual machine configuration. */
+export interface VirtualMachineConfiguration {
+  /** The virtual machine size. */
+  vmSize: string;
+  /** The image reference. */
+  imageReference: ImageReference;
+  /** The OS profile. */
+  osProfile: OSProfile;
+}
+
+/** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
+export interface ImageReference {
+  /** The image publisher. */
+  publisher?: string;
+  /** Specifies the offer of the platform image or marketplace image used to create the virtual machine. */
+  offer?: string;
+  /** The image SKU. */
+  sku?: string;
+  /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
+  version?: string;
+  /** Specifies the ARM resource ID of the Azure Compute Gallery image version used for creating ACSS VMs. You will need to provide this input when you choose to deploy virtual machines in ACSS with OS image from the Azure Compute gallery. */
+  id?: string;
+}
+
+/** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
+export interface OSProfile {
+  /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
+  adminUsername?: string;
+  /**
+   * Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://learn.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://learn.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  adminPassword?: string;
+  /** Specifies Windows operating system settings on the virtual machine. */
+  osConfiguration?: OSConfigurationUnion;
+}
+
+/** Defines the OS configuration. */
+export interface OSConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  osType: "Linux" | "Windows";
+}
+
+/** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
+export interface ApplicationServerFullResourceNames {
+  /** The list of virtual machine naming details. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-App-AvSet. */
+  availabilitySetName?: string;
+}
+
+/** The resource names object for virtual machine and related resources. */
+export interface VirtualMachineResourceNames {
+  /** The full name for virtual machine. The length of this field can be upto 64 characters. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}vm. In case of HA-AvZone systems, default name will be {SID}{app/ascs/db}z{a/b}vm with an incrementor at the end in case of more than 1 vm per layer. For distributed and HA-AvSet systems, default name will be {SID}{app/ascs/db}vm with an incrementor at the end in case of more than 1 vm per layer. */
+  vmName?: string;
+  /** The full name for virtual-machine's host (computer name). Currently, ACSS only supports host names which are less than or equal to 13 characters long. If this value is not provided, vmName will be used as host name. */
+  hostName?: string;
+  /** The list of network interface name objects for the selected virtual machine. Currently, only one network interface is supported per virtual machine. */
+  networkInterfaces?: NetworkInterfaceResourceNames[];
+  /** The full name for OS disk attached to the VM. If this value is not provided, it will be named by ARM as per its default naming standards (prefixed with vm name). There is only one OS disk attached per Virtual Machine. */
+  osDiskName?: string;
+  /** The full resource names for virtual machine data disks. This is a dictionary containing list of names of data disks per volume. Currently supported volumes for database layer are ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os', 'backup']. For application and cs layers, only 'default' volume is supported */
+  dataDiskNames?: { [propertyName: string]: string[] };
+}
+
+/** The resource names object for network interface and related resources. */
+export interface NetworkInterfaceResourceNames {
+  /** The full name for network interface. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}-Nic. In case of HA-AvZone systems, default name will be {SID}-{App/ASCS/DB}-Zone{A/B}-Nic with an incrementor at the end in case of more than 1 instance per layer. For distributed and HA-AvSet systems, default name will be {SID}-{App/ASCS/DB}-Nic with an incrementor at the end in case of more than 1 instance per layer. */
+  networkInterfaceName?: string;
+}
+
+/** Gets or sets the central server configuration. */
+export interface CentralServerConfiguration {
+  /** The subnet id. */
+  subnetId: string;
+  /** Gets or sets the virtual machine configuration. */
+  virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** The number of central server VMs. */
+  instanceCount: number;
+}
+
+/** The full resource names object for central server layer resources. */
+export interface CentralServerFullResourceNames {
+  /** The list of names for all ASCS virtual machines to be deployed. The number of entries in this list should be equal to the number VMs to be created for ASCS layer. At maximum, there can be two virtual machines at this layer: ASCS and ERS. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-ASCS-AvSet. */
+  availabilitySetName?: string;
+  /** The resource names object for load balancer and related resources. */
+  loadBalancer?: LoadBalancerResourceNames;
+}
+
+/** The resource names object for load balancer and related resources. */
+export interface LoadBalancerResourceNames {
+  /** The full resource name for load balancer. If this value is not provided, load balancer will be name as {ASCS/DB}-loadBalancer. */
+  loadBalancerName?: string;
+  /** The list of frontend IP configuration names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
+  frontendIpConfigurationNames?: string[];
+  /** The list of backend pool names. Currently, ACSS deploys only one backend pool and hence, size of this list should be 1 */
+  backendPoolNames?: string[];
+  /** The list of health probe names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
+  healthProbeNames?: string[];
+}
+
+/** File Share configuration details, populated with information on storage configuration mounted on the VIS. The createAndMount option is selected in case of missing input. */
+export interface FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "CreateAndMount" | "Mount" | "Skip";
+}
+
+/** Gets or sets the database configuration. */
+export interface DatabaseConfiguration {
+  /** The database type. */
+  databaseType?: SAPDatabaseType;
+  /** The subnet id. */
+  subnetId: string;
+  /** Gets or sets the virtual machine configuration. */
+  virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** The number of database VMs. */
+  instanceCount: number;
+  /** Gets or sets the disk configuration. */
+  diskConfiguration?: DiskConfiguration;
+}
+
+/** The Disk Configuration Details. */
+export interface DiskConfiguration {
+  /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
+  diskVolumeConfigurations?: {
+    [propertyName: string]: DiskVolumeConfiguration;
+  };
+}
+
+/** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
+export interface DatabaseServerFullResourceNames {
+  /** The list of virtual machine naming details. */
+  virtualMachines?: VirtualMachineResourceNames[];
+  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-DB-AvSet. */
+  availabilitySetName?: string;
+  /** The resource names object for load balancer and related resources. */
+  loadBalancer?: LoadBalancerResourceNames;
+}
+
+/** Defines the url and storage account ID where deployer VM packages are uploaded */
+export interface DeployerVmPackages {
+  /** The URL to the deployer VM packages file. */
+  url?: string;
+  /** The deployer VM packages storage account id */
+  storageAccountId?: string;
+}
+
+/** Deploy SAP Infrastructure Details. */
+export interface InfrastructureConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "SingleServer" | "ThreeTier";
+  /** The application resource group where SAP system resources will be deployed. */
+  appResourceGroup: string;
+}
+
+/** The SAP Software configuration Input. */
+export interface SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType:
+    | "External"
+    | "SAPInstallWithoutOSConfig"
+    | "ServiceInitiated";
+}
+
+/** Defines the OS and SAP Configurations for Deployment */
+export interface OsSapConfiguration {
+  /** The url and storage account ID where deployer VM packages are uploaded */
+  deployerVmPackages?: DeployerVmPackages;
+  /** The FQDN to set for the SAP system */
+  sapFqdn?: string;
+}
+
+/** Gets or sets the high availability configuration. */
+export interface HighAvailabilityConfiguration {
+  /** The high availability type. */
+  highAvailabilityType: SAPHighAvailabilityType;
+}
+
+/** Gets or sets the HA software configuration. */
+export interface HighAvailabilitySoftwareConfiguration {
+  /** The fencing client id. */
+  fencingClientId: string;
+  /**
+   * The fencing client id secret/password. The secret should never expire. This will be used pacemaker to start/stop the cluster VMs.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  fencingClientPassword: string;
+}
+
+/** SSH configuration for Linux based VMs running on Azure */
+export interface SshConfiguration {
+  /** The list of SSH public keys used to authenticate with linux based VMs. */
+  publicKeys?: SshPublicKey[];
+}
+
+/** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
+export interface SshPublicKey {
+  /** SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://learn.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
+  keyData?: string;
+}
+
+/** The SSH Key-pair used to authenticate with the VM. The key needs to be at least 2048-bit and in ssh-rsa format. For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://learn.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
+export interface SshKeyPair {
+  /** SSH public key */
+  publicKey?: string;
+  /**
+   * SSH private key.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  privateKey?: string;
+}
+
+/** Defines the network configuration type for SAP system infrastructure that is being deployed */
+export interface NetworkConfiguration {
+  /** Specifies whether a secondary IP address should be added to the network interface on all VMs of the SAP system being deployed */
+  isSecondaryIpEnabled?: boolean;
+}
+
+/** The resource names object for shared storage. */
+export interface SharedStorageResourceNames {
+  /** The full name of the shared storage account. If it is not provided, it will be defaulted to {SID}nfs{guid of 15 chars}. */
+  sharedStorageAccountName?: string;
+  /** The full name of private end point for the shared storage account. If it is not provided, it will be defaulted to {storageAccountName}_pe */
+  sharedStorageAccountPrivateEndPointName?: string;
+}
+
+/** The resource-names input to specify custom names for underlying azure resources that are part of a single server SAP system. */
+export interface SingleServerCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+}
+
+/** Gets or sets the storage configuration. */
+export interface StorageConfiguration {
+  /** The properties of the transport directory attached to the VIS. The default for transportFileShareConfiguration is the createAndMount flow if storage configuration is missing. */
+  transportFileShareConfiguration?: FileShareConfigurationUnion;
+}
+
+/** The resource-names input to specify custom names for underlying azure resources that are part of a three tier SAP system. */
+export interface ThreeTierCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+}
+
+/** The recommended configuration for a single server SAP system. */
+export interface SingleServerRecommendationResult
+  extends SAPSizingRecommendationResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "SingleServer";
+  /** The recommended VM SKU for single server. */
+  vmSku?: string;
+}
+
+/** The recommended configuration for a three tier SAP system. */
+export interface ThreeTierRecommendationResult
+  extends SAPSizingRecommendationResult {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "ThreeTier";
+  /** The database VM SKU. */
+  dbVmSku?: string;
+  /** The database server instance count. */
+  databaseInstanceCount?: number;
+  /** The central server VM SKU. */
+  centralServerVmSku?: string;
+  /** The central server instance count. */
+  centralServerInstanceCount?: number;
+  /** The application server VM SKU. */
+  applicationServerVmSku?: string;
+  /** The application server instance count. */
+  applicationServerInstanceCount?: number;
+}
+
+/** Deployment Configuration. */
+export interface DeploymentConfiguration extends SAPConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Deployment";
+  /** The geo-location where the SAP system is to be created. */
+  appLocation?: string;
+  /** The infrastructure configuration. */
+  infrastructureConfiguration?: InfrastructureConfigurationUnion;
+  /** The software configuration. */
+  softwareConfiguration?: SoftwareConfigurationUnion;
+}
+
+/** Deployment along with OS Configuration. */
+export interface DeploymentWithOSConfiguration extends SAPConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "DeploymentWithOSConfig";
+  /** The geo-location where the SAP system is to be created. */
+  appLocation?: string;
+  /** The infrastructure configuration. */
+  infrastructureConfiguration?: InfrastructureConfigurationUnion;
+  /** The software configuration. */
+  softwareConfiguration?: SoftwareConfigurationUnion;
+  /** The OS and SAP configuration. */
+  osSapConfiguration?: OsSapConfiguration;
+}
+
+/** Discovery Details. */
+export interface DiscoveryConfiguration extends SAPConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Discovery";
+  /** The virtual machine ID of the Central Server. */
+  centralServerVmId?: string;
+  /** The custom storage account name for the storage account created by the service in the managed resource group created as part of VIS deployment.<br><br>Refer to the storage account naming rules [here](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage).<br><br>If not provided, the service will create the storage account with a random name. */
+  managedRgStorageAccountName?: string;
+  /**
+   * The geo-location where the SAP system exists.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appLocation?: string;
+}
+
+export interface Components1IrwhnvSchemasSapvirtualinstanceidentityPropertiesUserassignedidentitiesAdditionalproperties
+  extends UserAssignedIdentity {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://learn.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
+export interface LinuxConfiguration extends OSConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  osType: "Linux";
+  /** Specifies whether password authentication should be disabled. */
+  disablePasswordAuthentication?: boolean;
+  /** Specifies the ssh key configuration for a Linux OS. (This property is deprecated, please use 'sshKeyPair' instead) */
+  ssh?: SshConfiguration;
+  /** The SSH Key-pair used to authenticate with the VM's. */
+  sshKeyPair?: SshKeyPair;
+}
+
+/** Specifies Windows operating system settings on the virtual machine. */
+export interface WindowsConfiguration extends OSConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  osType: "Windows";
+}
+
+/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn't need to be pre-created. */
+export interface CreateAndMountFileShareConfiguration
+  extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "CreateAndMount";
+  /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
+  resourceGroup?: string;
+  /** The name of file share storage account name . A custom name is used in case of missing input. */
+  storageAccountName?: string;
+}
+
+/** Gets or sets the file share configuration where the transport directory fileshare already exists, and user wishes to mount the fileshare as a part of the create infra flow. */
+export interface MountFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Mount";
+  /** The fileshare resource ID */
+  id: string;
+  /** The private endpoint resource ID */
+  privateEndpointId: string;
+}
+
+/** Gets or sets the file share configuration for scenarios where transport directory fileshare is not created or required. */
+export interface SkipFileShareConfiguration extends FileShareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  configurationType: "Skip";
+}
+
+/** Gets or sets the single server configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&amp;clcid=0x409) */
+export interface SingleServerConfiguration extends InfrastructureConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "SingleServer";
+  /** Network configuration for the server */
+  networkConfiguration?: NetworkConfiguration;
+  /** The database type. */
+  databaseType?: SAPDatabaseType;
+  /** The subnet id. */
+  subnetId: string;
+  /** Gets or sets the virtual machine configuration. */
+  virtualMachineConfiguration: VirtualMachineConfiguration;
+  /** Gets or sets the disk configuration. */
+  dbDiskConfiguration?: DiskConfiguration;
+  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
+  customResourceNames?: SingleServerCustomResourceNamesUnion;
+}
+
+/** Gets or sets the three tier SAP configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&amp;clcid=0x409) */
+export interface ThreeTierConfiguration extends InfrastructureConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  deploymentType: "ThreeTier";
+  /** Network configuration common to all servers */
+  networkConfiguration?: NetworkConfiguration;
+  /** The central server configuration. */
+  centralServer: CentralServerConfiguration;
+  /** The application server configuration. */
+  applicationServer: ApplicationServerConfiguration;
+  /** The database configuration. */
+  databaseServer: DatabaseConfiguration;
+  /** The high availability configuration. */
+  highAvailabilityConfig?: HighAvailabilityConfiguration;
+  /** The storage configuration. */
+  storageConfiguration?: StorageConfiguration;
+  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
+  customResourceNames?: ThreeTierCustomResourceNamesUnion;
+}
+
+/** The SAP Software configuration Input when the software is installed externally outside the service. */
+export interface ExternalInstallationSoftwareConfiguration
+  extends SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType: "External";
+  /** The resource ID of the virtual machine containing the central server instance. */
+  centralServerVmId?: string;
+}
+
+/** The SAP Software configuration Input when the software is to be installed by service without OS Configurations */
+export interface SAPInstallWithoutOSConfigSoftwareConfiguration
+  extends SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType: "SAPInstallWithoutOSConfig";
+  /** The URL to the SAP Build of Materials(BOM) file. */
+  bomUrl: string;
+  /** The SAP bits storage account id. */
+  sapBitsStorageAccountId: string;
+  /** The software version to install. */
+  softwareVersion: string;
+  /** Gets or sets the HA software configuration. */
+  highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
+}
+
+/** The SAP Software configuration Input when the software is to be installed by service. */
+export interface ServiceInitiatedSoftwareConfiguration
+  extends SoftwareConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  softwareInstallationType: "ServiceInitiated";
+  /** The URL to the SAP Build of Materials(BOM) file. */
+  bomUrl: string;
+  /** The software version to install. */
+  softwareVersion: string;
+  /** The SAP bits storage account id. */
+  sapBitsStorageAccountId: string;
+  /** The FQDN to set for the SAP system during install. */
+  sapFqdn: string;
+  /**
+   * The SSH private key.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  sshPrivateKey: string;
+  /** Gets or sets the HA software configuration. */
+  highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
+}
+
+/** The resource name object where the specified values will be full resource names of the corresponding resources in a single server SAP system. */
+export interface SingleServerFullResourceNames
+  extends SingleServerCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+  /** The resource names object for virtual machine and related resources. */
+  virtualMachine?: VirtualMachineResourceNames;
+}
+
+/** The resource name object where the specified values will be full resource names of the corresponding resources in a three tier SAP system. */
+export interface ThreeTierFullResourceNames
+  extends ThreeTierCustomResourceNames {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  namingPatternType: "FullResourceName";
+  /** The full resource names object for central server layer resources. */
+  centralServer?: CentralServerFullResourceNames;
+  /** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
+  applicationServer?: ApplicationServerFullResourceNames;
+  /** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
+  databaseServer?: DatabaseServerFullResourceNames;
+  /** The resource names object for shared storage. */
+  sharedStorage?: SharedStorageResourceNames;
+}
+
+/** Define the Virtual Instance for SAP solutions resource. */
+export interface SAPVirtualInstance extends TrackedResource {
+  /** The managed service identities assigned to this resource. */
+  identity?: SAPVirtualInstanceIdentity;
+  /** Defines the environment type - Production/Non Production. */
+  environment?: SAPEnvironmentType;
+  /** Defines the SAP Product type. */
+  sapProduct?: SAPProductType;
+  /** Specifies the network access configuration for the resources that will be deployed in the Managed Resource Group. The options to choose from are Public and Private. If 'Private' is chosen, the Storage Account service tag should be enabled on the subnets in which the SAP VMs exist. This is required for establishing connectivity between VM extensions and the managed resource group storage account. This setting is currently applicable only to Storage Account. Learn more here https://go.microsoft.com/fwlink/?linkid=2247228 */
+  managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
+  /** Defines if the SAP system is being created using Azure Center for SAP solutions (ACSS) or if an existing SAP system is being registered with ACSS */
+  configuration?: SAPConfigurationUnion;
+  /** Managed resource group configuration */
+  managedResourceGroupConfiguration?: ManagedRGConfiguration;
+  /**
+   * Defines the SAP Instance status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SAPVirtualInstanceStatus;
+  /**
+   * Defines the health of SAP Instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly health?: SAPHealthState;
+  /**
+   * Defines the Virtual Instance for SAP state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SAPVirtualInstanceState;
+  /**
+   * Defines the provisioning states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SapVirtualInstanceProvisioningState;
+  /**
+   * Indicates any errors on the Virtual Instance for SAP solutions resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: SAPVirtualInstanceError;
+}
+
+/** Define the SAP Application Server Instance resource. */
+export interface SAPApplicationServerInstance extends TrackedResource {
   /**
    * Application server Instance Number.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -720,7 +1250,7 @@ export interface SAPApplicationServerProperties {
    */
   readonly hostname?: string;
   /**
-   *  Application server instance SAP Kernel Version.
+   * Application server instance SAP Kernel Version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kernelVersion?: string;
@@ -730,7 +1260,7 @@ export interface SAPApplicationServerProperties {
    */
   readonly kernelPatch?: string;
   /**
-   *  Application server instance SAP IP Address.
+   * Application server instance SAP IP Address.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddress?: string;
@@ -786,1143 +1316,252 @@ export interface SAPApplicationServerProperties {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-/** The Application Server VM Details. */
-export interface ApplicationServerVmDetails {
-  /**
-   * Defines the type of application server VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: ApplicationServerVirtualMachineType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly virtualMachineId?: string;
-  /**
-   * Storage details of all the Storage Accounts attached to the App Virtual Machine. For e.g. NFS on AFS Shared Storage.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly storageDetails?: StorageInformation[];
-}
-
-/** Defines the request body for updating SAP Application Instance. */
-export interface UpdateSAPApplicationInstanceRequest {
-  /** Gets or sets the Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Defines the collection of SAP Application Server Instance resources. */
-export interface SAPApplicationServerInstanceList {
-  /** Gets the list of SAP Application Server instance resources. */
-  value?: SAPApplicationServerInstance[];
-  /** Gets the value of next link. */
-  nextLink?: string;
-}
-
-/** Start SAP instance(s) request body. */
-export interface StartRequest {
-  /** The boolean value indicates whether to start the virtual machines before starting the SAP instances. */
-  startVm?: boolean;
-}
-
-/** The current status of an async operation. */
-export interface OperationStatusResult {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** Operation status. */
-  status: string;
-  /** Percent of the operation that is complete. */
-  percentComplete?: number;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** The operations list. */
-  operations?: OperationStatusResult[];
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
-}
-
-/** Stop SAP instance(s) request body. */
-export interface StopRequest {
-  /** This parameter defines how long (in seconds) the soft shutdown waits until the RFC/HTTP clients no longer consider the server for calls with load balancing. Value 0 means that the kernel does not wait, but goes directly into the next shutdown state, i.e. hard stop. */
-  softStopTimeoutSeconds?: number;
-  /** The boolean value indicates whether to Stop and deallocate the virtual machines along with the SAP instances. */
-  deallocateVm?: boolean;
-}
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
-export interface ImageReference {
-  /** The image publisher. */
-  publisher?: string;
-  /** Specifies the offer of the platform image or marketplace image used to create the virtual machine. */
-  offer?: string;
-  /** The image SKU. */
-  sku?: string;
-  /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
-  version?: string;
-  /** Specifies the ARM resource ID of the Azure Compute Gallery image version used for creating ACSS VMs. You will need to provide this input when you choose to deploy virtual machines in ACSS with OS image from the Azure Compute gallery. */
-  id?: string;
-}
-
-/** Defines the OS configuration. */
-export interface OSConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  osType: "Windows" | "Linux";
-}
-
-/** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
-export interface SshPublicKey {
-  /** SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
-  keyData?: string;
-}
-
-/** SSH configuration for Linux based VMs running on Azure */
-export interface SshConfiguration {
-  /** The list of SSH public keys used to authenticate with linux based VMs. */
-  publicKeys?: SshPublicKey[];
-}
-
-/** The SSH Key-pair used to authenticate with the VM. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed). */
-export interface SshKeyPair {
-  /** SSH public key */
-  publicKey?: string;
-  /** SSH private key. */
-  privateKey?: string;
-}
-
-/** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
-export interface OSProfile {
-  /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
-  adminUsername?: string;
-  /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string;
-  /** Specifies Windows operating system settings on the virtual machine. */
-  osConfiguration?: OSConfigurationUnion;
-}
-
-/** The Disk Configuration Details. */
-export interface DiskConfiguration {
-  /** The disk configuration for the db volume. For HANA, Required volumes are: ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os'], Optional volume : ['backup']. */
-  diskVolumeConfigurations?: {
-    [propertyName: string]: DiskVolumeConfiguration;
-  };
-}
-
-/** Defines the virtual machine configuration. */
-export interface VirtualMachineConfiguration {
-  /** The virtual machine size. */
-  vmSize: string;
-  /** The image reference. */
-  imageReference: ImageReference;
-  /** The OS profile. */
-  osProfile: OSProfile;
-}
-
-/** Defines the network configuration type for SAP system infrastructure that is being deployed */
-export interface NetworkConfiguration {
-  /** Specifies whether a secondary IP address should be added to the network interface on all VMs of the SAP system being deployed */
-  isSecondaryIpEnabled?: boolean;
-}
-
-/** The resource-names input to specify custom names for underlying azure resources that are part of a single server SAP system. */
-export interface SingleServerCustomResourceNames {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  namingPatternType: "FullResourceName";
-}
-
-/** Deploy SAP Infrastructure Details. */
-export interface InfrastructureConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "SingleServer" | "ThreeTier";
-  /** The application resource group where SAP system resources will be deployed. */
-  appResourceGroup: string;
-}
-
-/** Gets or sets the central server configuration. */
-export interface CentralServerConfiguration {
-  /** The subnet id. */
-  subnetId: string;
-  /** Gets or sets the virtual machine configuration. */
-  virtualMachineConfiguration: VirtualMachineConfiguration;
-  /** The number of central server VMs. */
-  instanceCount: number;
-}
-
-/** Gets or sets the database configuration. */
-export interface DatabaseConfiguration {
-  /** The database type. */
-  databaseType?: SAPDatabaseType;
-  /** The subnet id. */
-  subnetId: string;
-  /** Gets or sets the virtual machine configuration. */
-  virtualMachineConfiguration: VirtualMachineConfiguration;
-  /** The number of database VMs. */
-  instanceCount: number;
-  /** Gets or sets the disk configuration. */
-  diskConfiguration?: DiskConfiguration;
-}
-
-/** Gets or sets the application server configuration. */
-export interface ApplicationServerConfiguration {
-  /** The subnet id. */
-  subnetId: string;
-  /** Gets or sets the virtual machine configuration. */
-  virtualMachineConfiguration: VirtualMachineConfiguration;
-  /** The number of app server instances. */
-  instanceCount: number;
-}
-
-/** Gets or sets the high availability configuration. */
-export interface HighAvailabilityConfiguration {
-  /** The high availability type. */
-  highAvailabilityType: SAPHighAvailabilityType;
-}
-
-/** File Share configuration details, populated with information on storage configuration mounted on the VIS. The createAndMount option is selected in case of missing input. */
-export interface FileShareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Skip" | "CreateAndMount" | "Mount";
-}
-
-/** Gets or sets the storage configuration. */
-export interface StorageConfiguration {
-  /** The properties of the transport directory attached to the VIS. The default for transportFileShareConfiguration is the createAndMount flow if storage configuration is missing. */
-  transportFileShareConfiguration?: FileShareConfigurationUnion;
-}
-
-/** The resource-names input to specify custom names for underlying azure resources that are part of a three tier SAP system. */
-export interface ThreeTierCustomResourceNames {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  namingPatternType: "FullResourceName";
-}
-
-/** The resource names object for virtual machine and related resources. */
-export interface VirtualMachineResourceNames {
-  /** The full name for virtual machine. The length of this field can be upto 64 characters. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}vm. In case of HA-AvZone systems, default name will be {SID}{app/ascs/db}z{a/b}vm with an incrementor at the end in case of more than 1 vm per layer. For distributed and HA-AvSet systems, default name will be {SID}{app/ascs/db}vm with an incrementor at the end in case of more than 1 vm per layer. */
-  vmName?: string;
-  /** The full name for virtual-machine's host (computer name). Currently, ACSS only supports host names which are less than or equal to 13 characters long. If this value is not provided, vmName will be used as host name. */
-  hostName?: string;
-  /** The list of network interface name objects for the selected virtual machine. Currently, only one network interface is supported per virtual machine. */
-  networkInterfaces?: NetworkInterfaceResourceNames[];
-  /** The full name for OS disk attached to the VM. If this value is not provided, it will be named by ARM as per its default naming standards (prefixed with vm name). There is only one OS disk attached per Virtual Machine. */
-  osDiskName?: string;
-  /** The full resource names for virtual machine data disks. This is a dictionary containing list of names of data disks per volume. Currently supported volumes for database layer are ['hana/data', 'hana/log', hana/shared', 'usr/sap', 'os', 'backup']. For application and cs layers, only 'default' volume is supported */
-  dataDiskNames?: { [propertyName: string]: string[] };
-}
-
-/** The resource names object for network interface and related resources. */
-export interface NetworkInterfaceResourceNames {
-  /** The full name for network interface. If name is not provided, service uses a default name based on the deployment type. For SingleServer, default name is {SID}-Nic. In case of HA-AvZone systems, default name will be {SID}-{App/ASCS/DB}-Zone{A/B}-Nic with an incrementor at the end in case of more than 1 instance per layer. For distributed and HA-AvSet systems, default name will be {SID}-{App/ASCS/DB}-Nic with an incrementor at the end in case of more than 1 instance per layer. */
-  networkInterfaceName?: string;
-}
-
-/** The full resource names object for central server layer resources. */
-export interface CentralServerFullResourceNames {
-  /** The list of names for all ASCS virtual machines to be deployed. The number of entries in this list should be equal to the number VMs to be created for ASCS layer. At maximum, there can be two virtual machines at this layer: ASCS and ERS. */
-  virtualMachines?: VirtualMachineResourceNames[];
-  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-ASCS-AvSet. */
-  availabilitySetName?: string;
-  /** The resource names object for load balancer and related resources. */
-  loadBalancer?: LoadBalancerResourceNames;
-}
-
-/** The resource names object for load balancer and related resources. */
-export interface LoadBalancerResourceNames {
-  /** The full resource name for load balancer. If this value is not provided, load balancer will be name as {ASCS/DB}-loadBalancer. */
-  loadBalancerName?: string;
-  /** The list of frontend IP configuration names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
-  frontendIpConfigurationNames?: string[];
-  /** The list of backend pool names. Currently, ACSS deploys only one backend pool and hence, size of this list should be 1 */
-  backendPoolNames?: string[];
-  /** The list of health probe names. If provided as input, size of this list should be 2 for cs layer and should be 1 for database layer. */
-  healthProbeNames?: string[];
-}
-
-/** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
-export interface ApplicationServerFullResourceNames {
-  /** The list of virtual machine naming details. */
-  virtualMachines?: VirtualMachineResourceNames[];
-  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-App-AvSet. */
-  availabilitySetName?: string;
-}
-
-/** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
-export interface DatabaseServerFullResourceNames {
-  /** The list of virtual machine naming details. */
-  virtualMachines?: VirtualMachineResourceNames[];
-  /** The full name for availability set. In case name is not provided, it will be defaulted to {SID}-DB-AvSet. */
-  availabilitySetName?: string;
-  /** The resource names object for load balancer and related resources. */
-  loadBalancer?: LoadBalancerResourceNames;
-}
-
-/** The resource names object for shared storage. */
-export interface SharedStorageResourceNames {
-  /** The full name of the shared storage account. If it is not provided, it will be defaulted to {SID}nfs{guid of 15 chars}. */
-  sharedStorageAccountName?: string;
-  /** The full name of private end point for the shared storage account. If it is not provided, it will be defaulted to {storageAccountName}_pe */
-  sharedStorageAccountPrivateEndPointName?: string;
-}
-
-/** The SAP Software configuration Input. */
-export interface SoftwareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType:
-    | "ServiceInitiated"
-    | "SAPInstallWithoutOSConfig"
-    | "External";
-}
-
-/** Gets or sets the HA software configuration. */
-export interface HighAvailabilitySoftwareConfiguration {
-  /** The fencing client id. */
-  fencingClientId: string;
-  /** The fencing client id secret/password. The secret should never expire. This will be used pacemaker to start/stop the cluster VMs. */
-  fencingClientPassword: string;
-}
-
-/** Defines the OS and SAP Configurations for Deployment */
-export interface OsSapConfiguration {
-  /** The url and storage account ID where deployer VM packages are uploaded */
-  deployerVmPackages?: DeployerVmPackages;
-  /** The FQDN to set for the SAP system */
-  sapFqdn?: string;
-}
-
-/** Defines the url and storage account ID where deployer VM packages are uploaded */
-export interface DeployerVmPackages {
-  /** The URL to the deployer VM packages file. */
-  url?: string;
-  /** The deployer VM packages storage account id */
-  storageAccountId?: string;
-}
-
-/** The recommended configuration for a single server SAP system. */
-export interface SingleServerRecommendationResult
-  extends SAPSizingRecommendationResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "SingleServer";
-  /** The recommended VM SKU for single server. */
-  vmSku?: string;
-}
-
-/** The recommended configuration for a three tier SAP system. */
-export interface ThreeTierRecommendationResult
-  extends SAPSizingRecommendationResult {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "ThreeTier";
-  /** The database VM SKU. */
-  dbVmSku?: string;
-  /** The database server instance count. */
-  databaseInstanceCount?: number;
-  /** The central server VM SKU. */
-  centralServerVmSku?: string;
-  /** The central server instance count. */
-  centralServerInstanceCount?: number;
-  /** The application server VM SKU. */
-  applicationServerVmSku?: string;
-  /** The application server instance count. */
-  applicationServerInstanceCount?: number;
-}
-
-/** Discovery Details. */
-export interface DiscoveryConfiguration extends SAPConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Discovery";
-  /** The virtual machine ID of the Central Server. */
-  centralServerVmId?: string;
-  /** The custom storage account name for the storage account created by the service in the managed resource group created as part of VIS deployment.<br><br>Refer to the storage account naming rules [here](https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage).<br><br>If not provided, the service will create the storage account with a random name. */
-  managedRgStorageAccountName?: string;
-  /**
-   * The geo-location where the SAP system exists.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appLocation?: string;
-}
-
-/** Deployment Configuration. */
-export interface DeploymentConfiguration extends SAPConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Deployment";
-  /** The geo-location where the SAP system is to be created. */
-  appLocation?: string;
-  /** The infrastructure configuration. */
-  infrastructureConfiguration?: InfrastructureConfigurationUnion;
-  /** The software configuration. */
-  softwareConfiguration?: SoftwareConfigurationUnion;
-}
-
-/** Deployment along with OS Configuration. */
-export interface DeploymentWithOSConfiguration extends SAPConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "DeploymentWithOSConfig";
-  /** The geo-location where the SAP system is to be created. */
-  appLocation?: string;
-  /** The infrastructure configuration. */
-  infrastructureConfiguration?: InfrastructureConfigurationUnion;
-  /** The software configuration. */
-  softwareConfiguration?: SoftwareConfigurationUnion;
-  /** The OS and SAP configuration. */
-  osSapConfiguration?: OsSapConfiguration;
-}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** Specifies Windows operating system settings on the virtual machine. */
-export interface WindowsConfiguration extends OSConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  osType: "Windows";
-}
-
-/** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-export interface LinuxConfiguration extends OSConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  osType: "Linux";
-  /** Specifies whether password authentication should be disabled. */
-  disablePasswordAuthentication?: boolean;
-  /** Specifies the ssh key configuration for a Linux OS. (This property is deprecated, please use 'sshKeyPair' instead) */
-  ssh?: SshConfiguration;
-  /** The SSH Key-pair used to authenticate with the VM's. */
-  sshKeyPair?: SshKeyPair;
-}
-
-/** The resource name object where the specified values will be full resource names of the corresponding resources in a single server SAP system. */
-export interface SingleServerFullResourceNames
-  extends SingleServerCustomResourceNames {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  namingPatternType: "FullResourceName";
-  /** The resource names object for virtual machine and related resources. */
-  virtualMachine?: VirtualMachineResourceNames;
-}
-
-/** Gets or sets the single server configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
-export interface SingleServerConfiguration extends InfrastructureConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "SingleServer";
-  /** Network configuration for the server */
-  networkConfiguration?: NetworkConfiguration;
-  /** The database type. */
-  databaseType?: SAPDatabaseType;
-  /** The subnet id. */
-  subnetId: string;
-  /** Gets or sets the virtual machine configuration. */
-  virtualMachineConfiguration: VirtualMachineConfiguration;
-  /** Gets or sets the disk configuration. */
-  dbDiskConfiguration?: DiskConfiguration;
-  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
-  customResourceNames?: SingleServerCustomResourceNamesUnion;
-}
-
-/** Gets or sets the three tier SAP configuration. For prerequisites for creating the infrastructure, please see [here](https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409) */
-export interface ThreeTierConfiguration extends InfrastructureConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  deploymentType: "ThreeTier";
-  /** Network configuration common to all servers */
-  networkConfiguration?: NetworkConfiguration;
-  /** The central server configuration. */
-  centralServer: CentralServerConfiguration;
-  /** The application server configuration. */
-  applicationServer: ApplicationServerConfiguration;
-  /** The database configuration. */
-  databaseServer: DatabaseConfiguration;
-  /** The high availability configuration. */
-  highAvailabilityConfig?: HighAvailabilityConfiguration;
-  /** The storage configuration. */
-  storageConfiguration?: StorageConfiguration;
-  /** The set of custom names to be used for underlying azure resources that are part of the SAP system. */
-  customResourceNames?: ThreeTierCustomResourceNamesUnion;
-}
-
-/** Gets or sets the file share configuration for scenarios where transport directory fileshare is not created or required. */
-export interface SkipFileShareConfiguration extends FileShareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Skip";
-}
-
-/** Gets or sets the file share configuration where the transport directory fileshare is created and mounted as a part of the create infra flow. Please pre-create the resource group you intend to place the transport directory in. The storage account and fileshare will be auto-created by the ACSS and doesn't need to be pre-created. */
-export interface CreateAndMountFileShareConfiguration
-  extends FileShareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "CreateAndMount";
-  /** The name of transport file share resource group. This should be pre created by the customer. The app rg is used in case of missing input. */
-  resourceGroup?: string;
-  /** The name of file share storage account name . A custom name is used in case of missing input. */
-  storageAccountName?: string;
-}
-
-/** Gets or sets the file share configuration where the transport directory fileshare already exists, and user wishes to mount the fileshare as a part of the create infra flow. */
-export interface MountFileShareConfiguration extends FileShareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  configurationType: "Mount";
-  /** The fileshare resource ID */
-  id: string;
-  /** The private endpoint resource ID */
-  privateEndpointId: string;
-}
-
-/** The resource name object where the specified values will be full resource names of the corresponding resources in a three tier SAP system. */
-export interface ThreeTierFullResourceNames
-  extends ThreeTierCustomResourceNames {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  namingPatternType: "FullResourceName";
-  /** The full resource names object for central server layer resources. */
-  centralServer?: CentralServerFullResourceNames;
-  /** The full resource names object for application layer resources. The number of entries in this list should be equal to the number VMs to be created for application layer. */
-  applicationServer?: ApplicationServerFullResourceNames;
-  /** The full resource names object for database layer resources. The number of entries in this list should be equal to the number VMs to be created for database layer. */
-  databaseServer?: DatabaseServerFullResourceNames;
-  /** The resource names object for shared storage. */
-  sharedStorage?: SharedStorageResourceNames;
-}
-
-/** The SAP Software configuration Input when the software is to be installed by service. */
-export interface ServiceInitiatedSoftwareConfiguration
-  extends SoftwareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType: "ServiceInitiated";
-  /** The URL to the SAP Build of Materials(BOM) file. */
-  bomUrl: string;
-  /** The software version to install. */
-  softwareVersion: string;
-  /** The SAP bits storage account id. */
-  sapBitsStorageAccountId: string;
-  /** The FQDN to set for the SAP system during install. */
-  sapFqdn: string;
-  /** The SSH private key. */
-  sshPrivateKey: string;
-  /** Gets or sets the HA software configuration. */
-  highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-}
-
-/** The SAP Software configuration Input when the software is to be installed by service without OS Configurations */
-export interface SAPInstallWithoutOSConfigSoftwareConfiguration
-  extends SoftwareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType: "SAPInstallWithoutOSConfig";
-  /** The URL to the SAP Build of Materials(BOM) file. */
-  bomUrl: string;
-  /** The SAP bits storage account id. */
-  sapBitsStorageAccountId: string;
-  /** The software version to install. */
-  softwareVersion: string;
-  /** Gets or sets the HA software configuration. */
-  highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration;
-}
-
-/** The SAP Software configuration Input when the software is installed externally outside the service. */
-export interface ExternalInstallationSoftwareConfiguration
-  extends SoftwareConfiguration {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  softwareInstallationType: "External";
-  /** The resource ID of the virtual machine containing the central server instance. */
-  centralServerVmId?: string;
-}
-
-/** Define the Virtual Instance for SAP solutions resource. */
-export interface SAPVirtualInstance extends TrackedResource {
-  /** Managed service identity (user assigned identities) */
-  identity?: UserAssignedServiceIdentity;
-  /** Defines the Virtual Instance for SAP solutions resource properties. */
-  properties: SAPVirtualInstanceProperties;
-}
-
 /** Define the SAP Central Services Instance resource. */
 export interface SAPCentralServerInstance extends TrackedResource {
-  /** Defines the SAP Central Services Instance properties. */
-  properties?: SAPCentralServerProperties;
+  /**
+   * The central services instance number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceNo?: string;
+  /**
+   * The central services instance subnet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnet?: string;
+  /** Defines the SAP message server properties. */
+  messageServerProperties?: MessageServerProperties;
+  /** Defines the SAP Enqueue Server properties. */
+  enqueueServerProperties?: EnqueueServerProperties;
+  /** Defines the SAP Gateway Server properties. */
+  gatewayServerProperties?: GatewayServerProperties;
+  /** Defines the SAP Enqueue Replication Server (ERS) properties. */
+  enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
+  /**
+   * The central services instance Kernel Version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kernelVersion?: string;
+  /**
+   * The central services instance Kernel Patch level.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kernelPatch?: string;
+  /**
+   * The Load Balancer details such as LoadBalancer ID attached to ASCS Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Central Services instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmDetails?: CentralServerVmDetails[];
+  /**
+   * Defines the SAP Instance status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SAPVirtualInstanceStatus;
+  /**
+   * Defines the health of SAP Instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly health?: SAPHealthState;
+  /**
+   * Defines the provisioning states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SapVirtualInstanceProvisioningState;
+  /**
+   * Defines the errors related to SAP Central Services Instance resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: SAPVirtualInstanceError;
 }
 
 /** Define the Database resource. */
 export interface SAPDatabaseInstance extends TrackedResource {
-  /** Defines the Database properties. */
-  properties?: SAPDatabaseProperties;
+  /**
+   * Database subnet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnet?: string;
+  /**
+   * Database SID name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseSid?: string;
+  /**
+   * Database type, that is if the DB is HANA, DB2, Oracle, SAP ASE, Max DB or MS SQL Server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseType?: string;
+  /**
+   * Database IP Address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddress?: string;
+  /**
+   * The Load Balancer details such as LoadBalancer ID attached to Database Virtual Machines
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerDetails?: LoadBalancerDetails;
+  /**
+   * The list of virtual machines corresponding to the Database resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmDetails?: DatabaseVmDetails[];
+  /**
+   * Defines the SAP Instance status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SAPVirtualInstanceStatus;
+  /**
+   * Defines the provisioning states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SapVirtualInstanceProvisioningState;
+  /**
+   * Defines the errors related to Database resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: SAPVirtualInstanceError;
 }
 
-/** Define the SAP Application Server Instance resource. */
-export interface SAPApplicationServerInstance extends TrackedResource {
-  /** Defines the SAP Application Server instance properties. */
-  properties?: SAPApplicationServerProperties;
+/** Defines headers for SapVirtualInstances_create operation. */
+export interface SapVirtualInstancesCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPVirtualInstances_update operation. */
-export interface SAPVirtualInstancesUpdateHeaders {
-  /** URL to poll for status updates. */
+/** Defines headers for SapVirtualInstances_update operation. */
+export interface SapVirtualInstancesUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPVirtualInstances_delete operation. */
-export interface SAPVirtualInstancesDeleteHeaders {
-  /** URL to poll for status updates. */
+/** Defines headers for SapVirtualInstances_delete operation. */
+export interface SapVirtualInstancesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPVirtualInstances_start operation. */
-export interface SAPVirtualInstancesStartHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapVirtualInstances_start operation. */
+export interface SapVirtualInstancesStartHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPVirtualInstances_stop operation. */
-export interface SAPVirtualInstancesStopHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapVirtualInstances_stop operation. */
+export interface SapVirtualInstancesStopHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPCentralInstances_delete operation. */
-export interface SAPCentralInstancesDeleteHeaders {
-  /** The URI to fetch the updated SAP Central Services Instance resource. */
+/** Defines headers for SapApplicationServerInstances_create operation. */
+export interface SapApplicationServerInstancesCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SapApplicationServerInstances_delete operation. */
+export interface SapApplicationServerInstancesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPCentralInstances_startInstance operation. */
-export interface SAPCentralInstancesStartInstanceHeaders {
-  /** The URI to fetch the updated central instance for SAP resource. */
+/** Defines headers for SapApplicationServerInstances_start operation. */
+export interface SapApplicationServerInstancesStartHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPCentralInstances_stopInstance operation. */
-export interface SAPCentralInstancesStopInstanceHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapApplicationServerInstances_stop operation. */
+export interface SapApplicationServerInstancesStopHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPDatabaseInstances_delete operation. */
-export interface SAPDatabaseInstancesDeleteHeaders {
-  /** The URI to fetch the updated SAP Database Instance resource. */
+/** Defines headers for SapCentralServerInstances_create operation. */
+export interface SapCentralServerInstancesCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SapCentralServerInstances_delete operation. */
+export interface SapCentralServerInstancesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPDatabaseInstances_startInstance operation. */
-export interface SAPDatabaseInstancesStartInstanceHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapCentralServerInstances_start operation. */
+export interface SapCentralServerInstancesStartHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPDatabaseInstances_stopInstance operation. */
-export interface SAPDatabaseInstancesStopInstanceHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapCentralServerInstances_stop operation. */
+export interface SapCentralServerInstancesStopHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPApplicationServerInstances_delete operation. */
-export interface SAPApplicationServerInstancesDeleteHeaders {
-  /** The URI to fetch the updated SAP Application Server Instance resource. */
+/** Defines headers for SapDatabaseInstances_create operation. */
+export interface SapDatabaseInstancesCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SapDatabaseInstances_delete operation. */
+export interface SapDatabaseInstancesDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPApplicationServerInstances_startInstance operation. */
-export interface SAPApplicationServerInstancesStartInstanceHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapDatabaseInstances_start operation. */
+export interface SapDatabaseInstancesStartHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Defines headers for SAPApplicationServerInstances_stopInstance operation. */
-export interface SAPApplicationServerInstancesStopInstanceHeaders {
-  /** The URI to fetch the updated Virtual Instance for SAP resource. */
+/** Defines headers for SapDatabaseInstances_stop operation. */
+export interface SapDatabaseInstancesStopHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-
-/** Known values of {@link SAPEnvironmentType} that the service accepts. */
-export enum KnownSAPEnvironmentType {
-  /** NonProd */
-  NonProd = "NonProd",
-  /** Prod */
-  Prod = "Prod",
-}
-
-/**
- * Defines values for SAPEnvironmentType. \
- * {@link KnownSAPEnvironmentType} can be used interchangeably with SAPEnvironmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NonProd** \
- * **Prod**
- */
-export type SAPEnvironmentType = string;
-
-/** Known values of {@link SAPProductType} that the service accepts. */
-export enum KnownSAPProductType {
-  /** ECC */
-  ECC = "ECC",
-  /** S4Hana */
-  S4Hana = "S4HANA",
-  /** Other */
-  Other = "Other",
-}
-
-/**
- * Defines values for SAPProductType. \
- * {@link KnownSAPProductType} can be used interchangeably with SAPProductType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ECC** \
- * **S4HANA** \
- * **Other**
- */
-export type SAPProductType = string;
-
-/** Known values of {@link SAPDeploymentType} that the service accepts. */
-export enum KnownSAPDeploymentType {
-  /** SingleServer */
-  SingleServer = "SingleServer",
-  /** ThreeTier */
-  ThreeTier = "ThreeTier",
-}
-
-/**
- * Defines values for SAPDeploymentType. \
- * {@link KnownSAPDeploymentType} can be used interchangeably with SAPDeploymentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SingleServer** \
- * **ThreeTier**
- */
-export type SAPDeploymentType = string;
-
-/** Known values of {@link SAPDatabaseType} that the service accepts. */
-export enum KnownSAPDatabaseType {
-  /** Hana */
-  Hana = "HANA",
-  /** DB2 */
-  DB2 = "DB2",
-}
-
-/**
- * Defines values for SAPDatabaseType. \
- * {@link KnownSAPDatabaseType} can be used interchangeably with SAPDatabaseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **HANA** \
- * **DB2**
- */
-export type SAPDatabaseType = string;
-
-/** Known values of {@link SAPDatabaseScaleMethod} that the service accepts. */
-export enum KnownSAPDatabaseScaleMethod {
-  /** ScaleUp */
-  ScaleUp = "ScaleUp",
-}
-
-/**
- * Defines values for SAPDatabaseScaleMethod. \
- * {@link KnownSAPDatabaseScaleMethod} can be used interchangeably with SAPDatabaseScaleMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ScaleUp**
- */
-export type SAPDatabaseScaleMethod = string;
-
-/** Known values of {@link SAPHighAvailabilityType} that the service accepts. */
-export enum KnownSAPHighAvailabilityType {
-  /** AvailabilitySet */
-  AvailabilitySet = "AvailabilitySet",
-  /** AvailabilityZone */
-  AvailabilityZone = "AvailabilityZone",
-}
-
-/**
- * Defines values for SAPHighAvailabilityType. \
- * {@link KnownSAPHighAvailabilityType} can be used interchangeably with SAPHighAvailabilityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AvailabilitySet** \
- * **AvailabilityZone**
- */
-export type SAPHighAvailabilityType = string;
-
-/** Known values of {@link DiskSkuName} that the service accepts. */
-export enum KnownDiskSkuName {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS",
-  /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS",
-  /** UltraSSDLRS */
-  UltraSSDLRS = "UltraSSD_LRS",
-  /** PremiumZRS */
-  PremiumZRS = "Premium_ZRS",
-  /** StandardSSDZRS */
-  StandardSSDZRS = "StandardSSD_ZRS",
-  /** PremiumV2LRS */
-  PremiumV2LRS = "PremiumV2_LRS",
-}
-
-/**
- * Defines values for DiskSkuName. \
- * {@link KnownDiskSkuName} can be used interchangeably with DiskSkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Premium_LRS** \
- * **StandardSSD_LRS** \
- * **UltraSSD_LRS** \
- * **Premium_ZRS** \
- * **StandardSSD_ZRS** \
- * **PremiumV2_LRS**
- */
-export type DiskSkuName = string;
-
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
-export enum KnownManagedServiceIdentityType {
-  /** None */
-  None = "None",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-}
-
-/**
- * Defines values for ManagedServiceIdentityType. \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **UserAssigned**
- */
-export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link ManagedResourcesNetworkAccessType} that the service accepts. */
-export enum KnownManagedResourcesNetworkAccessType {
-  /** Public */
-  Public = "Public",
-  /** Private */
-  Private = "Private",
-}
-
-/**
- * Defines values for ManagedResourcesNetworkAccessType. \
- * {@link KnownManagedResourcesNetworkAccessType} can be used interchangeably with ManagedResourcesNetworkAccessType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Public** \
- * **Private**
- */
-export type ManagedResourcesNetworkAccessType = string;
-
-/** Known values of {@link SAPConfigurationType} that the service accepts. */
-export enum KnownSAPConfigurationType {
-  /** Deployment */
-  Deployment = "Deployment",
-  /** Discovery */
-  Discovery = "Discovery",
-  /** DeploymentWithOSConfig */
-  DeploymentWithOSConfig = "DeploymentWithOSConfig",
-}
-
-/**
- * Defines values for SAPConfigurationType. \
- * {@link KnownSAPConfigurationType} can be used interchangeably with SAPConfigurationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Deployment** \
- * **Discovery** \
- * **DeploymentWithOSConfig**
- */
-export type SAPConfigurationType = string;
-
-/** Known values of {@link SAPVirtualInstanceStatus} that the service accepts. */
-export enum KnownSAPVirtualInstanceStatus {
-  /** Starting */
-  Starting = "Starting",
-  /** Running */
-  Running = "Running",
-  /** Stopping */
-  Stopping = "Stopping",
-  /** Offline */
-  Offline = "Offline",
-  /** PartiallyRunning */
-  PartiallyRunning = "PartiallyRunning",
-  /** Unavailable */
-  Unavailable = "Unavailable",
-  /** SoftShutdown */
-  SoftShutdown = "SoftShutdown",
-}
-
-/**
- * Defines values for SAPVirtualInstanceStatus. \
- * {@link KnownSAPVirtualInstanceStatus} can be used interchangeably with SAPVirtualInstanceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Starting** \
- * **Running** \
- * **Stopping** \
- * **Offline** \
- * **PartiallyRunning** \
- * **Unavailable** \
- * **SoftShutdown**
- */
-export type SAPVirtualInstanceStatus = string;
-
-/** Known values of {@link SAPHealthState} that the service accepts. */
-export enum KnownSAPHealthState {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-  /** Degraded */
-  Degraded = "Degraded",
-}
-
-/**
- * Defines values for SAPHealthState. \
- * {@link KnownSAPHealthState} can be used interchangeably with SAPHealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **Healthy** \
- * **Unhealthy** \
- * **Degraded**
- */
-export type SAPHealthState = string;
-
-/** Known values of {@link SAPVirtualInstanceState} that the service accepts. */
-export enum KnownSAPVirtualInstanceState {
-  /** InfrastructureDeploymentPending */
-  InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
-  /** InfrastructureDeploymentInProgress */
-  InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
-  /** InfrastructureDeploymentFailed */
-  InfrastructureDeploymentFailed = "InfrastructureDeploymentFailed",
-  /** SoftwareInstallationPending */
-  SoftwareInstallationPending = "SoftwareInstallationPending",
-  /** SoftwareInstallationInProgress */
-  SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
-  /** SoftwareInstallationFailed */
-  SoftwareInstallationFailed = "SoftwareInstallationFailed",
-  /** SoftwareDetectionInProgress */
-  SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
-  /** SoftwareDetectionFailed */
-  SoftwareDetectionFailed = "SoftwareDetectionFailed",
-  /** DiscoveryPending */
-  DiscoveryPending = "DiscoveryPending",
-  /** DiscoveryInProgress */
-  DiscoveryInProgress = "DiscoveryInProgress",
-  /** DiscoveryFailed */
-  DiscoveryFailed = "DiscoveryFailed",
-  /** RegistrationComplete */
-  RegistrationComplete = "RegistrationComplete",
-  /** AcssInstallationBlocked */
-  AcssInstallationBlocked = "ACSSInstallationBlocked",
-}
-
-/**
- * Defines values for SAPVirtualInstanceState. \
- * {@link KnownSAPVirtualInstanceState} can be used interchangeably with SAPVirtualInstanceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InfrastructureDeploymentPending** \
- * **InfrastructureDeploymentInProgress** \
- * **InfrastructureDeploymentFailed** \
- * **SoftwareInstallationPending** \
- * **SoftwareInstallationInProgress** \
- * **SoftwareInstallationFailed** \
- * **SoftwareDetectionInProgress** \
- * **SoftwareDetectionFailed** \
- * **DiscoveryPending** \
- * **DiscoveryInProgress** \
- * **DiscoveryFailed** \
- * **RegistrationComplete** \
- * **ACSSInstallationBlocked**
- */
-export type SAPVirtualInstanceState = string;
-
-/** Known values of {@link SapVirtualInstanceProvisioningState} that the service accepts. */
-export enum KnownSapVirtualInstanceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Updating */
-  Updating = "Updating",
-  /** Creating */
-  Creating = "Creating",
-  /** Failed */
-  Failed = "Failed",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * Defines values for SapVirtualInstanceProvisioningState. \
- * {@link KnownSapVirtualInstanceProvisioningState} can be used interchangeably with SapVirtualInstanceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Updating** \
- * **Creating** \
- * **Failed** \
- * **Deleting** \
- * **Canceled**
- */
-export type SapVirtualInstanceProvisioningState = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link EnqueueReplicationServerType} that the service accepts. */
-export enum KnownEnqueueReplicationServerType {
-  /** EnqueueReplicator1 */
-  EnqueueReplicator1 = "EnqueueReplicator1",
-  /** EnqueueReplicator2 */
-  EnqueueReplicator2 = "EnqueueReplicator2",
-}
-
-/**
- * Defines values for EnqueueReplicationServerType. \
- * {@link KnownEnqueueReplicationServerType} can be used interchangeably with EnqueueReplicationServerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EnqueueReplicator1** \
- * **EnqueueReplicator2**
- */
-export type EnqueueReplicationServerType = string;
-
-/** Known values of {@link CentralServerVirtualMachineType} that the service accepts. */
-export enum KnownCentralServerVirtualMachineType {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** Ascs */
-  Ascs = "ASCS",
-  /** ERSInactive */
-  ERSInactive = "ERSInactive",
-  /** ERS */
-  ERS = "ERS",
-  /** Standby */
-  Standby = "Standby",
-}
-
-/**
- * Defines values for CentralServerVirtualMachineType. \
- * {@link KnownCentralServerVirtualMachineType} can be used interchangeably with CentralServerVirtualMachineType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary** \
- * **Unknown** \
- * **ASCS** \
- * **ERSInactive** \
- * **ERS** \
- * **Standby**
- */
-export type CentralServerVirtualMachineType = string;
-
-/** Known values of {@link ApplicationServerVirtualMachineType} that the service accepts. */
-export enum KnownApplicationServerVirtualMachineType {
-  /** Active */
-  Active = "Active",
-  /** Standby */
-  Standby = "Standby",
-  /** Unknown */
-  Unknown = "Unknown",
-}
-
-/**
- * Defines values for ApplicationServerVirtualMachineType. \
- * {@link KnownApplicationServerVirtualMachineType} can be used interchangeably with ApplicationServerVirtualMachineType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active** \
- * **Standby** \
- * **Unknown**
- */
-export type ApplicationServerVirtualMachineType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -1960,11 +1599,443 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link SAPProductType} that the service accepts. */
+export enum KnownSAPProductType {
+  /** SAP Product ECC. */
+  ECC = "ECC",
+  /** SAP Product S4HANA. */
+  S4Hana = "S4HANA",
+  /** SAP Products other than the ones listed. */
+  Other = "Other",
+}
+
+/**
+ * Defines values for SAPProductType. \
+ * {@link KnownSAPProductType} can be used interchangeably with SAPProductType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ECC**: SAP Product ECC. \
+ * **S4HANA**: SAP Product S4HANA. \
+ * **Other**: SAP Products other than the ones listed.
+ */
+export type SAPProductType = string;
+
+/** Known values of {@link SAPDatabaseType} that the service accepts. */
+export enum KnownSAPDatabaseType {
+  /** HANA Database type of SAP system. */
+  Hana = "HANA",
+  /** DB2 database type of the SAP system. */
+  DB2 = "DB2",
+}
+
+/**
+ * Defines values for SAPDatabaseType. \
+ * {@link KnownSAPDatabaseType} can be used interchangeably with SAPDatabaseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HANA**: HANA Database type of SAP system. \
+ * **DB2**: DB2 database type of the SAP system.
+ */
+export type SAPDatabaseType = string;
+
+/** Known values of {@link SAPEnvironmentType} that the service accepts. */
+export enum KnownSAPEnvironmentType {
+  /** Non Production SAP system. */
+  NonProd = "NonProd",
+  /** Production SAP system. */
+  Prod = "Prod",
+}
+
+/**
+ * Defines values for SAPEnvironmentType. \
+ * {@link KnownSAPEnvironmentType} can be used interchangeably with SAPEnvironmentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonProd**: Non Production SAP system. \
+ * **Prod**: Production SAP system.
+ */
+export type SAPEnvironmentType = string;
+
+/** Known values of {@link SAPDeploymentType} that the service accepts. */
+export enum KnownSAPDeploymentType {
+  /** SAP Single server deployment type. */
+  SingleServer = "SingleServer",
+  /** SAP Distributed deployment type. */
+  ThreeTier = "ThreeTier",
+}
+
+/**
+ * Defines values for SAPDeploymentType. \
+ * {@link KnownSAPDeploymentType} can be used interchangeably with SAPDeploymentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleServer**: SAP Single server deployment type. \
+ * **ThreeTier**: SAP Distributed deployment type.
+ */
+export type SAPDeploymentType = string;
+
+/** Known values of {@link DiskSkuName} that the service accepts. */
+export enum KnownDiskSkuName {
+  /** Standard LRS Disk SKU. */
+  StandardLRS = "Standard_LRS",
+  /** Premium_LRS Disk SKU. */
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSD_LRS Disk SKU. */
+  StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSD_LRS Disk SKU. */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** Premium_ZRS Disk SKU. */
+  PremiumZRS = "Premium_ZRS",
+  /** StandardSSD_ZRS Disk SKU. */
+  StandardSSDZRS = "StandardSSD_ZRS",
+  /** PremiumV2_LRS Disk SKU. */
+  PremiumV2LRS = "PremiumV2_LRS",
+}
+
+/**
+ * Defines values for DiskSkuName. \
+ * {@link KnownDiskSkuName} can be used interchangeably with DiskSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS**: Standard LRS Disk SKU. \
+ * **Premium_LRS**: Premium_LRS Disk SKU. \
+ * **StandardSSD_LRS**: StandardSSD_LRS Disk SKU. \
+ * **UltraSSD_LRS**: UltraSSD_LRS Disk SKU. \
+ * **Premium_ZRS**: Premium_ZRS Disk SKU. \
+ * **StandardSSD_ZRS**: StandardSSD_ZRS Disk SKU. \
+ * **PremiumV2_LRS**: PremiumV2_LRS Disk SKU.
+ */
+export type DiskSkuName = string;
+
+/** Known values of {@link SAPHighAvailabilityType} that the service accepts. */
+export enum KnownSAPHighAvailabilityType {
+  /** HA deployment with availability sets. */
+  AvailabilitySet = "AvailabilitySet",
+  /** HA deployment with availability zones. */
+  AvailabilityZone = "AvailabilityZone",
+}
+
+/**
+ * Defines values for SAPHighAvailabilityType. \
+ * {@link KnownSAPHighAvailabilityType} can be used interchangeably with SAPHighAvailabilityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailabilitySet**: HA deployment with availability sets. \
+ * **AvailabilityZone**: HA deployment with availability zones.
+ */
+export type SAPHighAvailabilityType = string;
+
+/** Known values of {@link SAPDatabaseScaleMethod} that the service accepts. */
+export enum KnownSAPDatabaseScaleMethod {
+  /** ScaleUp Hana Database deployment type */
+  ScaleUp = "ScaleUp",
+}
+
+/**
+ * Defines values for SAPDatabaseScaleMethod. \
+ * {@link KnownSAPDatabaseScaleMethod} can be used interchangeably with SAPDatabaseScaleMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ScaleUp**: ScaleUp Hana Database deployment type
+ */
+export type SAPDatabaseScaleMethod = string;
+
+/** Known values of {@link ManagedResourcesNetworkAccessType} that the service accepts. */
+export enum KnownManagedResourcesNetworkAccessType {
+  /** Managed resources will be deployed with public network access enabled. */
+  Public = "Public",
+  /** Managed resources will be deployed with public network access disabled. */
+  Private = "Private",
+}
+
+/**
+ * Defines values for ManagedResourcesNetworkAccessType. \
+ * {@link KnownManagedResourcesNetworkAccessType} can be used interchangeably with ManagedResourcesNetworkAccessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public**: Managed resources will be deployed with public network access enabled. \
+ * **Private**: Managed resources will be deployed with public network access disabled.
+ */
+export type ManagedResourcesNetworkAccessType = string;
+
+/** Known values of {@link SAPConfigurationType} that the service accepts. */
+export enum KnownSAPConfigurationType {
+  /** SAP system will be deployed by service. No OS configurations will be done. */
+  Deployment = "Deployment",
+  /** Existing SAP system will be registered. */
+  Discovery = "Discovery",
+  /** SAP system will be deployed by service. OS configurations will be done. */
+  DeploymentWithOSConfig = "DeploymentWithOSConfig",
+}
+
+/**
+ * Defines values for SAPConfigurationType. \
+ * {@link KnownSAPConfigurationType} can be used interchangeably with SAPConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deployment**: SAP system will be deployed by service. No OS configurations will be done. \
+ * **Discovery**: Existing SAP system will be registered. \
+ * **DeploymentWithOSConfig**: SAP system will be deployed by service. OS configurations will be done.
+ */
+export type SAPConfigurationType = string;
+
+/** Known values of {@link SAPVirtualInstanceStatus} that the service accepts. */
+export enum KnownSAPVirtualInstanceStatus {
+  /** SAP system is getting started. */
+  Starting = "Starting",
+  /** SAP system is running. */
+  Running = "Running",
+  /** SAP system is being stopped. */
+  Stopping = "Stopping",
+  /** SAP system is offline. */
+  Offline = "Offline",
+  /** SAP system is partially running. */
+  PartiallyRunning = "PartiallyRunning",
+  /** SAP system status is unavailable. */
+  Unavailable = "Unavailable",
+  /** Soft shutdown of SAP system is initiated. */
+  SoftShutdown = "SoftShutdown",
+}
+
+/**
+ * Defines values for SAPVirtualInstanceStatus. \
+ * {@link KnownSAPVirtualInstanceStatus} can be used interchangeably with SAPVirtualInstanceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Starting**: SAP system is getting started. \
+ * **Running**: SAP system is running. \
+ * **Stopping**: SAP system is being stopped. \
+ * **Offline**: SAP system is offline. \
+ * **PartiallyRunning**: SAP system is partially running. \
+ * **Unavailable**: SAP system status is unavailable. \
+ * **SoftShutdown**: Soft shutdown of SAP system is initiated.
+ */
+export type SAPVirtualInstanceStatus = string;
+
+/** Known values of {@link SAPHealthState} that the service accepts. */
+export enum KnownSAPHealthState {
+  /** SAP System health is unknown. */
+  Unknown = "Unknown",
+  /** SAP System health is healthy. */
+  Healthy = "Healthy",
+  /** SAP System is unhealthy. */
+  Unhealthy = "Unhealthy",
+  /** SAP System health is degraded. */
+  Degraded = "Degraded",
+}
+
+/**
+ * Defines values for SAPHealthState. \
+ * {@link KnownSAPHealthState} can be used interchangeably with SAPHealthState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: SAP System health is unknown. \
+ * **Healthy**: SAP System health is healthy. \
+ * **Unhealthy**: SAP System is unhealthy. \
+ * **Degraded**: SAP System health is degraded.
+ */
+export type SAPHealthState = string;
+
+/** Known values of {@link SAPVirtualInstanceState} that the service accepts. */
+export enum KnownSAPVirtualInstanceState {
+  /** Infrastructure is not yet deployed. */
+  InfrastructureDeploymentPending = "InfrastructureDeploymentPending",
+  /** Infrastructure deployment is in progress. */
+  InfrastructureDeploymentInProgress = "InfrastructureDeploymentInProgress",
+  /** Infrastructure deployment has failed. */
+  InfrastructureDeploymentFailed = "InfrastructureDeploymentFailed",
+  /** Infrastructure deployment is successful. Software installation is pending. */
+  SoftwareInstallationPending = "SoftwareInstallationPending",
+  /** Software installation is in progress. */
+  SoftwareInstallationInProgress = "SoftwareInstallationInProgress",
+  /** Software installation failed. */
+  SoftwareInstallationFailed = "SoftwareInstallationFailed",
+  /** Software detection is in progress. */
+  SoftwareDetectionInProgress = "SoftwareDetectionInProgress",
+  /** Software detection failed. */
+  SoftwareDetectionFailed = "SoftwareDetectionFailed",
+  /** Registration has not started. */
+  DiscoveryPending = "DiscoveryPending",
+  /** Registration is in progress. */
+  DiscoveryInProgress = "DiscoveryInProgress",
+  /** Registration has failed. */
+  DiscoveryFailed = "DiscoveryFailed",
+  /** Registration is complete. */
+  RegistrationComplete = "RegistrationComplete",
+  /** ACSS installation cannot proceed. */
+  AcssInstallationBlocked = "ACSSInstallationBlocked",
+}
+
+/**
+ * Defines values for SAPVirtualInstanceState. \
+ * {@link KnownSAPVirtualInstanceState} can be used interchangeably with SAPVirtualInstanceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InfrastructureDeploymentPending**: Infrastructure is not yet deployed. \
+ * **InfrastructureDeploymentInProgress**: Infrastructure deployment is in progress. \
+ * **InfrastructureDeploymentFailed**: Infrastructure deployment has failed. \
+ * **SoftwareInstallationPending**: Infrastructure deployment is successful. Software installation is pending. \
+ * **SoftwareInstallationInProgress**: Software installation is in progress. \
+ * **SoftwareInstallationFailed**: Software installation failed. \
+ * **SoftwareDetectionInProgress**: Software detection is in progress. \
+ * **SoftwareDetectionFailed**: Software detection failed. \
+ * **DiscoveryPending**: Registration has not started. \
+ * **DiscoveryInProgress**: Registration is in progress. \
+ * **DiscoveryFailed**: Registration has failed. \
+ * **RegistrationComplete**: Registration is complete. \
+ * **ACSSInstallationBlocked**: ACSS installation cannot proceed.
+ */
+export type SAPVirtualInstanceState = string;
+
+/** Known values of {@link SapVirtualInstanceProvisioningState} that the service accepts. */
+export enum KnownSapVirtualInstanceProvisioningState {
+  /** ACSS succeeded provisioning state. */
+  Succeeded = "Succeeded",
+  /** ACSS updating provisioning state. */
+  Updating = "Updating",
+  /** ACSS Creating provisioning state. */
+  Creating = "Creating",
+  /** ACSS Failed provisioning state. */
+  Failed = "Failed",
+  /** ACSS Deleting provisioning state. */
+  Deleting = "Deleting",
+  /** ACSS Canceled provisioning state. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for SapVirtualInstanceProvisioningState. \
+ * {@link KnownSapVirtualInstanceProvisioningState} can be used interchangeably with SapVirtualInstanceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: ACSS succeeded provisioning state. \
+ * **Updating**: ACSS updating provisioning state. \
+ * **Creating**: ACSS Creating provisioning state. \
+ * **Failed**: ACSS Failed provisioning state. \
+ * **Deleting**: ACSS Deleting provisioning state. \
+ * **Canceled**: ACSS Canceled provisioning state.
+ */
+export type SapVirtualInstanceProvisioningState = string;
+
+/** Known values of {@link SAPVirtualInstanceIdentityType} that the service accepts. */
+export enum KnownSAPVirtualInstanceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for SAPVirtualInstanceIdentityType. \
+ * {@link KnownSAPVirtualInstanceIdentityType} can be used interchangeably with SAPVirtualInstanceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **UserAssigned**: User assigned managed identity.
+ */
+export type SAPVirtualInstanceIdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link ApplicationServerVirtualMachineType} that the service accepts. */
+export enum KnownApplicationServerVirtualMachineType {
+  /** Active Application server vm type. */
+  Active = "Active",
+  /** Standby Application server vm type. */
+  Standby = "Standby",
+  /** Unknown Application server vm type. */
+  Unknown = "Unknown",
+}
+
+/**
+ * Defines values for ApplicationServerVirtualMachineType. \
+ * {@link KnownApplicationServerVirtualMachineType} can be used interchangeably with ApplicationServerVirtualMachineType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Active Application server vm type. \
+ * **Standby**: Standby Application server vm type. \
+ * **Unknown**: Unknown Application server vm type.
+ */
+export type ApplicationServerVirtualMachineType = string;
+
+/** Known values of {@link EnqueueReplicationServerType} that the service accepts. */
+export enum KnownEnqueueReplicationServerType {
+  /** Enqueue Replication server type 1. */
+  EnqueueReplicator1 = "EnqueueReplicator1",
+  /** Enqueue Replication server type 2. */
+  EnqueueReplicator2 = "EnqueueReplicator2",
+}
+
+/**
+ * Defines values for EnqueueReplicationServerType. \
+ * {@link KnownEnqueueReplicationServerType} can be used interchangeably with EnqueueReplicationServerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EnqueueReplicator1**: Enqueue Replication server type 1. \
+ * **EnqueueReplicator2**: Enqueue Replication server type 2.
+ */
+export type EnqueueReplicationServerType = string;
+
+/** Known values of {@link CentralServerVirtualMachineType} that the service accepts. */
+export enum KnownCentralServerVirtualMachineType {
+  /** Primary central server vm. */
+  Primary = "Primary",
+  /** Secondary central server vm. */
+  Secondary = "Secondary",
+  /** Central server vm type unknown. */
+  Unknown = "Unknown",
+  /** ASCS Central server vm type. */
+  Ascs = "ASCS",
+  /** ERSInactive Central server vm type. */
+  ERSInactive = "ERSInactive",
+  /** ERS Central server vm type. */
+  ERS = "ERS",
+  /** Standby Central server vm type. */
+  Standby = "Standby",
+}
+
+/**
+ * Defines values for CentralServerVirtualMachineType. \
+ * {@link KnownCentralServerVirtualMachineType} can be used interchangeably with CentralServerVirtualMachineType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary**: Primary central server vm. \
+ * **Secondary**: Secondary central server vm. \
+ * **Unknown**: Central server vm type unknown. \
+ * **ASCS**: ASCS Central server vm type. \
+ * **ERSInactive**: ERSInactive Central server vm type. \
+ * **ERS**: ERS Central server vm type. \
+ * **Standby**: Standby Central server vm type.
+ */
+export type CentralServerVirtualMachineType = string;
+
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
-  /** Linux */
+  /** Linux OS Type. */
   Linux = "Linux",
-  /** Windows */
+  /** Windows OS Type. */
   Windows = "Windows",
 }
 
@@ -1973,54 +2044,39 @@ export enum KnownOSType {
  * {@link KnownOSType} can be used interchangeably with OSType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Linux** \
- * **Windows**
+ * **Linux**: Linux OS Type. \
+ * **Windows**: Windows OS Type.
  */
 export type OSType = string;
 
-/** Known values of {@link NamingPatternType} that the service accepts. */
-export enum KnownNamingPatternType {
-  /** FullResourceName */
-  FullResourceName = "FullResourceName",
-}
-
-/**
- * Defines values for NamingPatternType. \
- * {@link KnownNamingPatternType} can be used interchangeably with NamingPatternType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FullResourceName**
- */
-export type NamingPatternType = string;
-
-/** Known values of {@link ConfigurationType} that the service accepts. */
-export enum KnownConfigurationType {
-  /** Skip */
+/** Known values of {@link FileShareConfigurationType} that the service accepts. */
+export enum KnownFileShareConfigurationType {
+  /** Skip creating the file share. */
   Skip = "Skip",
-  /** CreateAndMount */
+  /** Fileshare will be created and mounted by service. */
   CreateAndMount = "CreateAndMount",
-  /** Mount */
+  /** Existing fileshare provided will be mounted by service. */
   Mount = "Mount",
 }
 
 /**
- * Defines values for ConfigurationType. \
- * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ * Defines values for FileShareConfigurationType. \
+ * {@link KnownFileShareConfigurationType} can be used interchangeably with FileShareConfigurationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Skip** \
- * **CreateAndMount** \
- * **Mount**
+ * **Skip**: Skip creating the file share. \
+ * **CreateAndMount**: Fileshare will be created and mounted by service. \
+ * **Mount**: Existing fileshare provided will be mounted by service.
  */
-export type ConfigurationType = string;
+export type FileShareConfigurationType = string;
 
 /** Known values of {@link SAPSoftwareInstallationType} that the service accepts. */
 export enum KnownSAPSoftwareInstallationType {
-  /** ServiceInitiated */
+  /** SAP Install managed by service. */
   ServiceInitiated = "ServiceInitiated",
-  /** SAPInstallWithoutOSConfig */
+  /** SAP Install without OS Config. */
   SAPInstallWithoutOSConfig = "SAPInstallWithoutOSConfig",
-  /** External */
+  /** External software installation type. */
   External = "External",
 }
 
@@ -2029,426 +2085,26 @@ export enum KnownSAPSoftwareInstallationType {
  * {@link KnownSAPSoftwareInstallationType} can be used interchangeably with SAPSoftwareInstallationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ServiceInitiated** \
- * **SAPInstallWithoutOSConfig** \
- * **External**
+ * **ServiceInitiated**: SAP Install managed by service. \
+ * **SAPInstallWithoutOSConfig**: SAP Install without OS Config. \
+ * **External**: External software installation type.
  */
 export type SAPSoftwareInstallationType = string;
 
-/** Optional parameters. */
-export interface SAPSizingRecommendationsOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Sizing Recommendation Request body */
-  sAPSizingRecommendation?: SAPSizingRecommendationRequest;
+/** Known values of {@link NamingPatternType} that the service accepts. */
+export enum KnownNamingPatternType {
+  /** Full resource names that will be created by service. */
+  FullResourceName = "FullResourceName",
 }
 
-/** Contains response data for the sAPSizingRecommendations operation. */
-export type SAPSizingRecommendationsResponse =
-  SAPSizingRecommendationResultUnion;
-
-/** Optional parameters. */
-export interface SAPSupportedSkuOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Supported SKU Request body */
-  sAPSupportedSku?: SAPSupportedSkusRequest;
-}
-
-/** Contains response data for the sAPSupportedSku operation. */
-export type SAPSupportedSkuResponse = SAPSupportedResourceSkusResult;
-
-/** Optional parameters. */
-export interface SAPDiskConfigurationsOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Disk Configurations Request body */
-  sAPDiskConfigurations?: SAPDiskConfigurationsRequest;
-}
-
-/** Contains response data for the sAPDiskConfigurations operation. */
-export type SAPDiskConfigurationsResponse = SAPDiskConfigurationsResult;
-
-/** Optional parameters. */
-export interface SAPAvailabilityZoneDetailsOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Availability Zone Details Request body */
-  sAPAvailabilityZoneDetails?: SAPAvailabilityZoneDetailsRequest;
-}
-
-/** Contains response data for the sAPAvailabilityZoneDetails operation. */
-export type SAPAvailabilityZoneDetailsResponse =
-  SAPAvailabilityZoneDetailsResult;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Virtual Instance for SAP solutions resource request body. */
-  body?: SAPVirtualInstance;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SAPVirtualInstancesCreateResponse = SAPVirtualInstance;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SAPVirtualInstancesGetResponse = SAPVirtualInstance;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Request body to update a Virtual Instance for SAP solutions resource. */
-  body?: UpdateSAPVirtualInstanceRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type SAPVirtualInstancesUpdateResponse = SAPVirtualInstance;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type SAPVirtualInstancesDeleteResponse =
-  SAPVirtualInstancesDeleteHeaders;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SAPVirtualInstancesListByResourceGroupResponse =
-  SAPVirtualInstanceList;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SAPVirtualInstancesListBySubscriptionResponse =
-  SAPVirtualInstanceList;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** The Virtual Instance for SAP solutions resource start request body. */
-  body?: StartRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the start operation. */
-export type SAPVirtualInstancesStartResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** The Virtual Instance for SAP solutions resource stop request body. */
-  body?: StopRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the stop operation. */
-export type SAPVirtualInstancesStopResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SAPVirtualInstancesListByResourceGroupNextResponse =
-  SAPVirtualInstanceList;
-
-/** Optional parameters. */
-export interface SAPVirtualInstancesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SAPVirtualInstancesListBySubscriptionNextResponse =
-  SAPVirtualInstanceList;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SAPCentralInstancesGetResponse = SAPCentralServerInstance;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The SAP Central Services Instance request body. */
-  body?: SAPCentralServerInstance;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SAPCentralInstancesCreateResponse = SAPCentralServerInstance;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The SAP Central Services Instance resource request body. */
-  body?: UpdateSAPCentralInstanceRequest;
-}
-
-/** Contains response data for the update operation. */
-export type SAPCentralInstancesUpdateResponse = SAPCentralServerInstance;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type SAPCentralInstancesDeleteResponse =
-  SAPCentralInstancesDeleteHeaders;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SAPCentralInstancesListResponse = SAPCentralInstanceList;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesStartInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Central Services instance start request body. */
-  body?: StartRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the startInstance operation. */
-export type SAPCentralInstancesStartInstanceResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesStopInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Central Services instance stop request body. */
-  body?: StopRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the stopInstance operation. */
-export type SAPCentralInstancesStopInstanceResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPCentralInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SAPCentralInstancesListNextResponse = SAPCentralInstanceList;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SAPDatabaseInstancesGetResponse = SAPDatabaseInstance;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Request body of Database resource of a SAP system. */
-  body?: SAPDatabaseInstance;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SAPDatabaseInstancesCreateResponse = SAPDatabaseInstance;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Database resource update request body. */
-  body?: UpdateSAPDatabaseInstanceRequest;
-}
-
-/** Contains response data for the update operation. */
-export type SAPDatabaseInstancesUpdateResponse = SAPDatabaseInstance;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type SAPDatabaseInstancesDeleteResponse =
-  SAPDatabaseInstancesDeleteHeaders;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SAPDatabaseInstancesListResponse = SAPDatabaseInstanceList;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesStartInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Database server instance start request body. */
-  body?: StartRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the startInstance operation. */
-export type SAPDatabaseInstancesStartInstanceResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesStopInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Stop request for the database instance of the SAP system. */
-  body?: StopRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the stopInstance operation. */
-export type SAPDatabaseInstancesStopInstanceResponse = OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPDatabaseInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SAPDatabaseInstancesListNextResponse = SAPDatabaseInstanceList;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SAPApplicationServerInstancesGetResponse =
-  SAPApplicationServerInstance;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The SAP Application Server Instance resource request body. */
-  body?: SAPApplicationServerInstance;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SAPApplicationServerInstancesCreateResponse =
-  SAPApplicationServerInstance;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The SAP Application Server Instance resource request body. */
-  body?: UpdateSAPApplicationInstanceRequest;
-}
-
-/** Contains response data for the update operation. */
-export type SAPApplicationServerInstancesUpdateResponse =
-  SAPApplicationServerInstance;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type SAPApplicationServerInstancesDeleteResponse =
-  SAPApplicationServerInstancesDeleteHeaders;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SAPApplicationServerInstancesListResponse =
-  SAPApplicationServerInstanceList;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesStartInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Application server instance start request body. */
-  body?: StartRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the startInstance operation. */
-export type SAPApplicationServerInstancesStartInstanceResponse =
-  OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesStopInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** SAP Application server instance stop request body. */
-  body?: StopRequest;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the stopInstance operation. */
-export type SAPApplicationServerInstancesStopInstanceResponse =
-  OperationStatusResult;
-
-/** Optional parameters. */
-export interface SAPApplicationServerInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SAPApplicationServerInstancesListNextResponse =
-  SAPApplicationServerInstanceList;
+/**
+ * Defines values for NamingPatternType. \
+ * {@link KnownNamingPatternType} can be used interchangeably with NamingPatternType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FullResourceName**: Full resource names that will be created by service.
+ */
+export type NamingPatternType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2463,6 +2119,393 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesInvokeAvailabilityZoneDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the invokeAvailabilityZoneDetails operation. */
+export type SapVirtualInstancesInvokeAvailabilityZoneDetailsResponse =
+  SAPAvailabilityZoneDetailsResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesInvokeDiskConfigurationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the invokeDiskConfigurations operation. */
+export type SapVirtualInstancesInvokeDiskConfigurationsResponse =
+  SAPDiskConfigurationsResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesInvokeSapSupportedSkuOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the invokeSapSupportedSku operation. */
+export type SapVirtualInstancesInvokeSapSupportedSkuResponse =
+  SAPSupportedResourceSkusResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesInvokeSizingRecommendationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the invokeSizingRecommendations operation. */
+export type SapVirtualInstancesInvokeSizingRecommendationsResponse =
+  SAPSizingRecommendationResultUnion;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SapVirtualInstancesListBySubscriptionResponse =
+  SAPVirtualInstanceListResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SapVirtualInstancesListByResourceGroupResponse =
+  SAPVirtualInstanceListResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SapVirtualInstancesGetResponse = SAPVirtualInstance;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SapVirtualInstancesCreateResponse = SAPVirtualInstance;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SapVirtualInstancesUpdateResponse = SAPVirtualInstance;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type SapVirtualInstancesDeleteResponse =
+  SapVirtualInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** The Virtual Instance for SAP solutions resource start request body. */
+  body?: StartRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type SapVirtualInstancesStartResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** The Virtual Instance for SAP solutions resource stop request body. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type SapVirtualInstancesStopResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SapVirtualInstancesListBySubscriptionNextResponse =
+  SAPVirtualInstanceListResult;
+
+/** Optional parameters. */
+export interface SapVirtualInstancesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SapVirtualInstancesListByResourceGroupNextResponse =
+  SAPVirtualInstanceListResult;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SapApplicationServerInstancesListResponse =
+  SAPApplicationServerInstanceListResult;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SapApplicationServerInstancesGetResponse =
+  SAPApplicationServerInstance;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SapApplicationServerInstancesCreateResponse =
+  SAPApplicationServerInstance;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SapApplicationServerInstancesUpdateResponse =
+  SAPApplicationServerInstance;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type SapApplicationServerInstancesDeleteResponse =
+  SapApplicationServerInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Application server instance start request body. */
+  body?: StartRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type SapApplicationServerInstancesStartResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Application server instance stop request body. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type SapApplicationServerInstancesStopResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapApplicationServerInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SapApplicationServerInstancesListNextResponse =
+  SAPApplicationServerInstanceListResult;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SapCentralServerInstancesListResponse =
+  SAPCentralServerInstanceListResult;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SapCentralServerInstancesGetResponse = SAPCentralServerInstance;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SapCentralServerInstancesCreateResponse = SAPCentralServerInstance;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SapCentralServerInstancesUpdateResponse = SAPCentralServerInstance;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type SapCentralServerInstancesDeleteResponse =
+  SapCentralServerInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Central Services instance start request body. */
+  body?: StartRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type SapCentralServerInstancesStartResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Central Services instance stop request body. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type SapCentralServerInstancesStopResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapCentralServerInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SapCentralServerInstancesListNextResponse =
+  SAPCentralServerInstanceListResult;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SapDatabaseInstancesListResponse = SAPDatabaseInstanceListResult;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SapDatabaseInstancesGetResponse = SAPDatabaseInstance;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type SapDatabaseInstancesCreateResponse = SAPDatabaseInstance;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SapDatabaseInstancesUpdateResponse = SAPDatabaseInstance;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type SapDatabaseInstancesDeleteResponse =
+  SapDatabaseInstancesDeleteHeaders;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** SAP Database server instance start request body. */
+  body?: StartRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the start operation. */
+export type SapDatabaseInstancesStartResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Stop request for the database instance of the SAP system. */
+  body?: StopRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type SapDatabaseInstancesStopResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SapDatabaseInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SapDatabaseInstancesListNextResponse =
+  SAPDatabaseInstanceListResult;
 
 /** Optional parameters. */
 export interface WorkloadsClientOptionalParams
