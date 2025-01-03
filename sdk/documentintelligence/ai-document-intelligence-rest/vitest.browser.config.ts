@@ -4,29 +4,33 @@
 import { defineConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
 export default defineConfig({
+  define: {
+    "process.env": process.env,
+  },
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
+    browser: {
+      enabled: true,
+      headless: true,
+      name: "chromium",
+      provider: "playwright",
+    },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["test/**/*.spec.ts"],
-    exclude: ["test/**/browser/*.spec.ts"],
+    include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
-      include: ["src/**/*.ts"],
-      exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
-        "vitest*.config.ts",
-        "samples-dev/**/*.ts",
-      ],
+      include: ["dist-test/browser/**/*.spec.js"],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage",
+      reportsDirectory: "coverage-browser",
     },
     testTimeout: 1200000,
     hookTimeout: 1200000,
