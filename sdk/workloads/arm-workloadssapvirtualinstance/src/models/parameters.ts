@@ -12,38 +12,21 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  SAPSizingRecommendationRequest as SAPSizingRecommendationRequestMapper,
-  SAPSupportedSkusRequest as SAPSupportedSkusRequestMapper,
-  SAPDiskConfigurationsRequest as SAPDiskConfigurationsRequestMapper,
   SAPAvailabilityZoneDetailsRequest as SAPAvailabilityZoneDetailsRequestMapper,
+  SAPDiskConfigurationsRequest as SAPDiskConfigurationsRequestMapper,
+  SAPSupportedSkusRequest as SAPSupportedSkusRequestMapper,
+  SAPSizingRecommendationRequest as SAPSizingRecommendationRequestMapper,
   SAPVirtualInstance as SAPVirtualInstanceMapper,
   UpdateSAPVirtualInstanceRequest as UpdateSAPVirtualInstanceRequestMapper,
   StartRequest as StartRequestMapper,
   StopRequest as StopRequestMapper,
+  SAPApplicationServerInstance as SAPApplicationServerInstanceMapper,
+  UpdateSAPApplicationInstanceRequest as UpdateSAPApplicationInstanceRequestMapper,
   SAPCentralServerInstance as SAPCentralServerInstanceMapper,
   UpdateSAPCentralInstanceRequest as UpdateSAPCentralInstanceRequestMapper,
   SAPDatabaseInstance as SAPDatabaseInstanceMapper,
   UpdateSAPDatabaseInstanceRequest as UpdateSAPDatabaseInstanceRequestMapper,
-  SAPApplicationServerInstance as SAPApplicationServerInstanceMapper,
-  UpdateSAPApplicationInstanceRequest as UpdateSAPApplicationInstanceRequestMapper,
 } from "../models/mappers";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const sAPSizingRecommendation: OperationParameter = {
-  parameterPath: ["options", "sAPSizingRecommendation"],
-  mapper: SAPSizingRecommendationRequestMapper,
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -69,16 +52,54 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    constraints: {
-      MinLength: 1,
+    defaultValue: "2024-09-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
     },
-    serializedName: "subscriptionId",
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
     required: true,
     type: {
       name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: SAPAvailabilityZoneDetailsRequestMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
     },
   },
 };
@@ -97,36 +118,19 @@ export const location: OperationURLParameter = {
   },
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-10-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const sAPSupportedSku: OperationParameter = {
-  parameterPath: ["options", "sAPSupportedSku"],
-  mapper: SAPSupportedSkusRequestMapper,
-};
-
-export const sAPDiskConfigurations: OperationParameter = {
-  parameterPath: ["options", "sAPDiskConfigurations"],
+export const body1: OperationParameter = {
+  parameterPath: "body",
   mapper: SAPDiskConfigurationsRequestMapper,
 };
 
-export const sAPAvailabilityZoneDetails: OperationParameter = {
-  parameterPath: ["options", "sAPAvailabilityZoneDetails"],
-  mapper: SAPAvailabilityZoneDetailsRequestMapper,
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: SAPSupportedSkusRequestMapper,
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: SAPVirtualInstanceMapper,
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: SAPSizingRecommendationRequestMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -158,31 +162,48 @@ export const sapVirtualInstanceName: OperationURLParameter = {
   },
 };
 
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SAPVirtualInstanceMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
   mapper: UpdateSAPVirtualInstanceRequestMapper,
 };
 
-export const body2: OperationParameter = {
+export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: StartRequestMapper,
 };
 
-export const body3: OperationParameter = {
+export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: StopRequestMapper,
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const applicationInstanceName: OperationURLParameter = {
+  parameterPath: "applicationInstanceName",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      Pattern: new RegExp("^.*"),
+    },
+    serializedName: "applicationInstanceName",
     required: true,
     type: {
       name: "String",
     },
   },
-  skipEncoding: true,
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SAPApplicationServerInstanceMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: UpdateSAPApplicationInstanceRequestMapper,
 };
 
 export const centralInstanceName: OperationURLParameter = {
@@ -199,13 +220,13 @@ export const centralInstanceName: OperationURLParameter = {
   },
 };
 
-export const body4: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
   mapper: SAPCentralServerInstanceMapper,
 };
 
-export const body5: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const properties2: OperationParameter = {
+  parameterPath: "properties",
   mapper: UpdateSAPCentralInstanceRequestMapper,
 };
 
@@ -223,36 +244,12 @@ export const databaseInstanceName: OperationURLParameter = {
   },
 };
 
-export const body6: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
   mapper: SAPDatabaseInstanceMapper,
 };
 
-export const body7: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const properties3: OperationParameter = {
+  parameterPath: "properties",
   mapper: UpdateSAPDatabaseInstanceRequestMapper,
-};
-
-export const applicationInstanceName: OperationURLParameter = {
-  parameterPath: "applicationInstanceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^.*"),
-    },
-    serializedName: "applicationInstanceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const body8: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: SAPApplicationServerInstanceMapper,
-};
-
-export const body9: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: UpdateSAPApplicationInstanceRequestMapper,
 };
