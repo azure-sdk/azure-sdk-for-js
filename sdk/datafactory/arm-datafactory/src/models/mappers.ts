@@ -28448,6 +28448,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
           className: "ScriptActivityTypePropertiesLogSettings",
         },
       },
+      returnMultistatementResult: {
+        serializedName: "typeProperties.returnMultistatementResult",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
