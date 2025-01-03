@@ -17,7 +17,7 @@ import {
   EnvironmentsDeleteOptionalParams,
   EnvironmentsHeadOptionalParams,
   EnvironmentsHeadResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Environments. */

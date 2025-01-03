@@ -6,12 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations.js";
-export * from "./services.js";
-export * from "./metadataSchemas.js";
-export * from "./workspaces.js";
-export * from "./apis.js";
-export * from "./deployments.js";
-export * from "./apiVersions.js";
-export * from "./apiDefinitions.js";
-export * from "./environments.js";
+export * from "./operations";
+export * from "./deletedServices";
+export * from "./services";
+export * from "./metadataSchemas";
+export * from "./workspaces";
+export * from "./analyzerConfigs";
+export * from "./apiSources";
+export * from "./apis";
+export * from "./deployments";
+export * from "./apiVersions";
+export * from "./apiDefinitions";
+export * from "./environments";

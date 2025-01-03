@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { MetadataSchemas } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { MetadataSchemas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureAPICenter } from "../azureAPICenter.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureAPICenter } from "../azureAPICenter";
 import {
   MetadataSchema,
   MetadataSchemasListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   MetadataSchemasHeadOptionalParams,
   MetadataSchemasHeadResponse,
   MetadataSchemasListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MetadataSchemas operations. */

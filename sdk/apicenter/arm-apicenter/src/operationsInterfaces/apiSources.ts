@@ -8,83 +8,93 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  MetadataSchema,
-  MetadataSchemasListOptionalParams,
-  MetadataSchemasGetOptionalParams,
-  MetadataSchemasGetResponse,
-  MetadataSchemasCreateOrUpdateOptionalParams,
-  MetadataSchemasCreateOrUpdateResponse,
-  MetadataSchemasDeleteOptionalParams,
-  MetadataSchemasHeadOptionalParams,
-  MetadataSchemasHeadResponse,
+  ApiSource,
+  ApiSourcesListOptionalParams,
+  ApiSourcesGetOptionalParams,
+  ApiSourcesGetResponse,
+  ApiSourcesCreateOrUpdateOptionalParams,
+  ApiSourcesCreateOrUpdateResponse,
+  ApiSourcesDeleteOptionalParams,
+  ApiSourcesHeadOptionalParams,
+  ApiSourcesHeadResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a MetadataSchemas. */
-export interface MetadataSchemas {
+/** Interface representing a ApiSources. */
+export interface ApiSources {
   /**
-   * Returns a collection of metadata schemas.
+   * Returns a collection of API sources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
+   * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: MetadataSchemasListOptionalParams,
-  ): PagedAsyncIterableIterator<MetadataSchema>;
+    workspaceName: string,
+    options?: ApiSourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<ApiSource>;
   /**
-   * Returns details of the metadata schema.
+   * Returns details of the API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param metadataSchemaName The name of the metadata schema.
+   * @param workspaceName The name of the workspace.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    metadataSchemaName: string,
-    options?: MetadataSchemasGetOptionalParams,
-  ): Promise<MetadataSchemasGetResponse>;
+    workspaceName: string,
+    apiSourceName: string,
+    options?: ApiSourcesGetOptionalParams,
+  ): Promise<ApiSourcesGetResponse>;
   /**
-   * Creates new or updates existing metadata schema.
+   * Creates new or updates existing API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param metadataSchemaName The name of the metadata schema.
+   * @param workspaceName The name of the workspace.
+   * @param apiSourceName The name of the API.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    metadataSchemaName: string,
-    resource: MetadataSchema,
-    options?: MetadataSchemasCreateOrUpdateOptionalParams,
-  ): Promise<MetadataSchemasCreateOrUpdateResponse>;
+    workspaceName: string,
+    apiSourceName: string,
+    resource: ApiSource,
+    options?: ApiSourcesCreateOrUpdateOptionalParams,
+  ): Promise<ApiSourcesCreateOrUpdateResponse>;
   /**
-   * Deletes specified metadata schema.
+   * Deletes specified API source.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param metadataSchemaName The name of the metadata schema.
+   * @param workspaceName The name of the workspace.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
-    metadataSchemaName: string,
-    options?: MetadataSchemasDeleteOptionalParams,
+    workspaceName: string,
+    apiSourceName: string,
+    options?: ApiSourcesDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Checks if specified metadata schema exists.
+   * Checks if specified API source exists.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param metadataSchemaName The name of the metadata schema.
+   * @param workspaceName The name of the workspace.
+   * @param apiSourceName The name of the API.
    * @param options The options parameters.
    */
   head(
     resourceGroupName: string,
     serviceName: string,
-    metadataSchemaName: string,
-    options?: MetadataSchemasHeadOptionalParams,
-  ): Promise<MetadataSchemasHeadResponse>;
+    workspaceName: string,
+    apiSourceName: string,
+    options?: ApiSourcesHeadOptionalParams,
+  ): Promise<ApiSourcesHeadResponse>;
 }
