@@ -3691,7 +3691,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
-    resolution: {integrity: sha512-zGrduZzNBYJVUxltyUcs6kpIlS2rvzxJkOjvFDlk132R/26IoWgcmseVvGkobtxPAr34R1UMqfGumW/Sb2y19A==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-/dEuq7qUMXTW0zuGdoNZveTOt5+g0GY42/PnrefC3jquAYefz0iHN3ipf40X95g0yg6q+SUGcqIP2BWQOq1qyw==, tarball: file:projects/developer-devcenter.tgz}
     version: 0.0.0
 
   '@rush-temp/digital-twins-core@file:projects/digital-twins-core.tgz':
@@ -17097,20 +17097,20 @@ snapshots:
     dependencies:
       '@microsoft/api-extractor': 7.48.1(@types/node@18.19.68)
       '@types/node': 18.19.68
-      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.68)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      eslint: 8.57.1
+      eslint: 9.17.0
       playwright: 1.49.1
-      tshy: 2.0.1
       tslib: 2.8.1
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.68)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
+      - jiti
       - jsdom
       - less
       - lightningcss

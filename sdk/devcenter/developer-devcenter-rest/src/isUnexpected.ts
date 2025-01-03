@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ListProjects200Response,
   ListProjectsDefaultResponse,
   GetProject200Response,
@@ -89,39 +89,71 @@ const responseMap: Record<string, string[]> = {
   "GET /devboxes": ["200"],
   "GET /users/{userId}/devboxes": ["200"],
   "GET /projects/{projectName}/pools/{poolName}/schedules": ["200"],
-  "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": ["200"],
-  "GET /projects/{projectName}/users/{userId}/devboxes": ["200"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200"],
-  "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200", "201"],
-  "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["202", "204"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["200", "202"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": ["202"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["200", "202"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": ["202"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": ["200", "202"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": ["202"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection": ["200"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions": ["200"],
-  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}": ["200"],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip": [
-    "204",
-  ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay": [
+  "GET /projects/{projectName}/pools/{poolName}/schedules/{scheduleName}": [
     "200",
   ],
-  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay": ["200"],
+  "GET /projects/{projectName}/users/{userId}/devboxes": ["200"],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": ["200"],
+  "PUT /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
+    "200",
+    "201",
+  ],
+  "DELETE /projects/{projectName}/users/{userId}/devboxes/{devBoxName}": [
+    "202",
+    "204",
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
+    "200",
+    "202",
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start": [
+    "202",
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
+    "200",
+    "202",
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop": [
+    "202",
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": [
+    "200",
+    "202",
+  ],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restart": [
+    "202",
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection":
+    ["200"],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions": [
+    "200",
+  ],
+  "GET /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}":
+    ["200"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:skip":
+    ["204"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions/{actionName}:delay":
+    ["200"],
+  "POST /projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay":
+    ["200"],
   "GET /projects/{projectName}/environments": ["200"],
   "GET /projects/{projectName}/users/{userId}/environments": ["200"],
-  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}": ["200"],
-  "PUT /projects/{projectName}/users/{userId}/environments/{environmentName}": ["201"],
-  "DELETE /projects/{projectName}/users/{userId}/environments/{environmentName}": ["202", "204"],
+  "GET /projects/{projectName}/users/{userId}/environments/{environmentName}": [
+    "200",
+  ],
+  "PUT /projects/{projectName}/users/{userId}/environments/{environmentName}": [
+    "201",
+  ],
+  "DELETE /projects/{projectName}/users/{userId}/environments/{environmentName}":
+    ["202", "204"],
   "GET /projects/{projectName}/catalogs": ["200"],
   "GET /projects/{projectName}/catalogs/{catalogName}": ["200"],
   "GET /projects/{projectName}/environmentDefinitions": ["200"],
-  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions": ["200"],
-  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}": [
+  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions": [
     "200",
   ],
+  "GET /projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}":
+    ["200"],
   "GET /projects/{projectName}/environmentTypes": ["200"],
 };
 
@@ -144,7 +176,9 @@ export function isUnexpected(
   response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse,
 ): response is ListAllDevBoxesDefaultResponse;
 export function isUnexpected(
-  response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse,
+  response:
+    | ListAllDevBoxesByUser200Response
+    | ListAllDevBoxesByUserDefaultResponse,
 ): response is ListAllDevBoxesByUserDefaultResponse;
 export function isUnexpected(
   response: ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse,
@@ -173,13 +207,22 @@ export function isUnexpected(
     | DeleteDevBoxDefaultResponse,
 ): response is DeleteDevBoxDefaultResponse;
 export function isUnexpected(
-  response: StartDevBox202Response | StartDevBoxLogicalResponse | StartDevBoxDefaultResponse,
+  response:
+    | StartDevBox202Response
+    | StartDevBoxLogicalResponse
+    | StartDevBoxDefaultResponse,
 ): response is StartDevBoxDefaultResponse;
 export function isUnexpected(
-  response: StopDevBox202Response | StopDevBoxLogicalResponse | StopDevBoxDefaultResponse,
+  response:
+    | StopDevBox202Response
+    | StopDevBoxLogicalResponse
+    | StopDevBoxDefaultResponse,
 ): response is StopDevBoxDefaultResponse;
 export function isUnexpected(
-  response: RestartDevBox202Response | RestartDevBoxLogicalResponse | RestartDevBoxDefaultResponse,
+  response:
+    | RestartDevBox202Response
+    | RestartDevBoxLogicalResponse
+    | RestartDevBoxDefaultResponse,
 ): response is RestartDevBoxDefaultResponse;
 export function isUnexpected(
   response: GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse,
@@ -203,10 +246,14 @@ export function isUnexpected(
   response: ListEnvironments200Response | ListEnvironmentsDefaultResponse,
 ): response is ListEnvironmentsDefaultResponse;
 export function isUnexpected(
-  response: ListEnvironmentsByUser200Response | ListEnvironmentsByUserDefaultResponse,
+  response:
+    | ListEnvironmentsByUser200Response
+    | ListEnvironmentsByUserDefaultResponse,
 ): response is ListEnvironmentsByUserDefaultResponse;
 export function isUnexpected(
-  response: GetEnvironmentByUser200Response | GetEnvironmentByUserDefaultResponse,
+  response:
+    | GetEnvironmentByUser200Response
+    | GetEnvironmentByUserDefaultResponse,
 ): response is GetEnvironmentByUserDefaultResponse;
 export function isUnexpected(
   response:
@@ -222,7 +269,9 @@ export function isUnexpected(
     | DeleteEnvironmentDefaultResponse,
 ): response is DeleteEnvironmentDefaultResponse;
 export function isUnexpected(
-  response: ListCatalogsByProject200Response | ListCatalogsByProjectDefaultResponse,
+  response:
+    | ListCatalogsByProject200Response
+    | ListCatalogsByProjectDefaultResponse,
 ): response is ListCatalogsByProjectDefaultResponse;
 export function isUnexpected(
   response: GetCatalog200Response | GetCatalogDefaultResponse,
@@ -238,10 +287,14 @@ export function isUnexpected(
     | ListEnvironmentDefinitionsByCatalogDefaultResponse,
 ): response is ListEnvironmentDefinitionsByCatalogDefaultResponse;
 export function isUnexpected(
-  response: GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse,
+  response:
+    | GetEnvironmentDefinition200Response
+    | GetEnvironmentDefinitionDefaultResponse,
 ): response is GetEnvironmentDefinitionDefaultResponse;
 export function isUnexpected(
-  response: ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse,
+  response:
+    | ListEnvironmentTypes200Response
+    | ListEnvironmentTypesDefaultResponse,
 ): response is ListEnvironmentTypesDefaultResponse;
 export function isUnexpected(
   response:
@@ -387,17 +440,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
