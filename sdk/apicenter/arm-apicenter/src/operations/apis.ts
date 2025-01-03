@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Apis } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Apis } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureAPICenter } from "../azureAPICenter.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureAPICenter } from "../azureAPICenter";
 import {
   Api,
   ApisListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   ApisHeadOptionalParams,
   ApisHeadResponse,
   ApisListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Apis operations. */
@@ -332,7 +332,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource3,
+  requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
