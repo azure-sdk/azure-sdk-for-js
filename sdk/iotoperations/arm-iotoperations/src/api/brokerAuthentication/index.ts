@@ -132,7 +132,10 @@ export function brokerAuthenticationCreateOrUpdate(
   options: BrokerAuthenticationCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource> {
+): PollerLike<
+  OperationState<BrokerAuthenticationResource>,
+  BrokerAuthenticationResource
+> {
   return getLongRunningPoller(
     context,
     _brokerAuthenticationCreateOrUpdateDeserialize,
@@ -153,7 +156,10 @@ export function brokerAuthenticationCreateOrUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<OperationState<BrokerAuthenticationResource>, BrokerAuthenticationResource>;
+  ) as PollerLike<
+    OperationState<BrokerAuthenticationResource>,
+    BrokerAuthenticationResource
+  >;
 }
 
 export function _brokerAuthenticationDeleteSend(

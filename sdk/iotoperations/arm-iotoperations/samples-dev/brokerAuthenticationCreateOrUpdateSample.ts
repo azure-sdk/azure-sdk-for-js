@@ -32,7 +32,8 @@ async function brokerAuthenticationCreateOrUpdateComplex() {
               trustedClientCaCert: "my-ca",
               authorizationAttributes: {
                 root: {
-                  subject: "CN = Contoso Root CA Cert, OU = Engineering, C = US",
+                  subject:
+                    "CN = Contoso Root CA Cert, OU = Engineering, C = US",
                   attributes: { organization: "contoso" },
                 },
                 intermediate: {

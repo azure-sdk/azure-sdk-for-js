@@ -96,7 +96,9 @@ async function brokerAuthorizationCreateOrUpdate() {
           cache: "Enabled",
           rules: [
             {
-              brokerResources: [{ method: "Connect", clientIds: ["nlc"], topics: ["wvuca"] }],
+              brokerResources: [
+                { method: "Connect", clientIds: ["nlc"], topics: ["wvuca"] },
+              ],
               principals: {
                 attributes: [{ key5526: "nydhzdhbldygqcn" }],
                 clientIds: ["smopeaeddsygz"],
@@ -154,7 +156,9 @@ async function brokerAuthorizationCreateOrUpdateSimple() {
                   topics: ["topic", "topic/with/wildcard/#"],
                 },
               ],
-              stateStoreResources: [{ method: "ReadWrite", keyType: "Pattern", keys: ["*"] }],
+              stateStoreResources: [
+                { method: "ReadWrite", keyType: "Pattern", keys: ["*"] },
+              ],
             },
           ],
         },
