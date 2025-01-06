@@ -20,31 +20,51 @@ import {
   DeploymentSettingsImpl,
   EdgeDevicesImpl,
   ExtensionsImpl,
+  GalleryImagesOperationsImpl,
+  LogicalNetworksOperationsImpl,
+  MarketplaceGalleryImagesOperationsImpl,
+  NetworkInterfacesOperationsImpl,
   OffersImpl,
   OperationsImpl,
   PublishersImpl,
   SecuritySettingsImpl,
   SkusImpl,
+  StorageContainersOperationsImpl,
   UpdateRunsImpl,
   UpdateSummariesOperationsImpl,
   UpdatesImpl,
-} from "./operations/index.js";
+  VirtualHardDisksOperationsImpl,
+  VirtualMachineInstancesImpl,
+  HybridIdentityMetadataOperationsImpl,
+  GuestAgentOperationsImpl,
+  GuestAgentsImpl,
+} from "./operations";
 import {
   ArcSettings,
   Clusters,
   DeploymentSettings,
   EdgeDevices,
   Extensions,
+  GalleryImagesOperations,
+  LogicalNetworksOperations,
+  MarketplaceGalleryImagesOperations,
+  NetworkInterfacesOperations,
   Offers,
   Operations,
   Publishers,
   SecuritySettings,
   Skus,
+  StorageContainersOperations,
   UpdateRuns,
   UpdateSummariesOperations,
   Updates,
-} from "./operationsInterfaces/index.js";
-import { AzureStackHCIClientOptionalParams } from "./models/index.js";
+  VirtualHardDisksOperations,
+  VirtualMachineInstances,
+  HybridIdentityMetadataOperations,
+  GuestAgentOperations,
+  GuestAgents,
+} from "./operationsInterfaces";
+import { AzureStackHCIClientOptionalParams } from "./models";
 
 export class AzureStackHCIClient extends coreClient.ServiceClient {
   $host: string;
@@ -54,7 +74,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AzureStackHCIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -92,7 +112,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -146,20 +166,36 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-01-01";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.deploymentSettings = new DeploymentSettingsImpl(this);
     this.edgeDevices = new EdgeDevicesImpl(this);
     this.extensions = new ExtensionsImpl(this);
+    this.galleryImagesOperations = new GalleryImagesOperationsImpl(this);
+    this.logicalNetworksOperations = new LogicalNetworksOperationsImpl(this);
+    this.marketplaceGalleryImagesOperations =
+      new MarketplaceGalleryImagesOperationsImpl(this);
+    this.networkInterfacesOperations = new NetworkInterfacesOperationsImpl(
+      this,
+    );
     this.offers = new OffersImpl(this);
     this.operations = new OperationsImpl(this);
     this.publishers = new PublishersImpl(this);
     this.securitySettings = new SecuritySettingsImpl(this);
     this.skus = new SkusImpl(this);
+    this.storageContainersOperations = new StorageContainersOperationsImpl(
+      this,
+    );
     this.updateRuns = new UpdateRunsImpl(this);
     this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
     this.updates = new UpdatesImpl(this);
+    this.virtualHardDisksOperations = new VirtualHardDisksOperationsImpl(this);
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.hybridIdentityMetadataOperations =
+      new HybridIdentityMetadataOperationsImpl(this);
+    this.guestAgentOperations = new GuestAgentOperationsImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -196,12 +232,22 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   deploymentSettings: DeploymentSettings;
   edgeDevices: EdgeDevices;
   extensions: Extensions;
+  galleryImagesOperations: GalleryImagesOperations;
+  logicalNetworksOperations: LogicalNetworksOperations;
+  marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
+  networkInterfacesOperations: NetworkInterfacesOperations;
   offers: Offers;
   operations: Operations;
   publishers: Publishers;
   securitySettings: SecuritySettings;
   skus: Skus;
+  storageContainersOperations: StorageContainersOperations;
   updateRuns: UpdateRuns;
   updateSummariesOperations: UpdateSummariesOperations;
   updates: Updates;
+  virtualHardDisksOperations: VirtualHardDisksOperations;
+  virtualMachineInstances: VirtualMachineInstances;
+  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+  guestAgentOperations: GuestAgentOperations;
+  guestAgents: GuestAgents;
 }
