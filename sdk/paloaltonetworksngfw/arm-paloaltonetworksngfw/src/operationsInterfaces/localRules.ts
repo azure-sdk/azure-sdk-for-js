@@ -20,7 +20,7 @@ import {
   LocalRulesGetCountersResponse,
   LocalRulesRefreshCountersOptionalParams,
   LocalRulesResetCountersOptionalParams,
-  LocalRulesResetCountersResponse
+  LocalRulesResetCountersResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface LocalRules {
   listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: LocalRulesListByLocalRulestacksOptionalParams
+    options?: LocalRulesListByLocalRulestacksOptionalParams,
   ): PagedAsyncIterableIterator<LocalRulesResource>;
   /**
    * Get a LocalRulesResource
@@ -48,7 +48,7 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesGetOptionalParams
+    options?: LocalRulesGetOptionalParams,
   ): Promise<LocalRulesGetResponse>;
   /**
    * Create a LocalRulesResource
@@ -63,7 +63,7 @@ export interface LocalRules {
     localRulestackName: string,
     priority: string,
     resource: LocalRulesResource,
-    options?: LocalRulesCreateOrUpdateOptionalParams
+    options?: LocalRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LocalRulesCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface LocalRules {
     localRulestackName: string,
     priority: string,
     resource: LocalRulesResource,
-    options?: LocalRulesCreateOrUpdateOptionalParams
+    options?: LocalRulesCreateOrUpdateOptionalParams,
   ): Promise<LocalRulesCreateOrUpdateResponse>;
   /**
    * Delete a LocalRulesResource
@@ -96,7 +96,7 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesDeleteOptionalParams
+    options?: LocalRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a LocalRulesResource
@@ -109,7 +109,7 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesDeleteOptionalParams
+    options?: LocalRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get counters
@@ -122,7 +122,7 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesGetCountersOptionalParams
+    options?: LocalRulesGetCountersOptionalParams,
   ): Promise<LocalRulesGetCountersResponse>;
   /**
    * Refresh counters
@@ -135,7 +135,7 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesRefreshCountersOptionalParams
+    options?: LocalRulesRefreshCountersOptionalParams,
   ): Promise<void>;
   /**
    * Reset counters
@@ -148,6 +148,6 @@ export interface LocalRules {
     resourceGroupName: string,
     localRulestackName: string,
     priority: string,
-    options?: LocalRulesResetCountersOptionalParams
+    options?: LocalRulesResetCountersOptionalParams,
   ): Promise<LocalRulesResetCountersResponse>;
 }

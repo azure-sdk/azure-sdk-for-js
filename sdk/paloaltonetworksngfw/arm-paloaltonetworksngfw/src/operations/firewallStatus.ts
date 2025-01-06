@@ -20,7 +20,7 @@ import {
   FirewallStatusListByFirewallsResponse,
   FirewallStatusGetOptionalParams,
   FirewallStatusGetResponse,
-  FirewallStatusListByFirewallsNextResponse
+  FirewallStatusListByFirewallsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class FirewallStatusImpl implements FirewallStatus {
   public listByFirewalls(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusListByFirewallsOptionalParams
+    options?: FirewallStatusListByFirewallsOptionalParams,
   ): PagedAsyncIterableIterator<FirewallStatusResource> {
     const iter = this.listByFirewallsPagingAll(
       resourceGroupName,
       firewallName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class FirewallStatusImpl implements FirewallStatus {
           resourceGroupName,
           firewallName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class FirewallStatusImpl implements FirewallStatus {
     resourceGroupName: string,
     firewallName: string,
     options?: FirewallStatusListByFirewallsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FirewallStatusResource[]> {
     let result: FirewallStatusListByFirewallsResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class FirewallStatusImpl implements FirewallStatus {
       result = await this._listByFirewalls(
         resourceGroupName,
         firewallName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class FirewallStatusImpl implements FirewallStatus {
         resourceGroupName,
         firewallName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class FirewallStatusImpl implements FirewallStatus {
   private async *listByFirewallsPagingAll(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusListByFirewallsOptionalParams
+    options?: FirewallStatusListByFirewallsOptionalParams,
   ): AsyncIterableIterator<FirewallStatusResource> {
     for await (const page of this.listByFirewallsPagingPage(
       resourceGroupName,
       firewallName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class FirewallStatusImpl implements FirewallStatus {
   private _listByFirewalls(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusListByFirewallsOptionalParams
+    options?: FirewallStatusListByFirewallsOptionalParams,
   ): Promise<FirewallStatusListByFirewallsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      listByFirewallsOperationSpec
+      listByFirewallsOperationSpec,
     );
   }
 
@@ -146,11 +146,11 @@ export class FirewallStatusImpl implements FirewallStatus {
   get(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusGetOptionalParams
+    options?: FirewallStatusGetOptionalParams,
   ): Promise<FirewallStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class FirewallStatusImpl implements FirewallStatus {
     resourceGroupName: string,
     firewallName: string,
     nextLink: string,
-    options?: FirewallStatusListByFirewallsNextOptionalParams
+    options?: FirewallStatusListByFirewallsNextOptionalParams,
   ): Promise<FirewallStatusListByFirewallsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, nextLink, options },
-      listByFirewallsNextOperationSpec
+      listByFirewallsNextOperationSpec,
     );
   }
 }
@@ -177,67 +177,65 @@ export class FirewallStatusImpl implements FirewallStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFirewallsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/statuses",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/statuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallStatusResourceListResult
+      bodyMapper: Mappers.FirewallStatusResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/statuses/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/statuses/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallStatusResource
+      bodyMapper: Mappers.FirewallStatusResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFirewallsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallStatusResourceListResult
+      bodyMapper: Mappers.FirewallStatusResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

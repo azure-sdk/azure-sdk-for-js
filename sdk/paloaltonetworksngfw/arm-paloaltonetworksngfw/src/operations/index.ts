@@ -13,6 +13,7 @@ export * from "./postRules";
 export * from "./prefixListGlobalRulestack";
 export * from "./preRules";
 export * from "./operations";
+export * from "./paloAltoNetworksCloudngfw";
 export * from "./firewalls";
 export * from "./localRulestacks";
 export * from "./firewallStatus";

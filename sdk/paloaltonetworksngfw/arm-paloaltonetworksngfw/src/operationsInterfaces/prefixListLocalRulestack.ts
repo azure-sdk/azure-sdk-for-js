@@ -15,7 +15,7 @@ import {
   PrefixListLocalRulestackGetResponse,
   PrefixListLocalRulestackCreateOrUpdateOptionalParams,
   PrefixListLocalRulestackCreateOrUpdateResponse,
-  PrefixListLocalRulestackDeleteOptionalParams
+  PrefixListLocalRulestackDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrefixListLocalRulestack {
   listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: PrefixListLocalRulestackListByLocalRulestacksOptionalParams
+    options?: PrefixListLocalRulestackListByLocalRulestacksOptionalParams,
   ): PagedAsyncIterableIterator<PrefixListResource>;
   /**
    * Get a PrefixListResource
@@ -43,7 +43,7 @@ export interface PrefixListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: PrefixListLocalRulestackGetOptionalParams
+    options?: PrefixListLocalRulestackGetOptionalParams,
   ): Promise<PrefixListLocalRulestackGetResponse>;
   /**
    * Create a PrefixListResource
@@ -58,7 +58,7 @@ export interface PrefixListLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: PrefixListResource,
-    options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrefixListLocalRulestackCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface PrefixListLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: PrefixListResource,
-    options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<PrefixListLocalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a PrefixListResource
@@ -91,7 +91,7 @@ export interface PrefixListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: PrefixListLocalRulestackDeleteOptionalParams
+    options?: PrefixListLocalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a PrefixListResource
@@ -104,6 +104,6 @@ export interface PrefixListLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: PrefixListLocalRulestackDeleteOptionalParams
+    options?: PrefixListLocalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }
