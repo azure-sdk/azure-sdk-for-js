@@ -29,7 +29,9 @@ export interface AccountQuotaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function accountQuotaPropertiesDeserializer(item: any): AccountQuotaProperties {
+export function accountQuotaPropertiesDeserializer(
+  item: any,
+): AccountQuotaProperties {
   return {
     freeTrial: !item["freeTrial"]
       ? item["freeTrial"]
@@ -52,7 +54,9 @@ export interface AccountFreeTrialProperties {
   readonly percentageUsed: number;
 }
 
-export function accountFreeTrialPropertiesDeserializer(item: any): AccountFreeTrialProperties {
+export function accountFreeTrialPropertiesDeserializer(
+  item: any,
+): AccountFreeTrialProperties {
   return {
     createdAt: new Date(item["createdAt"]),
     expiryAt: new Date(item["expiryAt"]),
@@ -171,7 +175,9 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -212,14 +218,18 @@ export interface _AccountQuotaListResult {
   nextLink?: string;
 }
 
-export function _accountQuotaListResultDeserializer(item: any): _AccountQuotaListResult {
+export function _accountQuotaListResultDeserializer(
+  item: any,
+): _AccountQuotaListResult {
   return {
     value: accountQuotaArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function accountQuotaArrayDeserializer(result: Array<AccountQuota>): any[] {
+export function accountQuotaArrayDeserializer(
+  result: Array<AccountQuota>,
+): any[] {
   return result.map((item) => {
     return accountQuotaDeserializer(item);
   });
@@ -273,7 +283,9 @@ export interface FreeTrialProperties {
   readonly state: FreeTrialState;
 }
 
-export function freeTrialPropertiesDeserializer(item: any): FreeTrialProperties {
+export function freeTrialPropertiesDeserializer(
+  item: any,
+): FreeTrialProperties {
   return {
     accountId: item["accountId"],
     state: item["state"],
@@ -391,7 +403,7 @@ export interface AccountProperties {
   scalableExecution?: EnablementStatus;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
   reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
   localAuth?: EnablementStatus;
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
@@ -485,11 +497,13 @@ export interface AccountUpdateProperties {
   scalableExecution?: EnablementStatus;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
   reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
   localAuth?: EnablementStatus;
 }
 
-export function accountUpdatePropertiesSerializer(item: AccountUpdateProperties): any {
+export function accountUpdatePropertiesSerializer(
+  item: AccountUpdateProperties,
+): any {
   return {
     regionalAffinity: item["regionalAffinity"],
     scalableExecution: item["scalableExecution"],
@@ -533,7 +547,9 @@ export interface CheckNameAvailabilityRequest {
   type?: string;
 }
 
-export function checkNameAvailabilityRequestSerializer(item: CheckNameAvailabilityRequest): any {
+export function checkNameAvailabilityRequestSerializer(
+  item: CheckNameAvailabilityRequest,
+): any {
   return { name: item["name"], type: item["type"] };
 }
 
@@ -583,7 +599,9 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -603,18 +621,20 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -644,11 +664,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -680,5 +700,5 @@ export type ActionType = string;
 /** Microsoft.AzurePlaywrightService Management API Versions. */
 export enum KnownVersions {
   /** 2024-12-01 version */
-  "V2024-12-01" = "2024-12-01",
+  "2024-12-01" = "2024-12-01",
 }

@@ -24,11 +24,11 @@ import {
   CheckNameAvailabilityResponse,
   checkNameAvailabilityResponseDeserializer,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -54,7 +54,9 @@ export function _accountsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _accountsGetDeserialize(result: PathUncheckedResponse): Promise<Account> {
+export async function _accountsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Account> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -122,20 +124,25 @@ export function accountsCreateOrUpdate(
   resource: Account,
   options: AccountsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Account>, Account> {
-  return getLongRunningPoller(context, _accountsCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _accountsCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Account>, Account>;
+  return getLongRunningPoller(
+    context,
+    _accountsCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _accountsCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          accountName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Account>, Account>;
 }
 
 export function _accountsUpdateSend(
@@ -159,7 +166,9 @@ export function _accountsUpdateSend(
     });
 }
 
-export async function _accountsUpdateDeserialize(result: PathUncheckedResponse): Promise<Account> {
+export async function _accountsUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Account> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -205,7 +214,9 @@ export function _accountsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _accountsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _accountsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -222,13 +233,24 @@ export function accountsDelete(
   accountName: string,
   options: AccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _accountsDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _accountsDeleteSend(context, subscriptionId, resourceGroupName, accountName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _accountsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _accountsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          accountName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _accountsListByResourceGroupSend(
@@ -266,7 +288,13 @@ export function accountsListByResourceGroup(
 ): PagedAsyncIterableIterator<Account> {
   return buildPagedAsyncIterator(
     context,
-    () => _accountsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _accountsListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _accountsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -347,6 +375,11 @@ export async function accountsCheckNameAvailability(
   body: CheckNameAvailabilityRequest,
   options: AccountsCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckNameAvailabilityResponse> {
-  const result = await _accountsCheckNameAvailabilitySend(context, subscriptionId, body, options);
+  const result = await _accountsCheckNameAvailabilitySend(
+    context,
+    subscriptionId,
+    body,
+    options,
+  );
   return _accountsCheckNameAvailabilityDeserialize(result);
 }

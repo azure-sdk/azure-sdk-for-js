@@ -25,12 +25,20 @@ export interface QuotasOperations {
   ) => PagedAsyncIterableIterator<Quota>;
 }
 
-export function getQuotas(context: AzurePlaywrightServiceContext, subscriptionId: string) {
+export function getQuotas(
+  context: AzurePlaywrightServiceContext,
+  subscriptionId: string,
+) {
   return {
-    get: (location: string, quotaName: QuotaNames, options?: QuotasGetOptionalParams) =>
-      quotasGet(context, subscriptionId, location, quotaName, options),
-    listBySubscription: (location: string, options?: QuotasListBySubscriptionOptionalParams) =>
-      quotasListBySubscription(context, subscriptionId, location, options),
+    get: (
+      location: string,
+      quotaName: QuotaNames,
+      options?: QuotasGetOptionalParams,
+    ) => quotasGet(context, subscriptionId, location, quotaName, options),
+    listBySubscription: (
+      location: string,
+      options?: QuotasListBySubscriptionOptionalParams,
+    ) => quotasListBySubscription(context, subscriptionId, location, options),
   };
 }
 

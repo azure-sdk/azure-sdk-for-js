@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzurePlaywrightServiceContext } from "../../api/azurePlaywrightServiceContext.js";
-import { accountQuotasGet, accountQuotasListByAccount } from "../../api/accountQuotas/index.js";
+import {
+  accountQuotasGet,
+  accountQuotasListByAccount,
+} from "../../api/accountQuotas/index.js";
 import { AccountQuota, QuotaNames } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import {
@@ -27,7 +30,10 @@ export interface AccountQuotasOperations {
   ) => PagedAsyncIterableIterator<AccountQuota>;
 }
 
-export function getAccountQuotas(context: AzurePlaywrightServiceContext, subscriptionId: string) {
+export function getAccountQuotas(
+  context: AzurePlaywrightServiceContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -35,13 +41,26 @@ export function getAccountQuotas(context: AzurePlaywrightServiceContext, subscri
       quotaName: QuotaNames,
       options?: AccountQuotasGetOptionalParams,
     ) =>
-      accountQuotasGet(context, subscriptionId, resourceGroupName, accountName, quotaName, options),
+      accountQuotasGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        quotaName,
+        options,
+      ),
     listByAccount: (
       resourceGroupName: string,
       accountName: string,
       options?: AccountQuotasListByAccountOptionalParams,
     ) =>
-      accountQuotasListByAccount(context, subscriptionId, resourceGroupName, accountName, options),
+      accountQuotasListByAccount(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
   };
 }
 

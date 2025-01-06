@@ -73,10 +73,23 @@ export interface AccountsOperations {
   ) => Promise<CheckNameAvailabilityResponse>;
 }
 
-export function getAccounts(context: AzurePlaywrightServiceContext, subscriptionId: string) {
+export function getAccounts(
+  context: AzurePlaywrightServiceContext,
+  subscriptionId: string,
+) {
   return {
-    get: (resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams) =>
-      accountsGet(context, subscriptionId, resourceGroupName, accountName, options),
+    get: (
+      resourceGroupName: string,
+      accountName: string,
+      options?: AccountsGetOptionalParams,
+    ) =>
+      accountsGet(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     createOrUpdate: (
       resourceGroupName: string,
       accountName: string,
@@ -97,16 +110,36 @@ export function getAccounts(context: AzurePlaywrightServiceContext, subscription
       properties: AccountUpdate,
       options?: AccountsUpdateOptionalParams,
     ) =>
-      accountsUpdate(context, subscriptionId, resourceGroupName, accountName, properties, options),
+      accountsUpdate(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        properties,
+        options,
+      ),
     delete: (
       resourceGroupName: string,
       accountName: string,
       options?: AccountsDeleteOptionalParams,
-    ) => accountsDelete(context, subscriptionId, resourceGroupName, accountName, options),
+    ) =>
+      accountsDelete(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        accountName,
+        options,
+      ),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AccountsListByResourceGroupOptionalParams,
-    ) => accountsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    ) =>
+      accountsListByResourceGroup(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     listBySubscription: (options?: AccountsListBySubscriptionOptionalParams) =>
       accountsListBySubscription(context, subscriptionId, options),
     checkNameAvailability: (
