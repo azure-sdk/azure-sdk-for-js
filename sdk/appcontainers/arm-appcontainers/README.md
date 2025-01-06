@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ContainerApps API client.
 
-Functions is an extension resource to revisions and the api listed is used to proxy the call from Web RP to the function app's host process, this api is not exposed to users and only Web RP is allowed to invoke functions extension resource.
+
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appcontainers) |
@@ -44,7 +44,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure ContainerApps API** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
