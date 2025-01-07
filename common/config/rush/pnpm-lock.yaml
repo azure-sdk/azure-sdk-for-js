@@ -3227,7 +3227,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
-    resolution: {integrity: sha512-f6PdQKWN3m1ulYHdoD2WwrIJ5ObWoqXmrRV1lOr1eZ9xhPaQ8DVw/lyzEWkncGF3s+KGq03WEU/qZt2KtA8IXA==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-oIKVAn3uUy/82vAFEYdbg3xKK1cKklycjc/RxiBW7MdaLrladgWS+O+k/ilklpHAZX88QFDiqoosFKr3Ekjl9A==, tarball: file:projects/arm-playwrighttesting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid@file:projects/arm-policy-profile-2020-09-01-hybrid.tgz':
@@ -14383,13 +14383,13 @@ snapshots:
     dependencies:
       '@microsoft/api-extractor': 7.48.1(@types/node@18.19.70)
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
