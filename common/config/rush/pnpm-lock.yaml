@@ -1357,6 +1357,10 @@ packages:
     resolution: {integrity: sha512-DxOSLua+NdpWoSqULhjDyAZTXFdP/LKkqtYuxxz1SCN289zk3OG8UOpnCQAz/tygyACBtWp/BoO72ptK7msY8g==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/eventgrid@5.9.0':
+    resolution: {integrity: sha512-07nfNRx1XC+RrZ4ER6dN/WAoW3tZWSdvr6uyxBeqs7JgTJQ1D3goX7GPNlr3koICVoa+z0zy+wuZ+8g8blcAwQ==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/functions@3.5.1':
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
 
@@ -2543,7 +2547,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-6nXAnRtNwDQx/CTCcCLlLdV1kd1dbR7mp7INH5/2flQMgw/K1twdg+tCIBbQEGXU2Yow/VOX8TDXXbLTF8ng0Q==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-+aqYYsawPOJwf/cI3GwiiiBghlR+OOD8mh+cjZ2Aw2jraRkHc/OwvqDeORV1I584IPqYQ4aw4IF7oRRX6q8u/A==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -3707,7 +3711,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
-    resolution: {integrity: sha512-QWlu5P4cTrl0+sEDG59ql8auC/dlM0YQOLjS0OEPBgcaGmv+46XbJ/n+guQWn0d/QJDk2u6A/p+H2JZNWGsj8g==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-K+Nir6AChixgVGChaF3wqrVMfv3MlQAmVCnkUthC8wdhAUn8ss/O/t/BnRupSrNtGerTW1HRHhWaMTr22t737A==, tarball: file:projects/eventgrid-namespaces.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
@@ -3715,7 +3719,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
-    resolution: {integrity: sha512-KHH8YB9Oo31Dys7ErK/ahizdOFsZbZKM1kAcHoEkyf0201fYeG97DgZNhWPsJS7dCdBIRti3JDg1zsElrq2Aew==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-T2vYAQMCXxYCO8a7wsx/dZHfe+U6E92n8zkqvXEXBHVINsTIJezHlwPXr0LphH8qH+ARbVWRlQ9JVKvaw/nuVQ==, tarball: file:projects/eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
@@ -3903,7 +3907,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
-    resolution: {integrity: sha512-3kyBKr1UtEMeDFc+CdafS64c1Kl82jVvEzat6GsGAAqhelciSvnVOy+6Wr0irQMfhwesERzZrgQIErZiUlUbkg==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-kIpsyRVopgyiRffc4vn/yUukPSwy/2yQgfoL/2jD/Rt9w46bVaPXpj8eqMTArbayJkwdGPJ3Nt2oiH/GDLGpew==, tarball: file:projects/perf-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-identity@file:projects/perf-identity.tgz':
@@ -8477,6 +8481,18 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       tslib: 2.8.1
 
+  '@azure/eventgrid@5.9.0':
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.18.1
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/functions@3.5.1':
     dependencies:
       iconv-lite: 0.6.3
@@ -10388,6 +10404,7 @@ snapshots:
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/eventgrid': 5.9.0
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -17430,6 +17447,7 @@ snapshots:
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@azure/eventgrid': 5.9.0
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -17494,14 +17512,15 @@ snapshots:
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
+      '@microsoft/api-extractor': 7.48.1(@types/node@18.19.70)
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.17.0
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -18905,6 +18924,7 @@ snapshots:
 
   '@rush-temp/perf-eventgrid@file:projects/perf-eventgrid.tgz':
     dependencies:
+      '@azure/eventgrid': 5.9.0
       '@types/node': 18.19.70
       dotenv: 16.4.7
       eslint: 9.17.0
