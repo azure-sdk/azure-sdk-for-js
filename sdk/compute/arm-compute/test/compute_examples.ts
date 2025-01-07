@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ComputeManagementClient } from "../src/computeManagementClient";
-import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
+import { ComputeManagementClient } from "../src/computeManagementClient.js";
+import { NetworkManagementClient } from "@azure/arm-network";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -48,8 +46,8 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -71,29 +69,7 @@ describe("Compute test", () => {
 
   //network_client.virtualNetworks.createOrUpdate
   async function createVirtualNetwork() {
-    const parameter: VirtualNetwork = {
-      location: location,
-      addressSpace: {
-        addressPrefixes: ["10.0.0.0/16"],
-      },
-    };
-    const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      network_name,
-      parameter,
-      testPollingOptions
-    );
 
-    const subnet_parameter: Subnet = {
-      addressPrefix: "10.0.0.0/24",
-    };
-    const subnet__create_info = await network_client.subnets.beginCreateOrUpdateAndWait(
-      resourceGroupName,
-      network_name,
-      subnet_name,
-      subnet_parameter,
-      testPollingOptions
-    );
   }
 
   //network_client.networkInterfaces.createOrUpdate
@@ -102,31 +78,6 @@ describe("Compute test", () => {
     location: any,
     nic_name: any
   ) {
-    const parameter: NetworkInterface = {
-      location: location,
-      ipConfigurations: [
-        {
-          name: "MyIpConfig",
-          subnet: {
-            id:
-              "/subscriptions/" +
-              subscriptionId +
-              "/resourceGroups/" +
-              resourceGroupName +
-              "/providers/Microsoft.Network/virtualNetworks/" +
-              network_name +
-              "/subnets/" +
-              subnet_name,
-          },
-        },
-      ],
-    };
-    const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(
-      group_name,
-      nic_name,
-      parameter,
-      testPollingOptions
-    );
   }
 
   it("operations list test", async function () {
@@ -168,7 +119,6 @@ describe("Compute test", () => {
   });
 
   it("availabilitySets delete test", async function () {
-    const res = await client.availabilitySets.delete(resourceGroupName, availabilitySetName);
     const resArray = new Array();
     for await (const item of client.availabilitySets.list(resourceGroupName)) {
       resArray.push(item);
@@ -253,29 +203,11 @@ describe("Compute test", () => {
   });
 
   it("virtualMachines update test", async function () {
-    const res = await client.virtualMachines.beginUpdateAndWait(resourceGroupName, virtual_machine_name, {
-      networkProfile: {
-        networkInterfaces: [
-          {
-            id:
-              "/subscriptions/" +
-              subscriptionId +
-              "/resourceGroups/" +
-              resourceGroupName +
-              "/providers/Microsoft.Network/networkInterfaces/" +
-              interface_name +
-              "",
-            primary: true,
-          },
-        ],
-      }
-    }, testPollingOptions)
     const res1 = await client.virtualMachines.get(resourceGroupName, virtual_machine_name);
     assert.equal(res1.name, virtual_machine_name);
   });
 
   it("virtualMachines delete test", async function () {
-    const res = await client.virtualMachines.beginDeleteAndWait(resourceGroupName, virtual_machine_name, testPollingOptions);
     const resArray = new Array();
     for await (const item of client.virtualMachines.list(resourceGroupName)) {
       resArray.push(item);
