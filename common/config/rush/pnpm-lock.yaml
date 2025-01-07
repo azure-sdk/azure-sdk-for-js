@@ -2587,7 +2587,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz':
-    resolution: {integrity: sha512-cXKnHnM33ikSq4OLRXT50p+IkJTOz84gDAwLe0I6lB+4F3vEjk0D5yPI1ldxLeWIEhQM3yO3Xo28daFZpN6ivQ==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-YxrlVBZF1q1/s7HIBeaB2cjP0GqE8jWQg8Gp35JRipIGNFeuMbdqxZld9N13jp7F+HIQQB29AjV+Sr4M72gpiQ==, tarball: file:projects/arm-appservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid@file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz':
@@ -10718,16 +10718,15 @@ snapshots:
 
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24582,7 +24581,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.7.2
       walk-up-path: 3.0.1
 
   tshy@2.0.1:
