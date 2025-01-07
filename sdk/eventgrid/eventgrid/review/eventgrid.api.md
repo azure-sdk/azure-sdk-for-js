@@ -4,3067 +4,430 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureSASCredential } from '@azure/core-auth';
-import type { CommonClientOptions } from '@azure/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure/core-client';
-import type { SASCredential } from '@azure/core-auth';
-import type { TokenCredential } from '@azure/core-auth';
-
-// @public
-export interface AcsChatEventBase {
-    recipientCommunicationIdentifier: CommunicationIdentifierModel;
-    threadId: string;
-    transactionId: string;
-}
-
-// @public
-export interface AcsChatEventInThreadBase {
-    threadId: string;
-    transactionId: string;
-}
-
-// @public
-export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
-    deleteTime: string;
-};
-
-// @public
-export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
-    deleteTime: string;
-};
-
-// @public
-export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
-    messageBody: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-    editTime: string;
-};
-
-// @public
-export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
-    messageBody: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-    editTime: string;
-};
-
-// @public
-export type AcsChatMessageEventBase = AcsChatEventBase & {
-    messageId: string;
-    senderCommunicationIdentifier: CommunicationIdentifierModel;
-    senderDisplayName: string;
-    composeTime: string;
-    type: string;
-    version: number;
-};
-
-// @public
-export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
-    messageId: string;
-    senderCommunicationIdentifier: CommunicationIdentifierModel;
-    senderDisplayName: string;
-    composeTime: string;
-    type: string;
-    version: number;
-};
-
-// @public
-export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
-    messageBody: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
-    messageBody: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBase & {
-    time: string;
-    addedByCommunicationIdentifier: CommunicationIdentifierModel;
-    participantAdded: AcsChatThreadParticipant;
-    version: number;
-};
-
-// @public
-export type AcsChatParticipantAddedToThreadWithUserEventData = AcsChatThreadEventBase & {
-    time: string;
-    addedByCommunicationIdentifier: CommunicationIdentifierModel;
-    participantAdded: AcsChatThreadParticipant;
-};
-
-// @public
-export type AcsChatParticipantRemovedFromThreadEventData = AcsChatEventInThreadBase & {
-    time: string;
-    removedByCommunicationIdentifier: CommunicationIdentifierModel;
-    participantRemoved: AcsChatThreadParticipant;
-    version: number;
-};
-
-// @public
-export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThreadEventBase & {
-    time: string;
-    removedByCommunicationIdentifier: CommunicationIdentifierModel;
-    participantRemoved: AcsChatThreadParticipant;
-};
-
-// @public
-export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
-    createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    properties: {
-        [propertyName: string]: any;
-    };
-    metadata: {
-        [propertyName: string]: string;
-    };
-    participants: AcsChatThreadParticipant[];
-};
-
-// @public
-export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
-    createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    properties: {
-        [propertyName: string]: any;
-    };
-    metadata: {
-        [propertyName: string]: string;
-    };
-    participants: AcsChatThreadParticipant[];
-};
-
-// @public
-export type AcsChatThreadDeletedEventData = AcsChatThreadEventInThreadBase & {
-    deletedByCommunicationIdentifier: CommunicationIdentifierModel;
-    deleteTime: string;
-};
-
-// @public
-export type AcsChatThreadEventBase = AcsChatEventBase & {
-    createTime: string;
-    version: number;
-};
-
-// @public
-export type AcsChatThreadEventInThreadBase = AcsChatEventInThreadBase & {
-    createTime: string;
-    version: number;
-};
-
-// @public
-export interface AcsChatThreadParticipant {
-    displayName: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-    participantCommunicationIdentifier: CommunicationIdentifierModel;
-}
-
-// @public
-export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThreadBase & {
-    editedByCommunicationIdentifier: CommunicationIdentifierModel;
-    editTime: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    metadata: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
-    editedByCommunicationIdentifier: CommunicationIdentifierModel;
-    editTime: string;
-    metadata: {
-        [propertyName: string]: string;
-    };
-    properties: {
-        [propertyName: string]: any;
-    };
-};
-
-// @public
-export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
-    deletedByCommunicationIdentifier: CommunicationIdentifierModel;
-    deleteTime: string;
-};
-
-// @public
-export interface AcsEmailDeliveryReportReceivedEventData {
-    deliveryAttemptTimestamp: string;
-    deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
-    messageId: string;
-    recipient: string;
-    sender: string;
-    status: AcsEmailDeliveryReportStatus;
-}
-
-// @public
-export type AcsEmailDeliveryReportStatus = string;
-
-// @public
-export interface AcsEmailDeliveryReportStatusDetails {
-    statusMessage: string;
-}
-
-// @public
-export interface AcsEmailEngagementTrackingReportReceivedEventData {
-    engagement: AcsUserEngagement;
-    engagementContext: string;
-    messageId: string;
-    recipient: string;
-    sender: string;
-    userActionTimestamp: string;
-    userAgent: string;
-}
-
-// @public
-export interface AcsIncomingCallCustomContext {
-    sipHeaders: {
-        [propertyName: string]: string;
-    };
-    voipHeaders: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface AcsIncomingCallEventData {
-    callerDisplayName: string;
-    correlationId: string;
-    customContext: AcsIncomingCallCustomContext;
-    fromCommunicationIdentifier: CommunicationIdentifierModel;
-    incomingCallContext: string;
-    onBehalfOfCallee: CommunicationIdentifierModel;
-    serverCallId: string;
-    toCommunicationIdentifier: CommunicationIdentifierModel;
-}
-
-// @public
-export type AcsInteractiveReplyKind = string;
-
-// @public
-export interface AcsMessageButtonContent {
-    payload: string;
-    text: string;
-}
-
-// @public
-export interface AcsMessageChannelEventError {
-    channelCode: string;
-    channelMessage: string;
-}
-
-// @public
-export type AcsMessageChannelKind = string;
-
-// @public
-export interface AcsMessageContext {
-    from: string;
-    messageId: string;
-}
-
-// @public
-export type AcsMessageDeliveryStatus = string;
-
-// @public
-export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
-    messageId: string;
-    status: AcsMessageDeliveryStatus;
-    channelKind: AcsMessageChannelKind;
-};
-
-// @public
-export interface AcsMessageEventData {
-    error: AcsMessageChannelEventError;
-    from: string;
-    receivedTimestamp: string;
-    to: string;
-}
-
-// @public
-export interface AcsMessageInteractiveButtonReplyContent {
-    buttonId: string;
-    title: string;
-}
-
-// @public
-export interface AcsMessageInteractiveContent {
-    buttonReply: AcsMessageInteractiveButtonReplyContent;
-    listReply: AcsMessageInteractiveListReplyContent;
-    replyKind: AcsInteractiveReplyKind;
-}
-
-// @public
-export interface AcsMessageInteractiveListReplyContent {
-    description: string;
-    listItemId: string;
-    title: string;
-}
-
-// @public
-export interface AcsMessageMediaContent {
-    caption: string;
-    fileName: string;
-    mediaId: string;
-    mimeType: string;
-}
-
-// @public
-export type AcsMessageReceivedEventData = AcsMessageEventData & {
-    content: string;
-    channelKind: AcsMessageChannelKind;
-    mediaContent: AcsMessageMediaContent;
-    context: AcsMessageContext;
-    button: AcsMessageButtonContent;
-    interactiveContent: AcsMessageInteractiveContent;
-};
-
-// @public
-export interface AcsRecordingChunkInfo {
-    contentLocation: string;
-    deleteLocation: string;
-    documentId: string;
-    endReason: string;
-    index: number;
-    metadataLocation: string;
-}
-
-// @public
-export interface AcsRecordingFileStatusUpdatedEventData {
-    recordingChannelType: RecordingChannelType;
-    recordingContentType: RecordingContentType;
-    recordingDurationMs: number;
-    recordingFormatType: RecordingFormatType;
-    recordingStartTime: string;
-    recordingStorageInfo: AcsRecordingStorageInfo;
-    sessionEndReason: string;
-}
-
-// @public
-export interface AcsRecordingStorageInfo {
-    recordingChunks: AcsRecordingChunkInfo[];
-}
-
-// @public
-export interface AcsRouterChannelConfiguration {
-    capacityCostPerJob: number;
-    channelId: string;
-    maxNumberOfJobs: number;
-}
-
-// @public
-export interface AcsRouterCommunicationError {
-    code: string;
-    details: AcsRouterCommunicationError[];
-    innererror: AcsRouterCommunicationError;
-    message: string;
-    target: string;
-}
-
-// @public
-export interface AcsRouterEventData {
-    channelId: string;
-    channelReference: string;
-    jobId: string;
-}
-
-// @public
-export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
-    note: string;
-    dispositionCode: string;
-};
-
-// @public
-export type AcsRouterJobClassificationFailedEventData = AcsRouterJobEventData & {
-    classificationPolicyId: string;
-    errors: AcsRouterCommunicationError[];
-};
-
-// @public
-export type AcsRouterJobClassifiedEventData = AcsRouterJobEventData & {
-    queueDetails: AcsRouterQueueDetails;
-    classificationPolicyId: string;
-    priority: number;
-    attachedWorkerSelectors: AcsRouterWorkerSelector[];
-};
-
-// @public
-export type AcsRouterJobClosedEventData = AcsRouterJobEventData & {
-    assignmentId: string;
-    workerId: string;
-    dispositionCode: string;
-};
-
-// @public
-export type AcsRouterJobCompletedEventData = AcsRouterJobEventData & {
-    assignmentId: string;
-    workerId: string;
-};
-
-// @public
-export type AcsRouterJobDeletedEventData = AcsRouterJobEventData & {};
-
-// @public
-export type AcsRouterJobEventData = AcsRouterEventData & {
-    queueId: string;
-    labels: {
-        [propertyName: string]: string;
-    };
-    tags: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsRouterJobExceptionTriggeredEventData = AcsRouterJobEventData & {
-    ruleKey: string;
-    exceptionRuleId: string;
-};
-
-// @public
-export type AcsRouterJobQueuedEventData = AcsRouterJobEventData & {
-    priority: number;
-    attachedWorkerSelectors: AcsRouterWorkerSelector[];
-    requestedWorkerSelectors: AcsRouterWorkerSelector[];
-};
-
-// @public
-export type AcsRouterJobReceivedEventData = AcsRouterJobEventData & {
-    jobStatus?: AcsRouterJobStatus;
-    classificationPolicyId?: string;
-    priority?: number;
-    requestedWorkerSelectors?: AcsRouterWorkerSelector[];
-    scheduledOn?: string;
-    unavailableForMatching: boolean;
-};
-
-// @public
-export type AcsRouterJobSchedulingFailedEventData = AcsRouterJobEventData & {
-    priority: number;
-    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
-    scheduledOn: string;
-    failureReason: string;
-};
-
-// @public
-export type AcsRouterJobStatus = string;
-
-// @public
-export type AcsRouterJobUnassignedEventData = AcsRouterJobEventData & {
-    assignmentId: string;
-    workerId: string;
-};
-
-// @public
-export type AcsRouterJobWaitingForActivationEventData = AcsRouterJobEventData & {
-    priority?: number;
-    expiredAttachedWorkerSelectors?: AcsRouterWorkerSelector[];
-    expiredRequestedWorkerSelectors?: AcsRouterWorkerSelector[];
-    scheduledOn?: string;
-    unavailableForMatching: boolean;
-};
-
-// @public
-export type AcsRouterJobWorkerSelectorsExpiredEventData = AcsRouterJobEventData & {
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
-    expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-};
-
-// @public
-export type AcsRouterLabelOperator = string;
-
-// @public
-export interface AcsRouterQueueDetails {
-    id: string;
-    labels: {
-        [propertyName: string]: string;
-    };
-    name: string;
-}
-
-// @public
-export type AcsRouterUpdatedWorkerProperty = string;
-
-// @public
-export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
-
-// @public
-export interface AcsRouterWorkerDeregisteredEventData {
-    workerId: string;
-}
-
-// @public
-export type AcsRouterWorkerEventData = AcsRouterEventData & {
-    workerId: string;
-};
-
-// @public
-export type AcsRouterWorkerOfferAcceptedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-    assignmentId: string;
-    jobPriority: number;
-    workerLabels: {
-        [propertyName: string]: string;
-    };
-    workerTags: {
-        [propertyName: string]: string;
-    };
-    jobLabels: {
-        [propertyName: string]: string;
-    };
-    jobTags: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsRouterWorkerOfferDeclinedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-};
-
-// @public
-export type AcsRouterWorkerOfferExpiredEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-};
-
-// @public
-export type AcsRouterWorkerOfferIssuedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-    jobPriority: number;
-    workerLabels: {
-        [propertyName: string]: string;
-    };
-    offeredOn: string;
-    expiresOn: string;
-    workerTags: {
-        [propertyName: string]: string;
-    };
-    jobLabels: {
-        [propertyName: string]: string;
-    };
-    jobTags: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsRouterWorkerOfferRevokedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-};
-
-// @public
-export interface AcsRouterWorkerRegisteredEventData {
-    channelConfigurations: AcsRouterChannelConfiguration[];
-    labels: {
-        [propertyName: string]: string;
-    };
-    queueAssignments: AcsRouterQueueDetails[];
-    tags: {
-        [propertyName: string]: string;
-    };
-    totalCapacity: number;
-    workerId: string;
-}
-
-// @public
-export interface AcsRouterWorkerSelector {
-    expirationTime: string;
-    key: string;
-    labelOperator: AcsRouterLabelOperator;
-    labelValue: any;
-    state: AcsRouterWorkerSelectorState;
-    ttlSeconds: number;
-}
-
-// @public
-export type AcsRouterWorkerSelectorState = string;
-
-// @public
-export interface AcsRouterWorkerUpdatedEventData {
-    channelConfigurations: AcsRouterChannelConfiguration[];
-    labels: {
-        [propertyName: string]: string;
-    };
-    queueAssignments: AcsRouterQueueDetails[];
-    tags: {
-        [propertyName: string]: string;
-    };
-    totalCapacity: number;
-    updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
-    workerId: string;
-}
-
-// @public
-export interface AcsSmsDeliveryAttempt {
-    segmentsFailed: number;
-    segmentsSucceeded: number;
-    timestamp: string;
-}
-
-// @public
-export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
-    deliveryStatus: string;
-    deliveryStatusDetails: string;
-    deliveryAttempts: AcsSmsDeliveryAttempt[];
-    receivedTimestamp: string;
-    tag: string;
-};
-
-// @public
-export interface AcsSmsEventBase {
-    from: string;
-    messageId: string;
-    to: string;
-}
-
-// @public
-export type AcsSmsReceivedEventData = AcsSmsEventBase & {
-    message: string;
-    receivedTimestamp: string;
-};
-
-// @public
-export interface AcsUserDisconnectedEventData {
-    userCommunicationIdentifier: CommunicationIdentifierModel;
-}
-
-// @public
-export type AcsUserEngagement = string;
-
-// @public
-export interface ApiCenterApiDefinitionAddedEventData {
-    description: string;
-    specification: ApiCenterApiSpecification;
-    title: string;
-}
-
-// @public
-export interface ApiCenterApiDefinitionUpdatedEventData {
-    description: string;
-    specification: ApiCenterApiSpecification;
-    title: string;
-}
-
-// @public
-export interface ApiCenterApiSpecification {
-    name: string;
-    version: string;
-}
-
-// @public
-export interface ApiManagementApiCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementApiDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementApiReleaseCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementApiReleaseDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementApiReleaseUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementApiUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayApiAddedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayApiRemovedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementGatewayUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementProductCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementProductDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementProductUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementSubscriptionCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementSubscriptionDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementSubscriptionUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementUserCreatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementUserDeletedEventData {
-    resourceUri: string;
-}
-
-// @public
-export interface ApiManagementUserUpdatedEventData {
-    resourceUri: string;
-}
-
-// @public
-export type AppAction = string;
-
-// @public
-export interface AppConfigurationKeyValueDeletedEventData {
-    etag: string;
-    key: string;
-    label: string;
-    syncToken: string;
-}
-
-// @public
-export interface AppConfigurationKeyValueModifiedEventData {
-    etag: string;
-    key: string;
-    label: string;
-    syncToken: string;
-}
-
-// @public
-export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotEventData & {};
-
-// @public
-export interface AppConfigurationSnapshotEventData {
-    etag: string;
-    name: string;
-    syncToken: string;
-}
-
-// @public
-export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
-
-// @public
-export interface AppEventTypeDetail {
-    action: AppAction;
-}
-
-// @public
-export type AppServicePlanAction = string;
-
-// @public
-export interface AppServicePlanEventTypeDetail {
-    action: AppServicePlanAction;
-    stampKind: StampKind;
-    status: AsyncStatus;
-}
-
-// @public
-export type AsyncStatus = string;
-
-// @public
-export type AvsClusterCreatedEventData = AvsClusterEventData & {};
-
-// @public
-export type AvsClusterDeletedEventData = AvsClusterEventData & {};
-
-// @public
-export interface AvsClusterEventData {
-    addedHostNames: string[];
-    inMaintenanceHostNames: string[];
-    operationId: string;
-    removedHostNames: string[];
-}
-
-// @public
-export type AvsClusterFailedEventData = AvsClusterEventData & {
-    failureMessage: string;
-};
-
-// @public
-export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
-
-// @public
-export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
-
-// @public
-export interface AvsPrivateCloudEventData {
-    operationId: string;
-}
-
-// @public
-export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
-    failureMessage: string;
-};
-
-// @public
-export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
-
-// @public
-export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
-
-// @public
-export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
-
-// @public
-export interface AvsScriptExecutionEventData {
-    cmdletId: string;
-    operationId: string;
-    output: string[];
-}
-
-// @public
-export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
-    failureMessage: string;
-};
-
-// @public
-export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
-    namedOutputs: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
-
-export { AzureKeyCredential }
-
-export { AzureSASCredential }
-
-// @public
-export interface CloudEvent<T> {
-    data?: T;
-    datacontenttype?: string;
-    dataschema?: string;
-    extensionAttributes?: Record<string, unknown>;
-    id: string;
-    source: string;
-    subject?: string;
-    time?: Date;
-    type: string;
-}
-
-// @public
-export interface CloudEventSendOptions extends SendOptions {
-    channelName?: string;
-}
-
-// @public
-export type CommunicationCloudEnvironmentModel = string;
-
-// @public
-export interface CommunicationIdentifierModel {
-    communicationUser?: CommunicationUserIdentifierModel;
-    kind?: CommunicationIdentifierModelKind;
-    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
-    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
-    phoneNumber?: PhoneNumberIdentifierModel;
-    rawId: string;
-}
-
-// @public
-export type CommunicationIdentifierModelKind = string;
-
-// @public
-export interface CommunicationUserIdentifierModel {
-    id: string;
-}
-
-// @public
-export interface ContainerRegistryArtifactEventData {
-    action: string;
-    connectedRegistry: ContainerRegistryEventConnectedRegistry;
-    id: string;
-    location: string;
-    target: ContainerRegistryArtifactEventTarget;
-    timestamp: string;
-}
-
-// @public
-export interface ContainerRegistryArtifactEventTarget {
-    digest: string;
-    mediaType: string;
-    name: string;
-    repository: string;
-    size: number;
-    tag: string;
-    version: string;
-}
-
-// @public
-export type ContainerRegistryChartDeletedEventData = ContainerRegistryArtifactEventData & {};
-
-// @public
-export type ContainerRegistryChartPushedEventData = ContainerRegistryArtifactEventData & {};
-
-// @public
-export interface ContainerRegistryEventActor {
-    name: string;
-}
-
-// @public
-export interface ContainerRegistryEventConnectedRegistry {
-    name: string;
-}
-
-// @public
-export interface ContainerRegistryEventData {
-    action: string;
-    actor: ContainerRegistryEventActor;
-    connectedRegistry: ContainerRegistryEventConnectedRegistry;
-    id: string;
-    location: string;
-    request: ContainerRegistryEventRequest;
-    source: ContainerRegistryEventSource;
-    target: ContainerRegistryEventTarget;
-    timestamp: string;
-}
-
-// @public
-export interface ContainerRegistryEventRequest {
-    addr: string;
-    host: string;
-    id: string;
-    method: string;
-    useragent: string;
-}
-
-// @public
-export interface ContainerRegistryEventSource {
-    addr: string;
-    instanceID: string;
-}
-
-// @public
-export interface ContainerRegistryEventTarget {
-    digest: string;
-    length: number;
-    mediaType: string;
-    repository: string;
-    size: number;
-    tag: string;
-    url: string;
-}
-
-// @public
-export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData & {};
-
-// @public
-export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
-
-// @public
-export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
-
-// @public
-export type ContainerServiceClusterSupportEndingEventData = ContainerServiceClusterSupportEventData & {};
-
-// @public
-export interface ContainerServiceClusterSupportEventData {
-    kubernetesVersion: string;
-}
-
-// @public
-export interface ContainerServiceNewKubernetesVersionAvailableEventData {
-    latestPreviewKubernetesVersion: string;
-    latestStableKubernetesVersion: string;
-    latestSupportedKubernetesVersion: string;
-    lowestMinorKubernetesVersion: string;
-}
-
-// @public
-export interface ContainerServiceNodePoolRollingEventData {
-    nodePoolName: string;
-}
-
-// @public
-export type ContainerServiceNodePoolRollingFailedEventData = ContainerServiceNodePoolRollingEventData & {};
-
-// @public
-export type ContainerServiceNodePoolRollingStartedEventData = ContainerServiceNodePoolRollingEventData & {};
-
-// @public
-export type ContainerServiceNodePoolRollingSucceededEventData = ContainerServiceNodePoolRollingEventData & {};
-
-// @public
-export interface DataBoxCopyCompletedEventData {
-    serialNumber: string;
-    stageName: DataBoxStageName;
-    stageTime: string;
-}
-
-// @public
-export interface DataBoxCopyStartedEventData {
-    serialNumber: string;
-    stageName: DataBoxStageName;
-    stageTime: string;
-}
-
-// @public
-export interface DataBoxOrderCompletedEventData {
-    serialNumber: string;
-    stageName: DataBoxStageName;
-    stageTime: string;
-}
-
-// @public
-export type DataBoxStageName = string;
-
-// @public
-export interface DeviceConnectionStateEvent {
-    deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
-    deviceId: string;
-    hubName: string;
-    moduleId: string;
-}
-
-// @public
-export interface DeviceConnectionStateEventInfo {
-    sequenceNumber: string;
-}
-
-// @public
-export interface DeviceLifeCycleEvent {
-    deviceId: string;
-    hubName: string;
-    twin: DeviceTwinInfo;
-}
-
-// @public
-export interface DeviceTelemetryEvent {
-    body: any;
-    properties: {
-        [propertyName: string]: string;
-    };
-    systemProperties: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface DeviceTwin {
-    metadata: DeviceTwinMetadata;
-    version: number;
-}
-
-// @public
-export interface DeviceTwinInfo {
-    authenticationType: string;
-    cloudToDeviceMessageCount: number;
-    connectionState: string;
-    deviceId: string;
-    etag: string;
-    lastActivityTime: string;
-    properties: DeviceTwinInfoProperties;
-    status: string;
-    statusUpdateTime: string;
-    version: number;
-    x509Thumbprint: DeviceTwinInfoX509Thumbprint;
-}
-
-// @public
-export interface DeviceTwinInfoProperties {
-    desired?: DeviceTwin;
-    reported?: DeviceTwin;
-}
-
-// @public
-export interface DeviceTwinInfoX509Thumbprint {
-    primaryThumbprint?: string;
-    secondaryThumbprint?: string;
-}
-
-// @public
-export interface DeviceTwinMetadata {
-    lastUpdated: string;
-}
-
-// @public
-export class EventGridDeserializer {
-    deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
-    deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
-    deserializeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
-    deserializeEventGridEvents(encodedEvents: Record<string, unknown>): Promise<EventGridEvent<unknown>[]>;
-}
-
-// @public
-export interface EventGridEvent<T> {
-    data: T;
-    dataVersion: string;
-    eventTime: Date;
-    eventType: string;
-    id: string;
-    subject: string;
-    topic?: string;
-}
-
-// @public
-export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
-    state: EventGridMqttClientState;
-    createdOn: string;
-    updatedOn: string;
-    attributes: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type EventGridMqttClientDeletedEventData = EventGridMqttClientEventData & {};
-
-// @public
-export type EventGridMqttClientDisconnectionReason = string;
-
-// @public
-export interface EventGridMqttClientEventData {
-    clientAuthenticationName: string;
-    clientName: string;
-    namespaceName: string;
-}
-
-// @public
-export type EventGridMqttClientSessionConnectedEventData = EventGridMqttClientEventData & {
-    clientSessionName: string;
-    sequenceNumber: number;
-};
-
-// @public
-export type EventGridMqttClientSessionDisconnectedEventData = EventGridMqttClientEventData & {
-    clientSessionName: string;
-    sequenceNumber: number;
-    disconnectionReason: EventGridMqttClientDisconnectionReason;
-};
-
-// @public
-export type EventGridMqttClientState = string;
-
-// @public
-export class EventGridPublisherClient<T extends InputSchema> {
-    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
-    readonly apiVersion: string;
-    readonly endpointUrl: string;
-    send(events: InputSchemaToInputTypeMap[T][], options?: InputSchemaToOptionsTypeMap[T]): Promise<void>;
-}
-
-// @public
-export type EventGridPublisherClientOptions = CommonClientOptions;
-
-// @public
-export interface EventHubCaptureFileCreatedEventData {
-    eventCount: number;
-    fileType: string;
-    fileUrl: string;
-    firstEnqueueTime: string;
-    firstSequenceNumber: number;
-    lastEnqueueTime: string;
-    lastSequenceNumber: number;
-    partitionId: string;
-    sizeInBytes: number;
-}
-
-// @public
-export function generateSharedAccessSignature(endpointUrl: string, credential: KeyCredential, expiresOnUtc: Date, options?: GenerateSharedAccessSignatureOptions): Promise<string>;
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface GenerateSharedAccessSignatureOptions {
+export interface AcknowledgeCloudEvents {
+    post(options: AcknowledgeCloudEventsParameters): StreamableMethod<AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse>;
+}
+
+// @public
+export interface AcknowledgeCloudEvents200Response extends HttpResponse {
+    // (undocumented)
+    body: AcknowledgeResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AcknowledgeCloudEventsBodyParam {
+    // (undocumented)
+    body: {
+        lockTokens: string[];
+    };
+}
+
+// @public (undocumented)
+export interface AcknowledgeCloudEventsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface AcknowledgeCloudEventsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & AcknowledgeCloudEventsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type AcknowledgeCloudEventsParameters = AcknowledgeCloudEventsBodyParam & RequestParameters;
+
+// @public
+export interface AcknowledgeResultOutput {
+    failedLockTokens: Array<FailedLockTokenOutput>;
+    succeededLockTokens: string[];
+}
+
+// @public
+export interface BrokerPropertiesOutput {
+    deliveryCount: number;
+    lockToken: string;
+}
+
+// @public
+export interface CloudEvent {
+    data?: unknown;
+    data_base64?: string;
+    datacontenttype?: string;
+    dataschema?: string;
+    id: string;
+    source: string;
+    specversion: string;
+    subject?: string;
+    time?: Date | string;
+    type: string;
+}
+
+// @public
+export interface CloudEventOutput {
+    data?: any;
+    data_base64?: string;
+    datacontenttype?: string;
+    dataschema?: string;
+    id: string;
+    source: string;
+    specversion: string;
+    subject?: string;
+    time?: string;
+    type: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: EventGridClientOptions): EventGridClient;
+export default createClient;
+
+// @public (undocumented)
+export type EventGridClient = Client & {
+    path: Routes;
+};
+
+// @public
+export interface EventGridClientOptions extends ClientOptions {
     apiVersion?: string;
 }
 
 // @public
-export interface HealthcareDicomImageCreatedEventData {
-    imageSeriesInstanceUid: string;
-    imageSopInstanceUid: string;
-    imageStudyInstanceUid: string;
-    partitionName: string;
-    sequenceNumber: number;
-    serviceHostName: string;
-}
-
-// @public
-export interface HealthcareDicomImageDeletedEventData {
-    imageSeriesInstanceUid: string;
-    imageSopInstanceUid: string;
-    imageStudyInstanceUid: string;
-    partitionName: string;
-    sequenceNumber: number;
-    serviceHostName: string;
-}
-
-// @public
-export interface HealthcareDicomImageUpdatedEventData {
-    imageSeriesInstanceUid: string;
-    imageSopInstanceUid: string;
-    imageStudyInstanceUid: string;
-    partitionName: string;
-    sequenceNumber: number;
-    serviceHostName: string;
-}
-
-// @public
-export interface HealthcareFhirResourceCreatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
-}
-
-// @public
-export interface HealthcareFhirResourceDeletedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
-}
-
-// @public
-export type HealthcareFhirResourceType = string;
-
-// @public
-export interface HealthcareFhirResourceUpdatedEventData {
-    resourceFhirAccount: string;
-    resourceFhirId: string;
-    resourceType: HealthcareFhirResourceType;
-    resourceVersionId: number;
-}
-
-// @public
-export type InputSchema = keyof InputSchemaToInputTypeMap;
-
-// @public
-export interface InputSchemaToInputTypeMap {
-    CloudEvent: SendCloudEventInput<unknown>;
-    Custom: Record<string, unknown>;
-    EventGrid: SendEventGridEventInput<unknown>;
-}
-
-// @public
-export interface InputSchemaToOptionsTypeMap {
-    CloudEvent: CloudEventSendOptions;
-    Custom: SendOptions;
-    EventGrid: SendOptions;
-}
-
-// @public
-export type IotHubDeviceConnectedEventData = DeviceConnectionStateEvent & {};
-
-// @public
-export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
-
-// @public
-export type IotHubDeviceDeletedEventData = DeviceLifeCycleEvent & {};
-
-// @public
-export type IotHubDeviceDisconnectedEventData = DeviceConnectionStateEvent & {};
-
-// @public
-export type IotHubDeviceTelemetryEventData = DeviceTelemetryEvent & {};
-
-// @public
-export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
-
-// @public
-export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
-
-// @public
-export interface KeyVaultAccessPolicyChangedEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultCertificateExpiredEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultCertificateNearExpiryEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultCertificateNewVersionCreatedEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultKeyExpiredEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultKeyNearExpiryEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultKeyNewVersionCreatedEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultSecretExpiredEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultSecretNearExpiryEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export interface KeyVaultSecretNewVersionCreatedEventData {
-    exp: number;
-    id: string;
-    nbf: number;
-    objectName: string;
-    objectType: string;
-    vaultName: string;
-    version: string;
-}
-
-// @public
-export const enum KnownAcsEmailDeliveryReportStatus {
-    Bounced = "Bounced",
-    Delivered = "Delivered",
-    Failed = "Failed",
-    FilteredSpam = "FilteredSpam",
-    Quarantined = "Quarantined",
-    Suppressed = "Suppressed"
-}
-
-// @public
-export const enum KnownAcsInteractiveReplyKind {
-    ButtonReply = "buttonReply",
-    ListReply = "listReply",
-    Unknown = "unknown"
-}
-
-// @public
-export const enum KnownAcsMessageChannelKind {
-    Whatsapp = "whatsapp"
-}
-
-// @public
-export const enum KnownAcsMessageDeliveryStatus {
-    // (undocumented)
-    Delivered = "delivered",
-    // (undocumented)
-    Failed = "failed",
-    // (undocumented)
-    Read = "read",
-    // (undocumented)
-    Sent = "sent",
-    // (undocumented)
-    Unknown = "unknown",
-    // (undocumented)
-    Warning = "warning"
-}
-
-// @public
-export const enum KnownAcsRouterJobStatus {
-    // (undocumented)
-    Assigned = "Assigned",
-    // (undocumented)
-    Cancelled = "Cancelled",
-    // (undocumented)
-    ClassificationFailed = "ClassificationFailed",
-    // (undocumented)
-    Closed = "Closed",
-    // (undocumented)
-    Completed = "Completed",
-    // (undocumented)
-    Created = "Created",
-    // (undocumented)
-    PendingClassification = "PendingClassification",
-    // (undocumented)
-    PendingSchedule = "PendingSchedule",
-    // (undocumented)
-    Queued = "Queued",
-    // (undocumented)
-    Scheduled = "Scheduled",
-    // (undocumented)
-    ScheduleFailed = "ScheduleFailed",
-    // (undocumented)
-    WaitingForActivation = "WaitingForActivation"
-}
-
-// @public
-export const enum KnownAcsRouterLabelOperator {
-    // (undocumented)
-    Equal = "Equal",
-    // (undocumented)
-    Greater = "Greater",
-    // (undocumented)
-    GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
-    Less = "Less",
-    // (undocumented)
-    LessThanOrEqual = "LessThanOrEqual",
-    NotEqual = "NotEqual"
-}
-
-// @public
-export const enum KnownAcsRouterUpdatedWorkerProperty {
-    // (undocumented)
-    AvailableForOffers = "AvailableForOffers",
-    // (undocumented)
-    ChannelConfigurations = "ChannelConfigurations",
-    // (undocumented)
-    Labels = "Labels",
-    // (undocumented)
-    QueueAssignments = "QueueAssignments",
-    // (undocumented)
-    Tags = "Tags",
-    // (undocumented)
-    TotalCapacity = "TotalCapacity"
-}
-
-// @public
-export const enum KnownAcsRouterWorkerSelectorState {
-    Active = "active",
-    Expired = "expired"
-}
-
-// @public
-export const enum KnownAcsUserEngagement {
-    // (undocumented)
-    Click = "click",
-    // (undocumented)
-    View = "view"
-}
-
-// @public
-export const enum KnownAppAction {
-    ChangedAppSettings = "ChangedAppSettings",
-    Completed = "Completed",
-    Failed = "Failed",
-    Restarted = "Restarted",
-    Started = "Started",
-    Stopped = "Stopped"
-}
-
-// @public
-export const enum KnownAppServicePlanAction {
-    Updated = "Updated"
-}
-
-// @public
-export const enum KnownAsyncStatus {
-    Completed = "Completed",
-    Failed = "Failed",
-    Started = "Started"
-}
-
-// @public
-export const enum KnownCommunicationCloudEnvironmentModel {
-    // (undocumented)
-    Dod = "dod",
-    // (undocumented)
-    Gcch = "gcch",
-    // (undocumented)
-    Public = "public"
-}
-
-// @public
-export const enum KnownCommunicationIdentifierModelKind {
-    // (undocumented)
-    CommunicationUser = "communicationUser",
-    // (undocumented)
-    MicrosoftTeamsApp = "microsoftTeamsApp",
-    // (undocumented)
-    MicrosoftTeamsUser = "microsoftTeamsUser",
-    // (undocumented)
-    PhoneNumber = "phoneNumber",
-    // (undocumented)
-    Unknown = "unknown"
-}
-
-// @public
-export const enum KnownDataBoxStageName {
-    CopyCompleted = "CopyCompleted",
-    CopyStarted = "CopyStarted",
-    OrderCompleted = "OrderCompleted"
-}
-
-// @public
-export const enum KnownEventGridMqttClientDisconnectionReason {
-    ClientAuthenticationError = "ClientAuthenticationError",
-    ClientAuthorizationError = "ClientAuthorizationError",
-    ClientError = "ClientError",
-    ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
-    ConnectionLost = "ConnectionLost",
-    IpForbidden = "IpForbidden",
-    QuotaExceeded = "QuotaExceeded",
-    ServerError = "ServerError",
-    ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
-    SessionOverflow = "SessionOverflow",
-    SessionTakenOver = "SessionTakenOver"
-}
-
-// @public
-export const enum KnownEventGridMqttClientState {
-    // (undocumented)
-    Disabled = "Disabled",
-    // (undocumented)
-    Enabled = "Enabled"
-}
-
-// @public
-export const enum KnownHealthcareFhirResourceType {
-    Account = "Account",
-    ActivityDefinition = "ActivityDefinition",
-    AdverseEvent = "AdverseEvent",
-    AllergyIntolerance = "AllergyIntolerance",
-    Appointment = "Appointment",
-    AppointmentResponse = "AppointmentResponse",
-    AuditEvent = "AuditEvent",
-    Basic = "Basic",
-    Binary = "Binary",
-    BiologicallyDerivedProduct = "BiologicallyDerivedProduct",
-    BodySite = "BodySite",
-    BodyStructure = "BodyStructure",
-    Bundle = "Bundle",
-    CapabilityStatement = "CapabilityStatement",
-    CarePlan = "CarePlan",
-    CareTeam = "CareTeam",
-    CatalogEntry = "CatalogEntry",
-    ChargeItem = "ChargeItem",
-    ChargeItemDefinition = "ChargeItemDefinition",
-    Claim = "Claim",
-    ClaimResponse = "ClaimResponse",
-    ClinicalImpression = "ClinicalImpression",
-    CodeSystem = "CodeSystem",
-    Communication = "Communication",
-    CommunicationRequest = "CommunicationRequest",
-    CompartmentDefinition = "CompartmentDefinition",
-    Composition = "Composition",
-    ConceptMap = "ConceptMap",
-    Condition = "Condition",
-    Consent = "Consent",
-    Contract = "Contract",
-    Coverage = "Coverage",
-    CoverageEligibilityRequest = "CoverageEligibilityRequest",
-    CoverageEligibilityResponse = "CoverageEligibilityResponse",
-    DataElement = "DataElement",
-    DetectedIssue = "DetectedIssue",
-    Device = "Device",
-    DeviceComponent = "DeviceComponent",
-    DeviceDefinition = "DeviceDefinition",
-    DeviceMetric = "DeviceMetric",
-    DeviceRequest = "DeviceRequest",
-    DeviceUseStatement = "DeviceUseStatement",
-    DiagnosticReport = "DiagnosticReport",
-    DocumentManifest = "DocumentManifest",
-    DocumentReference = "DocumentReference",
-    DomainResource = "DomainResource",
-    EffectEvidenceSynthesis = "EffectEvidenceSynthesis",
-    EligibilityRequest = "EligibilityRequest",
-    EligibilityResponse = "EligibilityResponse",
-    Encounter = "Encounter",
-    Endpoint = "Endpoint",
-    EnrollmentRequest = "EnrollmentRequest",
-    EnrollmentResponse = "EnrollmentResponse",
-    EpisodeOfCare = "EpisodeOfCare",
-    EventDefinition = "EventDefinition",
-    Evidence = "Evidence",
-    EvidenceVariable = "EvidenceVariable",
-    ExampleScenario = "ExampleScenario",
-    ExpansionProfile = "ExpansionProfile",
-    ExplanationOfBenefit = "ExplanationOfBenefit",
-    FamilyMemberHistory = "FamilyMemberHistory",
-    Flag = "Flag",
-    Goal = "Goal",
-    GraphDefinition = "GraphDefinition",
-    Group = "Group",
-    GuidanceResponse = "GuidanceResponse",
-    HealthcareService = "HealthcareService",
-    ImagingManifest = "ImagingManifest",
-    ImagingStudy = "ImagingStudy",
-    Immunization = "Immunization",
-    ImmunizationEvaluation = "ImmunizationEvaluation",
-    ImmunizationRecommendation = "ImmunizationRecommendation",
-    ImplementationGuide = "ImplementationGuide",
-    InsurancePlan = "InsurancePlan",
-    Invoice = "Invoice",
-    Library = "Library",
-    Linkage = "Linkage",
-    List = "List",
-    Location = "Location",
-    Measure = "Measure",
-    MeasureReport = "MeasureReport",
-    Media = "Media",
-    Medication = "Medication",
-    MedicationAdministration = "MedicationAdministration",
-    MedicationDispense = "MedicationDispense",
-    MedicationKnowledge = "MedicationKnowledge",
-    MedicationRequest = "MedicationRequest",
-    MedicationStatement = "MedicationStatement",
-    MedicinalProduct = "MedicinalProduct",
-    MedicinalProductAuthorization = "MedicinalProductAuthorization",
-    MedicinalProductContraindication = "MedicinalProductContraindication",
-    MedicinalProductIndication = "MedicinalProductIndication",
-    MedicinalProductIngredient = "MedicinalProductIngredient",
-    MedicinalProductInteraction = "MedicinalProductInteraction",
-    MedicinalProductManufactured = "MedicinalProductManufactured",
-    MedicinalProductPackaged = "MedicinalProductPackaged",
-    MedicinalProductPharmaceutical = "MedicinalProductPharmaceutical",
-    MedicinalProductUndesirableEffect = "MedicinalProductUndesirableEffect",
-    MessageDefinition = "MessageDefinition",
-    MessageHeader = "MessageHeader",
-    MolecularSequence = "MolecularSequence",
-    NamingSystem = "NamingSystem",
-    NutritionOrder = "NutritionOrder",
-    Observation = "Observation",
-    ObservationDefinition = "ObservationDefinition",
-    OperationDefinition = "OperationDefinition",
-    OperationOutcome = "OperationOutcome",
-    Organization = "Organization",
-    OrganizationAffiliation = "OrganizationAffiliation",
-    Parameters = "Parameters",
-    Patient = "Patient",
-    PaymentNotice = "PaymentNotice",
-    PaymentReconciliation = "PaymentReconciliation",
-    Person = "Person",
-    PlanDefinition = "PlanDefinition",
-    Practitioner = "Practitioner",
-    PractitionerRole = "PractitionerRole",
-    Procedure = "Procedure",
-    ProcedureRequest = "ProcedureRequest",
-    ProcessRequest = "ProcessRequest",
-    ProcessResponse = "ProcessResponse",
-    Provenance = "Provenance",
-    Questionnaire = "Questionnaire",
-    QuestionnaireResponse = "QuestionnaireResponse",
-    ReferralRequest = "ReferralRequest",
-    RelatedPerson = "RelatedPerson",
-    RequestGroup = "RequestGroup",
-    ResearchDefinition = "ResearchDefinition",
-    ResearchElementDefinition = "ResearchElementDefinition",
-    ResearchStudy = "ResearchStudy",
-    ResearchSubject = "ResearchSubject",
-    Resource = "Resource",
-    RiskAssessment = "RiskAssessment",
-    RiskEvidenceSynthesis = "RiskEvidenceSynthesis",
-    Schedule = "Schedule",
-    SearchParameter = "SearchParameter",
-    Sequence = "Sequence",
-    ServiceDefinition = "ServiceDefinition",
-    ServiceRequest = "ServiceRequest",
-    Slot = "Slot",
-    Specimen = "Specimen",
-    SpecimenDefinition = "SpecimenDefinition",
-    StructureDefinition = "StructureDefinition",
-    StructureMap = "StructureMap",
-    Subscription = "Subscription",
-    Substance = "Substance",
-    SubstanceNucleicAcid = "SubstanceNucleicAcid",
-    SubstancePolymer = "SubstancePolymer",
-    SubstanceProtein = "SubstanceProtein",
-    SubstanceReferenceInformation = "SubstanceReferenceInformation",
-    SubstanceSourceMaterial = "SubstanceSourceMaterial",
-    SubstanceSpecification = "SubstanceSpecification",
-    SupplyDelivery = "SupplyDelivery",
-    SupplyRequest = "SupplyRequest",
-    Task = "Task",
-    TerminologyCapabilities = "TerminologyCapabilities",
-    TestReport = "TestReport",
-    TestScript = "TestScript",
-    ValueSet = "ValueSet",
-    VerificationResult = "VerificationResult",
-    VisionPrescription = "VisionPrescription"
-}
-
-// @public
-export const enum KnownRecordingChannelType {
-    // (undocumented)
-    Mixed = "Mixed",
-    // (undocumented)
-    Unmixed = "Unmixed"
-}
-
-// @public
-export const enum KnownRecordingContentType {
-    // (undocumented)
-    Audio = "Audio",
-    // (undocumented)
-    AudioVideo = "AudioVideo"
-}
-
-// @public
-export const enum KnownRecordingFormatType {
-    // (undocumented)
-    Mp3 = "Mp3",
-    // (undocumented)
-    Mp4 = "Mp4",
-    // (undocumented)
-    Wav = "Wav"
-}
-
-// @public
-export const enum KnownStampKind {
-    AseV1 = "AseV1",
-    AseV2 = "AseV2",
-    Public = "Public"
-}
-
-// @public
-export const enum KnownStorageLifecycleCompletionStatus {
-    // (undocumented)
-    Completed = "Completed",
-    // (undocumented)
-    CompletedWithError = "CompletedWithError",
-    // (undocumented)
-    Incomplete = "Incomplete"
-}
-
-// @public
-export const enum KnownStorageTaskAssignmentCompletedStatus {
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Succeeded = "Succeeded"
-}
-
-// @public
-export const enum KnownStorageTaskCompletedStatus {
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Succeeded = "Succeeded"
-}
-
-// @public
-export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
-
-// @public
-export interface MachineLearningServicesDatasetDriftDetectedEventData {
-    baseDatasetId: string;
-    dataDriftId: string;
-    dataDriftName: string;
-    driftCoefficient: number;
-    endTime: string;
-    runId: string;
-    startTime: string;
-    targetDatasetId: string;
-}
-
-// @public
-export interface MachineLearningServicesModelDeployedEventData {
-    modelIds: string;
-    serviceComputeType: string;
-    serviceName: string;
-    serviceProperties: any;
-    serviceTags: any;
-}
-
-// @public
-export interface MachineLearningServicesModelRegisteredEventData {
-    modelName: string;
-    modelProperties: any;
-    modelTags: any;
-    modelVersion: string;
-}
-
-// @public
-export interface MachineLearningServicesRunCompletedEventData {
-    experimentId: string;
-    experimentName: string;
-    runId: string;
-    runProperties: any;
-    runTags: any;
-    runType: string;
-}
-
-// @public
-export interface MachineLearningServicesRunStatusChangedEventData {
-    experimentId: string;
-    experimentName: string;
-    runId: string;
-    runProperties: any;
-    runStatus: string;
-    runTags: any;
-    runType: string;
-}
-
-// @public
-export type MapsGeofenceEnteredEventData = MapsGeofenceEvent & {};
-
-// @public
-export interface MapsGeofenceEvent {
-    expiredGeofenceGeometryId: string[];
-    geometries: MapsGeofenceGeometry[];
-    invalidPeriodGeofenceGeometryId: string[];
-    isEventPublished: boolean;
-}
-
-// @public
-export type MapsGeofenceExitedEventData = MapsGeofenceEvent & {};
-
-// @public
-export interface MapsGeofenceGeometry {
-    deviceId: string;
-    distance: number;
-    geometryId: string;
-    nearestLat: number;
-    nearestLon: number;
-    udId: string;
-}
-
-// @public
-export type MapsGeofenceResultEventData = MapsGeofenceEvent & {};
-
-// @public
-export type MediaJobCanceledEventData = MediaJobStateChangeEventData & {
-    outputs: MediaJobOutputUnion[];
-};
-
-// @public
-export type MediaJobCancelingEventData = MediaJobStateChangeEventData & {};
-
-// @public
-export interface MediaJobError {
-    readonly category: MediaJobErrorCategory;
-    readonly code: MediaJobErrorCode;
-    readonly details: MediaJobErrorDetail[];
-    readonly message: string;
-    readonly retry: MediaJobRetry;
-}
-
-// @public
-export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content" | "Account";
-
-// @public
-export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported" | "IdentityUnsupported";
-
-// @public
-export interface MediaJobErrorDetail {
-    readonly code: string;
-    readonly message: string;
-}
-
-// @public
-export type MediaJobErroredEventData = MediaJobStateChangeEventData & {
-    outputs: MediaJobOutputUnion[];
-};
-
-// @public
-export type MediaJobFinishedEventData = MediaJobStateChangeEventData & {
-    outputs: MediaJobOutputUnion[];
-};
-
-// @public
-export interface MediaJobOutput {
-    error?: MediaJobError;
-    label?: string;
-    odataType: "#Microsoft.Media.JobOutputAsset";
-    progress: number;
-    state: MediaJobState;
-}
-
-// @public
-export type MediaJobOutputAsset = MediaJobOutput & {
-    odataType: "#Microsoft.Media.JobOutputAsset";
-    assetName: string;
-};
-
-// @public
-export type MediaJobOutputCanceledEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export type MediaJobOutputCancelingEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export type MediaJobOutputErroredEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export type MediaJobOutputFinishedEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export type MediaJobOutputProcessingEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export interface MediaJobOutputProgressEventData {
-    jobCorrelationData: {
-        [propertyName: string]: string;
-    };
-    label: string;
-    progress: number;
-}
-
-// @public
-export type MediaJobOutputScheduledEventData = MediaJobOutputStateChangeEventData & {};
-
-// @public
-export interface MediaJobOutputStateChangeEventData {
-    jobCorrelationData: {
-        [propertyName: string]: string;
-    };
-    output: MediaJobOutputUnion;
-    readonly previousState: MediaJobState;
+export interface FailedLockTokenOutput {
+    error: ErrorModel;
+    lockToken: string;
 }
 
 // @public (undocumented)
-export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
+export function isUnexpected(response: PublishCloudEvent200Response | PublishCloudEventDefaultResponse): response is PublishCloudEventDefaultResponse;
 
-// @public
-export type MediaJobProcessingEventData = MediaJobStateChangeEventData & {};
+// @public (undocumented)
+export function isUnexpected(response: PublishCloudEvents200Response | PublishCloudEventsDefaultResponse): response is PublishCloudEventsDefaultResponse;
 
-// @public
-export type MediaJobRetry = "DoNotRetry" | "MayRetry";
+// @public (undocumented)
+export function isUnexpected(response: ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse): response is ReceiveCloudEventsDefaultResponse;
 
-// @public
-export type MediaJobScheduledEventData = MediaJobStateChangeEventData & {};
+// @public (undocumented)
+export function isUnexpected(response: AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse): response is AcknowledgeCloudEventsDefaultResponse;
 
-// @public
-export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "Processing" | "Queued" | "Scheduled";
+// @public (undocumented)
+export function isUnexpected(response: ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse): response is ReleaseCloudEventsDefaultResponse;
 
-// @public
-export interface MediaJobStateChangeEventData {
-    correlationData: {
-        [propertyName: string]: string;
-    };
-    readonly previousState: MediaJobState;
-    readonly state: MediaJobState;
+// @public (undocumented)
+export function isUnexpected(response: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse): response is RejectCloudEventsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse): response is RenewCloudEventLocksDefaultResponse;
+
+// @public (undocumented)
+export interface PublishCloudEvent {
+    post(options: PublishCloudEventParameters): StreamableMethod<PublishCloudEvent200Response | PublishCloudEventDefaultResponse>;
+    post(options: PublishCloudEventsParameters): StreamableMethod<PublishCloudEvents200Response | PublishCloudEventsDefaultResponse>;
 }
 
 // @public
-export interface MediaLiveEventChannelArchiveHeartbeatEventData {
-    readonly channelLatencyMs: string;
-    readonly latencyResultCode: string;
+export interface PublishCloudEvent200Response extends HttpResponse {
+    // (undocumented)
+    body: PublishResultOutput;
+    // (undocumented)
+    status: "200";
 }
 
-// @public
-export interface MediaLiveEventConnectionRejectedEventData {
-    readonly encoderIp: string;
-    readonly encoderPort: string;
-    readonly ingestUrl: string;
-    readonly resultCode: string;
-    readonly streamId: string;
+// @public (undocumented)
+export interface PublishCloudEventBodyParam {
+    body: CloudEvent;
 }
 
-// @public
-export interface MediaLiveEventEncoderConnectedEventData {
-    readonly encoderIp: string;
-    readonly encoderPort: string;
-    readonly ingestUrl: string;
-    readonly streamId: string;
+// @public (undocumented)
+export interface PublishCloudEventDefaultHeaders {
+    "x-ms-error-code"?: string;
 }
 
-// @public
-export interface MediaLiveEventEncoderDisconnectedEventData {
-    readonly encoderIp: string;
-    readonly encoderPort: string;
-    readonly ingestUrl: string;
-    readonly resultCode: string;
-    readonly streamId: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingDataChunkDroppedEventData {
-    readonly bitrate: number;
-    readonly resultCode: string;
-    readonly timescale: string;
-    readonly timestamp: string;
-    readonly trackName: string;
-    readonly trackType: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingStreamReceivedEventData {
-    readonly bitrate: number;
-    readonly duration: string;
-    readonly encoderIp: string;
-    readonly encoderPort: string;
-    readonly ingestUrl: string;
-    readonly timescale: string;
-    readonly timestamp: string;
-    readonly trackName: string;
-    readonly trackType: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
-    readonly maxLastTimestamp: string;
-    readonly minLastTimestamp: string;
-    readonly timescaleOfMaxLastTimestamp: string;
-    readonly timescaleOfMinLastTimestamp: string;
-    readonly typeOfStreamWithMaxLastTimestamp: string;
-    readonly typeOfStreamWithMinLastTimestamp: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
-    readonly firstDuration: string;
-    readonly firstTimestamp: string;
-    readonly secondDuration: string;
-    readonly secondTimestamp: string;
-    readonly timescale: string;
-}
-
-// @public
-export interface MediaLiveEventIngestHeartbeatEventData {
-    readonly bitrate: number;
-    readonly discontinuityCount: number;
-    readonly healthy: boolean;
-    readonly incomingBitrate: number;
-    readonly ingestDriftValue: string;
-    readonly lastFragmentArrivalTime: string;
-    readonly lastTimestamp: string;
-    readonly nonincreasingCount: number;
-    readonly overlapCount: number;
-    readonly state: string;
-    readonly timescale: string;
-    readonly trackName: string;
-    readonly trackType: string;
-    readonly transcriptionLanguage: string;
-    readonly transcriptionState: string;
-    readonly unexpectedBitrate: boolean;
-}
-
-// @public
-export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
-    readonly bitrate: number;
-    readonly discontinuityGap: string;
-    readonly newTimestamp: string;
-    readonly previousTimestamp: string;
-    readonly timescale: string;
-    readonly trackName: string;
-    readonly trackType: string;
-}
-
-// @public
-export interface MicrosoftTeamsAppIdentifierModel {
-    appId: string;
-    cloud?: CommunicationCloudEnvironmentModel;
-}
-
-// @public
-export interface MicrosoftTeamsUserIdentifierModel {
-    cloud?: CommunicationCloudEnvironmentModel;
-    isAnonymous?: boolean;
-    userId: string;
-}
-
-// @public
-export interface PhoneNumberIdentifierModel {
-    value: string;
-}
-
-// @public
-export interface PolicyInsightsPolicyStateChangedEventData {
-    complianceReasonCode: string;
-    complianceState: string;
-    policyAssignmentId: string;
-    policyDefinitionId: string;
-    policyDefinitionReferenceId: string;
-    subscriptionId: string;
-    timestamp: string;
-}
-
-// @public
-export interface PolicyInsightsPolicyStateCreatedEventData {
-    complianceReasonCode: string;
-    complianceState: string;
-    policyAssignmentId: string;
-    policyDefinitionId: string;
-    policyDefinitionReferenceId: string;
-    subscriptionId: string;
-    timestamp: string;
-}
-
-// @public
-export interface PolicyInsightsPolicyStateDeletedEventData {
-    complianceReasonCode: string;
-    complianceState: string;
-    policyAssignmentId: string;
-    policyDefinitionId: string;
-    policyDefinitionReferenceId: string;
-    subscriptionId: string;
-    timestamp: string;
-}
-
-// @public
-export type RecordingChannelType = string;
-
-// @public
-export type RecordingContentType = string;
-
-// @public
-export type RecordingFormatType = string;
-
-// @public
-export interface ResourceActionCancelEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+// @public (undocumented)
+export interface PublishCloudEventDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PublishCloudEventDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
 }
 
+// @public (undocumented)
+export interface PublishCloudEventMediaTypesParam {
+    contentType: "application/cloudevents+json; charset=utf-8";
+}
+
+// @public (undocumented)
+export type PublishCloudEventParameters = PublishCloudEventMediaTypesParam & PublishCloudEventBodyParam & RequestParameters;
+
 // @public
-export interface ResourceActionFailureEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+export interface PublishCloudEvents200Response extends HttpResponse {
+    // (undocumented)
+    body: PublishResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsBodyParam {
+    body: Array<CloudEvent>;
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & PublishCloudEventsDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
+}
+
+// @public (undocumented)
+export interface PublishCloudEventsMediaTypesParam {
+    contentType: "application/cloudevents-batch+json; charset=utf-8";
+}
+
+// @public (undocumented)
+export type PublishCloudEventsParameters = PublishCloudEventsMediaTypesParam & PublishCloudEventsBodyParam & RequestParameters;
+
+// @public
+export interface PublishResultOutput {
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEvents {
+    post(options?: ReceiveCloudEventsParameters): StreamableMethod<ReceiveCloudEvents200Response | ReceiveCloudEventsDefaultResponse>;
 }
 
 // @public
-export interface ResourceActionSuccessEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+export interface ReceiveCloudEvents200Response extends HttpResponse {
+    // (undocumented)
+    body: ReceiveResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ReceiveCloudEventsDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
+}
+
+// @public (undocumented)
+export type ReceiveCloudEventsParameters = ReceiveCloudEventsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ReceiveCloudEventsQueryParam {
+    // (undocumented)
+    queryParameters?: ReceiveCloudEventsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ReceiveCloudEventsQueryParamProperties {
+    maxEvents?: number;
+    maxWaitTime?: number;
 }
 
 // @public
-export interface ResourceAuthorization {
-    action: string;
-    evidence: {
-        [propertyName: string]: string;
-    };
-    scope: string;
+export interface ReceiveDetailsOutput {
+    brokerProperties: BrokerPropertiesOutput;
+    event: CloudEventOutput;
 }
 
 // @public
-export interface ResourceDeleteCancelEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
+export interface ReceiveResultOutput {
+    value: Array<ReceiveDetailsOutput>;
+}
+
+// @public (undocumented)
+export interface RejectCloudEvents {
+    post(options: RejectCloudEventsParameters): StreamableMethod<RejectCloudEvents200Response | RejectCloudEventsDefaultResponse>;
+}
+
+// @public
+export interface RejectCloudEvents200Response extends HttpResponse {
+    // (undocumented)
+    body: RejectResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface RejectCloudEventsBodyParam {
+    // (undocumented)
+    body: {
+        lockTokens: string[];
     };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+}
+
+// @public (undocumented)
+export interface RejectCloudEventsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface RejectCloudEventsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & RejectCloudEventsDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
+}
+
+// @public (undocumented)
+export type RejectCloudEventsParameters = RejectCloudEventsBodyParam & RequestParameters;
+
+// @public
+export interface RejectResultOutput {
+    failedLockTokens: Array<FailedLockTokenOutput>;
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEvents {
+    post(options: ReleaseCloudEventsParameters): StreamableMethod<ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse>;
 }
 
 // @public
-export interface ResourceDeleteFailureEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
+export interface ReleaseCloudEvents200Response extends HttpResponse {
+    // (undocumented)
+    body: ReleaseResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsBodyParam {
+    // (undocumented)
+    body: {
+        lockTokens: string[];
     };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ReleaseCloudEventsDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
+}
+
+// @public (undocumented)
+export type ReleaseCloudEventsParameters = ReleaseCloudEventsQueryParam & ReleaseCloudEventsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ReleaseCloudEventsQueryParam {
+    // (undocumented)
+    queryParameters?: ReleaseCloudEventsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ReleaseCloudEventsQueryParamProperties {
+    releaseDelayInSeconds?: ReleaseDelay;
 }
 
 // @public
-export interface ResourceDeleteSuccessEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
+export type ReleaseDelay = string;
+
+// @public
+export interface ReleaseResultOutput {
+    failedLockTokens: Array<FailedLockTokenOutput>;
+    succeededLockTokens: string[];
+}
+
+// @public (undocumented)
+export interface RenewCloudEventLocks {
+    post(options: RenewCloudEventLocksParameters): StreamableMethod<RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse>;
+}
+
+// @public
+export interface RenewCloudEventLocks200Response extends HttpResponse {
+    // (undocumented)
+    body: RenewCloudEventLocksResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface RenewCloudEventLocksBodyParam {
+    // (undocumented)
+    body: {
+        lockTokens: string[];
     };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
+}
+
+// @public (undocumented)
+export interface RenewCloudEventLocksDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface RenewCloudEventLocksDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & RenewCloudEventLocksDefaultHeaders;
+    // (undocumented)
     status: string;
-    subscriptionId: string;
-    tenantId: string;
 }
 
+// @public (undocumented)
+export type RenewCloudEventLocksParameters = RenewCloudEventLocksBodyParam & RequestParameters;
+
 // @public
-export interface ResourceHttpRequest {
-    clientIpAddress: string;
-    clientRequestId: string;
-    method: string;
-    url: string;
+export interface RenewCloudEventLocksResultOutput {
+    failedLockTokens: Array<FailedLockTokenOutput>;
+    succeededLockTokens: string[];
 }
 
-// @public
-export type ResourceNotificationsContainerServiceEventResourcesScheduledEventData = ResourceNotificationsResourceUpdatedEventData & {};
-
-// @public
-export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
-
-// @public
-export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData = ResourceNotificationsResourceUpdatedEventData & {};
-
-// @public
-export interface ResourceNotificationsOperationalDetails {
-    resourceEventTime: string;
-}
-
-// @public
-export interface ResourceNotificationsResourceDeletedDetails {
-    id: string;
-    name: string;
-    type: string;
-}
-
-// @public
-export interface ResourceNotificationsResourceDeletedEventData {
-    operationalDetails: ResourceNotificationsOperationalDetails;
-    resourceDetails: ResourceNotificationsResourceDeletedDetails;
-}
-
-// @public
-export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
-
-// @public
-export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
-
-// @public
-export interface ResourceNotificationsResourceUpdatedDetails {
-    id: string;
-    location: string;
-    name: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    tags: {
-        [propertyName: string]: string;
-    };
-    type: string;
-}
-
-// @public
-export interface ResourceNotificationsResourceUpdatedEventData {
-    apiVersion: string;
-    operationalDetails: ResourceNotificationsOperationalDetails;
-    resourceDetails: ResourceNotificationsResourceUpdatedDetails;
-}
-
-// @public
-export interface ResourceWriteCancelEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
-    status: string;
-    subscriptionId: string;
-    tenantId: string;
-}
-
-// @public
-export interface ResourceWriteFailureEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
-    status: string;
-    subscriptionId: string;
-    tenantId: string;
-}
-
-// @public
-export interface ResourceWriteSuccessEventData {
-    authorization: ResourceAuthorization;
-    claims: {
-        [propertyName: string]: string;
-    };
-    correlationId: string;
-    httpRequest: ResourceHttpRequest;
-    operationName: string;
-    resourceGroup: string;
-    resourceProvider: string;
-    resourceUri: string;
-    status: string;
-    subscriptionId: string;
-    tenantId: string;
-}
-
-// @public
-export interface SendCloudEventInput<T> {
-    data?: T;
-    datacontenttype?: string;
-    dataschema?: string;
-    extensionAttributes?: Record<string, unknown>;
-    id?: string;
-    source: string;
-    subject?: string;
-    time?: Date;
-    type: string;
-}
-
-// @public
-export interface SendEventGridEventInput<T> {
-    data: T;
-    dataVersion: string;
-    eventTime?: Date;
-    eventType: string;
-    id?: string;
-    subject: string;
-    topic?: string;
-}
-
-// @public
-export type SendOptions = OperationOptions;
-
-// @public
-export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
-    entityType: string;
-    namespaceName: string;
-    queueName: string;
-    requestUri: string;
-    subscriptionName: string;
-    topicName: string;
-}
-
-// @public
-export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
-    entityType: string;
-    namespaceName: string;
-    queueName: string;
-    requestUri: string;
-    subscriptionName: string;
-    topicName: string;
-}
-
-// @public
-export type StampKind = string;
-
-// @public
-export interface StorageAsyncOperationInitiatedEventData {
-    api: string;
-    blobType: string;
-    clientRequestId: string;
-    contentLength: number;
-    contentType: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
-}
-
-// @public
-export type StorageBlobAccessTier = string;
-
-// @public
-export interface StorageBlobCreatedEventData {
-    accessTier: StorageBlobAccessTier;
-    api?: string;
-    blobType?: string;
-    clientRequestId?: string;
-    contentLength?: number;
-    contentOffset?: number;
-    contentType?: string;
-    eTag?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
-}
-
-// @public
-export interface StorageBlobDeletedEventData {
-    api: string;
-    blobType: string;
-    clientRequestId: string;
-    contentType: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
-}
-
-// @public
-export interface StorageBlobInventoryPolicyCompletedEventData {
-    accountName: string;
-    manifestBlobUrl: string;
-    policyRunId: string;
-    policyRunStatus: string;
-    policyRunStatusMessage: string;
-    ruleName: string;
-    scheduleDateTime: string;
-}
-
-// @public
-export interface StorageBlobRenamedEventData {
-    api: string;
-    clientRequestId: string;
-    destinationUrl: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    sourceUrl: string;
-    storageDiagnostics: any;
-}
-
-// @public
-export interface StorageBlobTierChangedEventData {
-    accessTier: StorageBlobAccessTier;
-    api?: string;
-    blobType?: string;
-    clientRequestId?: string;
-    contentLength?: number;
-    contentType?: string;
-    identity?: string;
-    previousTier: StorageBlobAccessTier;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
-}
-
-// @public
-export interface StorageDirectoryCreatedEventData {
-    api: string;
-    clientRequestId: string;
-    eTag: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
-}
-
-// @public
-export interface StorageDirectoryDeletedEventData {
-    api: string;
-    clientRequestId: string;
-    identity: string;
-    recursive: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
-}
-
-// @public
-export interface StorageDirectoryRenamedEventData {
-    api: string;
-    clientRequestId: string;
-    destinationUrl: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    sourceUrl: string;
-    storageDiagnostics: any;
-}
-
-// @public
-export type StorageLifecycleCompletionStatus = string;
-
-// @public
-export interface StorageLifecyclePolicyActionSummaryDetail {
-    errorList: string;
-    successCount: number;
-    totalObjectsCount: number;
-}
-
-// @public
-export interface StorageLifecyclePolicyCompletedEventData {
-    deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
-    policyRunSummary: StorageLifecyclePolicyRunSummary;
-    scheduleTime: string;
-    tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
-    tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
-    tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
-}
-
-// @public
-export interface StorageLifecyclePolicyRunSummary {
-    completionStatus: StorageLifecycleCompletionStatus;
-}
-
-// @public
-export interface StorageTaskAssignmentCompletedEventData {
-    completedOn: string;
-    status: StorageTaskAssignmentCompletedStatus;
-    summaryReportBlobUri: string;
-    taskExecutionId: string;
-    taskName: string;
-}
-
-// @public
-export type StorageTaskAssignmentCompletedStatus = string;
-
-// @public
-export interface StorageTaskAssignmentQueuedEventData {
-    queuedOn: string;
-    taskExecutionId: string;
-}
-
-// @public
-export interface StorageTaskCompletedEventData {
-    completedDateTime: string;
-    status: StorageTaskCompletedStatus;
-    summaryReportBlobUrl: string;
-    taskExecutionId: string;
-    taskName: string;
-}
-
-// @public
-export type StorageTaskCompletedStatus = string;
-
-// @public
-export interface StorageTaskQueuedEventData {
-    queuedDateTime: string;
-    taskExecutionId: string;
-}
-
-// @public
-export interface SubscriptionDeletedEventData {
-    readonly eventSubscriptionId: string;
-}
-
-// @public
-export interface SubscriptionValidationEventData {
-    readonly validationCode: string;
-    readonly validationUrl: string;
-}
-
-// @public
-export interface SystemEventNameToEventData {
-    "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
-    "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
-    "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
-    "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
-    "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
-    "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
-    "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
-    "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayAPIAdded": ApiManagementGatewayApiAddedEventData;
-    "Microsoft.ApiManagement.GatewayAPIRemoved": ApiManagementGatewayApiRemovedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityCreated": ApiManagementGatewayCertificateAuthorityCreatedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted": ApiManagementGatewayCertificateAuthorityDeletedEventData;
-    "Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated": ApiManagementGatewayCertificateAuthorityUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayCreated": ApiManagementGatewayCreatedEventData;
-    "Microsoft.ApiManagement.GatewayDeleted": ApiManagementGatewayDeletedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationCreated": ApiManagementGatewayHostnameConfigurationCreatedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted": ApiManagementGatewayHostnameConfigurationDeletedEventData;
-    "Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated": ApiManagementGatewayHostnameConfigurationUpdatedEventData;
-    "Microsoft.ApiManagement.GatewayUpdated": ApiManagementGatewayUpdatedEventData;
-    "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
-    "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
-    "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
-    "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
-    "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
-    "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
-    "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
-    "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
-    "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
-    "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
-    "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
-    "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
-    "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
-    "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
-    "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
-    "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
-    "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
-    "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
-    "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
-    "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
-    "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
-    "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
-    "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
-    "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
-    "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
-    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsMessageDeliveryStatusUpdatedEventData;
-    "Microsoft.Communication.AdvancedMessageReceived": AcsMessageReceivedEventData;
-    "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
-    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
-    "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
-    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
-    "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
-    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
-    "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
-    "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
-    "Microsoft.Communication.ChatThreadCreated": AcsChatThreadCreatedEventData;
-    "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
-    "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
-    "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
-    "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
-    "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
-    "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
-    "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
-    "Microsoft.Communication.EmailDeliveryReportReceived": AcsEmailDeliveryReportReceivedEventData;
-    "Microsoft.Communication.EmailEngagementTrackingReportReceived": AcsEmailEngagementTrackingReportReceivedEventData;
-    "Microsoft.Communication.IncomingCall": AcsIncomingCallEventData;
-    "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
-    "Microsoft.Communication.RouterJobCancelled": AcsRouterJobCancelledEventData;
-    "Microsoft.Communication.RouterJobClassificationFailed": AcsRouterJobClassificationFailedEventData;
-    "Microsoft.Communication.RouterJobClassified": AcsRouterJobClassifiedEventData;
-    "Microsoft.Communication.RouterJobClosed": AcsRouterJobClosedEventData;
-    "Microsoft.Communication.RouterJobCompleted": AcsRouterJobCompletedEventData;
-    "Microsoft.Communication.RouterJobDeleted": AcsRouterJobDeletedEventData;
-    "Microsoft.Communication.RouterJobExceptionTriggered": AcsRouterJobExceptionTriggeredEventData;
-    "Microsoft.Communication.RouterJobQueued": AcsRouterJobQueuedEventData;
-    "Microsoft.Communication.RouterJobReceived": AcsRouterJobReceivedEventData;
-    "Microsoft.Communication.RouterJobSchedulingFailed": AcsRouterJobSchedulingFailedEventData;
-    "Microsoft.Communication.RouterJobUnassigned": AcsRouterJobUnassignedEventData;
-    "Microsoft.Communication.RouterJobWaitingForActivation": AcsRouterJobWaitingForActivationEventData;
-    "Microsoft.Communication.RouterJobWorkerSelectorsExpire": AcsRouterJobWorkerSelectorsExpiredEventData;
-    "Microsoft.Communication.RouterWorkerDeleted": AcsRouterWorkerDeletedEventData;
-    "Microsoft.Communication.RouterWorkerDeregistered": AcsRouterWorkerDeregisteredEventData;
-    "Microsoft.Communication.RouterWorkerOfferAccepted": AcsRouterWorkerOfferAcceptedEventData;
-    "Microsoft.Communication.RouterWorkerOfferDeclined": AcsRouterWorkerOfferDeclinedEventData;
-    "Microsoft.Communication.RouterWorkerOfferExpired": AcsRouterWorkerOfferExpiredEventData;
-    "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
-    "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
-    "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
-    "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
-    "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
-    "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
-    "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
-    "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
-    "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
-    "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
-    "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
-    "Microsoft.ContainerService.ClusterSupportEnded": ContainerServiceClusterSupportEndedEventData;
-    "Microsoft.ContainerService.ClusterSupportEnding": ContainerServiceClusterSupportEndingEventData;
-    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
-    "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
-    "Microsoft.ContainerService.NodePoolRollingStarted": ContainerServiceNodePoolRollingStartedEventData;
-    "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
-    "Microsoft.DataBox.CopyCompleted": DataBoxCopyCompletedEventData;
-    "Microsoft.DataBox.CopyStarted": DataBoxCopyStartedEventData;
-    "Microsoft.DataBox.OrderCompleted": DataBoxOrderCompletedEventData;
-    "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
-    "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
-    "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
-    "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
-    "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
-    "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
-    "Microsoft.EventGrid.MQTTClientDeleted": EventGridMqttClientDeletedEventData;
-    "Microsoft.EventGrid.MQTTClientSessionConnected": EventGridMqttClientSessionConnectedEventData;
-    "Microsoft.EventGrid.MQTTClientSessionDisconnected": EventGridMqttClientSessionDisconnectedEventData;
-    "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
-    "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
-    "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
-    "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
-    "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
-    "Microsoft.HealthcareApis.DicomImageUpdated": HealthcareDicomImageUpdatedEventData;
-    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
-    "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
-    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
-    "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
-    "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
-    "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
-    "Microsoft.KeyVault.KeyExpired": KeyVaultKeyExpiredEventData;
-    "Microsoft.KeyVault.KeyNearExpiry": KeyVaultKeyNearExpiryEventData;
-    "Microsoft.KeyVault.KeyNewVersionCreated": KeyVaultKeyNewVersionCreatedEventData;
-    "Microsoft.KeyVault.SecretExpired": KeyVaultSecretExpiredEventData;
-    "Microsoft.KeyVault.SecretNearExpiry": KeyVaultSecretNearExpiryEventData;
-    "Microsoft.KeyVault.SecretNewVersionCreated": KeyVaultSecretNewVersionCreatedEventData;
-    "Microsoft.KeyVault.VaultAccessPolicyChanged": KeyVaultAccessPolicyChangedEventData;
-    "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
-    "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
-    "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
-    "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
-    "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
-    "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
-    "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
-    "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
-    "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
-    "Microsoft.Media.JobErrored": MediaJobErroredEventData;
-    "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
-    "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
-    "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
-    "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
-    "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
-    "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
-    "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
-    "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
-    "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
-    "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
-    "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
-    "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
-    "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
-    "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
-    "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
-    "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
-    "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
-    "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
-    "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
-    "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
-    "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
-    "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
-    "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
-    "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
-    "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
-    "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
-    "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
-    "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
-    "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
-    "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
-    "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
-    "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
-    "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
-    "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
-    "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
-    "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
-    "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
-    "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
-    "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
-    "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
-    "Microsoft.Storage.AsyncOperationInitiated": StorageAsyncOperationInitiatedEventData;
-    "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
-    "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
-    "Microsoft.Storage.BlobInventoryPolicyCompleted": StorageBlobInventoryPolicyCompletedEventData;
-    "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
-    "Microsoft.Storage.BlobTierChanged": StorageBlobTierChangedEventData;
-    "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
-    "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
-    "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
-    "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
-    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
-    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
-    "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
-    "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
-    "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
-    "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
-    "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
-    "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
-    "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
-    "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
-    "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
-    "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
-    "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
-    "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
-    "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
-    "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
-    "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
-}
-
-// @public
-export interface WebAppServicePlanUpdatedEventData {
-    address: string;
-    appServicePlanEventTypeDetail: AppServicePlanEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    sku: WebAppServicePlanUpdatedEventDataSku;
-    verb: string;
-}
-
-// @public
-export interface WebAppServicePlanUpdatedEventDataSku {
-    capacity?: string;
-    family?: string;
-    name?: string;
-    size?: string;
-    tier?: string;
-}
-
-// @public
-export interface WebAppUpdatedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebBackupOperationCompletedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebBackupOperationFailedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebBackupOperationStartedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebRestoreOperationCompletedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebRestoreOperationFailedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebRestoreOperationStartedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebSlotSwapCompletedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebSlotSwapFailedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebSlotSwapStartedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebSlotSwapWithPreviewCancelledEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
-}
-
-// @public
-export interface WebSlotSwapWithPreviewStartedEventData {
-    address: string;
-    appEventTypeDetail: AppEventTypeDetail;
-    clientRequestId: string;
-    correlationRequestId: string;
-    name: string;
-    requestId: string;
-    verb: string;
+// @public (undocumented)
+export interface Routes {
+    (path: "/topics/{topicName}:publish", topicName: string): PublishCloudEvent;
+    (path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:receive", topicName: string, eventSubscriptionName: string): ReceiveCloudEvents;
+    (path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:acknowledge", topicName: string, eventSubscriptionName: string): AcknowledgeCloudEvents;
+    (path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:release", topicName: string, eventSubscriptionName: string): ReleaseCloudEvents;
+    (path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:reject", topicName: string, eventSubscriptionName: string): RejectCloudEvents;
+    (path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:renewLock", topicName: string, eventSubscriptionName: string): RenewCloudEventLocks;
 }
 
 // (No @packageDocumentation comment for this package)
