@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CurrentQuotaLimitBase, AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
