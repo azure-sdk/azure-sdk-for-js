@@ -19,7 +19,7 @@ import {
   ManagedCCF as ManagedCCFMapper,
   ManagedCCFBackup as ManagedCCFBackupMapper,
   ManagedCCFRestore as ManagedCCFRestoreMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -48,7 +48,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-28-preview",
+    defaultValue: "2024-09-19-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
