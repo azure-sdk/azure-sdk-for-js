@@ -2635,7 +2635,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-azurestackhci@file:projects/arm-azurestackhci.tgz':
-    resolution: {integrity: sha512-8CVRoh6m+rO3RCtiy6IpaGoAtAbaZWLVT8BLwE7XQUiyDfi3jNaWnBUbZmKVJ83LomSdYBYXQCr5wnWus1HfiQ==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-c8Ymc8QRIU7rYXZ/Fbm14XahMg5zzZ1m4hEScu8VDA1j28u6cIgOIA4YJSm/gyTK5OrvBAlS4TqFSjk3D34myw==, tarball: file:projects/arm-azurestackhci.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-baremetalinfrastructure@file:projects/arm-baremetalinfrastructure.tgz':
@@ -11095,16 +11095,15 @@ snapshots:
 
   '@rush-temp/arm-azurestackhci@file:projects/arm-azurestackhci.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.2)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.2))
     transitivePeerDependencies:
       - '@edge-runtime/vm'

@@ -20,7 +20,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  EdgeDeviceUnion,
+  EdgeDevice,
   EdgeDevicesListNextOptionalParams,
   EdgeDevicesListOptionalParams,
   EdgeDevicesListResponse,
@@ -57,7 +57,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   public list(
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
-  ): PagedAsyncIterableIterator<EdgeDeviceUnion> {
+  ): PagedAsyncIterableIterator<EdgeDevice> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
       next() {
@@ -79,7 +79,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EdgeDeviceUnion[]> {
+  ): AsyncIterableIterator<EdgeDevice[]> {
     let result: EdgeDevicesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -101,7 +101,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   private async *listPagingAll(
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
-  ): AsyncIterableIterator<EdgeDeviceUnion> {
+  ): AsyncIterableIterator<EdgeDevice> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
@@ -149,7 +149,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   async beginCreateOrUpdate(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -222,7 +222,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   async beginCreateOrUpdateAndWait(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<EdgeDevicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
