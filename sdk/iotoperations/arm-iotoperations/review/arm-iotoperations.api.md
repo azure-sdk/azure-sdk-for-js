@@ -952,9 +952,9 @@ export enum KnownKafkaAuthMethod {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -996,9 +996,9 @@ export enum KnownOperatorValues {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -1076,7 +1076,7 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "2024-11-01" = "2024-11-01"
 }
 
 // @public
@@ -1128,8 +1128,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
