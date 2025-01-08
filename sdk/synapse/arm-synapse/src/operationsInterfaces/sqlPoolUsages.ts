@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SqlPoolUsage, SqlPoolUsagesListOptionalParams } from "../models";
+import { SqlPoolUsage, SqlPoolUsagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolUsages. */
@@ -23,6 +23,6 @@ export interface SqlPoolUsages {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolUsagesListOptionalParams
+    options?: SqlPoolUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolUsage>;
 }

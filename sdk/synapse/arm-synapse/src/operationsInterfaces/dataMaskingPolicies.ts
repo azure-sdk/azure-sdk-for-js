@@ -11,8 +11,8 @@ import {
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
   DataMaskingPoliciesCreateOrUpdateResponse,
   DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
-} from "../models";
+  DataMaskingPoliciesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a DataMaskingPolicies. */
 export interface DataMaskingPolicies {
@@ -29,7 +29,7 @@ export interface DataMaskingPolicies {
     workspaceName: string,
     sqlPoolName: string,
     parameters: DataMaskingPolicy,
-    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
+    options?: DataMaskingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse>;
   /**
    * Gets a Sql pool data masking policy.
@@ -42,6 +42,6 @@ export interface DataMaskingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
+    options?: DataMaskingPoliciesGetOptionalParams,
   ): Promise<DataMaskingPoliciesGetResponse>;
 }

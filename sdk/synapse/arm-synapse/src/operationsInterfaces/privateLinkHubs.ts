@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateLinkHub,
   PrivateLinkHubsListByResourceGroupOptionalParams,
@@ -19,8 +19,8 @@ import {
   PrivateLinkHubsUpdateResponse,
   PrivateLinkHubsCreateOrUpdateOptionalParams,
   PrivateLinkHubsCreateOrUpdateResponse,
-  PrivateLinkHubsDeleteOptionalParams
-} from "../models";
+  PrivateLinkHubsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkHubs. */
@@ -32,14 +32,14 @@ export interface PrivateLinkHubs {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateLinkHubsListByResourceGroupOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkHub>;
   /**
    * Returns a list of privateLinkHubs in a subscription
    * @param options The options parameters.
    */
   list(
-    options?: PrivateLinkHubsListOptionalParams
+    options?: PrivateLinkHubsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkHub>;
   /**
    * Gets a privateLinkHub
@@ -50,7 +50,7 @@ export interface PrivateLinkHubs {
   get(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsGetOptionalParams
+    options?: PrivateLinkHubsGetOptionalParams,
   ): Promise<PrivateLinkHubsGetResponse>;
   /**
    * Updates a privateLinkHub
@@ -63,7 +63,7 @@ export interface PrivateLinkHubs {
     resourceGroupName: string,
     privateLinkHubName: string,
     privateLinkHubPatchInfo: PrivateLinkHubPatchInfo,
-    options?: PrivateLinkHubsUpdateOptionalParams
+    options?: PrivateLinkHubsUpdateOptionalParams,
   ): Promise<PrivateLinkHubsUpdateResponse>;
   /**
    * Creates or updates a privateLinkHub
@@ -76,7 +76,7 @@ export interface PrivateLinkHubs {
     resourceGroupName: string,
     privateLinkHubName: string,
     privateLinkHubInfo: PrivateLinkHub,
-    options?: PrivateLinkHubsCreateOrUpdateOptionalParams
+    options?: PrivateLinkHubsCreateOrUpdateOptionalParams,
   ): Promise<PrivateLinkHubsCreateOrUpdateResponse>;
   /**
    * Deletes a privateLinkHub
@@ -87,8 +87,8 @@ export interface PrivateLinkHubs {
   beginDelete(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateLinkHubsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a privateLinkHub
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -98,6 +98,6 @@ export interface PrivateLinkHubs {
   beginDeleteAndWait(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateLinkHubsDeleteOptionalParams
+    options?: PrivateLinkHubsDeleteOptionalParams,
   ): Promise<void>;
 }

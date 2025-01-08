@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SparkConfigurationResource,
-  SparkConfigurationsListByWorkspaceOptionalParams
-} from "../models";
+  SparkConfigurationsListByWorkspaceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SparkConfigurations. */
@@ -24,6 +24,6 @@ export interface SparkConfigurations {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SparkConfigurationsListByWorkspaceOptionalParams
+    options?: SparkConfigurationsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SparkConfigurationResource>;
 }

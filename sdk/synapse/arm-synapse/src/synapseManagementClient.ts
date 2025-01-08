@@ -84,8 +84,8 @@ import {
   KustoPoolDataConnectionsImpl,
   KustoPoolPrincipalAssignmentsImpl,
   KustoPoolDatabasePrincipalAssignmentsImpl,
-  KustoPoolPrivateLinkResourcesOperationsImpl
-} from "./operations";
+  KustoPoolPrivateLinkResourcesOperationsImpl,
+} from "./operations/index.js";
 import {
   AzureADOnlyAuthentications,
   Operations,
@@ -161,13 +161,13 @@ import {
   KustoPoolDataConnections,
   KustoPoolPrincipalAssignments,
   KustoPoolDatabasePrincipalAssignments,
-  KustoPoolPrivateLinkResourcesOperations
-} from "./operationsInterfaces";
-import { SynapseManagementClientOptionalParams } from "./models";
+  KustoPoolPrivateLinkResourcesOperations,
+} from "./operationsInterfaces/index.js";
+import { SynapseManagementClientOptionalParams } from "./models/index.js";
 
 export class SynapseManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the SynapseManagementClient class.
@@ -178,13 +178,27 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: SynapseManagementClientOptionalParams
+    options?: SynapseManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: SynapseManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: SynapseManagementClientOptionalParams | string,
+    options?: SynapseManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -193,7 +207,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     }
     const defaults: SynapseManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.2`;
@@ -206,20 +220,21 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -229,7 +244,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -239,9 +254,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -254,142 +269,113 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.ipFirewallRules = new IpFirewallRulesImpl(this);
     this.keys = new KeysImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResourcesOperations = new PrivateLinkResourcesOperationsImpl(
-      this
-    );
-    this.privateLinkHubPrivateLinkResources = new PrivateLinkHubPrivateLinkResourcesImpl(
-      this
-    );
+    this.privateLinkResourcesOperations =
+      new PrivateLinkResourcesOperationsImpl(this);
+    this.privateLinkHubPrivateLinkResources =
+      new PrivateLinkHubPrivateLinkResourcesImpl(this);
     this.privateLinkHubs = new PrivateLinkHubsImpl(this);
-    this.privateEndpointConnectionsPrivateLinkHub = new PrivateEndpointConnectionsPrivateLinkHubImpl(
-      this
-    );
+    this.privateEndpointConnectionsPrivateLinkHub =
+      new PrivateEndpointConnectionsPrivateLinkHubImpl(this);
     this.sqlPools = new SqlPoolsImpl(this);
     this.sqlPoolMetadataSyncConfigs = new SqlPoolMetadataSyncConfigsImpl(this);
     this.sqlPoolOperationResults = new SqlPoolOperationResultsImpl(this);
     this.sqlPoolGeoBackupPolicies = new SqlPoolGeoBackupPoliciesImpl(this);
-    this.sqlPoolDataWarehouseUserActivities = new SqlPoolDataWarehouseUserActivitiesImpl(
-      this
-    );
+    this.sqlPoolDataWarehouseUserActivities =
+      new SqlPoolDataWarehouseUserActivitiesImpl(this);
     this.sqlPoolRestorePoints = new SqlPoolRestorePointsImpl(this);
     this.sqlPoolReplicationLinks = new SqlPoolReplicationLinksImpl(this);
     this.sqlPoolMaintenanceWindows = new SqlPoolMaintenanceWindowsImpl(this);
-    this.sqlPoolMaintenanceWindowOptions = new SqlPoolMaintenanceWindowOptionsImpl(
-      this
-    );
-    this.sqlPoolTransparentDataEncryptions = new SqlPoolTransparentDataEncryptionsImpl(
-      this
-    );
+    this.sqlPoolMaintenanceWindowOptions =
+      new SqlPoolMaintenanceWindowOptionsImpl(this);
+    this.sqlPoolTransparentDataEncryptions =
+      new SqlPoolTransparentDataEncryptionsImpl(this);
     this.sqlPoolBlobAuditingPolicies = new SqlPoolBlobAuditingPoliciesImpl(
-      this
+      this,
     );
     this.sqlPoolOperations = new SqlPoolOperationsImpl(this);
     this.sqlPoolUsages = new SqlPoolUsagesImpl(this);
     this.sqlPoolSensitivityLabels = new SqlPoolSensitivityLabelsImpl(this);
-    this.sqlPoolRecommendedSensitivityLabels = new SqlPoolRecommendedSensitivityLabelsImpl(
-      this
-    );
+    this.sqlPoolRecommendedSensitivityLabels =
+      new SqlPoolRecommendedSensitivityLabelsImpl(this);
     this.sqlPoolSchemas = new SqlPoolSchemasImpl(this);
     this.sqlPoolTables = new SqlPoolTablesImpl(this);
     this.sqlPoolTableColumns = new SqlPoolTableColumnsImpl(this);
     this.sqlPoolConnectionPolicies = new SqlPoolConnectionPoliciesImpl(this);
-    this.sqlPoolVulnerabilityAssessments = new SqlPoolVulnerabilityAssessmentsImpl(
-      this
-    );
-    this.sqlPoolVulnerabilityAssessmentScans = new SqlPoolVulnerabilityAssessmentScansImpl(
-      this
-    );
+    this.sqlPoolVulnerabilityAssessments =
+      new SqlPoolVulnerabilityAssessmentsImpl(this);
+    this.sqlPoolVulnerabilityAssessmentScans =
+      new SqlPoolVulnerabilityAssessmentScansImpl(this);
     this.sqlPoolSecurityAlertPolicies = new SqlPoolSecurityAlertPoliciesImpl(
-      this
+      this,
     );
-    this.sqlPoolVulnerabilityAssessmentRuleBaselines = new SqlPoolVulnerabilityAssessmentRuleBaselinesImpl(
-      this
-    );
-    this.extendedSqlPoolBlobAuditingPolicies = new ExtendedSqlPoolBlobAuditingPoliciesImpl(
-      this
-    );
+    this.sqlPoolVulnerabilityAssessmentRuleBaselines =
+      new SqlPoolVulnerabilityAssessmentRuleBaselinesImpl(this);
+    this.extendedSqlPoolBlobAuditingPolicies =
+      new ExtendedSqlPoolBlobAuditingPoliciesImpl(this);
     this.dataMaskingPolicies = new DataMaskingPoliciesImpl(this);
     this.dataMaskingRules = new DataMaskingRulesImpl(this);
     this.sqlPoolColumns = new SqlPoolColumnsImpl(this);
     this.sqlPoolWorkloadGroup = new SqlPoolWorkloadGroupImpl(this);
     this.sqlPoolWorkloadClassifier = new SqlPoolWorkloadClassifierImpl(this);
-    this.workspaceManagedSqlServerBlobAuditingPolicies = new WorkspaceManagedSqlServerBlobAuditingPoliciesImpl(
-      this
-    );
-    this.workspaceManagedSqlServerExtendedBlobAuditingPolicies = new WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl(
-      this
-    );
-    this.workspaceManagedSqlServerSecurityAlertPolicy = new WorkspaceManagedSqlServerSecurityAlertPolicyImpl(
-      this
-    );
-    this.workspaceManagedSqlServerVulnerabilityAssessments = new WorkspaceManagedSqlServerVulnerabilityAssessmentsImpl(
-      this
-    );
-    this.workspaceManagedSqlServerEncryptionProtector = new WorkspaceManagedSqlServerEncryptionProtectorImpl(
-      this
-    );
-    this.workspaceManagedSqlServerUsages = new WorkspaceManagedSqlServerUsagesImpl(
-      this
-    );
-    this.workspaceManagedSqlServerRecoverableSqlPools = new WorkspaceManagedSqlServerRecoverableSqlPoolsImpl(
-      this
-    );
-    this.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings = new WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl(
-      this
-    );
+    this.workspaceManagedSqlServerBlobAuditingPolicies =
+      new WorkspaceManagedSqlServerBlobAuditingPoliciesImpl(this);
+    this.workspaceManagedSqlServerExtendedBlobAuditingPolicies =
+      new WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl(this);
+    this.workspaceManagedSqlServerSecurityAlertPolicy =
+      new WorkspaceManagedSqlServerSecurityAlertPolicyImpl(this);
+    this.workspaceManagedSqlServerVulnerabilityAssessments =
+      new WorkspaceManagedSqlServerVulnerabilityAssessmentsImpl(this);
+    this.workspaceManagedSqlServerEncryptionProtector =
+      new WorkspaceManagedSqlServerEncryptionProtectorImpl(this);
+    this.workspaceManagedSqlServerUsages =
+      new WorkspaceManagedSqlServerUsagesImpl(this);
+    this.workspaceManagedSqlServerRecoverableSqlPools =
+      new WorkspaceManagedSqlServerRecoverableSqlPoolsImpl(this);
+    this.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings =
+      new WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.workspaceAadAdmins = new WorkspaceAadAdminsImpl(this);
     this.workspaceSqlAadAdmins = new WorkspaceSqlAadAdminsImpl(this);
-    this.workspaceManagedIdentitySqlControlSettings = new WorkspaceManagedIdentitySqlControlSettingsImpl(
-      this
-    );
+    this.workspaceManagedIdentitySqlControlSettings =
+      new WorkspaceManagedIdentitySqlControlSettingsImpl(this);
     this.restorableDroppedSqlPools = new RestorableDroppedSqlPoolsImpl(this);
     this.bigDataPools = new BigDataPoolsImpl(this);
     this.library = new LibraryImpl(this);
     this.libraries = new LibrariesImpl(this);
     this.integrationRuntimes = new IntegrationRuntimesImpl(this);
-    this.integrationRuntimeNodeIpAddressOperations = new IntegrationRuntimeNodeIpAddressOperationsImpl(
-      this
-    );
-    this.integrationRuntimeObjectMetadata = new IntegrationRuntimeObjectMetadataImpl(
-      this
-    );
+    this.integrationRuntimeNodeIpAddressOperations =
+      new IntegrationRuntimeNodeIpAddressOperationsImpl(this);
+    this.integrationRuntimeObjectMetadata =
+      new IntegrationRuntimeObjectMetadataImpl(this);
     this.integrationRuntimeNodes = new IntegrationRuntimeNodesImpl(this);
     this.integrationRuntimeCredentials = new IntegrationRuntimeCredentialsImpl(
-      this
+      this,
     );
-    this.integrationRuntimeConnectionInfos = new IntegrationRuntimeConnectionInfosImpl(
-      this
-    );
-    this.integrationRuntimeAuthKeysOperations = new IntegrationRuntimeAuthKeysOperationsImpl(
-      this
-    );
-    this.integrationRuntimeMonitoringDataOperations = new IntegrationRuntimeMonitoringDataOperationsImpl(
-      this
-    );
-    this.integrationRuntimeStatusOperations = new IntegrationRuntimeStatusOperationsImpl(
-      this
-    );
+    this.integrationRuntimeConnectionInfos =
+      new IntegrationRuntimeConnectionInfosImpl(this);
+    this.integrationRuntimeAuthKeysOperations =
+      new IntegrationRuntimeAuthKeysOperationsImpl(this);
+    this.integrationRuntimeMonitoringDataOperations =
+      new IntegrationRuntimeMonitoringDataOperationsImpl(this);
+    this.integrationRuntimeStatusOperations =
+      new IntegrationRuntimeStatusOperationsImpl(this);
     this.get = new GetImpl(this);
     this.sparkConfiguration = new SparkConfigurationImpl(this);
     this.sparkConfigurations = new SparkConfigurationsImpl(this);
     this.kustoOperations = new KustoOperationsImpl(this);
     this.kustoPools = new KustoPoolsImpl(this);
     this.kustoPoolChildResource = new KustoPoolChildResourceImpl(this);
-    this.kustoPoolAttachedDatabaseConfigurations = new KustoPoolAttachedDatabaseConfigurationsImpl(
-      this
-    );
+    this.kustoPoolAttachedDatabaseConfigurations =
+      new KustoPoolAttachedDatabaseConfigurationsImpl(this);
     this.kustoPoolDatabases = new KustoPoolDatabasesImpl(this);
     this.kustoPoolDataConnections = new KustoPoolDataConnectionsImpl(this);
     this.kustoPoolPrincipalAssignments = new KustoPoolPrincipalAssignmentsImpl(
-      this
+      this,
     );
-    this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
-      this
-    );
-    this.kustoPoolPrivateLinkResourcesOperations = new KustoPoolPrivateLinkResourcesOperationsImpl(
-      this
-    );
+    this.kustoPoolDatabasePrincipalAssignments =
+      new KustoPoolDatabasePrincipalAssignmentsImpl(this);
+    this.kustoPoolPrivateLinkResourcesOperations =
+      new KustoPoolPrivateLinkResourcesOperationsImpl(this);
   }
 
   azureADOnlyAuthentications: AzureADOnlyAuthentications;

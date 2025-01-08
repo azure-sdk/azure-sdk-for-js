@@ -11,8 +11,8 @@ import {
   RestorableDroppedSqlPool,
   RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   RestorableDroppedSqlPoolsGetOptionalParams,
-  RestorableDroppedSqlPoolsGetResponse
-} from "../models";
+  RestorableDroppedSqlPoolsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorableDroppedSqlPools. */
@@ -26,7 +26,7 @@ export interface RestorableDroppedSqlPools {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
+    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedSqlPool>;
   /**
    * Gets a deleted sql pool that can be restored
@@ -40,6 +40,6 @@ export interface RestorableDroppedSqlPools {
     resourceGroupName: string,
     workspaceName: string,
     restorableDroppedSqlPoolId: string,
-    options?: RestorableDroppedSqlPoolsGetOptionalParams
+    options?: RestorableDroppedSqlPoolsGetOptionalParams,
   ): Promise<RestorableDroppedSqlPoolsGetResponse>;
 }

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeCredentials } from "../operationsInterfaces";
+import { IntegrationRuntimeCredentials } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
-import { IntegrationRuntimeCredentialsSyncOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
+import { IntegrationRuntimeCredentialsSyncOptionalParams } from "../models/index.js";
 
 /** Class containing IntegrationRuntimeCredentials operations. */
 export class IntegrationRuntimeCredentialsImpl
-  implements IntegrationRuntimeCredentials {
+  implements IntegrationRuntimeCredentials
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -40,11 +41,11 @@ export class IntegrationRuntimeCredentialsImpl
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeCredentialsSyncOptionalParams
+    options?: IntegrationRuntimeCredentialsSyncOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
-      syncOperationSpec
+      syncOperationSpec,
     );
   }
 }
@@ -52,14 +53,13 @@ export class IntegrationRuntimeCredentialsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const syncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -67,8 +67,8 @@ const syncOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.integrationRuntimeName
+    Parameters.integrationRuntimeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

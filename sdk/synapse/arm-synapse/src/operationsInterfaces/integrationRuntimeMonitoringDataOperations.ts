@@ -8,8 +8,8 @@
 
 import {
   IntegrationRuntimeMonitoringDataListOptionalParams,
-  IntegrationRuntimeMonitoringDataListResponse
-} from "../models";
+  IntegrationRuntimeMonitoringDataListResponse,
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeMonitoringDataOperations. */
 export interface IntegrationRuntimeMonitoringDataOperations {
@@ -24,6 +24,6 @@ export interface IntegrationRuntimeMonitoringDataOperations {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeMonitoringDataListOptionalParams
+    options?: IntegrationRuntimeMonitoringDataListOptionalParams,
   ): Promise<IntegrationRuntimeMonitoringDataListResponse>;
 }

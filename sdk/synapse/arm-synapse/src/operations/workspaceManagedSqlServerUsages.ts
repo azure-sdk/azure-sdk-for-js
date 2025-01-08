@@ -7,24 +7,25 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WorkspaceManagedSqlServerUsages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WorkspaceManagedSqlServerUsages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   ServerUsage,
   WorkspaceManagedSqlServerUsagesListNextOptionalParams,
   WorkspaceManagedSqlServerUsagesListOptionalParams,
   WorkspaceManagedSqlServerUsagesListResponse,
-  WorkspaceManagedSqlServerUsagesListNextResponse
-} from "../models";
+  WorkspaceManagedSqlServerUsagesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceManagedSqlServerUsages operations. */
 export class WorkspaceManagedSqlServerUsagesImpl
-  implements WorkspaceManagedSqlServerUsages {
+  implements WorkspaceManagedSqlServerUsages
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class WorkspaceManagedSqlServerUsagesImpl
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerUsagesListOptionalParams
+    options?: WorkspaceManagedSqlServerUsagesListOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -62,9 +63,9 @@ export class WorkspaceManagedSqlServerUsagesImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +73,7 @@ export class WorkspaceManagedSqlServerUsagesImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceManagedSqlServerUsagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServerUsage[]> {
     let result: WorkspaceManagedSqlServerUsagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class WorkspaceManagedSqlServerUsagesImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +101,12 @@ export class WorkspaceManagedSqlServerUsagesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerUsagesListOptionalParams
+    options?: WorkspaceManagedSqlServerUsagesListOptionalParams,
   ): AsyncIterableIterator<ServerUsage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,11 +121,11 @@ export class WorkspaceManagedSqlServerUsagesImpl
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerUsagesListOptionalParams
+    options?: WorkspaceManagedSqlServerUsagesListOptionalParams,
   ): Promise<WorkspaceManagedSqlServerUsagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class WorkspaceManagedSqlServerUsagesImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceManagedSqlServerUsagesListNextOptionalParams
+    options?: WorkspaceManagedSqlServerUsagesListNextOptionalParams,
   ): Promise<WorkspaceManagedSqlServerUsagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -151,41 +152,40 @@ export class WorkspaceManagedSqlServerUsagesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlUsages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlUsages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerUsageListResult
+      bodyMapper: Mappers.ServerUsageListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServerUsageListResult
+      bodyMapper: Mappers.ServerUsageListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

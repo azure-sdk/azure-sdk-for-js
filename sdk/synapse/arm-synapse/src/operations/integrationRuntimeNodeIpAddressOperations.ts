@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeNodeIpAddressOperations } from "../operationsInterfaces";
+import { IntegrationRuntimeNodeIpAddressOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeNodeIpAddressGetOptionalParams,
-  IntegrationRuntimeNodeIpAddressGetResponse
-} from "../models";
+  IntegrationRuntimeNodeIpAddressGetResponse,
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeNodeIpAddressOperations operations. */
 export class IntegrationRuntimeNodeIpAddressOperationsImpl
-  implements IntegrationRuntimeNodeIpAddressOperations {
+  implements IntegrationRuntimeNodeIpAddressOperations
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -42,7 +43,7 @@ export class IntegrationRuntimeNodeIpAddressOperationsImpl
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodeIpAddressGetOptionalParams
+    options?: IntegrationRuntimeNodeIpAddressGetOptionalParams,
   ): Promise<IntegrationRuntimeNodeIpAddressGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -50,9 +51,9 @@ export class IntegrationRuntimeNodeIpAddressOperationsImpl
         workspaceName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -60,16 +61,15 @@ export class IntegrationRuntimeNodeIpAddressOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}/ipAddress",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress
+      bodyMapper: Mappers.IntegrationRuntimeNodeIpAddress,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -78,8 +78,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

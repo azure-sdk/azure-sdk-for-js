@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPoolReplicationLinks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPoolReplicationLinks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   ReplicationLink,
   SqlPoolReplicationLinksListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   SqlPoolReplicationLinksListResponse,
   SqlPoolReplicationLinksGetByNameOptionalParams,
   SqlPoolReplicationLinksGetByNameResponse,
-  SqlPoolReplicationLinksListNextResponse
-} from "../models";
+  SqlPoolReplicationLinksListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolReplicationLinks operations. */
@@ -47,13 +47,13 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolReplicationLinksListOptionalParams
+    options?: SqlPoolReplicationLinksListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolReplicationLinksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReplicationLink[]> {
     let result: SqlPoolReplicationLinksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolReplicationLinksListOptionalParams
+    options?: SqlPoolReplicationLinksListOptionalParams,
   ): AsyncIterableIterator<ReplicationLink> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolReplicationLinksListOptionalParams
+    options?: SqlPoolReplicationLinksListOptionalParams,
   ): Promise<SqlPoolReplicationLinksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     workspaceName: string,
     sqlPoolName: string,
     linkId: string,
-    options?: SqlPoolReplicationLinksGetByNameOptionalParams
+    options?: SqlPoolReplicationLinksGetByNameOptionalParams,
   ): Promise<SqlPoolReplicationLinksGetByNameResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, linkId, options },
-      getByNameOperationSpec
+      getByNameOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolReplicationLinksListNextOptionalParams
+    options?: SqlPoolReplicationLinksListNextOptionalParams,
   ): Promise<SqlPoolReplicationLinksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -194,39 +194,15 @@ export class SqlPoolReplicationLinksImpl implements SqlPoolReplicationLinks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/replicationLinks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/replicationLinks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationLinkListResult
+      bodyMapper: Mappers.ReplicationLinkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getByNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/replicationLinks/{linkId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReplicationLink
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -235,21 +211,43 @@ const getByNameOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.linkId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getByNameOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/replicationLinks/{linkId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationLink,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.linkId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationLinkListResult
+      bodyMapper: Mappers.ReplicationLinkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -257,8 +255,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

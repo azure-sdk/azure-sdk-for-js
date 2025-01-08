@@ -8,8 +8,8 @@
 
 import {
   IntegrationRuntimeStatusGetOptionalParams,
-  IntegrationRuntimeStatusGetResponse
-} from "../models";
+  IntegrationRuntimeStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeStatusOperations. */
 export interface IntegrationRuntimeStatusOperations {
@@ -24,6 +24,6 @@ export interface IntegrationRuntimeStatusOperations {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeStatusGetOptionalParams
+    options?: IntegrationRuntimeStatusGetOptionalParams,
   ): Promise<IntegrationRuntimeStatusGetResponse>;
 }

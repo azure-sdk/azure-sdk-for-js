@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPools } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPools } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SqlPool,
   SqlPoolsListByWorkspaceNextOptionalParams,
@@ -33,10 +37,8 @@ import {
   SqlPoolsPauseResponse,
   SqlPoolsResumeOptionalParams,
   SqlPoolsResumeResponse,
-  ResourceMoveDefinition,
-  SqlPoolsRenameOptionalParams,
-  SqlPoolsListByWorkspaceNextResponse
-} from "../models";
+  SqlPoolsListByWorkspaceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPools operations. */
@@ -60,12 +62,12 @@ export class SqlPoolsImpl implements SqlPools {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SqlPoolsListByWorkspaceOptionalParams
+    options?: SqlPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SqlPool> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -82,9 +84,9 @@ export class SqlPoolsImpl implements SqlPools {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +94,7 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     options?: SqlPoolsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPool[]> {
     let result: SqlPoolsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +102,7 @@ export class SqlPoolsImpl implements SqlPools {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -112,7 +114,7 @@ export class SqlPoolsImpl implements SqlPools {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,12 +126,12 @@ export class SqlPoolsImpl implements SqlPools {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SqlPoolsListByWorkspaceOptionalParams
+    options?: SqlPoolsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<SqlPool> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +148,11 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsGetOptionalParams
+    options?: SqlPoolsGetOptionalParams,
   ): Promise<SqlPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,30 +169,29 @@ export class SqlPoolsImpl implements SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPoolPatchInfo,
-    options?: SqlPoolsUpdateOptionalParams
+    options?: SqlPoolsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsUpdateResponse>,
       SqlPoolsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -199,8 +200,8 @@ export class SqlPoolsImpl implements SqlPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -208,19 +209,28 @@ export class SqlPoolsImpl implements SqlPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        sqlPoolInfo,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsUpdateResponse,
+      OperationState<SqlPoolsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -239,14 +249,14 @@ export class SqlPoolsImpl implements SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPoolPatchInfo,
-    options?: SqlPoolsUpdateOptionalParams
+    options?: SqlPoolsUpdateOptionalParams,
   ): Promise<SqlPoolsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
       sqlPoolInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -264,30 +274,29 @@ export class SqlPoolsImpl implements SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPool,
-    options?: SqlPoolsCreateOptionalParams
+    options?: SqlPoolsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsCreateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsCreateResponse>,
       SqlPoolsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +305,8 @@ export class SqlPoolsImpl implements SqlPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,20 +314,29 @@ export class SqlPoolsImpl implements SqlPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        sqlPoolInfo,
+        options,
+      },
+      spec: createOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsCreateResponse,
+      OperationState<SqlPoolsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -337,14 +355,14 @@ export class SqlPoolsImpl implements SqlPools {
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPool,
-    options?: SqlPoolsCreateOptionalParams
+    options?: SqlPoolsCreateOptionalParams,
   ): Promise<SqlPoolsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
       sqlPoolInfo,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -360,30 +378,29 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsDeleteOptionalParams
+    options?: SqlPoolsDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsDeleteResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsDeleteResponse>,
       SqlPoolsDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -392,8 +409,8 @@ export class SqlPoolsImpl implements SqlPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -401,20 +418,23 @@ export class SqlPoolsImpl implements SqlPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsDeleteResponse,
+      OperationState<SqlPoolsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -431,13 +451,13 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsDeleteOptionalParams
+    options?: SqlPoolsDeleteOptionalParams,
   ): Promise<SqlPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -451,11 +471,11 @@ export class SqlPoolsImpl implements SqlPools {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SqlPoolsListByWorkspaceOptionalParams
+    options?: SqlPoolsListByWorkspaceOptionalParams,
   ): Promise<SqlPoolsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -470,27 +490,29 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsPauseOptionalParams
+    options?: SqlPoolsPauseOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<SqlPoolsPauseResponse>, SqlPoolsPauseResponse>
+    SimplePollerLike<
+      OperationState<SqlPoolsPauseResponse>,
+      SqlPoolsPauseResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolsPauseResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -499,8 +521,8 @@ export class SqlPoolsImpl implements SqlPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -508,20 +530,23 @@ export class SqlPoolsImpl implements SqlPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      pauseOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: pauseOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsPauseResponse,
+      OperationState<SqlPoolsPauseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -538,13 +563,13 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsPauseOptionalParams
+    options?: SqlPoolsPauseOptionalParams,
   ): Promise<SqlPoolsPauseResponse> {
     const poller = await this.beginPause(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -560,30 +585,29 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsResumeOptionalParams
+    options?: SqlPoolsResumeOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsResumeResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolsResumeResponse>,
       SqlPoolsResumeResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolsResumeResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -592,8 +616,8 @@ export class SqlPoolsImpl implements SqlPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -601,20 +625,23 @@ export class SqlPoolsImpl implements SqlPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, options },
-      resumeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, sqlPoolName, options },
+      spec: resumeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolsResumeResponse,
+      OperationState<SqlPoolsResumeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -631,36 +658,15 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolsResumeOptionalParams
+    options?: SqlPoolsResumeOptionalParams,
   ): Promise<SqlPoolsResumeResponse> {
     const poller = await this.beginResume(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Rename a SQL pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param parameters The resource move definition for renaming this Sql pool.
-   * @param options The options parameters.
-   */
-  rename(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    parameters: ResourceMoveDefinition,
-    options?: SqlPoolsRenameOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      renameOperationSpec
-    );
   }
 
   /**
@@ -674,11 +680,11 @@ export class SqlPoolsImpl implements SqlPools {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: SqlPoolsListByWorkspaceNextOptionalParams
+    options?: SqlPoolsListByWorkspaceNextOptionalParams,
   ): Promise<SqlPoolsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -686,16 +692,15 @@ export class SqlPoolsImpl implements SqlPools {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -703,31 +708,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sqlPoolInfo,
   queryParameters: [Parameters.apiVersion],
@@ -736,35 +740,34 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sqlPoolInfo1,
   queryParameters: [Parameters.apiVersion],
@@ -773,32 +776,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -806,53 +808,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolInfoListResult
+      bodyMapper: Mappers.SqlPoolInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const pauseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/pause",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/pause",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -860,31 +860,30 @@ const pauseOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const resumeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/resume",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/resume",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: Mappers.SqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -892,47 +891,29 @@ const resumeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const renameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/move",
-  httpMethod: "POST",
-  responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolInfoListResult
+      bodyMapper: Mappers.SqlPoolInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

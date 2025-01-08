@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   KustoPoolPrivateLinkResources,
-  KustoPoolPrivateLinkResourcesListOptionalParams
-} from "../models";
+  KustoPoolPrivateLinkResourcesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a KustoPoolPrivateLinkResourcesOperations. */
@@ -26,6 +26,6 @@ export interface KustoPoolPrivateLinkResourcesOperations {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolPrivateLinkResourcesListOptionalParams
+    options?: KustoPoolPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<KustoPoolPrivateLinkResources>;
 }

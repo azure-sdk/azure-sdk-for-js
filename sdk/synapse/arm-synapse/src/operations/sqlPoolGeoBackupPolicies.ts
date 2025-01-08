@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { SqlPoolGeoBackupPolicies } from "../operationsInterfaces";
+import { SqlPoolGeoBackupPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   GeoBackupPolicy,
   SqlPoolGeoBackupPoliciesListOptionalParams,
@@ -20,8 +20,8 @@ import {
   SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams,
   SqlPoolGeoBackupPoliciesCreateOrUpdateResponse,
   SqlPoolGeoBackupPoliciesGetOptionalParams,
-  SqlPoolGeoBackupPoliciesGetResponse
-} from "../models";
+  SqlPoolGeoBackupPoliciesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolGeoBackupPolicies operations. */
@@ -47,13 +47,13 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolGeoBackupPoliciesListOptionalParams
+    options?: SqlPoolGeoBackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<GeoBackupPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,14 +82,14 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolGeoBackupPoliciesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
     let result: SqlPoolGeoBackupPoliciesListResponse;
     result = await this._list(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -98,13 +98,13 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolGeoBackupPoliciesListOptionalParams
+    options?: SqlPoolGeoBackupPoliciesListOptionalParams,
   ): AsyncIterableIterator<GeoBackupPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,11 +121,11 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolGeoBackupPoliciesListOptionalParams
+    options?: SqlPoolGeoBackupPoliciesListOptionalParams,
   ): Promise<SqlPoolGeoBackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -144,7 +144,7 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     sqlPoolName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
     parameters: GeoBackupPolicy,
-    options?: SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams
+    options?: SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolGeoBackupPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -153,9 +153,9 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
         sqlPoolName,
         geoBackupPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -172,7 +172,7 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
     workspaceName: string,
     sqlPoolName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
-    options?: SqlPoolGeoBackupPoliciesGetOptionalParams
+    options?: SqlPoolGeoBackupPoliciesGetOptionalParams,
   ): Promise<SqlPoolGeoBackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -180,9 +180,9 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
         workspaceName,
         sqlPoolName,
         geoBackupPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -190,16 +190,15 @@ export class SqlPoolGeoBackupPoliciesImpl implements SqlPoolGeoBackupPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicyListResult
+      bodyMapper: Mappers.GeoBackupPolicyListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -207,27 +206,26 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/{geoBackupPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicy
+      bodyMapper: Mappers.GeoBackupPolicy,
     },
     201: {
-      bodyMapper: Mappers.GeoBackupPolicy
+      bodyMapper: Mappers.GeoBackupPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -235,23 +233,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.geoBackupPolicyName
+    Parameters.geoBackupPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/{geoBackupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/{geoBackupPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GeoBackupPolicy
+      bodyMapper: Mappers.GeoBackupPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -260,8 +257,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.geoBackupPolicyName
+    Parameters.geoBackupPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

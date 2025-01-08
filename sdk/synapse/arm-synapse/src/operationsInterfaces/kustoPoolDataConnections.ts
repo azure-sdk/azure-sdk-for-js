@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DataConnectionUnion,
   KustoPoolDataConnectionsListByDatabaseOptionalParams,
@@ -23,8 +23,8 @@ import {
   KustoPoolDataConnectionsCreateOrUpdateResponse,
   KustoPoolDataConnectionsUpdateOptionalParams,
   KustoPoolDataConnectionsUpdateResponse,
-  KustoPoolDataConnectionsDeleteOptionalParams
-} from "../models";
+  KustoPoolDataConnectionsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a KustoPoolDataConnections. */
@@ -42,7 +42,7 @@ export interface KustoPoolDataConnections {
     workspaceName: string,
     kustoPoolName: string,
     databaseName: string,
-    options?: KustoPoolDataConnectionsListByDatabaseOptionalParams
+    options?: KustoPoolDataConnectionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectionUnion>;
   /**
    * Checks that the data connection name is valid and is not already in use.
@@ -59,7 +59,7 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     dataConnectionName: DataConnectionCheckNameRequest,
-    options?: KustoPoolDataConnectionsCheckNameAvailabilityOptionalParams
+    options?: KustoPoolDataConnectionsCheckNameAvailabilityOptionalParams,
   ): Promise<KustoPoolDataConnectionsCheckNameAvailabilityResponse>;
   /**
    * Checks that the data connection parameters are valid.
@@ -76,12 +76,10 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams
+    options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        KustoPoolDataConnectionsDataConnectionValidationResponse
-      >,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsDataConnectionValidationResponse>,
       KustoPoolDataConnectionsDataConnectionValidationResponse
     >
   >;
@@ -100,7 +98,7 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams
+    options?: KustoPoolDataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<KustoPoolDataConnectionsDataConnectionValidationResponse>;
   /**
    * Returns a data connection.
@@ -117,7 +115,7 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: KustoPoolDataConnectionsGetOptionalParams
+    options?: KustoPoolDataConnectionsGetOptionalParams,
   ): Promise<KustoPoolDataConnectionsGetResponse>;
   /**
    * Creates or updates a data connection.
@@ -136,10 +134,10 @@ export interface KustoPoolDataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams
+    options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDataConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsCreateOrUpdateResponse>,
       KustoPoolDataConnectionsCreateOrUpdateResponse
     >
   >;
@@ -160,7 +158,7 @@ export interface KustoPoolDataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams
+    options?: KustoPoolDataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolDataConnectionsCreateOrUpdateResponse>;
   /**
    * Updates a data connection.
@@ -179,10 +177,10 @@ export interface KustoPoolDataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: KustoPoolDataConnectionsUpdateOptionalParams
+    options?: KustoPoolDataConnectionsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<KustoPoolDataConnectionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<KustoPoolDataConnectionsUpdateResponse>,
       KustoPoolDataConnectionsUpdateResponse
     >
   >;
@@ -203,7 +201,7 @@ export interface KustoPoolDataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: KustoPoolDataConnectionsUpdateOptionalParams
+    options?: KustoPoolDataConnectionsUpdateOptionalParams,
   ): Promise<KustoPoolDataConnectionsUpdateResponse>;
   /**
    * Deletes the data connection with the given name.
@@ -220,8 +218,8 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: KustoPoolDataConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: KustoPoolDataConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -237,6 +235,6 @@ export interface KustoPoolDataConnections {
     kustoPoolName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: KustoPoolDataConnectionsDeleteOptionalParams
+    options?: KustoPoolDataConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

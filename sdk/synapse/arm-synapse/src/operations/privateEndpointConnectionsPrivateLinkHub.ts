@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PrivateEndpointConnectionsPrivateLinkHub } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PrivateEndpointConnectionsPrivateLinkHub } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   PrivateEndpointConnectionForPrivateLinkHub,
   PrivateEndpointConnectionsPrivateLinkHubListNextOptionalParams,
@@ -20,13 +20,14 @@ import {
   PrivateEndpointConnectionsPrivateLinkHubListResponse,
   PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams,
   PrivateEndpointConnectionsPrivateLinkHubGetResponse,
-  PrivateEndpointConnectionsPrivateLinkHubListNextResponse
-} from "../models";
+  PrivateEndpointConnectionsPrivateLinkHubListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnectionsPrivateLinkHub operations. */
 export class PrivateEndpointConnectionsPrivateLinkHubImpl
-  implements PrivateEndpointConnectionsPrivateLinkHub {
+  implements PrivateEndpointConnectionsPrivateLinkHub
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -46,12 +47,12 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
   public list(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionForPrivateLinkHub> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateLinkHubName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
           resourceGroupName,
           privateLinkHubName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +79,7 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
     resourceGroupName: string,
     privateLinkHubName: string,
     options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnectionForPrivateLinkHub[]> {
     let result: PrivateEndpointConnectionsPrivateLinkHubListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
         resourceGroupName,
         privateLinkHubName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +107,12 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
   private async *listPagingAll(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionForPrivateLinkHub> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateLinkHubName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,11 +127,11 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
   private _list(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   ): Promise<PrivateEndpointConnectionsPrivateLinkHubListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateLinkHubName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,16 +146,16 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
     resourceGroupName: string,
     privateLinkHubName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsPrivateLinkHubGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         privateLinkHubName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -169,11 +170,11 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
     resourceGroupName: string,
     privateLinkHubName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubListNextOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubListNextOptionalParams,
   ): Promise<PrivateEndpointConnectionsPrivateLinkHubListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateLinkHubName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -181,39 +182,37 @@ export class PrivateEndpointConnectionsPrivateLinkHubImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse
+        Mappers.PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionForPrivateLinkHub
+      bodyMapper: Mappers.PrivateEndpointConnectionForPrivateLinkHub,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -221,10 +220,10 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
@@ -232,19 +231,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper:
-        Mappers.PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse
+        Mappers.PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.privateLinkHubName
+    Parameters.privateLinkHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

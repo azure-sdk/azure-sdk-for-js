@@ -11,8 +11,8 @@ import {
   PrivateEndpointConnectionForPrivateLinkHub,
   PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams,
-  PrivateEndpointConnectionsPrivateLinkHubGetResponse
-} from "../models";
+  PrivateEndpointConnectionsPrivateLinkHubGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnectionsPrivateLinkHub. */
@@ -26,7 +26,7 @@ export interface PrivateEndpointConnectionsPrivateLinkHub {
   list(
     resourceGroupName: string,
     privateLinkHubName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionForPrivateLinkHub>;
   /**
    * Get all PrivateEndpointConnection in the PrivateLinkHub by name
@@ -39,6 +39,6 @@ export interface PrivateEndpointConnectionsPrivateLinkHub {
     resourceGroupName: string,
     privateLinkHubName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams
+    options?: PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsPrivateLinkHubGetResponse>;
 }

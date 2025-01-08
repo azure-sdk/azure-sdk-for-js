@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DedicatedSQLminimalTlsSettings,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
@@ -15,8 +15,8 @@ import {
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse,
   WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams,
-  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse
-} from "../models";
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings. */
@@ -30,7 +30,7 @@ export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedSQLminimalTlsSettings>;
   /**
    * Update workspace managed sql server's minimal tls settings.
@@ -45,12 +45,10 @@ export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName,
     parameters: DedicatedSQLminimalTlsSettings,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>,
       WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
     >
   >;
@@ -67,10 +65,8 @@ export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName,
     parameters: DedicatedSQLminimalTlsSettings,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
-  >;
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>;
   /**
    * Get workspace managed sql server's minimal tls settings.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -82,8 +78,6 @@ export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
     resourceGroupName: string,
     workspaceName: string,
     dedicatedSQLminimalTlsSettingsName: string,
-    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse
-  >;
+    options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse>;
 }

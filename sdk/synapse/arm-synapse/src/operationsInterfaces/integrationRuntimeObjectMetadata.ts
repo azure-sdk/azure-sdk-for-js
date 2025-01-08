@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationRuntimeObjectMetadataListOptionalParams,
   IntegrationRuntimeObjectMetadataListResponse,
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
-  IntegrationRuntimeObjectMetadataRefreshResponse
-} from "../models";
+  IntegrationRuntimeObjectMetadataRefreshResponse,
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeObjectMetadata. */
 export interface IntegrationRuntimeObjectMetadata {
@@ -27,7 +27,7 @@ export interface IntegrationRuntimeObjectMetadata {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataListOptionalParams
+    options?: IntegrationRuntimeObjectMetadataListOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataListResponse>;
   /**
    * Refresh the object metadata in an integration runtime
@@ -40,10 +40,10 @@ export interface IntegrationRuntimeObjectMetadata {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>,
       IntegrationRuntimeObjectMetadataRefreshResponse
     >
   >;
@@ -58,6 +58,6 @@ export interface IntegrationRuntimeObjectMetadata {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams
+    options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   ): Promise<IntegrationRuntimeObjectMetadataRefreshResponse>;
 }

@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPoolOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPoolOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SqlPoolOperation,
   SqlPoolOperationsListNextOptionalParams,
   SqlPoolOperationsListOptionalParams,
   SqlPoolOperationsListResponse,
-  SqlPoolOperationsListNextResponse
-} from "../models";
+  SqlPoolOperationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolOperations operations. */
@@ -45,13 +45,13 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolOperationsListOptionalParams
+    options?: SqlPoolOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolOperation> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPoolOperation[]> {
     let result: SqlPoolOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +102,7 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,13 +115,13 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolOperationsListOptionalParams
+    options?: SqlPoolOperationsListOptionalParams,
   ): AsyncIterableIterator<SqlPoolOperation> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +138,11 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolOperationsListOptionalParams
+    options?: SqlPoolOperationsListOptionalParams,
   ): Promise<SqlPoolOperationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolOperationsListNextOptionalParams
+    options?: SqlPoolOperationsListNextOptionalParams,
   ): Promise<SqlPoolOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,14 +171,13 @@ export class SqlPoolOperationsImpl implements SqlPoolOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult
+      bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -186,19 +185,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult
+      bodyMapper: Mappers.SqlPoolBlobAuditingPolicySqlPoolOperationListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -206,8 +205,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

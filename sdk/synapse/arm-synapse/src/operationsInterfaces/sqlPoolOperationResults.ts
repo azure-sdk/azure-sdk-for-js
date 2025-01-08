@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
-  SqlPoolOperationResultsGetLocationHeaderResultResponse
-} from "../models";
+  SqlPoolOperationResultsGetLocationHeaderResultResponse,
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolOperationResults. */
 export interface SqlPoolOperationResults {
@@ -27,12 +27,10 @@ export interface SqlPoolOperationResults {
     workspaceName: string,
     sqlPoolName: string,
     operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
+    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        SqlPoolOperationResultsGetLocationHeaderResultResponse
-      >,
+    SimplePollerLike<
+      OperationState<SqlPoolOperationResultsGetLocationHeaderResultResponse>,
       SqlPoolOperationResultsGetLocationHeaderResultResponse
     >
   >;
@@ -49,6 +47,6 @@ export interface SqlPoolOperationResults {
     workspaceName: string,
     sqlPoolName: string,
     operationId: string,
-    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams
+    options?: SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   ): Promise<SqlPoolOperationResultsGetLocationHeaderResultResponse>;
 }

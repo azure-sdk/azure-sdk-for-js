@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ExtendedSqlPoolBlobAuditingPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ExtendedSqlPoolBlobAuditingPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   ExtendedSqlPoolBlobAuditingPolicy,
   ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextOptionalParams,
@@ -22,13 +22,14 @@ import {
   ExtendedSqlPoolBlobAuditingPoliciesGetResponse,
   ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse,
-  ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse
-} from "../models";
+  ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExtendedSqlPoolBlobAuditingPolicies operations. */
 export class ExtendedSqlPoolBlobAuditingPoliciesImpl
-  implements ExtendedSqlPoolBlobAuditingPolicies {
+  implements ExtendedSqlPoolBlobAuditingPolicies
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -50,13 +51,13 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedSqlPoolBlobAuditingPolicy> {
     const iter = this.listBySqlPoolPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +75,9 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +86,7 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExtendedSqlPoolBlobAuditingPolicy[]> {
     let result: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +95,7 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +108,7 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +121,13 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
   ): AsyncIterableIterator<ExtendedSqlPoolBlobAuditingPolicy> {
     for await (const page of this.listBySqlPoolPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +144,11 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesGetOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesGetOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,11 +165,11 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     parameters: ExtendedSqlPoolBlobAuditingPolicy,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +184,11 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listBySqlPoolOperationSpec
+      listBySqlPoolOperationSpec,
     );
   }
 
@@ -204,11 +205,11 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listBySqlPoolNextOperationSpec
+      listBySqlPoolNextOperationSpec,
     );
   }
 }
@@ -216,14 +217,13 @@ export class ExtendedSqlPoolBlobAuditingPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -232,25 +232,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.blobAuditingPolicyName
+    Parameters.blobAuditingPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy,
     },
     201: {
-      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -258,21 +257,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.blobAuditingPolicyName
+    Parameters.blobAuditingPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySqlPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/extendedAuditingSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -280,19 +278,19 @@ const listBySqlPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySqlPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedSqlPoolBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -300,8 +298,8 @@ const listBySqlPoolNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

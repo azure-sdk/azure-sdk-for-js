@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -15,8 +15,8 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOptionalParams,
   PrivateEndpointConnectionsCreateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
-} from "../models";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
@@ -43,7 +43,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection.
@@ -58,10 +58,10 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     request: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateResponse>,
       PrivateEndpointConnectionsCreateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface PrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     request: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateResponse>;
   /**
    * Delete a private endpoint connection.
@@ -91,8 +91,8 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a private endpoint connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -104,6 +104,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

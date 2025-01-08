@@ -14,8 +14,8 @@ import {
   SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams,
   SqlPoolGeoBackupPoliciesCreateOrUpdateResponse,
   SqlPoolGeoBackupPoliciesGetOptionalParams,
-  SqlPoolGeoBackupPoliciesGetResponse
-} from "../models";
+  SqlPoolGeoBackupPoliciesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolGeoBackupPolicies. */
@@ -31,7 +31,7 @@ export interface SqlPoolGeoBackupPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolGeoBackupPoliciesListOptionalParams
+    options?: SqlPoolGeoBackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<GeoBackupPolicy>;
   /**
    * Updates a SQL Pool geo backup policy.
@@ -48,7 +48,7 @@ export interface SqlPoolGeoBackupPolicies {
     sqlPoolName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
     parameters: GeoBackupPolicy,
-    options?: SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams
+    options?: SqlPoolGeoBackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolGeoBackupPoliciesCreateOrUpdateResponse>;
   /**
    * Get the specified SQL pool geo backup policy
@@ -63,6 +63,6 @@ export interface SqlPoolGeoBackupPolicies {
     workspaceName: string,
     sqlPoolName: string,
     geoBackupPolicyName: GeoBackupPolicyName,
-    options?: SqlPoolGeoBackupPoliciesGetOptionalParams
+    options?: SqlPoolGeoBackupPoliciesGetOptionalParams,
   ): Promise<SqlPoolGeoBackupPoliciesGetResponse>;
 }

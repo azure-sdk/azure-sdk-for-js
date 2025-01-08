@@ -7,23 +7,24 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { RestorableDroppedSqlPools } from "../operationsInterfaces";
+import { RestorableDroppedSqlPools } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   RestorableDroppedSqlPool,
   RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   RestorableDroppedSqlPoolsListByWorkspaceResponse,
   RestorableDroppedSqlPoolsGetOptionalParams,
-  RestorableDroppedSqlPoolsGetResponse
-} from "../models";
+  RestorableDroppedSqlPoolsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableDroppedSqlPools operations. */
 export class RestorableDroppedSqlPoolsImpl
-  implements RestorableDroppedSqlPools {
+  implements RestorableDroppedSqlPools
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,12 +44,12 @@ export class RestorableDroppedSqlPoolsImpl
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
+    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedSqlPool> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +66,9 @@ export class RestorableDroppedSqlPoolsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,13 +76,13 @@ export class RestorableDroppedSqlPoolsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<RestorableDroppedSqlPool[]> {
     let result: RestorableDroppedSqlPoolsListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -89,12 +90,12 @@ export class RestorableDroppedSqlPoolsImpl
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
+    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<RestorableDroppedSqlPool> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -112,11 +113,11 @@ export class RestorableDroppedSqlPoolsImpl
     resourceGroupName: string,
     workspaceName: string,
     restorableDroppedSqlPoolId: string,
-    options?: RestorableDroppedSqlPoolsGetOptionalParams
+    options?: RestorableDroppedSqlPoolsGetOptionalParams,
   ): Promise<RestorableDroppedSqlPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, restorableDroppedSqlPoolId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -129,11 +130,11 @@ export class RestorableDroppedSqlPoolsImpl
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams
+    options?: RestorableDroppedSqlPoolsListByWorkspaceOptionalParams,
   ): Promise<RestorableDroppedSqlPoolsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 }
@@ -141,16 +142,15 @@ export class RestorableDroppedSqlPoolsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/restorableDroppedSqlPools/{restorableDroppedSqlPoolId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/restorableDroppedSqlPools/{restorableDroppedSqlPoolId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableDroppedSqlPool
+      bodyMapper: Mappers.RestorableDroppedSqlPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -158,30 +158,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.restorableDroppedSqlPoolId
+    Parameters.restorableDroppedSqlPoolId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/restorableDroppedSqlPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/restorableDroppedSqlPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorableDroppedSqlPoolListResult
+      bodyMapper: Mappers.RestorableDroppedSqlPoolListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

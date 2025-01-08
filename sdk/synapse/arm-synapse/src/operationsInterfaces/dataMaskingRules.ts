@@ -13,8 +13,8 @@ import {
   DataMaskingRulesCreateOrUpdateOptionalParams,
   DataMaskingRulesCreateOrUpdateResponse,
   DataMaskingRulesGetOptionalParams,
-  DataMaskingRulesGetResponse
-} from "../models";
+  DataMaskingRulesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataMaskingRules. */
@@ -30,7 +30,7 @@ export interface DataMaskingRules {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: DataMaskingRulesListBySqlPoolOptionalParams
+    options?: DataMaskingRulesListBySqlPoolOptionalParams,
   ): PagedAsyncIterableIterator<DataMaskingRule>;
   /**
    * Creates or updates a Sql pool data masking rule.
@@ -47,7 +47,7 @@ export interface DataMaskingRules {
     sqlPoolName: string,
     dataMaskingRuleName: string,
     parameters: DataMaskingRule,
-    options?: DataMaskingRulesCreateOrUpdateOptionalParams
+    options?: DataMaskingRulesCreateOrUpdateOptionalParams,
   ): Promise<DataMaskingRulesCreateOrUpdateResponse>;
   /**
    * Gets the specific Sql pool data masking rule.
@@ -62,6 +62,6 @@ export interface DataMaskingRules {
     workspaceName: string,
     sqlPoolName: string,
     dataMaskingRuleName: string,
-    options?: DataMaskingRulesGetOptionalParams
+    options?: DataMaskingRulesGetOptionalParams,
   ): Promise<DataMaskingRulesGetResponse>;
 }

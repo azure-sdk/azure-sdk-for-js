@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPoolSecurityAlertPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPoolSecurityAlertPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SqlPoolSecurityAlertPolicy,
   SqlPoolSecurityAlertPoliciesListNextOptionalParams,
@@ -23,13 +23,14 @@ import {
   SqlPoolSecurityAlertPoliciesGetResponse,
   SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse,
-  SqlPoolSecurityAlertPoliciesListNextResponse
-} from "../models";
+  SqlPoolSecurityAlertPoliciesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolSecurityAlertPolicies operations. */
 export class SqlPoolSecurityAlertPoliciesImpl
-  implements SqlPoolSecurityAlertPolicies {
+  implements SqlPoolSecurityAlertPolicies
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -51,13 +52,13 @@ export class SqlPoolSecurityAlertPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSecurityAlertPoliciesListOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolSecurityAlertPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +76,9 @@ export class SqlPoolSecurityAlertPoliciesImpl
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +87,7 @@ export class SqlPoolSecurityAlertPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolSecurityAlertPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlPoolSecurityAlertPolicy[]> {
     let result: SqlPoolSecurityAlertPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +96,7 @@ export class SqlPoolSecurityAlertPoliciesImpl
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class SqlPoolSecurityAlertPoliciesImpl
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +122,13 @@ export class SqlPoolSecurityAlertPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSecurityAlertPoliciesListOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesListOptionalParams,
   ): AsyncIterableIterator<SqlPoolSecurityAlertPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,11 +145,11 @@ export class SqlPoolSecurityAlertPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSecurityAlertPoliciesListOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesListOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -165,7 +166,7 @@ export class SqlPoolSecurityAlertPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
-    options?: SqlPoolSecurityAlertPoliciesGetOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesGetOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -173,9 +174,9 @@ export class SqlPoolSecurityAlertPoliciesImpl
         workspaceName,
         sqlPoolName,
         securityAlertPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,7 +195,7 @@ export class SqlPoolSecurityAlertPoliciesImpl
     sqlPoolName: string,
     securityAlertPolicyName: SecurityAlertPolicyName,
     parameters: SqlPoolSecurityAlertPolicy,
-    options?: SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -203,9 +204,9 @@ export class SqlPoolSecurityAlertPoliciesImpl
         sqlPoolName,
         securityAlertPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -222,11 +223,11 @@ export class SqlPoolSecurityAlertPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolSecurityAlertPoliciesListNextOptionalParams
+    options?: SqlPoolSecurityAlertPoliciesListNextOptionalParams,
   ): Promise<SqlPoolSecurityAlertPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -234,35 +235,13 @@ export class SqlPoolSecurityAlertPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListSqlPoolSecurityAlertPolicies
+      bodyMapper: Mappers.ListSqlPoolSecurityAlertPolicies,
     },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy
-    },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -271,25 +250,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.securityAlertPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.securityAlertPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/securityAlertPolicies/{securityAlertPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy
+      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy,
     },
     201: {
-      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy
+      bodyMapper: Mappers.SqlPoolSecurityAlertPolicy,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -297,20 +295,20 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.securityAlertPolicyName
+    Parameters.securityAlertPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListSqlPoolSecurityAlertPolicies
+      bodyMapper: Mappers.ListSqlPoolSecurityAlertPolicies,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -318,8 +316,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

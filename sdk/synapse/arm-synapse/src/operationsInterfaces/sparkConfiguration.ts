@@ -8,8 +8,8 @@
 
 import {
   SparkConfigurationGetOptionalParams,
-  SparkConfigurationGetResponse
-} from "../models";
+  SparkConfigurationGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a SparkConfiguration. */
 export interface SparkConfiguration {
@@ -24,6 +24,6 @@ export interface SparkConfiguration {
     resourceGroupName: string,
     sparkConfigurationName: string,
     workspaceName: string,
-    options?: SparkConfigurationGetOptionalParams
+    options?: SparkConfigurationGetOptionalParams,
   ): Promise<SparkConfigurationGetResponse>;
 }

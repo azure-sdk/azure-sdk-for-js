@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SqlPoolMetadataSyncConfigs } from "../operationsInterfaces";
+import { SqlPoolMetadataSyncConfigs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SqlPoolMetadataSyncConfigsGetOptionalParams,
   SqlPoolMetadataSyncConfigsGetResponse,
   MetadataSyncConfig,
   SqlPoolMetadataSyncConfigsCreateOptionalParams,
-  SqlPoolMetadataSyncConfigsCreateResponse
-} from "../models";
+  SqlPoolMetadataSyncConfigsCreateResponse,
+} from "../models/index.js";
 
 /** Class containing SqlPoolMetadataSyncConfigs operations. */
 export class SqlPoolMetadataSyncConfigsImpl
-  implements SqlPoolMetadataSyncConfigs {
+  implements SqlPoolMetadataSyncConfigs
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,11 +44,11 @@ export class SqlPoolMetadataSyncConfigsImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolMetadataSyncConfigsGetOptionalParams
+    options?: SqlPoolMetadataSyncConfigsGetOptionalParams,
   ): Promise<SqlPoolMetadataSyncConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -64,7 +65,7 @@ export class SqlPoolMetadataSyncConfigsImpl
     workspaceName: string,
     sqlPoolName: string,
     metadataSyncConfiguration: MetadataSyncConfig,
-    options?: SqlPoolMetadataSyncConfigsCreateOptionalParams
+    options?: SqlPoolMetadataSyncConfigsCreateOptionalParams,
   ): Promise<SqlPoolMetadataSyncConfigsCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -72,9 +73,9 @@ export class SqlPoolMetadataSyncConfigsImpl
         workspaceName,
         sqlPoolName,
         metadataSyncConfiguration,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 }
@@ -82,19 +83,18 @@ export class SqlPoolMetadataSyncConfigsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataSyncConfig
+      bodyMapper: Mappers.MetadataSyncConfig,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -102,25 +102,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/metadataSync/config",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataSyncConfig
+      bodyMapper: Mappers.MetadataSyncConfig,
     },
     404: {
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.metadataSyncConfiguration,
   queryParameters: [Parameters.apiVersion],
@@ -129,9 +128,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

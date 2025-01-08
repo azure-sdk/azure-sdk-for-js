@@ -11,8 +11,8 @@ import {
   SqlPoolTable,
   SqlPoolTablesListBySchemaOptionalParams,
   SqlPoolTablesGetOptionalParams,
-  SqlPoolTablesGetResponse
-} from "../models";
+  SqlPoolTablesGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolTables. */
@@ -30,7 +30,7 @@ export interface SqlPoolTables {
     workspaceName: string,
     sqlPoolName: string,
     schemaName: string,
-    options?: SqlPoolTablesListBySchemaOptionalParams
+    options?: SqlPoolTablesListBySchemaOptionalParams,
   ): PagedAsyncIterableIterator<SqlPoolTable>;
   /**
    * Get Sql pool table
@@ -47,6 +47,6 @@ export interface SqlPoolTables {
     sqlPoolName: string,
     schemaName: string,
     tableName: string,
-    options?: SqlPoolTablesGetOptionalParams
+    options?: SqlPoolTablesGetOptionalParams,
   ): Promise<SqlPoolTablesGetResponse>;
 }

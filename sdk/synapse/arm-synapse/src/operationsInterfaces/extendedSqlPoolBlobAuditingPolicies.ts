@@ -13,8 +13,8 @@ import {
   ExtendedSqlPoolBlobAuditingPoliciesGetOptionalParams,
   ExtendedSqlPoolBlobAuditingPoliciesGetResponse,
   ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+  ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExtendedSqlPoolBlobAuditingPolicies. */
@@ -30,7 +30,7 @@ export interface ExtendedSqlPoolBlobAuditingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedSqlPoolBlobAuditingPolicy>;
   /**
    * Gets an extended Sql pool's blob auditing policy.
@@ -43,7 +43,7 @@ export interface ExtendedSqlPoolBlobAuditingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesGetOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesGetOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesGetResponse>;
   /**
    * Creates or updates an extended Sql pool's blob auditing policy.
@@ -58,6 +58,6 @@ export interface ExtendedSqlPoolBlobAuditingPolicies {
     workspaceName: string,
     sqlPoolName: string,
     parameters: ExtendedSqlPoolBlobAuditingPolicy,
-    options?: ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AttachedDatabaseConfiguration,
   KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams,
@@ -15,8 +15,8 @@ import {
   KustoPoolAttachedDatabaseConfigurationsGetResponse,
   KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse,
-  KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
-} from "../models";
+  KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a KustoPoolAttachedDatabaseConfigurations. */
@@ -32,7 +32,7 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsListByKustoPoolOptionalParams,
   ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration>;
   /**
    * Returns an attached database configuration.
@@ -47,7 +47,7 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     kustoPoolName: string,
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
-    options?: KustoPoolAttachedDatabaseConfigurationsGetOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsGetOptionalParams,
   ): Promise<KustoPoolAttachedDatabaseConfigurationsGetResponse>;
   /**
    * Creates or updates an attached database configuration.
@@ -64,12 +64,10 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse>,
       KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse
     >
   >;
@@ -88,7 +86,7 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
     parameters: AttachedDatabaseConfiguration,
-    options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<KustoPoolAttachedDatabaseConfigurationsCreateOrUpdateResponse>;
   /**
    * Deletes the attached database configuration with the given name.
@@ -103,8 +101,8 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     kustoPoolName: string,
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
-    options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the attached database configuration with the given name.
    * @param workspaceName The name of the workspace.
@@ -118,6 +116,6 @@ export interface KustoPoolAttachedDatabaseConfigurations {
     kustoPoolName: string,
     attachedDatabaseConfigurationName: string,
     resourceGroupName: string,
-    options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams
+    options?: KustoPoolAttachedDatabaseConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

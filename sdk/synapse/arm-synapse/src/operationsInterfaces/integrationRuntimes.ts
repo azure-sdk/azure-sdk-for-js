@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IntegrationRuntimeResource,
   IntegrationRuntimesListByWorkspaceOptionalParams,
@@ -26,8 +26,8 @@ import {
   IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams,
   IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse,
   IntegrationRuntimesEnableInteractiveQueryOptionalParams,
-  IntegrationRuntimesDisableInteractiveQueryOptionalParams
-} from "../models";
+  IntegrationRuntimesDisableInteractiveQueryOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IntegrationRuntimes. */
@@ -41,7 +41,7 @@ export interface IntegrationRuntimes {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntegrationRuntimesListByWorkspaceOptionalParams
+    options?: IntegrationRuntimesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationRuntimeResource>;
   /**
    * Update an integration runtime
@@ -56,7 +56,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     updateIntegrationRuntimeRequest: UpdateIntegrationRuntimeRequest,
-    options?: IntegrationRuntimesUpdateOptionalParams
+    options?: IntegrationRuntimesUpdateOptionalParams,
   ): Promise<IntegrationRuntimesUpdateResponse>;
   /**
    * Get an integration runtime
@@ -69,7 +69,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesGetOptionalParams
+    options?: IntegrationRuntimesGetOptionalParams,
   ): Promise<IntegrationRuntimesGetResponse>;
   /**
    * Create an integration runtime
@@ -84,10 +84,10 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntime: IntegrationRuntimeResource,
-    options?: IntegrationRuntimesCreateOptionalParams
+    options?: IntegrationRuntimesCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesCreateResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesCreateResponse>,
       IntegrationRuntimesCreateResponse
     >
   >;
@@ -104,7 +104,7 @@ export interface IntegrationRuntimes {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntime: IntegrationRuntimeResource,
-    options?: IntegrationRuntimesCreateOptionalParams
+    options?: IntegrationRuntimesCreateOptionalParams,
   ): Promise<IntegrationRuntimesCreateResponse>;
   /**
    * Delete an integration runtime
@@ -117,8 +117,8 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IntegrationRuntimesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -130,7 +130,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDeleteOptionalParams
+    options?: IntegrationRuntimesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Upgrade an integration runtime
@@ -143,7 +143,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesUpgradeOptionalParams
+    options?: IntegrationRuntimesUpgradeOptionalParams,
   ): Promise<void>;
   /**
    * Start an integration runtime
@@ -156,10 +156,10 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams
+    options?: IntegrationRuntimesStartOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IntegrationRuntimesStartResponse>,
+    SimplePollerLike<
+      OperationState<IntegrationRuntimesStartResponse>,
       IntegrationRuntimesStartResponse
     >
   >;
@@ -174,7 +174,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStartOptionalParams
+    options?: IntegrationRuntimesStartOptionalParams,
   ): Promise<IntegrationRuntimesStartResponse>;
   /**
    * Stop an integration runtime
@@ -187,8 +187,8 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IntegrationRuntimesStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stop an integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -200,7 +200,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesStopOptionalParams
+    options?: IntegrationRuntimesStopOptionalParams,
   ): Promise<void>;
   /**
    * Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
@@ -213,10 +213,8 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams
-  ): Promise<
-    IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse
-  >;
+    options?: IntegrationRuntimesListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ): Promise<IntegrationRuntimesListOutboundNetworkDependenciesEndpointsResponse>;
   /**
    * Enable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -228,8 +226,8 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -241,7 +239,7 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams
+    options?: IntegrationRuntimesEnableInteractiveQueryOptionalParams,
   ): Promise<void>;
   /**
    * Disable interactive query in integration runtime
@@ -254,8 +252,8 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable interactive query in integration runtime
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -267,6 +265,6 @@ export interface IntegrationRuntimes {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams
+    options?: IntegrationRuntimesDisableInteractiveQueryOptionalParams,
   ): Promise<void>;
 }

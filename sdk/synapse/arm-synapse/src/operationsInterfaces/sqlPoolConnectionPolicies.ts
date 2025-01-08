@@ -9,8 +9,8 @@
 import {
   ConnectionPolicyName,
   SqlPoolConnectionPoliciesGetOptionalParams,
-  SqlPoolConnectionPoliciesGetResponse
-} from "../models";
+  SqlPoolConnectionPoliciesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolConnectionPolicies. */
 export interface SqlPoolConnectionPolicies {
@@ -27,6 +27,6 @@ export interface SqlPoolConnectionPolicies {
     workspaceName: string,
     sqlPoolName: string,
     connectionPolicyName: ConnectionPolicyName,
-    options?: SqlPoolConnectionPoliciesGetOptionalParams
+    options?: SqlPoolConnectionPoliciesGetOptionalParams,
   ): Promise<SqlPoolConnectionPoliciesGetResponse>;
 }

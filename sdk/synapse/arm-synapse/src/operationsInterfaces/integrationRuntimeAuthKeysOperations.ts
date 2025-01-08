@@ -11,8 +11,8 @@ import {
   IntegrationRuntimeAuthKeysRegenerateOptionalParams,
   IntegrationRuntimeAuthKeysRegenerateResponse,
   IntegrationRuntimeAuthKeysListOptionalParams,
-  IntegrationRuntimeAuthKeysListResponse
-} from "../models";
+  IntegrationRuntimeAuthKeysListResponse,
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeAuthKeysOperations. */
 export interface IntegrationRuntimeAuthKeysOperations {
@@ -30,7 +30,7 @@ export interface IntegrationRuntimeAuthKeysOperations {
     workspaceName: string,
     integrationRuntimeName: string,
     regenerateKeyParameters: IntegrationRuntimeRegenerateKeyParameters,
-    options?: IntegrationRuntimeAuthKeysRegenerateOptionalParams
+    options?: IntegrationRuntimeAuthKeysRegenerateOptionalParams,
   ): Promise<IntegrationRuntimeAuthKeysRegenerateResponse>;
   /**
    * List authentication keys in an integration runtime
@@ -43,6 +43,6 @@ export interface IntegrationRuntimeAuthKeysOperations {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeAuthKeysListOptionalParams
+    options?: IntegrationRuntimeAuthKeysListOptionalParams,
   ): Promise<IntegrationRuntimeAuthKeysListResponse>;
 }

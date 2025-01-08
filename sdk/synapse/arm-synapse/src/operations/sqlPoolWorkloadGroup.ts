@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPoolWorkloadGroup } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPoolWorkloadGroup } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   WorkloadGroup,
   SqlPoolWorkloadGroupListNextOptionalParams,
@@ -25,8 +29,8 @@ import {
   SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   SqlPoolWorkloadGroupCreateOrUpdateResponse,
   SqlPoolWorkloadGroupDeleteOptionalParams,
-  SqlPoolWorkloadGroupListNextResponse
-} from "../models";
+  SqlPoolWorkloadGroupListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolWorkloadGroup operations. */
@@ -52,13 +56,13 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolWorkloadGroupListOptionalParams
+    options?: SqlPoolWorkloadGroupListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadGroup> {
     const iter = this.listPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +80,9 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +91,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolWorkloadGroupListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkloadGroup[]> {
     let result: SqlPoolWorkloadGroupListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +100,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +113,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,13 +126,13 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolWorkloadGroupListOptionalParams
+    options?: SqlPoolWorkloadGroupListOptionalParams,
   ): AsyncIterableIterator<WorkloadGroup> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,7 +151,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupGetOptionalParams
+    options?: SqlPoolWorkloadGroupGetOptionalParams,
   ): Promise<SqlPoolWorkloadGroupGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -155,9 +159,9 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         workspaceName,
         sqlPoolName,
         workloadGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -176,30 +180,29 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     sqlPoolName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>,
       SqlPoolWorkloadGroupCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlPoolWorkloadGroupCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -208,8 +211,8 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -217,26 +220,29 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
         workloadGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlPoolWorkloadGroupCreateOrUpdateResponse,
+      OperationState<SqlPoolWorkloadGroupCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -257,7 +263,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     sqlPoolName: string,
     workloadGroupName: string,
     parameters: WorkloadGroup,
-    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams
+    options?: SqlPoolWorkloadGroupCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolWorkloadGroupCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -265,7 +271,7 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
       sqlPoolName,
       workloadGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -283,25 +289,24 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SqlPoolWorkloadGroupDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -310,8 +315,8 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -319,25 +324,25 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
         workloadGroupName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -356,14 +361,14 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     workloadGroupName: string,
-    options?: SqlPoolWorkloadGroupDeleteOptionalParams
+    options?: SqlPoolWorkloadGroupDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
       workloadGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -379,11 +384,11 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolWorkloadGroupListOptionalParams
+    options?: SqlPoolWorkloadGroupListOptionalParams,
   ): Promise<SqlPoolWorkloadGroupListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -400,11 +405,11 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolWorkloadGroupListNextOptionalParams
+    options?: SqlPoolWorkloadGroupListNextOptionalParams,
   ): Promise<SqlPoolWorkloadGroupListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -412,14 +417,13 @@ export class SqlPoolWorkloadGroupImpl implements SqlPoolWorkloadGroup {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadGroup
+      bodyMapper: Mappers.WorkloadGroup,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -428,31 +432,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.workloadGroupName
+    Parameters.workloadGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadGroup
+      bodyMapper: Mappers.WorkloadGroup,
     },
     201: {
-      bodyMapper: Mappers.WorkloadGroup
+      bodyMapper: Mappers.WorkloadGroup,
     },
     202: {
-      bodyMapper: Mappers.WorkloadGroup
+      bodyMapper: Mappers.WorkloadGroup,
     },
     204: {
-      bodyMapper: Mappers.WorkloadGroup
+      bodyMapper: Mappers.WorkloadGroup,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -460,15 +463,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.workloadGroupName
+    Parameters.workloadGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups/{workloadGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -478,19 +480,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.workloadGroupName
+    Parameters.workloadGroupName,
   ],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/workloadGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadGroupListResult
+      bodyMapper: Mappers.WorkloadGroupListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -498,19 +499,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadGroupListResult
+      bodyMapper: Mappers.WorkloadGroupListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -518,8 +519,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

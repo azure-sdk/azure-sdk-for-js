@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SparkConfiguration } from "../operationsInterfaces";
+import { SparkConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SparkConfigurationGetOptionalParams,
-  SparkConfigurationGetResponse
-} from "../models";
+  SparkConfigurationGetResponse,
+} from "../models/index.js";
 
 /** Class containing SparkConfiguration operations. */
 export class SparkConfigurationImpl implements SparkConfiguration {
@@ -39,11 +39,11 @@ export class SparkConfigurationImpl implements SparkConfiguration {
     resourceGroupName: string,
     sparkConfigurationName: string,
     workspaceName: string,
-    options?: SparkConfigurationGetOptionalParams
+    options?: SparkConfigurationGetOptionalParams,
   ): Promise<SparkConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sparkConfigurationName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class SparkConfigurationImpl implements SparkConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations/{sparkConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sparkconfigurations/{sparkConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkConfigurationResource
+      bodyMapper: Mappers.SparkConfigurationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sparkConfigurationName
+    Parameters.sparkConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

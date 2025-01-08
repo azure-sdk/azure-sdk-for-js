@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExtendedServerBlobAuditingPolicy,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
@@ -15,8 +15,8 @@ import {
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
-  WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
-} from "../models";
+  WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceManagedSqlServerExtendedBlobAuditingPolicies. */
@@ -30,7 +30,7 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy>;
   /**
    * Get a workspace SQL server's extended blob auditing policy.
@@ -43,7 +43,7 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
     resourceGroupName: string,
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse>;
   /**
    * Create or Update a workspace managed sql server's extended blob auditing policy.
@@ -58,12 +58,10 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>,
       WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
     >
   >;
@@ -80,8 +78,6 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
-  >;
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>;
 }

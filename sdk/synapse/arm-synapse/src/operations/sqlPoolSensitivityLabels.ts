@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SqlPoolSensitivityLabels } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SqlPoolSensitivityLabels } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SensitivityLabel,
   SqlPoolSensitivityLabelsListCurrentNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   SqlPoolSensitivityLabelsEnableRecommendationOptionalParams,
   SqlPoolSensitivityLabelsDisableRecommendationOptionalParams,
   SqlPoolSensitivityLabelsListCurrentNextResponse,
-  SqlPoolSensitivityLabelsListRecommendedNextResponse
-} from "../models";
+  SqlPoolSensitivityLabelsListRecommendedNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SqlPoolSensitivityLabels operations. */
@@ -59,13 +59,13 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel> {
     const iter = this.listCurrentPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SensitivityLabel[]> {
     let result: SqlPoolSensitivityLabelsListCurrentResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -116,7 +116,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -129,13 +129,13 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
   ): AsyncIterableIterator<SensitivityLabel> {
     for await (const page of this.listCurrentPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -152,13 +152,13 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel> {
     const iter = this.listRecommendedPagingAll(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -176,9 +176,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
           workspaceName,
           sqlPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -187,7 +187,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SensitivityLabel[]> {
     let result: SqlPoolSensitivityLabelsListRecommendedResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +196,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         resourceGroupName,
         workspaceName,
         sqlPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -209,7 +209,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         workspaceName,
         sqlPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -222,13 +222,13 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
   ): AsyncIterableIterator<SensitivityLabel> {
     for await (const page of this.listRecommendedPagingPage(
       resourceGroupName,
       workspaceName,
       sqlPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -245,11 +245,11 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsListCurrentResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listCurrentOperationSpec
+      listCurrentOperationSpec,
     );
   }
 
@@ -266,11 +266,11 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     parameters: SensitivityLabelUpdateList,
-    options?: SqlPoolSensitivityLabelsUpdateOptionalParams
+    options?: SqlPoolSensitivityLabelsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -285,11 +285,11 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsListRecommendedResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, options },
-      listRecommendedOperationSpec
+      listRecommendedOperationSpec,
     );
   }
 
@@ -312,7 +312,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     tableName: string,
     columnName: string,
     parameters: SensitivityLabel,
-    options?: SqlPoolSensitivityLabelsCreateOrUpdateOptionalParams
+    options?: SqlPoolSensitivityLabelsCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -323,9 +323,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         tableName,
         columnName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -346,7 +346,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsDeleteOptionalParams
+    options?: SqlPoolSensitivityLabelsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -356,9 +356,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -381,7 +381,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     tableName: string,
     columnName: string,
     sensitivityLabelSource: SensitivityLabelSource,
-    options?: SqlPoolSensitivityLabelsGetOptionalParams
+    options?: SqlPoolSensitivityLabelsGetOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -392,9 +392,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         tableName,
         columnName,
         sensitivityLabelSource,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -416,7 +416,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsEnableRecommendationOptionalParams
+    options?: SqlPoolSensitivityLabelsEnableRecommendationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -426,9 +426,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      enableRecommendationOperationSpec
+      enableRecommendationOperationSpec,
     );
   }
 
@@ -449,7 +449,7 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsDisableRecommendationOptionalParams
+    options?: SqlPoolSensitivityLabelsDisableRecommendationOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -459,9 +459,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         schemaName,
         tableName,
         columnName,
-        options
+        options,
       },
-      disableRecommendationOperationSpec
+      disableRecommendationOperationSpec,
     );
   }
 
@@ -478,11 +478,11 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolSensitivityLabelsListCurrentNextOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentNextOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsListCurrentNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listCurrentNextOperationSpec
+      listCurrentNextOperationSpec,
     );
   }
 
@@ -499,11 +499,11 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     nextLink: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedNextOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedNextOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsListRecommendedNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, sqlPoolName, nextLink, options },
-      listRecommendedNextOperationSpec
+      listRecommendedNextOperationSpec,
     );
   }
 }
@@ -511,16 +511,15 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listCurrentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -528,69 +527,66 @@ const listCurrentOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listRecommendedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/recommendedSensitivityLabels",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.includeDisabledRecommendations,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
     201: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -601,15 +597,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource
+    Parameters.sensitivityLabelSource,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -622,19 +617,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource
+    Parameters.sensitivityLabelSource,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabel
+      bodyMapper: Mappers.SensitivityLabel,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -646,14 +640,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource1
+    Parameters.sensitivityLabelSource1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const enableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -666,13 +659,12 @@ const enableRecommendationOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource2
+    Parameters.sensitivityLabelSource2,
   ],
-  serializer
+  serializer,
 };
 const disableRecommendationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -685,20 +677,20 @@ const disableRecommendationOperationSpec: coreClient.OperationSpec = {
     Parameters.schemaName,
     Parameters.tableName,
     Parameters.columnName,
-    Parameters.sensitivityLabelSource2
+    Parameters.sensitivityLabelSource2,
   ],
-  serializer
+  serializer,
 };
 const listCurrentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -706,19 +698,19 @@ const listCurrentNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listRecommendedNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SensitivityLabelListResult
+      bodyMapper: Mappers.SensitivityLabelListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
@@ -726,8 +718,8 @@ const listRecommendedNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

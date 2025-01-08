@@ -6,20 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SqlPoolConnectionPolicies } from "../operationsInterfaces";
+import { SqlPoolConnectionPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   ConnectionPolicyName,
   SqlPoolConnectionPoliciesGetOptionalParams,
-  SqlPoolConnectionPoliciesGetResponse
-} from "../models";
+  SqlPoolConnectionPoliciesGetResponse,
+} from "../models/index.js";
 
 /** Class containing SqlPoolConnectionPolicies operations. */
 export class SqlPoolConnectionPoliciesImpl
-  implements SqlPoolConnectionPolicies {
+  implements SqlPoolConnectionPolicies
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class SqlPoolConnectionPoliciesImpl
     workspaceName: string,
     sqlPoolName: string,
     connectionPolicyName: ConnectionPolicyName,
-    options?: SqlPoolConnectionPoliciesGetOptionalParams
+    options?: SqlPoolConnectionPoliciesGetOptionalParams,
   ): Promise<SqlPoolConnectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -51,9 +52,9 @@ export class SqlPoolConnectionPoliciesImpl
         workspaceName,
         sqlPoolName,
         connectionPolicyName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -61,16 +62,15 @@ export class SqlPoolConnectionPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/connectionPolicies/{connectionPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPoolConnectionPolicy
+      bodyMapper: Mappers.SqlPoolConnectionPolicy,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -79,8 +79,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.sqlPoolName,
-    Parameters.connectionPolicyName
+    Parameters.connectionPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

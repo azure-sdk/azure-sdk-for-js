@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LibraryGetOptionalParams, LibraryGetResponse } from "../models";
+import { LibraryGetOptionalParams, LibraryGetResponse } from "../models/index.js";
 
 /** Interface representing a Library. */
 export interface Library {
@@ -21,6 +21,6 @@ export interface Library {
     resourceGroupName: string,
     libraryName: string,
     workspaceName: string,
-    options?: LibraryGetOptionalParams
+    options?: LibraryGetOptionalParams,
   ): Promise<LibraryGetResponse>;
 }

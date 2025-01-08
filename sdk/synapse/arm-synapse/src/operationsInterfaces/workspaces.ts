@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Workspace,
   WorkspacesListByResourceGroupOptionalParams,
@@ -20,8 +20,8 @@ import {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
   WorkspacesDeleteOptionalParams,
-  WorkspacesDeleteResponse
-} from "../models";
+  WorkspacesDeleteResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
@@ -33,14 +33,14 @@ export interface Workspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Returns a list of workspaces in a subscription
    * @param options The options parameters.
    */
   list(
-    options?: WorkspacesListOptionalParams
+    options?: WorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Gets a workspace
@@ -51,7 +51,7 @@ export interface Workspaces {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Updates a workspace
@@ -64,10 +64,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspacePatchInfo: WorkspacePatchInfo,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesUpdateResponse>,
       WorkspacesUpdateResponse
     >
   >;
@@ -82,7 +82,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspacePatchInfo: WorkspacePatchInfo,
-    options?: WorkspacesUpdateOptionalParams
+    options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse>;
   /**
    * Creates or updates a workspace
@@ -95,10 +95,10 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspaceInfo: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
       WorkspacesCreateOrUpdateResponse
     >
   >;
@@ -113,7 +113,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspaceInfo: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Deletes a workspace
@@ -124,10 +124,10 @@ export interface Workspaces {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspacesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<WorkspacesDeleteResponse>,
       WorkspacesDeleteResponse
     >
   >;
@@ -140,6 +140,6 @@ export interface Workspaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<WorkspacesDeleteResponse>;
 }

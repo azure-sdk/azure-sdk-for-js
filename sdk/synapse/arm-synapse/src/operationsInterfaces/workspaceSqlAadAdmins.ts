@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   WorkspaceSqlAadAdminsGetOptionalParams,
   WorkspaceSqlAadAdminsGetResponse,
   WorkspaceAadAdminInfo,
   WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams,
   WorkspaceSqlAadAdminsCreateOrUpdateResponse,
-  WorkspaceSqlAadAdminsDeleteOptionalParams
-} from "../models";
+  WorkspaceSqlAadAdminsDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceSqlAadAdmins. */
 export interface WorkspaceSqlAadAdmins {
@@ -27,7 +27,7 @@ export interface WorkspaceSqlAadAdmins {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceSqlAadAdminsGetOptionalParams
+    options?: WorkspaceSqlAadAdminsGetOptionalParams,
   ): Promise<WorkspaceSqlAadAdminsGetResponse>;
   /**
    * Creates or updates a workspace SQL active directory admin
@@ -40,10 +40,10 @@ export interface WorkspaceSqlAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<WorkspaceSqlAadAdminsCreateOrUpdateResponse>,
       WorkspaceSqlAadAdminsCreateOrUpdateResponse
     >
   >;
@@ -58,7 +58,7 @@ export interface WorkspaceSqlAadAdmins {
     resourceGroupName: string,
     workspaceName: string,
     aadAdminInfo: WorkspaceAadAdminInfo,
-    options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams
+    options?: WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams,
   ): Promise<WorkspaceSqlAadAdminsCreateOrUpdateResponse>;
   /**
    * Deletes a workspace SQL active directory admin
@@ -69,8 +69,8 @@ export interface WorkspaceSqlAadAdmins {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceSqlAadAdminsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: WorkspaceSqlAadAdminsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -80,6 +80,6 @@ export interface WorkspaceSqlAadAdmins {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceSqlAadAdminsDeleteOptionalParams
+    options?: WorkspaceSqlAadAdminsDeleteOptionalParams,
   ): Promise<void>;
 }

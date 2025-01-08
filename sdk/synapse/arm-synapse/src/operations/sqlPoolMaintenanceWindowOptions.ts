@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SqlPoolMaintenanceWindowOptions } from "../operationsInterfaces";
+import { SqlPoolMaintenanceWindowOptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   SqlPoolMaintenanceWindowOptionsGetOptionalParams,
-  SqlPoolMaintenanceWindowOptionsGetResponse
-} from "../models";
+  SqlPoolMaintenanceWindowOptionsGetResponse,
+} from "../models/index.js";
 
 /** Class containing SqlPoolMaintenanceWindowOptions operations. */
 export class SqlPoolMaintenanceWindowOptionsImpl
-  implements SqlPoolMaintenanceWindowOptions {
+  implements SqlPoolMaintenanceWindowOptions
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -42,7 +43,7 @@ export class SqlPoolMaintenanceWindowOptionsImpl
     workspaceName: string,
     sqlPoolName: string,
     maintenanceWindowOptionsName: string,
-    options?: SqlPoolMaintenanceWindowOptionsGetOptionalParams
+    options?: SqlPoolMaintenanceWindowOptionsGetOptionalParams,
   ): Promise<SqlPoolMaintenanceWindowOptionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -50,9 +51,9 @@ export class SqlPoolMaintenanceWindowOptionsImpl
         workspaceName,
         sqlPoolName,
         maintenanceWindowOptionsName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -60,26 +61,25 @@ export class SqlPoolMaintenanceWindowOptionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenanceWindowOptions/current",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenanceWindowOptions/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MaintenanceWindowOptions
+      bodyMapper: Mappers.MaintenanceWindowOptions,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maintenanceWindowOptionsName
+    Parameters.maintenanceWindowOptionsName,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlPoolName
+    Parameters.sqlPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

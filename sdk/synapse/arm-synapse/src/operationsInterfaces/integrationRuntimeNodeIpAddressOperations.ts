@@ -8,8 +8,8 @@
 
 import {
   IntegrationRuntimeNodeIpAddressGetOptionalParams,
-  IntegrationRuntimeNodeIpAddressGetResponse
-} from "../models";
+  IntegrationRuntimeNodeIpAddressGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeNodeIpAddressOperations. */
 export interface IntegrationRuntimeNodeIpAddressOperations {
@@ -26,6 +26,6 @@ export interface IntegrationRuntimeNodeIpAddressOperations {
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodeIpAddressGetOptionalParams
+    options?: IntegrationRuntimeNodeIpAddressGetOptionalParams,
   ): Promise<IntegrationRuntimeNodeIpAddressGetResponse>;
 }

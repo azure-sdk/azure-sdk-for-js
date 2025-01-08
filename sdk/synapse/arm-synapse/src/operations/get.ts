@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Get } from "../operationsInterfaces";
+import { Get } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   GetIntegrationRuntimeStartOptionalParams,
   GetIntegrationRuntimeStartResponse,
   GetIntegrationRuntimeStopOptionalParams,
   GetIntegrationRuntimeStopResponse,
   GetIntegrationRuntimeEnableInteractivequeryOptionalParams,
-  GetIntegrationRuntimeEnableInteractivequeryResponse
-} from "../models";
+  GetIntegrationRuntimeEnableInteractivequeryResponse,
+} from "../models/index.js";
 
 /** Class containing Get operations. */
 export class GetImpl implements Get {
@@ -45,7 +45,7 @@ export class GetImpl implements Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeStartOptionalParams
+    options?: GetIntegrationRuntimeStartOptionalParams,
   ): Promise<GetIntegrationRuntimeStartResponse> {
     return this.client.sendOperationRequest(
       {
@@ -53,9 +53,9 @@ export class GetImpl implements Get {
         workspaceName,
         integrationRuntimeName,
         integrationRuntimeOperationId,
-        options
+        options,
       },
-      integrationRuntimeStartOperationSpec
+      integrationRuntimeStartOperationSpec,
     );
   }
 
@@ -72,7 +72,7 @@ export class GetImpl implements Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeStopOptionalParams
+    options?: GetIntegrationRuntimeStopOptionalParams,
   ): Promise<GetIntegrationRuntimeStopResponse> {
     return this.client.sendOperationRequest(
       {
@@ -80,9 +80,9 @@ export class GetImpl implements Get {
         workspaceName,
         integrationRuntimeName,
         integrationRuntimeOperationId,
-        options
+        options,
       },
-      integrationRuntimeStopOperationSpec
+      integrationRuntimeStopOperationSpec,
     );
   }
 
@@ -99,7 +99,7 @@ export class GetImpl implements Get {
     workspaceName: string,
     integrationRuntimeName: string,
     integrationRuntimeOperationId: string,
-    options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams
+    options?: GetIntegrationRuntimeEnableInteractivequeryOptionalParams,
   ): Promise<GetIntegrationRuntimeEnableInteractivequeryResponse> {
     return this.client.sendOperationRequest(
       {
@@ -107,9 +107,9 @@ export class GetImpl implements Get {
         workspaceName,
         integrationRuntimeName,
         integrationRuntimeOperationId,
-        options
+        options,
       },
-      integrationRuntimeEnableInteractivequeryOperationSpec
+      integrationRuntimeEnableInteractivequeryOperationSpec,
     );
   }
 }
@@ -117,16 +117,15 @@ export class GetImpl implements Get {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const integrationRuntimeStartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/start/operationstatuses/{integrationRuntimeOperationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/start/operationstatuses/{integrationRuntimeOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeOperationStatus
+      bodyMapper: Mappers.IntegrationRuntimeOperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -135,22 +134,21 @@ const integrationRuntimeStartOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.integrationRuntimeOperationId
+    Parameters.integrationRuntimeOperationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const integrationRuntimeStopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/stop/operationstatuses/{integrationRuntimeOperationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/stop/operationstatuses/{integrationRuntimeOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeStopOperationStatus
+      bodyMapper: Mappers.IntegrationRuntimeStopOperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -159,32 +157,32 @@ const integrationRuntimeStopOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.integrationRuntimeOperationId
+    Parameters.integrationRuntimeOperationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const integrationRuntimeEnableInteractivequeryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/enableinteractivequery/operationstatuses/{integrationRuntimeOperationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IntegrationRuntimeEnableinteractivequery
+const integrationRuntimeEnableInteractivequeryOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/enableinteractivequery/operationstatuses/{integrationRuntimeOperationId}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.IntegrationRuntimeEnableinteractivequery,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.integrationRuntimeName,
-    Parameters.integrationRuntimeOperationId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion1],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.workspaceName,
+      Parameters.integrationRuntimeName,
+      Parameters.integrationRuntimeOperationId,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

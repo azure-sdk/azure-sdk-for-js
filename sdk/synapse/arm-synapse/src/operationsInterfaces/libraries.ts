@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   LibraryResource,
-  LibrariesListByWorkspaceOptionalParams
-} from "../models";
+  LibrariesListByWorkspaceOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Libraries. */
@@ -24,6 +24,6 @@ export interface Libraries {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LibrariesListByWorkspaceOptionalParams
+    options?: LibrariesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LibraryResource>;
 }

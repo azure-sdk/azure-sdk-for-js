@@ -14,8 +14,8 @@ import {
   SqlPoolTransparentDataEncryptionsGetOptionalParams,
   SqlPoolTransparentDataEncryptionsGetResponse,
   SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams,
-  SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse
-} from "../models";
+  SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolTransparentDataEncryptions. */
@@ -31,7 +31,7 @@ export interface SqlPoolTransparentDataEncryptions {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolTransparentDataEncryptionsListOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsListOptionalParams,
   ): PagedAsyncIterableIterator<TransparentDataEncryption>;
   /**
    * Get a SQL pool's transparent data encryption configuration.
@@ -46,7 +46,7 @@ export interface SqlPoolTransparentDataEncryptions {
     workspaceName: string,
     sqlPoolName: string,
     transparentDataEncryptionName: TransparentDataEncryptionName,
-    options?: SqlPoolTransparentDataEncryptionsGetOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsGetOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsGetResponse>;
   /**
    * Creates or updates a Sql pool's transparent data encryption configuration.
@@ -63,6 +63,6 @@ export interface SqlPoolTransparentDataEncryptions {
     sqlPoolName: string,
     transparentDataEncryptionName: TransparentDataEncryptionName,
     parameters: TransparentDataEncryption,
-    options?: SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams
+    options?: SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
 }

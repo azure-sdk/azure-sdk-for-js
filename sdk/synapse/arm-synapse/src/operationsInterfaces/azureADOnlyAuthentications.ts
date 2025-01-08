@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureADOnlyAuthentication,
   AzureADOnlyAuthenticationsListOptionalParams,
@@ -15,8 +15,8 @@ import {
   AzureADOnlyAuthenticationsGetOptionalParams,
   AzureADOnlyAuthenticationsGetResponse,
   AzureADOnlyAuthenticationsCreateOptionalParams,
-  AzureADOnlyAuthenticationsCreateResponse
-} from "../models";
+  AzureADOnlyAuthenticationsCreateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AzureADOnlyAuthentications. */
@@ -30,7 +30,7 @@ export interface AzureADOnlyAuthentications {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AzureADOnlyAuthenticationsListOptionalParams
+    options?: AzureADOnlyAuthenticationsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureADOnlyAuthentication>;
   /**
    * Gets a Azure Active Directory only authentication property
@@ -43,7 +43,7 @@ export interface AzureADOnlyAuthentications {
     resourceGroupName: string,
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
-    options?: AzureADOnlyAuthenticationsGetOptionalParams
+    options?: AzureADOnlyAuthenticationsGetOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsGetResponse>;
   /**
    * Create or Update a Azure Active Directory only authentication property for the workspaces
@@ -58,10 +58,10 @@ export interface AzureADOnlyAuthentications {
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
     azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication,
-    options?: AzureADOnlyAuthenticationsCreateOptionalParams
+    options?: AzureADOnlyAuthenticationsCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AzureADOnlyAuthenticationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AzureADOnlyAuthenticationsCreateResponse>,
       AzureADOnlyAuthenticationsCreateResponse
     >
   >;
@@ -78,6 +78,6 @@ export interface AzureADOnlyAuthentications {
     workspaceName: string,
     azureADOnlyAuthenticationName: AzureADOnlyAuthenticationName,
     azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication,
-    options?: AzureADOnlyAuthenticationsCreateOptionalParams
+    options?: AzureADOnlyAuthenticationsCreateOptionalParams,
   ): Promise<AzureADOnlyAuthenticationsCreateResponse>;
 }

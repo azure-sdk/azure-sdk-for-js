@@ -14,8 +14,8 @@ import {
   OperationsListResponse,
   OperationsGetLocationHeaderResultOptionalParams,
   OperationsGetAzureAsyncHeaderResultOptionalParams,
-  OperationsGetAzureAsyncHeaderResultResponse
-} from "../models";
+  OperationsGetAzureAsyncHeaderResultResponse,
+} from "../models/index.js";
 
 /** Interface representing a Operations. */
 export interface Operations {
@@ -26,7 +26,7 @@ export interface Operations {
    */
   checkNameAvailability(
     request: CheckNameAvailabilityRequest,
-    options?: OperationsCheckNameAvailabilityOptionalParams
+    options?: OperationsCheckNameAvailabilityOptionalParams,
   ): Promise<OperationsCheckNameAvailabilityResponse>;
   /**
    * Get all available operations
@@ -44,7 +44,7 @@ export interface Operations {
     resourceGroupName: string,
     workspaceName: string,
     operationId: string,
-    options?: OperationsGetLocationHeaderResultOptionalParams
+    options?: OperationsGetLocationHeaderResultOptionalParams,
   ): Promise<void>;
   /**
    * Get the status of an operation
@@ -57,6 +57,6 @@ export interface Operations {
     resourceGroupName: string,
     workspaceName: string,
     operationId: string,
-    options?: OperationsGetAzureAsyncHeaderResultOptionalParams
+    options?: OperationsGetAzureAsyncHeaderResultOptionalParams,
   ): Promise<OperationsGetAzureAsyncHeaderResultResponse>;
 }

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeCredentialsSyncOptionalParams } from "../models";
+import { IntegrationRuntimeCredentialsSyncOptionalParams } from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeCredentials. */
 export interface IntegrationRuntimeCredentials {
@@ -24,6 +24,6 @@ export interface IntegrationRuntimeCredentials {
     resourceGroupName: string,
     workspaceName: string,
     integrationRuntimeName: string,
-    options?: IntegrationRuntimeCredentialsSyncOptionalParams
+    options?: IntegrationRuntimeCredentialsSyncOptionalParams,
   ): Promise<void>;
 }

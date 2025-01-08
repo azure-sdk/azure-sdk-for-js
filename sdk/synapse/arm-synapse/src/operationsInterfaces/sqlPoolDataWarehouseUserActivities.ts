@@ -9,8 +9,8 @@
 import {
   DataWarehouseUserActivityName,
   SqlPoolDataWarehouseUserActivitiesGetOptionalParams,
-  SqlPoolDataWarehouseUserActivitiesGetResponse
-} from "../models";
+  SqlPoolDataWarehouseUserActivitiesGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolDataWarehouseUserActivities. */
 export interface SqlPoolDataWarehouseUserActivities {
@@ -27,6 +27,6 @@ export interface SqlPoolDataWarehouseUserActivities {
     workspaceName: string,
     sqlPoolName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: SqlPoolDataWarehouseUserActivitiesGetOptionalParams
+    options?: SqlPoolDataWarehouseUserActivitiesGetOptionalParams,
   ): Promise<SqlPoolDataWarehouseUserActivitiesGetResponse>;
 }

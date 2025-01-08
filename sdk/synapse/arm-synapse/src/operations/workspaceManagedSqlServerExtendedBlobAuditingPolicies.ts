@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WorkspaceManagedSqlServerExtendedBlobAuditingPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WorkspaceManagedSqlServerExtendedBlobAuditingPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ExtendedServerBlobAuditingPolicy,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextOptionalParams,
@@ -25,13 +29,14 @@ import {
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse,
-  WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse
-} from "../models";
+  WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceManagedSqlServerExtendedBlobAuditingPolicies operations. */
 export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
-  implements WorkspaceManagedSqlServerExtendedBlobAuditingPolicies {
+  implements WorkspaceManagedSqlServerExtendedBlobAuditingPolicies
+{
   private readonly client: SynapseManagementClient;
 
   /**
@@ -51,12 +56,12 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +78,9 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +88,7 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy[]> {
     let result: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +96,7 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +108,7 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +120,12 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +142,11 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetOptionalParams,
   ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, blobAuditingPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -158,32 +163,29 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>,
       WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -192,8 +194,8 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -201,25 +203,28 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         blobAuditingPolicyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse,
+      OperationState<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -238,16 +243,14 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     workspaceName: string,
     blobAuditingPolicyName: BlobAuditingPolicyName,
     parameters: ExtendedServerBlobAuditingPolicy,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse
-  > {
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
       blobAuditingPolicyName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -261,13 +264,11 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceResponse
-  > {
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -282,13 +283,11 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextOptionalParams
-  ): Promise<
-    WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse
-  > {
+    options?: WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextOptionalParams,
+  ): Promise<WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -296,14 +295,13 @@ export class WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -311,79 +309,77 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.blobAuditingPolicyName1
+    Parameters.blobAuditingPolicyName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings/{blobAuditingPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings/{blobAuditingPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     201: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     202: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
     204: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicy,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.blobAuditingPolicyName1
+    Parameters.blobAuditingPolicyName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult,
     },
-    default: {}
+    default: {},
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

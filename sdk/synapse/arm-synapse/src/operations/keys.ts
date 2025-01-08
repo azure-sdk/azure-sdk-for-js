@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Keys } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Keys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   Key,
   KeysListByWorkspaceNextOptionalParams,
@@ -24,8 +24,8 @@ import {
   KeysCreateOrUpdateResponse,
   KeysDeleteOptionalParams,
   KeysDeleteResponse,
-  KeysListByWorkspaceNextResponse
-} from "../models";
+  KeysListByWorkspaceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Keys operations. */
@@ -49,12 +49,12 @@ export class KeysImpl implements Keys {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: KeysListByWorkspaceOptionalParams
+    options?: KeysListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<Key> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class KeysImpl implements Keys {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     workspaceName: string,
     options?: KeysListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Key[]> {
     let result: KeysListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class KeysImpl implements Keys {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class KeysImpl implements Keys {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class KeysImpl implements Keys {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: KeysListByWorkspaceOptionalParams
+    options?: KeysListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<Key> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class KeysImpl implements Keys {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: KeysListByWorkspaceOptionalParams
+    options?: KeysListByWorkspaceOptionalParams,
   ): Promise<KeysListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -152,11 +152,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     workspaceName: string,
     keyName: string,
-    options?: KeysGetOptionalParams
+    options?: KeysGetOptionalParams,
   ): Promise<KeysGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, keyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class KeysImpl implements Keys {
     workspaceName: string,
     keyName: string,
     keyProperties: Key,
-    options?: KeysCreateOrUpdateOptionalParams
+    options?: KeysCreateOrUpdateOptionalParams,
   ): Promise<KeysCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, keyName, keyProperties, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -192,11 +192,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     workspaceName: string,
     keyName: string,
-    options?: KeysDeleteOptionalParams
+    options?: KeysDeleteOptionalParams,
   ): Promise<KeysDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, keyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -211,11 +211,11 @@ export class KeysImpl implements Keys {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: KeysListByWorkspaceNextOptionalParams
+    options?: KeysListByWorkspaceNextOptionalParams,
   ): Promise<KeysListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -223,38 +223,15 @@ export class KeysImpl implements Keys {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyInfoListResult
+      bodyMapper: Mappers.KeyInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -262,22 +239,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.keyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Key,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.keyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.Key,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.keyProperties,
   queryParameters: [Parameters.apiVersion],
@@ -286,24 +283,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.keyName
+    Parameters.keyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/keys/{keyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.Key
+      bodyMapper: Mappers.Key,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -311,29 +307,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.keyName
+    Parameters.keyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KeyInfoListResult
+      bodyMapper: Mappers.KeyInfoListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

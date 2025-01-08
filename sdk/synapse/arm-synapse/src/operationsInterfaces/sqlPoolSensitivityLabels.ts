@@ -20,8 +20,8 @@ import {
   SqlPoolSensitivityLabelsGetOptionalParams,
   SqlPoolSensitivityLabelsGetResponse,
   SqlPoolSensitivityLabelsEnableRecommendationOptionalParams,
-  SqlPoolSensitivityLabelsDisableRecommendationOptionalParams
-} from "../models";
+  SqlPoolSensitivityLabelsDisableRecommendationOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolSensitivityLabels. */
@@ -37,7 +37,7 @@ export interface SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel>;
   /**
    * Gets sensitivity labels of a given SQL pool.
@@ -50,7 +50,7 @@ export interface SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
   ): PagedAsyncIterableIterator<SensitivityLabel>;
   /**
    * Update sensitivity labels of a given SQL Pool using an operations batch.
@@ -65,7 +65,7 @@ export interface SqlPoolSensitivityLabels {
     workspaceName: string,
     sqlPoolName: string,
     parameters: SensitivityLabelUpdateList,
-    options?: SqlPoolSensitivityLabelsUpdateOptionalParams
+    options?: SqlPoolSensitivityLabelsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * Creates or updates the sensitivity label of a given column in a Sql pool
@@ -86,7 +86,7 @@ export interface SqlPoolSensitivityLabels {
     tableName: string,
     columnName: string,
     parameters: SensitivityLabel,
-    options?: SqlPoolSensitivityLabelsCreateOrUpdateOptionalParams
+    options?: SqlPoolSensitivityLabelsCreateOrUpdateOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
   /**
    * Deletes the sensitivity label of a given column in a Sql pool
@@ -105,7 +105,7 @@ export interface SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsDeleteOptionalParams
+    options?: SqlPoolSensitivityLabelsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the sensitivity label of a given column
@@ -126,7 +126,7 @@ export interface SqlPoolSensitivityLabels {
     tableName: string,
     columnName: string,
     sensitivityLabelSource: SensitivityLabelSource,
-    options?: SqlPoolSensitivityLabelsGetOptionalParams
+    options?: SqlPoolSensitivityLabelsGetOptionalParams,
   ): Promise<SqlPoolSensitivityLabelsGetResponse>;
   /**
    * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all
@@ -146,7 +146,7 @@ export interface SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsEnableRecommendationOptionalParams
+    options?: SqlPoolSensitivityLabelsEnableRecommendationOptionalParams,
   ): Promise<void>;
   /**
    * Disables sensitivity recommendations on a given column
@@ -165,6 +165,6 @@ export interface SqlPoolSensitivityLabels {
     schemaName: string,
     tableName: string,
     columnName: string,
-    options?: SqlPoolSensitivityLabelsDisableRecommendationOptionalParams
+    options?: SqlPoolSensitivityLabelsDisableRecommendationOptionalParams,
   ): Promise<void>;
 }

@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeNodes } from "../operationsInterfaces";
+import { IntegrationRuntimeNodes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeNodesGetOptionalParams,
   IntegrationRuntimeNodesGetResponse,
   UpdateIntegrationRuntimeNodeRequest,
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
-  IntegrationRuntimeNodesDeleteOptionalParams
-} from "../models";
+  IntegrationRuntimeNodesDeleteOptionalParams,
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeNodes operations. */
 export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
@@ -45,7 +45,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesGetOptionalParams
+    options?: IntegrationRuntimeNodesGetOptionalParams,
   ): Promise<IntegrationRuntimeNodesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -53,9 +53,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         workspaceName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -74,7 +74,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     integrationRuntimeName: string,
     nodeName: string,
     updateIntegrationRuntimeNodeRequest: UpdateIntegrationRuntimeNodeRequest,
-    options?: IntegrationRuntimeNodesUpdateOptionalParams
+    options?: IntegrationRuntimeNodesUpdateOptionalParams,
   ): Promise<IntegrationRuntimeNodesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -83,9 +83,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         integrationRuntimeName,
         nodeName,
         updateIntegrationRuntimeNodeRequest,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -102,7 +102,7 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
     workspaceName: string,
     integrationRuntimeName: string,
     nodeName: string,
-    options?: IntegrationRuntimeNodesDeleteOptionalParams
+    options?: IntegrationRuntimeNodesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -110,9 +110,9 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
         workspaceName,
         integrationRuntimeName,
         nodeName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -120,16 +120,15 @@ export class IntegrationRuntimeNodesImpl implements IntegrationRuntimeNodes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
+      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -138,22 +137,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
+      bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.updateIntegrationRuntimeNodeRequest,
   queryParameters: [Parameters.apiVersion1],
@@ -163,22 +161,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/nodes/{nodeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
@@ -187,8 +184,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.integrationRuntimeName,
-    Parameters.nodeName
+    Parameters.nodeName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

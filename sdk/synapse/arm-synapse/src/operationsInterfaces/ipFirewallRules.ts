@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IpFirewallRuleInfo,
   IpFirewallRulesListByWorkspaceOptionalParams,
@@ -19,8 +19,8 @@ import {
   IpFirewallRulesGetResponse,
   ReplaceAllIpFirewallRulesRequest,
   IpFirewallRulesReplaceAllOptionalParams,
-  IpFirewallRulesReplaceAllResponse
-} from "../models";
+  IpFirewallRulesReplaceAllResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IpFirewallRules. */
@@ -34,7 +34,7 @@ export interface IpFirewallRules {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IpFirewallRulesListByWorkspaceOptionalParams
+    options?: IpFirewallRulesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<IpFirewallRuleInfo>;
   /**
    * Creates or updates a firewall rule
@@ -49,10 +49,10 @@ export interface IpFirewallRules {
     workspaceName: string,
     ruleName: string,
     ipFirewallRuleInfo: IpFirewallRuleInfo,
-    options?: IpFirewallRulesCreateOrUpdateOptionalParams
+    options?: IpFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesCreateOrUpdateResponse>,
       IpFirewallRulesCreateOrUpdateResponse
     >
   >;
@@ -69,7 +69,7 @@ export interface IpFirewallRules {
     workspaceName: string,
     ruleName: string,
     ipFirewallRuleInfo: IpFirewallRuleInfo,
-    options?: IpFirewallRulesCreateOrUpdateOptionalParams
+    options?: IpFirewallRulesCreateOrUpdateOptionalParams,
   ): Promise<IpFirewallRulesCreateOrUpdateResponse>;
   /**
    * Deletes a firewall rule
@@ -82,10 +82,10 @@ export interface IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesDeleteOptionalParams
+    options?: IpFirewallRulesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesDeleteResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesDeleteResponse>,
       IpFirewallRulesDeleteResponse
     >
   >;
@@ -100,7 +100,7 @@ export interface IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesDeleteOptionalParams
+    options?: IpFirewallRulesDeleteOptionalParams,
   ): Promise<IpFirewallRulesDeleteResponse>;
   /**
    * Get a firewall rule
@@ -113,7 +113,7 @@ export interface IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     ruleName: string,
-    options?: IpFirewallRulesGetOptionalParams
+    options?: IpFirewallRulesGetOptionalParams,
   ): Promise<IpFirewallRulesGetResponse>;
   /**
    * Replaces firewall rules
@@ -126,10 +126,10 @@ export interface IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     request: ReplaceAllIpFirewallRulesRequest,
-    options?: IpFirewallRulesReplaceAllOptionalParams
+    options?: IpFirewallRulesReplaceAllOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<IpFirewallRulesReplaceAllResponse>,
+    SimplePollerLike<
+      OperationState<IpFirewallRulesReplaceAllResponse>,
       IpFirewallRulesReplaceAllResponse
     >
   >;
@@ -144,6 +144,6 @@ export interface IpFirewallRules {
     resourceGroupName: string,
     workspaceName: string,
     request: ReplaceAllIpFirewallRulesRequest,
-    options?: IpFirewallRulesReplaceAllOptionalParams
+    options?: IpFirewallRulesReplaceAllOptionalParams,
   ): Promise<IpFirewallRulesReplaceAllResponse>;
 }
