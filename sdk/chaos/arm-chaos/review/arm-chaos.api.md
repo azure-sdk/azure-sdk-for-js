@@ -73,11 +73,10 @@ export interface CapabilitiesListOptionalParams extends coreClient.OperationOpti
 export type CapabilitiesListResponse = CapabilityListResult;
 
 // @public
-export interface Capability extends Resource {
+export interface Capability extends ProxyResource {
     readonly description?: string;
     readonly parametersSchema?: string;
     readonly publisher?: string;
-    readonly systemData?: SystemData;
     readonly targetType?: string;
     readonly urn?: string;
 }
@@ -89,7 +88,7 @@ export interface CapabilityListResult {
 }
 
 // @public
-export interface CapabilityType extends Resource {
+export interface CapabilityType extends ProxyResource {
     azureRbacActions?: string[];
     azureRbacDataActions?: string[];
     readonly description?: string;
@@ -99,7 +98,6 @@ export interface CapabilityType extends Resource {
     readonly parametersSchema?: string;
     readonly publisher?: string;
     runtimeProperties?: CapabilityTypePropertiesRuntimeProperties;
-    readonly systemData?: SystemData;
     readonly targetType?: string;
     readonly urn?: string;
 }
@@ -183,6 +181,8 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operationStatuses: OperationStatuses;
     // (undocumented)
+    privateAccesses: PrivateAccesses;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     targets: Targets;
@@ -252,6 +252,12 @@ export interface ContinuousAction extends ChaosExperimentAction {
 export type CreatedByType = string;
 
 // @public
+export interface CustomerDataStorageProperties {
+    blobContainerName?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
 export interface DelayAction extends ChaosExperimentAction {
     duration: string;
     type: "delay";
@@ -286,11 +292,11 @@ export interface ErrorResponse {
 
 // @public
 export interface Experiment extends TrackedResource {
-    identity?: ResourceIdentity;
+    customerDataStorage?: CustomerDataStorageProperties;
+    identity?: ExperimentIdentity;
     readonly provisioningState?: ProvisioningState;
     selectors: ChaosTargetSelectorUnion[];
     steps: ChaosExperimentStep[];
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -354,6 +360,10 @@ export interface ExperimentExecutionProperties {
     readonly startedAt?: Date;
     readonly status?: string;
     readonly stoppedAt?: Date;
+}
+
+// @public
+export interface ExperimentIdentity extends ManagedServiceIdentity {
 }
 
 // @public
@@ -487,7 +497,7 @@ export type ExperimentsUpdateResponse = Experiment;
 
 // @public
 export interface ExperimentUpdate {
-    identity?: ResourceIdentity;
+    identity?: ExperimentIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -524,10 +534,33 @@ export enum KnownFilterType {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
 }
 
 // @public
@@ -541,6 +574,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPublicNetworkAccessOption {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSelectorType {
     List = "List",
     Query = "Query"
@@ -550,6 +589,19 @@ export enum KnownSelectorType {
 export enum KnownTargetReferenceType {
     ChaosTarget = "ChaosTarget"
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -595,10 +647,10 @@ export type OperationsListAllResponse = OperationListResult;
 
 // @public
 export interface OperationStatus extends ErrorResponse {
-    endTime?: string;
+    readonly endTime?: Date;
     id?: string;
     name?: string;
-    startTime?: string;
+    readonly startTime?: Date;
     status?: string;
 }
 
@@ -618,27 +670,230 @@ export type OperationStatusesGetResponse = OperationStatus;
 export type Origin = string;
 
 // @public
+export interface PrivateAccess extends TrackedResource {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessOption;
+}
+
+// @public
+export interface PrivateAccesses {
+    beginCreateOrUpdate(resourceGroupName: string, privateAccessName: string, privateAccess: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesCreateOrUpdateResponse>, PrivateAccessesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, privateAccessName: string, privateAccess: PrivateAccess, options?: PrivateAccessesCreateOrUpdateOptionalParams): Promise<PrivateAccessesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesDeleteResponse>, PrivateAccessesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesDeleteOptionalParams): Promise<PrivateAccessesDeleteResponse>;
+    beginDeleteAPrivateEndpointConnection(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesDeleteAPrivateEndpointConnectionResponse>, PrivateAccessesDeleteAPrivateEndpointConnectionResponse>>;
+    beginDeleteAPrivateEndpointConnectionAndWait(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams): Promise<PrivateAccessesDeleteAPrivateEndpointConnectionResponse>;
+    beginUpdate(resourceGroupName: string, privateAccessName: string, privateAccessPatch: PrivateAccessPatch, options?: PrivateAccessesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateAccessesUpdateResponse>, PrivateAccessesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, privateAccessName: string, privateAccessPatch: PrivateAccessPatch, options?: PrivateAccessesUpdateOptionalParams): Promise<PrivateAccessesUpdateResponse>;
+    get(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetOptionalParams): Promise<PrivateAccessesGetResponse>;
+    getAPrivateEndpointConnection(resourceGroupName: string, privateAccessName: string, privateEndpointConnectionName: string, options?: PrivateAccessesGetAPrivateEndpointConnectionOptionalParams): Promise<PrivateAccessesGetAPrivateEndpointConnectionResponse>;
+    list(resourceGroupName: string, options?: PrivateAccessesListOptionalParams): PagedAsyncIterableIterator<PrivateAccess>;
+    listAll(options?: PrivateAccessesListAllOptionalParams): PagedAsyncIterableIterator<PrivateAccess>;
+    listPrivateEndpointConnections(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesListPrivateEndpointConnectionsOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    listPrivateLinkResources(resourceGroupName: string, privateAccessName: string, options?: PrivateAccessesGetPrivateLinkResourcesOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateAccessesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesCreateOrUpdateResponse = PrivateAccess;
+
+// @public
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesDeleteAPrivateEndpointConnectionResponse = PrivateAccessesDeleteAPrivateEndpointConnectionHeaders;
+
+// @public
+export interface PrivateAccessesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface PrivateAccessesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesDeleteResponse = PrivateAccessesDeleteHeaders;
+
+// @public
+export interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateAccessesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateAccessesGetPrivateLinkResourcesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetPrivateLinkResourcesNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateAccessesGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+
+// @public
+export type PrivateAccessesGetResponse = PrivateAccess;
+
+// @public
+export interface PrivateAccessesListAllNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListAllNextResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListAllOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export type PrivateAccessesListAllResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListNextResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+}
+
+// @public
+export interface PrivateAccessesListPrivateEndpointConnectionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateAccessesListResponse = PrivateAccessListResult;
+
+// @public
+export interface PrivateAccessesUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateAccessesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateAccessesUpdateResponse = PrivateAccess;
+
+// @public
+export interface PrivateAccessListResult {
+    readonly nextLink?: string;
+    readonly value?: PrivateAccess[];
+}
+
+// @public
+export interface PrivateAccessPatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    readonly nextLink?: string;
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    readonly nextLink?: string;
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type PublicNetworkAccessOption = string;
 
 // @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export interface ResourceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
-}
-
-// @public
-export type ResourceIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 
 // @public
 export type SelectorType = string;
@@ -662,12 +917,11 @@ export interface SystemData {
 }
 
 // @public
-export interface Target extends Resource {
+export interface Target extends ProxyResource {
     location?: string;
     properties: {
         [propertyName: string]: any;
     };
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -727,13 +981,12 @@ export interface TargetsListOptionalParams extends coreClient.OperationOptions {
 export type TargetsListResponse = TargetListResult;
 
 // @public
-export interface TargetType extends Resource {
+export interface TargetType extends ProxyResource {
     readonly description?: string;
     readonly displayName?: string;
     location?: string;
     readonly propertiesSchema?: string;
     readonly resourceTypes?: string[];
-    readonly systemData?: SystemData;
 }
 
 // @public
