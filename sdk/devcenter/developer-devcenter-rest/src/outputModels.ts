@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorModel } from "@azure-rest/core-client";
+import { ErrorModel } from "@azure-rest/core-client";
 
 /** Paged collection of Project items */
 export interface PagedProjectOutput {
@@ -228,7 +228,7 @@ export interface DevBoxOutput {
    *
    * Possible values: "Enabled", "Disabled"
    */
-  localAdministrator?: LocalAdminStatusOutput;
+  readonly localAdministrator?: LocalAdminStatusOutput;
 }
 
 /** Paged collection of Schedule items */
