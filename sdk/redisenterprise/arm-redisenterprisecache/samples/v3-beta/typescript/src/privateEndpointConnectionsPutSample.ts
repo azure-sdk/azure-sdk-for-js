@@ -13,9 +13,7 @@ import {
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the state of the specified private endpoint connection associated with the Redis Enterprise cluster.
