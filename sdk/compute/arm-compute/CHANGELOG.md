@@ -1,5 +1,36 @@
 # Release History
     
+## 23.0.0 (2025-01-09)
+    
+### Breaking Changes
+
+  - Removed operation group GalleryInVMAccessControlProfiles
+  - Removed operation group GalleryInVMAccessControlProfileVersions
+  - Removed operation group SoftDeletedResource
+  - Interface Gallery no longer has parameter identity
+  - Interface GalleryImage no longer has parameter allowUpdateImage
+  - Interface GalleryImageFeature no longer has parameter startsAtVersion
+  - Interface GalleryImageUpdate no longer has parameter allowUpdateImage
+  - Interface GalleryImageVersion no longer has parameter restore
+  - Interface GalleryImageVersion no longer has parameter validationsProfile
+  - Interface GalleryImageVersionSafetyProfile no longer has parameter blockDeletionBeforeEndOfLife
+  - Interface GalleryImageVersionUpdate no longer has parameter restore
+  - Interface GalleryImageVersionUpdate no longer has parameter validationsProfile
+  - Interface GalleryList no longer has parameter securityProfile
+  - Interface GalleryUpdate no longer has parameter identity
+  - Interface TargetRegion no longer has parameter additionalReplicaSets
+  - Interface UserArtifactSettings no longer has parameter scriptBehaviorAfterReboot
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfiles
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfileVersions
+  - Class ComputeManagementClient no longer has parameter softDeletedResource
+  - Removed Enum KnownAccessControlRulesMode
+  - Removed Enum KnownEndpointAccess
+  - Removed Enum KnownGalleryApplicationScriptRebootBehavior
+  - Removed Enum KnownSoftDeletedArtifactTypes
+  - Removed Enum KnownValidationStatus
+  - Enum KnownStorageAccountType no longer has value PremiumV2LRS
+    
+    
 ## 22.2.0 (2024-12-11)
     
 ### Features Added
