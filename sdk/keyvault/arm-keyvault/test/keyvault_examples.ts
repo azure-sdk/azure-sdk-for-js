@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { KeyVaultManagementClient } from "../src/keyVaultManagementClient";
+import { KeyVaultManagementClient } from "../src/keyVaultManagementClient.js";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,8 +44,8 @@ describe("Keyvault test", () => {
   let vaultName: string;
   let tenantId: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     tenantId = env.AZURE_TENANT_ID || '';
@@ -221,7 +219,6 @@ describe("Keyvault test", () => {
   });
 
   it("vaults delete test", async function () {
-    const res = await client.vaults.delete(resourceGroup, vaultName);
     const resArray = new Array();
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
