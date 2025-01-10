@@ -2,8 +2,29 @@
 // Licensed under the MIT License.
 
 export {
+  OperationsListOptionalParams,
+  StandbyVirtualMachinePoolsGetOptionalParams,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  StandbyVirtualMachinesGetOptionalParams,
+  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
+  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+} from "./options.js";
+export {
   createStandbyPoolManagement,
-  StandbyPoolContext,
+  StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
 } from "./standbyPoolManagementContext.js";
 export { operationsList } from "./operations/index.js";

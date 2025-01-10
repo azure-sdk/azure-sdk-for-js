@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getStandbyVirtualMachinePoolsOperations,
@@ -26,14 +24,16 @@ import {
 } from "./classic/standbyContainerGroupPoolRuntimeViews/index.js";
 import {
   createStandbyPoolManagement,
-  StandbyPoolContext,
+  StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { StandbyPoolManagementClientOptionalParams } from "./api/standbyPoolManagementContext.js";
 
 export class StandbyPoolManagementClient {
-  private _client: StandbyPoolContext;
+  private _client: StandbyPoolManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -45,7 +45,7 @@ export class StandbyPoolManagementClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createStandbyPoolManagement(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },

@@ -2,34 +2,35 @@
 // Licensed under the MIT License.
 
 import {
-  standbyVirtualMachinePoolResourcePropertiesSerializer,
-  standbyVirtualMachinePoolResourceUpdatePropertiesSerializer,
-  StandbyVirtualMachinePoolResource,
-  StandbyVirtualMachinePoolResourceUpdate,
-  _StandbyVirtualMachinePoolResourceListResult,
-} from "../../models/models.js";
-import { StandbyPoolContext as Client } from "../index.js";
+  StandbyPoolManagementContext as Client,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsGetOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+  StandbyVirtualMachinePoolResource,
+  standbyVirtualMachinePoolResourceSerializer,
+  standbyVirtualMachinePoolResourceDeserializer,
+  StandbyVirtualMachinePoolResourceUpdate,
+  standbyVirtualMachinePoolResourceUpdateSerializer,
+  _StandbyVirtualMachinePoolResourceListResult,
+  _standbyVirtualMachinePoolResourceListResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
-  StandbyVirtualMachinePoolsGetOptionalParams,
-  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
-  StandbyVirtualMachinePoolsDeleteOptionalParams,
-  StandbyVirtualMachinePoolsUpdateOptionalParams,
-  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
-  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _standbyVirtualMachinePoolsGetSend(
   context: Client,
@@ -56,43 +57,7 @@ export async function _standbyVirtualMachinePoolsGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: !result.body.properties?.elasticityProfile
-            ? undefined
-            : {
-                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
-                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
-              },
-          virtualMachineState: result.body.properties?.["virtualMachineState"],
-          attachedVirtualMachineScaleSetId:
-            result.body.properties?.["attachedVirtualMachineScaleSetId"],
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyVirtualMachinePoolResourceDeserializer(result.body);
 }
 
 /** Get a StandbyVirtualMachinePoolResource */
@@ -132,13 +97,7 @@ export function _standbyVirtualMachinePoolsCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : standbyVirtualMachinePoolResourcePropertiesSerializer(resource.properties),
-      },
+      body: standbyVirtualMachinePoolResourceSerializer(resource),
     });
 }
 
@@ -150,43 +109,7 @@ export async function _standbyVirtualMachinePoolsCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: !result.body.properties?.elasticityProfile
-            ? undefined
-            : {
-                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
-                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
-              },
-          virtualMachineState: result.body.properties?.["virtualMachineState"],
-          attachedVirtualMachineScaleSetId:
-            result.body.properties?.["attachedVirtualMachineScaleSetId"],
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyVirtualMachinePoolResourceDeserializer(result.body);
 }
 
 /** Create a StandbyVirtualMachinePoolResource */
@@ -306,12 +229,7 @@ export function _standbyVirtualMachinePoolsUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        properties: !properties.properties
-          ? properties.properties
-          : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(properties.properties),
-      },
+      body: standbyVirtualMachinePoolResourceUpdateSerializer(properties),
     });
 }
 
@@ -323,43 +241,7 @@ export async function _standbyVirtualMachinePoolsUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          elasticityProfile: !result.body.properties?.elasticityProfile
-            ? undefined
-            : {
-                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
-                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
-              },
-          virtualMachineState: result.body.properties?.["virtualMachineState"],
-          attachedVirtualMachineScaleSetId:
-            result.body.properties?.["attachedVirtualMachineScaleSetId"],
-          provisioningState: result.body.properties?.["provisioningState"],
-        },
-  };
+  return standbyVirtualMachinePoolResourceDeserializer(result.body);
 }
 
 /** Update a StandbyVirtualMachinePoolResource */
@@ -409,47 +291,7 @@ export async function _standbyVirtualMachinePoolsListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: !p.properties?.elasticityProfile
-                ? undefined
-                : {
-                    maxReadyCapacity: p.properties?.elasticityProfile?.["maxReadyCapacity"],
-                    minReadyCapacity: p.properties?.elasticityProfile?.["minReadyCapacity"],
-                  },
-              virtualMachineState: p.properties?.["virtualMachineState"],
-              attachedVirtualMachineScaleSetId: p.properties?.["attachedVirtualMachineScaleSetId"],
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyVirtualMachinePoolResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyVirtualMachinePoolResource resources by resource group */
@@ -499,47 +341,7 @@ export async function _standbyVirtualMachinePoolsListBySubscriptionDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              elasticityProfile: !p.properties?.elasticityProfile
-                ? undefined
-                : {
-                    maxReadyCapacity: p.properties?.elasticityProfile?.["maxReadyCapacity"],
-                    minReadyCapacity: p.properties?.elasticityProfile?.["minReadyCapacity"],
-                  },
-              virtualMachineState: p.properties?.["virtualMachineState"],
-              attachedVirtualMachineScaleSetId: p.properties?.["attachedVirtualMachineScaleSetId"],
-              provisioningState: p.properties?.["provisioningState"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _standbyVirtualMachinePoolResourceListResultDeserializer(result.body);
 }
 
 /** List StandbyVirtualMachinePoolResource resources by subscription ID */

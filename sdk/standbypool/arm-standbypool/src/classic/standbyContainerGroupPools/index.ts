@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolContext } from "../../api/standbyPoolManagementContext.js";
-import {
-  StandbyContainerGroupPoolResource,
-  StandbyContainerGroupPoolResourceUpdate,
-} from "../../models/models.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   standbyContainerGroupPoolsGet,
   standbyContainerGroupPoolsCreateOrUpdate,
@@ -14,6 +10,10 @@ import {
   standbyContainerGroupPoolsListByResourceGroup,
   standbyContainerGroupPoolsListBySubscription,
 } from "../../api/standbyContainerGroupPools/index.js";
+import {
+  StandbyContainerGroupPoolResource,
+  StandbyContainerGroupPoolResourceUpdate,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -23,7 +23,7 @@ import {
   StandbyContainerGroupPoolsUpdateOptionalParams,
   StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a StandbyContainerGroupPools operations. */
 export interface StandbyContainerGroupPoolsOperations {
@@ -67,7 +67,10 @@ export interface StandbyContainerGroupPoolsOperations {
   ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
 }
 
-export function getStandbyContainerGroupPools(context: StandbyPoolContext, subscriptionId: string) {
+export function getStandbyContainerGroupPools(
+  context: StandbyPoolManagementContext,
+  subscriptionId: string,
+) {
   return {
     get: (
       resourceGroupName: string,
@@ -137,7 +140,7 @@ export function getStandbyContainerGroupPools(context: StandbyPoolContext, subsc
 }
 
 export function getStandbyContainerGroupPoolsOperations(
-  context: StandbyPoolContext,
+  context: StandbyPoolManagementContext,
   subscriptionId: string,
 ): StandbyContainerGroupPoolsOperations {
   return {

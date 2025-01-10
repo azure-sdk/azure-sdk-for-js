@@ -7,23 +7,20 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  StandbyPoolManagementClient,
-  StandbyPoolManagementClientOptionalParams,
-} from "./standbyPoolManagementClient.js";
+export { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ProxyResource,
   StandbyContainerGroupPoolRuntimeViewResource,
   StandbyContainerGroupPoolRuntimeViewResourceProperties,
   ContainerGroupInstanceCountSummary,
   PoolResourceStateCount,
   KnownProvisioningState,
-  TrackedResource,
+  ProvisioningState,
+  ProxyResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   StandbyContainerGroupPoolResource,
   StandbyContainerGroupPoolResourceProperties,
   StandbyContainerGroupPoolElasticityProfile,
@@ -32,6 +29,7 @@ export {
   ContainerGroupProperties,
   ContainerGroupProfile,
   Subnet,
+  TrackedResource,
   StandbyContainerGroupPoolResourceUpdate,
   StandbyContainerGroupPoolResourceUpdateProperties,
   StandbyVirtualMachinePoolRuntimeViewResource,
@@ -52,7 +50,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
+  KnownVersions,
+} from "./models/index.js";
+export {
   OperationsListOptionalParams,
   StandbyVirtualMachinePoolsGetOptionalParams,
   StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
@@ -72,7 +72,8 @@ export {
   StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
   StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
-} from "./models/index.js";
+  StandbyPoolManagementClientOptionalParams,
+} from "./api/index.js";
 export {
   OperationsOperations,
   StandbyContainerGroupPoolRuntimeViewsOperations,
