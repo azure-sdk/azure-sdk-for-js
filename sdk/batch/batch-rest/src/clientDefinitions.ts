@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ListApplicationsParameters,
   GetApplicationParameters,
   ListPoolUsageMetricsParameters,
@@ -75,7 +75,7 @@ import type {
   GetNodeFilePropertiesParameters,
   ListNodeFilesParameters,
 } from "./parameters.js";
-import type {
+import {
   ListApplications200Response,
   ListApplicationsDefaultResponse,
   GetApplication200Response,
@@ -223,7 +223,7 @@ import type {
   ListNodeFiles200Response,
   ListNodeFilesDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListApplications {
   /**
