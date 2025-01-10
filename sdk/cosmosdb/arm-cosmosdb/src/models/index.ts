@@ -17,6 +17,13 @@ export type DataTransferDataSourceSinkUnion =
   | BaseCosmosDataTransferDataSourceSinkUnion
   | CosmosMongoVCoreDataTransferDataSourceSink
   | AzureBlobDataTransferDataSourceSink;
+export type ContainerEntityUnion =
+  | ContainerEntity
+  | CosmosCassandraContainerEntity
+  | CosmosSqlContainerEntity
+  | CosmosMongoContainerEntity
+  | CosmosMongoVCoreContainerEntity
+  | AzureBlobStorageContainerEntity;
 export type ServiceResourcePropertiesUnion =
   | ServiceResourceProperties
   | DataTransferServiceResourceProperties
@@ -1636,6 +1643,7 @@ export interface DataTransferJobProperties {
   source: DataTransferDataSourceSinkUnion;
   /** Destination DataStore details */
   destination: DataTransferDataSourceSinkUnion;
+  sourceAndDestinationContainers?: DataTransferContainerDetails[];
   /**
    * Job Status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1681,6 +1689,26 @@ export interface DataTransferDataSourceSink {
     | "CosmosDBMongo"
     | "CosmosDBMongoVCore"
     | "CosmosDBSql"
+    | "AzureBlobStorage";
+}
+
+/** Data transfer entity */
+export interface DataTransferContainerDetails {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly totalCount?: number;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly processedCount?: number;
+  source: ContainerEntityUnion;
+  destination: ContainerEntityUnion;
+}
+
+export interface ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component:
+    | "CosmosDBCassandra"
+    | "CosmosDBSql"
+    | "CosmosDBMongo"
+    | "CosmosDBMongo"
     | "AzureBlobStorage";
 }
 
@@ -3999,6 +4027,7 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
   source?: DataTransferDataSourceSinkUnion;
   /** Destination DataStore details */
   destination?: DataTransferDataSourceSinkUnion;
+  sourceAndDestinationContainers?: DataTransferContainerDetails[];
   /**
    * Job Status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4157,8 +4186,8 @@ export interface CosmosMongoVCoreDataTransferDataSourceSink
   extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBMongoVCore";
-  databaseName: string;
-  collectionName: string;
+  databaseName?: string;
+  collectionName?: string;
   hostName?: string;
   connectionStringKeyVaultUri?: string;
 }
@@ -4168,8 +4197,47 @@ export interface AzureBlobDataTransferDataSourceSink
   extends DataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "AzureBlobStorage";
-  containerName: string;
+  containerName?: string;
   endpointUrl?: string;
+}
+
+/** A CosmosDB Cassandra container entity */
+export interface CosmosCassandraContainerEntity extends ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBCassandra";
+  keySpaceName: string;
+  tableName: string;
+}
+
+/** A CosmosDB noSql container entity */
+export interface CosmosSqlContainerEntity extends ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBSql";
+  databaseName: string;
+  containerName: string;
+}
+
+/** A CosmosDB Mongo container entity */
+export interface CosmosMongoContainerEntity extends ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB Mongo vCore container entity */
+export interface CosmosMongoVCoreContainerEntity extends ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "CosmosDBMongo";
+  databaseName: string;
+  collectionName: string;
+}
+
+/** A CosmosDB Mongo container entity */
+export interface AzureBlobStorageContainerEntity extends ContainerEntity {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  component: "AzureBlobStorage";
+  containerName: string;
 }
 
 /** Representation of a managed Cassandra cluster. */
@@ -4382,8 +4450,8 @@ export interface CosmosCassandraDataTransferDataSourceSink
   extends BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBCassandra";
-  keyspaceName: string;
-  tableName: string;
+  keyspaceName?: string;
+  tableName?: string;
 }
 
 /** A CosmosDB Mongo API data source/sink */
@@ -4391,8 +4459,8 @@ export interface CosmosMongoDataTransferDataSourceSink
   extends BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBMongo";
-  databaseName: string;
-  collectionName: string;
+  databaseName?: string;
+  collectionName?: string;
 }
 
 /** A CosmosDB No Sql API data source/sink */
@@ -4400,8 +4468,8 @@ export interface CosmosSqlDataTransferDataSourceSink
   extends BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBSql";
-  databaseName: string;
-  containerName: string;
+  databaseName?: string;
+  containerName?: string;
 }
 
 /** Defines headers for DatabaseAccounts_delete operation. */
