@@ -14,9 +14,7 @@ import {
   NginxManagementClient,
 } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the NGINX deployment
