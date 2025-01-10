@@ -391,7 +391,7 @@ export interface AccountProperties {
   scalableExecution?: EnablementStatus;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
   reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
   localAuth?: EnablementStatus;
   /** The status of the last operation. */
   readonly provisioningState?: ProvisioningState;
@@ -485,7 +485,7 @@ export interface AccountUpdateProperties {
   scalableExecution?: EnablementStatus;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
   reporting?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to use local auth(through access key) for authentication of test runs. */
+  /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
   localAuth?: EnablementStatus;
 }
 
@@ -603,11 +603,11 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -644,11 +644,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -680,5 +680,5 @@ export type ActionType = string;
 /** Microsoft.AzurePlaywrightService Management API Versions. */
 export enum KnownVersions {
   /** 2024-12-01 version */
-  "V2024-12-01" = "2024-12-01",
+  "2024-12-01" = "2024-12-01",
 }
