@@ -4041,6 +4041,18 @@ export const DataTransferJobProperties: coreClient.CompositeMapper = {
           className: "DataTransferDataSourceSink",
         },
       },
+      sourceAndDestinationContainers: {
+        serializedName: "sourceAndDestinationContainers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTransferContainerDetails",
+            },
+          },
+        },
+      },
       status: {
         serializedName: "status",
         readOnly: true,
@@ -4113,7 +4125,64 @@ export const DataTransferDataSourceSink: coreClient.CompositeMapper = {
     },
     modelProperties: {
       component: {
-        defaultValue: "CosmosDBCassandra",
+        serializedName: "component",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DataTransferContainerDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataTransferContainerDetails",
+    modelProperties: {
+      totalCount: {
+        serializedName: "totalCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      processedCount: {
+        serializedName: "processedCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "ContainerEntity",
+        },
+      },
+      destination: {
+        serializedName: "destination",
+        type: {
+          name: "Composite",
+          className: "ContainerEntity",
+        },
+      },
+    },
+  },
+};
+
+export const ContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: {
+      serializedName: "component",
+      clientName: "component",
+    },
+    modelProperties: {
+      component: {
         serializedName: "component",
         required: true,
         type: {
@@ -10022,6 +10091,18 @@ export const DataTransferJobGetResults: coreClient.CompositeMapper = {
           className: "DataTransferDataSourceSink",
         },
       },
+      sourceAndDestinationContainers: {
+        serializedName: "properties.sourceAndDestinationContainers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTransferContainerDetails",
+            },
+          },
+        },
+      },
       status: {
         serializedName: "properties.status",
         readOnly: true,
@@ -10419,14 +10500,12 @@ export const CosmosMongoVCoreDataTransferDataSourceSink: coreClient.CompositeMap
         ...DataTransferDataSourceSink.type.modelProperties,
         databaseName: {
           serializedName: "databaseName",
-          required: true,
           type: {
             name: "String",
           },
         },
         collectionName: {
           serializedName: "collectionName",
-          required: true,
           type: {
             name: "String",
           },
@@ -10459,13 +10538,140 @@ export const AzureBlobDataTransferDataSourceSink: coreClient.CompositeMapper = {
       ...DataTransferDataSourceSink.type.modelProperties,
       containerName: {
         serializedName: "containerName",
-        required: true,
         type: {
           name: "String",
         },
       },
       endpointUrl: {
         serializedName: "endpointUrl",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosCassandraContainerEntity: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBCassandra",
+  type: {
+    name: "Composite",
+    className: "CosmosCassandraContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: ContainerEntity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ContainerEntity.type.modelProperties,
+      keySpaceName: {
+        serializedName: "keySpaceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tableName: {
+        serializedName: "tableName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosSqlContainerEntity: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBSql",
+  type: {
+    name: "Composite",
+    className: "CosmosSqlContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: ContainerEntity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ContainerEntity.type.modelProperties,
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      containerName: {
+        serializedName: "containerName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosMongoContainerEntity: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBMongo",
+  type: {
+    name: "Composite",
+    className: "CosmosMongoContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: ContainerEntity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ContainerEntity.type.modelProperties,
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosMongoVCoreContainerEntity: coreClient.CompositeMapper = {
+  serializedName: "CosmosDBMongo",
+  type: {
+    name: "Composite",
+    className: "CosmosMongoVCoreContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: ContainerEntity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ContainerEntity.type.modelProperties,
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureBlobStorageContainerEntity: coreClient.CompositeMapper = {
+  serializedName: "AzureBlobStorage",
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageContainerEntity",
+    uberParent: "ContainerEntity",
+    polymorphicDiscriminator: ContainerEntity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ContainerEntity.type.modelProperties,
+      containerName: {
+        serializedName: "containerName",
+        required: true,
         type: {
           name: "String",
         },
@@ -11002,14 +11208,12 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
         ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
         keyspaceName: {
           serializedName: "keyspaceName",
-          required: true,
           type: {
             name: "String",
           },
         },
         tableName: {
           serializedName: "tableName",
-          required: true,
           type: {
             name: "String",
           },
@@ -11031,14 +11235,12 @@ export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper =
         ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
         databaseName: {
           serializedName: "databaseName",
-          required: true,
           type: {
             name: "String",
           },
         },
         collectionName: {
           serializedName: "collectionName",
-          required: true,
           type: {
             name: "String",
           },
@@ -11059,14 +11261,12 @@ export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
       ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
-        required: true,
         type: {
           name: "String",
         },
       },
       containerName: {
         serializedName: "containerName",
-        required: true,
         type: {
           name: "String",
         },
@@ -12966,6 +13166,7 @@ export const ThroughputPoolAccountDeleteHeaders: coreClient.CompositeMapper = {
 export let discriminators = {
   BackupPolicy: BackupPolicy,
   DataTransferDataSourceSink: DataTransferDataSourceSink,
+  ContainerEntity: ContainerEntity,
   ServiceResourceProperties: ServiceResourceProperties,
   ServiceResourceCreateUpdateProperties: ServiceResourceCreateUpdateProperties,
   "BackupPolicy.Periodic": PeriodicModeBackupPolicy,
@@ -12976,6 +13177,10 @@ export let discriminators = {
     CosmosMongoVCoreDataTransferDataSourceSink,
   "DataTransferDataSourceSink.AzureBlobStorage":
     AzureBlobDataTransferDataSourceSink,
+  "ContainerEntity.CosmosDBCassandra": CosmosCassandraContainerEntity,
+  "ContainerEntity.CosmosDBSql": CosmosSqlContainerEntity,
+  "ContainerEntity.CosmosDBMongo": CosmosMongoVCoreContainerEntity,
+  "ContainerEntity.AzureBlobStorage": AzureBlobStorageContainerEntity,
   "ServiceResourceProperties.DataTransfer":
     DataTransferServiceResourceProperties,
   "ServiceResourceProperties.SqlDedicatedGateway":

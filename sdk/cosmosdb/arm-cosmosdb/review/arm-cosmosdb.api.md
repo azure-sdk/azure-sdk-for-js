@@ -115,9 +115,16 @@ export interface AutoUpgradePolicyResource {
 export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
     component: "AzureBlobStorage";
     // (undocumented)
-    containerName: string;
+    containerName?: string;
     // (undocumented)
     endpointUrl?: string;
+}
+
+// @public
+export interface AzureBlobStorageContainerEntity extends ContainerEntity {
+    component: "AzureBlobStorage";
+    // (undocumented)
+    containerName: string;
 }
 
 // @public
@@ -1211,6 +1218,14 @@ export interface ConsistencyPolicy {
     maxStalenessPrefix?: number;
 }
 
+// @public (undocumented)
+export interface ContainerEntity {
+    component: "CosmosDBCassandra" | "CosmosDBSql" | "CosmosDBMongo" | "CosmosDBMongo" | "AzureBlobStorage";
+}
+
+// @public (undocumented)
+export type ContainerEntityUnion = ContainerEntity | CosmosCassandraContainerEntity | CosmosSqlContainerEntity | CosmosMongoContainerEntity | CosmosMongoVCoreContainerEntity | AzureBlobStorageContainerEntity;
+
 // @public
 export interface ContainerPartitionKey {
     kind?: PartitionKind;
@@ -1253,12 +1268,21 @@ export interface CorsPolicy {
 }
 
 // @public
+export interface CosmosCassandraContainerEntity extends ContainerEntity {
+    component: "CosmosDBCassandra";
+    // (undocumented)
+    keySpaceName: string;
+    // (undocumented)
+    tableName: string;
+}
+
+// @public
 export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     component: "CosmosDBCassandra";
     // (undocumented)
-    keyspaceName: string;
+    keyspaceName?: string;
     // (undocumented)
-    tableName: string;
+    tableName?: string;
 }
 
 // @public (undocumented)
@@ -1370,7 +1394,25 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
+export interface CosmosMongoContainerEntity extends ContainerEntity {
+    // (undocumented)
+    collectionName: string;
+    component: "CosmosDBMongo";
+    // (undocumented)
+    databaseName: string;
+}
+
+// @public
 export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
+    // (undocumented)
+    collectionName?: string;
+    component: "CosmosDBMongo";
+    // (undocumented)
+    databaseName?: string;
+}
+
+// @public
+export interface CosmosMongoVCoreContainerEntity extends ContainerEntity {
     // (undocumented)
     collectionName: string;
     component: "CosmosDBMongo";
@@ -1381,23 +1423,32 @@ export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTra
 // @public
 export interface CosmosMongoVCoreDataTransferDataSourceSink extends DataTransferDataSourceSink {
     // (undocumented)
-    collectionName: string;
+    collectionName?: string;
     component: "CosmosDBMongoVCore";
     // (undocumented)
     connectionStringKeyVaultUri?: string;
     // (undocumented)
-    databaseName: string;
+    databaseName?: string;
     // (undocumented)
     hostName?: string;
+}
+
+// @public
+export interface CosmosSqlContainerEntity extends ContainerEntity {
+    component: "CosmosDBSql";
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    databaseName: string;
 }
 
 // @public
 export interface CosmosSqlDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
     component: "CosmosDBSql";
     // (undocumented)
-    containerName: string;
+    containerName?: string;
     // (undocumented)
-    databaseName: string;
+    databaseName?: string;
 }
 
 // @public
@@ -1871,6 +1922,16 @@ export interface DataCenterResourceProperties {
 export type DataTransferComponent = string;
 
 // @public
+export interface DataTransferContainerDetails {
+    // (undocumented)
+    destination: ContainerEntityUnion;
+    readonly processedCount?: number;
+    // (undocumented)
+    source: ContainerEntityUnion;
+    readonly totalCount?: number;
+}
+
+// @public
 export interface DataTransferDataSourceSink {
     component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBMongoVCore" | "CosmosDBSql" | "AzureBlobStorage";
 }
@@ -1894,6 +1955,8 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
     mode?: DataTransferJobMode;
     readonly processedCount?: number;
     source?: DataTransferDataSourceSinkUnion;
+    // (undocumented)
+    sourceAndDestinationContainers?: DataTransferContainerDetails[];
     readonly status?: string;
     readonly totalCount?: number;
     workerCount?: number;
@@ -1912,6 +1975,8 @@ export interface DataTransferJobProperties {
     mode?: DataTransferJobMode;
     readonly processedCount?: number;
     source: DataTransferDataSourceSinkUnion;
+    // (undocumented)
+    sourceAndDestinationContainers?: DataTransferContainerDetails[];
     readonly status?: string;
     readonly totalCount?: number;
     workerCount?: number;
