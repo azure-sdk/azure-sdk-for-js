@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get query execution statistics by query id.

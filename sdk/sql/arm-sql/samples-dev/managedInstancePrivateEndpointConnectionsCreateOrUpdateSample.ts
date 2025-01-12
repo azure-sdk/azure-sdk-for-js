@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.

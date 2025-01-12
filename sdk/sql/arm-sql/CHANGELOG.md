@@ -1,15 +1,102 @@
 # Release History
-
-## 11.0.0-beta.3 (Unreleased)
-
+    
+## 11.0.0-beta.3 (2025-01-12)
+Compared with version 10.0.0
+    
 ### Features Added
+
+  - Added operation group JobPrivateEndpoints
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTier
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroup
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait
+  - Added operation ReplicationLinks.beginCreateOrUpdate
+  - Added operation ReplicationLinks.beginCreateOrUpdateAndWait
+  - Added operation ReplicationLinks.beginUpdate
+  - Added operation ReplicationLinks.beginUpdateAndWait
+  - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Interface JobPrivateEndpoint
+  - Added Interface JobPrivateEndpointListResult
+  - Added Interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  - Added Interface JobPrivateEndpointsDeleteOptionalParams
+  - Added Interface JobPrivateEndpointsGetOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentNextOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  - Added Interface PhaseDetails
+  - Added Interface ReplicationLinksCreateOrUpdateOptionalParams
+  - Added Interface ReplicationLinksUpdateOptionalParams
+  - Added Interface ReplicationLinkUpdate
+  - Added Type Alias BackupStorageAccessTier
+  - Added Type Alias FailoverGroupDatabasesSecondaryType
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Added Type Alias FreeLimitExhaustionBehavior
+  - Added Type Alias JobPrivateEndpointsCreateOrUpdateResponse
+  - Added Type Alias JobPrivateEndpointsGetResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentNextResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentResponse
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierResponse
+  - Added Type Alias MinimalTlsVersion
+  - Added Type Alias Phase
+  - Added Type Alias ReplicationLinksCreateOrUpdateResponse
+  - Added Type Alias ReplicationLinksUpdateResponse
+  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
+  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter useFreeLimit
+  - Interface DatabaseOperation has a new optional parameter operationPhaseDetails
+  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
+  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface FailoverGroup has a new optional parameter secondaryType
+  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
+  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface FailoverGroupUpdate has a new optional parameter secondaryType
+  - Interface InstancePool has a new optional parameter dnsZone
+  - Interface InstancePool has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter dnsZone
+  - Interface InstancePoolUpdate has a new optional parameter licenseType
+  - Interface InstancePoolUpdate has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter sku
+  - Interface InstancePoolUpdate has a new optional parameter subnetId
+  - Interface InstancePoolUpdate has a new optional parameter vCores
+  - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface LongTermRetentionPolicy has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionPolicy has a new optional parameter makeBackupsImmutable
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface ReplicationLink has a new optional parameter partnerDatabaseId
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Added Enum KnownBackupStorageAccessTier
+  - Added Enum KnownFailoverGroupDatabasesSecondaryType
+  - Added Enum KnownFreeLimitExhaustionBehavior
+  - Added Enum KnownMinimalTlsVersion
+  - Added Enum KnownPhase
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter minimalTlsVersion of interface Server is changed from string to MinimalTlsVersion
+  - Type of parameter minimalTlsVersion of interface ServerUpdate is changed from string to MinimalTlsVersion
+    
+    
 ## 11.0.0-beta.2 (2024-08-20)
 Compared with version 10.0.0
     

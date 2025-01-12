@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
