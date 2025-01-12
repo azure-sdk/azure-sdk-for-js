@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ManagedHsm, KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a managed HSM Pool in the specified subscription.

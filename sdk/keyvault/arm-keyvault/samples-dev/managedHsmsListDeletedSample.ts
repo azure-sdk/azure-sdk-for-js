@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The List operation gets information about the deleted managed HSMs associated with the subscription.

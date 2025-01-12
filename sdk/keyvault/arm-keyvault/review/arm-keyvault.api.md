@@ -232,7 +232,7 @@ export interface KeyReleasePolicy {
 }
 
 // @public
-export type KeyRotationPolicyActionType = "rotate" | "notify";
+export type KeyRotationPolicyActionType = "Rotate" | "Notify" | "rotate" | "notify";
 
 // @public (undocumented)
 export interface KeyRotationPolicyAttributes {
