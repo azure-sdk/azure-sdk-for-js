@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServerTrustCertificate, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Uploads a server trust certificate from box to Sql Managed Instance.

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OutboundFirewallRule, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a outbound firewall rule with a given name.
