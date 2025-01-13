@@ -249,9 +249,214 @@ export const Service: coreClient.CompositeMapper = {
           },
         },
       },
+      metadata: {
+        serializedName: "properties.metadata",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
     },
   },
 };
+
+export const ServiceClassificationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceClassificationRequest",
+    modelProperties: {
+      issueSummary: {
+        serializedName: "issueSummary",
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      additionalContext: {
+        serializedName: "additionalContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceClassificationOutput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceClassificationOutput",
+    modelProperties: {
+      serviceClassificationResults: {
+        serializedName: "serviceClassificationResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceClassificationAnswer",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ClassificationService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassificationService",
+    modelProperties: {
+      serviceId: {
+        serializedName: "serviceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceTypes: {
+        serializedName: "resourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ProblemClassificationsClassificationInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ProblemClassificationsClassificationInput",
+      modelProperties: {
+        issueSummary: {
+          serializedName: "issueSummary",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        resourceId: {
+          serializedName: "resourceId",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ProblemClassificationsClassificationOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ProblemClassificationsClassificationOutput",
+      modelProperties: {
+        problemClassificationResults: {
+          serializedName: "problemClassificationResults",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ProblemClassificationsClassificationResult",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const ProblemClassificationsClassificationResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ProblemClassificationsClassificationResult",
+      modelProperties: {
+        problemId: {
+          serializedName: "problemId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        title: {
+          serializedName: "title",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        description: {
+          serializedName: "description",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        serviceId: {
+          serializedName: "serviceId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        problemClassificationId: {
+          serializedName: "problemClassificationId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        serviceIdRelatedServiceId: {
+          serializedName: "relatedService.serviceId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        displayName: {
+          serializedName: "relatedService.displayName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resourceTypes: {
+          serializedName: "relatedService.resourceTypes",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const ProblemClassificationsListResult: coreClient.CompositeMapper = {
   type: {
@@ -316,6 +521,21 @@ export const ProblemClassification: coreClient.CompositeMapper = {
               className: "SecondaryConsentEnabled",
             },
           },
+        },
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      parentProblemClassification: {
+        serializedName: "properties.parentProblemClassification",
+        type: {
+          name: "Composite",
+          className: "ProblemClassification",
         },
       },
     },
@@ -461,14 +681,12 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "properties.description",
-        required: true,
         type: {
           name: "String",
         },
       },
       problemClassificationId: {
         serializedName: "properties.problemClassificationId",
-        required: true,
         type: {
           name: "String",
         },
@@ -482,7 +700,6 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
       },
       severity: {
         serializedName: "properties.severity",
-        required: true,
         type: {
           name: "String",
         },
@@ -501,7 +718,6 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
       },
       advancedDiagnosticConsent: {
         serializedName: "properties.advancedDiagnosticConsent",
-        required: true,
         type: {
           name: "String",
         },
@@ -555,7 +771,6 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
       },
       title: {
         serializedName: "properties.title",
-        required: true,
         type: {
           name: "String",
         },
@@ -568,7 +783,6 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
       },
       serviceId: {
         serializedName: "properties.serviceId",
-        required: true,
         type: {
           name: "String",
         },
@@ -1044,14 +1258,12 @@ export const CommunicationDetails: coreClient.CompositeMapper = {
       },
       subject: {
         serializedName: "properties.subject",
-        required: true,
         type: {
           name: "String",
         },
       },
       body: {
         serializedName: "properties.body",
-        required: true,
         type: {
           name: "String",
         },
@@ -1121,6 +1333,7 @@ export const MessageProperties: coreClient.CompositeMapper = {
       },
       body: {
         serializedName: "body",
+        required: true,
         type: {
           name: "String",
         },
@@ -1260,6 +1473,61 @@ export const UploadFile: coreClient.CompositeMapper = {
         serializedName: "chunkIndex",
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const LookUpResourceIdRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LookUpResourceIdRequest",
+    modelProperties: {
+      identifier: {
+        serializedName: "identifier",
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        defaultValue: "Microsoft.Support/supportTickets",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LookUpResourceIdResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LookUpResourceIdResponse",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ServiceClassificationAnswer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceClassificationAnswer",
+    modelProperties: {
+      ...ClassificationService.type.modelProperties,
+      childService: {
+        serializedName: "childService",
+        type: {
+          name: "Composite",
+          className: "ClassificationService",
         },
       },
     },

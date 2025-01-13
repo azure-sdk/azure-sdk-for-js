@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CommunicationDetails, MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
