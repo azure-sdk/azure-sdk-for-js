@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SystemAssignedIdentities } from "../operationsInterfaces";
+import { SystemAssignedIdentities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ManagedServiceIdentityClient } from "../managedServiceIdentityClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ManagedServiceIdentityClient } from "../managedServiceIdentityClient.js";
 import {
   SystemAssignedIdentitiesGetByScopeOptionalParams,
-  SystemAssignedIdentitiesGetByScopeResponse
-} from "../models";
+  SystemAssignedIdentitiesGetByScopeResponse,
+} from "../models/index.js";
 
 /** Class containing SystemAssignedIdentities operations. */
 export class SystemAssignedIdentitiesImpl implements SystemAssignedIdentities {
@@ -36,11 +36,11 @@ export class SystemAssignedIdentitiesImpl implements SystemAssignedIdentities {
    */
   getByScope(
     scope: string,
-    options?: SystemAssignedIdentitiesGetByScopeOptionalParams
+    options?: SystemAssignedIdentitiesGetByScopeOptionalParams,
   ): Promise<SystemAssignedIdentitiesGetByScopeResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getByScopeOperationSpec
+      getByScopeOperationSpec,
     );
   }
 }
@@ -52,14 +52,14 @@ const getByScopeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SystemAssignedIdentity
+      bodyMapper: Mappers.SystemAssignedIdentity,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

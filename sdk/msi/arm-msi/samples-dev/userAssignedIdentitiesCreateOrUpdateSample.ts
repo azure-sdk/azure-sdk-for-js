@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Identity, ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an identity in the specified subscription and resource group.
