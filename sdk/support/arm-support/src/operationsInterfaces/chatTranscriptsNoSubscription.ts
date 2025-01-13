@@ -12,14 +12,14 @@ import {
   ChatTranscriptsNoSubscriptionListOptionalParams,
   ChatTranscriptsNoSubscriptionGetOptionalParams,
   ChatTranscriptsNoSubscriptionGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ChatTranscriptsNoSubscription. */
 export interface ChatTranscriptsNoSubscription {
   /**
    * Lists all chat transcripts for a support ticket
-   * @param supportTicketName Support ticket name
+   * @param supportTicketName Support ticket name.
    * @param options The options parameters.
    */
   list(

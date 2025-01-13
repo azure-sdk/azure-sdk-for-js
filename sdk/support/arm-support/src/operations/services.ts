@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Services } from "../operationsInterfaces";
+import { Services } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftSupport } from "../microsoftSupport";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftSupport } from "../microsoftSupport.js";
 import {
   Service,
   ServicesListOptionalParams,
   ServicesListResponse,
   ServicesGetOptionalParams,
   ServicesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Services operations. */
@@ -98,7 +98,8 @@ export class ServicesImpl implements Services {
 
   /**
    * Gets a specific Azure service for support ticket creation.
-   * @param serviceName Name of the Azure service.
+   * @param serviceName Name of the Azure service for which the problem classifications need to be
+   *                    retrieved.
    * @param options The options parameters.
    */
   get(
