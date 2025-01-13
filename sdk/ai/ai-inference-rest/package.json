@@ -1,30 +1,12 @@
 {
   "name": "@azure-rest/ai-inference",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.1",
   "description": "Inference API for Azure-supported AI models",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "sideEffects": false,
+  "autoPublish": false,
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -38,20 +20,9 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "type": "module",
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "sideEffects": false,
-  "autoPublish": false,
   "keywords": [
     "node",
     "azure",
@@ -62,85 +33,52 @@
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/README.md",
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/modelClient.ts",
-        "prefix": "package-version"
-      }
-    ]
-  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "review/*",
+    "CHANGELOG.md"
+  ],
   "dependencies": {
-    "@azure-rest/core-client": "^2.1.0",
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.7.2",
-    "@azure/core-lro": "^2.6.0",
-    "@azure/core-rest-pipeline": "^1.14.0",
-    "@azure/core-tracing": "^1.2.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.0.0",
-    "@azure/core-sse": "^2.1.3",
-    "@azure/core-util": "^1.9.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.3.0",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.27",
-    "@azure/opentelemetry-instrumentation-azure-sdk": "1.0.0-beta.7",
-    "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/instrumentation": "^0.57.0",
-    "@opentelemetry/sdk-trace-node": "^1.30.0",
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
+    "eslint": "^9.9.0",
+    "typescript": "~5.6.2",
+    "tshy": "^2.0.0",
+    "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "autorest": "latest",
-    "dotenv": "^16.4.5",
-    "eslint": "^9.9.0",
     "playwright": "^1.41.2",
-    "source-map-support": "^0.5.9",
-    "typescript": "~5.7.2",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.0.0",
+    "rimraf": "^5.0.5",
+    "mkdirp": "^3.0.1"
   },
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "build:samples": "echo Obsolete",
-    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
-    "check-format": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && cp tsp-location.yaml ./src/generated && tsp-client update -o ./src/generated && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "npm run unit-test:browser",
-    "integration-test:node": "echo skipped",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
+    "lint": "eslint package.json api-extractor.json src",
+    "lint:fix": "eslint package.json api-extractor.json src --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-test && dev-tool run test:vitest --browser --hookTimeout=50000",
-    "unit-test:node": "dev-tool run test:vitest --hookTimeout=50000",
-    "update-snippets": "echo skipped"
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure AI Inference",
-    "productSlugs": [
-      "azure"
-    ],
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference"
-  },
-  "module": "./dist/esm/index.js"
+    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest -c vitest.config.ts",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
+    "build": "npm run clean && tshy && npm run extract-api"
+  }
 }

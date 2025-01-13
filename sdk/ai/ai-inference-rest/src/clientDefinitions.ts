@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GetChatCompletionsParameters,
   GetModelInfoParameters,
   GetEmbeddingsParameters,
   GetImageEmbeddingsParameters,
 } from "./parameters.js";
-import type {
+import {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetModelInfo200Response,
@@ -17,7 +17,7 @@ import type {
   GetImageEmbeddings200Response,
   GetImageEmbeddingsDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetChatCompletions {
   /**
@@ -27,14 +27,18 @@ export interface GetChatCompletions {
    * on the given endpoint.
    */
   post(
-    options?: GetChatCompletionsParameters,
-  ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
+    options: GetChatCompletionsParameters,
+  ): StreamableMethod<
+    GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  >;
 }
 
 export interface GetModelInfo {
   /**
    * Returns information about the AI model.
    * The method makes a REST API call to the `/info` route on the given endpoint.
+   * This method will only work when using Serverless API or Managed Compute endpoint.
+   * It will not work for GitHub Models endpoint or Azure OpenAI endpoint.
    */
   get(
     options?: GetModelInfoParameters,
@@ -47,7 +51,7 @@ export interface GetEmbeddings {
    * The method makes a REST API call to the `/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetEmbeddingsParameters,
+    options: GetEmbeddingsParameters,
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
@@ -57,8 +61,10 @@ export interface GetImageEmbeddings {
    * The method makes a REST API call to the `/images/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetImageEmbeddingsParameters,
-  ): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
+    options: GetImageEmbeddingsParameters,
+  ): StreamableMethod<
+    GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse
+  >;
 }
 
 export interface Routes {

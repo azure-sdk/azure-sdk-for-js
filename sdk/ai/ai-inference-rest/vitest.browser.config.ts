@@ -11,7 +11,6 @@ export default defineConfig({
     "process.env": process.env,
   },
   test: {
-    testTimeout: 50000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
@@ -26,12 +25,14 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["dist-test/browser/**/*.spec.js"],
+    include: ["test/**/*.spec.ts"],
     coverage: {
-      include: ["dist-test/browser/**/*.spec.js"],
+      include: ["test/**/*.spec.ts"],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
     },
+    testTimeout: 1200000,
+    hookTimeout: 1200000,
   },
 });
