@@ -1,15 +1,62 @@
 # Release History
-
-## 2.2.0-beta.2 (Unreleased)
-
+    
+## 2.2.0 (2025-01-13)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group JavaComponents
+  - Added Interface CertificateKeyVaultProperties
+  - Added Interface JavaComponent
+  - Added Interface JavaComponentConfigurationProperty
+  - Added Interface JavaComponentIngress
+  - Added Interface JavaComponentProperties
+  - Added Interface JavaComponentPropertiesScale
+  - Added Interface JavaComponentsCollection
+  - Added Interface JavaComponentsCreateOrUpdateOptionalParams
+  - Added Interface JavaComponentsDeleteHeaders
+  - Added Interface JavaComponentsDeleteOptionalParams
+  - Added Interface JavaComponentServiceBind
+  - Added Interface JavaComponentsGetOptionalParams
+  - Added Interface JavaComponentsListNextOptionalParams
+  - Added Interface JavaComponentsListOptionalParams
+  - Added Interface JavaComponentsUpdateHeaders
+  - Added Interface JavaComponentsUpdateOptionalParams
+  - Added Interface NfsAzureFileProperties
+  - Added Interface Runtime
+  - Added Interface RuntimeJava
+  - Added Interface SpringBootAdminComponent
+  - Added Interface SpringCloudConfigComponent
+  - Added Interface SpringCloudEurekaComponent
+  - Added Type Alias ContainerAppRunningStatus
+  - Added Type Alias JavaComponentPropertiesUnion
+  - Added Type Alias JavaComponentProvisioningState
+  - Added Type Alias JavaComponentsCreateOrUpdateResponse
+  - Added Type Alias JavaComponentsDeleteResponse
+  - Added Type Alias JavaComponentsGetResponse
+  - Added Type Alias JavaComponentsListNextResponse
+  - Added Type Alias JavaComponentsListResponse
+  - Added Type Alias JavaComponentsUpdateResponse
+  - Added Type Alias JavaComponentType
+  - Interface CertificateProperties has a new optional parameter certificateKeyVaultProperties
+  - Interface Configuration has a new optional parameter runtime
+  - Interface ContainerApp has a new optional parameter runningStatus
+  - Interface CustomDomainConfiguration has a new optional parameter certificateKeyVaultProperties
+  - Interface CustomScaleRule has a new optional parameter identity
+  - Interface HttpScaleRule has a new optional parameter identity
+  - Interface JobScaleRule has a new optional parameter identity
+  - Interface ManagedEnvironment has a new optional parameter identity
+  - Interface ManagedEnvironmentStorageProperties has a new optional parameter nfsAzureFile
+  - Interface QueueScaleRule has a new optional parameter accountName
+  - Interface QueueScaleRule has a new optional parameter identity
+  - Interface Scale has a new optional parameter cooldownPeriod
+  - Interface Scale has a new optional parameter pollingInterval
+  - Interface TcpScaleRule has a new optional parameter identity
+  - Added Enum KnownContainerAppRunningStatus
+  - Added Enum KnownJavaComponentProvisioningState
+  - Added Enum KnownJavaComponentType
+  - Enum KnownStorageType has a new value NfsAzureFile
+    
+    
 ## 2.2.0-beta.1 (2024-10-18)
 Compared with version 2.1.0
     
