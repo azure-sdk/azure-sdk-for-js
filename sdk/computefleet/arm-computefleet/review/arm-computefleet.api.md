@@ -23,12 +23,6 @@ export type AcceleratorType = string;
 export type ActionType = string;
 
 // @public
-export interface AdditionalCapabilities {
-    hibernationEnabled?: boolean;
-    ultraSSDEnabled?: boolean;
-}
-
-// @public
 export interface AdditionalLocationsProfile {
     locationProfiles: LocationProfile[];
 }
@@ -117,14 +111,6 @@ export interface CapacityReservationProfile {
 }
 
 // @public
-export interface ComputeProfile {
-    additionalVirtualMachineCapabilities?: AdditionalCapabilities;
-    baseVirtualMachineProfile: BaseVirtualMachineProfile;
-    computeApiVersion?: string;
-    platformFaultDomainCount?: number;
-}
-
-// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -191,7 +177,6 @@ export interface Fleet extends TrackedResource {
 // @public
 export interface FleetProperties {
     additionalLocationsProfile?: AdditionalLocationsProfile;
-    computeProfile: ComputeProfile;
     readonly provisioningState?: ProvisioningState;
     regularPriorityProfile?: RegularPriorityProfile;
     spotPriorityProfile?: SpotPriorityProfile;
@@ -412,9 +397,9 @@ export enum KnownLocalStorageDiskType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -426,7 +411,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    V20201101 = "2020-11-01"
+    v2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -453,9 +438,9 @@ export enum KnownOperatingSystemTypes {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -521,13 +506,19 @@ export enum KnownSpotAllocationStrategy {
 
 // @public
 export enum KnownStorageAccountTypes {
-    PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
-    PremiumZRS = "Premium_ZRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS",
-    UltraSSDLRS = "UltraSSD_LRS"
+    Premium_LRS = "Premium_LRS",
+    Premium_ZRS = "Premium_ZRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
+    Standard_LRS = "Standard_LRS",
+    StandardSSD_LRS = "StandardSSD_LRS",
+    StandardSSD_ZRS = "StandardSSD_ZRS",
+    UltraSSD_LRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownVersions {
+    v2024_11_01 = "2024-11-01",
+    v2024_12_01 = "2024-12-01"
 }
 
 // @public
@@ -643,8 +634,8 @@ export type OperatingSystemTypes = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;

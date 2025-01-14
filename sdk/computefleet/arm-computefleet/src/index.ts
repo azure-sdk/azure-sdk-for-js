@@ -12,8 +12,8 @@ export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Fleet,
   FleetProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -153,8 +153,6 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
-  ComputeProfile,
-  AdditionalCapabilities,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
@@ -178,6 +176,7 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models/index.js";
 export {
   AzureFleetClientOptionalParams,

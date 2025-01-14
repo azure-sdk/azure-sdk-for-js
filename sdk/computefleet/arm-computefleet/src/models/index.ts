@@ -145,8 +145,6 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
-  ComputeProfile,
-  AdditionalCapabilities,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
@@ -170,4 +168,5 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models.js";
