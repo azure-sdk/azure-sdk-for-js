@@ -49,6 +49,9 @@ importers:
       '@rush-temp/ai-projects':
         specifier: file:./projects/ai-projects.tgz
         version: file:projects/ai-projects.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
+      '@rush-temp/ai-speechtotext-fasttranscription':
+        specifier: file:./projects/ai-speechtotext-fasttranscription.tgz
+        version: file:projects/ai-speechtotext-fasttranscription.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
@@ -2524,6 +2527,10 @@ packages:
     resolution: {integrity: sha512-jX9jnJ8UnjP+g782LrakXaxeKmtKHurgHsBCzJrA3Nh7zQrNJR8S4/bBemG1COmW7tD4bxO4wgahJJ77or/wtA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
+  '@rush-temp/ai-speechtotext-fasttranscription@file:projects/ai-speechtotext-fasttranscription.tgz':
+    resolution: {integrity: sha512-WRTSpu5LEysFG+fmd7oign/pkIPPPOqM/kKKoh8NNjR1lBUwaJ81FWBagWmkRTyeD6WaNhKK0z0euIdYunpiIA==, tarball: file:projects/ai-speechtotext-fasttranscription.tgz}
+    version: 0.0.0
+
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
     resolution: {integrity: sha512-W8zFnKDK545BnmEU/GV8nawA/ylUxHQR4U05wtmWfIvk0x1CsQGhzy+OljNVuZjYqiWwixK5yrRRaxfWUHifAw==, tarball: file:projects/ai-text-analytics.tgz}
     version: 0.0.0
@@ -2677,7 +2684,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-4CKEY1ZNr54+AmbrsSti1aeZKbD28k/gzm8hOTuvd6E0QwFI6bQUDgi9A7eCkunylj0iscah/17FpPxYLYUwuA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-nLiXbh0eBfBazoWR3AWVC1Y0pFC4Bh492MGNAb9GldRpa0yOmVzjoSdDAvV9iZJQ+nh/WtXrnoAXhLSrEcLhoQ==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2685,7 +2692,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cognitiveservices@file:projects/arm-cognitiveservices.tgz':
-    resolution: {integrity: sha512-wVX7iLW0gh5t+5NhpQHLrmqd40QkPnBXDg6S95bcMR6oVyxH7AZjY7kSMVt0giY1HascsZvXMGRUoW+ReQRlCg==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-/yN4NCbj4d5G+FzH6mFK+rf5lpAyD+9xoxF41lWs4POWBr08H1vFZtla1V0lttZ4bSkG5pvYxyvayfw/EYtJLA==, tarball: file:projects/arm-cognitiveservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid@file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz':
@@ -10188,6 +10195,39 @@ snapshots:
       - vite
       - webdriverio
 
+  '@rush-temp/ai-speechtotext-fasttranscription@file:projects/ai-speechtotext-fasttranscription.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.70)
+      '@types/node': 18.19.70
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      eslint: 9.18.0
+      playwright: 1.49.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -11427,7 +11467,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
