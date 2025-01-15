@@ -4019,26 +4019,24 @@ export const DataTransferJobProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataTransferJobProperties",
+    uberParent: "DataTransferJobProperties",
+    polymorphicDiscriminator: {
+      serializedName: "dataTransferType",
+      clientName: "dataTransferType",
+    },
     modelProperties: {
+      dataTransferType: {
+        serializedName: "dataTransferType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
       jobName: {
         serializedName: "jobName",
         readOnly: true,
         type: {
           name: "String",
-        },
-      },
-      source: {
-        serializedName: "source",
-        type: {
-          name: "Composite",
-          className: "DataTransferDataSourceSink",
-        },
-      },
-      destination: {
-        serializedName: "destination",
-        type: {
-          name: "Composite",
-          className: "DataTransferDataSourceSink",
         },
       },
       status: {
@@ -4094,28 +4092,6 @@ export const DataTransferJobProperties: coreClient.CompositeMapper = {
       },
       mode: {
         serializedName: "mode",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const DataTransferDataSourceSink: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataTransferDataSourceSink",
-    uberParent: "DataTransferDataSourceSink",
-    polymorphicDiscriminator: {
-      serializedName: "component",
-      clientName: "component",
-    },
-    modelProperties: {
-      component: {
-        defaultValue: "CosmosDBCassandra",
-        serializedName: "component",
-        required: true,
         type: {
           name: "String",
         },
@@ -7772,6 +7748,191 @@ export const ContinuousModeProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const CosmosDataTransferDataSourceSinkDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "CosmosDataTransferDataSourceSinkDetails",
+      modelProperties: {
+        remoteAccountName: {
+          serializedName: "remoteAccountName",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const MongoVCoreDataTransferDataSourceSinkDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MongoVCoreDataTransferDataSourceSinkDetails",
+      modelProperties: {
+        hostName: {
+          serializedName: "hostName",
+          type: {
+            name: "String",
+          },
+        },
+        connectionStringKeyVaultUri: {
+          serializedName: "connectionStringKeyVaultUri",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureBlobDataTransferDataSourceSinkDetails: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureBlobDataTransferDataSourceSinkDetails",
+      modelProperties: {
+        endpointUrl: {
+          serializedName: "endpointUrl",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const CosmosCassandraContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosCassandraContainerEntity",
+    modelProperties: {
+      keySpaceName: {
+        serializedName: "keySpaceName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tableName: {
+        serializedName: "tableName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosSqlContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosSqlContainerEntity",
+    modelProperties: {
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      containerName: {
+        serializedName: "containerName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosMongoContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosMongoContainerEntity",
+    modelProperties: {
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CosmosMongoVCoreContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CosmosMongoVCoreContainerEntity",
+    modelProperties: {
+      databaseName: {
+        serializedName: "databaseName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      collectionName: {
+        serializedName: "collectionName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureBlobStorageContainerEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBlobStorageContainerEntity",
+    modelProperties: {
+      containerName: {
+        serializedName: "containerName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BaseDataTransferTask: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseDataTransferTask",
+    modelProperties: {
+      totalCount: {
+        serializedName: "totalCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      processedCount: {
+        serializedName: "processedCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10001,25 +10162,17 @@ export const DataTransferJobGetResults: coreClient.CompositeMapper = {
     className: "DataTransferJobGetResults",
     modelProperties: {
       ...ARMProxyResource.type.modelProperties,
+      dataTransferType: {
+        serializedName: "properties.dataTransferType",
+        type: {
+          name: "String",
+        },
+      },
       jobName: {
         serializedName: "properties.jobName",
         readOnly: true,
         type: {
           name: "String",
-        },
-      },
-      source: {
-        serializedName: "properties.source",
-        type: {
-          name: "Composite",
-          className: "DataTransferDataSourceSink",
-        },
-      },
-      destination: {
-        serializedName: "properties.destination",
-        type: {
-          name: "Composite",
-          className: "DataTransferDataSourceSink",
         },
       },
       status: {
@@ -10383,96 +10536,263 @@ export const PhysicalPartitionThroughputInfoResultPropertiesResource: coreClient
     },
   };
 
-export const BaseCosmosDataTransferDataSourceSink: coreClient.CompositeMapper =
+export const SourceBlobDestinationCassandraDataTransferProperties: coreClient.CompositeMapper =
   {
-    serializedName: "BaseCosmosDataTransferDataSourceSink",
+    serializedName: "AzureBlobStorageToCosmosDBCassandra",
     type: {
       name: "Composite",
-      className: "BaseCosmosDataTransferDataSourceSink",
-      uberParent: "DataTransferDataSourceSink",
-      polymorphicDiscriminator: {
-        serializedName: "component",
-        clientName: "component",
-      },
-      modelProperties: {
-        ...DataTransferDataSourceSink.type.modelProperties,
-        remoteAccountName: {
-          serializedName: "remoteAccountName",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const CosmosMongoVCoreDataTransferDataSourceSink: coreClient.CompositeMapper =
-  {
-    serializedName: "CosmosDBMongoVCore",
-    type: {
-      name: "Composite",
-      className: "CosmosMongoVCoreDataTransferDataSourceSink",
-      uberParent: "DataTransferDataSourceSink",
+      className: "SourceBlobDestinationCassandraDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
       polymorphicDiscriminator:
-        DataTransferDataSourceSink.type.polymorphicDiscriminator,
+        DataTransferJobProperties.type.polymorphicDiscriminator,
       modelProperties: {
-        ...DataTransferDataSourceSink.type.modelProperties,
-        databaseName: {
-          serializedName: "databaseName",
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "AzureBlobDataTransferDataSourceSinkDetails",
+          },
+        },
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
           required: true,
           type: {
-            name: "String",
-          },
-        },
-        collectionName: {
-          serializedName: "collectionName",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        hostName: {
-          serializedName: "hostName",
-          type: {
-            name: "String",
-          },
-        },
-        connectionStringKeyVaultUri: {
-          serializedName: "connectionStringKeyVaultUri",
-          type: {
-            name: "String",
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceBlobDestinationCassandraDataTransferPropertiesTasksItem",
+              },
+            },
           },
         },
       },
     },
   };
 
-export const AzureBlobDataTransferDataSourceSink: coreClient.CompositeMapper = {
-  serializedName: "AzureBlobStorage",
-  type: {
-    name: "Composite",
-    className: "AzureBlobDataTransferDataSourceSink",
-    uberParent: "DataTransferDataSourceSink",
-    polymorphicDiscriminator:
-      DataTransferDataSourceSink.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataTransferDataSourceSink.type.modelProperties,
-      containerName: {
-        serializedName: "containerName",
-        required: true,
-        type: {
-          name: "String",
+export const SourceCassandraDestinationCassandraDataTransferProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CosmosDBCassandraToCosmosDBCassandra",
+    type: {
+      name: "Composite",
+      className: "SourceCassandraDestinationCassandraDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
+      polymorphicDiscriminator:
+        DataTransferJobProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
         },
-      },
-      endpointUrl: {
-        serializedName: "endpointUrl",
-        type: {
-          name: "String",
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem",
+              },
+            },
+          },
         },
       },
     },
-  },
-};
+  };
+
+export const SourceCassandraDestinationBlobDataTransferProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CosmosDBCassandraToAzureBlobStorage",
+    type: {
+      name: "Composite",
+      className: "SourceCassandraDestinationBlobDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
+      polymorphicDiscriminator:
+        DataTransferJobProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "AzureBlobDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceCassandraDestinationBlobDataTransferPropertiesTasksItem",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const SourceMongoDestinationMongoDataTransferProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CosmosDBMongoToCosmosDBMongo",
+    type: {
+      name: "Composite",
+      className: "SourceMongoDestinationMongoDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
+      polymorphicDiscriminator:
+        DataTransferJobProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceMongoDestinationMongoDataTransferPropertiesTasksItem",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const SourceMongoDestinationMongoVCoreDataTransferProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CosmosDBMongoToCosmosDBMongoVCore",
+    type: {
+      name: "Composite",
+      className: "SourceMongoDestinationMongoVCoreDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
+      polymorphicDiscriminator:
+        DataTransferJobProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "MongoVCoreDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const SourceSqlDestinationSqlDataTransferProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "CosmosDBSqlToCosmosDBSql",
+    type: {
+      name: "Composite",
+      className: "SourceSqlDestinationSqlDataTransferProperties",
+      uberParent: "DataTransferJobProperties",
+      polymorphicDiscriminator:
+        DataTransferJobProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DataTransferJobProperties.type.modelProperties,
+        sourceDetails: {
+          serializedName: "sourceDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        destinationDetails: {
+          serializedName: "destinationDetails",
+          type: {
+            name: "Composite",
+            className: "CosmosDataTransferDataSourceSinkDetails",
+          },
+        },
+        tasks: {
+          serializedName: "tasks",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "SourceSqlDestinationSqlDataTransferPropertiesTasksItem",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const ClusterResource: coreClient.CompositeMapper = {
   type: {
@@ -10688,6 +11008,160 @@ export const MaterializedViewsBuilderServiceResourceCreateUpdateProperties: core
         ServiceResourceCreateUpdateProperties.type.polymorphicDiscriminator,
       modelProperties: {
         ...ServiceResourceCreateUpdateProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const SourceBlobDestinationCassandraDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "SourceBlobDestinationCassandraDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "AzureBlobStorageContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "CosmosCassandraContainerEntity",
+          },
+        },
+      },
+    },
+  };
+
+export const SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "CosmosCassandraContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "CosmosCassandraContainerEntity",
+          },
+        },
+      },
+    },
+  };
+
+export const SourceCassandraDestinationBlobDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "SourceCassandraDestinationBlobDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "CosmosCassandraContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "AzureBlobStorageContainerEntity",
+          },
+        },
+      },
+    },
+  };
+
+export const SourceMongoDestinationMongoDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SourceMongoDestinationMongoDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "CosmosMongoContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "CosmosMongoContainerEntity",
+          },
+        },
+      },
+    },
+  };
+
+export const SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "CosmosMongoContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "CosmosMongoVCoreContainerEntity",
+          },
+        },
+      },
+    },
+  };
+
+export const SourceSqlDestinationSqlDataTransferPropertiesTasksItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SourceSqlDestinationSqlDataTransferPropertiesTasksItem",
+      modelProperties: {
+        ...BaseDataTransferTask.type.modelProperties,
+        source: {
+          serializedName: "source",
+          type: {
+            name: "Composite",
+            className: "CosmosSqlContainerEntity",
+          },
+        },
+        destination: {
+          serializedName: "destination",
+          type: {
+            name: "Composite",
+            className: "CosmosSqlContainerEntity",
+          },
+        },
       },
     },
   };
@@ -10983,92 +11457,6 @@ export const ThroughputPoolResource: coreClient.CompositeMapper = {
         serializedName: "properties.maxThroughput",
         type: {
           name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapper =
-  {
-    serializedName: "CosmosDBCassandra",
-    type: {
-      name: "Composite",
-      className: "CosmosCassandraDataTransferDataSourceSink",
-      uberParent: "BaseCosmosDataTransferDataSourceSink",
-      polymorphicDiscriminator:
-        BaseCosmosDataTransferDataSourceSink.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
-        keyspaceName: {
-          serializedName: "keyspaceName",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        tableName: {
-          serializedName: "tableName",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper =
-  {
-    serializedName: "CosmosDBMongo",
-    type: {
-      name: "Composite",
-      className: "CosmosMongoDataTransferDataSourceSink",
-      uberParent: "BaseCosmosDataTransferDataSourceSink",
-      polymorphicDiscriminator:
-        BaseCosmosDataTransferDataSourceSink.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
-        databaseName: {
-          serializedName: "databaseName",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-        collectionName: {
-          serializedName: "collectionName",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
-  serializedName: "CosmosDBSql",
-  type: {
-    name: "Composite",
-    className: "CosmosSqlDataTransferDataSourceSink",
-    uberParent: "BaseCosmosDataTransferDataSourceSink",
-    polymorphicDiscriminator:
-      BaseCosmosDataTransferDataSourceSink.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      containerName: {
-        serializedName: "containerName",
-        required: true,
-        type: {
-          name: "String",
         },
       },
     },
@@ -12965,17 +13353,23 @@ export const ThroughputPoolAccountDeleteHeaders: coreClient.CompositeMapper = {
 
 export let discriminators = {
   BackupPolicy: BackupPolicy,
-  DataTransferDataSourceSink: DataTransferDataSourceSink,
+  DataTransferJobProperties: DataTransferJobProperties,
   ServiceResourceProperties: ServiceResourceProperties,
   ServiceResourceCreateUpdateProperties: ServiceResourceCreateUpdateProperties,
   "BackupPolicy.Periodic": PeriodicModeBackupPolicy,
   "BackupPolicy.Continuous": ContinuousModeBackupPolicy,
-  "DataTransferDataSourceSink.BaseCosmosDataTransferDataSourceSink":
-    BaseCosmosDataTransferDataSourceSink,
-  "DataTransferDataSourceSink.CosmosDBMongoVCore":
-    CosmosMongoVCoreDataTransferDataSourceSink,
-  "DataTransferDataSourceSink.AzureBlobStorage":
-    AzureBlobDataTransferDataSourceSink,
+  "DataTransferJobProperties.AzureBlobStorageToCosmosDBCassandra":
+    SourceBlobDestinationCassandraDataTransferProperties,
+  "DataTransferJobProperties.CosmosDBCassandraToCosmosDBCassandra":
+    SourceCassandraDestinationCassandraDataTransferProperties,
+  "DataTransferJobProperties.CosmosDBCassandraToAzureBlobStorage":
+    SourceCassandraDestinationBlobDataTransferProperties,
+  "DataTransferJobProperties.CosmosDBMongoToCosmosDBMongo":
+    SourceMongoDestinationMongoDataTransferProperties,
+  "DataTransferJobProperties.CosmosDBMongoToCosmosDBMongoVCore":
+    SourceMongoDestinationMongoVCoreDataTransferProperties,
+  "DataTransferJobProperties.CosmosDBSqlToCosmosDBSql":
+    SourceSqlDestinationSqlDataTransferProperties,
   "ServiceResourceProperties.DataTransfer":
     DataTransferServiceResourceProperties,
   "ServiceResourceProperties.SqlDedicatedGateway":
@@ -12992,10 +13386,4 @@ export let discriminators = {
     GraphAPIComputeServiceResourceCreateUpdateProperties,
   "ServiceResourceCreateUpdateProperties.MaterializedViewsBuilder":
     MaterializedViewsBuilderServiceResourceCreateUpdateProperties,
-  "BaseCosmosDataTransferDataSourceSink.CosmosDBCassandra":
-    CosmosCassandraDataTransferDataSourceSink,
-  "BaseCosmosDataTransferDataSourceSink.CosmosDBMongo":
-    CosmosMongoDataTransferDataSourceSink,
-  "BaseCosmosDataTransferDataSourceSink.CosmosDBSql":
-    CosmosSqlDataTransferDataSourceSink,
 };

@@ -112,12 +112,15 @@ export interface AutoUpgradePolicyResource {
 }
 
 // @public
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
-    component: "AzureBlobStorage";
-    // (undocumented)
-    containerName: string;
+export interface AzureBlobDataTransferDataSourceSinkDetails {
     // (undocumented)
     endpointUrl?: string;
+}
+
+// @public
+export interface AzureBlobStorageContainerEntity {
+    // (undocumented)
+    containerName: string;
 }
 
 // @public
@@ -173,14 +176,10 @@ export type BackupState = string;
 export type BackupStorageRedundancy = string;
 
 // @public
-export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
-    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql";
-    // (undocumented)
-    remoteAccountName?: string;
+export interface BaseDataTransferTask {
+    readonly processedCount?: number;
+    readonly totalCount?: number;
 }
-
-// @public (undocumented)
-export type BaseCosmosDataTransferDataSourceSinkUnion = BaseCosmosDataTransferDataSourceSink | CosmosCassandraDataTransferDataSourceSink | CosmosMongoDataTransferDataSourceSink | CosmosSqlDataTransferDataSourceSink;
 
 // @public
 export interface Capability {
@@ -1253,12 +1252,17 @@ export interface CorsPolicy {
 }
 
 // @public
-export interface CosmosCassandraDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-    component: "CosmosDBCassandra";
+export interface CosmosCassandraContainerEntity {
     // (undocumented)
-    keyspaceName: string;
+    keySpaceName: string;
     // (undocumented)
     tableName: string;
+}
+
+// @public
+export interface CosmosDataTransferDataSourceSinkDetails {
+    // (undocumented)
+    remoteAccountName?: string;
 }
 
 // @public (undocumented)
@@ -1370,30 +1374,23 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosMongoDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
+export interface CosmosMongoContainerEntity {
     // (undocumented)
     collectionName: string;
-    component: "CosmosDBMongo";
     // (undocumented)
     databaseName: string;
 }
 
 // @public
-export interface CosmosMongoVCoreDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export interface CosmosMongoVCoreContainerEntity {
     // (undocumented)
     collectionName: string;
-    component: "CosmosDBMongoVCore";
-    // (undocumented)
-    connectionStringKeyVaultUri?: string;
     // (undocumented)
     databaseName: string;
-    // (undocumented)
-    hostName?: string;
 }
 
 // @public
-export interface CosmosSqlDataTransferDataSourceSink extends BaseCosmosDataTransferDataSourceSink {
-    component: "CosmosDBSql";
+export interface CosmosSqlContainerEntity {
     // (undocumented)
     containerName: string;
     // (undocumented)
@@ -1405,7 +1402,7 @@ export type CreatedByType = string;
 
 // @public
 export interface CreateJobRequest extends ARMProxyResource {
-    properties: DataTransferJobProperties;
+    properties: DataTransferJobPropertiesUnion;
 }
 
 // @public
@@ -1868,17 +1865,6 @@ export interface DataCenterResourceProperties {
 }
 
 // @public
-export type DataTransferComponent = string;
-
-// @public
-export interface DataTransferDataSourceSink {
-    component: "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBMongoVCore" | "CosmosDBSql" | "AzureBlobStorage";
-}
-
-// @public (undocumented)
-export type DataTransferDataSourceSinkUnion = DataTransferDataSourceSink | BaseCosmosDataTransferDataSourceSinkUnion | CosmosMongoVCoreDataTransferDataSourceSink | AzureBlobDataTransferDataSourceSink;
-
-// @public
 export interface DataTransferJobFeedResults {
     readonly nextLink?: string;
     readonly value?: DataTransferJobGetResults[];
@@ -1886,14 +1872,13 @@ export interface DataTransferJobFeedResults {
 
 // @public
 export interface DataTransferJobGetResults extends ARMProxyResource {
-    destination?: DataTransferDataSourceSinkUnion;
+    dataTransferType?: DataTransferJobPropertiesDataTransferType;
     readonly duration?: string;
     readonly error?: ErrorResponse;
     readonly jobName?: string;
     readonly lastUpdatedUtcTime?: Date;
     mode?: DataTransferJobMode;
     readonly processedCount?: number;
-    source?: DataTransferDataSourceSinkUnion;
     readonly status?: string;
     readonly totalCount?: number;
     workerCount?: number;
@@ -1904,18 +1889,23 @@ export type DataTransferJobMode = string;
 
 // @public
 export interface DataTransferJobProperties {
-    destination: DataTransferDataSourceSinkUnion;
+    dataTransferType: "AzureBlobStorageToCosmosDBCassandra" | "CosmosDBCassandraToCosmosDBCassandra" | "CosmosDBCassandraToAzureBlobStorage" | "CosmosDBMongoToCosmosDBMongo" | "CosmosDBMongoToCosmosDBMongoVCore" | "CosmosDBSqlToCosmosDBSql";
     readonly duration?: string;
     readonly error?: ErrorResponse;
     readonly jobName?: string;
     readonly lastUpdatedUtcTime?: Date;
     mode?: DataTransferJobMode;
     readonly processedCount?: number;
-    source: DataTransferDataSourceSinkUnion;
     readonly status?: string;
     readonly totalCount?: number;
     workerCount?: number;
 }
+
+// @public
+export type DataTransferJobPropertiesDataTransferType = string;
+
+// @public (undocumented)
+export type DataTransferJobPropertiesUnion = DataTransferJobProperties | SourceBlobDestinationCassandraDataTransferProperties | SourceCassandraDestinationCassandraDataTransferProperties | SourceCassandraDestinationBlobDataTransferProperties | SourceMongoDestinationMongoDataTransferProperties | SourceMongoDestinationMongoVCoreDataTransferProperties | SourceSqlDestinationSqlDataTransferProperties;
 
 // @public
 export interface DataTransferJobs {
@@ -2702,18 +2692,19 @@ export enum KnownDatabaseAccountKind {
 }
 
 // @public
-export enum KnownDataTransferComponent {
-    AzureBlobStorage = "AzureBlobStorage",
-    CosmosDBCassandra = "CosmosDBCassandra",
-    CosmosDBMongo = "CosmosDBMongo",
-    CosmosDBMongoVCore = "CosmosDBMongoVCore",
-    CosmosDBSql = "CosmosDBSql"
-}
-
-// @public
 export enum KnownDataTransferJobMode {
     Offline = "Offline",
     Online = "Online"
+}
+
+// @public
+export enum KnownDataTransferJobPropertiesDataTransferType {
+    AzureBlobStorageToCosmosDBCassandra = "AzureBlobStorageToCosmosDBCassandra",
+    CosmosDBCassandraToAzureBlobStorage = "CosmosDBCassandraToAzureBlobStorage",
+    CosmosDBCassandraToCosmosDBCassandra = "CosmosDBCassandraToCosmosDBCassandra",
+    CosmosDBMongoToCosmosDBMongo = "CosmosDBMongoToCosmosDBMongo",
+    CosmosDBMongoToCosmosDBMongoVCore = "CosmosDBMongoToCosmosDBMongoVCore",
+    CosmosDBNoSqlToCosmosDBNoSql = "CosmosDBNoSqlToCosmosDBNoSql"
 }
 
 // @public
@@ -3760,6 +3751,14 @@ export interface MongoUserDefinitionGetResults extends ARMProxyResource {
 // @public
 export interface MongoUserDefinitionListResult {
     readonly value?: MongoUserDefinitionGetResults[];
+}
+
+// @public
+export interface MongoVCoreDataTransferDataSourceSinkDetails {
+    // (undocumented)
+    connectionStringKeyVaultUri?: string;
+    // (undocumented)
+    hostName?: string;
 }
 
 // @public
@@ -4928,6 +4927,96 @@ export type ServiceType = string;
 
 // @public
 export type Severity = string;
+
+// @public
+export interface SourceBlobDestinationCassandraDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "AzureBlobStorageToCosmosDBCassandra";
+    destinationDetails?: CosmosDataTransferDataSourceSinkDetails;
+    sourceDetails: AzureBlobDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceBlobDestinationCassandraDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceBlobDestinationCassandraDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: CosmosCassandraContainerEntity;
+    source: AzureBlobStorageContainerEntity;
+}
+
+// @public
+export interface SourceCassandraDestinationBlobDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "CosmosDBCassandraToAzureBlobStorage";
+    destinationDetails: AzureBlobDataTransferDataSourceSinkDetails;
+    sourceDetails?: CosmosDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceCassandraDestinationBlobDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceCassandraDestinationBlobDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: AzureBlobStorageContainerEntity;
+    source: CosmosCassandraContainerEntity;
+}
+
+// @public
+export interface SourceCassandraDestinationCassandraDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "CosmosDBCassandraToCosmosDBCassandra";
+    destinationDetails?: CosmosDataTransferDataSourceSinkDetails;
+    sourceDetails?: CosmosDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: CosmosCassandraContainerEntity;
+    source: CosmosCassandraContainerEntity;
+}
+
+// @public
+export interface SourceMongoDestinationMongoDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "CosmosDBMongoToCosmosDBMongo";
+    destinationDetails?: CosmosDataTransferDataSourceSinkDetails;
+    sourceDetails?: CosmosDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceMongoDestinationMongoDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceMongoDestinationMongoDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: CosmosMongoContainerEntity;
+    source: CosmosMongoContainerEntity;
+}
+
+// @public
+export interface SourceMongoDestinationMongoVCoreDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "CosmosDBMongoToCosmosDBMongoVCore";
+    destinationDetails: MongoVCoreDataTransferDataSourceSinkDetails;
+    sourceDetails?: CosmosDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: CosmosMongoVCoreContainerEntity;
+    source: CosmosMongoContainerEntity;
+}
+
+// @public
+export interface SourceSqlDestinationSqlDataTransferProperties extends DataTransferJobProperties {
+    dataTransferType: "CosmosDBSqlToCosmosDBSql";
+    destinationDetails?: CosmosDataTransferDataSourceSinkDetails;
+    sourceDetails?: CosmosDataTransferDataSourceSinkDetails;
+    // (undocumented)
+    tasks: SourceSqlDestinationSqlDataTransferPropertiesTasksItem[];
+}
+
+// @public (undocumented)
+export interface SourceSqlDestinationSqlDataTransferPropertiesTasksItem extends BaseDataTransferTask {
+    destination: CosmosSqlContainerEntity;
+    source: CosmosSqlContainerEntity;
+}
 
 // @public (undocumented)
 export interface SpatialSpec {
