@@ -14,6 +14,34 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ACLAction = string;
 
 // @public
+export interface ApplicationFirewallSettings {
+    clientConnectionCountRules?: ClientConnectionCountRuleUnion[];
+    clientTrafficControlRules?: ClientTrafficControlRuleUnion[];
+}
+
+// @public
+export interface ClientConnectionCountRule {
+    type: "ThrottleByJwtCustomClaimRule" | "ThrottleByJwtSignatureRule" | "ThrottleByUserIdRule";
+}
+
+// @public
+export type ClientConnectionCountRuleDiscriminator = string;
+
+// @public (undocumented)
+export type ClientConnectionCountRuleUnion = ClientConnectionCountRule | ThrottleByJwtCustomClaimRule | ThrottleByJwtSignatureRule | ThrottleByUserIdRule;
+
+// @public
+export interface ClientTrafficControlRule {
+    type: "TrafficThrottleByJwtCustomClaimRule" | "TrafficThrottleByJwtSignatureRule" | "TrafficThrottleByUserIdRule";
+}
+
+// @public
+export type ClientTrafficControlRuleDiscriminator = string;
+
+// @public (undocumented)
+export type ClientTrafficControlRuleUnion = ClientTrafficControlRule | TrafficThrottleByJwtCustomClaimRule | TrafficThrottleByJwtSignatureRule | TrafficThrottleByUserIdRule;
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -139,6 +167,20 @@ export { KeyType_2 as KeyType }
 export enum KnownACLAction {
     Allow = "Allow",
     Deny = "Deny"
+}
+
+// @public
+export enum KnownClientConnectionCountRuleDiscriminator {
+    ThrottleByJwtCustomClaimRule = "ThrottleByJwtCustomClaimRule",
+    ThrottleByJwtSignatureRule = "ThrottleByJwtSignatureRule",
+    ThrottleByUserIdRule = "ThrottleByUserIdRule"
+}
+
+// @public
+export enum KnownClientTrafficControlRuleDiscriminator {
+    TrafficThrottleByJwtCustomClaimRule = "TrafficThrottleByJwtCustomClaimRule",
+    TrafficThrottleByJwtSignatureRule = "TrafficThrottleByJwtSignatureRule",
+    TrafficThrottleByUserIdRule = "TrafficThrottleByUserIdRule"
 }
 
 // @public
@@ -486,6 +528,7 @@ export interface ShareablePrivateLinkResourceType {
 
 // @public
 export interface SharedPrivateLinkResource extends ProxyResource {
+    fqdns?: string[];
     groupId?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -556,11 +599,52 @@ export interface SystemData {
 }
 
 // @public
+export interface ThrottleByJwtCustomClaimRule extends ClientConnectionCountRule {
+    claimName: string;
+    maxCount?: number;
+    type: "ThrottleByJwtCustomClaimRule";
+}
+
+// @public
+export interface ThrottleByJwtSignatureRule extends ClientConnectionCountRule {
+    maxCount?: number;
+    type: "ThrottleByJwtSignatureRule";
+}
+
+// @public
+export interface ThrottleByUserIdRule extends ClientConnectionCountRule {
+    maxCount?: number;
+    type: "ThrottleByUserIdRule";
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface TrafficThrottleByJwtCustomClaimRule extends ClientTrafficControlRule {
+    aggregationWindowInSeconds?: number;
+    claimName: string;
+    maxInboundMessageBytes?: number;
+    type: "TrafficThrottleByJwtCustomClaimRule";
+}
+
+// @public
+export interface TrafficThrottleByJwtSignatureRule extends ClientTrafficControlRule {
+    aggregationWindowInSeconds?: number;
+    maxInboundMessageBytes?: number;
+    type: "TrafficThrottleByJwtSignatureRule";
+}
+
+// @public
+export interface TrafficThrottleByUserIdRule extends ClientTrafficControlRule {
+    aggregationWindowInSeconds?: number;
+    maxInboundMessageBytes?: number;
+    type: "TrafficThrottleByUserIdRule";
 }
 
 // @public
@@ -1103,6 +1187,7 @@ export type WebPubSubRequestType = string;
 
 // @public
 export interface WebPubSubResource extends TrackedResource {
+    applicationFirewall?: ApplicationFirewallSettings;
     disableAadAuth?: boolean;
     disableLocalAuth?: boolean;
     readonly externalIP?: string;
