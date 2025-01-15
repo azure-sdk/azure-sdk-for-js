@@ -37,19 +37,19 @@ describe("ConfidentialLedger test", () => {
   let subscriptionId: string;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ConfidentialLedgerClient(credential, subscriptionId, recorder.configureClientOptions({}));
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ConfidentialLedgerClient(credential, subscriptionId, recorder.configureClientOptions({}));
 
-  });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operation list test", async function () {
     const resArray = new Array();

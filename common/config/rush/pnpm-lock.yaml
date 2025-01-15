@@ -2677,7 +2677,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-4CKEY1ZNr54+AmbrsSti1aeZKbD28k/gzm8hOTuvd6E0QwFI6bQUDgi9A7eCkunylj0iscah/17FpPxYLYUwuA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-nLiXbh0eBfBazoWR3AWVC1Y0pFC4Bh492MGNAb9GldRpa0yOmVzjoSdDAvV9iZJQ+nh/WtXrnoAXhLSrEcLhoQ==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -2725,7 +2725,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
-    resolution: {integrity: sha512-F9LJ1sU+TSXq23Hu0kEU0Yci+whx3ChOexjLN1Sv2Gdw1W4QGhiw4mzSCAvwCgTECs06GRT+ZJy6KWSnKTnO0g==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-+vJVsFWYW/qA5vWA9sVMQs72Il7f1g33aeOZxtObL+myd/jPpOH3vcoQt+Ucljo1wK7USXpTRTAIp9HMg4FHGA==, tarball: file:projects/arm-confidentialledger.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confluent@file:projects/arm-confluent.tgz':
@@ -5490,10 +5490,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esm@3.2.25:
-    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
-    engines: {node: '>=6'}
 
   espree@10.3.0:
     resolution: {integrity: sha512-0QYC8b24HWY8zjRnDTL6RiHfDbAWn63qb4LMj1Z4b076A4une81+z03Kg7l7mn/48PUTqoLptSXez8oknU8Clg==}
@@ -11713,16 +11709,15 @@ snapshots:
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      esm: 3.2.25
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      tsx: 4.19.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22243,8 +22238,6 @@ snapshots:
       optionator: 0.9.4
     transitivePeerDependencies:
       - supports-color
-
-  esm@3.2.25: {}
 
   espree@10.3.0:
     dependencies:
