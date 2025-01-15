@@ -20,9 +20,9 @@ import {
   TargetsListResponse,
   TargetsGetOptionalParams,
   TargetsGetResponse,
-  TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsCreateOrUpdateResponse,
+  TargetsDeleteOptionalParams,
   TargetsListNextResponse,
 } from "../models/index.js";
 
@@ -41,10 +41,10 @@ export class TargetsImpl implements Targets {
 
   /**
    * Get a list of Target resources that extend a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param options The options parameters.
    */
   public list(
@@ -143,10 +143,10 @@ export class TargetsImpl implements Targets {
 
   /**
    * Get a list of Target resources that extend a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param options The options parameters.
    */
   private _list(
@@ -170,10 +170,10 @@ export class TargetsImpl implements Targets {
 
   /**
    * Get a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
@@ -199,11 +199,44 @@ export class TargetsImpl implements Targets {
   }
 
   /**
+   * Create or update a Target resource that extends a tracked regional resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param targetName String that represents a Target resource name.
+   * @param resource Target resource to be created or updated.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    parentProviderNamespace: string,
+    parentResourceType: string,
+    parentResourceName: string,
+    targetName: string,
+    resource: Target,
+    options?: TargetsCreateOrUpdateOptionalParams,
+  ): Promise<TargetsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        parentProviderNamespace,
+        parentResourceType,
+        parentResourceName,
+        targetName,
+        resource,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
    * Delete a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
@@ -229,44 +262,11 @@ export class TargetsImpl implements Targets {
   }
 
   /**
-   * Create or update a Target resource that extends a tracked regional resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param targetName String that represents a Target resource name.
-   * @param target Target resource to be created or updated.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    parentProviderNamespace: string,
-    parentResourceType: string,
-    parentResourceName: string,
-    targetName: string,
-    target: Target,
-    options?: TargetsCreateOrUpdateOptionalParams,
-  ): Promise<TargetsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        parentProviderNamespace,
-        parentResourceType,
-        parentResourceName,
-        targetName,
-        target,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -341,6 +341,35 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Target,
+    },
+    201: {
+      bodyMapper: Mappers.Target,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.parentProviderNamespace,
+    Parameters.parentResourceType,
+    Parameters.parentResourceName,
+    Parameters.targetName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
   httpMethod: "DELETE",
@@ -364,32 +393,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Target,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.target,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.parentProviderNamespace,
-    Parameters.parentResourceType,
-    Parameters.parentResourceName,
-    Parameters.targetName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -403,12 +406,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

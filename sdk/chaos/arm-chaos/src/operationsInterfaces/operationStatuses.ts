@@ -14,14 +14,14 @@ import {
 /** Interface representing a OperationStatuses. */
 export interface OperationStatuses {
   /**
-   * Get the status of a long running azure asynchronous operation.
+   * Returns the current status of an async operation.
    * @param location The name of the Azure region.
-   * @param asyncOperationId The operation Id.
+   * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
   get(
     location: string,
-    asyncOperationId: string,
+    operationId: string,
     options?: OperationStatusesGetOptionalParams,
   ): Promise<OperationStatusesGetResponse>;
 }

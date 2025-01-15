@@ -19,21 +19,21 @@ import {
 export interface TargetTypes {
   /**
    * Get a list of Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
-    locationName: string,
+    location: string,
     options?: TargetTypesListOptionalParams,
   ): PagedAsyncIterableIterator<TargetType>;
   /**
    * Get a Target Type resources for given location.
-   * @param locationName String that represents a Location resource name.
+   * @param location The name of the Azure region.
    * @param targetTypeName String that represents a Target Type resource name.
    * @param options The options parameters.
    */
   get(
-    locationName: string,
+    location: string,
     targetTypeName: string,
     options?: TargetTypesGetOptionalParams,
   ): Promise<TargetTypesGetResponse>;

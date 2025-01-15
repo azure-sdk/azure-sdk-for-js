@@ -12,20 +12,20 @@ import {
   CapabilitiesListOptionalParams,
   CapabilitiesGetOptionalParams,
   CapabilitiesGetResponse,
-  CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesCreateOrUpdateResponse,
+  CapabilitiesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Capabilities. */
 export interface Capabilities {
   /**
-   * Get a list of Capability resources that extend a Target resource..
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * Get a list of Capability resources that extend a Target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
@@ -39,10 +39,10 @@ export interface Capabilities {
   ): PagedAsyncIterableIterator<Capability>;
   /**
    * Get a Capability resource that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param capabilityName String that represents a Capability resource name.
    * @param options The options parameters.
@@ -57,11 +57,32 @@ export interface Capabilities {
     options?: CapabilitiesGetOptionalParams,
   ): Promise<CapabilitiesGetResponse>;
   /**
+   * Create or update a Capability resource that extends a Target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param targetName String that represents a Target resource name.
+   * @param capabilityName String that represents a Capability resource name.
+   * @param resource Capability resource to be created or updated.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    parentProviderNamespace: string,
+    parentResourceType: string,
+    parentResourceName: string,
+    targetName: string,
+    capabilityName: string,
+    resource: Capability,
+    options?: CapabilitiesCreateOrUpdateOptionalParams,
+  ): Promise<CapabilitiesCreateOrUpdateResponse>;
+  /**
    * Delete a Capability that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param capabilityName String that represents a Capability resource name.
    * @param options The options parameters.
@@ -75,25 +96,4 @@ export interface Capabilities {
     capabilityName: string,
     options?: CapabilitiesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Create or update a Capability resource that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param targetName String that represents a Target resource name.
-   * @param capabilityName String that represents a Capability resource name.
-   * @param capability Capability resource to be created or updated.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    parentProviderNamespace: string,
-    parentResourceType: string,
-    parentResourceName: string,
-    targetName: string,
-    capabilityName: string,
-    capability: Capability,
-    options?: CapabilitiesCreateOrUpdateOptionalParams,
-  ): Promise<CapabilitiesCreateOrUpdateResponse>;
 }

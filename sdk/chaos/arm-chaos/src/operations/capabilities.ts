@@ -20,9 +20,9 @@ import {
   CapabilitiesListResponse,
   CapabilitiesGetOptionalParams,
   CapabilitiesGetResponse,
-  CapabilitiesDeleteOptionalParams,
   CapabilitiesCreateOrUpdateOptionalParams,
   CapabilitiesCreateOrUpdateResponse,
+  CapabilitiesDeleteOptionalParams,
   CapabilitiesListNextResponse,
 } from "../models/index.js";
 
@@ -40,11 +40,11 @@ export class CapabilitiesImpl implements Capabilities {
   }
 
   /**
-   * Get a list of Capability resources that extend a Target resource..
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * Get a list of Capability resources that extend a Target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
@@ -151,11 +151,11 @@ export class CapabilitiesImpl implements Capabilities {
   }
 
   /**
-   * Get a list of Capability resources that extend a Target resource..
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * Get a list of Capability resources that extend a Target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param options The options parameters.
    */
@@ -182,10 +182,10 @@ export class CapabilitiesImpl implements Capabilities {
 
   /**
    * Get a Capability resource that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param capabilityName String that represents a Capability resource name.
    * @param options The options parameters.
@@ -214,11 +214,47 @@ export class CapabilitiesImpl implements Capabilities {
   }
 
   /**
+   * Create or update a Capability resource that extends a Target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
+   * @param targetName String that represents a Target resource name.
+   * @param capabilityName String that represents a Capability resource name.
+   * @param resource Capability resource to be created or updated.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    parentProviderNamespace: string,
+    parentResourceType: string,
+    parentResourceName: string,
+    targetName: string,
+    capabilityName: string,
+    resource: Capability,
+    options?: CapabilitiesCreateOrUpdateOptionalParams,
+  ): Promise<CapabilitiesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        parentProviderNamespace,
+        parentResourceType,
+        parentResourceName,
+        targetName,
+        capabilityName,
+        resource,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
    * Delete a Capability that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param capabilityName String that represents a Capability resource name.
    * @param options The options parameters.
@@ -247,47 +283,11 @@ export class CapabilitiesImpl implements Capabilities {
   }
 
   /**
-   * Create or update a Capability resource that extends a Target resource.
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
-   * @param targetName String that represents a Target resource name.
-   * @param capabilityName String that represents a Capability resource name.
-   * @param capability Capability resource to be created or updated.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    parentProviderNamespace: string,
-    parentResourceType: string,
-    parentResourceName: string,
-    targetName: string,
-    capabilityName: string,
-    capability: Capability,
-    options?: CapabilitiesCreateOrUpdateOptionalParams,
-  ): Promise<CapabilitiesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        parentProviderNamespace,
-        parentResourceType,
-        parentResourceName,
-        targetName,
-        capabilityName,
-        capability,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param resourceGroupName String that represents an Azure resource group.
-   * @param parentProviderNamespace String that represents a resource provider namespace.
-   * @param parentResourceType String that represents a resource type.
-   * @param parentResourceName String that represents a resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param parentProviderNamespace The parent resource provider namespace.
+   * @param parentResourceType The parent resource type.
+   * @param parentResourceName The parent resource name.
    * @param targetName String that represents a Target resource name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -367,6 +367,36 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Capability,
+    },
+    201: {
+      bodyMapper: Mappers.Capability,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.parentProviderNamespace,
+    Parameters.parentResourceType,
+    Parameters.parentResourceName,
+    Parameters.targetName,
+    Parameters.capabilityName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
   httpMethod: "DELETE",
@@ -391,33 +421,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}/capabilities/{capabilityName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Capability,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.capability,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.parentProviderNamespace,
-    Parameters.parentResourceType,
-    Parameters.parentResourceName,
-    Parameters.targetName,
-    Parameters.capabilityName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -431,13 +434,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentProviderNamespace,
     Parameters.parentResourceType,
     Parameters.parentResourceName,
     Parameters.targetName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
