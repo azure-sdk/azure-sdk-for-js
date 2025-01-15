@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignment.json
  */
-async function createOrUpdateAPolicyAssignment() {
+async function createOrUpdateAPolicyAssignment(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +52,7 @@ async function createOrUpdateAPolicyAssignment() {
  * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithIdentity.json
  */
-async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
+async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -86,7 +86,7 @@ async function createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity() {
  * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithUserAssignedIdentity.json
  */
-async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
+async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -125,7 +125,7 @@ async function createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity() {
  * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentNonComplianceMessages.json
  */
-async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages() {
+async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -166,7 +166,7 @@ async function createOrUpdateAPolicyAssignmentWithMultipleNonComplianceMessages(
  * @summary  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/createPolicyAssignmentWithoutEnforcement.json
  */
-async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate() {
+async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuringResourceCreationOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -192,7 +192,7 @@ async function createOrUpdateAPolicyAssignmentWithoutEnforcingPolicyEffectDuring
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAPolicyAssignment();
   createOrUpdateAPolicyAssignmentWithASystemAssignedIdentity();
   createOrUpdateAPolicyAssignmentWithAUserAssignedIdentity();
