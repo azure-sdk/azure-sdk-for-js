@@ -2653,7 +2653,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-batch@file:projects/arm-batch.tgz':
-    resolution: {integrity: sha512-BzB1I2O47TVQBQyrPl4R1ph4frK5KnawVL76OH4ol6tIHZRmgBlQ7MWLDiawiWIxM4VHFg6yYgAzDgrJJM+GlA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-EZXizS0W1DlBRLRb+2exSfreEHUNYX0+TIAkYXpp9/yMd2xa61O8M3RTxoybTnVSyDdQftQ0EZNzOsymVXnIQA==, tarball: file:projects/arm-batch.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-billing@file:projects/arm-billing.tgz':
@@ -2677,7 +2677,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-changes@file:projects/arm-changes.tgz':
-    resolution: {integrity: sha512-4CKEY1ZNr54+AmbrsSti1aeZKbD28k/gzm8hOTuvd6E0QwFI6bQUDgi9A7eCkunylj0iscah/17FpPxYLYUwuA==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-nLiXbh0eBfBazoWR3AWVC1Y0pFC4Bh492MGNAb9GldRpa0yOmVzjoSdDAvV9iZJQ+nh/WtXrnoAXhLSrEcLhoQ==, tarball: file:projects/arm-changes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-chaos@file:projects/arm-chaos.tgz':
@@ -11177,12 +11177,13 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
-      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      tsx: 4.19.2
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24902,7 +24903,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.7.3
       walk-up-path: 3.0.1
 
   tshy@2.0.1:
