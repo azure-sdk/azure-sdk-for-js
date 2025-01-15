@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This operation retrieves the built-in policy definition with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/getBuiltinPolicyDefinition.json
  */
-async function retrieveABuiltInPolicyDefinition() {
+async function retrieveABuiltInPolicyDefinition(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +31,7 @@ async function retrieveABuiltInPolicyDefinition() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   retrieveABuiltInPolicyDefinition();
 }
 
