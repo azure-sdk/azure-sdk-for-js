@@ -151,9 +151,9 @@ export interface CheckNameAvailabilityResponse {
 }
 
 /** Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results. */
-export interface SpatialAnchorsAccountPage {
+export interface RemoteRenderingAccountPage {
   /** List of resources supported by the Resource Provider. */
-  value?: SpatialAnchorsAccount[];
+  value?: RemoteRenderingAccount[];
   /** URL to get the next set of resource list results if there are any. */
   nextLink?: string;
 }
@@ -243,59 +243,12 @@ export interface AccountKeyRegenerateRequest {
   serial?: Serial;
 }
 
-/** Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results. */
-export interface RemoteRenderingAccountPage {
-  /** List of resources supported by the Resource Provider. */
-  value?: RemoteRenderingAccount[];
-  /** URL to get the next set of resource list results if there are any. */
-  nextLink?: string;
-}
-
-/** Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results. */
-export interface ObjectAnchorsAccountPage {
-  /** List of resources supported by the Resource Provider. */
-  value?: ObjectAnchorsAccount[];
-  /** URL to get the next set of resource list results if there are any. */
-  nextLink?: string;
-}
-
-export interface ObjectAnchorsAccountIdentity extends Identity {}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-}
-
-/** SpatialAnchorsAccount Response. */
-export interface SpatialAnchorsAccount extends TrackedResource {
-  /** The identity associated with this account */
-  identity?: Identity;
-  /** The plan associated with this account */
-  plan?: Identity;
-  /** The sku associated with this account */
-  sku?: Sku;
-  /** The kind of account, if supported */
-  kind?: Sku;
-  /**
-   * System metadata for this account
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The name of the storage account associated with this accountId */
-  storageAccountName?: string;
-  /**
-   * unique id of certain account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountId?: string;
-  /**
-   * Correspond domain name of certain Spatial Anchors Account
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountDomain?: string;
 }
 
 /** RemoteRenderingAccount Response. */
@@ -327,40 +280,12 @@ export interface RemoteRenderingAccount extends TrackedResource {
   readonly accountDomain?: string;
 }
 
-/** ObjectAnchorsAccount Response. */
-export interface ObjectAnchorsAccount extends TrackedResource {
-  identity?: ObjectAnchorsAccountIdentity;
-  /** The plan associated with this account */
-  plan?: Identity;
-  /** The sku associated with this account */
-  sku?: Sku;
-  /** The kind of account, if supported */
-  kind?: Sku;
-  /**
-   * The system metadata related to an object anchors account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The name of the storage account associated with this accountId */
-  storageAccountName?: string;
-  /**
-   * unique id of certain account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountId?: string;
-  /**
-   * Correspond domain name of certain Spatial Anchors Account
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountDomain?: string;
-}
-
 /** Known values of {@link NameUnavailableReason} that the service accepts. */
 export enum KnownNameUnavailableReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -382,7 +307,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -423,85 +348,20 @@ export interface CheckNameAvailabilityLocalOptionalParams
 export type CheckNameAvailabilityLocalResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
-export interface SpatialAnchorsAccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SpatialAnchorsAccountsGetResponse = SpatialAnchorsAccount;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SpatialAnchorsAccountsUpdateResponse = SpatialAnchorsAccount;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type SpatialAnchorsAccountsCreateResponse = SpatialAnchorsAccount;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type SpatialAnchorsAccountsListKeysResponse = AccountKeys;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerateKeys operation. */
-export type SpatialAnchorsAccountsRegenerateKeysResponse = AccountKeys;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface SpatialAnchorsAccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAnchorsAccountPage;
-
-/** Optional parameters. */
 export interface RemoteRenderingAccountsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type RemoteRenderingAccountsListBySubscriptionResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListBySubscriptionResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type RemoteRenderingAccountsListByResourceGroupResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListByResourceGroupResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsDeleteOptionalParams
@@ -547,81 +407,16 @@ export interface RemoteRenderingAccountsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type RemoteRenderingAccountsListBySubscriptionNextResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListBySubscriptionNextResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type RemoteRenderingAccountsListByResourceGroupNextResponse = RemoteRenderingAccountPage;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ObjectAnchorsAccountsListBySubscriptionResponse = ObjectAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ObjectAnchorsAccountsListByResourceGroupResponse = ObjectAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ObjectAnchorsAccountsGetResponse = ObjectAnchorsAccount;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ObjectAnchorsAccountsUpdateResponse = ObjectAnchorsAccount;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type ObjectAnchorsAccountsCreateResponse = ObjectAnchorsAccount;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type ObjectAnchorsAccountsListKeysResponse = AccountKeys;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the regenerateKeys operation. */
-export type ObjectAnchorsAccountsRegenerateKeysResponse = AccountKeys;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ObjectAnchorsAccountsListBySubscriptionNextResponse = ObjectAnchorsAccountPage;
-
-/** Optional parameters. */
-export interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ObjectAnchorsAccountsListByResourceGroupNextResponse = ObjectAnchorsAccountPage;
+export type RemoteRenderingAccountsListByResourceGroupNextResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface MixedRealityClientOptionalParams

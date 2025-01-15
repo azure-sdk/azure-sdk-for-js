@@ -123,13 +123,9 @@ export class MixedRealityClient extends coreClient.ServiceClient {
     apiVersion: string;
     checkNameAvailabilityLocal(location: string, checkNameAvailability: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityLocalOptionalParams): Promise<CheckNameAvailabilityLocalResponse>;
     // (undocumented)
-    objectAnchorsAccounts: ObjectAnchorsAccounts;
-    // (undocumented)
     operations: Operations;
     // (undocumented)
     remoteRenderingAccounts: RemoteRenderingAccounts;
-    // (undocumented)
-    spatialAnchorsAccounts: SpatialAnchorsAccounts;
     // (undocumented)
     subscriptionId: string;
 }
@@ -143,108 +139,6 @@ export interface MixedRealityClientOptionalParams extends coreClient.ServiceClie
 
 // @public
 export type NameUnavailableReason = string;
-
-// @public
-export interface ObjectAnchorsAccount extends TrackedResource {
-    readonly accountDomain?: string;
-    readonly accountId?: string;
-    // (undocumented)
-    identity?: ObjectAnchorsAccountIdentity;
-    kind?: Sku;
-    plan?: Identity;
-    sku?: Sku;
-    storageAccountName?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public (undocumented)
-export interface ObjectAnchorsAccountIdentity extends Identity {
-}
-
-// @public
-export interface ObjectAnchorsAccountPage {
-    nextLink?: string;
-    value?: ObjectAnchorsAccount[];
-}
-
-// @public
-export interface ObjectAnchorsAccounts {
-    create(resourceGroupName: string, accountName: string, objectAnchorsAccount: ObjectAnchorsAccount, options?: ObjectAnchorsAccountsCreateOptionalParams): Promise<ObjectAnchorsAccountsCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsGetOptionalParams): Promise<ObjectAnchorsAccountsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
-    listBySubscription(options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
-    listKeys(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsListKeysOptionalParams): Promise<ObjectAnchorsAccountsListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, accountName: string, regenerate: AccountKeyRegenerateRequest, options?: ObjectAnchorsAccountsRegenerateKeysOptionalParams): Promise<ObjectAnchorsAccountsRegenerateKeysResponse>;
-    update(resourceGroupName: string, accountName: string, objectAnchorsAccount: ObjectAnchorsAccount, options?: ObjectAnchorsAccountsUpdateOptionalParams): Promise<ObjectAnchorsAccountsUpdateResponse>;
-}
-
-// @public
-export interface ObjectAnchorsAccountsCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsCreateResponse = ObjectAnchorsAccount;
-
-// @public
-export interface ObjectAnchorsAccountsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ObjectAnchorsAccountsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsGetResponse = ObjectAnchorsAccount;
-
-// @public
-export interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsListByResourceGroupNextResponse = ObjectAnchorsAccountPage;
-
-// @public
-export interface ObjectAnchorsAccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsListByResourceGroupResponse = ObjectAnchorsAccountPage;
-
-// @public
-export interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsListBySubscriptionNextResponse = ObjectAnchorsAccountPage;
-
-// @public
-export interface ObjectAnchorsAccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsListBySubscriptionResponse = ObjectAnchorsAccountPage;
-
-// @public
-export interface ObjectAnchorsAccountsListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsListKeysResponse = AccountKeys;
-
-// @public
-export interface ObjectAnchorsAccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsRegenerateKeysResponse = AccountKeys;
-
-// @public
-export interface ObjectAnchorsAccountsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ObjectAnchorsAccountsUpdateResponse = ObjectAnchorsAccount;
 
 // @public
 export interface Operation {
@@ -417,103 +311,6 @@ export interface Sku {
 
 // @public
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
-
-// @public
-export interface SpatialAnchorsAccount extends TrackedResource {
-    readonly accountDomain?: string;
-    readonly accountId?: string;
-    identity?: Identity;
-    kind?: Sku;
-    plan?: Identity;
-    sku?: Sku;
-    storageAccountName?: string;
-    readonly systemData?: SystemData;
-}
-
-// @public
-export interface SpatialAnchorsAccountPage {
-    nextLink?: string;
-    value?: SpatialAnchorsAccount[];
-}
-
-// @public
-export interface SpatialAnchorsAccounts {
-    create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: SpatialAnchorsAccount, options?: SpatialAnchorsAccountsCreateOptionalParams): Promise<SpatialAnchorsAccountsCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, options?: SpatialAnchorsAccountsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, options?: SpatialAnchorsAccountsGetOptionalParams): Promise<SpatialAnchorsAccountsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SpatialAnchorsAccount>;
-    listBySubscription(options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SpatialAnchorsAccount>;
-    listKeys(resourceGroupName: string, accountName: string, options?: SpatialAnchorsAccountsListKeysOptionalParams): Promise<SpatialAnchorsAccountsListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, accountName: string, regenerate: AccountKeyRegenerateRequest, options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams): Promise<SpatialAnchorsAccountsRegenerateKeysResponse>;
-    update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: SpatialAnchorsAccount, options?: SpatialAnchorsAccountsUpdateOptionalParams): Promise<SpatialAnchorsAccountsUpdateResponse>;
-}
-
-// @public
-export interface SpatialAnchorsAccountsCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsCreateResponse = SpatialAnchorsAccount;
-
-// @public
-export interface SpatialAnchorsAccountsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SpatialAnchorsAccountsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsGetResponse = SpatialAnchorsAccount;
-
-// @public
-export interface SpatialAnchorsAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAnchorsAccountPage;
-
-// @public
-export interface SpatialAnchorsAccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAccountPage;
-
-// @public
-export interface SpatialAnchorsAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchorsAccountPage;
-
-// @public
-export interface SpatialAnchorsAccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAccountPage;
-
-// @public
-export interface SpatialAnchorsAccountsListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsListKeysResponse = AccountKeys;
-
-// @public
-export interface SpatialAnchorsAccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsRegenerateKeysResponse = AccountKeys;
-
-// @public
-export interface SpatialAnchorsAccountsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SpatialAnchorsAccountsUpdateResponse = SpatialAnchorsAccount;
 
 // @public
 export interface SystemData {

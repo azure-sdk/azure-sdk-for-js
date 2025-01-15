@@ -22,8 +22,8 @@ import {
   RemoteRenderingAccountsListKeysResponse,
   AccountKeyRegenerateRequest,
   RemoteRenderingAccountsRegenerateKeysOptionalParams,
-  RemoteRenderingAccountsRegenerateKeysResponse
-} from "../models";
+  RemoteRenderingAccountsRegenerateKeysResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RemoteRenderingAccounts. */
@@ -33,7 +33,7 @@ export interface RemoteRenderingAccounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount>;
   /**
    * List Resources by Resource Group
@@ -42,7 +42,7 @@ export interface RemoteRenderingAccounts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount>;
   /**
    * Delete a Remote Rendering Account.
@@ -53,7 +53,7 @@ export interface RemoteRenderingAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsDeleteOptionalParams
+    options?: RemoteRenderingAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve a Remote Rendering Account.
@@ -64,7 +64,7 @@ export interface RemoteRenderingAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsGetOptionalParams
+    options?: RemoteRenderingAccountsGetOptionalParams,
   ): Promise<RemoteRenderingAccountsGetResponse>;
   /**
    * Updating a Remote Rendering Account
@@ -77,7 +77,7 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsUpdateOptionalParams
+    options?: RemoteRenderingAccountsUpdateOptionalParams,
   ): Promise<RemoteRenderingAccountsUpdateResponse>;
   /**
    * Creating or Updating a Remote Rendering Account.
@@ -90,7 +90,7 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsCreateOptionalParams
+    options?: RemoteRenderingAccountsCreateOptionalParams,
   ): Promise<RemoteRenderingAccountsCreateResponse>;
   /**
    * List Both of the 2 Keys of a Remote Rendering Account
@@ -101,7 +101,7 @@ export interface RemoteRenderingAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsListKeysOptionalParams
+    options?: RemoteRenderingAccountsListKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsListKeysResponse>;
   /**
    * Regenerate specified Key of a Remote Rendering Account
@@ -114,6 +114,6 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams
+    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsRegenerateKeysResponse>;
 }
