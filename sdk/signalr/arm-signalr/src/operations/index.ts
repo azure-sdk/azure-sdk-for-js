@@ -6,12 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./signalR";
-export * from "./usages";
-export * from "./signalRCustomCertificates";
-export * from "./signalRCustomDomains";
-export * from "./signalRPrivateEndpointConnections";
-export * from "./signalRPrivateLinkResources";
-export * from "./signalRReplicas";
-export * from "./signalRSharedPrivateLinkResources";
+export * from "./operations.js";
+export * from "./signalR.js";
+export * from "./usages.js";
+export * from "./signalRCustomCertificates.js";
+export * from "./signalRCustomDomains.js";
+export * from "./signalRPrivateEndpointConnections.js";
+export * from "./signalRPrivateLinkResources.js";
+export * from "./signalRReplicas.js";
+export * from "./signalRReplicaSharedPrivateLinkResources.js";
+export * from "./signalRSharedPrivateLinkResources.js";

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SignalRSharedPrivateLinkResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SignalRSharedPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SignalRManagementClient } from "../signalRManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SignalRManagementClient } from "../signalRManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SharedPrivateLinkResource,
   SignalRSharedPrivateLinkResourcesListNextOptionalParams,
@@ -29,13 +29,14 @@ import {
   SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse,
   SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
-  SignalRSharedPrivateLinkResourcesListNextResponse
-} from "../models";
+  SignalRSharedPrivateLinkResourcesListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SignalRSharedPrivateLinkResources operations. */
 export class SignalRSharedPrivateLinkResourcesImpl
-  implements SignalRSharedPrivateLinkResources {
+  implements SignalRSharedPrivateLinkResources
+{
   private readonly client: SignalRManagementClient;
 
   /**
@@ -55,7 +56,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -73,9 +74,9 @@ export class SignalRSharedPrivateLinkResourcesImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SharedPrivateLinkResource[]> {
     let result: SignalRSharedPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +112,12 @@ export class SignalRSharedPrivateLinkResourcesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<SharedPrivateLinkResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,17 +132,17 @@ export class SignalRSharedPrivateLinkResourcesImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesListOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesListOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Get the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -150,22 +151,22 @@ export class SignalRSharedPrivateLinkResourcesImpl
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesGetOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesGetOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
@@ -176,7 +177,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>,
@@ -185,21 +186,20 @@ export class SignalRSharedPrivateLinkResourcesImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -208,8 +208,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -217,8 +217,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -229,9 +229,9 @@ export class SignalRSharedPrivateLinkResourcesImpl
         resourceGroupName,
         resourceName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse,
@@ -239,7 +239,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -247,7 +247,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
 
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
@@ -258,21 +258,21 @@ export class SignalRSharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       sharedPrivateLinkResourceName,
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -281,25 +281,24 @@ export class SignalRSharedPrivateLinkResourcesImpl
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +307,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,8 +316,8 @@ export class SignalRSharedPrivateLinkResourcesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -328,14 +327,14 @@ export class SignalRSharedPrivateLinkResourcesImpl
         sharedPrivateLinkResourceName,
         resourceGroupName,
         resourceName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -343,7 +342,7 @@ export class SignalRSharedPrivateLinkResourcesImpl
 
   /**
    * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -352,13 +351,13 @@ export class SignalRSharedPrivateLinkResourcesImpl
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       sharedPrivateLinkResourceName,
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -374,11 +373,11 @@ export class SignalRSharedPrivateLinkResourcesImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: SignalRSharedPrivateLinkResourcesListNextOptionalParams
+    options?: SignalRSharedPrivateLinkResourcesListNextOptionalParams,
   ): Promise<SignalRSharedPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -386,38 +385,15 @@ export class SignalRSharedPrivateLinkResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceList
+      bodyMapper: Mappers.SharedPrivateLinkResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -425,31 +401,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedPrivateLinkResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.sharedPrivateLinkResourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     201: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     202: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     204: {
-      bodyMapper: Mappers.SharedPrivateLinkResource
+      bodyMapper: Mappers.SharedPrivateLinkResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -458,15 +454,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -474,8 +469,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -483,29 +478,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.sharedPrivateLinkResourceName
+    Parameters.sharedPrivateLinkResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedPrivateLinkResourceList
+      bodyMapper: Mappers.SharedPrivateLinkResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

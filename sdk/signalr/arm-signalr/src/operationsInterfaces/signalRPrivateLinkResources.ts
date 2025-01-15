@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateLinkResource,
-  SignalRPrivateLinkResourcesListOptionalParams
-} from "../models";
+  SignalRPrivateLinkResourcesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SignalRPrivateLinkResources. */
@@ -24,6 +24,6 @@ export interface SignalRPrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateLinkResourcesListOptionalParams
+    options?: SignalRPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SignalRPrivateEndpointConnections } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SignalRPrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SignalRManagementClient } from "../signalRManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SignalRManagementClient } from "../signalRManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
   SignalRPrivateEndpointConnectionsListNextOptionalParams,
@@ -29,13 +29,14 @@ import {
   SignalRPrivateEndpointConnectionsUpdateOptionalParams,
   SignalRPrivateEndpointConnectionsUpdateResponse,
   SignalRPrivateEndpointConnectionsDeleteOptionalParams,
-  SignalRPrivateEndpointConnectionsListNextResponse
-} from "../models";
+  SignalRPrivateEndpointConnectionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SignalRPrivateEndpointConnections operations. */
 export class SignalRPrivateEndpointConnectionsImpl
-  implements SignalRPrivateEndpointConnections {
+  implements SignalRPrivateEndpointConnections
+{
   private readonly client: SignalRManagementClient;
 
   /**
@@ -55,7 +56,7 @@ export class SignalRPrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsListOptionalParams
+    options?: SignalRPrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -73,9 +74,9 @@ export class SignalRPrivateEndpointConnectionsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class SignalRPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: SignalRPrivateEndpointConnectionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: SignalRPrivateEndpointConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class SignalRPrivateEndpointConnectionsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +112,12 @@ export class SignalRPrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsListOptionalParams
+    options?: SignalRPrivateEndpointConnectionsListOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +132,11 @@ export class SignalRPrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsListOptionalParams
+    options?: SignalRPrivateEndpointConnectionsListOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -151,16 +152,16 @@ export class SignalRPrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsGetOptionalParams
+    options?: SignalRPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         privateEndpointConnectionName,
         resourceGroupName,
         resourceName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -178,7 +179,7 @@ export class SignalRPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateEndpointConnection,
-    options?: SignalRPrivateEndpointConnectionsUpdateOptionalParams
+    options?: SignalRPrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -186,9 +187,9 @@ export class SignalRPrivateEndpointConnectionsImpl
         resourceGroupName,
         resourceName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -204,25 +205,24 @@ export class SignalRPrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams
+    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -231,8 +231,8 @@ export class SignalRPrivateEndpointConnectionsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -240,8 +240,8 @@ export class SignalRPrivateEndpointConnectionsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -251,14 +251,14 @@ export class SignalRPrivateEndpointConnectionsImpl
         privateEndpointConnectionName,
         resourceGroupName,
         resourceName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -276,13 +276,13 @@ export class SignalRPrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams
+    options?: SignalRPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       privateEndpointConnectionName,
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -298,11 +298,11 @@ export class SignalRPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: SignalRPrivateEndpointConnectionsListNextOptionalParams
+    options?: SignalRPrivateEndpointConnectionsListNextOptionalParams,
   ): Promise<SignalRPrivateEndpointConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -310,38 +310,15 @@ export class SignalRPrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.PrivateEndpointConnectionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -349,22 +326,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -373,15 +370,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -389,8 +385,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -398,29 +394,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.PrivateEndpointConnectionList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
