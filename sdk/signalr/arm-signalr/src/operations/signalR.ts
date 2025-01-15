@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SignalR } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SignalR } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SignalRManagementClient } from "../signalRManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SignalRManagementClient } from "../signalRManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SignalRResource,
   SignalRListBySubscriptionNextOptionalParams,
@@ -49,8 +49,8 @@ import {
   SignalRListSkusOptionalParams,
   SignalRListSkusResponse,
   SignalRListBySubscriptionNextResponse,
-  SignalRListByResourceGroupNextResponse
-} from "../models";
+  SignalRListByResourceGroupNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SignalR operations. */
@@ -70,7 +70,7 @@ export class SignalRImpl implements SignalR {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SignalRListBySubscriptionOptionalParams
+    options?: SignalRListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SignalRResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -85,13 +85,13 @@ export class SignalRImpl implements SignalR {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SignalRListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SignalRResource[]> {
     let result: SignalRListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -112,7 +112,7 @@ export class SignalRImpl implements SignalR {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SignalRListBySubscriptionOptionalParams
+    options?: SignalRListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SignalRResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -126,7 +126,7 @@ export class SignalRImpl implements SignalR {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SignalRListByResourceGroupOptionalParams
+    options?: SignalRListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SignalRResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -143,16 +143,16 @@ export class SignalRImpl implements SignalR {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SignalRListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SignalRResource[]> {
     let result: SignalRListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -167,7 +167,7 @@ export class SignalRImpl implements SignalR {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -178,11 +178,11 @@ export class SignalRImpl implements SignalR {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SignalRListByResourceGroupOptionalParams
+    options?: SignalRListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SignalRResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -190,18 +190,18 @@ export class SignalRImpl implements SignalR {
 
   /**
    * Checks that the resource name is valid and is not already in use.
-   * @param location the region
+   * @param location The region
    * @param parameters Parameters supplied to the operation.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityParameters,
-    options?: SignalRCheckNameAvailabilityOptionalParams
+    options?: SignalRCheckNameAvailabilityOptionalParams,
   ): Promise<SignalRCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -210,11 +210,11 @@ export class SignalRImpl implements SignalR {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SignalRListBySubscriptionOptionalParams
+    options?: SignalRListBySubscriptionOptionalParams,
   ): Promise<SignalRListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -225,11 +225,11 @@ export class SignalRImpl implements SignalR {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SignalRListByResourceGroupOptionalParams
+    options?: SignalRListByResourceGroupOptionalParams,
   ): Promise<SignalRListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class SignalRImpl implements SignalR {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRGetOptionalParams
+    options?: SignalRGetOptionalParams,
   ): Promise<SignalRGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -261,7 +261,7 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRCreateOrUpdateOptionalParams
+    options?: SignalRCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRCreateOrUpdateResponse>,
@@ -270,21 +270,20 @@ export class SignalRImpl implements SignalR {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -293,8 +292,8 @@ export class SignalRImpl implements SignalR {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -302,15 +301,15 @@ export class SignalRImpl implements SignalR {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRCreateOrUpdateResponse,
@@ -318,7 +317,7 @@ export class SignalRImpl implements SignalR {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -335,13 +334,13 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRCreateOrUpdateOptionalParams
+    options?: SignalRCreateOrUpdateOptionalParams,
   ): Promise<SignalRCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -355,25 +354,24 @@ export class SignalRImpl implements SignalR {
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRDeleteOptionalParams
+    options?: SignalRDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -382,8 +380,8 @@ export class SignalRImpl implements SignalR {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -391,20 +389,20 @@ export class SignalRImpl implements SignalR {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -419,12 +417,12 @@ export class SignalRImpl implements SignalR {
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRDeleteOptionalParams
+    options?: SignalRDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -440,7 +438,7 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRUpdateOptionalParams
+    options?: SignalRUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRUpdateResponse>,
@@ -449,21 +447,20 @@ export class SignalRImpl implements SignalR {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -472,8 +469,8 @@ export class SignalRImpl implements SignalR {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -481,15 +478,15 @@ export class SignalRImpl implements SignalR {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRUpdateResponse,
@@ -497,7 +494,7 @@ export class SignalRImpl implements SignalR {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -514,13 +511,13 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: SignalRResource,
-    options?: SignalRUpdateOptionalParams
+    options?: SignalRUpdateOptionalParams,
   ): Promise<SignalRUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -534,11 +531,11 @@ export class SignalRImpl implements SignalR {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRListKeysOptionalParams
+    options?: SignalRListKeysOptionalParams,
   ): Promise<SignalRListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -554,7 +551,7 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: SignalRRegenerateKeyOptionalParams
+    options?: SignalRRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRRegenerateKeyResponse>,
@@ -563,21 +560,20 @@ export class SignalRImpl implements SignalR {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRRegenerateKeyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -586,8 +582,8 @@ export class SignalRImpl implements SignalR {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -595,15 +591,15 @@ export class SignalRImpl implements SignalR {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, parameters, options },
-      spec: regenerateKeyOperationSpec
+      spec: regenerateKeyOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRRegenerateKeyResponse,
@@ -611,7 +607,7 @@ export class SignalRImpl implements SignalR {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -629,13 +625,13 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: SignalRRegenerateKeyOptionalParams
+    options?: SignalRRegenerateKeyOptionalParams,
   ): Promise<SignalRRegenerateKeyResponse> {
     const poller = await this.beginRegenerateKey(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -651,11 +647,11 @@ export class SignalRImpl implements SignalR {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: SignalRListReplicaSkusOptionalParams
+    options?: SignalRListReplicaSkusOptionalParams,
   ): Promise<SignalRListReplicaSkusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, replicaName, options },
-      listReplicaSkusOperationSpec
+      listReplicaSkusOperationSpec,
     );
   }
 
@@ -668,7 +664,7 @@ export class SignalRImpl implements SignalR {
   async beginRestart(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRRestartOptionalParams
+    options?: SignalRRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SignalRRestartResponse>,
@@ -677,21 +673,20 @@ export class SignalRImpl implements SignalR {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SignalRRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -700,8 +695,8 @@ export class SignalRImpl implements SignalR {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -709,15 +704,15 @@ export class SignalRImpl implements SignalR {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, options },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<
       SignalRRestartResponse,
@@ -725,7 +720,7 @@ export class SignalRImpl implements SignalR {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -740,12 +735,12 @@ export class SignalRImpl implements SignalR {
   async beginRestartAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRRestartOptionalParams
+    options?: SignalRRestartOptionalParams,
   ): Promise<SignalRRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -759,11 +754,11 @@ export class SignalRImpl implements SignalR {
   listSkus(
     resourceGroupName: string,
     resourceName: string,
-    options?: SignalRListSkusOptionalParams
+    options?: SignalRListSkusOptionalParams,
   ): Promise<SignalRListSkusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listSkusOperationSpec
+      listSkusOperationSpec,
     );
   }
 
@@ -774,11 +769,11 @@ export class SignalRImpl implements SignalR {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SignalRListBySubscriptionNextOptionalParams
+    options?: SignalRListBySubscriptionNextOptionalParams,
   ): Promise<SignalRListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -791,11 +786,11 @@ export class SignalRImpl implements SignalR {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SignalRListByResourceGroupNextOptionalParams
+    options?: SignalRListByResourceGroupNextOptionalParams,
   ): Promise<SignalRListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -803,243 +798,73 @@ export class SignalRImpl implements SignalR {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailability
+      bodyMapper: Mappers.NameAvailability,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/signalR",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.SignalRService/signalR",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignalRResourceList
+      bodyMapper: Mappers.SignalRResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignalRResourceList
+      bodyMapper: Mappers.SignalRResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignalRResource
+      bodyMapper: Mappers.SignalRResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SignalRResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    201: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    202: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    204: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    201: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    202: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    204: {
-      bodyMapper: Mappers.SignalRResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SignalRKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SignalRKeys
-    },
-    201: {
-      bodyMapper: Mappers.SignalRKeys
-    },
-    202: {
-      bodyMapper: Mappers.SignalRKeys
-    },
-    204: {
-      bodyMapper: Mappers.SignalRKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listReplicaSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1047,100 +872,258 @@ const listReplicaSkusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    201: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    202: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    204: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    201: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    202: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    204: {
+      bodyMapper: Mappers.SignalRResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.SignalRRestartHeaders
-    },
-    201: {
-      headersMapper: Mappers.SignalRRestartHeaders
-    },
-    202: {
-      headersMapper: Mappers.SignalRRestartHeaders
-    },
-    204: {
-      headersMapper: Mappers.SignalRRestartHeaders
+      bodyMapper: Mappers.SignalRKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/skus",
+const regenerateKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/regenerateKey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SignalRKeys,
+    },
+    201: {
+      bodyMapper: Mappers.SignalRKeys,
+    },
+    202: {
+      bodyMapper: Mappers.SignalRKeys,
+    },
+    204: {
+      bodyMapper: Mappers.SignalRKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listReplicaSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/replicas/{replicaName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SkuList
+      bodyMapper: Mappers.SkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.SignalRRestartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.SignalRRestartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.SignalRRestartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.SignalRRestartHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignalRResourceList
+      bodyMapper: Mappers.SignalRResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignalRResourceList
+      bodyMapper: Mappers.SignalRResourceList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

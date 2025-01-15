@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -23,8 +23,9 @@ import {
   SignalRPrivateEndpointConnectionsImpl,
   SignalRPrivateLinkResourcesImpl,
   SignalRReplicasImpl,
-  SignalRSharedPrivateLinkResourcesImpl
-} from "./operations";
+  SignalRReplicaSharedPrivateLinkResourcesImpl,
+  SignalRSharedPrivateLinkResourcesImpl,
+} from "./operations/index.js";
 import {
   Operations,
   SignalR,
@@ -34,9 +35,10 @@ import {
   SignalRPrivateEndpointConnections,
   SignalRPrivateLinkResources,
   SignalRReplicas,
-  SignalRSharedPrivateLinkResources
-} from "./operationsInterfaces";
-import { SignalRManagementClientOptionalParams } from "./models";
+  SignalRReplicaSharedPrivateLinkResources,
+  SignalRSharedPrivateLinkResources,
+} from "./operationsInterfaces/index.js";
+import { SignalRManagementClientOptionalParams } from "./models/index.js";
 
 export class SignalRManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -52,7 +54,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: SignalRManagementClientOptionalParams
+    options?: SignalRManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -67,10 +69,10 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     }
     const defaults: SignalRManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-signalr/6.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-signalr/6.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -80,20 +82,21 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -103,7 +106,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -113,9 +116,9 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -123,22 +126,22 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-08-01-preview";
+    this.apiVersion = options.apiVersion || "2025-01-01-preview";
     this.operations = new OperationsImpl(this);
     this.signalR = new SignalRImpl(this);
     this.usages = new UsagesImpl(this);
     this.signalRCustomCertificates = new SignalRCustomCertificatesImpl(this);
     this.signalRCustomDomains = new SignalRCustomDomainsImpl(this);
-    this.signalRPrivateEndpointConnections = new SignalRPrivateEndpointConnectionsImpl(
-      this
-    );
+    this.signalRPrivateEndpointConnections =
+      new SignalRPrivateEndpointConnectionsImpl(this);
     this.signalRPrivateLinkResources = new SignalRPrivateLinkResourcesImpl(
-      this
+      this,
     );
     this.signalRReplicas = new SignalRReplicasImpl(this);
-    this.signalRSharedPrivateLinkResources = new SignalRSharedPrivateLinkResourcesImpl(
-      this
-    );
+    this.signalRReplicaSharedPrivateLinkResources =
+      new SignalRReplicaSharedPrivateLinkResourcesImpl(this);
+    this.signalRSharedPrivateLinkResources =
+      new SignalRSharedPrivateLinkResourcesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -151,7 +154,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -165,7 +168,7 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -178,5 +181,6 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
   signalRPrivateEndpointConnections: SignalRPrivateEndpointConnections;
   signalRPrivateLinkResources: SignalRPrivateLinkResources;
   signalRReplicas: SignalRReplicas;
+  signalRReplicaSharedPrivateLinkResources: SignalRReplicaSharedPrivateLinkResources;
   signalRSharedPrivateLinkResources: SignalRSharedPrivateLinkResources;
 }
