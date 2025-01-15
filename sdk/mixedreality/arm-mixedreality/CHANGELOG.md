@@ -1,15 +1,21 @@
 # Release History
-
-## 4.1.0-beta.2 (Unreleased)
-
+    
+## 5.0.0-beta.1 (2025-01-15)
+Compared with version 4.0.1
+    
 ### Features Added
+
+  - Added Interface RemoteRenderingAccount
+  - Added Interface TrackedResource
+  - Interface MetricDimension has a new optional parameter toBeExportedForShoebox
+  - Added function getContinuationToken
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group SpatialAnchorsAccounts
+  - Class MixedRealityClient no longer has parameter spatialAnchorsAccounts
+    
+    
 ## 4.1.0-beta.1 (2022-12-01)
     
 ### Features Added
@@ -57,4 +63,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

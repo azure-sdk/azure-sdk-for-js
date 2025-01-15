@@ -6,7 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./spatialAnchorsAccounts";
-export * from "./remoteRenderingAccounts";
-export * from "./objectAnchorsAccounts";
+export * from "./operations.js";
+export * from "./remoteRenderingAccounts.js";
