@@ -8,6 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type ClientConnectionCountRuleUnion =
+  | ClientConnectionCountRule
+  | ThrottleByJwtCustomClaimRule
+  | ThrottleByJwtSignatureRule
+  | ThrottleByUserIdRule;
+export type ClientTrafficControlRuleUnion =
+  | ClientTrafficControlRule
+  | TrafficThrottleByJwtCustomClaimRule
+  | TrafficThrottleByJwtSignatureRule
+  | TrafficThrottleByUserIdRule;
 export type EventListenerFilterUnion = EventListenerFilter | EventNameFilter;
 export type EventListenerEndpointUnion =
   | EventListenerEndpoint
@@ -398,6 +408,32 @@ export interface IPRule {
   action?: ACLAction;
 }
 
+/** Application firewall settings for the resource */
+export interface ApplicationFirewallSettings {
+  /** Rules to control the client connection count */
+  clientConnectionCountRules?: ClientConnectionCountRuleUnion[];
+  /** Rules to control the client traffic */
+  clientTrafficControlRules?: ClientTrafficControlRuleUnion[];
+}
+
+/** A base class for client connection count rules */
+export interface ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "ThrottleByJwtCustomClaimRule"
+    | "ThrottleByJwtSignatureRule"
+    | "ThrottleByUserIdRule";
+}
+
+/** A base class for client traffic control rules */
+export interface ClientTrafficControlRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "TrafficThrottleByJwtCustomClaimRule"
+    | "TrafficThrottleByJwtSignatureRule"
+    | "TrafficThrottleByUserIdRule";
+}
+
 /** SocketIO settings for the resource */
 export interface WebPubSubSocketIOSettings {
   /**
@@ -504,8 +540,10 @@ export interface WebPubSubHubProperties {
 /** Properties of event handler. */
 export interface EventHandler {
   /**
-   * Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in.
-   * For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters.
+   * Gets or sets the URL template for the event handler. The actual URL is calculated when the corresponding event is triggered.
+   * The template supports predefined parameters syntax: `{event}`, `{hub}`, and KeyVault reference syntax `{@Microsoft.KeyVault(SecretUri=_your_secret_identifier_)}`
+   * For example, if the template is `http://example.com/api/{event}`, when `connect` event is triggered, a POST request will be sent to the URL `http://example.com/chat/api/connect`.
+   * Note: Parameters are not allowed in the hostname of the URL, and curly brackets `{}` are reserved for parameter syntax only. If your URL path contains literal curly brackets, please URL-encode them to ensure proper handling.
    */
   urlTemplate: string;
   /**
@@ -712,6 +750,67 @@ export interface PrivateEndpointACL extends NetworkACL {
   name: string;
 }
 
+/** Throttle the client connection by a custom JWT claim */
+export interface ThrottleByJwtCustomClaimRule
+  extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtCustomClaimRule";
+  /** The name of the claim in the JWT token. The client connection with the same claim value will be aggregated. If the claim is not found in the token, the connection will be allowed. */
+  claimName: string;
+  /** Maximum connection count allowed for the same Jwt claim value. Clients with the same Jwt claim will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the JWT signature */
+export interface ThrottleByJwtSignatureRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByJwtSignatureRule";
+  /** Maximum connection count allowed for the same JWT signature. Clients with the same JWT signature will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client connection by the user ID */
+export interface ThrottleByUserIdRule extends ClientConnectionCountRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ThrottleByUserIdRule";
+  /** Maximum connection count allowed for the same user ID. Clients with the same user ID will get rejected if the connection count exceeds this value. Default value is 20. */
+  maxCount?: number;
+}
+
+/** Throttle the client traffic by a custom JWT claim */
+export interface TrafficThrottleByJwtCustomClaimRule
+  extends ClientTrafficControlRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TrafficThrottleByJwtCustomClaimRule";
+  /** The name of the claim in the JWT token. The message bytes with the same claim value will be aggregated. If the claim is not found in the token, the rule will be skipped. */
+  claimName: string;
+  /** Maximum accumulated inbound message bytes allowed for the same JWT signature within a time window. Clients with the same JWT claim will get disconnected if the message bytes exceeds this value. Default value is 1GB. */
+  maxInboundMessageBytes?: number;
+  /** The aggregation window for the message bytes. The message bytes will be aggregated in this window and be reset after the window. Default value is 60 seconds. */
+  aggregationWindowInSeconds?: number;
+}
+
+/** Throttle the client traffic by the JWT signature */
+export interface TrafficThrottleByJwtSignatureRule
+  extends ClientTrafficControlRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TrafficThrottleByJwtSignatureRule";
+  /** Maximum accumulated inbound message bytes allowed for the same JWT signature within a time window. Clients with the same JWT signature will get disconnected if the message bytes exceeds this value. Default value is 1GB. */
+  maxInboundMessageBytes?: number;
+  /** The aggregation window for the message bytes. The message bytes will be aggregated in this window and be reset after the window. Default value is 60 seconds. */
+  aggregationWindowInSeconds?: number;
+}
+
+/** Throttle the client traffic by the user ID */
+export interface TrafficThrottleByUserIdRule extends ClientTrafficControlRule {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TrafficThrottleByUserIdRule";
+  /** Maximum accumulated inbound message bytes allowed for the same user ID within a time window. Clients with the same user ID will get disconnected if the message bytes exceeds this value. Default value is 1GB. */
+  maxInboundMessageBytes?: number;
+  /** The aggregation window for the message bytes. The message bytes will be aggregated in this window and be reset after the window. Default value is 60 seconds. */
+  aggregationWindowInSeconds?: number;
+}
+
 /** Filter events by their name. */
 export interface EventNameFilter extends EventListenerFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -735,7 +834,7 @@ export interface EventNameFilter extends EventListenerFilter {
 export interface EventHubEndpoint extends EventListenerEndpoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EventHub";
-  /** The fully qualified namespace name of the Event Hub resource. For example, "example.servicebus.windows.net". */
+  /** The fully qualified namespace name of the Event Hub resource. */
   fullyQualifiedNamespace: string;
   /** The name of the Event Hub. */
   eventHubName: string;
@@ -772,6 +871,8 @@ export interface SharedPrivateLinkResource extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
   /** The request message for requesting approval of the shared private link resource */
   requestMessage?: string;
+  /** A list of FQDNs for third party private link service */
+  fqdns?: string[];
   /**
    * Status of the shared private link resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -886,6 +987,8 @@ export interface WebPubSubResource extends TrackedResource {
   resourceLogConfiguration?: ResourceLogConfiguration;
   /** Network ACLs for the resource */
   networkACLs?: WebPubSubNetworkACLs;
+  /** Application firewall settings for the resource */
+  applicationFirewall?: ApplicationFirewallSettings;
   /**
    * Enable or disable public network access. Default to "Enabled".
    * When it's Enabled, network ACLs still apply.
@@ -1146,6 +1249,48 @@ export enum KnownWebPubSubRequestType {
  * **Trace**
  */
 export type WebPubSubRequestType = string;
+
+/** Known values of {@link ClientConnectionCountRuleDiscriminator} that the service accepts. */
+export enum KnownClientConnectionCountRuleDiscriminator {
+  /** ThrottleByJwtSignatureRule */
+  ThrottleByJwtSignatureRule = "ThrottleByJwtSignatureRule",
+  /** ThrottleByUserIdRule */
+  ThrottleByUserIdRule = "ThrottleByUserIdRule",
+  /** ThrottleByJwtCustomClaimRule */
+  ThrottleByJwtCustomClaimRule = "ThrottleByJwtCustomClaimRule",
+}
+
+/**
+ * Defines values for ClientConnectionCountRuleDiscriminator. \
+ * {@link KnownClientConnectionCountRuleDiscriminator} can be used interchangeably with ClientConnectionCountRuleDiscriminator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ThrottleByJwtSignatureRule** \
+ * **ThrottleByUserIdRule** \
+ * **ThrottleByJwtCustomClaimRule**
+ */
+export type ClientConnectionCountRuleDiscriminator = string;
+
+/** Known values of {@link ClientTrafficControlRuleDiscriminator} that the service accepts. */
+export enum KnownClientTrafficControlRuleDiscriminator {
+  /** TrafficThrottleByJwtSignatureRule */
+  TrafficThrottleByJwtSignatureRule = "TrafficThrottleByJwtSignatureRule",
+  /** TrafficThrottleByUserIdRule */
+  TrafficThrottleByUserIdRule = "TrafficThrottleByUserIdRule",
+  /** TrafficThrottleByJwtCustomClaimRule */
+  TrafficThrottleByJwtCustomClaimRule = "TrafficThrottleByJwtCustomClaimRule",
+}
+
+/**
+ * Defines values for ClientTrafficControlRuleDiscriminator. \
+ * {@link KnownClientTrafficControlRuleDiscriminator} can be used interchangeably with ClientTrafficControlRuleDiscriminator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrafficThrottleByJwtSignatureRule** \
+ * **TrafficThrottleByUserIdRule** \
+ * **TrafficThrottleByJwtCustomClaimRule**
+ */
+export type ClientTrafficControlRuleDiscriminator = string;
 
 /** Known values of {@link ServiceKind} that the service accepts. */
 export enum KnownServiceKind {

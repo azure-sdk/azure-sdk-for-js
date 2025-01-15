@@ -910,6 +910,87 @@ export const IPRule: coreClient.CompositeMapper = {
   },
 };
 
+export const ApplicationFirewallSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplicationFirewallSettings",
+    modelProperties: {
+      clientConnectionCountRules: {
+        constraints: {
+          MaxItems: 10,
+        },
+        serializedName: "clientConnectionCountRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientConnectionCountRule",
+            },
+          },
+        },
+      },
+      clientTrafficControlRules: {
+        constraints: {
+          MaxItems: 10,
+        },
+        serializedName: "clientTrafficControlRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientTrafficControlRule",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ClientConnectionCountRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClientConnectionCountRule",
+    uberParent: "ClientConnectionCountRule",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClientTrafficControlRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClientTrafficControlRule",
+    uberParent: "ClientTrafficControlRule",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const WebPubSubSocketIOSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1644,6 +1725,197 @@ export const PrivateEndpointACL: coreClient.CompositeMapper = {
   },
 };
 
+export const ThrottleByJwtCustomClaimRule: coreClient.CompositeMapper = {
+  serializedName: "ThrottleByJwtCustomClaimRule",
+  type: {
+    name: "Composite",
+    className: "ThrottleByJwtCustomClaimRule",
+    uberParent: "ClientConnectionCountRule",
+    polymorphicDiscriminator:
+      ClientConnectionCountRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientConnectionCountRule.type.modelProperties,
+      claimName: {
+        serializedName: "claimName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      maxCount: {
+        defaultValue: 20,
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ThrottleByJwtSignatureRule: coreClient.CompositeMapper = {
+  serializedName: "ThrottleByJwtSignatureRule",
+  type: {
+    name: "Composite",
+    className: "ThrottleByJwtSignatureRule",
+    uberParent: "ClientConnectionCountRule",
+    polymorphicDiscriminator:
+      ClientConnectionCountRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientConnectionCountRule.type.modelProperties,
+      maxCount: {
+        defaultValue: 20,
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ThrottleByUserIdRule: coreClient.CompositeMapper = {
+  serializedName: "ThrottleByUserIdRule",
+  type: {
+    name: "Composite",
+    className: "ThrottleByUserIdRule",
+    uberParent: "ClientConnectionCountRule",
+    polymorphicDiscriminator:
+      ClientConnectionCountRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientConnectionCountRule.type.modelProperties,
+      maxCount: {
+        defaultValue: 20,
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxCount",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TrafficThrottleByJwtCustomClaimRule: coreClient.CompositeMapper = {
+  serializedName: "TrafficThrottleByJwtCustomClaimRule",
+  type: {
+    name: "Composite",
+    className: "TrafficThrottleByJwtCustomClaimRule",
+    uberParent: "ClientTrafficControlRule",
+    polymorphicDiscriminator:
+      ClientTrafficControlRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientTrafficControlRule.type.modelProperties,
+      claimName: {
+        serializedName: "claimName",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      maxInboundMessageBytes: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxInboundMessageBytes",
+        type: {
+          name: "Number",
+        },
+      },
+      aggregationWindowInSeconds: {
+        defaultValue: 60,
+        constraints: {
+          InclusiveMaximum: 3600,
+          InclusiveMinimum: 10,
+        },
+        serializedName: "aggregationWindowInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TrafficThrottleByJwtSignatureRule: coreClient.CompositeMapper = {
+  serializedName: "TrafficThrottleByJwtSignatureRule",
+  type: {
+    name: "Composite",
+    className: "TrafficThrottleByJwtSignatureRule",
+    uberParent: "ClientTrafficControlRule",
+    polymorphicDiscriminator:
+      ClientTrafficControlRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientTrafficControlRule.type.modelProperties,
+      maxInboundMessageBytes: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxInboundMessageBytes",
+        type: {
+          name: "Number",
+        },
+      },
+      aggregationWindowInSeconds: {
+        defaultValue: 60,
+        constraints: {
+          InclusiveMaximum: 3600,
+          InclusiveMinimum: 10,
+        },
+        serializedName: "aggregationWindowInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const TrafficThrottleByUserIdRule: coreClient.CompositeMapper = {
+  serializedName: "TrafficThrottleByUserIdRule",
+  type: {
+    name: "Composite",
+    className: "TrafficThrottleByUserIdRule",
+    uberParent: "ClientTrafficControlRule",
+    polymorphicDiscriminator:
+      ClientTrafficControlRule.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClientTrafficControlRule.type.modelProperties,
+      maxInboundMessageBytes: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxInboundMessageBytes",
+        type: {
+          name: "Number",
+        },
+      },
+      aggregationWindowInSeconds: {
+        defaultValue: 60,
+        constraints: {
+          InclusiveMaximum: 3600,
+          InclusiveMinimum: 10,
+        },
+        serializedName: "aggregationWindowInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const EventNameFilter: coreClient.CompositeMapper = {
   serializedName: "EventName",
   type: {
@@ -1774,6 +2046,17 @@ export const SharedPrivateLinkResource: coreClient.CompositeMapper = {
         serializedName: "properties.requestMessage",
         type: {
           name: "String",
+        },
+      },
+      fqdns: {
+        serializedName: "properties.fqdns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
       status: {
@@ -2051,6 +2334,13 @@ export const WebPubSubResource: coreClient.CompositeMapper = {
           className: "WebPubSubNetworkACLs",
         },
       },
+      applicationFirewall: {
+        serializedName: "properties.applicationFirewall",
+        type: {
+          name: "Composite",
+          className: "ApplicationFirewallSettings",
+        },
+      },
       publicNetworkAccess: {
         defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
@@ -2211,8 +2501,21 @@ export const WebPubSubReplicasRestartHeaders: coreClient.CompositeMapper = {
 };
 
 export let discriminators = {
+  ClientConnectionCountRule: ClientConnectionCountRule,
+  ClientTrafficControlRule: ClientTrafficControlRule,
   EventListenerFilter: EventListenerFilter,
   EventListenerEndpoint: EventListenerEndpoint,
+  "ClientConnectionCountRule.ThrottleByJwtCustomClaimRule":
+    ThrottleByJwtCustomClaimRule,
+  "ClientConnectionCountRule.ThrottleByJwtSignatureRule":
+    ThrottleByJwtSignatureRule,
+  "ClientConnectionCountRule.ThrottleByUserIdRule": ThrottleByUserIdRule,
+  "ClientTrafficControlRule.TrafficThrottleByJwtCustomClaimRule":
+    TrafficThrottleByJwtCustomClaimRule,
+  "ClientTrafficControlRule.TrafficThrottleByJwtSignatureRule":
+    TrafficThrottleByJwtSignatureRule,
+  "ClientTrafficControlRule.TrafficThrottleByUserIdRule":
+    TrafficThrottleByUserIdRule,
   "EventListenerFilter.EventName": EventNameFilter,
   "EventListenerEndpoint.EventHub": EventHubEndpoint,
 };

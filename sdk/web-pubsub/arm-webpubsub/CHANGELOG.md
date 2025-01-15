@@ -1,15 +1,29 @@
 # Release History
-
-## 1.2.1 (Unreleased)
-
+    
+## 1.3.0-beta.1 (2025-01-15)
+Compared with version 1.2.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ApplicationFirewallSettings
+  - Added Interface ClientConnectionCountRule
+  - Added Interface ClientTrafficControlRule
+  - Added Interface ThrottleByJwtCustomClaimRule
+  - Added Interface ThrottleByJwtSignatureRule
+  - Added Interface ThrottleByUserIdRule
+  - Added Interface TrafficThrottleByJwtCustomClaimRule
+  - Added Interface TrafficThrottleByJwtSignatureRule
+  - Added Interface TrafficThrottleByUserIdRule
+  - Added Type Alias ClientConnectionCountRuleDiscriminator
+  - Added Type Alias ClientConnectionCountRuleUnion
+  - Added Type Alias ClientTrafficControlRuleDiscriminator
+  - Added Type Alias ClientTrafficControlRuleUnion
+  - Interface SharedPrivateLinkResource has a new optional parameter fqdns
+  - Interface WebPubSubResource has a new optional parameter applicationFirewall
+  - Added Enum KnownClientConnectionCountRuleDiscriminator
+  - Added Enum KnownClientTrafficControlRuleDiscriminator
+    
+    
 ## 1.2.0 (2024-09-11)
     
 ### Features Added

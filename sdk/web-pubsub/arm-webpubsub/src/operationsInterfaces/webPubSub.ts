@@ -56,7 +56,7 @@ export interface WebPubSub {
   ): PagedAsyncIterableIterator<WebPubSubResource>;
   /**
    * Checks that the resource name is valid and is not already in use.
-   * @param location the region
+   * @param location The region
    * @param parameters Parameters supplied to the operation.
    * @param options The options parameters.
    */
