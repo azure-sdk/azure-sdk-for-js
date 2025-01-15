@@ -36,7 +36,7 @@ import {
   MsixImageURI as MsixImageURIMapper,
   AppAttachPackage as AppAttachPackageMapper,
   AppAttachPackagePatch as AppAttachPackagePatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -65,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-03",
+    defaultValue: "2024-09-10",
     isConstant: true,
     serializedName: "api-version",
     type: {
