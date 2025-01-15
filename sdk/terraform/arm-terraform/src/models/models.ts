@@ -92,6 +92,10 @@ export interface ExportQuery extends BaseExportModel {
   recursive?: boolean;
   /** The parameter type */
   type: "ExportQuery";
+  /** The ARG table name */
+  table?: string;
+  /** The ARG Scope Filter parameter */
+  authorizationScopeFilter?: AuthorizationScopeFilter;
 }
 
 export function exportQuerySerializer(item: ExportQuery): any {
@@ -103,8 +107,34 @@ export function exportQuerySerializer(item: ExportQuery): any {
     query: item["query"],
     namePattern: item["namePattern"],
     recursive: item["recursive"],
+    table: item["table"],
+    authorizationScopeFilter: item["authorizationScopeFilter"],
   };
 }
+
+/** The Azure Resource Graph Authorization Scope Filter parameter */
+export enum KnownAuthorizationScopeFilter {
+  /** Returns assignments for the given scope and all child scopes. */
+  AtScopeAndBelow = "AtScopeAndBelow",
+  /** Returns assignments for the given scope and all parent scopes, but not child scopes. */
+  AtScopeAndAbove = "AtScopeAndAbove",
+  /** Returns assignments for the given scope, all parent scopes, and all child scopes. */
+  AtScopeAboveAndBelow = "AtScopeAboveAndBelow",
+  /** Returns assignments only for the given scope; no parent or child scopes are included. */
+  AtScopeExact = "AtScopeExact",
+}
+
+/**
+ * The Azure Resource Graph Authorization Scope Filter parameter \
+ * {@link KnownauthorizationScopeFilter} can be used interchangeably with authorizationScopeFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AtScopeAndBelow**: Returns assignments for the given scope and all child scopes. \
+ * **AtScopeAndAbove**: Returns assignments for the given scope and all parent scopes, but not child scopes. \
+ * **AtScopeAboveAndBelow**: Returns assignments for the given scope, all parent scopes, and all child scopes. \
+ * **AtScopeExact**: Returns assignments only for the given scope; no parent or child scopes are included.
+ */
+export type AuthorizationScopeFilter = string;
 
 /** Export parameter for individual resources. */
 export interface ExportResource extends BaseExportModel {
@@ -252,6 +282,8 @@ export function terraformOperationStatusDeserializer(item: any): TerraformOperat
 export interface ExportResult {
   /** The Terraform configuration content */
   configuration?: string;
+  /** The Terraform import blocks for the current export, which users can use to run "terraform plan" with to import the resources */
+  import?: string;
   /** A list of Azure resources which are not exported to Terraform due to there is no corresponding resources in Terraform */
   skippedResources?: string[];
   /** A list of errors derived during exporting each resource */
@@ -261,6 +293,7 @@ export interface ExportResult {
 export function exportResultDeserializer(item: any): ExportResult {
   return {
     configuration: item["configuration"],
+    import: item["import"],
     skippedResources: !item["skippedResources"]
       ? item["skippedResources"]
       : item["skippedResources"].map((p: any) => {
@@ -319,11 +352,11 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
+  display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
+  readonly actionType?: ActionType;
 }
 
 export function operationDeserializer(item: any): Operation {
@@ -357,14 +390,14 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
   };
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
-  User = "user",
-  /** system */
-  System = "system",
-  /** user,system */
-  UserSystem = "user,system",
+  /** Indicates the operation is initiated by a user. */
+  user = "user",
+  /** Indicates the operation is initiated by a system. */
+  system = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  "user,system" = "user,system",
 }
 
 /**
@@ -372,9 +405,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 

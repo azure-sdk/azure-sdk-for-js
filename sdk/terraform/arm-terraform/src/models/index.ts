@@ -9,6 +9,8 @@ export {
   KnownTargetProvider,
   TargetProvider,
   ExportQuery,
+  KnownAuthorizationScopeFilter,
+  AuthorizationScopeFilter,
   ExportResource,
   ExportResourceGroup,
   ErrorDetail,

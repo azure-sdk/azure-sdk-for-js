@@ -78,7 +78,7 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.AzureTerraform/exportTerraform": {
     deserializer: _terraformExportTerraformDeserialize,
-    expectedStatuses: ["202", "200"],
+    expectedStatuses: ["202", "202", "200"],
   },
 };
 

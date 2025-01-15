@@ -16,6 +16,9 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export type ActionType = string;
 
+// @public
+export type AuthorizationScopeFilter = string;
+
 // @public (undocumented)
 export class AzureTerraformClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureTerraformClientOptionalParams);
@@ -62,9 +65,11 @@ export interface ErrorDetail {
 
 // @public
 export interface ExportQuery extends BaseExportModel {
+    authorizationScopeFilter?: AuthorizationScopeFilter;
     namePattern?: string;
     query: string;
     recursive?: boolean;
+    table?: string;
     type: "ExportQuery";
 }
 
@@ -88,6 +93,7 @@ export interface ExportResourceGroup extends BaseExportModel {
 export interface ExportResult {
     configuration?: string;
     errors?: ErrorDetail[];
+    import?: string;
     skippedResources?: string[];
 }
 
@@ -97,10 +103,18 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAuthorizationScopeFilter {
+    AtScopeAboveAndBelow = "AtScopeAboveAndBelow",
+    AtScopeAndAbove = "AtScopeAndAbove",
+    AtScopeAndBelow = "AtScopeAndBelow",
+    AtScopeExact = "AtScopeExact"
+}
+
+// @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -133,8 +147,8 @@ export enum KnownVersions {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
