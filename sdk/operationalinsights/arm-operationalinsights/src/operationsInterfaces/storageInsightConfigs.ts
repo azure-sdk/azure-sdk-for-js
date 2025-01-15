@@ -14,8 +14,8 @@ import {
   StorageInsightConfigsCreateOrUpdateResponse,
   StorageInsightConfigsGetOptionalParams,
   StorageInsightConfigsGetResponse,
-  StorageInsightConfigsDeleteOptionalParams
-} from "../models";
+  StorageInsightConfigsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageInsightConfigs. */
@@ -29,7 +29,7 @@ export interface StorageInsightConfigs {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: StorageInsightConfigsListByWorkspaceOptionalParams
+    options?: StorageInsightConfigsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<StorageInsight>;
   /**
    * Create or update a storage insight.
@@ -44,7 +44,7 @@ export interface StorageInsightConfigs {
     workspaceName: string,
     storageInsightName: string,
     parameters: StorageInsight,
-    options?: StorageInsightConfigsCreateOrUpdateOptionalParams
+    options?: StorageInsightConfigsCreateOrUpdateOptionalParams,
   ): Promise<StorageInsightConfigsCreateOrUpdateResponse>;
   /**
    * Gets a storage insight instance.
@@ -57,7 +57,7 @@ export interface StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     storageInsightName: string,
-    options?: StorageInsightConfigsGetOptionalParams
+    options?: StorageInsightConfigsGetOptionalParams,
   ): Promise<StorageInsightConfigsGetResponse>;
   /**
    * Deletes a storageInsightsConfigs resource
@@ -70,6 +70,6 @@ export interface StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     storageInsightName: string,
-    options?: StorageInsightConfigsDeleteOptionalParams
+    options?: StorageInsightConfigsDeleteOptionalParams,
   ): Promise<void>;
 }

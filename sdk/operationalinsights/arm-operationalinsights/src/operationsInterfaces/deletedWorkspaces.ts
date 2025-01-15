@@ -10,8 +10,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Workspace,
   DeletedWorkspacesListOptionalParams,
-  DeletedWorkspacesListByResourceGroupOptionalParams
-} from "../models";
+  DeletedWorkspacesListByResourceGroupOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeletedWorkspaces. */
@@ -21,7 +21,7 @@ export interface DeletedWorkspaces {
    * @param options The options parameters.
    */
   list(
-    options?: DeletedWorkspacesListOptionalParams
+    options?: DeletedWorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Gets recently deleted workspaces in a resource group, available for recovery.
@@ -30,6 +30,6 @@ export interface DeletedWorkspaces {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DeletedWorkspacesListByResourceGroupOptionalParams
+    options?: DeletedWorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
 }

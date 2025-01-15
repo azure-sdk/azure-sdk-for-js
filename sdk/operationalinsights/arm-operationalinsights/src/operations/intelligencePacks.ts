@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntelligencePacks } from "../operationsInterfaces";
+import { IntelligencePacks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   IntelligencePacksDisableOptionalParams,
   IntelligencePacksEnableOptionalParams,
   IntelligencePacksListOptionalParams,
-  IntelligencePacksListResponse
-} from "../models";
+  IntelligencePacksListResponse,
+} from "../models/index.js";
 
 /** Class containing IntelligencePacks operations. */
 export class IntelligencePacksImpl implements IntelligencePacks {
@@ -41,11 +41,11 @@ export class IntelligencePacksImpl implements IntelligencePacks {
     resourceGroupName: string,
     workspaceName: string,
     intelligencePackName: string,
-    options?: IntelligencePacksDisableOptionalParams
+    options?: IntelligencePacksDisableOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, intelligencePackName, options },
-      disableOperationSpec
+      disableOperationSpec,
     );
   }
 
@@ -60,11 +60,11 @@ export class IntelligencePacksImpl implements IntelligencePacks {
     resourceGroupName: string,
     workspaceName: string,
     intelligencePackName: string,
-    options?: IntelligencePacksEnableOptionalParams
+    options?: IntelligencePacksEnableOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, intelligencePackName, options },
-      enableOperationSpec
+      enableOperationSpec,
     );
   }
 
@@ -78,11 +78,11 @@ export class IntelligencePacksImpl implements IntelligencePacks {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: IntelligencePacksListOptionalParams
+    options?: IntelligencePacksListOptionalParams,
   ): Promise<IntelligencePacksListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -90,38 +90,35 @@ export class IntelligencePacksImpl implements IntelligencePacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const disableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Disable",
   httpMethod: "POST",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.intelligencePackName
+    Parameters.intelligencePackName,
   ],
-  serializer
+  serializer,
 };
 const enableOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks/{intelligencePackName}/Enable",
   httpMethod: "POST",
   responses: { 200: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.intelligencePackName
+    Parameters.intelligencePackName,
   ],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/intelligencePacks",
   httpMethod: "GET",
   responses: {
     200: {
@@ -129,19 +126,19 @@ const listOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "IntelligencePack" }
-          }
-        }
-      }
-    }
+            type: { name: "Composite", className: "IntelligencePack" },
+          },
+        },
+      },
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

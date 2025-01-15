@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SchemaOperations } from "../operationsInterfaces";
+import { SchemaOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
-import { SchemaGetOptionalParams, SchemaGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
+import { SchemaGetOptionalParams, SchemaGetResponse } from "../models/index.js";
 
 /** Class containing SchemaOperations operations. */
 export class SchemaOperationsImpl implements SchemaOperations {
@@ -34,11 +34,11 @@ export class SchemaOperationsImpl implements SchemaOperations {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SchemaGetOptionalParams
+    options?: SchemaGetOptionalParams,
   ): Promise<SchemaGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -46,21 +46,20 @@ export class SchemaOperationsImpl implements SchemaOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/schema",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/schema",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchGetSchemaResponse
-    }
+      bodyMapper: Mappers.SearchGetSchemaResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

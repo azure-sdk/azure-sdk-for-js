@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { StorageInsightConfigs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { StorageInsightConfigs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   StorageInsight,
   StorageInsightConfigsListByWorkspaceNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   StorageInsightConfigsGetOptionalParams,
   StorageInsightConfigsGetResponse,
   StorageInsightConfigsDeleteOptionalParams,
-  StorageInsightConfigsListByWorkspaceNextResponse
-} from "../models";
+  StorageInsightConfigsListByWorkspaceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageInsightConfigs operations. */
@@ -48,12 +48,12 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: StorageInsightConfigsListByWorkspaceOptionalParams
+    options?: StorageInsightConfigsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<StorageInsight> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     options?: StorageInsightConfigsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageInsight[]> {
     let result: StorageInsightConfigsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.odataNextLink;
@@ -100,7 +100,7 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.odataNextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: StorageInsightConfigsListByWorkspaceOptionalParams
+    options?: StorageInsightConfigsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<StorageInsight> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,7 +136,7 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
     workspaceName: string,
     storageInsightName: string,
     parameters: StorageInsight,
-    options?: StorageInsightConfigsCreateOrUpdateOptionalParams
+    options?: StorageInsightConfigsCreateOrUpdateOptionalParams,
   ): Promise<StorageInsightConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -144,9 +144,9 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
         workspaceName,
         storageInsightName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     storageInsightName: string,
-    options?: StorageInsightConfigsGetOptionalParams
+    options?: StorageInsightConfigsGetOptionalParams,
   ): Promise<StorageInsightConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, storageInsightName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,11 +180,11 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     storageInsightName: string,
-    options?: StorageInsightConfigsDeleteOptionalParams
+    options?: StorageInsightConfigsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, storageInsightName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: StorageInsightConfigsListByWorkspaceOptionalParams
+    options?: StorageInsightConfigsListByWorkspaceOptionalParams,
   ): Promise<StorageInsightConfigsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -216,11 +216,11 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: StorageInsightConfigsListByWorkspaceNextOptionalParams
+    options?: StorageInsightConfigsListByWorkspaceNextOptionalParams,
   ): Promise<StorageInsightConfigsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -228,99 +228,95 @@ export class StorageInsightConfigsImpl implements StorageInsightConfigs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageInsight
+      bodyMapper: Mappers.StorageInsight,
     },
     201: {
-      bodyMapper: Mappers.StorageInsight
-    }
+      bodyMapper: Mappers.StorageInsight,
+    },
   },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters7,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.storageInsightName
+    Parameters.storageInsightName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageInsight
-    }
+      bodyMapper: Mappers.StorageInsight,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.storageInsightName
+    Parameters.storageInsightName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs/{storageInsightName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.storageInsightName
+    Parameters.storageInsightName,
   ],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/storageInsightConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageInsightListResult
-    }
+      bodyMapper: Mappers.StorageInsightListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageInsightListResult
-    }
+      bodyMapper: Mappers.StorageInsightListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

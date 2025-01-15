@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { QueryPacks } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { QueryPacks } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   LogAnalyticsQueryPack,
   QueryPacksListNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   QueryPacksUpdateTagsOptionalParams,
   QueryPacksUpdateTagsResponse,
   QueryPacksListNextResponse,
-  QueryPacksListByResourceGroupNextResponse
-} from "../models";
+  QueryPacksListByResourceGroupNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QueryPacks operations. */
@@ -53,7 +53,7 @@ export class QueryPacksImpl implements QueryPacks {
    * @param options The options parameters.
    */
   public list(
-    options?: QueryPacksListOptionalParams
+    options?: QueryPacksListOptionalParams,
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPack> {
     const iter = this.listPagingAll(options);
     return {
@@ -68,13 +68,13 @@ export class QueryPacksImpl implements QueryPacks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: QueryPacksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogAnalyticsQueryPack[]> {
     let result: QueryPacksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class QueryPacksImpl implements QueryPacks {
   }
 
   private async *listPagingAll(
-    options?: QueryPacksListOptionalParams
+    options?: QueryPacksListOptionalParams,
   ): AsyncIterableIterator<LogAnalyticsQueryPack> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -109,7 +109,7 @@ export class QueryPacksImpl implements QueryPacks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: QueryPacksListByResourceGroupOptionalParams
+    options?: QueryPacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPack> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -126,16 +126,16 @@ export class QueryPacksImpl implements QueryPacks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: QueryPacksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LogAnalyticsQueryPack[]> {
     let result: QueryPacksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class QueryPacksImpl implements QueryPacks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,11 +161,11 @@ export class QueryPacksImpl implements QueryPacks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: QueryPacksListByResourceGroupOptionalParams
+    options?: QueryPacksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<LogAnalyticsQueryPack> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -176,7 +176,7 @@ export class QueryPacksImpl implements QueryPacks {
    * @param options The options parameters.
    */
   private _list(
-    options?: QueryPacksListOptionalParams
+    options?: QueryPacksListOptionalParams,
   ): Promise<QueryPacksListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -188,11 +188,11 @@ export class QueryPacksImpl implements QueryPacks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: QueryPacksListByResourceGroupOptionalParams
+    options?: QueryPacksListByResourceGroupOptionalParams,
   ): Promise<QueryPacksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -207,11 +207,11 @@ export class QueryPacksImpl implements QueryPacks {
   createOrUpdateWithoutName(
     resourceGroupName: string,
     logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
-    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams
+    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams,
   ): Promise<QueryPacksCreateOrUpdateWithoutNameResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, logAnalyticsQueryPackPayload, options },
-      createOrUpdateWithoutNameOperationSpec
+      createOrUpdateWithoutNameOperationSpec,
     );
   }
 
@@ -224,11 +224,11 @@ export class QueryPacksImpl implements QueryPacks {
   delete(
     resourceGroupName: string,
     queryPackName: string,
-    options?: QueryPacksDeleteOptionalParams
+    options?: QueryPacksDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, queryPackName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -241,11 +241,11 @@ export class QueryPacksImpl implements QueryPacks {
   get(
     resourceGroupName: string,
     queryPackName: string,
-    options?: QueryPacksGetOptionalParams
+    options?: QueryPacksGetOptionalParams,
   ): Promise<QueryPacksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, queryPackName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -262,16 +262,16 @@ export class QueryPacksImpl implements QueryPacks {
     resourceGroupName: string,
     queryPackName: string,
     logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
-    options?: QueryPacksCreateOrUpdateOptionalParams
+    options?: QueryPacksCreateOrUpdateOptionalParams,
   ): Promise<QueryPacksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         queryPackName,
         logAnalyticsQueryPackPayload,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -286,11 +286,11 @@ export class QueryPacksImpl implements QueryPacks {
     resourceGroupName: string,
     queryPackName: string,
     queryPackTags: TagsResource,
-    options?: QueryPacksUpdateTagsOptionalParams
+    options?: QueryPacksUpdateTagsOptionalParams,
   ): Promise<QueryPacksUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, queryPackName, queryPackTags, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -301,11 +301,11 @@ export class QueryPacksImpl implements QueryPacks {
    */
   private _listNext(
     nextLink: string,
-    options?: QueryPacksListNextOptionalParams
+    options?: QueryPacksListNextOptionalParams,
   ): Promise<QueryPacksListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -318,11 +318,11 @@ export class QueryPacksImpl implements QueryPacks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: QueryPacksListByResourceGroupNextOptionalParams
+    options?: QueryPacksListByResourceGroupNextOptionalParams,
   ): Promise<QueryPacksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -330,120 +330,114 @@ export class QueryPacksImpl implements QueryPacks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/queryPacks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/queryPacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPackListResult
+      bodyMapper: Mappers.LogAnalyticsQueryPackListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPackListResult
+      bodyMapper: Mappers.LogAnalyticsQueryPackListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateWithoutNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.LogAnalyticsQueryPack
+      bodyMapper: Mappers.LogAnalyticsQueryPack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logAnalyticsQueryPackPayload,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName
+    Parameters.queryPackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPack
+      bodyMapper: Mappers.LogAnalyticsQueryPack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName
+    Parameters.queryPackName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPack
+      bodyMapper: Mappers.LogAnalyticsQueryPack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logAnalyticsQueryPackPayload,
   queryParameters: [Parameters.apiVersion],
@@ -451,23 +445,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName
+    Parameters.queryPackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPack
+      bodyMapper: Mappers.LogAnalyticsQueryPack,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.queryPackTags,
   queryParameters: [Parameters.apiVersion],
@@ -475,48 +468,48 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.queryPackName
+    Parameters.queryPackName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPackListResult
+      bodyMapper: Mappers.LogAnalyticsQueryPackListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LogAnalyticsQueryPackListResult
+      bodyMapper: Mappers.LogAnalyticsQueryPackListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ManagementGroup, ManagementGroupsListOptionalParams } from "../models";
+import { ManagementGroup, ManagementGroupsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagementGroups. */
@@ -21,6 +21,6 @@ export interface ManagementGroups {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagementGroup>;
 }

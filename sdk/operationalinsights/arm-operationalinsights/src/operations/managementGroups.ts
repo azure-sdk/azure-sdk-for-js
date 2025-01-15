@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ManagementGroups } from "../operationsInterfaces";
+import { ManagementGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   ManagementGroup,
   ManagementGroupsListOptionalParams,
-  ManagementGroupsListResponse
-} from "../models";
+  ManagementGroupsListResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroups operations. */
@@ -40,7 +40,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagementGroup> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -58,9 +58,9 @@ export class ManagementGroupsImpl implements ManagementGroups {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -68,7 +68,7 @@ export class ManagementGroupsImpl implements ManagementGroups {
     resourceGroupName: string,
     workspaceName: string,
     options?: ManagementGroupsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ManagementGroup[]> {
     let result: ManagementGroupsListResponse;
     result = await this._list(resourceGroupName, workspaceName, options);
@@ -78,12 +78,12 @@ export class ManagementGroupsImpl implements ManagementGroups {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): AsyncIterableIterator<ManagementGroup> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -98,11 +98,11 @@ export class ManagementGroupsImpl implements ManagementGroups {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): Promise<ManagementGroupsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -110,21 +110,20 @@ export class ManagementGroupsImpl implements ManagementGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/managementGroups",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/managementGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListManagementGroupsResult
-    }
+      bodyMapper: Mappers.WorkspaceListManagementGroupsResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

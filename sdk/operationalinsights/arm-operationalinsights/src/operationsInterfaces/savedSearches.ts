@@ -14,8 +14,8 @@ import {
   SavedSearchesGetOptionalParams,
   SavedSearchesGetResponse,
   SavedSearchesListByWorkspaceOptionalParams,
-  SavedSearchesListByWorkspaceResponse
-} from "../models";
+  SavedSearchesListByWorkspaceResponse,
+} from "../models/index.js";
 
 /** Interface representing a SavedSearches. */
 export interface SavedSearches {
@@ -30,7 +30,7 @@ export interface SavedSearches {
     resourceGroupName: string,
     workspaceName: string,
     savedSearchId: string,
-    options?: SavedSearchesDeleteOptionalParams
+    options?: SavedSearchesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Creates or updates a saved search for a given workspace.
@@ -45,7 +45,7 @@ export interface SavedSearches {
     workspaceName: string,
     savedSearchId: string,
     parameters: SavedSearch,
-    options?: SavedSearchesCreateOrUpdateOptionalParams
+    options?: SavedSearchesCreateOrUpdateOptionalParams,
   ): Promise<SavedSearchesCreateOrUpdateResponse>;
   /**
    * Gets the specified saved search for a given workspace.
@@ -58,7 +58,7 @@ export interface SavedSearches {
     resourceGroupName: string,
     workspaceName: string,
     savedSearchId: string,
-    options?: SavedSearchesGetOptionalParams
+    options?: SavedSearchesGetOptionalParams,
   ): Promise<SavedSearchesGetResponse>;
   /**
    * Gets the saved searches for a given Log Analytics Workspace
@@ -69,6 +69,6 @@ export interface SavedSearches {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SavedSearchesListByWorkspaceOptionalParams
+    options?: SavedSearchesListByWorkspaceOptionalParams,
   ): Promise<SavedSearchesListByWorkspaceResponse>;
 }
