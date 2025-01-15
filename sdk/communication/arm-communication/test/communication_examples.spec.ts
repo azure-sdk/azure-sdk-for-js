@@ -45,21 +45,21 @@ describe("CommunicationService test", () => {
   let resourceGroup: string;
   let communicationServiceName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new CommunicationServiceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "global";
-    resourceGroup = "myjstest";
-    communicationServiceName = "mycommunicationServicexxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new CommunicationServiceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "global";
+      resourceGroup = "myjstest";
+      communicationServiceName = "mycommunicationServicexxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("communicationService create test", async function () {
     const res = await client.communicationServices.beginCreateOrUpdateAndWait(resourceGroup, communicationServiceName, { location: location, dataLocation: "UnitedStates" }, testPollingOptions);
