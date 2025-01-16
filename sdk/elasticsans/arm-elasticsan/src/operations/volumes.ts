@@ -613,7 +613,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.deleteType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -671,7 +671,10 @@ const listByVolumeGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.elasticSanName,
     Parameters.volumeGroupName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
   serializer,
 };
 const listByVolumeGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -693,6 +696,9 @@ const listByVolumeGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.volumeGroupName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.xMsAccessSoftDeletedResources,
+  ],
   serializer,
 };
