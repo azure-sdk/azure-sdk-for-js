@@ -39,7 +39,7 @@ import {
   InitiateTransferRequest as InitiateTransferRequestMapper,
   PartnerInitiateTransferRequest as PartnerInitiateTransferRequestMapper,
   AcceptTransferRequest as AcceptTransferRequestMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

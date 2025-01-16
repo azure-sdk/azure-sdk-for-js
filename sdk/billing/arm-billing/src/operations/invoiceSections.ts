@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { InvoiceSections } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { InvoiceSections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { BillingManagementClient } from "../billingManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { BillingManagementClient } from "../billingManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   InvoiceSection,
   InvoiceSectionsListByBillingProfileNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   InvoiceSectionsCreateOrUpdateOptionalParams,
   InvoiceSectionsCreateOrUpdateResponse,
   InvoiceSectionsListByBillingProfileNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing InvoiceSections operations. */

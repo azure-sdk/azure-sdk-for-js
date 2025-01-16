@@ -27,7 +27,7 @@ import {
   BillingAccountPatch,
   BillingAccountsUpdateOptionalParams,
   BillingAccountsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingAccounts. */

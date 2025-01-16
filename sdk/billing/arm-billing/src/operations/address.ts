@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Address } from "../operationsInterfaces/index.js";
+import { Address } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { BillingManagementClient } from "../billingManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { BillingManagementClient } from "../billingManagementClient";
 import {
   AddressDetails,
   AddressValidateOptionalParams,
   AddressValidateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Address operations. */
 export class AddressImpl implements Address {

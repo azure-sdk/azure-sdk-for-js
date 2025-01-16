@@ -11,7 +11,7 @@ import {
   AvailableBalancesGetByBillingAccountResponse,
   AvailableBalancesGetByBillingProfileOptionalParams,
   AvailableBalancesGetByBillingProfileResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a AvailableBalances. */
 export interface AvailableBalances {

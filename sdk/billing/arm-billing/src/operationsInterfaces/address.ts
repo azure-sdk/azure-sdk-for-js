@@ -10,7 +10,7 @@ import {
   AddressDetails,
   AddressValidateOptionalParams,
   AddressValidateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Address. */
 export interface Address {

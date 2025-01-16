@@ -20,7 +20,7 @@ import {
   SavingsPlanUpdateValidateRequest,
   SavingsPlansValidateUpdateByBillingAccountOptionalParams,
   SavingsPlansValidateUpdateByBillingAccountResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SavingsPlans. */

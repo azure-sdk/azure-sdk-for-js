@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { BillingRoleDefinitionOperations } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { BillingRoleDefinitionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { BillingManagementClient } from "../billingManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { BillingManagementClient } from "../billingManagementClient";
 import {
   BillingRoleDefinition,
   BillingRoleDefinitionListByBillingProfileNextOptionalParams,
@@ -51,7 +51,7 @@ import {
   BillingRoleDefinitionListByBillingAccountNextResponse,
   BillingRoleDefinitionListByDepartmentNextResponse,
   BillingRoleDefinitionListByEnrollmentAccountNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BillingRoleDefinitionOperations operations. */

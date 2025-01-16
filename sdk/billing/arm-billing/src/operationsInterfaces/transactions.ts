@@ -19,7 +19,7 @@ import {
   TransactionsTransactionsDownloadByInvoiceResponse,
   TransactionsGetTransactionSummaryByInvoiceOptionalParams,
   TransactionsGetTransactionSummaryByInvoiceResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Transactions. */

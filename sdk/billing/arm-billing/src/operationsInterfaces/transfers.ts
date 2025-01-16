@@ -17,7 +17,7 @@ import {
   TransfersInitiateResponse,
   TransfersCancelOptionalParams,
   TransfersCancelResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Transfers. */

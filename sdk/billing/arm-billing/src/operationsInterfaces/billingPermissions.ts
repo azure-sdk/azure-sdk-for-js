@@ -29,7 +29,7 @@ import {
   BillingPermissionsCheckAccessByDepartmentResponse,
   BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams,
   BillingPermissionsCheckAccessByEnrollmentAccountResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingPermissions. */

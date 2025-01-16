@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { BillingPermissions } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { BillingPermissions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { BillingManagementClient } from "../billingManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { BillingManagementClient } from "../billingManagementClient";
 import {
   BillingPermission,
   BillingPermissionsListByBillingAccountNextOptionalParams,
@@ -56,7 +56,7 @@ import {
   BillingPermissionsListByCustomerAtBillingAccountNextResponse,
   BillingPermissionsListByDepartmentNextResponse,
   BillingPermissionsListByEnrollmentAccountNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BillingPermissions operations. */

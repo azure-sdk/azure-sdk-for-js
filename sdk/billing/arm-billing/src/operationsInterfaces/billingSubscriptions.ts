@@ -39,7 +39,7 @@ import {
   BillingSubscriptionPatch,
   BillingSubscriptionsUpdateOptionalParams,
   BillingSubscriptionsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingSubscriptions. */

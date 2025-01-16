@@ -45,7 +45,7 @@ import {
   TransfersImpl,
   PartnerTransfersImpl,
   RecipientTransfersImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Agreements,
   AssociatedTenants,
@@ -77,8 +77,8 @@ import {
   Transfers,
   PartnerTransfers,
   RecipientTransfers,
-} from "./operationsInterfaces/index.js";
-import { BillingManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { BillingManagementClientOptionalParams } from "./models";
 
 export class BillingManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -126,7 +126,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-billing/5.0.1`;
+    const packageDetails = `azsdk-js-arm-billing/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
