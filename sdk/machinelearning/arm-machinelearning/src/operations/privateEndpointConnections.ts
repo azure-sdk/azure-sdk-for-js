@@ -16,11 +16,11 @@ import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
+  PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,9 +39,9 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all the private endpoint connections associated with the workspace.
+   * Called by end-users to get all PE connections.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   public list(
@@ -97,9 +97,9 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * List all the private endpoint connections associated with the workspace.
+   * Called by end-users to get all PE connections.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   private _list(
@@ -114,11 +114,34 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the workspace.
+   * Called by end-users to delete a PE connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    workspaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        privateEndpointConnectionName,
+        options,
+      },
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Called by end-users to get a PE connection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
    * @param options The options parameters.
    */
   get(
@@ -139,19 +162,19 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the workspace.
+   * Called by end-users to approve or reject a PE connection.
+   * This method must validate and forward the call to NRP.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
-   * @param properties The private endpoint connection properties.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param privateEndpointConnectionName NRP Private Endpoint Connection Name
+   * @param body PrivateEndpointConnection object
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
+    body: PrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -159,35 +182,10 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        properties,
+        body,
         options,
       },
       createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Deletes the specified private endpoint connection associated with the workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      workspace
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        privateEndpointConnectionName,
-        options,
-      },
-      deleteOperationSpec,
     );
   }
 }
@@ -211,6 +209,27 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -248,7 +267,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties,
+  requestBody: Parameters.body58,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -259,26 +278,5 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
