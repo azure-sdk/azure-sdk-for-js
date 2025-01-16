@@ -3499,6 +3499,8 @@ export interface PacketCapture {
   timeLimitInSeconds?: number;
   /** The storage location for a packet capture session. */
   storageLocation: PacketCaptureStorageLocation;
+  /** The storage setting for a packet capture session. */
+  storageSettings?: PacketCaptureStorageSettings;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
   /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */
@@ -3523,6 +3525,8 @@ export interface PacketCaptureParameters {
   timeLimitInSeconds?: number;
   /** The storage location for a packet capture session. */
   storageLocation: PacketCaptureStorageLocation;
+  /** The storage setting for a packet capture session. */
+  storageSettings?: PacketCaptureStorageSettings;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
   /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */
@@ -3549,6 +3553,24 @@ export interface PacketCaptureStorageLocation {
   filePath?: string;
   /** This path is valid if 'Continuous Capture' is provided with 'true' or 'false' and required if no storage ID is provided, otherwise optional. Must include the name of the capture file (*.cap). For linux virtual machine it must start with /var/captures. */
   localPath?: string;
+}
+
+/** The storage setting for a packet capture session. */
+export interface PacketCaptureStorageSettings {
+  /** The storage authentication for a packet capture session. */
+  storageAuthentication?: StorageAuthentication;
+}
+
+/** The storage authentication for a packet capture session. */
+export interface StorageAuthentication {
+  /** The managed identity information for a packet capture session. */
+  storageAuthentication?: ManagedIdentityInfo;
+}
+
+/** The managed identity information for a packet capture session. */
+export interface ManagedIdentityInfo {
+  /** The managed identity resource id information for a packet capture session. */
+  managedIndentityResourceId?: string;
 }
 
 /** Filter that is applied to packet capture request. Multiple filters can be applied. */
@@ -3606,6 +3628,8 @@ export interface PacketCaptureResult {
   timeLimitInSeconds?: number;
   /** The storage location for a packet capture session. */
   storageLocation?: PacketCaptureStorageLocation;
+  /** The storage setting for a packet capture session. */
+  storageSettings?: PacketCaptureStorageSettings;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
   /** This continuous capture is a nullable boolean, which can hold 'null', 'true' or 'false' value. If we do not pass this parameter, it would be consider as 'null', default value is 'null'. */

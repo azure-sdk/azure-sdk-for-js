@@ -10016,6 +10016,13 @@ export const PacketCapture: coreClient.CompositeMapper = {
           className: "PacketCaptureStorageLocation",
         },
       },
+      storageSettings: {
+        serializedName: "properties.storageSettings",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureStorageSettings",
+        },
+      },
       filters: {
         serializedName: "properties.filters",
         type: {
@@ -10111,6 +10118,13 @@ export const PacketCaptureParameters: coreClient.CompositeMapper = {
           className: "PacketCaptureStorageLocation",
         },
       },
+      storageSettings: {
+        serializedName: "storageSettings",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureStorageSettings",
+        },
+      },
       filters: {
         serializedName: "filters",
         type: {
@@ -10196,6 +10210,53 @@ export const PacketCaptureStorageLocation: coreClient.CompositeMapper = {
       },
       localPath: {
         serializedName: "localPath",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PacketCaptureStorageSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PacketCaptureStorageSettings",
+    modelProperties: {
+      storageAuthentication: {
+        serializedName: "storageAuthentication",
+        type: {
+          name: "Composite",
+          className: "StorageAuthentication",
+        },
+      },
+    },
+  },
+};
+
+export const StorageAuthentication: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageAuthentication",
+    modelProperties: {
+      storageAuthentication: {
+        serializedName: "storageAuthentication",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityInfo",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedIdentityInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityInfo",
+    modelProperties: {
+      managedIndentityResourceId: {
+        serializedName: "managedIndentityResourceId ",
         type: {
           name: "String",
         },
@@ -10370,6 +10431,13 @@ export const PacketCaptureResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PacketCaptureStorageLocation",
+        },
+      },
+      storageSettings: {
+        serializedName: "properties.storageSettings",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureStorageSettings",
         },
       },
       filters: {
