@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  EdgeDeviceUnion,
+  EdgeDevice,
   EdgeDevicesListOptionalParams,
   EdgeDevicesGetOptionalParams,
   EdgeDevicesGetResponse,
@@ -20,7 +20,7 @@ import {
   ValidateRequest,
   EdgeDevicesValidateOptionalParams,
   EdgeDevicesValidateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EdgeDevices. */
@@ -33,7 +33,7 @@ export interface EdgeDevices {
   list(
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
-  ): PagedAsyncIterableIterator<EdgeDeviceUnion>;
+  ): PagedAsyncIterableIterator<EdgeDevice>;
   /**
    * Get a EdgeDevice
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
@@ -55,7 +55,7 @@ export interface EdgeDevices {
   beginCreateOrUpdate(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -73,7 +73,7 @@ export interface EdgeDevices {
   beginCreateOrUpdateAndWait(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<EdgeDevicesCreateOrUpdateResponse>;
   /**

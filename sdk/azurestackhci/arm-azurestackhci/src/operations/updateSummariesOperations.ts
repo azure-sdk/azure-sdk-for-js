@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { UpdateSummariesOperations } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { UpdateSummariesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureStackHCIClient } from "../azureStackHCIClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureStackHCIClient } from "../azureStackHCIClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   UpdateSummaries,
   UpdateSummariesListNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   UpdateSummariesGetOptionalParams,
   UpdateSummariesGetResponse,
   UpdateSummariesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing UpdateSummariesOperations operations. */
