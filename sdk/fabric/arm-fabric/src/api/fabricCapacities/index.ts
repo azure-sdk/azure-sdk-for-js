@@ -11,6 +11,7 @@ import {
   FabricCapacitiesListBySubscriptionOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
   FabricCapacitiesResumeOptionalParams,
   FabricCapacitiesSuspendOptionalParams,
   FabricCapacitiesUpdateOptionalParams,
@@ -33,12 +34,15 @@ import {
   _RpSkuEnumerationForNewResourceResult,
   _rpSkuEnumerationForNewResourceResultDeserializer,
   RpSkuDetailsForNewResource,
+  _PagedQuota,
+  _pagedQuotaDeserializer,
+  Quota,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -590,6 +594,48 @@ export function fabricCapacitiesListSkus(
     context,
     () => _fabricCapacitiesListSkusSend(context, subscriptionId, options),
     _fabricCapacitiesListSkusDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _fabricCapacitiesListUsagesSend(
+  context: Client,
+  subscriptionId: string,
+  location: string,
+  options: FabricCapacitiesListUsagesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.Fabric/locations/{location}/usages",
+      subscriptionId,
+      location,
+    )
+    .get({ ...operationOptionsToRequestParameters(options) });
+}
+
+export async function _fabricCapacitiesListUsagesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_PagedQuota> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    throw createRestError(result);
+  }
+
+  return _pagedQuotaDeserializer(result.body);
+}
+
+/** List the current consumption and limit in this location for the provided subscription */
+export function fabricCapacitiesListUsages(
+  context: Client,
+  subscriptionId: string,
+  location: string,
+  options: FabricCapacitiesListUsagesOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Quota> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _fabricCapacitiesListUsagesSend(context, subscriptionId, location, options),
+    _fabricCapacitiesListUsagesDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
