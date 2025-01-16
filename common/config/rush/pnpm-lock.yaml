@@ -3085,7 +3085,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-kLlOT51xPOlxBK42f3di4Ax7jcN4X1850huQkMkAANJlgi2cOnPZqxtzG4yAweBE6GZAi+0AcNS+4TG9/JIUXA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-jybZwXYtyB2z7DZMVlWMnNu2siTJzf5igKoLeG3ZgbJt5F5Ae6kU59C3o1OT/HjISQPbBbOC38mrlaIqQ8urYg==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
@@ -3993,7 +3993,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-3//USsp+OcONrh4BsZVi8bkx7KCMhq2rAvA/UKiZeUg9dwPyYQobK5f5z3fCBc27Km2JqvJeaBvMr6rhVtFvYA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-HJFfAYdCIriBJK7H2DtIyP6nUNFjDorEk2NfKDYGnk/q9b/xFcTY1ypEz53vbhUkgpMFTQDZ2GgrsitXizTx5w==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
@@ -13981,7 +13981,6 @@ snapshots:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
@@ -13989,10 +13988,10 @@ snapshots:
       chai: 4.5.0
       dotenv: 16.4.7
       mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.70)(typescript@5.7.3)
+      ts-node: 10.9.2(@types/node@18.19.70)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
-      typescript: 5.7.3
+      typescript: 5.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -25066,6 +25065,24 @@ snapshots:
       '@ts-morph/common': 0.26.0
       code-block-writer: 13.0.3
 
+  ts-node@10.9.2(@types/node@18.19.70)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.70
+      acorn: 8.14.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
   ts-node@10.9.2(@types/node@18.19.70)(typescript@5.7.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
@@ -25095,7 +25112,7 @@ snapshots:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.7.3
       walk-up-path: 3.0.1
 
   tshy@2.0.1:

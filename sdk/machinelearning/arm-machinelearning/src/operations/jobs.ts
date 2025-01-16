@@ -391,7 +391,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.listViewType,
-    Parameters.properties1,
+    Parameters.properties,
     Parameters.jobType,
     Parameters.tag,
   ],
@@ -463,7 +463,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -513,9 +513,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
