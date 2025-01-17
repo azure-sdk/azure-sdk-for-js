@@ -225,6 +225,57 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
   },
 };
 
+export const SasProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SasProperties",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      kinds: {
+        serializedName: "kinds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SasKindInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SasKindInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SasKindInfo",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const DataPlaneProxyProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -238,6 +289,42 @@ export const DataPlaneProxyProperties: coreClient.CompositeMapper = {
       },
       privateLinkDelegation: {
         serializedName: "privateLinkDelegation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TelemetryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryProperties",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentationProperties",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+      dataPlaneEndpoint: {
+        serializedName: "dataPlaneEndpoint",
         type: {
           name: "String",
         },
@@ -452,6 +539,13 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      sas: {
+        serializedName: "properties.sas",
+        type: {
+          name: "Composite",
+          className: "SasProperties",
+        },
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -469,6 +563,20 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DataPlaneProxyProperties",
+        },
+      },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
+        },
+      },
+      experimentation: {
+        serializedName: "properties.experimentation",
+        type: {
+          name: "Composite",
+          className: "ExperimentationProperties",
         },
       },
     },
@@ -613,6 +721,123 @@ export const RegenerateKeyParameters: coreClient.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SasTokenGenerationParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SasTokenGenerationParameters",
+    modelProperties: {
+      sasTokenScope: {
+        serializedName: "sasTokenScope",
+        type: {
+          name: "Composite",
+          className: "SasTokenScope",
+        },
+      },
+      expires: {
+        serializedName: "expires",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      cacheControlMaxAge: {
+        serializedName: "cacheControlMaxAge",
+        type: {
+          name: "Number",
+        },
+      },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SasTokenScope: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SasTokenScope",
+    uberParent: "SasTokenScope",
+    polymorphicDiscriminator: {
+      serializedName: "resourceType",
+      clientName: "resourceType",
+    },
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SasTokenGenerationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SasTokenGenerationResult",
+    modelProperties: {
+      sasTokenScope: {
+        serializedName: "sasTokenScope",
+        type: {
+          name: "Composite",
+          className: "SasTokenScope",
+        },
+      },
+      expires: {
+        serializedName: "expires",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      cacheControlMaxAge: {
+        serializedName: "cacheControlMaxAge",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      kind: {
+        serializedName: "kind",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ResetSasKindParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResetSasKindParameters",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
         type: {
           name: "String",
         },
@@ -1586,6 +1811,62 @@ export const TrackedResource: coreClient.CompositeMapper = {
   },
 };
 
+export const KvSasTokenScope: coreClient.CompositeMapper = {
+  serializedName: "Kv",
+  type: {
+    name: "Composite",
+    className: "KvSasTokenScope",
+    uberParent: "SasTokenScope",
+    polymorphicDiscriminator: SasTokenScope.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SasTokenScope.type.modelProperties,
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String",
+        },
+      },
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SnapshotSasTokenScope: coreClient.CompositeMapper = {
+  serializedName: "Snapshot",
+  type: {
+    name: "Composite",
+    className: "SnapshotSasTokenScope",
+    uberParent: "SasTokenScope",
+    polymorphicDiscriminator: SasTokenScope.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SasTokenScope.type.modelProperties,
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ConfigurationStore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1667,6 +1948,13 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      sas: {
+        serializedName: "properties.sas",
+        type: {
+          name: "Composite",
+          className: "SasProperties",
+        },
+      },
       softDeleteRetentionInDays: {
         defaultValue: 7,
         serializedName: "properties.softDeleteRetentionInDays",
@@ -1695,6 +1983,130 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           allowedValues: ["Recover", "Default"],
         },
       },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
+        },
+      },
+      experimentation: {
+        serializedName: "properties.experimentation",
+        type: {
+          name: "Composite",
+          className: "ExperimentationProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ConfigurationStoresDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationStoresDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ConfigurationStoresPurgeDeletedHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConfigurationStoresPurgeDeletedHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "PrivateEndpointConnectionsDeleteHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+        retryAfter: {
+          serializedName: "retry-after",
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
+
+export const KeyValuesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyValuesDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -1710,6 +2122,24 @@ export const ReplicasDeleteHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
+};
+
+export let discriminators = {
+  SasTokenScope: SasTokenScope,
+  "SasTokenScope.Kv": KvSasTokenScope,
+  "SasTokenScope.Snapshot": SnapshotSasTokenScope,
 };

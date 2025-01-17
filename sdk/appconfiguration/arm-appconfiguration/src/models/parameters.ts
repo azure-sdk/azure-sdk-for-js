@@ -15,6 +15,8 @@ import {
   ConfigurationStore as ConfigurationStoreMapper,
   ConfigurationStoreUpdateParameters as ConfigurationStoreUpdateParametersMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
+  SasTokenGenerationParameters as SasTokenGenerationParametersMapper,
+  ResetSasKindParameters as ResetSasKindParametersMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   KeyValue as KeyValueMapper,
@@ -60,7 +62,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2024-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -131,6 +133,16 @@ export const configStoreUpdateParameters: OperationParameter = {
 export const regenerateKeyParameters: OperationParameter = {
   parameterPath: "regenerateKeyParameters",
   mapper: RegenerateKeyParametersMapper,
+};
+
+export const sasTokenGenerationParameters: OperationParameter = {
+  parameterPath: "sasTokenGenerationParameters",
+  mapper: SasTokenGenerationParametersMapper,
+};
+
+export const resetSasKindParameters: OperationParameter = {
+  parameterPath: "resetSasKindParameters",
+  mapper: ResetSasKindParametersMapper,
 };
 
 export const location: OperationURLParameter = {
