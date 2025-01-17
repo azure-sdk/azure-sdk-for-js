@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Extensions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Extensions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Extension,
   ExtensionsListNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   PatchExtension,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse,
-  ExtensionsListNextResponse
-} from "../models";
+  ExtensionsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Extensions operations. */
@@ -63,14 +63,14 @@ export class ExtensionsImpl implements Extensions {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: ExtensionsListOptionalParams
+    options?: ExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<Extension> {
     const iter = this.listPagingAll(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class ExtensionsImpl implements Extensions {
           clusterResourceName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -101,7 +101,7 @@ export class ExtensionsImpl implements Extensions {
     clusterResourceName: string,
     clusterName: string,
     options?: ExtensionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Extension[]> {
     let result: ExtensionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class ExtensionsImpl implements Extensions {
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -125,7 +125,7 @@ export class ExtensionsImpl implements Extensions {
         clusterResourceName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -139,14 +139,14 @@ export class ExtensionsImpl implements Extensions {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: ExtensionsListOptionalParams
+    options?: ExtensionsListOptionalParams,
   ): AsyncIterableIterator<Extension> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -171,7 +171,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtensionsCreateResponse>,
@@ -180,21 +180,20 @@ export class ExtensionsImpl implements Extensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExtensionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -203,8 +202,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -212,8 +211,8 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,9 +225,9 @@ export class ExtensionsImpl implements Extensions {
         clusterName,
         extensionName,
         extension,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ExtensionsCreateResponse,
@@ -236,7 +235,7 @@ export class ExtensionsImpl implements Extensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,7 +260,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     extension: Extension,
-    options?: ExtensionsCreateOptionalParams
+    options?: ExtensionsCreateOptionalParams,
   ): Promise<ExtensionsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -270,7 +269,7 @@ export class ExtensionsImpl implements Extensions {
       clusterName,
       extensionName,
       extension,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -292,7 +291,7 @@ export class ExtensionsImpl implements Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsGetOptionalParams
+    options?: ExtensionsGetOptionalParams,
   ): Promise<ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -301,9 +300,9 @@ export class ExtensionsImpl implements Extensions {
         clusterResourceName,
         clusterName,
         extensionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -325,25 +324,24 @@ export class ExtensionsImpl implements Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -352,8 +350,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -361,8 +359,8 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -374,14 +372,14 @@ export class ExtensionsImpl implements Extensions {
         clusterResourceName,
         clusterName,
         extensionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -405,7 +403,7 @@ export class ExtensionsImpl implements Extensions {
     clusterResourceName: string,
     clusterName: string,
     extensionName: string,
-    options?: ExtensionsDeleteOptionalParams
+    options?: ExtensionsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -413,7 +411,7 @@ export class ExtensionsImpl implements Extensions {
       clusterResourceName,
       clusterName,
       extensionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -437,7 +435,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,
-    options?: ExtensionsUpdateOptionalParams
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExtensionsUpdateResponse>,
@@ -446,21 +444,20 @@ export class ExtensionsImpl implements Extensions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -469,8 +466,8 @@ export class ExtensionsImpl implements Extensions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -478,8 +475,8 @@ export class ExtensionsImpl implements Extensions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -492,9 +489,9 @@ export class ExtensionsImpl implements Extensions {
         clusterName,
         extensionName,
         patchExtension,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ExtensionsUpdateResponse,
@@ -502,7 +499,7 @@ export class ExtensionsImpl implements Extensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -527,7 +524,7 @@ export class ExtensionsImpl implements Extensions {
     clusterName: string,
     extensionName: string,
     patchExtension: PatchExtension,
-    options?: ExtensionsUpdateOptionalParams
+    options?: ExtensionsUpdateOptionalParams,
   ): Promise<ExtensionsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
@@ -536,7 +533,7 @@ export class ExtensionsImpl implements Extensions {
       clusterName,
       extensionName,
       patchExtension,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -556,7 +553,7 @@ export class ExtensionsImpl implements Extensions {
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: ExtensionsListOptionalParams
+    options?: ExtensionsListOptionalParams,
   ): Promise<ExtensionsListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -564,9 +561,9 @@ export class ExtensionsImpl implements Extensions {
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -587,7 +584,7 @@ export class ExtensionsImpl implements Extensions {
     clusterResourceName: string,
     clusterName: string,
     nextLink: string,
-    options?: ExtensionsListNextOptionalParams
+    options?: ExtensionsListNextOptionalParams,
   ): Promise<ExtensionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -596,9 +593,9 @@ export class ExtensionsImpl implements Extensions {
         clusterResourceName,
         clusterName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -606,25 +603,24 @@ export class ExtensionsImpl implements Extensions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     201: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     202: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     204: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.extension,
   queryParameters: [Parameters.apiVersion],
@@ -635,23 +631,22 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -661,14 +656,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -676,8 +670,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
   urlParameters: [
@@ -687,31 +681,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     201: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     202: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     204: {
-      bodyMapper: Mappers.Extension
+      bodyMapper: Mappers.Extension,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.patchExtension,
   queryParameters: [Parameters.apiVersion],
@@ -722,23 +715,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.extensionName
+    Parameters.extensionName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionsList
+      bodyMapper: Mappers.ExtensionsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -747,21 +739,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterRp,
     Parameters.clusterResourceName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionsList
+      bodyMapper: Mappers.ExtensionsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -770,8 +762,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
