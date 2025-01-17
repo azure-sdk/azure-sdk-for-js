@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedNetworkProvisions } from "../operationsInterfaces";
+import { ManagedNetworkProvisions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ManagedNetworkProvisionsProvisionManagedNetworkResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ManagedNetworkProvisions operations. */
 export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
@@ -37,7 +37,7 @@ export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetwork(
@@ -108,7 +108,7 @@ export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetworkAndWait(
@@ -147,7 +147,7 @@ const provisionManagedNetworkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body59,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
