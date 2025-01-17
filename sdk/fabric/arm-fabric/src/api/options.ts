@@ -52,4 +52,7 @@ export interface FabricCapacitiesListSkusForCapacityOptionalParams extends Opera
 export interface FabricCapacitiesListSkusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface FabricCapacitiesListUsagesOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams extends OperationOptions {}

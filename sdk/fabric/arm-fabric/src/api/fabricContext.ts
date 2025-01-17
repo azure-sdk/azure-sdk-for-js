@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
+import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -10,6 +11,7 @@ export interface FabricContext extends Client {}
 /** Optional parameters for the client. */
 export interface FabricClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
@@ -18,9 +20,8 @@ export function createFabric(
   options: FabricClientOptionalParams = {},
 ): FabricContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-fabric/1.0.1`;
+  const userAgentInfo = `azsdk-js-arm-fabric/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -34,7 +35,7 @@ export function createFabric(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2023-11-01";
+  const apiVersion = options.apiVersion ?? "2025-01-15-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

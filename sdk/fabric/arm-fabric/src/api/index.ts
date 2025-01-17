@@ -14,6 +14,7 @@ export {
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
   OperationsListOptionalParams,
 } from "./options.js";
 export {
@@ -28,5 +29,6 @@ export {
   fabricCapacitiesCheckNameAvailability,
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
+  fabricCapacitiesListUsages,
 } from "./fabricCapacities/index.js";
 export { operationsList } from "./operations/index.js";

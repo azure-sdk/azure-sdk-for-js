@@ -14,6 +14,7 @@ import {
   fabricCapacitiesCheckNameAvailability,
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
+  fabricCapacitiesListUsages,
 } from "../../api/fabricCapacities/index.js";
 import {
   FabricCapacity,
@@ -22,6 +23,7 @@ import {
   CheckNameAvailabilityResponse,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Quota,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -37,6 +39,7 @@ import {
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a FabricCapacities operations. */
@@ -104,6 +107,11 @@ export interface FabricCapacitiesOperations {
   listSkus: (
     options?: FabricCapacitiesListSkusOptionalParams,
   ) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
+  /** List the current consumption and limit in this location for the provided subscription */
+  listUsages: (
+    location: string,
+    options?: FabricCapacitiesListUsagesOptionalParams,
+  ) => PagedAsyncIterableIterator<Quota>;
 }
 
 export function getFabricCapacities(context: FabricContext, subscriptionId: string) {
@@ -181,6 +189,8 @@ export function getFabricCapacities(context: FabricContext, subscriptionId: stri
       ),
     listSkus: (options?: FabricCapacitiesListSkusOptionalParams) =>
       fabricCapacitiesListSkus(context, subscriptionId, options),
+    listUsages: (location: string, options?: FabricCapacitiesListUsagesOptionalParams) =>
+      fabricCapacitiesListUsages(context, subscriptionId, location, options),
   };
 }
 

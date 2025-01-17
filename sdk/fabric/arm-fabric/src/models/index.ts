@@ -10,8 +10,8 @@ export {
   ActionType,
   FabricCapacity,
   FabricCapacityProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   KnownResourceState,
   ResourceState,
   CapacityAdministration,
@@ -31,4 +31,7 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Quota,
+  QuotaName,
+  KnownVersions,
 } from "./models.js";
