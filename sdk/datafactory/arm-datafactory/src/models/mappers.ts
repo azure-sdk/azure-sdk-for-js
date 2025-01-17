@@ -10929,11 +10929,95 @@ export const OracleLinkedService: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
       password: {
         serializedName: "typeProperties.password",
         type: {
           name: "Composite",
           className: "AzureKeyVaultSecretReference",
+        },
+      },
+      encryptionClient: {
+        serializedName: "typeProperties.encryptionClient",
+        type: {
+          name: "any",
+        },
+      },
+      encryptionTypesClient: {
+        serializedName: "typeProperties.encryptionTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumClient: {
+        serializedName: "typeProperties.cryptoChecksumClient",
+        type: {
+          name: "any",
+        },
+      },
+      cryptoChecksumTypesClient: {
+        serializedName: "typeProperties.cryptoChecksumTypesClient",
+        type: {
+          name: "any",
+        },
+      },
+      initialLobFetchSize: {
+        serializedName: "typeProperties.initialLobFetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      fetchSize: {
+        serializedName: "typeProperties.fetchSize",
+        type: {
+          name: "any",
+        },
+      },
+      statementCacheSize: {
+        serializedName: "typeProperties.statementCacheSize",
+        type: {
+          name: "any",
+        },
+      },
+      initializationString: {
+        serializedName: "typeProperties.initializationString",
+        type: {
+          name: "any",
+        },
+      },
+      enableBulkLoad: {
+        serializedName: "typeProperties.enableBulkLoad",
+        type: {
+          name: "any",
+        },
+      },
+      supportV1DataTypes: {
+        serializedName: "typeProperties.supportV1DataTypes",
+        type: {
+          name: "any",
+        },
+      },
+      fetchTswtzAsTimestamp: {
+        serializedName: "typeProperties.fetchTswtzAsTimestamp",
+        type: {
+          name: "any",
         },
       },
       encryptedCredential: {
@@ -28446,6 +28530,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScriptActivityTypePropertiesLogSettings",
+        },
+      },
+      returnMultistatementResult: {
+        serializedName: "typeProperties.returnMultistatementResult",
+        type: {
+          name: "any",
         },
       },
     },
