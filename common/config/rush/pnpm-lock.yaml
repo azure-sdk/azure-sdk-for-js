@@ -439,6 +439,9 @@ importers:
       '@rush-temp/arm-kubernetesconfiguration':
         specifier: file:./projects/arm-kubernetesconfiguration.tgz
         version: file:projects/arm-kubernetesconfiguration.tgz
+      '@rush-temp/arm-kubernetesconfiguration-extensiontypes':
+        specifier: file:./projects/arm-kubernetesconfiguration-extensiontypes.tgz
+        version: file:projects/arm-kubernetesconfiguration-extensiontypes.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))
       '@rush-temp/arm-kusto':
         specifier: file:./projects/arm-kusto.tgz
         version: file:projects/arm-kusto.tgz
@@ -2725,11 +2728,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computefleet@file:projects/arm-computefleet.tgz':
-    resolution: {integrity: sha512-0cXmYkP6BC+rpZF30nOPzX72QzBfHP0iamJAUKGriMelkP/CvSHLzlc0iSChtrvLF+f+7Irm0Rq2CS8fRR8PGA==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-dHEiVJCBXoDiwRqnRqCf5ia8PtkGBLUuYc0aJSreNxdDbAAncfEfHBY2o38AGVWpCU6FlIrhVsrA2x6C3mlaUg==, tarball: file:projects/arm-computefleet.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-c/+NgTKQURRLUShIyScM53VoFwieM+cr9h+WpoAqCHHvYHW2nvljuSfPoPQHuXMiDVRuiDlHQ+kt4Nq1ZJDguw==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-ib3pXHOqIcDQ6gtwwYl5zxa/HVC4zt6G0McgfgKemX+qsXm6XDFNsah1iDrmQh4G3Gmb2/4WDtxhsff9DCqzww==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3046,6 +3049,10 @@ packages:
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
     resolution: {integrity: sha512-2Q/FImXfCKzvA6UphwQ5xnbvEN7Sqcjw6iYHyQ8WE4Yc1BcJA0IIsMuffcX0lbL90fmf01Z89LBAiTEmrcepRA==, tarball: file:projects/arm-keyvault.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-kubernetesconfiguration-extensiontypes@file:projects/arm-kubernetesconfiguration-extensiontypes.tgz':
+    resolution: {integrity: sha512-bzl+D+3IBeCKFBB+5Z9lgPj0dQwogo4xD3pP52ZfJWuEvxx6VpvspBhvlIn5bl0maZvYzMar0ivl3diqr0TWvQ==, tarball: file:projects/arm-kubernetesconfiguration-extensiontypes.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -3789,7 +3796,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-9nrkkH+RxeVz3ygp5vzRYD3DszYzyUch+Zp91THbSTktEAFHRMxfuUD56glXmTTxf//KN1y+HxYAJNfxCO+AdQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-NizLT7d7g7FIam+lwQJpaMWvoM1SIdA0x1rpi4AN/U99Qw4L3PAAEwZjSa+LQmIco2o8/vBNXgmqTt1OFnGcUQ==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
@@ -3993,7 +4000,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-3//USsp+OcONrh4BsZVi8bkx7KCMhq2rAvA/UKiZeUg9dwPyYQobK5f5z3fCBc27Km2JqvJeaBvMr6rhVtFvYA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-HJFfAYdCIriBJK7H2DtIyP6nUNFjDorEk2NfKDYGnk/q9b/xFcTY1ypEz53vbhUkgpMFTQDZ2GgrsitXizTx5w==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
@@ -11699,7 +11706,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.18.0
       playwright: 1.49.1
-      prettier: 3.4.2
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
@@ -13805,6 +13811,37 @@ snapshots:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+
+  '@rush-temp/arm-kubernetesconfiguration-extensiontypes@file:projects/arm-kubernetesconfiguration-extensiontypes.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
+    dependencies:
+      '@types/node': 18.19.70
+      '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      playwright: 1.49.1
+      tslib: 2.8.1
+      tsx: 4.19.2
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.70)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
     dependencies:
@@ -18480,7 +18517,6 @@ snapshots:
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.11(@types/node@22.7.9))':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.70
       '@vitest/browser': 2.1.8(@types/node@18.19.70)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.11(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
@@ -20925,11 +20961,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20947,7 +20983,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20955,7 +20991,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -20978,7 +21014,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -20993,16 +21029,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -21013,21 +21049,21 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/jws@3.2.10':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -21056,11 +21092,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.70':
@@ -21085,7 +21121,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -21102,7 +21138,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -21113,12 +21149,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -21133,11 +21169,11 @@ snapshots:
 
   '@types/stoppable@1.1.3':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -22163,7 +22199,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -24299,7 +24335,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.70
+      '@types/node': 22.7.9
       long: 5.2.4
 
   proxy-addr@2.0.7:
