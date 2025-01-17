@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SourceControlConfigurations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SourceControlConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SourceControlConfiguration,
   SourceControlConfigurationsListNextOptionalParams,
@@ -29,13 +29,14 @@ import {
   SourceControlConfigurationsCreateOrUpdateOptionalParams,
   SourceControlConfigurationsCreateOrUpdateResponse,
   SourceControlConfigurationsDeleteOptionalParams,
-  SourceControlConfigurationsListNextResponse
-} from "../models";
+  SourceControlConfigurationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SourceControlConfigurations operations. */
 export class SourceControlConfigurationsImpl
-  implements SourceControlConfigurations {
+  implements SourceControlConfigurations
+{
   private readonly client: SourceControlConfigurationClient;
 
   /**
@@ -61,14 +62,14 @@ export class SourceControlConfigurationsImpl
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: SourceControlConfigurationsListOptionalParams
+    options?: SourceControlConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<SourceControlConfiguration> {
     const iter = this.listPagingAll(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -87,9 +88,9 @@ export class SourceControlConfigurationsImpl
           clusterResourceName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -99,7 +100,7 @@ export class SourceControlConfigurationsImpl
     clusterResourceName: string,
     clusterName: string,
     options?: SourceControlConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SourceControlConfiguration[]> {
     let result: SourceControlConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +110,7 @@ export class SourceControlConfigurationsImpl
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -123,7 +124,7 @@ export class SourceControlConfigurationsImpl
         clusterResourceName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -137,14 +138,14 @@ export class SourceControlConfigurationsImpl
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: SourceControlConfigurationsListOptionalParams
+    options?: SourceControlConfigurationsListOptionalParams,
   ): AsyncIterableIterator<SourceControlConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterRp,
       clusterResourceName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -167,7 +168,7 @@ export class SourceControlConfigurationsImpl
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsGetOptionalParams
+    options?: SourceControlConfigurationsGetOptionalParams,
   ): Promise<SourceControlConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -176,9 +177,9 @@ export class SourceControlConfigurationsImpl
         clusterResourceName,
         clusterName,
         sourceControlConfigurationName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,7 +202,7 @@ export class SourceControlConfigurationsImpl
     clusterName: string,
     sourceControlConfigurationName: string,
     sourceControlConfiguration: SourceControlConfiguration,
-    options?: SourceControlConfigurationsCreateOrUpdateOptionalParams
+    options?: SourceControlConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SourceControlConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -211,9 +212,9 @@ export class SourceControlConfigurationsImpl
         clusterName,
         sourceControlConfigurationName,
         sourceControlConfiguration,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -235,25 +236,24 @@ export class SourceControlConfigurationsImpl
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsDeleteOptionalParams
+    options?: SourceControlConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -262,8 +262,8 @@ export class SourceControlConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -271,8 +271,8 @@ export class SourceControlConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -284,13 +284,13 @@ export class SourceControlConfigurationsImpl
         clusterResourceName,
         clusterName,
         sourceControlConfigurationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -314,7 +314,7 @@ export class SourceControlConfigurationsImpl
     clusterResourceName: string,
     clusterName: string,
     sourceControlConfigurationName: string,
-    options?: SourceControlConfigurationsDeleteOptionalParams
+    options?: SourceControlConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -322,7 +322,7 @@ export class SourceControlConfigurationsImpl
       clusterResourceName,
       clusterName,
       sourceControlConfigurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -342,7 +342,7 @@ export class SourceControlConfigurationsImpl
     clusterRp: string,
     clusterResourceName: string,
     clusterName: string,
-    options?: SourceControlConfigurationsListOptionalParams
+    options?: SourceControlConfigurationsListOptionalParams,
   ): Promise<SourceControlConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -350,9 +350,9 @@ export class SourceControlConfigurationsImpl
         clusterRp,
         clusterResourceName,
         clusterName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -373,7 +373,7 @@ export class SourceControlConfigurationsImpl
     clusterResourceName: string,
     clusterName: string,
     nextLink: string,
-    options?: SourceControlConfigurationsListNextOptionalParams
+    options?: SourceControlConfigurationsListNextOptionalParams,
   ): Promise<SourceControlConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -382,9 +382,9 @@ export class SourceControlConfigurationsImpl
         clusterResourceName,
         clusterName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -392,16 +392,15 @@ export class SourceControlConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfiguration
+      bodyMapper: Mappers.SourceControlConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -411,25 +410,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
+    Parameters.sourceControlConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfiguration
+      bodyMapper: Mappers.SourceControlConfiguration,
     },
     201: {
-      bodyMapper: Mappers.SourceControlConfiguration
+      bodyMapper: Mappers.SourceControlConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.sourceControlConfiguration,
   queryParameters: [Parameters.apiVersion],
@@ -440,15 +438,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
+    Parameters.sourceControlConfigurationName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -456,8 +453,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -467,22 +464,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
+    Parameters.sourceControlConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfigurationList
+      bodyMapper: Mappers.SourceControlConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -491,21 +487,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterRp,
     Parameters.clusterResourceName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfigurationList
+      bodyMapper: Mappers.SourceControlConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -514,8 +510,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FluxConfigOperationStatus } from "../operationsInterfaces";
+import { FluxConfigOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SourceControlConfigurationClient } from "../sourceControlConfigurationClient.js";
 import {
   FluxConfigOperationStatusGetOptionalParams,
-  FluxConfigOperationStatusGetResponse
-} from "../models";
+  FluxConfigOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing FluxConfigOperationStatus operations. */
 export class FluxConfigOperationStatusImpl
-  implements FluxConfigOperationStatus {
+  implements FluxConfigOperationStatus
+{
   private readonly client: SourceControlConfigurationClient;
 
   /**
@@ -48,7 +49,7 @@ export class FluxConfigOperationStatusImpl
     clusterName: string,
     fluxConfigurationName: string,
     operationId: string,
-    options?: FluxConfigOperationStatusGetOptionalParams
+    options?: FluxConfigOperationStatusGetOptionalParams,
   ): Promise<FluxConfigOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -58,9 +59,9 @@ export class FluxConfigOperationStatusImpl
         clusterName,
         fluxConfigurationName,
         operationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -68,18 +69,17 @@ export class FluxConfigOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -88,8 +88,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterResourceName,
     Parameters.clusterName,
     Parameters.operationId,
-    Parameters.fluxConfigurationName
+    Parameters.fluxConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

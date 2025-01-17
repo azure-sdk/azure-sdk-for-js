@@ -9,15 +9,15 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Extension as ExtensionMapper,
   PatchExtension as PatchExtensionMapper,
   FluxConfiguration as FluxConfigurationMapper,
   FluxConfigurationPatch as FluxConfigurationPatchMapper,
-  SourceControlConfiguration as SourceControlConfigurationMapper
-} from "../models/mappers";
+  SourceControlConfiguration as SourceControlConfigurationMapper,
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -26,14 +26,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const extension: OperationParameter = {
   parameterPath: "extension",
-  mapper: ExtensionMapper
+  mapper: ExtensionMapper,
 };
 
 export const accept: OperationParameter = {
@@ -43,9 +43,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -54,24 +54,24 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -79,14 +79,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterRp: OperationURLParameter = {
@@ -95,9 +95,9 @@ export const clusterRp: OperationURLParameter = {
     serializedName: "clusterRp",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterResourceName: OperationURLParameter = {
@@ -106,9 +106,9 @@ export const clusterResourceName: OperationURLParameter = {
     serializedName: "clusterResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clusterName: OperationURLParameter = {
@@ -117,9 +117,9 @@ export const clusterName: OperationURLParameter = {
     serializedName: "clusterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const extensionName: OperationURLParameter = {
@@ -128,9 +128,9 @@ export const extensionName: OperationURLParameter = {
     serializedName: "extensionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -140,9 +140,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const forceDelete: OperationQueryParameter = {
@@ -150,14 +150,14 @@ export const forceDelete: OperationQueryParameter = {
   mapper: {
     serializedName: "forceDelete",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const patchExtension: OperationParameter = {
   parameterPath: "patchExtension",
-  mapper: PatchExtensionMapper
+  mapper: PatchExtensionMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -166,10 +166,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const operationId: OperationURLParameter = {
@@ -178,9 +178,9 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fluxConfigurationName: OperationURLParameter = {
@@ -189,19 +189,31 @@ export const fluxConfigurationName: OperationURLParameter = {
     serializedName: "fluxConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-04-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const fluxConfiguration: OperationParameter = {
   parameterPath: "fluxConfiguration",
-  mapper: FluxConfigurationMapper
+  mapper: FluxConfigurationMapper,
 };
 
 export const fluxConfigurationPatch: OperationParameter = {
   parameterPath: "fluxConfigurationPatch",
-  mapper: FluxConfigurationPatchMapper
+  mapper: FluxConfigurationPatchMapper,
 };
 
 export const sourceControlConfigurationName: OperationURLParameter = {
@@ -210,12 +222,12 @@ export const sourceControlConfigurationName: OperationURLParameter = {
     serializedName: "sourceControlConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceControlConfiguration: OperationParameter = {
   parameterPath: "sourceControlConfiguration",
-  mapper: SourceControlConfigurationMapper
+  mapper: SourceControlConfigurationMapper,
 };
