@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { FaceClient } from "./clientDefinitions.js";
-import type { Versions } from "./models.js";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { FaceClient } from "./clientDefinitions.js";
+import { Versions } from "./models.js";
 
 /** The optional parameters for the client */
 export interface FaceClientOptions extends ClientOptions {
@@ -24,10 +23,10 @@ export interface FaceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  { apiVersion = "v1.2-preview.1", ...options }: FaceClientOptions = {},
+  { apiVersion = "v1.2", ...options }: FaceClientOptions = {},
 ): FaceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/face/${apiVersion}`;
-  const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -48,23 +47,6 @@ export default function createClient(
   const client = getClient(endpointUrl, credentials, options) as FaceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-
-  client.pipeline.addPolicy({
-    name: "VerifyImageFilenamePolicy",
-    sendRequest: (request, next) => {
-      for (const part of request.multipartBody?.parts ?? []) {
-        const contentDisposition = part.headers.get("content-disposition");
-        if (
-          contentDisposition &&
-          contentDisposition.includes(`name="VerifyImage"`) &&
-          !contentDisposition.includes("filename=")
-        ) {
-          part.headers.set("content-disposition", `form-data; name="VerifyImage"; filename="blob"`);
-        }
-      }
-      return next(request);
-    },
-  });
 
   return client;
 }
