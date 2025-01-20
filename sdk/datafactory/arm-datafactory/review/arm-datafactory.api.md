@@ -3537,11 +3537,23 @@ export interface GoogleSheetsLinkedService extends LinkedService {
 }
 
 // @public
+export type GreenplumAuthenticationType = string;
+
+// @public
 export interface GreenplumLinkedService extends LinkedService {
+    authenticationType?: GreenplumAuthenticationType;
+    commandTimeout?: any;
     connectionString?: any;
+    connectionTimeout?: any;
+    database?: any;
     encryptedCredential?: string;
+    host?: any;
+    password?: SecretBaseUnion;
+    port?: any;
     pwd?: AzureKeyVaultSecretReference;
+    sslMode?: any;
     type: "Greenplum";
+    username?: any;
 }
 
 // @public
@@ -4763,6 +4775,11 @@ export enum KnownGoogleBigQueryAuthenticationType {
 export enum KnownGoogleBigQueryV2AuthenticationType {
     ServiceAuthentication = "ServiceAuthentication",
     UserAuthentication = "UserAuthentication"
+}
+
+// @public
+export enum KnownGreenplumAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
@@ -7704,6 +7721,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    returnMultistatementResult?: any;
     scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";

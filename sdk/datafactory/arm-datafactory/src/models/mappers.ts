@@ -14271,6 +14271,61 @@ export const GreenplumLinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      host: {
+        serializedName: "typeProperties.host",
+        type: {
+          name: "any",
+        },
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any",
+        },
+      },
+      connectionTimeout: {
+        serializedName: "typeProperties.connectionTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
     },
   },
 };
@@ -28446,6 +28501,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScriptActivityTypePropertiesLogSettings",
+        },
+      },
+      returnMultistatementResult: {
+        serializedName: "typeProperties.returnMultistatementResult",
+        type: {
+          name: "any",
         },
       },
     },

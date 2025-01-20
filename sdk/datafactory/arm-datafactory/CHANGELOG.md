@@ -1,5 +1,23 @@
 # Release History
     
+## 18.1.0 (2025-01-20)
+    
+### Features Added
+
+  - Added Type Alias GreenplumAuthenticationType
+  - Interface GreenplumLinkedService has a new optional parameter authenticationType
+  - Interface GreenplumLinkedService has a new optional parameter commandTimeout
+  - Interface GreenplumLinkedService has a new optional parameter connectionTimeout
+  - Interface GreenplumLinkedService has a new optional parameter database
+  - Interface GreenplumLinkedService has a new optional parameter host
+  - Interface GreenplumLinkedService has a new optional parameter password
+  - Interface GreenplumLinkedService has a new optional parameter port
+  - Interface GreenplumLinkedService has a new optional parameter sslMode
+  - Interface GreenplumLinkedService has a new optional parameter username
+  - Interface ScriptActivity has a new optional parameter returnMultistatementResult
+  - Added Enum KnownGreenplumAuthenticationType
+    
+    
 ## 18.0.0 (2024-12-10)
     
 ### Features Added
