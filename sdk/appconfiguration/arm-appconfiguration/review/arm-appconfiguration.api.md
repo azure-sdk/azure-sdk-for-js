@@ -89,6 +89,7 @@ export interface ConfigurationStore extends TrackedResource {
     readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    revisionRetentionPeriodInSeconds?: number;
     sku: Sku;
     softDeleteRetentionInDays?: number;
     readonly systemData?: SystemData;
@@ -127,6 +128,13 @@ export interface ConfigurationStoresCreateOptionalParams extends coreClient.Oper
 
 // @public
 export type ConfigurationStoresCreateResponse = ConfigurationStore;
+
+// @public
+export interface ConfigurationStoresDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ConfigurationStoresDeleteOptionalParams extends coreClient.OperationOptions {
@@ -237,6 +245,7 @@ export interface ConfigurationStoreUpdateParameters {
     encryption?: EncryptionProperties;
     identity?: ResourceIdentity;
     publicNetworkAccess?: PublicNetworkAccess;
+    revisionRetentionPeriodInSeconds?: number;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
