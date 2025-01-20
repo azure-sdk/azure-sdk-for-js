@@ -1335,6 +1335,12 @@ export const ProtectedItem: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      policyType: {
+        serializedName: "policyType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5924,6 +5930,12 @@ export const ProtectionIntentResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5944,6 +5956,12 @@ export const RecoveryPointResourceList: coreClient.CompositeMapper = {
               className: "RecoveryPointResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -5968,6 +5986,12 @@ export const ProtectionPolicyResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5988,6 +6012,12 @@ export const JobResourceList: coreClient.CompositeMapper = {
               className: "JobResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6012,6 +6042,12 @@ export const ProtectedItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6032,6 +6068,12 @@ export const BackupEngineBaseResourceList: coreClient.CompositeMapper = {
               className: "BackupEngineBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6056,6 +6098,12 @@ export const ProtectableContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6076,6 +6124,12 @@ export const WorkloadItemResourceList: coreClient.CompositeMapper = {
               className: "WorkloadItemResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6100,6 +6154,12 @@ export const WorkloadProtectableItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6122,6 +6182,12 @@ export const ProtectionContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6142,6 +6208,12 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardProxyBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -8383,6 +8455,12 @@ export const AzureStorageContainer: coreClient.CompositeMapper = {
       },
       acquireStorageAccountLock: {
         serializedName: "acquireStorageAccountLock",
+        type: {
+          name: "String",
+        },
+      },
+      operationType: {
+        serializedName: "operationType",
         type: {
           name: "String",
         },

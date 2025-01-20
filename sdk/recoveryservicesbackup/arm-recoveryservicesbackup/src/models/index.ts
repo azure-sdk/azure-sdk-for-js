@@ -723,6 +723,8 @@ export interface ProtectedItem {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vaultId?: string;
+  /** Type of the policy used for protection */
+  policyType?: string;
 }
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
@@ -2372,66 +2374,88 @@ export interface AzureWorkloadContainerAutoProtectionIntent
 export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of RecoveryPoint resources */
 export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionPolicy resources */
 export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of Job resources */
 export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectedItem resources */
 export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of BackupEngineBase resources */
 export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectableContainer resources */
 export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadItem resources */
 export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadProtectableItem resources */
 export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionContainer resources */
 export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 export interface BackupResourceEncryptionConfigExtended
@@ -3262,6 +3286,8 @@ export interface AzureStorageContainer extends ProtectionContainer {
   protectedItemCount?: number;
   /** Whether storage account lock is to be acquired for this container or not. */
   acquireStorageAccountLock?: AcquireStorageAccountLock;
+  /** Re-Do Operation */
+  operationType?: OperationType;
 }
 
 /** Base class for generic container of backup items */
@@ -5393,6 +5419,8 @@ export enum KnownOperationType {
   Register = "Register",
   /** Reregister */
   Reregister = "Reregister",
+  /** Rehydrate */
+  Rehydrate = "Rehydrate",
 }
 
 /**
@@ -5402,7 +5430,8 @@ export enum KnownOperationType {
  * ### Known values supported by the service
  * **Invalid** \
  * **Register** \
- * **Reregister**
+ * **Reregister** \
+ * **Rehydrate**
  */
 export type OperationType = string;
 
