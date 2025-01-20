@@ -1,23 +1,7 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.2 (2024-11-04)
-
-### Bugs Fixed
-
-- Fix missing package information issue in user agent
     
-## 1.0.0-beta.1 (2024-09-20)
+## 1.0.0 (2025-01-20)
 
 ### Features Added
 
-Initial release of the Azure ComputeSchedule package
+The package of @azure/arm-computeschedule is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

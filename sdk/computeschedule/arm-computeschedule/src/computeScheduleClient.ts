@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getScheduledActionsOperations,
@@ -13,6 +11,8 @@ import {
   ComputeScheduleContext,
   ComputeScheduleClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { ComputeScheduleClientOptionalParams } from "./api/computeScheduleContext.js";
 
@@ -30,7 +30,7 @@ export class ComputeScheduleClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createComputeSchedule(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
