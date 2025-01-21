@@ -357,6 +357,20 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** An auto export job update instance. */
+export interface AutoExportJobUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Result of the request to list auto export jobs. It contains a list of auto export jobs and a URL link to get the next set of results. */
+export interface AutoExportJobsListResult {
+  /** URL to get the next set of auto export job list results, if there are any. */
+  nextLink?: string;
+  /** List of auto export jobs. */
+  value?: AutoExportJob[];
+}
+
 /** An import job update instance. */
 export interface ImportJobUpdate {
   /** Resource tags. */
@@ -1175,6 +1189,91 @@ export interface AmlFilesystem extends TrackedResource {
   rootSquashSettings?: AmlFilesystemRootSquashSettings;
 }
 
+/** An auto export job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
+export interface AutoExportJob extends TrackedResource {
+  /**
+   * ARM provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: AutoExportJobProvisioningStateType;
+  /** The administrative status of the auto export job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto export job. By default it is set to 'Enable'. */
+  adminStatus?: AutoExportJobAdminStatus;
+  /** An array of blob paths/prefixes that get auto exported to the cluster namespace. It has '/' as the default value. Number of maximum allowed paths for now is 1. */
+  autoExportPrefixes?: string[];
+  /** The operational state of auto export. InProgress indicates the export is running.  Disabling indicates the user has requested to disable the export but the disabling is still in progress. Disabled indicates auto export has been disabled.  DisableFailed indicates the disabling has failed.  Failed means the export was unable to continue, due to a fatal error. */
+  state?: AutoExportStatusType;
+  /**
+   * Server-defined status code for auto export job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusCode?: string;
+  /**
+   * Server-defined status message for auto export job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /**
+   * Total files exported since the start of the export. This is accumulative, some files may be counted repeatedly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalFilesExported?: number;
+  /**
+   * Total data (in MiB) exported since the start of the export. This is accumulative, some files may be counted repeatedly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalMiBExported?: number;
+  /**
+   * Total files failed to be export since the last successfully completed iteration. This is accumulative, some files may be counted repeatedly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalFilesFailed?: number;
+  /**
+   * Number of iterations completed since the start of the export.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exportIterationCount?: number;
+  /**
+   * Time (in UTC) of the last successfully completed export iteration. Look at logging container for details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSuccessfulIterationCompletionTimeUTC?: Date;
+  /**
+   * Files discovered for export in current iteration. It may increase while more export items are found.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentIterationFilesDiscovered?: number;
+  /**
+   * Data (in MiB) discovered for export in current iteration. It may increase while more export items are found.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentIterationMiBDiscovered?: number;
+  /**
+   * Files that have been exported in current iteration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentIterationFilesExported?: number;
+  /**
+   * Data (in MiB) that have been exported in current iteration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentIterationMiBExported?: number;
+  /**
+   * Files failed to export in current iteration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentIterationFilesFailed?: number;
+  /**
+   * The time (in UTC) the latest auto export job started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastStartedTimeUTC?: Date;
+  /**
+   * The time (in UTC) of the last completed auto export job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastCompletionTimeUTC?: Date;
+}
+
 /** An import job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface ImportJob extends TrackedResource {
   /**
@@ -1182,6 +1281,8 @@ export interface ImportJob extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ImportJobProvisioningStateType;
+  /** The administrative status of the import job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will cancel the current active import job. By default it is set to 'Enable'. */
+  adminStatus?: ImportJobAdminStatus;
   /** An array of blob paths/prefixes that get imported into the cluster namespace. It has '/' as the default value. */
   importPrefixes?: string[];
   /** How the import job will handle conflicts. For example, if the import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of these resolution modes. */
@@ -1189,7 +1290,7 @@ export interface ImportJob extends TrackedResource {
   /** Total non-conflict oriented errors the import job will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately and is the default. */
   maximumErrors?: number;
   /**
-   * The state of the import job. InProgress indicates the import is still running. Canceled indicates it has been canceled by the user. Completed indicates import finished, successfully importing all discovered blobs into the Lustre namespace. CompletedPartial indicates the import finished but some blobs either were found to be conflicting and could not be imported or other errors were encountered. Failed means the import was unable to complete due to a fatal error.
+   * The operational state of the import job. InProgress indicates the import is still running. Canceled indicates it has been canceled by the user. Completed indicates import finished, successfully importing all discovered blobs into the Lustre namespace. CompletedPartial indicates the import finished but some blobs either were found to be conflicting and could not be imported or other errors were encountered. Failed means the import was unable to complete due to a fatal error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: ImportStatusType;
@@ -1214,17 +1315,47 @@ export interface ImportJob extends TrackedResource {
    */
   readonly totalBlobsImported?: number;
   /**
+   * New or modified files that have been imported into the filesystem.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importedFiles?: number;
+  /**
+   * New or modified directories that have been imported into the filesystem.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importedDirectories?: number;
+  /**
+   * Newly added symbolic links into the filesystem.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importedSymlinks?: number;
+  /**
+   * Files that already exist in the filesystem and have not been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preexistingFiles?: number;
+  /**
+   * Directories that already exist in the filesystem and have not been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preexistingDirectories?: number;
+  /**
+   * Symbolic links that already exist in the filesystem and have not been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preexistingSymlinks?: number;
+  /**
    * A recent and frequently updated rate of total files, directories, and symlinks imported per second.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly blobsImportedPerSecond?: number;
   /**
-   * The time of the last completed archive operation
+   * The time (in UTC) of the last completed import job.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastCompletionTime?: Date;
   /**
-   * The time the latest archive operation started
+   * The time (in UTC) the latest import job started.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastStartedTime?: Date;
@@ -1256,6 +1387,28 @@ export interface AmlFilesystemsCreateOrUpdateHeaders {
 
 /** Defines headers for AmlFilesystems_update operation. */
 export interface AmlFilesystemsUpdateHeaders {
+  /** URI to poll for the operation status */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AutoExportJobs_delete operation. */
+export interface AutoExportJobsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AutoExportJobs_createOrUpdate operation. */
+export interface AutoExportJobsCreateOrUpdateHeaders {
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for AutoExportJobs_update operation. */
+export interface AutoExportJobsUpdateHeaders {
   /** URI to poll for the operation status */
   location?: string;
   /** URI to poll for the operation status */
@@ -1574,6 +1727,81 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link AutoExportJobProvisioningStateType} that the service accepts. */
+export enum KnownAutoExportJobProvisioningStateType {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for AutoExportJobProvisioningStateType. \
+ * {@link KnownAutoExportJobProvisioningStateType} can be used interchangeably with AutoExportJobProvisioningStateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Canceled**
+ */
+export type AutoExportJobProvisioningStateType = string;
+
+/** Known values of {@link AutoExportJobAdminStatus} that the service accepts. */
+export enum KnownAutoExportJobAdminStatus {
+  /** Active */
+  Active = "Active",
+  /** Cancel */
+  Cancel = "Cancel",
+}
+
+/**
+ * Defines values for AutoExportJobAdminStatus. \
+ * {@link KnownAutoExportJobAdminStatus} can be used interchangeably with AutoExportJobAdminStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Cancel**
+ */
+export type AutoExportJobAdminStatus = string;
+
+/** Known values of {@link AutoExportStatusType} that the service accepts. */
+export enum KnownAutoExportStatusType {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Disabling */
+  Disabling = "Disabling",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** DisableFailed */
+  DisableFailed = "DisableFailed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AutoExportStatusType. \
+ * {@link KnownAutoExportStatusType} can be used interchangeably with AutoExportStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Disabling** \
+ * **Disabled** \
+ * **DisableFailed** \
+ * **Failed**
+ */
+export type AutoExportStatusType = string;
+
 /** Known values of {@link ImportJobProvisioningStateType} that the service accepts. */
 export enum KnownImportJobProvisioningStateType {
   /** Succeeded */
@@ -1603,6 +1831,24 @@ export enum KnownImportJobProvisioningStateType {
  * **Canceled**
  */
 export type ImportJobProvisioningStateType = string;
+
+/** Known values of {@link ImportJobAdminStatus} that the service accepts. */
+export enum KnownImportJobAdminStatus {
+  /** Active */
+  Active = "Active",
+  /** Cancel */
+  Cancel = "Cancel",
+}
+
+/**
+ * Defines values for ImportJobAdminStatus. \
+ * {@link KnownImportJobAdminStatus} can be used interchangeably with ImportJobAdminStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Cancel**
+ */
+export type ImportJobAdminStatus = string;
 
 /** Known values of {@link ConflictResolutionMode} that the service accepts. */
 export enum KnownConflictResolutionMode {
@@ -2100,6 +2346,65 @@ export interface AmlFilesystemsListByResourceGroupNextOptionalParams
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AmlFilesystemsListByResourceGroupNextResponse =
   AmlFilesystemsListResult;
+
+/** Optional parameters. */
+export interface AutoExportJobsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AutoExportJobsDeleteResponse = AutoExportJobsDeleteHeaders;
+
+/** Optional parameters. */
+export interface AutoExportJobsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AutoExportJobsGetResponse = AutoExportJob;
+
+/** Optional parameters. */
+export interface AutoExportJobsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AutoExportJobsCreateOrUpdateResponse = AutoExportJob;
+
+/** Optional parameters. */
+export interface AutoExportJobsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AutoExportJobsUpdateResponse = AutoExportJob;
+
+/** Optional parameters. */
+export interface AutoExportJobsListByAmlFilesystemOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystem operation. */
+export type AutoExportJobsListByAmlFilesystemResponse =
+  AutoExportJobsListResult;
+
+/** Optional parameters. */
+export interface AutoExportJobsListByAmlFilesystemNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAmlFilesystemNext operation. */
+export type AutoExportJobsListByAmlFilesystemNextResponse =
+  AutoExportJobsListResult;
 
 /** Optional parameters. */
 export interface ImportJobsDeleteOptionalParams
