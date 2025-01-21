@@ -2489,7 +2489,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-content-safety@file:projects/ai-content-safety.tgz':
-    resolution: {integrity: sha512-xOpgdfH/OsMtcMu4u2C8aa7uxFogy07yAmnWakmDcGburi1wqsmrBybVYuuY9rQ65yzhxNMbQGaoVJEknkWnnA==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-7p70zsV3Ltl7OvqsM08XSA9JsS8J/GgGHVC5zs+72MHA7dmruDW17tWgRdDy9SFjodxhjpevtiaPnAGtBylSeQ==, tarball: file:projects/ai-content-safety.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
@@ -2789,7 +2789,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
-    resolution: {integrity: sha512-y9ECq1U/5kniSBx2bBfb/8msTMUJyBsFl6vBSGeJbadftoiTIRK4AzaeGsSdarD5/k9VYT0vJ5Tl5aM1uta7wA==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-HneVN67gQNSi4lAOwnoe8ejpL2IAC7TybXv8EWYDdAswHIQ6HgH/xN6elrGatrjotxaQDJvJg2+uiZmpMuMfYQ==, tarball: file:projects/arm-dashboard.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
@@ -3797,11 +3797,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz':
-    resolution: {integrity: sha512-NsRNSZEgu6v2GcTPI6//0ooo9j3mSW9+dRKlA9pYykNLrPHSBsOXdZDbz6+kSzN1DV/THbrEGTuuCIfcEV33Eg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-QnvbnEZQ8oIu/u86Mj3bO78W2QCT7p7nAsieHpagj57kId53t58JfS05ji48YIAYmXiFW1Zq3WsCrJeL+z+HUw==, tarball: file:projects/keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
-    resolution: {integrity: sha512-fD04k0UvAxSf4/kzDtbAcEL4PZAeOJDy+4hJs3mAHTtDb+G/ss9VvZtH71JNW+1/dxWt4mklzSwYGew18pVpKQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-OGEUGsNF7ecyHyedFMjz25FJaanFV7+7hVTxImuMAMj057qdI23fwxGoyEHPWDl6yhXd1ybza3LD3DGkoxzwHg==, tarball: file:projects/keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
@@ -12213,15 +12213,14 @@ snapshots:
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
