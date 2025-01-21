@@ -1,15 +1,45 @@
 # Release History
-
-## 8.0.1 (Unreleased)
-
+    
+## 8.1.0 (2025-01-21)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group AutoExportJobs
+  - Added Interface AutoExportJob
+  - Added Interface AutoExportJobsCreateOrUpdateHeaders
+  - Added Interface AutoExportJobsCreateOrUpdateOptionalParams
+  - Added Interface AutoExportJobsDeleteHeaders
+  - Added Interface AutoExportJobsDeleteOptionalParams
+  - Added Interface AutoExportJobsGetOptionalParams
+  - Added Interface AutoExportJobsListByAmlFilesystemNextOptionalParams
+  - Added Interface AutoExportJobsListByAmlFilesystemOptionalParams
+  - Added Interface AutoExportJobsListResult
+  - Added Interface AutoExportJobsUpdateHeaders
+  - Added Interface AutoExportJobsUpdateOptionalParams
+  - Added Interface AutoExportJobUpdate
+  - Added Type Alias AutoExportJobAdminStatus
+  - Added Type Alias AutoExportJobProvisioningStateType
+  - Added Type Alias AutoExportJobsCreateOrUpdateResponse
+  - Added Type Alias AutoExportJobsDeleteResponse
+  - Added Type Alias AutoExportJobsGetResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemNextResponse
+  - Added Type Alias AutoExportJobsListByAmlFilesystemResponse
+  - Added Type Alias AutoExportJobsUpdateResponse
+  - Added Type Alias AutoExportStatusType
+  - Added Type Alias ImportJobAdminStatus
+  - Interface ImportJob has a new optional parameter adminStatus
+  - Interface ImportJob has a new optional parameter importedDirectories
+  - Interface ImportJob has a new optional parameter importedFiles
+  - Interface ImportJob has a new optional parameter importedSymlinks
+  - Interface ImportJob has a new optional parameter preexistingDirectories
+  - Interface ImportJob has a new optional parameter preexistingFiles
+  - Interface ImportJob has a new optional parameter preexistingSymlinks
+  - Added Enum KnownAutoExportJobAdminStatus
+  - Added Enum KnownAutoExportJobProvisioningStateType
+  - Added Enum KnownAutoExportStatusType
+  - Added Enum KnownImportJobAdminStatus
+    
+    
 ## 8.0.0 (2024-05-13)
     
 ### Features Added
