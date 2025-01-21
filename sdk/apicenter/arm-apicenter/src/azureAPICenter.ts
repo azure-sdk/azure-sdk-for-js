@@ -16,9 +16,12 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  DeletedServicesImpl,
   ServicesImpl,
   MetadataSchemasImpl,
   WorkspacesImpl,
+  AnalyzerConfigsImpl,
+  ApiSourcesImpl,
   ApisImpl,
   DeploymentsImpl,
   ApiVersionsImpl,
@@ -27,9 +30,12 @@ import {
 } from "./operations/index.js";
 import {
   Operations,
+  DeletedServices,
   Services,
   MetadataSchemas,
   Workspaces,
+  AnalyzerConfigs,
+  ApiSources,
   Apis,
   Deployments,
   ApiVersions,
@@ -70,7 +76,7 @@ export class AzureAPICenter extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apicenter/1.0.1`;
+    const packageDetails = `azsdk-js-arm-apicenter/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,11 +130,14 @@ export class AzureAPICenter extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
+    this.apiVersion = options.apiVersion || "2024-12-15-preview";
     this.operations = new OperationsImpl(this);
+    this.deletedServices = new DeletedServicesImpl(this);
     this.services = new ServicesImpl(this);
     this.metadataSchemas = new MetadataSchemasImpl(this);
     this.workspaces = new WorkspacesImpl(this);
+    this.analyzerConfigs = new AnalyzerConfigsImpl(this);
+    this.apiSources = new ApiSourcesImpl(this);
     this.apis = new ApisImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.apiVersions = new ApiVersionsImpl(this);
@@ -166,9 +175,12 @@ export class AzureAPICenter extends coreClient.ServiceClient {
   }
 
   operations: Operations;
+  deletedServices: DeletedServices;
   services: Services;
   metadataSchemas: MetadataSchemas;
   workspaces: Workspaces;
+  analyzerConfigs: AnalyzerConfigs;
+  apiSources: ApiSources;
   apis: Apis;
   deployments: Deployments;
   apiVersions: ApiVersions;

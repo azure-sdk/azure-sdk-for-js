@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ApiDefinitions } from "../operationsInterfaces/index.js";
+import { AnalyzerConfigs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,31 +20,30 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ApiDefinition,
-  ApiDefinitionsListNextOptionalParams,
-  ApiDefinitionsListOptionalParams,
-  ApiDefinitionsListResponse,
-  ApiDefinitionsGetOptionalParams,
-  ApiDefinitionsGetResponse,
-  ApiDefinitionsCreateOrUpdateOptionalParams,
-  ApiDefinitionsCreateOrUpdateResponse,
-  ApiDefinitionsDeleteOptionalParams,
-  ApiDefinitionsHeadOptionalParams,
-  ApiDefinitionsHeadResponse,
-  ApiDefinitionsExportSpecificationOptionalParams,
-  ApiDefinitionsExportSpecificationResponse,
-  ApiSpecImportRequest,
-  ApiDefinitionsImportSpecificationOptionalParams,
-  ApiDefinitionsListNextResponse,
+  AnalyzerConfig,
+  AnalyzerConfigsListNextOptionalParams,
+  AnalyzerConfigsListOptionalParams,
+  AnalyzerConfigsListResponse,
+  AnalyzerConfigsGetOptionalParams,
+  AnalyzerConfigsGetResponse,
+  AnalyzerConfigsCreateOrUpdateOptionalParams,
+  AnalyzerConfigsCreateOrUpdateResponse,
+  AnalyzerConfigsDeleteOptionalParams,
+  AnalyzerConfigsExportRulesetOptionalParams,
+  AnalyzerConfigsExportRulesetResponse,
+  RulesetImportRequest,
+  AnalyzerConfigsImportRulesetOptionalParams,
+  AnalyzerConfigsImportRulesetResponse,
+  AnalyzerConfigsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ApiDefinitions operations. */
-export class ApiDefinitionsImpl implements ApiDefinitions {
+/** Class containing AnalyzerConfigs operations. */
+export class AnalyzerConfigsImpl implements AnalyzerConfigs {
   private readonly client: AzureAPICenter;
 
   /**
-   * Initialize a new instance of the class ApiDefinitions class.
+   * Initialize a new instance of the class AnalyzerConfigs class.
    * @param client Reference to the service client
    */
   constructor(client: AzureAPICenter) {
@@ -52,28 +51,22 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Returns a collection of API definitions.
+   * Lists API analyzer configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiDefinitionsListOptionalParams,
-  ): PagedAsyncIterableIterator<ApiDefinition> {
+    options?: AnalyzerConfigsListOptionalParams,
+  ): PagedAsyncIterableIterator<AnalyzerConfig> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
-      versionName,
       options,
     );
     return {
@@ -91,8 +84,6 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
           resourceGroupName,
           serviceName,
           workspaceName,
-          apiName,
-          versionName,
           options,
           settings,
         );
@@ -104,20 +95,16 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiDefinitionsListOptionalParams,
+    options?: AnalyzerConfigsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ApiDefinition[]> {
-    let result: ApiDefinitionsListResponse;
+  ): AsyncIterableIterator<AnalyzerConfig[]> {
+    let result: AnalyzerConfigsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
         options,
       );
       let page = result.value || [];
@@ -130,8 +117,6 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
         continuationToken,
         options,
       );
@@ -146,16 +131,12 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiDefinitionsListOptionalParams,
-  ): AsyncIterableIterator<ApiDefinition> {
+    options?: AnalyzerConfigsListOptionalParams,
+  ): AsyncIterableIterator<AnalyzerConfig> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
-      versionName,
       options,
     )) {
       yield* page;
@@ -163,62 +144,45 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Returns a collection of API definitions.
+   * Lists API analyzer configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    options?: ApiDefinitionsListOptionalParams,
-  ): Promise<ApiDefinitionsListResponse> {
+    options?: AnalyzerConfigsListOptionalParams,
+  ): Promise<AnalyzerConfigsListResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Returns details of the API definition.
+   * Returns details of the API analyzer configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    options?: ApiDefinitionsGetOptionalParams,
-  ): Promise<ApiDefinitionsGetResponse> {
+    analyzerConfigName: string,
+    options?: AnalyzerConfigsGetOptionalParams,
+  ): Promise<AnalyzerConfigsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
-        definitionName,
+        analyzerConfigName,
         options,
       },
       getOperationSpec,
@@ -226,13 +190,11 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Creates new or updates existing API definition.
+   * Creates new or updates existing API analyzer configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param resource Resource create parameters.
    * @param options The options parameters.
    */
@@ -240,20 +202,16 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    resource: ApiDefinition,
-    options?: ApiDefinitionsCreateOrUpdateOptionalParams,
-  ): Promise<ApiDefinitionsCreateOrUpdateResponse> {
+    analyzerConfigName: string,
+    resource: AnalyzerConfig,
+    options?: AnalyzerConfigsCreateOrUpdateOptionalParams,
+  ): Promise<AnalyzerConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
-        definitionName,
+        analyzerConfigName,
         resource,
         options,
       },
@@ -262,32 +220,26 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Deletes specified API definition.
+   * Permanently deletes API analyzer configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    options?: ApiDefinitionsDeleteOptionalParams,
+    analyzerConfigName: string,
+    options?: AnalyzerConfigsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
-        definitionName,
+        analyzerConfigName,
         options,
       },
       deleteOperationSpec,
@@ -295,66 +247,29 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Checks if specified API definition exists.
+   * Exports the API analyzer ruleset.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param options The options parameters.
    */
-  head(
+  async beginExportRuleset(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    options?: ApiDefinitionsHeadOptionalParams,
-  ): Promise<ApiDefinitionsHeadResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        definitionName,
-        options,
-      },
-      headOperationSpec,
-    );
-  }
-
-  /**
-   * Exports the API specification.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of Azure API Center service.
-   * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
-   * @param options The options parameters.
-   */
-  async beginExportSpecification(
-    resourceGroupName: string,
-    serviceName: string,
-    workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    options?: ApiDefinitionsExportSpecificationOptionalParams,
+    analyzerConfigName: string,
+    options?: AnalyzerConfigsExportRulesetOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ApiDefinitionsExportSpecificationResponse>,
-      ApiDefinitionsExportSpecificationResponse
+      OperationState<AnalyzerConfigsExportRulesetResponse>,
+      AnalyzerConfigsExportRulesetResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ApiDefinitionsExportSpecificationResponse> => {
+    ): Promise<AnalyzerConfigsExportRulesetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -395,16 +310,14 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
-        definitionName,
+        analyzerConfigName,
         options,
       },
-      spec: exportSpecificationOperationSpec,
+      spec: exportRulesetOperationSpec,
     });
     const poller = await createHttpPoller<
-      ApiDefinitionsExportSpecificationResponse,
-      OperationState<ApiDefinitionsExportSpecificationResponse>
+      AnalyzerConfigsExportRulesetResponse,
+      OperationState<AnalyzerConfigsExportRulesetResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -415,61 +328,56 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Exports the API specification.
+   * Exports the API analyzer ruleset.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param options The options parameters.
    */
-  async beginExportSpecificationAndWait(
+  async beginExportRulesetAndWait(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    options?: ApiDefinitionsExportSpecificationOptionalParams,
-  ): Promise<ApiDefinitionsExportSpecificationResponse> {
-    const poller = await this.beginExportSpecification(
+    analyzerConfigName: string,
+    options?: AnalyzerConfigsExportRulesetOptionalParams,
+  ): Promise<AnalyzerConfigsExportRulesetResponse> {
+    const poller = await this.beginExportRuleset(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
-      versionName,
-      definitionName,
+      analyzerConfigName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Imports the API specification.
+   * Imports the API analyzer ruleset.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param body The content of the action request
    * @param options The options parameters.
    */
-  async beginImportSpecification(
+  async beginImportRuleset(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    body: ApiSpecImportRequest,
-    options?: ApiDefinitionsImportSpecificationOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    analyzerConfigName: string,
+    body: RulesetImportRequest,
+    options?: AnalyzerConfigsImportRulesetOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AnalyzerConfigsImportRulesetResponse>,
+      AnalyzerConfigsImportRulesetResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<AnalyzerConfigsImportRulesetResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -510,15 +418,16 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         resourceGroupName,
         serviceName,
         workspaceName,
-        apiName,
-        versionName,
-        definitionName,
+        analyzerConfigName,
         body,
         options,
       },
-      spec: importSpecificationOperationSpec,
+      spec: importRulesetOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AnalyzerConfigsImportRulesetResponse,
+      OperationState<AnalyzerConfigsImportRulesetResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -528,33 +437,27 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
   }
 
   /**
-   * Imports the API specification.
+   * Imports the API analyzer ruleset.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
-   * @param definitionName The name of the API definition.
+   * @param analyzerConfigName The name of the configuration.
    * @param body The content of the action request
    * @param options The options parameters.
    */
-  async beginImportSpecificationAndWait(
+  async beginImportRulesetAndWait(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
-    definitionName: string,
-    body: ApiSpecImportRequest,
-    options?: ApiDefinitionsImportSpecificationOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginImportSpecification(
+    analyzerConfigName: string,
+    body: RulesetImportRequest,
+    options?: AnalyzerConfigsImportRulesetOptionalParams,
+  ): Promise<AnalyzerConfigsImportRulesetResponse> {
+    const poller = await this.beginImportRuleset(
       resourceGroupName,
       serviceName,
       workspaceName,
-      apiName,
-      versionName,
-      definitionName,
+      analyzerConfigName,
       body,
       options,
     );
@@ -566,8 +469,6 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param apiName The name of the API.
-   * @param versionName The name of the API version.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -575,21 +476,11 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    apiName: string,
-    versionName: string,
     nextLink: string,
-    options?: ApiDefinitionsListNextOptionalParams,
-  ): Promise<ApiDefinitionsListNextResponse> {
+    options?: AnalyzerConfigsListNextOptionalParams,
+  ): Promise<AnalyzerConfigsListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        workspaceName,
-        apiName,
-        versionName,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, serviceName, workspaceName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -598,11 +489,11 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiDefinitionListResult,
+      bodyMapper: Mappers.AnalyzerConfigListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -615,19 +506,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs/{analyzerConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiDefinition,
-      headersMapper: Mappers.ApiDefinitionsGetHeaders,
+      bodyMapper: Mappers.AnalyzerConfig,
+      headersMapper: Mappers.AnalyzerConfigsGetHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -640,30 +529,28 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
+    Parameters.analyzerConfigName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs/{analyzerConfigName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiDefinition,
-      headersMapper: Mappers.ApiDefinitionsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AnalyzerConfig,
+      headersMapper: Mappers.AnalyzerConfigsCreateOrUpdateHeaders,
     },
     201: {
-      bodyMapper: Mappers.ApiDefinition,
-      headersMapper: Mappers.ApiDefinitionsCreateOrUpdateHeaders,
+      bodyMapper: Mappers.AnalyzerConfig,
+      headersMapper: Mappers.AnalyzerConfigsCreateOrUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource8,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -671,16 +558,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
+    Parameters.analyzerConfigName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs/{analyzerConfigName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -696,51 +581,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
+    Parameters.analyzerConfigName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const headOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const exportSpecificationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}/exportSpecification",
+const exportRulesetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs/{analyzerConfigName}/exportRuleset",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiSpecExportResult,
+      bodyMapper: Mappers.RulesetExportResult,
     },
     201: {
-      bodyMapper: Mappers.ApiSpecExportResult,
+      bodyMapper: Mappers.RulesetExportResult,
     },
     202: {
-      bodyMapper: Mappers.ApiSpecExportResult,
+      bodyMapper: Mappers.RulesetExportResult,
     },
     204: {
-      bodyMapper: Mappers.ApiSpecExportResult,
+      bodyMapper: Mappers.RulesetExportResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -753,26 +613,32 @@ const exportSpecificationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
+    Parameters.analyzerConfigName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const importSpecificationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/apis/{apiName}/versions/{versionName}/definitions/{definitionName}/importSpecification",
+const importRulesetOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiCenter/services/{serviceName}/workspaces/{workspaceName}/analyzerConfigs/{analyzerConfigName}/importRuleset",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -780,9 +646,7 @@ const importSpecificationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
-    Parameters.definitionName,
+    Parameters.analyzerConfigName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -793,7 +657,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiDefinitionListResult,
+      bodyMapper: Mappers.AnalyzerConfigListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -806,8 +670,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.workspaceName,
-    Parameters.apiName,
-    Parameters.versionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
