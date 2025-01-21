@@ -247,6 +247,9 @@ importers:
       '@rush-temp/arm-dashboard':
         specifier: file:./projects/arm-dashboard.tgz
         version: file:projects/arm-dashboard.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
+      '@rush-temp/arm-databasewatcher':
+        specifier: file:./projects/arm-databasewatcher.tgz
+        version: file:projects/arm-databasewatcher.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
       '@rush-temp/arm-databoundaries':
         specifier: file:./projects/arm-databoundaries.tgz
         version: file:projects/arm-databoundaries.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
@@ -2790,6 +2793,10 @@ packages:
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
     resolution: {integrity: sha512-y9ECq1U/5kniSBx2bBfb/8msTMUJyBsFl6vBSGeJbadftoiTIRK4AzaeGsSdarD5/k9VYT0vJ5Tl5aM1uta7wA==, tarball: file:projects/arm-dashboard.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
+    resolution: {integrity: sha512-owK64+hZPTPiOdrioAxydRBd+AvjR3KSvmOO599rf6lrry/lpT0zHc8oNpmClfl/LHV08ouIshCqUmOXR7VELg==, tarball: file:projects/arm-databasewatcher.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
@@ -12243,6 +12250,39 @@ snapshots:
       - vite
       - webdriverio
 
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.71)
+      '@types/node': 18.19.71
+      '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      dotenv: 16.4.7
+      eslint: 9.18.0
+      playwright: 1.49.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
       '@types/node': 18.19.71
@@ -20942,11 +20982,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -20964,7 +21004,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -20972,7 +21012,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -21014,12 +21054,12 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -21030,21 +21070,21 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/jws@3.2.10':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -21075,11 +21115,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.71':
@@ -21104,7 +21144,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -21121,7 +21161,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -21132,12 +21172,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -21152,11 +21192,11 @@ snapshots:
 
   '@types/stoppable@1.1.3':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -21190,7 +21230,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.18.0)(typescript@5.7.3))(eslint@9.18.0)(typescript@5.7.3)':
@@ -21476,7 +21516,7 @@ snapshots:
 
   ajv-formats@3.0.1:
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
 
   ajv@6.12.6:
     dependencies:
@@ -22182,7 +22222,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -24319,7 +24359,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       long: 5.2.4
 
   proxy-addr@2.0.7:
