@@ -411,6 +411,7 @@ export type CopySinkUnion =
   | JsonSink
   | OrcSink
   | RestSink
+  | TeradataSink
   | AzurePostgreSqlSink
   | AzureMySqlSink
   | AzureDatabricksDeltaLakeSink
@@ -452,14 +453,15 @@ export type CopySinkUnion =
   | LakeHouseTableSink
   | SalesforceV2Sink
   | SalesforceServiceCloudV2Sink;
+export type ImportSettingsUnion =
+  | ImportSettings
+  | TeradataImportCommand
+  | AzureDatabricksDeltaLakeImportCommand
+  | SnowflakeImportCopyCommand;
 export type ExportSettingsUnion =
   | ExportSettings
   | SnowflakeExportCopyCommand
   | AzureDatabricksDeltaLakeExportCommand;
-export type ImportSettingsUnion =
-  | ImportSettings
-  | AzureDatabricksDeltaLakeImportCommand
-  | SnowflakeImportCopyCommand;
 export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
 export type DependencyReferenceUnion =
   | DependencyReference
@@ -3396,6 +3398,7 @@ export interface CopySink {
     | "JsonSink"
     | "OrcSink"
     | "RestSink"
+    | "TeradataSink"
     | "AzurePostgreSqlSink"
     | "AzureMySqlSink"
     | "AzureDatabricksDeltaLakeSink"
@@ -3585,6 +3588,17 @@ export interface TeradataPartitionSettings {
   partitionLowerBound?: any;
 }
 
+/** Import command settings. */
+export interface ImportSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "TeradataImportCommand"
+    | "AzureDatabricksDeltaLakeImportCommand"
+    | "SnowflakeImportCopyCommand";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+}
+
 /** Cursor methods for Mongodb query */
 export interface MongoDbCursorMethodsProperties {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3627,14 +3641,6 @@ export interface RedshiftUnloadSettings {
 export interface ExportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeExportCopyCommand" | "AzureDatabricksDeltaLakeExportCommand";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-}
-
-/** Import command settings. */
-export interface ImportSettings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -5270,7 +5276,7 @@ export interface Db2LinkedService extends LinkedService {
 export interface TeradataLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Teradata";
-  /** Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  /** Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Only applied for version 1.0. */
   connectionString?: any;
   /** Server name for connection. Type: string (or Expression with resultType string). */
   server?: any;
@@ -5280,6 +5286,18 @@ export interface TeradataLinkedService extends LinkedService {
   username?: any;
   /** Password for authentication. */
   password?: SecretBaseUnion;
+  /** SSL mode for connection. Valid values including: “Disable”, “Allow”, “Prefer”, “Require”, “Verify-CA”, “Verify-Full”. Default value is “Verify-Full”. Type: string (or Expression with resultType string). Only applied for version 2.0. */
+  sslMode?: any;
+  /** The port numbers when connecting to server through non HTTPS/TLS connections. Type: integer (or Expression with resultType integer). Only used for V2. Only applied for version 2.0. */
+  portNumber?: any;
+  /** The port numbers when connecting to server through HTTPS/TLS connections. Type: integer (or Expression with resultType integer). Only applied for version 2.0. */
+  httpsPortNumber?: any;
+  /** Specifies whether to encrypt all communication with the Teradata database. Allowed values are 0 or 1. This setting will be ignored for HTTPS/TLS connections. Type: integer (or Expression with resultType integer). Only applied for version 2.0. */
+  useDataEncryption?: any;
+  /** The character set to use for the connection. Type: string (or Expression with resultType string). Only applied for version 2.0. */
+  characterSet?: any;
+  /** The maximum size of the response buffer for SQL requests, in bytes. Type: integer. Only applied for version 2.0. */
+  maxRespSize?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -5706,7 +5724,7 @@ export interface SapOdpLinkedService extends LinkedService {
   messageServer?: any;
   /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
   messageServerService?: any;
-  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
+  /** SNC activation flag (Boolean) to access the SAP server where the table is located. Type: boolean (or Expression with resultType boolean). */
   sncMode?: any;
   /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
   sncMyName?: any;
@@ -6236,6 +6254,24 @@ export interface GreenplumLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
+  /** The authentication type to use. Type: string. Only used for V2. */
+  authenticationType?: GreenplumAuthenticationType;
+  /** Host name for connection. Type: string. Only used for V2. */
+  host?: any;
+  /** The port for the connection. Type: integer. Only used for V2. */
+  port?: any;
+  /** Username for authentication. Type: string. Only used for V2. */
+  username?: any;
+  /** Database name for connection. Type: string. Only used for V2. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. Only used for V2. */
+  sslMode?: any;
+  /** The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error. Type: integer. Only used for V2. */
+  connectionTimeout?: any;
+  /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. Only used for V2. */
+  commandTimeout?: any;
+  /** The Azure key vault secret reference of password in connection string. Type: string. Only used for V2. */
+  password?: SecretBaseUnion;
 }
 
 /** HBase server linked service. */
@@ -7037,7 +7073,7 @@ export interface SapTableLinkedService extends LinkedService {
   messageServer?: any;
   /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
   messageServerService?: any;
-  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
+  /** SNC activation flag (Boolean) to access the SAP server where the table is located. Type: boolean (or Expression with resultType boolean). */
   sncMode?: any;
   /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
   sncMyName?: any;
@@ -10135,6 +10171,14 @@ export interface RestSink extends CopySink {
   httpCompressionType?: any;
 }
 
+/** A copy activity Teradata sink. */
+export interface TeradataSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeradataSink";
+  /** Teradata import settings. */
+  importSettings?: TeradataImportCommand;
+}
+
 /** A copy activity Azure PostgreSQL sink. */
 export interface AzurePostgreSqlSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10619,26 +10663,12 @@ export interface SalesforceServiceCloudV2Sink extends CopySink {
   ignoreNullValues?: any;
 }
 
-/** Snowflake export command settings. */
-export interface SnowflakeExportCopyCommand extends ExportSettings {
+/** Teradata import command settings. */
+export interface TeradataImportCommand extends ImportSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SnowflakeExportCopyCommand";
-  /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
-  additionalCopyOptions?: { [propertyName: string]: any };
-  /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
-  additionalFormatOptions?: { [propertyName: string]: any };
-  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
-  storageIntegration?: any;
-}
-
-/** Azure Databricks Delta Lake export command settings. */
-export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureDatabricksDeltaLakeExportCommand";
-  /** Specify the date format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  dateFormat?: any;
-  /** Specify the timestamp format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
-  timestampFormat?: any;
+  type: "TeradataImportCommand";
+  /** Additional format options for Teradata Copy Command. The format options only applies to direct copy from CSV source. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "timeFormat": "HHhMImSSs" } */
+  additionalFormatOptions?: any;
 }
 
 /** Azure Databricks Delta Lake import command settings. */
@@ -10661,6 +10691,28 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
   additionalFormatOptions?: { [propertyName: string]: any };
   /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
   storageIntegration?: any;
+}
+
+/** Snowflake export command settings. */
+export interface SnowflakeExportCopyCommand extends ExportSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeExportCopyCommand";
+  /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
+  additionalCopyOptions?: { [propertyName: string]: any };
+  /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
+  additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
+}
+
+/** Azure Databricks Delta Lake export command settings. */
+export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureDatabricksDeltaLakeExportCommand";
+  /** Specify the date format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
+  dateFormat?: any;
+  /** Specify the timestamp format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
+  timestampFormat?: any;
 }
 
 /** A copy activity tabular translator. */
@@ -11317,6 +11369,8 @@ export interface ScriptActivity extends ExecutionActivity {
   scripts?: ScriptActivityScriptBlock[];
   /** Log settings of script activity. */
   logSettings?: ScriptActivityTypePropertiesLogSettings;
+  /** Enable to retrieve result sets from multiple SQL statements and the number of rows affected by the DML statement. Supported connector: SnowflakeV2. Type: boolean (or Expression with resultType boolean). */
+  returnMultistatementResult?: any;
 }
 
 /** Execute Synapse notebook activity. */
@@ -13456,6 +13510,21 @@ export enum KnownGoogleBigQueryV2AuthenticationType {
  * **UserAuthentication**
  */
 export type GoogleBigQueryV2AuthenticationType = string;
+
+/** Known values of {@link GreenplumAuthenticationType} that the service accepts. */
+export enum KnownGreenplumAuthenticationType {
+  /** Basic */
+  Basic = "Basic",
+}
+
+/**
+ * Defines values for GreenplumAuthenticationType. \
+ * {@link KnownGreenplumAuthenticationType} can be used interchangeably with GreenplumAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic**
+ */
+export type GreenplumAuthenticationType = string;
 
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {

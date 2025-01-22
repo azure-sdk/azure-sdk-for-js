@@ -1,5 +1,33 @@
 # Release History
     
+## 18.1.0 (2025-01-22)
+    
+### Features Added
+
+  - Added Interface TeradataImportCommand
+  - Added Interface TeradataSink
+  - Added Type Alias GreenplumAuthenticationType
+  - Interface GreenplumLinkedService has a new optional parameter authenticationType
+  - Interface GreenplumLinkedService has a new optional parameter commandTimeout
+  - Interface GreenplumLinkedService has a new optional parameter connectionTimeout
+  - Interface GreenplumLinkedService has a new optional parameter database
+  - Interface GreenplumLinkedService has a new optional parameter host
+  - Interface GreenplumLinkedService has a new optional parameter password
+  - Interface GreenplumLinkedService has a new optional parameter port
+  - Interface GreenplumLinkedService has a new optional parameter sslMode
+  - Interface GreenplumLinkedService has a new optional parameter username
+  - Interface ScriptActivity has a new optional parameter returnMultistatementResult
+  - Interface TeradataLinkedService has a new optional parameter characterSet
+  - Interface TeradataLinkedService has a new optional parameter httpsPortNumber
+  - Interface TeradataLinkedService has a new optional parameter maxRespSize
+  - Interface TeradataLinkedService has a new optional parameter portNumber
+  - Interface TeradataLinkedService has a new optional parameter sslMode
+  - Interface TeradataLinkedService has a new optional parameter useDataEncryption
+  - Type of parameter type of interface CopySink is changed from "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink" to "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "TeradataSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink"
+  - Type of parameter type of interface ImportSettings is changed from "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand" to "TeradataImportCommand" | "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand"
+  - Added Enum KnownGreenplumAuthenticationType
+    
+    
 ## 18.0.0 (2024-12-10)
     
 ### Features Added

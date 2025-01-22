@@ -1659,13 +1659,13 @@ export interface CopySink {
     maxConcurrentConnections?: any;
     sinkRetryCount?: any;
     sinkRetryWait?: any;
-    type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink";
+    type: "DelimitedTextSink" | "JsonSink" | "OrcSink" | "RestSink" | "TeradataSink" | "AzurePostgreSqlSink" | "AzureMySqlSink" | "AzureDatabricksDeltaLakeSink" | "WarehouseSink" | "SapCloudForCustomerSink" | "AzureQueueSink" | "AzureTableSink" | "AvroSink" | "ParquetSink" | "BinarySink" | "IcebergSink" | "BlobSink" | "FileSystemSink" | "DocumentDbCollectionSink" | "CosmosDbSqlApiSink" | "SqlSink" | "SqlServerSink" | "AzureSqlSink" | "SqlMISink" | "SqlDWSink" | "SnowflakeSink" | "SnowflakeV2Sink" | "OracleSink" | "AzureDataLakeStoreSink" | "AzureBlobFSSink" | "AzureSearchIndexSink" | "OdbcSink" | "InformixSink" | "MicrosoftAccessSink" | "DynamicsSink" | "DynamicsCrmSink" | "CommonDataServiceForAppsSink" | "AzureDataExplorerSink" | "SalesforceSink" | "SalesforceServiceCloudSink" | "MongoDbAtlasSink" | "MongoDbV2Sink" | "CosmosDbMongoDbApiSink" | "LakeHouseTableSink" | "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink";
     writeBatchSize?: any;
     writeBatchTimeout?: any;
 }
 
 // @public (undocumented)
-export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | RestSink | AzurePostgreSqlSink | AzureMySqlSink | AzureDatabricksDeltaLakeSink | WarehouseSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | IcebergSink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | SnowflakeSink | SnowflakeV2Sink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | MongoDbAtlasSink | MongoDbV2Sink | CosmosDbMongoDbApiSink | LakeHouseTableSink | SalesforceV2Sink | SalesforceServiceCloudV2Sink;
+export type CopySinkUnion = CopySink | DelimitedTextSink | JsonSink | OrcSink | RestSink | TeradataSink | AzurePostgreSqlSink | AzureMySqlSink | AzureDatabricksDeltaLakeSink | WarehouseSink | SapCloudForCustomerSink | AzureQueueSink | AzureTableSink | AvroSink | ParquetSink | BinarySink | IcebergSink | BlobSink | FileSystemSink | DocumentDbCollectionSink | CosmosDbSqlApiSink | SqlSink | SqlServerSink | AzureSqlSink | SqlMISink | SqlDWSink | SnowflakeSink | SnowflakeV2Sink | OracleSink | AzureDataLakeStoreSink | AzureBlobFSSink | AzureSearchIndexSink | OdbcSink | InformixSink | MicrosoftAccessSink | DynamicsSink | DynamicsCrmSink | CommonDataServiceForAppsSink | AzureDataExplorerSink | SalesforceSink | SalesforceServiceCloudSink | MongoDbAtlasSink | MongoDbV2Sink | CosmosDbMongoDbApiSink | LakeHouseTableSink | SalesforceV2Sink | SalesforceServiceCloudV2Sink;
 
 // @public
 export interface CopySource {
@@ -3537,11 +3537,23 @@ export interface GoogleSheetsLinkedService extends LinkedService {
 }
 
 // @public
+export type GreenplumAuthenticationType = string;
+
+// @public
 export interface GreenplumLinkedService extends LinkedService {
+    authenticationType?: GreenplumAuthenticationType;
+    commandTimeout?: any;
     connectionString?: any;
+    connectionTimeout?: any;
+    database?: any;
     encryptedCredential?: string;
+    host?: any;
+    password?: SecretBaseUnion;
+    port?: any;
     pwd?: AzureKeyVaultSecretReference;
+    sslMode?: any;
     type: "Greenplum";
+    username?: any;
 }
 
 // @public
@@ -3945,11 +3957,11 @@ export interface ImpalaSource extends TabularSource {
 // @public
 export interface ImportSettings {
     [property: string]: any;
-    type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
+    type: "TeradataImportCommand" | "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
 }
 
 // @public (undocumented)
-export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
+export type ImportSettingsUnion = ImportSettings | TeradataImportCommand | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
 
 // @public
 export interface InformixLinkedService extends LinkedService {
@@ -4763,6 +4775,11 @@ export enum KnownGoogleBigQueryAuthenticationType {
 export enum KnownGoogleBigQueryV2AuthenticationType {
     ServiceAuthentication = "ServiceAuthentication",
     UserAuthentication = "UserAuthentication"
+}
+
+// @public
+export enum KnownGreenplumAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
@@ -7704,6 +7721,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    returnMultistatementResult?: any;
     scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";
@@ -8772,13 +8790,25 @@ export interface TeamDeskLinkedService extends LinkedService {
 export type TeradataAuthenticationType = string;
 
 // @public
+export interface TeradataImportCommand extends ImportSettings {
+    additionalFormatOptions?: any;
+    type: "TeradataImportCommand";
+}
+
+// @public
 export interface TeradataLinkedService extends LinkedService {
     authenticationType?: TeradataAuthenticationType;
+    characterSet?: any;
     connectionString?: any;
     encryptedCredential?: string;
+    httpsPortNumber?: any;
+    maxRespSize?: any;
     password?: SecretBaseUnion;
+    portNumber?: any;
     server?: any;
+    sslMode?: any;
     type: "Teradata";
+    useDataEncryption?: any;
     username?: any;
 }
 
@@ -8790,6 +8820,12 @@ export interface TeradataPartitionSettings {
     partitionColumnName?: any;
     partitionLowerBound?: any;
     partitionUpperBound?: any;
+}
+
+// @public
+export interface TeradataSink extends CopySink {
+    importSettings?: TeradataImportCommand;
+    type: "TeradataSink";
 }
 
 // @public
