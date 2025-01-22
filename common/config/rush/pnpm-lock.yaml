@@ -465,7 +465,7 @@ importers:
         version: file:projects/arm-logic.tgz
       '@rush-temp/arm-machinelearning':
         specifier: file:./projects/arm-machinelearning.tgz
-        version: file:projects/arm-machinelearning.tgz
+        version: file:projects/arm-machinelearning.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
       '@rush-temp/arm-machinelearningcompute':
         specifier: file:./projects/arm-machinelearningcompute.tgz
         version: file:projects/arm-machinelearningcompute.tgz
@@ -2705,7 +2705,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz':
-    resolution: {integrity: sha512-5jnCqpuY6z3rgWgy6kM49tMQ8GmBuuhmHfmTPkELkUj/SY69lfQO199xWweZNLBANjPQ1oV7RBow/mDroYiOIA==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-PbHAL7W3wC27H1Ywror0uQBeNriBegGylAM7/Im5b8aR/BpoCRr3kJTMypx1F3+T/xRJONxrHKJfyDefYHIz2Q==, tarball: file:projects/arm-communication.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
@@ -3081,7 +3081,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-kLlOT51xPOlxBK42f3di4Ax7jcN4X1850huQkMkAANJlgi2cOnPZqxtzG4yAweBE6GZAi+0AcNS+4TG9/JIUXA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-TEWyh+dSi/WMPsn4yL353IKgb2MiV4bBN6r9CRR4aU4bO20y/l59OiDoD2EUP9X1WnkTiMAqadccUy+G9aE7lw==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
@@ -3577,55 +3577,55 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
-    resolution: {integrity: sha512-B096hJCl8KGVcAI4GLoLl0Imon8q/uo6UPQvBFGlRd+10RJqgwVuv6bwQcsIdLZGc9EtFR4dh1WpmJIk/oHkfQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-gLMyuDcbOXQpKwVuepjiX3Q+xFfwDgLkg+CB5zcFRUDT/DkU7DLr3t1aIB4ic0ZnOrlPhe92EDZqYSORilDBQg==, tarball: file:projects/communication-common.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-email@file:projects/communication-email.tgz':
-    resolution: {integrity: sha512-kCtc9UyXFNIZpnxLwcKwNh4UXaKq/VL0NbDsNrAcAcMvnb/jGF00cla5XIWx/aDDP4+kKLGGAOLIP03sGlglFg==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-d7Q8AQwbAi5l1DpOl8n9DUET+PKi1f52IYh6ImSd8jHO72EbZRg9TvoeMf2r1OxpDvYwJObi2FWVajNMyO9Jgw==, tarball: file:projects/communication-email.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-identity@file:projects/communication-identity.tgz':
-    resolution: {integrity: sha512-GXi3SsU9e78RWIBopm7ZbFghRH0O58RuR3WbCCb1a58tkDNEwtdlb+BCUEKqmgAg1UyzsNK0DLA9ks0TTQR7tQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-qUEmURaERnZ8EHvXZB+NpsOtmiIP4QM3DiZ2kUTcGcdqtHexcSARyt8K8g24TxSqZoE7ItPmVcLAqB6A+E+O1A==, tarball: file:projects/communication-identity.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router-1@file:projects/communication-job-router-1.tgz':
-    resolution: {integrity: sha512-n2z2bSadooX3ECLjkCFKuepcUpBcSxc2IFMRRn1DeGJhGE6ZcUtyU4+RqeSc6wqNgYR5FDyeoDUK2g4daEacmg==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-whYMbdpPBP/4b9qQwjrPHtXGOGpMU7WfcdsqkQjqWUvoeOg6pMrnBi4gcW6dSViwNql0pecfGdqfnfXfvFLkcA==, tarball: file:projects/communication-job-router-1.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-job-router@file:projects/communication-job-router.tgz':
-    resolution: {integrity: sha512-8Uocnv0mBRgp67j96CXyVlpyuk+eCN38VoH2z+7n5lPcIkyTlXALBdWXSKmfqvSyHHTR1cPpLs0HvlXEokjdjA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-gCxmyVPCkjkmeJ0y8m4mK2SO1tJT/SeJC7Ql/X/Rz+u3Ip+ZNd84ZRwWHruLmf0SE2KwjQNnzpNpboVld1pC9g==, tarball: file:projects/communication-job-router.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-ReB7ZS3ys+VFPUzPcmiUQlhyqhaiR08drMVGcMcPYJMCfNmenW6+cZ1AzriNVY0CSio71MQyyh3WDJk/0Z3aPA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-j9FTBSXJdhPlc5W87raemEinMxQKAgBN+W/9M3RsARtNcjP+cQr7bVskAUwQhKlJOB/lqRpgrWie0DUv1bjMVA==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
-    resolution: {integrity: sha512-m2kcdE07LLUjLO+pVUNAW+heNAqNJLo+FfAjbZ3Z4ZjsOH4gWkC3sDhPb2lNZBzRPH8SuBQchhseyggJPED4+A==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-OZGLH3VupuasP1UqK80Eb2MAAqr2epoPVDiXUHD/C7WV4vYvY7VjJzPnd7bLwzmI086M3hycsX9CMWL5fOF+kw==, tarball: file:projects/communication-phone-numbers.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-recipient-verification@file:projects/communication-recipient-verification.tgz':
-    resolution: {integrity: sha512-e2/J7CYk4aVzkAz8QrHSxZs5HwS1CaecXw08mFGI/uhDuNxmcWL1oHqRNJCDk8AMGsAzRd6u3neZkJuabfDB6w==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-NcVmJbIgfEwtJQf/ga2Ph+6RiBWi/+97QyWkN2UPNb/bfZQgkv6wxvVyKs89hQqSgdz4tTUUMLSnE7KLMIqxFw==, tarball: file:projects/communication-recipient-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-rooms@file:projects/communication-rooms.tgz':
-    resolution: {integrity: sha512-PLrdNfiv+awM5bJVE7hO1uD9TQPJXkC1ScwrwthgA1i8OoQaEWn+vpskW5Mkm50At/a4tl2aAMob2Pz72dSqTw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-hGNydIoXXsiBVTArnY3NJVZBr/86bfSrYkfoiKl6HP+I3Vl+qACaP1QT/6zhFpNpzFgIiFI9zXse8h8X3Rgj8A==, tarball: file:projects/communication-rooms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-short-codes@file:projects/communication-short-codes.tgz':
-    resolution: {integrity: sha512-Ds1Js7sk+85Ato6lhobS3rv4SyE9QLtWuGcjh1okN0L61Z+oayXi6LjM5XVMD3gzlgV4S6tKgJX4G+yvqv2Mww==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-iZWG3Ads9TnIUpZspZpxf6ipL0t5oH4kLw4LXyqETGT/432NUJySQY+SlRd0+O3an6El9HAhaX5oHKQgXBirHA==, tarball: file:projects/communication-short-codes.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-sms@file:projects/communication-sms.tgz':
-    resolution: {integrity: sha512-HCXJQnm4PLnKjfZutc1vHXh9ed2iq1e5CI6rvjzRw0SzCgfs1GmtwMtt05bJyanzeunaiWLXWMfKHVoQa9MlsA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-RKZPGO0+HQDeiVfDJYvp8vZM2P2hUcQZW4FysWutCiz3irFnTweyc7IBXg5jtK93CxSIu3h64jy9sqlHJkrqgA==, tarball: file:projects/communication-sms.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-tiering@file:projects/communication-tiering.tgz':
-    resolution: {integrity: sha512-UqpcP6tGe7h8mJpfdq3qLXa7F6ctb6QHGbJr1cHw7GrUeICfRd8IGX4o2YOtwi7WoRIxcakFLtR3DmJT/aS3sg==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-4uTh9alsftAjGCDlJw6nQZAUTj6EdjVxotuQnswqv/CnPnT+fzofyAlNl3o0dJB2QPnm1RgUXeBZjIBPAnV8Rw==, tarball: file:projects/communication-tiering.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-toll-free-verification@file:projects/communication-toll-free-verification.tgz':
-    resolution: {integrity: sha512-Remwrhf8Wr+z3waxN07OrU/VPbgH5ODU42JKx/a0z34FdIcJqtJky/Fdnn/UGY/dE6ID1Ft0tWSSpqjIZXOfMA==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-8RZPaGQN3pO+8tp/eiOV5vgn9i84iJf4wqqKkFO8nJnK7AzvKc0SGTjrV3JgzdCtNRYpaULZe+lknpryMXJTqA==, tarball: file:projects/communication-toll-free-verification.tgz}
     version: 0.0.0
 
   '@rush-temp/confidential-ledger@file:projects/confidential-ledger.tgz':
@@ -11531,7 +11531,6 @@ snapshots:
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
       '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
@@ -13975,26 +13974,36 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
+  '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.71
-      chai: 4.5.0
+      '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.71)(typescript@5.7.3)
+      playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
-      typescript: 5.7.3
+      typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
     dependencies:
@@ -16675,13 +16684,11 @@ snapshots:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.18.0
       events: 3.3.0
-      inherits: 2.0.4
       jwt-decode: 4.0.0
       mockdate: 3.0.5
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
-      util: 0.12.5
       vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -16775,18 +16782,14 @@ snapshots:
   '@rush-temp/communication-job-router-1@file:projects/communication-job-router-1.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
       '@types/node': 18.19.71
-      '@types/uuid': 8.3.4
       '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.18.0
       events: 3.3.0
-      inherits: 2.0.4
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
-      util: 0.12.5
-      uuid: 8.3.2
       vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17047,17 +17050,14 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@types/uuid': 8.3.4
       '@vitest/browser': 2.1.8(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@2.1.8)
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.18.0
       events: 3.3.0
-      inherits: 2.0.4
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 2.1.8(@types/node@18.19.71)(@vitest/browser@2.1.8)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -17088,7 +17088,6 @@ snapshots:
       '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.7
       eslint: 9.18.0
-      inherits: 2.0.4
       playwright: 1.49.1
       tslib: 2.8.1
       typescript: 5.7.3
