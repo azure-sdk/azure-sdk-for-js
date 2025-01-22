@@ -9,24 +9,13 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateLinkResource,
-  PrivateLinkResourcesListByWorkspaceOptionalParams,
   PrivateLinkResourcesListByHostPoolOptionalParams,
+  PrivateLinkResourcesListByWorkspaceOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
-  /**
-   * List the private link resources available for this workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param options The options parameters.
-   */
-  listByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
    * List the private link resources available for this hostpool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -37,5 +26,16 @@ export interface PrivateLinkResources {
     resourceGroupName: string,
     hostPoolName: string,
     options?: PrivateLinkResourcesListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+  /**
+   * List the private link resources available for this workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param options The options parameters.
+   */
+  listByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
