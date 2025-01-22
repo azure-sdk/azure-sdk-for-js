@@ -265,6 +265,17 @@ export type AdminRulesListResponse = AdminRuleListResult;
 export type AdminState = string;
 
 // @public
+export interface AdvertisedPublicPrefixProperties {
+    prefix?: string;
+    signature?: string;
+    validationId?: string;
+    readonly validationState?: AdvertisedPublicPrefixPropertiesValidationState;
+}
+
+// @public
+export type AdvertisedPublicPrefixPropertiesValidationState = string;
+
+// @public
 export interface ApplicationGateway extends Resource {
     authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
     autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
@@ -3828,6 +3839,7 @@ export interface ExpressRouteCircuitPeeringConfig {
     advertisedCommunities?: string[];
     advertisedPublicPrefixes?: string[];
     readonly advertisedPublicPrefixesState?: ExpressRouteCircuitPeeringAdvertisedPublicPrefixState;
+    advertisedPublicPrefixInfo?: AdvertisedPublicPrefixProperties[];
     customerASN?: number;
     legacyMode?: number;
     routingRegistryName?: string;
@@ -6513,6 +6525,20 @@ export enum KnownAdminState {
 }
 
 // @public
+export enum KnownAdvertisedPublicPrefixPropertiesValidationState {
+    AsnValidationFailed = "AsnValidationFailed",
+    CertificateMissingInRoutingRegistry = "CertificateMissingInRoutingRegistry",
+    Configured = "Configured",
+    Configuring = "Configuring",
+    InvalidSignatureEncoding = "InvalidSignatureEncoding",
+    ManualValidationNeeded = "ManualValidationNeeded",
+    NotConfigured = "NotConfigured",
+    SignatureVerificationFailed = "SignatureVerificationFailed",
+    ValidationFailed = "ValidationFailed",
+    ValidationNeeded = "ValidationNeeded"
+}
+
+// @public
 export enum KnownApplicationGatewayBackendHealthServerHealth {
     Down = "Down",
     Draining = "Draining",
@@ -8539,7 +8565,7 @@ export interface LoadBalancerHealthPerRule {
 // @public
 export interface LoadBalancerHealthPerRulePerBackendAddress {
     ipAddress?: string;
-    networkInterfaceIPConfigurationId?: NetworkInterfaceIPConfiguration;
+    networkInterfaceIPConfigurationId?: string;
     reason?: string;
     state?: string;
 }
@@ -10549,6 +10575,13 @@ export interface NetworkVirtualAppliance extends Resource {
 }
 
 // @public
+export interface NetworkVirtualApplianceBootDiagnosticParameters {
+    consoleScreenshotStorageSasUrl?: string;
+    instanceId?: number;
+    serialConsoleStorageSasUrl?: string;
+}
+
+// @public
 export interface NetworkVirtualApplianceConnection extends SubResource {
     asn?: number;
     bgpPeerAddress?: string[];
@@ -10617,6 +10650,11 @@ export interface NetworkVirtualApplianceConnectionsListOptionalParams extends co
 // @public
 export type NetworkVirtualApplianceConnectionsListResponse = NetworkVirtualApplianceConnectionList;
 
+// @public (undocumented)
+export interface NetworkVirtualApplianceInstanceId {
+    instanceId?: number;
+}
+
 // @public
 export interface NetworkVirtualApplianceInstanceIds {
     instanceIds?: string[];
@@ -10640,6 +10678,10 @@ export interface NetworkVirtualAppliances {
     beginCreateOrUpdateAndWait(resourceGroupName: string, networkVirtualApplianceName: string, parameters: NetworkVirtualAppliance, options?: NetworkVirtualAppliancesCreateOrUpdateOptionalParams): Promise<NetworkVirtualAppliancesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesDeleteOptionalParams): Promise<void>;
+    beginGetBootDiagnosticLogs(resourceGroupName: string, networkVirtualApplianceName: string, request: NetworkVirtualApplianceBootDiagnosticParameters, options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>, NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>>;
+    beginGetBootDiagnosticLogsAndWait(resourceGroupName: string, networkVirtualApplianceName: string, request: NetworkVirtualApplianceBootDiagnosticParameters, options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams): Promise<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>;
+    beginReimage(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesReimageOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesReimageResponse>, NetworkVirtualAppliancesReimageResponse>>;
+    beginReimageAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesReimageOptionalParams): Promise<NetworkVirtualAppliancesReimageResponse>;
     beginRestart(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesRestartOptionalParams): Promise<SimplePollerLike<OperationState<NetworkVirtualAppliancesRestartResponse>, NetworkVirtualAppliancesRestartResponse>>;
     beginRestartAndWait(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesRestartOptionalParams): Promise<NetworkVirtualAppliancesRestartResponse>;
     get(resourceGroupName: string, networkVirtualApplianceName: string, options?: NetworkVirtualAppliancesGetOptionalParams): Promise<NetworkVirtualAppliancesGetResponse>;
@@ -10672,6 +10714,20 @@ export interface NetworkVirtualAppliancesDeleteOptionalParams extends coreClient
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkVirtualAppliancesGetBootDiagnosticLogsResponse = NetworkVirtualApplianceInstanceId;
 
 // @public
 export interface NetworkVirtualAppliancesGetOptionalParams extends coreClient.OperationOptions {
@@ -10734,6 +10790,21 @@ export interface NetworkVirtualAppliancesListOptionalParams extends coreClient.O
 
 // @public
 export type NetworkVirtualAppliancesListResponse = NetworkVirtualApplianceListResult;
+
+// @public
+export interface NetworkVirtualAppliancesReimageHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkVirtualAppliancesReimageOptionalParams extends coreClient.OperationOptions {
+    networkVirtualApplianceInstanceIds?: NetworkVirtualApplianceInstanceIds;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkVirtualAppliancesReimageResponse = NetworkVirtualApplianceInstanceIds;
 
 // @public
 export interface NetworkVirtualAppliancesRestartHeaders {
