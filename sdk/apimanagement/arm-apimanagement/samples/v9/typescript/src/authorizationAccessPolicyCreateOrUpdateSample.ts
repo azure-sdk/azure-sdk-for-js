@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or updates Authorization Access Policy.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateAuthorizationAccessPolicy.json
  */
-async function apiManagementCreateAuthorizationAccessPolicy() {
+async function apiManagementCreateAuthorizationAccessPolicy(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -47,7 +47,7 @@ async function apiManagementCreateAuthorizationAccessPolicy() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementCreateAuthorizationAccessPolicy();
 }
 

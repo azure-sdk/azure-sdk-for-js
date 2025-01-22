@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the policy configuration at the Api.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiPolicy.json
  */
-async function apiManagementDeleteApiPolicy() {
+async function apiManagementDeleteApiPolicy(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementDeleteApiPolicy() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementDeleteApiPolicy();
 }
 

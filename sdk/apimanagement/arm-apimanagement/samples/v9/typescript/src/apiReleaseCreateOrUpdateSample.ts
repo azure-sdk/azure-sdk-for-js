@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates a new Release for the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateApiRelease.json
  */
-async function apiManagementCreateApiRelease() {
+async function apiManagementCreateApiRelease(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -46,7 +46,7 @@ async function apiManagementCreateApiRelease() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementCreateApiRelease();
 }
 

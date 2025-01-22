@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes specific certificate.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteCertificate.json
  */
-async function apiManagementDeleteCertificate() {
+async function apiManagementDeleteCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementDeleteCertificate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteCertificate();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Purges Api Management Service (deletes it with no option to undelete).
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeletedServicesPurge.json
  */
-async function apiManagementDeletedServicesPurge() {
+async function apiManagementDeletedServicesPurge(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const serviceName = "apimService3";
@@ -32,7 +32,7 @@ async function apiManagementDeletedServicesPurge() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeletedServicesPurge();
 }
 

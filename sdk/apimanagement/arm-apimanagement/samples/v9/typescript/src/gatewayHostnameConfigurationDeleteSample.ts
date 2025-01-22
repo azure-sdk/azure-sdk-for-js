@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified hostname configuration from the specified Gateway.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteGatewayHostnameConfiguration.json
  */
-async function apiManagementDeleteGatewayHostnameConfiguration() {
+async function apiManagementDeleteGatewayHostnameConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementDeleteGatewayHostnameConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteGatewayHostnameConfiguration();
 }
 

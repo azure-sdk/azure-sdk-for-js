@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get tag associated with the API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiTag.json
  */
-async function apiManagementGetApiTag() {
+async function apiManagementGetApiTag(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementGetApiTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementGetApiTag();
 }
 

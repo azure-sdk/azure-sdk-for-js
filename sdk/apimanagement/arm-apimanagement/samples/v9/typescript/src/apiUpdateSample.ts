@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Updates the specified API of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementUpdateApi.json
  */
-async function apiManagementUpdateApi() {
+async function apiManagementUpdateApi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -46,7 +46,7 @@ async function apiManagementUpdateApi() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementUpdateApi();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified API from the specified product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductApi.json
  */
-async function apiManagementDeleteProductApi() {
+async function apiManagementDeleteProductApi(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementDeleteProductApi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteProductApi();
 }
 
