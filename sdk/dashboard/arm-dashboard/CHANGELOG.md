@@ -1,15 +1,38 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 1.2.0 (2025-01-22)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group IntegrationFabrics
+  - Added Interface IntegrationFabric
+  - Added Interface IntegrationFabricListResponse
+  - Added Interface IntegrationFabricProperties
+  - Added Interface IntegrationFabricPropertiesUpdateParameters
+  - Added Interface IntegrationFabricsCreateHeaders
+  - Added Interface IntegrationFabricsCreateOptionalParams
+  - Added Interface IntegrationFabricsDeleteHeaders
+  - Added Interface IntegrationFabricsDeleteOptionalParams
+  - Added Interface IntegrationFabricsGetOptionalParams
+  - Added Interface IntegrationFabricsListNextOptionalParams
+  - Added Interface IntegrationFabricsListOptionalParams
+  - Added Interface IntegrationFabricsUpdateHeaders
+  - Added Interface IntegrationFabricsUpdateOptionalParams
+  - Added Interface IntegrationFabricUpdateParameters
+  - Added Interface Security
+  - Added Interface Snapshots
+  - Added Interface Users
+  - Added Type Alias IntegrationFabricsCreateResponse
+  - Added Type Alias IntegrationFabricsDeleteResponse
+  - Added Type Alias IntegrationFabricsGetResponse
+  - Added Type Alias IntegrationFabricsListNextResponse
+  - Added Type Alias IntegrationFabricsListResponse
+  - Added Type Alias IntegrationFabricsUpdateResponse
+  - Interface GrafanaConfigurations has a new optional parameter security
+  - Interface GrafanaConfigurations has a new optional parameter snapshots
+  - Interface GrafanaConfigurations has a new optional parameter users
+    
+    
 ## 1.1.0 (2023-11-10)
     
 ### Features Added
