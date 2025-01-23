@@ -2749,7 +2749,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerinstance@file:projects/arm-containerinstance.tgz':
-    resolution: {integrity: sha512-qwt6avx0fD87jTBRx0TBzqmNm95Q+lpkGposF+N3LQThNTWQCvPLZiEWOELQMpkG/DrJgtrJycfHQZp1SeiMUQ==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-GhRWME/3apM1Tym90+53dgLyq+x3ibZL4xuQJJFk+PqOvHKit7ZR+aAPOQvsJN1cCMWTW2kkSdhV+ZseIuKkXg==, tarball: file:projects/arm-containerinstance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerorchestratorruntime@file:projects/arm-containerorchestratorruntime.tgz':
@@ -2845,7 +2845,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-desktopvirtualization@file:projects/arm-desktopvirtualization.tgz':
-    resolution: {integrity: sha512-dPAHe/KXMOdFXcFQEOzVYgssB02vVuCJ7ClSDC/CenhpU7iEsEu+K0R0tnRIZjcZmdp2cSh7zEpmqfUqTPIT5Q==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-AAYYRIMaLfzfguCHej+gukRG/7+Md4urItbZF59pjZEM07dLQQ8gaf0wzOF7sPYVbWiiJxKztj+1on3DH99I+g==, tarball: file:projects/arm-desktopvirtualization.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
@@ -11882,7 +11882,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
@@ -12641,13 +12640,14 @@ snapshots:
 
   '@rush-temp/arm-desktopvirtualization@file:projects/arm-desktopvirtualization.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
       '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
       dotenv: 16.4.7
       playwright: 1.49.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'

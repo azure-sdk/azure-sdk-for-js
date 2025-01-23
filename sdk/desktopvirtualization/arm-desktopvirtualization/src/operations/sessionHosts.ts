@@ -294,6 +294,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.pageSize,
     Parameters.isDescending,
     Parameters.initialSkip,
+    Parameters.vmPath,
   ],
   urlParameters: [
     Parameters.$host,
