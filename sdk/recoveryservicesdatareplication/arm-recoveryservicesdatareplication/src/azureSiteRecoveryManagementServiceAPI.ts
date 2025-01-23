@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -32,8 +32,8 @@ import {
   VaultImpl,
   VaultOperationStatusImpl,
   WorkflowImpl,
-  WorkflowOperationStatusImpl
-} from "./operations";
+  WorkflowOperationStatusImpl,
+} from "./operations/index.js";
 import {
   Dra,
   DraOperationStatus,
@@ -52,17 +52,17 @@ import {
   Vault,
   VaultOperationStatus,
   Workflow,
-  WorkflowOperationStatus
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+  WorkflowOperationStatus,
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   AzureSiteRecoveryManagementServiceAPIOptionalParams,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityResponse,
   DeploymentPreflightOptionalParams,
-  DeploymentPreflightResponse
-} from "./models";
+  DeploymentPreflightResponse,
+} from "./models/index.js";
 
 export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;
@@ -78,7 +78,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureSiteRecoveryManagementServiceAPIOptionalParams
+    options?: AzureSiteRecoveryManagementServiceAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -93,7 +93,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
     }
     const defaults: AzureSiteRecoveryManagementServiceAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-recoveryservicesdatareplication/1.0.0-beta.2`;
@@ -106,20 +106,21 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -129,7 +130,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -139,9 +140,9 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -160,13 +161,12 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
     this.policyOperationStatus = new PolicyOperationStatusImpl(this);
     this.protectedItem = new ProtectedItemImpl(this);
     this.protectedItemOperationStatus = new ProtectedItemOperationStatusImpl(
-      this
+      this,
     );
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.replicationExtension = new ReplicationExtensionImpl(this);
-    this.replicationExtensionOperationStatus = new ReplicationExtensionOperationStatusImpl(
-      this
-    );
+    this.replicationExtensionOperationStatus =
+      new ReplicationExtensionOperationStatusImpl(this);
     this.operations = new OperationsImpl(this);
     this.vault = new VaultImpl(this);
     this.vaultOperationStatus = new VaultOperationStatusImpl(this);
@@ -184,7 +184,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -198,7 +198,7 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -210,11 +210,11 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
    */
   checkNameAvailability(
     location: string,
-    options?: CheckNameAvailabilityOptionalParams
+    options?: CheckNameAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityResponse> {
     return this.sendOperationRequest(
       { location, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
   deploymentPreflight(
     resourceGroupName: string,
     deploymentId: string,
-    options?: DeploymentPreflightOptionalParams
+    options?: DeploymentPreflightOptionalParams,
   ): Promise<DeploymentPreflightResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, deploymentId, options },
-      deploymentPreflightOperationSpec
+      deploymentPreflightOperationSpec,
     );
   }
 
@@ -258,39 +258,37 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponseModel
+      bodyMapper: Mappers.CheckNameAvailabilityResponseModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deploymentPreflightOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/deployments/{deploymentId}/preflight",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/deployments/{deploymentId}/preflight",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentPreflightModel
+      bodyMapper: Mappers.DeploymentPreflightModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body9,
   queryParameters: [Parameters.apiVersion],
@@ -298,9 +296,9 @@ const deploymentPreflightOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deploymentId
+    Parameters.deploymentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

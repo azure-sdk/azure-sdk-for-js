@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Workflow } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Workflow } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   WorkflowModel,
   WorkflowListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   WorkflowListResponse,
   WorkflowGetOptionalParams,
   WorkflowGetResponse,
-  WorkflowListNextResponse
-} from "../models";
+  WorkflowListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Workflow operations. */
@@ -45,7 +45,7 @@ export class WorkflowImpl implements Workflow {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -63,9 +63,9 @@ export class WorkflowImpl implements Workflow {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class WorkflowImpl implements Workflow {
     resourceGroupName: string,
     vaultName: string,
     options?: WorkflowListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WorkflowModel[]> {
     let result: WorkflowListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class WorkflowImpl implements Workflow {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class WorkflowImpl implements Workflow {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): AsyncIterableIterator<WorkflowModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class WorkflowImpl implements Workflow {
     resourceGroupName: string,
     vaultName: string,
     jobName: string,
-    options?: WorkflowGetOptionalParams
+    options?: WorkflowGetOptionalParams,
   ): Promise<WorkflowGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, jobName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class WorkflowImpl implements Workflow {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): Promise<WorkflowListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class WorkflowImpl implements Workflow {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: WorkflowListNextOptionalParams
+    options?: WorkflowListNextOptionalParams,
   ): Promise<WorkflowListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class WorkflowImpl implements Workflow {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs/{jobName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowModel
+      bodyMapper: Mappers.WorkflowModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,55 +187,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowModelCollection
+      bodyMapper: Mappers.WorkflowModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.continuationToken
+    Parameters.continuationToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkflowModelCollection
+      bodyMapper: Mappers.WorkflowModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

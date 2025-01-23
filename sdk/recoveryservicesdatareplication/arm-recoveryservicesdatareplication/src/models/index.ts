@@ -2507,7 +2507,7 @@ export enum KnownProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2532,7 +2532,7 @@ export enum KnownHealthStatus {
   /** Warning */
   Warning = "Warning",
   /** Critical */
-  Critical = "Critical"
+  Critical = "Critical",
 }
 
 /**
@@ -2651,7 +2651,7 @@ export enum KnownProtectionState {
   /** ReprotectFailed */
   ReprotectFailed = "ReprotectFailed",
   /** ReprotectStatesEnd */
-  ReprotectStatesEnd = "ReprotectStatesEnd"
+  ReprotectStatesEnd = "ReprotectStatesEnd",
 }
 
 /**
@@ -2733,7 +2733,7 @@ export enum KnownTestFailoverState {
   /** TestFailoverCleanupCompleting */
   TestFailoverCleanupCompleting = "TestFailoverCleanupCompleting",
   /** MarkedForDeletion */
-  MarkedForDeletion = "MarkedForDeletion"
+  MarkedForDeletion = "MarkedForDeletion",
 }
 
 /**
@@ -2762,7 +2762,7 @@ export enum KnownResynchronizationState {
   /** ResynchronizationCompleted */
   ResynchronizationCompleted = "ResynchronizationCompleted",
   /** ResynchronizationFailed */
-  ResynchronizationFailed = "ResynchronizationFailed"
+  ResynchronizationFailed = "ResynchronizationFailed",
 }
 
 /**
@@ -2782,7 +2782,7 @@ export enum KnownRecoveryPointType {
   /** ApplicationConsistent */
   ApplicationConsistent = "ApplicationConsistent",
   /** CrashConsistent */
-  CrashConsistent = "CrashConsistent"
+  CrashConsistent = "CrashConsistent",
 }
 
 /**
@@ -2802,7 +2802,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -2819,7 +2819,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -2836,7 +2836,7 @@ export enum KnownReplicationVaultType {
   /** DisasterRecovery */
   DisasterRecovery = "DisasterRecovery",
   /** Migrate */
-  Migrate = "Migrate"
+  Migrate = "Migrate",
 }
 
 /**
@@ -2868,7 +2868,7 @@ export enum KnownWorkflowState {
   /** CompletedWithWarnings */
   CompletedWithWarnings = "CompletedWithWarnings",
   /** CompletedWithErrors */
-  CompletedWithErrors = "CompletedWithErrors"
+  CompletedWithErrors = "CompletedWithErrors",
 }
 
 /**
@@ -2905,7 +2905,7 @@ export enum KnownWorkflowObjectType {
   /** ReplicationExtension */
   ReplicationExtension = "ReplicationExtension",
   /** Vault */
-  Vault = "Vault"
+  Vault = "Vault",
 }
 
 /**
@@ -2937,7 +2937,7 @@ export enum KnownTaskState {
   /** Cancelled */
   Cancelled = "Cancelled",
   /** Skipped */
-  Skipped = "Skipped"
+  Skipped = "Skipped",
 }
 
 /**
@@ -2963,7 +2963,7 @@ export enum KnownVMNicSelection {
   /** SelectedByDefault */
   SelectedByDefault = "SelectedByDefault",
   /** SelectedByUserOverride */
-  SelectedByUserOverride = "SelectedByUserOverride"
+  SelectedByUserOverride = "SelectedByUserOverride",
 }
 
 /**
@@ -2983,7 +2983,7 @@ export enum KnownProtectedItemActiveLocation {
   /** Primary */
   Primary = "Primary",
   /** Recovery */
-  Recovery = "Recovery"
+  Recovery = "Recovery",
 }
 
 /**
@@ -3003,7 +3003,7 @@ export enum KnownVMwareToAzureMigrateResyncState {
   /** PreparedForResynchronization */
   PreparedForResynchronization = "PreparedForResynchronization",
   /** StartedResynchronization */
-  StartedResynchronization = "StartedResynchronization"
+  StartedResynchronization = "StartedResynchronization",
 }
 
 /**
@@ -3096,7 +3096,8 @@ export interface EmailConfigurationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type EmailConfigurationListNextResponse = EmailConfigurationModelCollection;
+export type EmailConfigurationListNextResponse =
+  EmailConfigurationModelCollection;
 
 /** Optional parameters. */
 export interface EventGetOptionalParams extends coreClient.OperationOptions {}
@@ -3382,21 +3383,24 @@ export interface ReplicationExtensionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ReplicationExtensionDeleteResponse = ReplicationExtensionDeleteHeaders;
+export type ReplicationExtensionDeleteResponse =
+  ReplicationExtensionDeleteHeaders;
 
 /** Optional parameters. */
 export interface ReplicationExtensionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ReplicationExtensionListResponse = ReplicationExtensionModelCollection;
+export type ReplicationExtensionListResponse =
+  ReplicationExtensionModelCollection;
 
 /** Optional parameters. */
 export interface ReplicationExtensionListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ReplicationExtensionListNextResponse = ReplicationExtensionModelCollection;
+export type ReplicationExtensionListNextResponse =
+  ReplicationExtensionModelCollection;
 
 /** Optional parameters. */
 export interface ReplicationExtensionOperationStatusGetOptionalParams

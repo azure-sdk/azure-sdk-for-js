@@ -8,8 +8,8 @@
 
 import {
   WorkflowOperationStatusGetOptionalParams,
-  WorkflowOperationStatusGetResponse
-} from "../models";
+  WorkflowOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a WorkflowOperationStatus. */
 export interface WorkflowOperationStatus {
@@ -26,6 +26,6 @@ export interface WorkflowOperationStatus {
     vaultName: string,
     jobName: string,
     operationId: string,
-    options?: WorkflowOperationStatusGetOptionalParams
+    options?: WorkflowOperationStatusGetOptionalParams,
   ): Promise<WorkflowOperationStatusGetResponse>;
 }

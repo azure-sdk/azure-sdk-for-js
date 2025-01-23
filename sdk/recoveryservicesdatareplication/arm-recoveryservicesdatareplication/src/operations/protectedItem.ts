@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ProtectedItem } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ProtectedItem } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ProtectedItemModel,
   ProtectedItemListNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   ProtectedItemDeleteResponse,
   ProtectedItemPlannedFailoverOptionalParams,
   ProtectedItemPlannedFailoverResponse,
-  ProtectedItemListNextResponse
-} from "../models";
+  ProtectedItemListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProtectedItem operations. */
@@ -57,7 +57,7 @@ export class ProtectedItemImpl implements ProtectedItem {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ProtectedItemListOptionalParams
+    options?: ProtectedItemListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectedItemModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -75,9 +75,9 @@ export class ProtectedItemImpl implements ProtectedItem {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     options?: ProtectedItemListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProtectedItemModel[]> {
     let result: ProtectedItemListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class ProtectedItemImpl implements ProtectedItem {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class ProtectedItemImpl implements ProtectedItem {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: ProtectedItemListOptionalParams
+    options?: ProtectedItemListOptionalParams,
   ): AsyncIterableIterator<ProtectedItemModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemGetOptionalParams
+    options?: ProtectedItemGetOptionalParams,
   ): Promise<ProtectedItemGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, protectedItemName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,7 +154,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemCreateResponse>,
@@ -163,21 +163,20 @@ export class ProtectedItemImpl implements ProtectedItem {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProtectedItemCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +185,8 @@ export class ProtectedItemImpl implements ProtectedItem {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,15 +194,15 @@ export class ProtectedItemImpl implements ProtectedItem {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, protectedItemName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ProtectedItemCreateResponse,
@@ -211,7 +210,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -228,13 +227,13 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<ProtectedItemCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       vaultName,
       protectedItemName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -250,7 +249,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemDeleteResponse>,
@@ -259,21 +258,20 @@ export class ProtectedItemImpl implements ProtectedItem {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProtectedItemDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -282,8 +280,8 @@ export class ProtectedItemImpl implements ProtectedItem {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -291,15 +289,15 @@ export class ProtectedItemImpl implements ProtectedItem {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, protectedItemName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ProtectedItemDeleteResponse,
@@ -307,7 +305,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -324,13 +322,13 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<ProtectedItemDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
       protectedItemName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -344,11 +342,11 @@ export class ProtectedItemImpl implements ProtectedItem {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ProtectedItemListOptionalParams
+    options?: ProtectedItemListOptionalParams,
   ): Promise<ProtectedItemListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -363,7 +361,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemPlannedFailoverResponse>,
@@ -372,21 +370,20 @@ export class ProtectedItemImpl implements ProtectedItem {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProtectedItemPlannedFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -395,8 +392,8 @@ export class ProtectedItemImpl implements ProtectedItem {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -404,15 +401,15 @@ export class ProtectedItemImpl implements ProtectedItem {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, protectedItemName, options },
-      spec: plannedFailoverOperationSpec
+      spec: plannedFailoverOperationSpec,
     });
     const poller = await createHttpPoller<
       ProtectedItemPlannedFailoverResponse,
@@ -420,7 +417,7 @@ export class ProtectedItemImpl implements ProtectedItem {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -437,13 +434,13 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<ProtectedItemPlannedFailoverResponse> {
     const poller = await this.beginPlannedFailover(
       resourceGroupName,
       vaultName,
       protectedItemName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -459,11 +456,11 @@ export class ProtectedItemImpl implements ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: ProtectedItemListNextOptionalParams
+    options?: ProtectedItemListNextOptionalParams,
   ): Promise<ProtectedItemListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -471,16 +468,15 @@ export class ProtectedItemImpl implements ProtectedItem {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemModel
+      bodyMapper: Mappers.ProtectedItemModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -488,31 +484,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemModel
+      bodyMapper: Mappers.ProtectedItemModel,
     },
     201: {
-      bodyMapper: Mappers.ProtectedItemModel
+      bodyMapper: Mappers.ProtectedItemModel,
     },
     202: {
-      bodyMapper: Mappers.ProtectedItemModel
+      bodyMapper: Mappers.ProtectedItemModel,
     },
     204: {
-      bodyMapper: Mappers.ProtectedItemModel
+      bodyMapper: Mappers.ProtectedItemModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -521,32 +516,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ProtectedItemDeleteHeaders
+      headersMapper: Mappers.ProtectedItemDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ProtectedItemDeleteHeaders
+      headersMapper: Mappers.ProtectedItemDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ProtectedItemDeleteHeaders
+      headersMapper: Mappers.ProtectedItemDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ProtectedItemDeleteHeaders
+      headersMapper: Mappers.ProtectedItemDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.forceDelete],
   urlParameters: [
@@ -554,53 +548,51 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemModelCollection
+      bodyMapper: Mappers.ProtectedItemModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const plannedFailoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/plannedFailover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/plannedFailover",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PlannedFailoverModel
+      bodyMapper: Mappers.PlannedFailoverModel,
     },
     201: {
-      bodyMapper: Mappers.PlannedFailoverModel
+      bodyMapper: Mappers.PlannedFailoverModel,
     },
     202: {
-      bodyMapper: Mappers.PlannedFailoverModel
+      bodyMapper: Mappers.PlannedFailoverModel,
     },
     204: {
-      bodyMapper: Mappers.PlannedFailoverModel
+      bodyMapper: Mappers.PlannedFailoverModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
@@ -609,30 +601,30 @@ const plannedFailoverOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemModelCollection
+      bodyMapper: Mappers.ProtectedItemModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

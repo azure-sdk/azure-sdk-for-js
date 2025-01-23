@@ -18,8 +18,8 @@ import {
   ProtectedItemDeleteOptionalParams,
   ProtectedItemDeleteResponse,
   ProtectedItemPlannedFailoverOptionalParams,
-  ProtectedItemPlannedFailoverResponse
-} from "../models";
+  ProtectedItemPlannedFailoverResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProtectedItem. */
@@ -33,7 +33,7 @@ export interface ProtectedItem {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ProtectedItemListOptionalParams
+    options?: ProtectedItemListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectedItemModel>;
   /**
    * Gets the details of the protected item.
@@ -46,7 +46,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemGetOptionalParams
+    options?: ProtectedItemGetOptionalParams,
   ): Promise<ProtectedItemGetResponse>;
   /**
    * Creates the protected item.
@@ -59,7 +59,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemCreateResponse>,
@@ -77,7 +77,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemCreateOptionalParams
+    options?: ProtectedItemCreateOptionalParams,
   ): Promise<ProtectedItemCreateResponse>;
   /**
    * Removes the protected item.
@@ -90,7 +90,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemDeleteResponse>,
@@ -108,7 +108,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemDeleteOptionalParams
+    options?: ProtectedItemDeleteOptionalParams,
   ): Promise<ProtectedItemDeleteResponse>;
   /**
    * Performs the planned failover on the protected item.
@@ -121,7 +121,7 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProtectedItemPlannedFailoverResponse>,
@@ -139,6 +139,6 @@ export interface ProtectedItem {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: ProtectedItemPlannedFailoverOptionalParams
+    options?: ProtectedItemPlannedFailoverOptionalParams,
   ): Promise<ProtectedItemPlannedFailoverResponse>;
 }

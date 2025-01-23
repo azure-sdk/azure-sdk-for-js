@@ -19,8 +19,8 @@ import {
   VaultUpdateOptionalParams,
   VaultUpdateResponse,
   VaultDeleteOptionalParams,
-  VaultDeleteResponse
-} from "../models";
+  VaultDeleteResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Vault. */
@@ -30,7 +30,7 @@ export interface Vault {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VaultListBySubscriptionOptionalParams
+    options?: VaultListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VaultModel>;
   /**
    * Gets the list of vaults in the given subscription and resource group.
@@ -39,7 +39,7 @@ export interface Vault {
    */
   list(
     resourceGroupName: string,
-    options?: VaultListOptionalParams
+    options?: VaultListOptionalParams,
   ): PagedAsyncIterableIterator<VaultModel>;
   /**
    * Gets the details of the vault.
@@ -50,7 +50,7 @@ export interface Vault {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultGetOptionalParams
+    options?: VaultGetOptionalParams,
   ): Promise<VaultGetResponse>;
   /**
    * Creates the vault.
@@ -61,7 +61,7 @@ export interface Vault {
   beginCreate(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultCreateOptionalParams
+    options?: VaultCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultCreateResponse>, VaultCreateResponse>
   >;
@@ -74,7 +74,7 @@ export interface Vault {
   beginCreateAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultCreateOptionalParams
+    options?: VaultCreateOptionalParams,
   ): Promise<VaultCreateResponse>;
   /**
    * Performs update on the vault.
@@ -85,7 +85,7 @@ export interface Vault {
   beginUpdate(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultUpdateOptionalParams
+    options?: VaultUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultUpdateResponse>, VaultUpdateResponse>
   >;
@@ -98,7 +98,7 @@ export interface Vault {
   beginUpdateAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultUpdateOptionalParams
+    options?: VaultUpdateOptionalParams,
   ): Promise<VaultUpdateResponse>;
   /**
    * Removes the vault.
@@ -109,7 +109,7 @@ export interface Vault {
   beginDelete(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultDeleteOptionalParams
+    options?: VaultDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultDeleteResponse>, VaultDeleteResponse>
   >;
@@ -122,6 +122,6 @@ export interface Vault {
   beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultDeleteOptionalParams
+    options?: VaultDeleteOptionalParams,
   ): Promise<VaultDeleteResponse>;
 }

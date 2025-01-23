@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { RecoveryPoints } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { RecoveryPoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   RecoveryPointModel,
   RecoveryPointsListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   RecoveryPointsListResponse,
   RecoveryPointsGetOptionalParams,
   RecoveryPointsGetResponse,
-  RecoveryPointsListNextResponse
-} from "../models";
+  RecoveryPointsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RecoveryPoints operations. */
@@ -47,13 +47,13 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointModel> {
     const iter = this.listPagingAll(
       resourceGroupName,
       vaultName,
       protectedItemName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
           vaultName,
           protectedItemName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     protectedItemName: string,
     options?: RecoveryPointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecoveryPointModel[]> {
     let result: RecoveryPointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         resourceGroupName,
         vaultName,
         protectedItemName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         vaultName,
         protectedItemName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): AsyncIterableIterator<RecoveryPointModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
       protectedItemName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     protectedItemName: string,
     recoveryPointName: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -150,9 +150,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         vaultName,
         protectedItemName,
         recoveryPointName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): Promise<RecoveryPointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, protectedItemName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     protectedItemName: string,
     nextLink: string,
-    options?: RecoveryPointsListNextOptionalParams
+    options?: RecoveryPointsListNextOptionalParams,
   ): Promise<RecoveryPointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, protectedItemName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -200,16 +200,15 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints/{recoveryPointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoveryPointModel
+      bodyMapper: Mappers.RecoveryPointModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -218,22 +217,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.protectedItemName,
-    Parameters.recoveryPointName
+    Parameters.recoveryPointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/recoveryPoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoveryPointModelCollection
+      bodyMapper: Mappers.RecoveryPointModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -241,21 +239,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecoveryPointModelCollection
+      bodyMapper: Mappers.RecoveryPointModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -263,8 +261,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VaultOperationStatus } from "../operationsInterfaces";
+import { VaultOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   VaultOperationStatusGetOptionalParams,
-  VaultOperationStatusGetResponse
-} from "../models";
+  VaultOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing VaultOperationStatus operations. */
 export class VaultOperationStatusImpl implements VaultOperationStatus {
@@ -39,11 +39,11 @@ export class VaultOperationStatusImpl implements VaultOperationStatus {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: VaultOperationStatusGetOptionalParams
+    options?: VaultOperationStatusGetOptionalParams,
   ): Promise<VaultOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class VaultOperationStatusImpl implements VaultOperationStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.operationId,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ReplicationExtension } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ReplicationExtension } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ReplicationExtensionModel,
   ReplicationExtensionListNextOptionalParams,
@@ -30,8 +30,8 @@ import {
   ReplicationExtensionCreateResponse,
   ReplicationExtensionDeleteOptionalParams,
   ReplicationExtensionDeleteResponse,
-  ReplicationExtensionListNextResponse
-} from "../models";
+  ReplicationExtensionListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationExtension operations. */
@@ -55,7 +55,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams
+    options?: ReplicationExtensionListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationExtensionModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -73,9 +73,9 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     options?: ReplicationExtensionListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ReplicationExtensionModel[]> {
     let result: ReplicationExtensionListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams
+    options?: ReplicationExtensionListOptionalParams,
   ): AsyncIterableIterator<ReplicationExtensionModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionGetOptionalParams
+    options?: ReplicationExtensionGetOptionalParams,
   ): Promise<ReplicationExtensionGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, replicationExtensionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,7 +152,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionCreateOptionalParams
+    options?: ReplicationExtensionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationExtensionCreateResponse>,
@@ -161,21 +161,20 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationExtensionCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -184,8 +183,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -193,15 +192,15 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, replicationExtensionName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationExtensionCreateResponse,
@@ -209,7 +208,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -226,13 +225,13 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionCreateOptionalParams
+    options?: ReplicationExtensionCreateOptionalParams,
   ): Promise<ReplicationExtensionCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       vaultName,
       replicationExtensionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -248,7 +247,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams
+    options?: ReplicationExtensionDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationExtensionDeleteResponse>,
@@ -257,21 +256,20 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationExtensionDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -280,8 +278,8 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -289,15 +287,15 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, replicationExtensionName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationExtensionDeleteResponse,
@@ -305,7 +303,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -322,13 +320,13 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams
+    options?: ReplicationExtensionDeleteOptionalParams,
   ): Promise<ReplicationExtensionDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
       replicationExtensionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -342,11 +340,11 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationExtensionListOptionalParams
+    options?: ReplicationExtensionListOptionalParams,
   ): Promise<ReplicationExtensionListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -361,11 +359,11 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: ReplicationExtensionListNextOptionalParams
+    options?: ReplicationExtensionListNextOptionalParams,
   ): Promise<ReplicationExtensionListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -373,16 +371,15 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel
+      bodyMapper: Mappers.ReplicationExtensionModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -390,31 +387,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName
+    Parameters.replicationExtensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel
+      bodyMapper: Mappers.ReplicationExtensionModel,
     },
     201: {
-      bodyMapper: Mappers.ReplicationExtensionModel
+      bodyMapper: Mappers.ReplicationExtensionModel,
     },
     202: {
-      bodyMapper: Mappers.ReplicationExtensionModel
+      bodyMapper: Mappers.ReplicationExtensionModel,
     },
     204: {
-      bodyMapper: Mappers.ReplicationExtensionModel
+      bodyMapper: Mappers.ReplicationExtensionModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body7,
   queryParameters: [Parameters.apiVersion],
@@ -423,32 +419,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName
+    Parameters.replicationExtensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders
+      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders
+      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders
+      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders
+      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -456,51 +451,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.replicationExtensionName
+    Parameters.replicationExtensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelCollection
+      bodyMapper: Mappers.ReplicationExtensionModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelCollection
+      bodyMapper: Mappers.ReplicationExtensionModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Dra } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Dra } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DraModel,
   DraListNextOptionalParams,
@@ -30,8 +30,8 @@ import {
   DraCreateResponse,
   DraDeleteOptionalParams,
   DraDeleteResponse,
-  DraListNextResponse
-} from "../models";
+  DraListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Dra operations. */
@@ -55,7 +55,7 @@ export class DraImpl implements Dra {
   public list(
     resourceGroupName: string,
     fabricName: string,
-    options?: DraListOptionalParams
+    options?: DraListOptionalParams,
   ): PagedAsyncIterableIterator<DraModel> {
     const iter = this.listPagingAll(resourceGroupName, fabricName, options);
     return {
@@ -73,9 +73,9 @@ export class DraImpl implements Dra {
           resourceGroupName,
           fabricName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     options?: DraListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DraModel[]> {
     let result: DraListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class DraImpl implements Dra {
         resourceGroupName,
         fabricName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class DraImpl implements Dra {
   private async *listPagingAll(
     resourceGroupName: string,
     fabricName: string,
-    options?: DraListOptionalParams
+    options?: DraListOptionalParams,
   ): AsyncIterableIterator<DraModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       fabricName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraGetOptionalParams
+    options?: DraGetOptionalParams,
   ): Promise<DraGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fabricName, fabricAgentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,27 +152,26 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraCreateOptionalParams
+    options?: DraCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<DraCreateResponse>, DraCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DraCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +180,8 @@ export class DraImpl implements Dra {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,15 +189,15 @@ export class DraImpl implements Dra {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, fabricName, fabricAgentName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       DraCreateResponse,
@@ -206,7 +205,7 @@ export class DraImpl implements Dra {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -223,13 +222,13 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraCreateOptionalParams
+    options?: DraCreateOptionalParams,
   ): Promise<DraCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       fabricName,
       fabricAgentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -245,27 +244,26 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraDeleteOptionalParams
+    options?: DraDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<DraDeleteResponse>, DraDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DraDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -274,8 +272,8 @@ export class DraImpl implements Dra {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -283,15 +281,15 @@ export class DraImpl implements Dra {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, fabricName, fabricAgentName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DraDeleteResponse,
@@ -299,7 +297,7 @@ export class DraImpl implements Dra {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -316,13 +314,13 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraDeleteOptionalParams
+    options?: DraDeleteOptionalParams,
   ): Promise<DraDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       fabricName,
       fabricAgentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -336,11 +334,11 @@ export class DraImpl implements Dra {
   private _list(
     resourceGroupName: string,
     fabricName: string,
-    options?: DraListOptionalParams
+    options?: DraListOptionalParams,
   ): Promise<DraListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fabricName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -355,11 +353,11 @@ export class DraImpl implements Dra {
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: DraListNextOptionalParams
+    options?: DraListNextOptionalParams,
   ): Promise<DraListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fabricName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -367,16 +365,15 @@ export class DraImpl implements Dra {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DraModel
+      bodyMapper: Mappers.DraModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -384,31 +381,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fabricName,
-    Parameters.fabricAgentName
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DraModel
+      bodyMapper: Mappers.DraModel,
     },
     201: {
-      bodyMapper: Mappers.DraModel
+      bodyMapper: Mappers.DraModel,
     },
     202: {
-      bodyMapper: Mappers.DraModel
+      bodyMapper: Mappers.DraModel,
     },
     204: {
-      bodyMapper: Mappers.DraModel
+      bodyMapper: Mappers.DraModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
@@ -417,32 +413,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fabricName,
-    Parameters.fabricAgentName
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DraDeleteHeaders
+      headersMapper: Mappers.DraDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DraDeleteHeaders
+      headersMapper: Mappers.DraDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DraDeleteHeaders
+      headersMapper: Mappers.DraDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DraDeleteHeaders
+      headersMapper: Mappers.DraDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -450,51 +445,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fabricName,
-    Parameters.fabricAgentName
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DraModelCollection
+      bodyMapper: Mappers.DraModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DraModelCollection
+      bodyMapper: Mappers.DraModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fabricName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

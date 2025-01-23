@@ -16,8 +16,8 @@ import {
   DraCreateOptionalParams,
   DraCreateResponse,
   DraDeleteOptionalParams,
-  DraDeleteResponse
-} from "../models";
+  DraDeleteResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Dra. */
@@ -31,7 +31,7 @@ export interface Dra {
   list(
     resourceGroupName: string,
     fabricName: string,
-    options?: DraListOptionalParams
+    options?: DraListOptionalParams,
   ): PagedAsyncIterableIterator<DraModel>;
   /**
    * Gets the details of the fabric agent.
@@ -44,7 +44,7 @@ export interface Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraGetOptionalParams
+    options?: DraGetOptionalParams,
   ): Promise<DraGetResponse>;
   /**
    * Creates the fabric agent.
@@ -57,7 +57,7 @@ export interface Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraCreateOptionalParams
+    options?: DraCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<DraCreateResponse>, DraCreateResponse>
   >;
@@ -72,7 +72,7 @@ export interface Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraCreateOptionalParams
+    options?: DraCreateOptionalParams,
   ): Promise<DraCreateResponse>;
   /**
    * Deletes the fabric agent.
@@ -85,7 +85,7 @@ export interface Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraDeleteOptionalParams
+    options?: DraDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<DraDeleteResponse>, DraDeleteResponse>
   >;
@@ -100,6 +100,6 @@ export interface Dra {
     resourceGroupName: string,
     fabricName: string,
     fabricAgentName: string,
-    options?: DraDeleteOptionalParams
+    options?: DraDeleteOptionalParams,
   ): Promise<DraDeleteResponse>;
 }

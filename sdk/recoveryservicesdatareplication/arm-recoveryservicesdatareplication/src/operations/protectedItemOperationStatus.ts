@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ProtectedItemOperationStatus } from "../operationsInterfaces";
+import { ProtectedItemOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   ProtectedItemOperationStatusGetOptionalParams,
-  ProtectedItemOperationStatusGetResponse
-} from "../models";
+  ProtectedItemOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing ProtectedItemOperationStatus operations. */
 export class ProtectedItemOperationStatusImpl
-  implements ProtectedItemOperationStatus {
+  implements ProtectedItemOperationStatus
+{
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
@@ -42,11 +43,11 @@ export class ProtectedItemOperationStatusImpl
     vaultName: string,
     protectedItemName: string,
     operationId: string,
-    options?: ProtectedItemOperationStatusGetOptionalParams
+    options?: ProtectedItemOperationStatusGetOptionalParams,
   ): Promise<ProtectedItemOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, protectedItemName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -54,16 +55,15 @@ export class ProtectedItemOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/protectedItems/{protectedItemName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -72,8 +72,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.operationId,
     Parameters.vaultName,
-    Parameters.protectedItemName
+    Parameters.protectedItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

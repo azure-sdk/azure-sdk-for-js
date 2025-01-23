@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DraOperationStatus } from "../operationsInterfaces";
+import { DraOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   DraOperationStatusGetOptionalParams,
-  DraOperationStatusGetResponse
-} from "../models";
+  DraOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing DraOperationStatus operations. */
 export class DraOperationStatusImpl implements DraOperationStatus {
@@ -41,11 +41,11 @@ export class DraOperationStatusImpl implements DraOperationStatus {
     fabricName: string,
     fabricAgentName: string,
     operationId: string,
-    options?: DraOperationStatusGetOptionalParams
+    options?: DraOperationStatusGetOptionalParams,
   ): Promise<DraOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fabricName, fabricAgentName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class DraOperationStatusImpl implements DraOperationStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -71,8 +70,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.fabricName,
     Parameters.fabricAgentName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
