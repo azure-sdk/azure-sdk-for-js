@@ -10,13 +10,13 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   ApplicationGatewaysImpl,
   ApplicationGatewayPrivateLinkResourcesImpl,
@@ -164,7 +164,18 @@ import {
   HubRouteTablesImpl,
   RoutingIntentOperationsImpl,
   WebApplicationFirewallPoliciesImpl,
-} from "./operations";
+  NetworkSecurityPerimetersImpl,
+  NspProfilesImpl,
+  NspAccessRulesImpl,
+  NspAssociationsImpl,
+  NspAssociationReconcileImpl,
+  PerimeterAssociableResourceTypesImpl,
+  NspAccessRulesReconcileImpl,
+  NspLinksImpl,
+  NspLinkReferencesImpl,
+  NspLoggingConfigurationOperationsImpl,
+  NspOperationStatusOperationsImpl,
+} from "./operations/index.js";
 import {
   ApplicationGateways,
   ApplicationGatewayPrivateLinkResources,
@@ -312,9 +323,20 @@ import {
   HubRouteTables,
   RoutingIntentOperations,
   WebApplicationFirewallPolicies,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+  NetworkSecurityPerimeters,
+  NspProfiles,
+  NspAccessRules,
+  NspAssociations,
+  NspAssociationReconcile,
+  PerimeterAssociableResourceTypes,
+  NspAccessRulesReconcile,
+  NspLinks,
+  NspLinkReferences,
+  NspLoggingConfigurationOperations,
+  NspOperationStatusOperations,
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   NetworkManagementClientOptionalParams,
   BastionShareableLink,
@@ -361,7 +383,7 @@ import {
   GetBastionShareableLinkNextResponse,
   GetActiveSessionsNextResponse,
   DisconnectActiveSessionsNextResponse,
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class NetworkManagementClient extends coreClient.ServiceClient {
@@ -410,7 +432,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.5.0`;
+    const packageDetails = `azsdk-js-arm-network/33.6.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -668,6 +690,21 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.routingIntentOperations = new RoutingIntentOperationsImpl(this);
     this.webApplicationFirewallPolicies =
       new WebApplicationFirewallPoliciesImpl(this);
+    this.networkSecurityPerimeters = new NetworkSecurityPerimetersImpl(this);
+    this.nspProfiles = new NspProfilesImpl(this);
+    this.nspAccessRules = new NspAccessRulesImpl(this);
+    this.nspAssociations = new NspAssociationsImpl(this);
+    this.nspAssociationReconcile = new NspAssociationReconcileImpl(this);
+    this.perimeterAssociableResourceTypes =
+      new PerimeterAssociableResourceTypesImpl(this);
+    this.nspAccessRulesReconcile = new NspAccessRulesReconcileImpl(this);
+    this.nspLinks = new NspLinksImpl(this);
+    this.nspLinkReferences = new NspLinkReferencesImpl(this);
+    this.nspLoggingConfigurationOperations =
+      new NspLoggingConfigurationOperationsImpl(this);
+    this.nspOperationStatusOperations = new NspOperationStatusOperationsImpl(
+      this,
+    );
   }
 
   /**
@@ -1856,6 +1893,17 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   hubRouteTables: HubRouteTables;
   routingIntentOperations: RoutingIntentOperations;
   webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
+  networkSecurityPerimeters: NetworkSecurityPerimeters;
+  nspProfiles: NspProfiles;
+  nspAccessRules: NspAccessRules;
+  nspAssociations: NspAssociations;
+  nspAssociationReconcile: NspAssociationReconcile;
+  perimeterAssociableResourceTypes: PerimeterAssociableResourceTypes;
+  nspAccessRulesReconcile: NspAccessRulesReconcile;
+  nspLinks: NspLinks;
+  nspLinkReferences: NspLinkReferences;
+  nspLoggingConfigurationOperations: NspLoggingConfigurationOperations;
+  nspOperationStatusOperations: NspOperationStatusOperations;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

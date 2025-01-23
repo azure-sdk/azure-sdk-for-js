@@ -172,7 +172,14 @@ import {
   HubRouteTable as HubRouteTableMapper,
   RoutingIntent as RoutingIntentMapper,
   WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper,
-} from "../models/mappers";
+  NetworkSecurityPerimeter as NetworkSecurityPerimeterMapper,
+  UpdateTagsRequest as UpdateTagsRequestMapper,
+  NspProfile as NspProfileMapper,
+  NspAccessRule as NspAccessRuleMapper,
+  NspAssociation as NspAssociationMapper,
+  NspLink as NspLinkMapper,
+  NspLoggingConfiguration as NspLoggingConfigurationMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -2811,4 +2818,193 @@ export const policyName: OperationURLParameter = {
 export const parameters92: OperationParameter = {
   parameterPath: "parameters",
   mapper: WebApplicationFirewallPolicyMapper,
+};
+
+export const networkSecurityPerimeterName: OperationURLParameter = {
+  parameterPath: "networkSecurityPerimeterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "networkSecurityPerimeterName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-02-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters93: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NetworkSecurityPerimeterMapper,
+};
+
+export const parameters94: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UpdateTagsRequestMapper,
+};
+
+export const profileName: OperationURLParameter = {
+  parameterPath: "profileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "profileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters95: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspProfileMapper,
+};
+
+export const accessRuleName: OperationURLParameter = {
+  parameterPath: "accessRuleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "accessRuleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters96: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspAccessRuleMapper,
+};
+
+export const associationName: OperationURLParameter = {
+  parameterPath: "associationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "associationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters97: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspAssociationMapper,
+};
+
+export const parameters98: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: {
+    serializedName: "parameters",
+    required: true,
+    type: {
+      name: "Dictionary",
+      value: { type: { name: "any" } },
+    },
+  },
+};
+
+export const linkName1: OperationURLParameter = {
+  parameterPath: "linkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "linkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters99: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspLinkMapper,
+};
+
+export const linkReferenceName: OperationURLParameter = {
+  parameterPath: "linkReferenceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "linkReferenceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const loggingConfigurationName: OperationURLParameter = {
+  parameterPath: "loggingConfigurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "(^[a-zA-Z0-9]+[a-zA-Z0-9_.-]*[a-zA-Z0-9_]+$)|(^[a-zA-Z0-9]$)",
+      ),
+      MaxLength: 80,
+    },
+    serializedName: "loggingConfigurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters100: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: NspLoggingConfigurationMapper,
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
