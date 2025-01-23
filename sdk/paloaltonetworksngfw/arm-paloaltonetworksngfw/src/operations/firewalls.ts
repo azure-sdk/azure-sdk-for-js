@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Firewalls } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Firewalls } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PaloAltoNetworksCloudngfw } from "../paloAltoNetworksCloudngfw.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   FirewallResource,
   FirewallsListBySubscriptionNextOptionalParams,
@@ -43,8 +43,8 @@ import {
   FirewallsGetSupportInfoResponse,
   FirewallsSaveLogProfileOptionalParams,
   FirewallsListBySubscriptionNextResponse,
-  FirewallsListByResourceGroupNextResponse
-} from "../models";
+  FirewallsListByResourceGroupNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Firewalls operations. */
@@ -64,7 +64,7 @@ export class FirewallsImpl implements Firewalls {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: FirewallsListBySubscriptionOptionalParams
+    options?: FirewallsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<FirewallResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -79,13 +79,13 @@ export class FirewallsImpl implements Firewalls {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: FirewallsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FirewallResource[]> {
     let result: FirewallsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +106,7 @@ export class FirewallsImpl implements Firewalls {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: FirewallsListBySubscriptionOptionalParams
+    options?: FirewallsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<FirewallResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -120,7 +120,7 @@ export class FirewallsImpl implements Firewalls {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: FirewallsListByResourceGroupOptionalParams
+    options?: FirewallsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<FirewallResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -137,16 +137,16 @@ export class FirewallsImpl implements Firewalls {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: FirewallsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<FirewallResource[]> {
     let result: FirewallsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class FirewallsImpl implements Firewalls {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -172,11 +172,11 @@ export class FirewallsImpl implements Firewalls {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: FirewallsListByResourceGroupOptionalParams
+    options?: FirewallsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<FirewallResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -187,11 +187,11 @@ export class FirewallsImpl implements Firewalls {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: FirewallsListBySubscriptionOptionalParams
+    options?: FirewallsListBySubscriptionOptionalParams,
   ): Promise<FirewallsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class FirewallsImpl implements Firewalls {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: FirewallsListByResourceGroupOptionalParams
+    options?: FirewallsListByResourceGroupOptionalParams,
   ): Promise<FirewallsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -219,11 +219,11 @@ export class FirewallsImpl implements Firewalls {
   get(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetOptionalParams
+    options?: FirewallsGetOptionalParams,
   ): Promise<FirewallsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -238,7 +238,7 @@ export class FirewallsImpl implements Firewalls {
     resourceGroupName: string,
     firewallName: string,
     resource: FirewallResource,
-    options?: FirewallsCreateOrUpdateOptionalParams
+    options?: FirewallsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FirewallsCreateOrUpdateResponse>,
@@ -247,21 +247,20 @@ export class FirewallsImpl implements Firewalls {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<FirewallsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -270,8 +269,8 @@ export class FirewallsImpl implements Firewalls {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -279,15 +278,15 @@ export class FirewallsImpl implements Firewalls {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, firewallName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       FirewallsCreateOrUpdateResponse,
@@ -295,7 +294,7 @@ export class FirewallsImpl implements Firewalls {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -312,13 +311,13 @@ export class FirewallsImpl implements Firewalls {
     resourceGroupName: string,
     firewallName: string,
     resource: FirewallResource,
-    options?: FirewallsCreateOrUpdateOptionalParams
+    options?: FirewallsCreateOrUpdateOptionalParams,
   ): Promise<FirewallsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       firewallName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -334,11 +333,11 @@ export class FirewallsImpl implements Firewalls {
     resourceGroupName: string,
     firewallName: string,
     properties: FirewallResourceUpdate,
-    options?: FirewallsUpdateOptionalParams
+    options?: FirewallsUpdateOptionalParams,
   ): Promise<FirewallsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -351,25 +350,24 @@ export class FirewallsImpl implements Firewalls {
   async beginDelete(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsDeleteOptionalParams
+    options?: FirewallsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -378,8 +376,8 @@ export class FirewallsImpl implements Firewalls {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -387,20 +385,20 @@ export class FirewallsImpl implements Firewalls {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, firewallName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -415,12 +413,12 @@ export class FirewallsImpl implements Firewalls {
   async beginDeleteAndWait(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsDeleteOptionalParams
+    options?: FirewallsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       firewallName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -434,11 +432,11 @@ export class FirewallsImpl implements Firewalls {
   getGlobalRulestack(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetGlobalRulestackOptionalParams
+    options?: FirewallsGetGlobalRulestackOptionalParams,
   ): Promise<FirewallsGetGlobalRulestackResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      getGlobalRulestackOperationSpec
+      getGlobalRulestackOperationSpec,
     );
   }
 
@@ -451,11 +449,11 @@ export class FirewallsImpl implements Firewalls {
   getLogProfile(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetLogProfileOptionalParams
+    options?: FirewallsGetLogProfileOptionalParams,
   ): Promise<FirewallsGetLogProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      getLogProfileOperationSpec
+      getLogProfileOperationSpec,
     );
   }
 
@@ -468,11 +466,11 @@ export class FirewallsImpl implements Firewalls {
   getSupportInfo(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsGetSupportInfoOptionalParams
+    options?: FirewallsGetSupportInfoOptionalParams,
   ): Promise<FirewallsGetSupportInfoResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      getSupportInfoOperationSpec
+      getSupportInfoOperationSpec,
     );
   }
 
@@ -485,11 +483,11 @@ export class FirewallsImpl implements Firewalls {
   saveLogProfile(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallsSaveLogProfileOptionalParams
+    options?: FirewallsSaveLogProfileOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallName, options },
-      saveLogProfileOperationSpec
+      saveLogProfileOperationSpec,
     );
   }
 
@@ -500,11 +498,11 @@ export class FirewallsImpl implements Firewalls {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: FirewallsListBySubscriptionNextOptionalParams
+    options?: FirewallsListBySubscriptionNextOptionalParams,
   ): Promise<FirewallsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -517,11 +515,11 @@ export class FirewallsImpl implements Firewalls {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: FirewallsListByResourceGroupNextOptionalParams
+    options?: FirewallsListByResourceGroupNextOptionalParams,
   ): Promise<FirewallsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -529,85 +527,81 @@ export class FirewallsImpl implements Firewalls {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/firewalls",
+  path: "/subscriptions/{subscriptionId}/providers/PaloAltoNetworks.Cloudngfw/firewalls",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResourceListResult
+      bodyMapper: Mappers.FirewallResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResourceListResult
+      bodyMapper: Mappers.FirewallResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FirewallResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.firewallName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.FirewallResource,
     },
     201: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.FirewallResource,
     },
     202: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.FirewallResource,
     },
     204: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.FirewallResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource6,
   queryParameters: [Parameters.apiVersion],
@@ -615,23 +609,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResource
+      bodyMapper: Mappers.FirewallResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -639,15 +632,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -655,94 +647,90 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGlobalRulestackOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getGlobalRulestack",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getGlobalRulestack",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GlobalRulestackInfo
+      bodyMapper: Mappers.GlobalRulestackInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getLogProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getLogProfile",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getLogProfile",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LogSettings
+      bodyMapper: Mappers.LogSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getSupportInfoOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getSupportInfo",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/getSupportInfo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportInfo
+      bodyMapper: Mappers.SupportInfo,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.email],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const saveLogProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/saveLogProfile",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PaloAltoNetworks.Cloudngfw/firewalls/{firewallName}/saveLogProfile",
   httpMethod: "POST",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.logSettings,
   queryParameters: [Parameters.apiVersion],
@@ -750,48 +738,48 @@ const saveLogProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.firewallName1
+    Parameters.firewallName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResourceListResult
+      bodyMapper: Mappers.FirewallResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FirewallResourceListResult
+      bodyMapper: Mappers.FirewallResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
