@@ -8,8 +8,8 @@
 
 import {
   FabricOperationsStatusGetOptionalParams,
-  FabricOperationsStatusGetResponse
-} from "../models";
+  FabricOperationsStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a FabricOperationsStatus. */
 export interface FabricOperationsStatus {
@@ -24,6 +24,6 @@ export interface FabricOperationsStatus {
     resourceGroupName: string,
     fabricName: string,
     operationId: string,
-    options?: FabricOperationsStatusGetOptionalParams
+    options?: FabricOperationsStatusGetOptionalParams,
   ): Promise<FabricOperationsStatusGetResponse>;
 }

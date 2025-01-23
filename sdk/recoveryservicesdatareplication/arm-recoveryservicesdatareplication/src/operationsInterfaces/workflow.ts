@@ -11,8 +11,8 @@ import {
   WorkflowModel,
   WorkflowListOptionalParams,
   WorkflowGetOptionalParams,
-  WorkflowGetResponse
-} from "../models";
+  WorkflowGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workflow. */
@@ -26,7 +26,7 @@ export interface Workflow {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowModel>;
   /**
    * Gets the details of the job.
@@ -39,6 +39,6 @@ export interface Workflow {
     resourceGroupName: string,
     vaultName: string,
     jobName: string,
-    options?: WorkflowGetOptionalParams
+    options?: WorkflowGetOptionalParams,
   ): Promise<WorkflowGetResponse>;
 }

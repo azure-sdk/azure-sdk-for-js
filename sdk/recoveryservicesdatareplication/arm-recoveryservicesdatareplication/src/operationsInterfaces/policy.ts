@@ -16,8 +16,8 @@ import {
   PolicyCreateOptionalParams,
   PolicyCreateResponse,
   PolicyDeleteOptionalParams,
-  PolicyDeleteResponse
-} from "../models";
+  PolicyDeleteResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Policy. */
@@ -31,7 +31,7 @@ export interface Policy {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: PolicyListOptionalParams
+    options?: PolicyListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyModel>;
   /**
    * Gets the details of the policy.
@@ -44,7 +44,7 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyGetOptionalParams
+    options?: PolicyGetOptionalParams,
   ): Promise<PolicyGetResponse>;
   /**
    * Creates the policy.
@@ -57,7 +57,7 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    options?: PolicyCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyCreateResponse>, PolicyCreateResponse>
   >;
@@ -72,7 +72,7 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    options?: PolicyCreateOptionalParams,
   ): Promise<PolicyCreateResponse>;
   /**
    * Removes the policy.
@@ -85,7 +85,7 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyDeleteResponse>, PolicyDeleteResponse>
   >;
@@ -100,6 +100,6 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<PolicyDeleteResponse>;
 }

@@ -8,8 +8,8 @@
 
 import {
   DraOperationStatusGetOptionalParams,
-  DraOperationStatusGetResponse
-} from "../models";
+  DraOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a DraOperationStatus. */
 export interface DraOperationStatus {
@@ -26,6 +26,6 @@ export interface DraOperationStatus {
     fabricName: string,
     fabricAgentName: string,
     operationId: string,
-    options?: DraOperationStatusGetOptionalParams
+    options?: DraOperationStatusGetOptionalParams,
   ): Promise<DraOperationStatusGetResponse>;
 }

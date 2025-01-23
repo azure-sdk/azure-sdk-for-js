@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Vault } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Vault } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VaultModel,
   VaultListBySubscriptionNextOptionalParams,
@@ -36,8 +36,8 @@ import {
   VaultDeleteOptionalParams,
   VaultDeleteResponse,
   VaultListBySubscriptionNextResponse,
-  VaultListNextResponse
-} from "../models";
+  VaultListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Vault operations. */
@@ -57,7 +57,7 @@ export class VaultImpl implements Vault {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: VaultListBySubscriptionOptionalParams
+    options?: VaultListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VaultModel> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class VaultImpl implements Vault {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: VaultListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VaultModel[]> {
     let result: VaultListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class VaultImpl implements Vault {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: VaultListBySubscriptionOptionalParams
+    options?: VaultListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<VaultModel> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class VaultImpl implements Vault {
    */
   public list(
     resourceGroupName: string,
-    options?: VaultListOptionalParams
+    options?: VaultListOptionalParams,
   ): PagedAsyncIterableIterator<VaultModel> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -128,14 +128,14 @@ export class VaultImpl implements Vault {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: VaultListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VaultModel[]> {
     let result: VaultListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class VaultImpl implements Vault {
       result = await this._listNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -161,7 +161,7 @@ export class VaultImpl implements Vault {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: VaultListOptionalParams
+    options?: VaultListOptionalParams,
   ): AsyncIterableIterator<VaultModel> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -177,11 +177,11 @@ export class VaultImpl implements Vault {
   get(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultGetOptionalParams
+    options?: VaultGetOptionalParams,
   ): Promise<VaultGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,27 +194,26 @@ export class VaultImpl implements Vault {
   async beginCreate(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultCreateOptionalParams
+    options?: VaultCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultCreateResponse>, VaultCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VaultCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -223,8 +222,8 @@ export class VaultImpl implements Vault {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -232,15 +231,15 @@ export class VaultImpl implements Vault {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       VaultCreateResponse,
@@ -248,7 +247,7 @@ export class VaultImpl implements Vault {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -263,12 +262,12 @@ export class VaultImpl implements Vault {
   async beginCreateAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultCreateOptionalParams
+    options?: VaultCreateOptionalParams,
   ): Promise<VaultCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       vaultName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -282,27 +281,26 @@ export class VaultImpl implements Vault {
   async beginUpdate(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultUpdateOptionalParams
+    options?: VaultUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultUpdateResponse>, VaultUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VaultUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class VaultImpl implements Vault {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,15 +318,15 @@ export class VaultImpl implements Vault {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       VaultUpdateResponse,
@@ -336,7 +334,7 @@ export class VaultImpl implements Vault {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -351,12 +349,12 @@ export class VaultImpl implements Vault {
   async beginUpdateAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultUpdateOptionalParams
+    options?: VaultUpdateOptionalParams,
   ): Promise<VaultUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       vaultName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -370,27 +368,26 @@ export class VaultImpl implements Vault {
   async beginDelete(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultDeleteOptionalParams
+    options?: VaultDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<VaultDeleteResponse>, VaultDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<VaultDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -399,8 +396,8 @@ export class VaultImpl implements Vault {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -408,15 +405,15 @@ export class VaultImpl implements Vault {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       VaultDeleteResponse,
@@ -424,7 +421,7 @@ export class VaultImpl implements Vault {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -439,12 +436,12 @@ export class VaultImpl implements Vault {
   async beginDeleteAndWait(
     resourceGroupName: string,
     vaultName: string,
-    options?: VaultDeleteOptionalParams
+    options?: VaultDeleteOptionalParams,
   ): Promise<VaultDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -454,11 +451,11 @@ export class VaultImpl implements Vault {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: VaultListBySubscriptionOptionalParams
+    options?: VaultListBySubscriptionOptionalParams,
   ): Promise<VaultListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -469,11 +466,11 @@ export class VaultImpl implements Vault {
    */
   private _list(
     resourceGroupName: string,
-    options?: VaultListOptionalParams
+    options?: VaultListOptionalParams,
   ): Promise<VaultListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -484,11 +481,11 @@ export class VaultImpl implements Vault {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: VaultListBySubscriptionNextOptionalParams
+    options?: VaultListBySubscriptionNextOptionalParams,
   ): Promise<VaultListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -501,11 +498,11 @@ export class VaultImpl implements Vault {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: VaultListNextOptionalParams
+    options?: VaultListNextOptionalParams,
   ): Promise<VaultListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -513,47 +510,45 @@ export class VaultImpl implements Vault {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     201: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     202: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     204: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body10,
   queryParameters: [Parameters.apiVersion],
@@ -561,32 +556,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     201: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     202: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     204: {
-      bodyMapper: Mappers.VaultModel
+      bodyMapper: Mappers.VaultModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
@@ -594,117 +588,114 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.VaultDeleteHeaders
+      headersMapper: Mappers.VaultDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.VaultDeleteHeaders
+      headersMapper: Mappers.VaultDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.VaultDeleteHeaders
+      headersMapper: Mappers.VaultDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.VaultDeleteHeaders
+      headersMapper: Mappers.VaultDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/replicationVaults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataReplication/replicationVaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModelCollection
+      bodyMapper: Mappers.VaultModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.continuationToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModelCollection
+      bodyMapper: Mappers.VaultModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.continuationToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModelCollection
+      bodyMapper: Mappers.VaultModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultModelCollection
+      bodyMapper: Mappers.VaultModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

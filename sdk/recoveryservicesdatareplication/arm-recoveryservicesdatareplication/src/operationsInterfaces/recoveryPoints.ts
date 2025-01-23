@@ -11,8 +11,8 @@ import {
   RecoveryPointModel,
   RecoveryPointsListOptionalParams,
   RecoveryPointsGetOptionalParams,
-  RecoveryPointsGetResponse
-} from "../models";
+  RecoveryPointsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoveryPoints. */
@@ -28,7 +28,7 @@ export interface RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     protectedItemName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<RecoveryPointModel>;
   /**
    * Gets the details of the recovery point of a protected item.
@@ -43,6 +43,6 @@ export interface RecoveryPoints {
     vaultName: string,
     protectedItemName: string,
     recoveryPointName: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse>;
 }

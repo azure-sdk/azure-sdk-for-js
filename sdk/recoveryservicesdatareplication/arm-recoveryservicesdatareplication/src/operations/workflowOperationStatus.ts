@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WorkflowOperationStatus } from "../operationsInterfaces";
+import { WorkflowOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   WorkflowOperationStatusGetOptionalParams,
-  WorkflowOperationStatusGetResponse
-} from "../models";
+  WorkflowOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing WorkflowOperationStatus operations. */
 export class WorkflowOperationStatusImpl implements WorkflowOperationStatus {
@@ -41,11 +41,11 @@ export class WorkflowOperationStatusImpl implements WorkflowOperationStatus {
     vaultName: string,
     jobName: string,
     operationId: string,
-    options?: WorkflowOperationStatusGetOptionalParams
+    options?: WorkflowOperationStatusGetOptionalParams,
   ): Promise<WorkflowOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, jobName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -53,16 +53,15 @@ export class WorkflowOperationStatusImpl implements WorkflowOperationStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs/{jobName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs/{jobName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -71,8 +70,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.operationId,
     Parameters.vaultName,
-    Parameters.jobName
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Policy } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Policy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PolicyModel,
   PolicyListNextOptionalParams,
@@ -30,8 +30,8 @@ import {
   PolicyCreateResponse,
   PolicyDeleteOptionalParams,
   PolicyDeleteResponse,
-  PolicyListNextResponse
-} from "../models";
+  PolicyListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Policy operations. */
@@ -55,7 +55,7 @@ export class PolicyImpl implements Policy {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: PolicyListOptionalParams
+    options?: PolicyListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -73,9 +73,9 @@ export class PolicyImpl implements Policy {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     options?: PolicyListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyModel[]> {
     let result: PolicyListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class PolicyImpl implements Policy {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class PolicyImpl implements Policy {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: PolicyListOptionalParams
+    options?: PolicyListOptionalParams,
   ): AsyncIterableIterator<PolicyModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyGetOptionalParams
+    options?: PolicyGetOptionalParams,
   ): Promise<PolicyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, policyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -152,27 +152,26 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    options?: PolicyCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyCreateResponse>, PolicyCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PolicyCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -181,8 +180,8 @@ export class PolicyImpl implements Policy {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -190,15 +189,15 @@ export class PolicyImpl implements Policy {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, policyName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       PolicyCreateResponse,
@@ -206,7 +205,7 @@ export class PolicyImpl implements Policy {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -223,13 +222,13 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    options?: PolicyCreateOptionalParams,
   ): Promise<PolicyCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       vaultName,
       policyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -245,27 +244,26 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyDeleteResponse>, PolicyDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PolicyDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -274,8 +272,8 @@ export class PolicyImpl implements Policy {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -283,15 +281,15 @@ export class PolicyImpl implements Policy {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, policyName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       PolicyDeleteResponse,
@@ -299,7 +297,7 @@ export class PolicyImpl implements Policy {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -316,13 +314,13 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<PolicyDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vaultName,
       policyName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -336,11 +334,11 @@ export class PolicyImpl implements Policy {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: PolicyListOptionalParams
+    options?: PolicyListOptionalParams,
   ): Promise<PolicyListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -355,11 +353,11 @@ export class PolicyImpl implements Policy {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: PolicyListNextOptionalParams
+    options?: PolicyListNextOptionalParams,
   ): Promise<PolicyListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -367,16 +365,15 @@ export class PolicyImpl implements Policy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyModel
+      bodyMapper: Mappers.PolicyModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -384,31 +381,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyModel
+      bodyMapper: Mappers.PolicyModel,
     },
     201: {
-      bodyMapper: Mappers.PolicyModel
+      bodyMapper: Mappers.PolicyModel,
     },
     202: {
-      bodyMapper: Mappers.PolicyModel
+      bodyMapper: Mappers.PolicyModel,
     },
     204: {
-      bodyMapper: Mappers.PolicyModel
+      bodyMapper: Mappers.PolicyModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
@@ -417,32 +413,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies/{policyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PolicyDeleteHeaders
+      headersMapper: Mappers.PolicyDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.PolicyDeleteHeaders
+      headersMapper: Mappers.PolicyDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PolicyDeleteHeaders
+      headersMapper: Mappers.PolicyDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.PolicyDeleteHeaders
+      headersMapper: Mappers.PolicyDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -450,51 +445,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.policyName
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyModelCollection
+      bodyMapper: Mappers.PolicyModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyModelCollection
+      bodyMapper: Mappers.PolicyModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

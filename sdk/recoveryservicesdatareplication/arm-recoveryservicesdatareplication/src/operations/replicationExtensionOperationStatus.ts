@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReplicationExtensionOperationStatus } from "../operationsInterfaces";
+import { ReplicationExtensionOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   ReplicationExtensionOperationStatusGetOptionalParams,
-  ReplicationExtensionOperationStatusGetResponse
-} from "../models";
+  ReplicationExtensionOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing ReplicationExtensionOperationStatus operations. */
 export class ReplicationExtensionOperationStatusImpl
-  implements ReplicationExtensionOperationStatus {
+  implements ReplicationExtensionOperationStatus
+{
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
@@ -42,7 +43,7 @@ export class ReplicationExtensionOperationStatusImpl
     vaultName: string,
     replicationExtensionName: string,
     operationId: string,
-    options?: ReplicationExtensionOperationStatusGetOptionalParams
+    options?: ReplicationExtensionOperationStatusGetOptionalParams,
   ): Promise<ReplicationExtensionOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -50,9 +51,9 @@ export class ReplicationExtensionOperationStatusImpl
         vaultName,
         replicationExtensionName,
         operationId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -60,16 +61,15 @@ export class ReplicationExtensionOperationStatusImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -78,8 +78,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.operationId,
     Parameters.vaultName,
-    Parameters.replicationExtensionName
+    Parameters.replicationExtensionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

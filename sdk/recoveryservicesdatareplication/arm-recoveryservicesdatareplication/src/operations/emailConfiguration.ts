@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { EmailConfiguration } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { EmailConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   EmailConfigurationModel,
   EmailConfigurationListNextOptionalParams,
@@ -22,8 +22,8 @@ import {
   EmailConfigurationGetResponse,
   EmailConfigurationCreateOptionalParams,
   EmailConfigurationCreateResponse,
-  EmailConfigurationListNextResponse
-} from "../models";
+  EmailConfigurationListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EmailConfiguration operations. */
@@ -47,7 +47,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams
+    options?: EmailConfigurationListOptionalParams,
   ): PagedAsyncIterableIterator<EmailConfigurationModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -65,9 +65,9 @@ export class EmailConfigurationImpl implements EmailConfiguration {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     options?: EmailConfigurationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EmailConfigurationModel[]> {
     let result: EmailConfigurationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,12 +103,12 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams
+    options?: EmailConfigurationListOptionalParams,
   ): AsyncIterableIterator<EmailConfigurationModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -125,11 +125,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     emailConfigurationName: string,
-    options?: EmailConfigurationGetOptionalParams
+    options?: EmailConfigurationGetOptionalParams,
   ): Promise<EmailConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, emailConfigurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     emailConfigurationName: string,
-    options?: EmailConfigurationCreateOptionalParams
+    options?: EmailConfigurationCreateOptionalParams,
   ): Promise<EmailConfigurationCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, emailConfigurationName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams
+    options?: EmailConfigurationListOptionalParams,
   ): Promise<EmailConfigurationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -180,11 +180,11 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: EmailConfigurationListNextOptionalParams
+    options?: EmailConfigurationListNextOptionalParams,
   ): Promise<EmailConfigurationListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -192,16 +192,15 @@ export class EmailConfigurationImpl implements EmailConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModel
+      bodyMapper: Mappers.EmailConfigurationModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -209,25 +208,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.emailConfigurationName
+    Parameters.emailConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModel
+      bodyMapper: Mappers.EmailConfigurationModel,
     },
     201: {
-      bodyMapper: Mappers.EmailConfigurationModel
+      bodyMapper: Mappers.EmailConfigurationModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -236,52 +234,51 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.emailConfigurationName
+    Parameters.emailConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelCollection
+      bodyMapper: Mappers.EmailConfigurationModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelCollection
+      bodyMapper: Mappers.EmailConfigurationModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

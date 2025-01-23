@@ -8,8 +8,8 @@
 
 import {
   ReplicationExtensionOperationStatusGetOptionalParams,
-  ReplicationExtensionOperationStatusGetResponse
-} from "../models";
+  ReplicationExtensionOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a ReplicationExtensionOperationStatus. */
 export interface ReplicationExtensionOperationStatus {
@@ -26,6 +26,6 @@ export interface ReplicationExtensionOperationStatus {
     vaultName: string,
     replicationExtensionName: string,
     operationId: string,
-    options?: ReplicationExtensionOperationStatusGetOptionalParams
+    options?: ReplicationExtensionOperationStatusGetOptionalParams,
   ): Promise<ReplicationExtensionOperationStatusGetResponse>;
 }

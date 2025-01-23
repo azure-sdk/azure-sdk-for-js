@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FabricOperationsStatus } from "../operationsInterfaces";
+import { FabricOperationsStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   FabricOperationsStatusGetOptionalParams,
-  FabricOperationsStatusGetResponse
-} from "../models";
+  FabricOperationsStatusGetResponse,
+} from "../models/index.js";
 
 /** Class containing FabricOperationsStatus operations. */
 export class FabricOperationsStatusImpl implements FabricOperationsStatus {
@@ -39,11 +39,11 @@ export class FabricOperationsStatusImpl implements FabricOperationsStatus {
     resourceGroupName: string,
     fabricName: string,
     operationId: string,
-    options?: FabricOperationsStatusGetOptionalParams
+    options?: FabricOperationsStatusGetOptionalParams,
   ): Promise<FabricOperationsStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, fabricName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class FabricOperationsStatusImpl implements FabricOperationsStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/operations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus
+      bodyMapper: Mappers.OperationStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.fabricName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

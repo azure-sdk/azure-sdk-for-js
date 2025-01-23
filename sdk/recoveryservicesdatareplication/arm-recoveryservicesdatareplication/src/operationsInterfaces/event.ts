@@ -11,8 +11,8 @@ import {
   EventModel,
   EventListOptionalParams,
   EventGetOptionalParams,
-  EventGetResponse
-} from "../models";
+  EventGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Event. */
@@ -26,7 +26,7 @@ export interface Event {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams
+    options?: EventListOptionalParams,
   ): PagedAsyncIterableIterator<EventModel>;
   /**
    * Gets the details of the event.
@@ -39,6 +39,6 @@ export interface Event {
     resourceGroupName: string,
     vaultName: string,
     eventName: string,
-    options?: EventGetOptionalParams
+    options?: EventGetOptionalParams,
   ): Promise<EventGetResponse>;
 }

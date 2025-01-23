@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Event } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Event } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   EventModel,
   EventListNextOptionalParams,
@@ -20,8 +20,8 @@ import {
   EventListResponse,
   EventGetOptionalParams,
   EventGetResponse,
-  EventListNextResponse
-} from "../models";
+  EventListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Event operations. */
@@ -45,7 +45,7 @@ export class EventImpl implements Event {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams
+    options?: EventListOptionalParams,
   ): PagedAsyncIterableIterator<EventModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -63,9 +63,9 @@ export class EventImpl implements Event {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class EventImpl implements Event {
     resourceGroupName: string,
     vaultName: string,
     options?: EventListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventModel[]> {
     let result: EventListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class EventImpl implements Event {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class EventImpl implements Event {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams
+    options?: EventListOptionalParams,
   ): AsyncIterableIterator<EventModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class EventImpl implements Event {
     resourceGroupName: string,
     vaultName: string,
     eventName: string,
-    options?: EventGetOptionalParams
+    options?: EventGetOptionalParams,
   ): Promise<EventGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, eventName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class EventImpl implements Event {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams
+    options?: EventListOptionalParams,
   ): Promise<EventListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class EventImpl implements Event {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: EventListNextOptionalParams
+    options?: EventListNextOptionalParams,
   ): Promise<EventListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class EventImpl implements Event {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/events/{eventName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/events/{eventName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventModel
+      bodyMapper: Mappers.EventModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,55 +187,54 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.eventName
+    Parameters.eventName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/events",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/events",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventModelCollection
+      bodyMapper: Mappers.EventModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.continuationToken
+    Parameters.continuationToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventModelCollection
+      bodyMapper: Mappers.EventModelCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.vaultName
+    Parameters.vaultName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

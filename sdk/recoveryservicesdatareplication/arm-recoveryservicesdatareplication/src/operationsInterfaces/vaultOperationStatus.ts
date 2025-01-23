@@ -8,8 +8,8 @@
 
 import {
   VaultOperationStatusGetOptionalParams,
-  VaultOperationStatusGetResponse
-} from "../models";
+  VaultOperationStatusGetResponse,
+} from "../models/index.js";
 
 /** Interface representing a VaultOperationStatus. */
 export interface VaultOperationStatus {
@@ -24,6 +24,6 @@ export interface VaultOperationStatus {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: VaultOperationStatusGetOptionalParams
+    options?: VaultOperationStatusGetOptionalParams,
   ): Promise<VaultOperationStatusGetResponse>;
 }

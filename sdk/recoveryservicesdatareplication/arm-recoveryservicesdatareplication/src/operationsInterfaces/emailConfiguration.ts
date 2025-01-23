@@ -13,8 +13,8 @@ import {
   EmailConfigurationGetOptionalParams,
   EmailConfigurationGetResponse,
   EmailConfigurationCreateOptionalParams,
-  EmailConfigurationCreateResponse
-} from "../models";
+  EmailConfigurationCreateResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EmailConfiguration. */
@@ -28,7 +28,7 @@ export interface EmailConfiguration {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams
+    options?: EmailConfigurationListOptionalParams,
   ): PagedAsyncIterableIterator<EmailConfigurationModel>;
   /**
    * Gets the details of the alert configuration setting.
@@ -41,7 +41,7 @@ export interface EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     emailConfigurationName: string,
-    options?: EmailConfigurationGetOptionalParams
+    options?: EmailConfigurationGetOptionalParams,
   ): Promise<EmailConfigurationGetResponse>;
   /**
    * Creates an alert configuration setting for the given vault.
@@ -54,6 +54,6 @@ export interface EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     emailConfigurationName: string,
-    options?: EmailConfigurationCreateOptionalParams
+    options?: EmailConfigurationCreateOptionalParams,
   ): Promise<EmailConfigurationCreateResponse>;
 }
