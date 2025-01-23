@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConfigData, AdvisorManagementClient } from "@azure/arm-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create/Overwrite Azure Advisor configuration and also delete all configurations of contained resource groups.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
  */
-async function putConfigurations() {
+async function putConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["ADVISOR_SUBSCRIPTION_ID"] || "subscriptionId";
   const configurationName = "default";
@@ -54,7 +52,7 @@ async function putConfigurations() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putConfigurations();
 }
 

@@ -14,6 +14,7 @@ import {
 import {
   ConfigData as ConfigDataMapper,
   SuppressionContract as SuppressionContractMapper,
+  PredictionRequest as PredictionRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -54,9 +55,49 @@ export const name: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-01-01",
+    defaultValue: "2025-01-01",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const category: OperationQueryParameter = {
+  parameterPath: ["options", "category"],
+  mapper: {
+    serializedName: "[category](#category)",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const control: OperationQueryParameter = {
+  parameterPath: ["options", "control"],
+  mapper: {
+    serializedName: "[control](#control)",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const retirementsFrom: OperationQueryParameter = {
+  parameterPath: ["options", "retirementsFrom"],
+  mapper: {
+    serializedName: "retirementsFrom",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const retirementsTill: OperationQueryParameter = {
+  parameterPath: ["options", "retirementsTill"],
+  mapper: {
+    serializedName: "retirementsTill",
     type: {
       name: "String",
     },
@@ -191,4 +232,9 @@ export const recommendationId: OperationURLParameter = {
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
   mapper: SuppressionContractMapper,
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper,
 };
