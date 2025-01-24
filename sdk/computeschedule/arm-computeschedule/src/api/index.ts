@@ -6,15 +6,27 @@ export {
   ComputeScheduleContext,
   ComputeScheduleClientOptionalParams,
 } from "./computeScheduleContext.js";
+export {
+  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+  OperationsListOptionalParams,
+} from "./options.js";
 export { operationsList } from "./operations/index.js";
 export {
-  scheduledActionsVirtualMachinesSubmitDeallocate,
-  scheduledActionsVirtualMachinesSubmitHibernate,
-  scheduledActionsVirtualMachinesSubmitStart,
-  scheduledActionsVirtualMachinesExecuteDeallocate,
-  scheduledActionsVirtualMachinesExecuteHibernate,
-  scheduledActionsVirtualMachinesExecuteStart,
-  scheduledActionsVirtualMachinesGetOperationStatus,
-  scheduledActionsVirtualMachinesCancelOperations,
   scheduledActionsVirtualMachinesGetOperationErrors,
+  scheduledActionsVirtualMachinesCancelOperations,
+  scheduledActionsVirtualMachinesGetOperationStatus,
+  scheduledActionsVirtualMachinesExecuteStart,
+  scheduledActionsVirtualMachinesExecuteHibernate,
+  scheduledActionsVirtualMachinesExecuteDeallocate,
+  scheduledActionsVirtualMachinesSubmitStart,
+  scheduledActionsVirtualMachinesSubmitHibernate,
+  scheduledActionsVirtualMachinesSubmitDeallocate,
 } from "./scheduledActions/index.js";
