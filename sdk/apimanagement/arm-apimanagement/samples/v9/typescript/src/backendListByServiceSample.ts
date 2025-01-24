@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists a collection of backends in the specified service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListBackends.json
  */
-async function apiManagementListBackends() {
+async function apiManagementListBackends(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementListBackends() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListBackends();
 }
 

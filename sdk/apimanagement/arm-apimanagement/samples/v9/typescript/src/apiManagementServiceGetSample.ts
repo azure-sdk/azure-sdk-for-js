@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an API Management service resource description.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetMultiRegionInternalVnet.json
  */
-async function apiManagementServiceGetMultiRegionInternalVnet() {
+async function apiManagementServiceGetMultiRegionInternalVnet(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -39,7 +39,7 @@ async function apiManagementServiceGetMultiRegionInternalVnet() {
  * @summary Gets an API Management service resource description.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetService.json
  */
-async function apiManagementServiceGetService() {
+async function apiManagementServiceGetService(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -60,7 +60,7 @@ async function apiManagementServiceGetService() {
  * @summary Gets an API Management service resource description.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementServiceGetServiceHavingMsi.json
  */
-async function apiManagementServiceGetServiceHavingMsi() {
+async function apiManagementServiceGetServiceHavingMsi(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -75,7 +75,7 @@ async function apiManagementServiceGetServiceHavingMsi() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementServiceGetMultiRegionInternalVnet();
     apiManagementServiceGetService();
     apiManagementServiceGetServiceHavingMsi();

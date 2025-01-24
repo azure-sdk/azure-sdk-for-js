@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Detach the tag from the Product.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteProductTag.json
  */
-async function apiManagementDeleteProductTag() {
+async function apiManagementDeleteProductTag(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementDeleteProductTag() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteProductTag();
 }
 

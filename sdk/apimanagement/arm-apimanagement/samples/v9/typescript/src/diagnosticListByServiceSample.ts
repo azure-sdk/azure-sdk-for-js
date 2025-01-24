@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all diagnostics of the API Management service instance.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListDiagnostics.json
  */
-async function apiManagementListDiagnostics() {
+async function apiManagementListDiagnostics(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function apiManagementListDiagnostics() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListDiagnostics();
 }
 

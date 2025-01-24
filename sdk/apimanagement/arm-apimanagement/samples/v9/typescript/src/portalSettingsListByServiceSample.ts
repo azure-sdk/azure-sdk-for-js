@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists a collection of portalsettings defined within a service instance..
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListPortalSettings.json
  */
-async function apiManagementListPortalSettings() {
+async function apiManagementListPortalSettings(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -33,7 +33,7 @@ async function apiManagementListPortalSettings() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementListPortalSettings();
 }
 

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Creates or Updates a group.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroup.json
  */
-async function apiManagementCreateGroup() {
+async function apiManagementCreateGroup(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -46,7 +46,7 @@ async function apiManagementCreateGroup() {
  * @summary Creates or Updates a group.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementCreateGroupExternal.json
  */
-async function apiManagementCreateGroupExternal() {
+async function apiManagementCreateGroupExternal(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -71,7 +71,7 @@ async function apiManagementCreateGroupExternal() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementCreateGroup();
   apiManagementCreateGroupExternal();
 }

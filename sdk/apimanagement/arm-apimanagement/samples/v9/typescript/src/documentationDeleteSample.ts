@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Deletes the specified Documentation from an API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteDocumentation.json
  */
-async function apiManagementDeleteDocumentation() {
+async function apiManagementDeleteDocumentation(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementDeleteDocumentation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   apiManagementDeleteDocumentation();
 }
 

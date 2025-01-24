@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the details of the API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiContract.json
  */
-async function apiManagementGetApiContract() {
+async function apiManagementGetApiContract(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementGetApiContract() {
  * @summary Gets the details of the API specified by its identifier.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementGetApiRevision.json
  */
-async function apiManagementGetApiRevisionContract() {
+async function apiManagementGetApiRevisionContract(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -50,7 +50,7 @@ async function apiManagementGetApiRevisionContract() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementGetApiContract();
     apiManagementGetApiRevisionContract();
 }

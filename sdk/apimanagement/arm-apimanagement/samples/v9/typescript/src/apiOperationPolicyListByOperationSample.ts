@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Get the list of policy configuration at the API Operation level.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementListApiOperationPolicies.json
  */
-async function apiManagementListApiOperationPolicies() {
+async function apiManagementListApiOperationPolicies(): Promise<void> {
     const subscriptionId =
         process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";
     const resourceGroupName =
@@ -37,7 +37,7 @@ async function apiManagementListApiOperationPolicies() {
     console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
     apiManagementListApiOperationPolicies();
 }
 
