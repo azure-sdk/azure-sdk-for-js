@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { FeaturesetVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { FeaturesetVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   FeaturesetVersion,
   FeaturesetVersionsListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   FeaturesetVersionsBackfillOptionalParams,
   FeaturesetVersionsBackfillResponse,
   FeaturesetVersionsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FeaturesetVersions operations. */
@@ -607,7 +607,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body21,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -641,7 +641,7 @@ const backfillOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -669,9 +669,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.name,
   ],
   headerParameters: [Parameters.accept],

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { RegistryModelVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { RegistryModelVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ModelVersion,
   RegistryModelVersionsListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   RegistryModelVersionsCreateOrGetStartPendingUploadOptionalParams,
   RegistryModelVersionsCreateOrGetStartPendingUploadResponse,
   RegistryModelVersionsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegistryModelVersions operations. */
@@ -452,7 +452,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.version1,
     Parameters.description,
     Parameters.tags1,
-    Parameters.properties1,
+    Parameters.properties,
   ],
   urlParameters: [
     Parameters.$host,
@@ -531,7 +531,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -556,7 +556,7 @@ const createOrGetStartPendingUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -584,8 +584,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.modelName,
   ],
