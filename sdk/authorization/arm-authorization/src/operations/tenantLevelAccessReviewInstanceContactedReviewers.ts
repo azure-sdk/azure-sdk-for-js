@@ -18,13 +18,14 @@ import {
   TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams,
   TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
   TenantLevelAccessReviewInstanceContactedReviewersListResponse,
-  TenantLevelAccessReviewInstanceContactedReviewersListNextResponse
+  TenantLevelAccessReviewInstanceContactedReviewersListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TenantLevelAccessReviewInstanceContactedReviewers operations. */
 export class TenantLevelAccessReviewInstanceContactedReviewersImpl
-  implements TenantLevelAccessReviewInstanceContactedReviewers {
+  implements TenantLevelAccessReviewInstanceContactedReviewers
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
   public list(
     scheduleDefinitionId: string,
     id: string,
-    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewContactedReviewer> {
     const iter = this.listPagingAll(scheduleDefinitionId, id, options);
     return {
@@ -59,7 +60,7 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scheduleDefinitionId, id, options, settings);
-      }
+      },
     };
   }
 
@@ -67,7 +68,7 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewContactedReviewer[]> {
     let result: TenantLevelAccessReviewInstanceContactedReviewersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +84,7 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
         scheduleDefinitionId,
         id,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -95,12 +96,12 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
   private async *listPagingAll(
     scheduleDefinitionId: string,
     id: string,
-    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
   ): AsyncIterableIterator<AccessReviewContactedReviewer> {
     for await (const page of this.listPagingPage(
       scheduleDefinitionId,
       id,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -115,11 +116,11 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
   private _list(
     scheduleDefinitionId: string,
     id: string,
-    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams,
   ): Promise<TenantLevelAccessReviewInstanceContactedReviewersListResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -134,13 +135,11 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     nextLink: string,
-    options?: TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams
-  ): Promise<
-    TenantLevelAccessReviewInstanceContactedReviewersListNextResponse
-  > {
+    options?: TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams,
+  ): Promise<TenantLevelAccessReviewInstanceContactedReviewersListNextResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -148,43 +147,42 @@ export class TenantLevelAccessReviewInstanceContactedReviewersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
+  path: "/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
