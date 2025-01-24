@@ -15,7 +15,7 @@ import {
   ServiceRegistriesGetResponse,
   ServiceRegistriesCreateOrUpdateOptionalParams,
   ServiceRegistriesCreateOrUpdateResponse,
-  ServiceRegistriesDeleteOptionalParams
+  ServiceRegistriesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ServiceRegistries {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
+    options?: ServiceRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceRegistryResource>;
   /**
    * Get the Service Registry and its properties.
@@ -45,7 +45,7 @@ export interface ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesGetOptionalParams
+    options?: ServiceRegistriesGetOptionalParams,
   ): Promise<ServiceRegistriesGetResponse>;
   /**
    * Create the default Service Registry or update the existing Service Registry.
@@ -59,7 +59,7 @@ export interface ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    options?: ServiceRegistriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServiceRegistriesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    options?: ServiceRegistriesCreateOrUpdateOptionalParams,
   ): Promise<ServiceRegistriesCreateOrUpdateResponse>;
   /**
    * Disable the default Service Registry.
@@ -92,7 +92,7 @@ export interface ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    options?: ServiceRegistriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Service Registry.
@@ -106,6 +106,6 @@ export interface ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    options?: ServiceRegistriesDeleteOptionalParams,
   ): Promise<void>;
 }

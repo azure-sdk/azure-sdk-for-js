@@ -25,7 +25,7 @@ import {
   AppsSetActiveDeploymentsResponse,
   CustomDomainValidatePayload,
   AppsValidateDomainOptionalParams,
-  AppsValidateDomainResponse
+  AppsValidateDomainResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface Apps {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: AppsListOptionalParams
+    options?: AppsListOptionalParams,
   ): PagedAsyncIterableIterator<AppResource>;
   /**
    * Get an App and its properties.
@@ -55,7 +55,7 @@ export interface Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsGetOptionalParams
+    options?: AppsGetOptionalParams,
   ): Promise<AppsGetResponse>;
   /**
    * Create a new App or update an exiting App.
@@ -71,7 +71,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
+    options?: AppsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AppsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsCreateOrUpdateOptionalParams
+    options?: AppsCreateOrUpdateOptionalParams,
   ): Promise<AppsCreateOrUpdateResponse>;
   /**
    * Operation to delete an App.
@@ -106,7 +106,7 @@ export interface Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsDeleteOptionalParams
+    options?: AppsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete an App.
@@ -120,7 +120,7 @@ export interface Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsDeleteOptionalParams
+    options?: AppsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting App.
@@ -136,7 +136,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsUpdateOptionalParams
+    options?: AppsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<AppsUpdateResponse>, AppsUpdateResponse>
   >;
@@ -154,7 +154,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     appResource: AppResource,
-    options?: AppsUpdateOptionalParams
+    options?: AppsUpdateOptionalParams,
   ): Promise<AppsUpdateResponse>;
   /**
    * Get an resource upload URL for an App, which may be artifacts or source archive.
@@ -168,7 +168,7 @@ export interface Apps {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: AppsGetResourceUploadUrlOptionalParams
+    options?: AppsGetResourceUploadUrlOptionalParams,
   ): Promise<AppsGetResourceUploadUrlResponse>;
   /**
    * Set existing Deployment under the app as active
@@ -184,7 +184,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
+    options?: AppsSetActiveDeploymentsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AppsSetActiveDeploymentsResponse>,
@@ -205,7 +205,7 @@ export interface Apps {
     serviceName: string,
     appName: string,
     activeDeploymentCollection: ActiveDeploymentCollection,
-    options?: AppsSetActiveDeploymentsOptionalParams
+    options?: AppsSetActiveDeploymentsOptionalParams,
   ): Promise<AppsSetActiveDeploymentsResponse>;
   /**
    * Check the resource name is valid as well as not in use.
@@ -221,6 +221,6 @@ export interface Apps {
     serviceName: string,
     appName: string,
     validatePayload: CustomDomainValidatePayload,
-    options?: AppsValidateDomainOptionalParams
+    options?: AppsValidateDomainOptionalParams,
   ): Promise<AppsValidateDomainResponse>;
 }
