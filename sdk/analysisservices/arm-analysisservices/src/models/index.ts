@@ -484,7 +484,7 @@ export enum KnownState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -532,7 +532,7 @@ export enum KnownProvisioningState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -562,7 +562,7 @@ export enum KnownSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -666,7 +666,8 @@ export interface ServersListSkusForExistingOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusForExisting operation. */
-export type ServersListSkusForExistingResponse = SkuEnumerationForExistingResourceResult;
+export type ServersListSkusForExistingResponse =
+  SkuEnumerationForExistingResourceResult;
 
 /** Optional parameters. */
 export interface ServersListGatewayStatusOptionalParams
@@ -684,7 +685,8 @@ export interface ServersCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ServersCheckNameAvailabilityResponse = CheckServerNameAvailabilityResult;
+export type ServersCheckNameAvailabilityResponse =
+  CheckServerNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface ServersListOperationResultsOptionalParams
