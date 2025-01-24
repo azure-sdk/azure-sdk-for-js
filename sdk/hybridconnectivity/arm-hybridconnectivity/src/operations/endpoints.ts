@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Endpoints } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Endpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HybridConnectivityManagementAPI } from "../hybridConnectivityManagementAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HybridConnectivityManagementAPI } from "../hybridConnectivityManagementAPI.js";
 import {
   EndpointResource,
   EndpointsListNextOptionalParams,
@@ -32,8 +32,8 @@ import {
   ManagedProxyRequest,
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListManagedProxyDetailsResponse,
-  EndpointsListNextResponse
-} from "../models";
+  EndpointsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Endpoints operations. */
@@ -50,13 +50,12 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * List of endpoints to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   public list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<EndpointResource> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -71,14 +70,14 @@ export class EndpointsImpl implements Endpoints {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: EndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EndpointResource[]> {
     let result: EndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +99,7 @@ export class EndpointsImpl implements Endpoints {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): AsyncIterableIterator<EndpointResource> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -109,42 +108,39 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * List of endpoints to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   private _list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): Promise<EndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * Gets the endpoint to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   get(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Create or update the endpoint to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param endpointResource Endpoint details
    * @param options The options parameters.
@@ -153,18 +149,17 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, endpointResource, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
    * Update the endpoint to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param endpointResource Endpoint details
    * @param options The options parameters.
@@ -173,72 +168,68 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, endpointResource, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
    * Deletes the endpoint access to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   delete(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
    * Gets the endpoint access credentials to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   listCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListCredentialsOptionalParams
+    options?: EndpointsListCredentialsOptionalParams,
   ): Promise<EndpointsListCredentialsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      listCredentialsOperationSpec
+      listCredentialsOperationSpec,
     );
   }
 
   /**
    * Gets the ingress gateway endpoint credentials
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   listIngressGatewayCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListIngressGatewayCredentialsOptionalParams
+    options?: EndpointsListIngressGatewayCredentialsOptionalParams,
   ): Promise<EndpointsListIngressGatewayCredentialsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      listIngressGatewayCredentialsOperationSpec
+      listIngressGatewayCredentialsOperationSpec,
     );
   }
 
   /**
    * Fetches the managed proxy details
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param managedProxyRequest Object of type ManagedProxyRequest
    * @param options The options parameters.
@@ -247,29 +238,28 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     managedProxyRequest: ManagedProxyRequest,
-    options?: EndpointsListManagedProxyDetailsOptionalParams
+    options?: EndpointsListManagedProxyDetailsOptionalParams,
   ): Promise<EndpointsListManagedProxyDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, managedProxyRequest, options },
-      listManagedProxyDetailsOperationSpec
+      listManagedProxyDetailsOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: EndpointsListNextOptionalParams
+    options?: EndpointsListNextOptionalParams,
   ): Promise<EndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -281,189 +271,182 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointsList
+      bodyMapper: Mappers.EndpointsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.endpointResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.endpointResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAccessResource
+      bodyMapper: Mappers.EndpointAccessResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listCredentialsRequest,
   queryParameters: [Parameters.apiVersion, Parameters.expiresin],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listIngressGatewayCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IngressGatewayResource
+      bodyMapper: Mappers.IngressGatewayResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listIngressGatewayCredentialsRequest,
   queryParameters: [Parameters.apiVersion, Parameters.expiresin],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listManagedProxyDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedProxyResource
+      bodyMapper: Mappers.ManagedProxyResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.managedProxyRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointsList
+      bodyMapper: Mappers.EndpointsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceUri,
     Parameters.nextLink,
-    Parameters.resourceUri
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

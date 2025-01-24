@@ -17,28 +17,26 @@ import {
   ServiceConfigurationResourcePatch,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsUpdateResponse,
-  ServiceConfigurationsDeleteOptionalParams
-} from "../models";
+  ServiceConfigurationsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceConfigurations. */
 export interface ServiceConfigurations {
   /**
    * API to enumerate registered services in service configurations under a Endpoint Resource
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ): PagedAsyncIterableIterator<ServiceConfigurationResource>;
   /**
    * Gets the details about the service to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param serviceConfigurationName The service name.
    * @param options The options parameters.
@@ -47,12 +45,11 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsGetOptionalParams
+    options?: ServiceConfigurationsGetOptionalParams,
   ): Promise<ServiceConfigurationsGetResponse>;
   /**
    * Create or update a service in serviceConfiguration for the endpoint resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param serviceConfigurationName The service name.
    * @param serviceConfigurationResource Service details
@@ -63,12 +60,11 @@ export interface ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResource,
-    options?: ServiceConfigurationsCreateOrupdateOptionalParams
+    options?: ServiceConfigurationsCreateOrupdateOptionalParams,
   ): Promise<ServiceConfigurationsCreateOrupdateResponse>;
   /**
    * Update the service details in the service configurations of the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param serviceConfigurationName The service name.
    * @param serviceConfigurationResource Service details
@@ -79,12 +75,11 @@ export interface ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResourcePatch,
-    options?: ServiceConfigurationsUpdateOptionalParams
+    options?: ServiceConfigurationsUpdateOptionalParams,
   ): Promise<ServiceConfigurationsUpdateResponse>;
   /**
    * Deletes the service details to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param serviceConfigurationName The service name.
    * @param options The options parameters.
@@ -93,6 +88,6 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsDeleteOptionalParams
+    options?: ServiceConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -23,38 +23,35 @@ import {
   EndpointsListIngressGatewayCredentialsResponse,
   ManagedProxyRequest,
   EndpointsListManagedProxyDetailsOptionalParams,
-  EndpointsListManagedProxyDetailsResponse
-} from "../models";
+  EndpointsListManagedProxyDetailsResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Endpoints. */
 export interface Endpoints {
   /**
    * List of endpoints to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<EndpointResource>;
   /**
    * Gets the endpoint to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   get(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse>;
   /**
    * Create or update the endpoint to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param endpointResource Endpoint details
    * @param options The options parameters.
@@ -63,12 +60,11 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse>;
   /**
    * Update the endpoint to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param endpointResource Endpoint details
    * @param options The options parameters.
@@ -77,48 +73,44 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse>;
   /**
    * Deletes the endpoint access to the target resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   delete(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the endpoint access credentials to the resource.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   listCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListCredentialsOptionalParams
+    options?: EndpointsListCredentialsOptionalParams,
   ): Promise<EndpointsListCredentialsResponse>;
   /**
    * Gets the ingress gateway endpoint credentials
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param options The options parameters.
    */
   listIngressGatewayCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListIngressGatewayCredentialsOptionalParams
+    options?: EndpointsListIngressGatewayCredentialsOptionalParams,
   ): Promise<EndpointsListIngressGatewayCredentialsResponse>;
   /**
    * Fetches the managed proxy details
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param endpointName The endpoint name.
    * @param managedProxyRequest Object of type ManagedProxyRequest
    * @param options The options parameters.
@@ -127,6 +119,6 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     managedProxyRequest: ManagedProxyRequest,
-    options?: EndpointsListManagedProxyDetailsOptionalParams
+    options?: EndpointsListManagedProxyDetailsOptionalParams,
   ): Promise<EndpointsListManagedProxyDetailsResponse>;
 }
