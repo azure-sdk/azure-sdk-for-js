@@ -12,7 +12,7 @@ import {
   ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileHcrpAssignmentsGetOptionalParams,
   ConfigurationProfileHcrpAssignmentsGetResponse,
-  ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
+  ConfigurationProfileHcrpAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a ConfigurationProfileHcrpAssignments. */
@@ -31,7 +31,7 @@ export interface ConfigurationProfileHcrpAssignments {
     machineName: string,
     configurationProfileAssignmentName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileHcrpAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse>;
   /**
    * Get information about a configuration profile assignment
@@ -44,7 +44,7 @@ export interface ConfigurationProfileHcrpAssignments {
     resourceGroupName: string,
     machineName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHcrpAssignmentsGetOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileHcrpAssignmentsGetResponse>;
   /**
    * Delete a configuration profile assignment
@@ -57,6 +57,6 @@ export interface ConfigurationProfileHcrpAssignments {
     resourceGroupName: string,
     machineName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileHcrpAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }
