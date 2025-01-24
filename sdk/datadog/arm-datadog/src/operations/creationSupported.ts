@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { CreationSupported } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,10 +15,12 @@ import * as Parameters from "../models/parameters.js";
 import { MicrosoftDatadogClient } from "../microsoftDatadogClient.js";
 import {
   CreateResourceSupportedResponse,
+  CreationSupportedListNextOptionalParams,
   CreationSupportedListOptionalParams,
   CreationSupportedListResponse,
   CreationSupportedGetOptionalParams,
-  CreationSupportedGetResponse
+  CreationSupportedGetResponse,
+  CreationSupportedListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,7 +43,7 @@ export class CreationSupportedImpl implements CreationSupported {
    */
   public list(
     datadogOrganizationId: string,
-    options?: CreationSupportedListOptionalParams
+    options?: CreationSupportedListOptionalParams,
   ): PagedAsyncIterableIterator<CreateResourceSupportedResponse> {
     const iter = this.listPagingAll(datadogOrganizationId, options);
     return {
@@ -55,27 +58,40 @@ export class CreationSupportedImpl implements CreationSupported {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(datadogOrganizationId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     datadogOrganizationId: string,
     options?: CreationSupportedListOptionalParams,
-    _settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CreateResourceSupportedResponse[]> {
     let result: CreationSupportedListResponse;
-    result = await this._list(datadogOrganizationId, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(datadogOrganizationId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
     datadogOrganizationId: string,
-    options?: CreationSupportedListOptionalParams
+    options?: CreationSupportedListOptionalParams,
   ): AsyncIterableIterator<CreateResourceSupportedResponse> {
     for await (const page of this.listPagingPage(
       datadogOrganizationId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -88,11 +104,11 @@ export class CreationSupportedImpl implements CreationSupported {
    */
   private _list(
     datadogOrganizationId: string,
-    options?: CreationSupportedListOptionalParams
+    options?: CreationSupportedListOptionalParams,
   ): Promise<CreationSupportedListResponse> {
     return this.client.sendOperationRequest(
       { datadogOrganizationId, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -103,11 +119,26 @@ export class CreationSupportedImpl implements CreationSupported {
    */
   get(
     datadogOrganizationId: string,
-    options?: CreationSupportedGetOptionalParams
+    options?: CreationSupportedGetOptionalParams,
   ): Promise<CreationSupportedGetResponse> {
     return this.client.sendOperationRequest(
       { datadogOrganizationId, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: CreationSupportedListNextOptionalParams,
+  ): Promise<CreationSupportedListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -115,36 +146,53 @@ export class CreationSupportedImpl implements CreationSupported {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/subscriptionStatuses",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/subscriptionStatuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreateResourceSupportedResponseList
+      bodyMapper: Mappers.CreateResourceSupportedResponseList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.datadogOrganizationId],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/subscriptionStatuses/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/subscriptionStatuses/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CreateResourceSupportedResponse
+      bodyMapper: Mappers.CreateResourceSupportedResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.datadogOrganizationId],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CreateResourceSupportedResponseList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

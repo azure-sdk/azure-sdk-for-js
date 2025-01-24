@@ -13,7 +13,7 @@ import {
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
-  TagRulesGetResponse
+  TagRulesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface TagRules {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringTagRules>;
   /**
    * Create or update a tag rule set for a given monitor resource.
@@ -41,7 +41,7 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Get a tag rule set for a given monitor resource.
@@ -54,6 +54,6 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
 }

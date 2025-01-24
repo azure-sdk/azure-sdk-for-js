@@ -10,6 +10,7 @@ export * from "./marketplaceAgreements.js";
 export * from "./creationSupported.js";
 export * from "./monitors.js";
 export * from "./operations.js";
+export * from "./billingInfo.js";
 export * from "./tagRules.js";
 export * from "./singleSignOnConfigurations.js";
 export * from "./monitoredSubscriptions.js";

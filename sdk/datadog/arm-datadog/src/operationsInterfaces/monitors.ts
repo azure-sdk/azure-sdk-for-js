@@ -31,7 +31,7 @@ import {
   MonitorsUpdateResponse,
   MonitorsDeleteOptionalParams,
   MonitorsRefreshSetPasswordLinkOptionalParams,
-  MonitorsRefreshSetPasswordLinkResponse
+  MonitorsRefreshSetPasswordLinkResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export interface Monitors {
   listApiKeys(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListApiKeysOptionalParams
+    options?: MonitorsListApiKeysOptionalParams,
   ): PagedAsyncIterableIterator<DatadogApiKey>;
   /**
    * List the hosts for a given monitor resource.
@@ -57,7 +57,7 @@ export interface Monitors {
   listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): PagedAsyncIterableIterator<DatadogHost>;
   /**
    * List all Azure resources associated to the same Datadog organization as the target resource.
@@ -68,7 +68,7 @@ export interface Monitors {
   listLinkedResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams
+    options?: MonitorsListLinkedResourcesOptionalParams,
   ): PagedAsyncIterableIterator<LinkedResource>;
   /**
    * List the resources currently being monitored by the Datadog monitor resource.
@@ -79,14 +79,14 @@ export interface Monitors {
   listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource>;
   /**
    * List all monitors under the specified subscription.
    * @param options The options parameters.
    */
   list(
-    options?: MonitorsListOptionalParams
+    options?: MonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogMonitorResource>;
   /**
    * List all monitors under the specified resource group.
@@ -95,7 +95,7 @@ export interface Monitors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DatadogMonitorResource>;
   /**
    * Get the default api key.
@@ -106,7 +106,7 @@ export interface Monitors {
   getDefaultKey(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetDefaultKeyOptionalParams
+    options?: MonitorsGetDefaultKeyOptionalParams,
   ): Promise<MonitorsGetDefaultKeyResponse>;
   /**
    * Set the default api key.
@@ -117,7 +117,7 @@ export interface Monitors {
   setDefaultKey(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsSetDefaultKeyOptionalParams
+    options?: MonitorsSetDefaultKeyOptionalParams,
   ): Promise<void>;
   /**
    * Get the properties of a specific monitor resource.
@@ -128,7 +128,7 @@ export interface Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse>;
   /**
    * Create a monitor resource.
@@ -139,7 +139,7 @@ export interface Monitors {
   beginCreate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateResponse>,
@@ -155,7 +155,7 @@ export interface Monitors {
   beginCreateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
+    options?: MonitorsCreateOptionalParams,
   ): Promise<MonitorsCreateResponse>;
   /**
    * Update a monitor resource.
@@ -166,7 +166,7 @@ export interface Monitors {
   beginUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsUpdateResponse>,
@@ -182,7 +182,7 @@ export interface Monitors {
   beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse>;
   /**
    * Delete a monitor resource.
@@ -193,7 +193,7 @@ export interface Monitors {
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a monitor resource.
@@ -204,7 +204,7 @@ export interface Monitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Refresh the set password link and return a latest one.
@@ -215,6 +215,6 @@ export interface Monitors {
   refreshSetPasswordLink(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsRefreshSetPasswordLinkOptionalParams
+    options?: MonitorsRefreshSetPasswordLinkOptionalParams,
   ): Promise<MonitorsRefreshSetPasswordLinkResponse>;
 }

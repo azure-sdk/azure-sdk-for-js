@@ -14,7 +14,7 @@ import {
   SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   SingleSignOnConfigurationsCreateOrUpdateResponse,
   SingleSignOnConfigurationsGetOptionalParams,
-  SingleSignOnConfigurationsGetResponse
+  SingleSignOnConfigurationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface SingleSignOnConfigurations {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogSingleSignOnResource>;
   /**
    * Configures single-sign-on for this resource.
@@ -42,7 +42,7 @@ export interface SingleSignOnConfigurations {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
@@ -60,7 +60,7 @@ export interface SingleSignOnConfigurations {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
   /**
    * Gets the datadog single sign-on resource for the given Monitor.
@@ -73,6 +73,6 @@ export interface SingleSignOnConfigurations {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsGetOptionalParams
+    options?: SingleSignOnConfigurationsGetOptionalParams,
   ): Promise<SingleSignOnConfigurationsGetResponse>;
 }
