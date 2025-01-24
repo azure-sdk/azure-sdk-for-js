@@ -10,14 +10,26 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
+  NetworkSecurityPerimetersImpl,
+  NspProfilesImpl,
+  NspAccessRulesImpl,
+  NspAssociationsImpl,
+  NspAssociationReconcileImpl,
+  PerimeterAssociableResourceTypesImpl,
+  NspAccessRulesReconcileImpl,
+  NspLinksImpl,
+  NspLinkReferencesImpl,
+  NspLoggingConfigurationOperationsImpl,
+  NspLoggingConfigurationsImpl,
+  NspOperationStatusImpl,
   ApplicationGatewaysImpl,
   ApplicationGatewayPrivateLinkResourcesImpl,
   ApplicationGatewayPrivateEndpointConnectionsImpl,
@@ -164,8 +176,20 @@ import {
   HubRouteTablesImpl,
   RoutingIntentOperationsImpl,
   WebApplicationFirewallPoliciesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
+  NetworkSecurityPerimeters,
+  NspProfiles,
+  NspAccessRules,
+  NspAssociations,
+  NspAssociationReconcile,
+  PerimeterAssociableResourceTypes,
+  NspAccessRulesReconcile,
+  NspLinks,
+  NspLinkReferences,
+  NspLoggingConfigurationOperations,
+  NspLoggingConfigurations,
+  NspOperationStatus,
   ApplicationGateways,
   ApplicationGatewayPrivateLinkResources,
   ApplicationGatewayPrivateEndpointConnections,
@@ -312,9 +336,9 @@ import {
   HubRouteTables,
   RoutingIntentOperations,
   WebApplicationFirewallPolicies,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   NetworkManagementClientOptionalParams,
   BastionShareableLink,
@@ -361,7 +385,7 @@ import {
   GetBastionShareableLinkNextResponse,
   GetActiveSessionsNextResponse,
   DisconnectActiveSessionsNextResponse,
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class NetworkManagementClient extends coreClient.ServiceClient {
@@ -410,7 +434,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.5.0`;
+    const packageDetails = `azsdk-js-arm-network/33.6.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -464,6 +488,20 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.networkSecurityPerimeters = new NetworkSecurityPerimetersImpl(this);
+    this.nspProfiles = new NspProfilesImpl(this);
+    this.nspAccessRules = new NspAccessRulesImpl(this);
+    this.nspAssociations = new NspAssociationsImpl(this);
+    this.nspAssociationReconcile = new NspAssociationReconcileImpl(this);
+    this.perimeterAssociableResourceTypes =
+      new PerimeterAssociableResourceTypesImpl(this);
+    this.nspAccessRulesReconcile = new NspAccessRulesReconcileImpl(this);
+    this.nspLinks = new NspLinksImpl(this);
+    this.nspLinkReferences = new NspLinkReferencesImpl(this);
+    this.nspLoggingConfigurationOperations =
+      new NspLoggingConfigurationOperationsImpl(this);
+    this.nspLoggingConfigurations = new NspLoggingConfigurationsImpl(this);
+    this.nspOperationStatus = new NspOperationStatusImpl(this);
     this.applicationGateways = new ApplicationGatewaysImpl(this);
     this.applicationGatewayPrivateLinkResources =
       new ApplicationGatewayPrivateLinkResourcesImpl(this);
@@ -1710,6 +1748,18 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     );
   }
 
+  networkSecurityPerimeters: NetworkSecurityPerimeters;
+  nspProfiles: NspProfiles;
+  nspAccessRules: NspAccessRules;
+  nspAssociations: NspAssociations;
+  nspAssociationReconcile: NspAssociationReconcile;
+  perimeterAssociableResourceTypes: PerimeterAssociableResourceTypes;
+  nspAccessRulesReconcile: NspAccessRulesReconcile;
+  nspLinks: NspLinks;
+  nspLinkReferences: NspLinkReferences;
+  nspLoggingConfigurationOperations: NspLoggingConfigurationOperations;
+  nspLoggingConfigurations: NspLoggingConfigurations;
+  nspOperationStatus: NspOperationStatus;
   applicationGateways: ApplicationGateways;
   applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
   applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
@@ -1877,15 +1927,15 @@ const putBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionShareableLinkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1901,15 +1951,15 @@ const deleteBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1938,15 +1988,15 @@ const deleteBastionShareableLinkByTokenOperationSpec: coreClient.OperationSpec =
           Mappers.NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
     requestBody: Parameters.bslTokenRequest,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.bastionHostName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1961,15 +2011,15 @@ const getBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionShareableLinkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   requestBody: Parameters.bslRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1993,14 +2043,14 @@ const getActiveSessionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionActiveSessionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept],
@@ -2014,15 +2064,15 @@ const disconnectActiveSessionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionSessionDeleteResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   requestBody: Parameters.sessionIds,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.bastionHostName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2037,10 +2087,10 @@ const checkDnsNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DnsNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.domainNameLabel],
+  queryParameters: [Parameters.apiVersion1, Parameters.domainNameLabel],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2057,10 +2107,10 @@ const expressRouteProviderPortOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExpressRouteProviderPort,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2078,15 +2128,15 @@ const listActiveConnectivityConfigurationsOperationSpec: coreClient.OperationSpe
         bodyMapper: Mappers.ActiveConnectivityConfigurationsListResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    requestBody: Parameters.parameters7,
-    queryParameters: [Parameters.apiVersion, Parameters.top],
+    requestBody: Parameters.parameters15,
+    queryParameters: [Parameters.top, Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.networkManagerName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2101,15 +2151,15 @@ const listActiveSecurityAdminRulesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ActiveSecurityAdminRulesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  requestBody: Parameters.parameters15,
+  queryParameters: [Parameters.top, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2126,15 +2176,15 @@ const listNetworkManagerEffectiveConnectivityConfigurationsOperationSpec: coreCl
           Mappers.NetworkManagerEffectiveConnectivityConfigurationListResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    requestBody: Parameters.parameters8,
-    queryParameters: [Parameters.apiVersion, Parameters.top],
+    requestBody: Parameters.parameters16,
+    queryParameters: [Parameters.top, Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.virtualNetworkName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2150,15 +2200,15 @@ const listNetworkManagerEffectiveSecurityAdminRulesOperationSpec: coreClient.Ope
         bodyMapper: Mappers.NetworkManagerEffectiveSecurityAdminRulesListResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    requestBody: Parameters.parameters8,
-    queryParameters: [Parameters.apiVersion, Parameters.top],
+    requestBody: Parameters.parameters16,
+    queryParameters: [Parameters.top, Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.virtualNetworkName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2173,14 +2223,14 @@ const supportedSecurityProvidersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualWanSecurityProviders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.virtualWANName,
   ],
   headerParameters: [Parameters.accept],
@@ -2204,15 +2254,15 @@ const generatevirtualwanvpnserverconfigurationvpnprofileOperationSpec: coreClien
         bodyMapper: Mappers.VpnProfileResponse,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
     requestBody: Parameters.vpnClientParams,
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.virtualWANName,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -2228,13 +2278,13 @@ const putBastionShareableLinkNextOperationSpec: coreClient.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName,
   ],
@@ -2250,13 +2300,13 @@ const getBastionShareableLinkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionShareableLinkListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName,
   ],
@@ -2273,13 +2323,13 @@ const getActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName,
   ],
@@ -2294,13 +2344,13 @@ const disconnectActiveSessionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.BastionSessionDeleteResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CloudErrorAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.bastionHostName,
   ],
