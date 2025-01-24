@@ -435,6 +435,7 @@ export type CustomJwtAuthenticationManagedIdentityType = string;
 
 // @public
 export interface CustomJwtAuthenticationSettings {
+    encodedIssuerCertificates?: EncodedIssuerCertificateInfo[];
     issuerCertificates?: IssuerCertificateInfo[];
     tokenIssuer?: string;
 }
@@ -892,6 +893,12 @@ export interface DynamicRoutingEnrichment {
 }
 
 // @public
+export interface EncodedIssuerCertificateInfo {
+    encodedCertificate: string;
+    kid: string;
+}
+
+// @public
 export type EndpointType = string;
 
 // @public
@@ -1052,6 +1059,7 @@ export interface EventSubscriptionFullUrl {
 
 // @public
 export interface EventSubscriptionIdentity {
+    federatedIdentityCredentialInfo?: FederatedIdentityCredentialInfo;
     type?: EventSubscriptionIdentityType;
     userAssignedIdentity?: string;
 }
@@ -1360,6 +1368,11 @@ export interface ExtensionTopicsGetOptionalParams extends coreClient.OperationOp
 
 // @public
 export type ExtensionTopicsGetResponse = ExtensionTopic;
+
+// @public
+export interface FederatedIdentityCredentialInfo {
+    federatedClientId: string;
+}
 
 // @public
 export interface Filter {
@@ -3972,6 +3985,9 @@ export interface Subscription extends Resource {
     filtersConfiguration?: FiltersConfiguration;
     readonly provisioningState?: SubscriptionProvisioningState;
     readonly systemData?: SystemData;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -3994,6 +4010,9 @@ export interface SubscriptionUpdateParameters {
     eventDeliverySchema?: DeliverySchema;
     expirationTimeUtc?: Date;
     filtersConfiguration?: FiltersConfiguration;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

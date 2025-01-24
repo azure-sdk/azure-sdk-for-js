@@ -46,7 +46,7 @@ import {
   TopicSpacesImpl,
   TopicTypesImpl,
   VerifiedPartnersImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   CaCertificates,
   Channels,
@@ -79,8 +79,8 @@ import {
   TopicSpaces,
   TopicTypes,
   VerifiedPartners,
-} from "./operationsInterfaces";
-import { EventGridManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { EventGridManagementClientOptionalParams } from "./models/index.js";
 
 export class EventGridManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -129,7 +129,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/14.2.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-eventgrid/15.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -183,7 +183,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-12-15-preview";
     this.caCertificates = new CaCertificatesImpl(this);
     this.channels = new ChannelsImpl(this);
     this.clientGroups = new ClientGroupsImpl(this);

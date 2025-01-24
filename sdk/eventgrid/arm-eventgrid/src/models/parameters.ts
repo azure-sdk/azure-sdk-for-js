@@ -49,7 +49,7 @@ import {
   Topic as TopicMapper,
   TopicUpdateParameters as TopicUpdateParametersMapper,
   TopicSpace as TopicSpaceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -132,7 +132,7 @@ export const caCertificateName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2024-12-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
