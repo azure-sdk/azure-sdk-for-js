@@ -412,6 +412,9 @@ importers:
       '@rush-temp/arm-imagebuilder':
         specifier: file:./projects/arm-imagebuilder.tgz
         version: file:projects/arm-imagebuilder.tgz
+      '@rush-temp/arm-impactreporting':
+        specifier: file:./projects/arm-impactreporting.tgz
+        version: file:projects/arm-impactreporting.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))
       '@rush-temp/arm-informaticadatamanagement':
         specifier: file:./projects/arm-informaticadatamanagement.tgz
         version: file:projects/arm-informaticadatamanagement.tgz
@@ -3007,6 +3010,10 @@ packages:
 
   '@rush-temp/arm-imagebuilder@file:projects/arm-imagebuilder.tgz':
     resolution: {integrity: sha512-xVMlrAkVP+4wOhBNW6yd7XT893i0I7BbmS1RdKbS453C+f8CcGe5ldoOWklofd2q0vFGqw5o9H0rK14p7rG0zQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz':
+    resolution: {integrity: sha512-Myvvoq5/kedgR712uYTuCAeJNxWe37RV9NqOCH0VwDvSohLOinOCm00oeuN36JkqUAZKcMM+U/c+9RfJvMlg0g==, tarball: file:projects/arm-impactreporting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
@@ -13712,6 +13719,39 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.12(@types/node@22.7.9))':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.71)
+      '@types/node': 18.19.71
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
+      dotenv: 16.4.7
+      eslint: 9.18.0
+      playwright: 1.50.0
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
     dependencies:
       '@azure-tools/test-credential': 1.3.1
@@ -20990,11 +21030,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -21012,7 +21052,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/cookie@0.4.1': {}
 
@@ -21020,7 +21060,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -21043,7 +21083,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -21058,16 +21098,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -21078,21 +21118,21 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.7':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/jws@3.2.10':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -21121,11 +21161,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.71':
@@ -21150,7 +21190,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -21167,7 +21207,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -21178,12 +21218,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -21198,11 +21238,11 @@ snapshots:
 
   '@types/stoppable@1.1.3':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -21236,7 +21276,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.18.0)(typescript@5.7.3))(eslint@9.18.0)(typescript@5.7.3)':
@@ -21643,7 +21683,7 @@ snapshots:
 
   ajv-formats@3.0.1:
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
 
   ajv@6.12.6:
     dependencies:
@@ -22349,7 +22389,7 @@ snapshots:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -24469,7 +24509,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.71
+      '@types/node': 22.7.9
       long: 5.2.4
 
   proxy-addr@2.0.7:
