@@ -11,3 +11,5 @@ export * from "./communicationServices.js";
 export * from "./domains.js";
 export * from "./emailServices.js";
 export * from "./senderUsernames.js";
+export * from "./suppressionLists.js";
+export * from "./suppressionListAddresses.js";

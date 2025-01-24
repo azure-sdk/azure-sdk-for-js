@@ -2702,7 +2702,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-communication@file:projects/arm-communication.tgz':
-    resolution: {integrity: sha512-5EhtyHzs1pxneEw83pqgV9mNZWZhYvrX5Ngj0ETt1AcFsUnLEYoTxsy9xmrRN56yd0jO45+AbpIC03kIlOWsZg==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-+KpOFdWPWH6HM/jDDWWaONTPibSWV4EAgT5L7G1J22eAohR1ulVHlFRYkVrF5vAwfLz3zY0gPmyvIo/Gz3mhtQ==, tarball: file:projects/arm-communication.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
@@ -11532,12 +11532,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.71
-      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.49.1)(typescript@5.7.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
+      '@vitest/browser': 3.0.3(@types/node@18.19.71)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.12(@types/node@22.7.9))(vitest@3.0.3)
       '@vitest/coverage-istanbul': 3.0.3(vitest@3.0.3)
       dotenv: 16.4.7
-      playwright: 1.49.1
+      playwright: 1.50.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.3(@types/node@18.19.71)(@vitest/browser@3.0.3)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
     transitivePeerDependencies:
       - '@edge-runtime/vm'
