@@ -933,8 +933,10 @@ export interface AzureMySqlTableDataset extends Dataset {
 
 // @public
 export interface AzurePostgreSqlLinkedService extends LinkedService {
+    azureCloudType?: any;
     commandTimeout?: any;
     connectionString?: any;
+    credential?: CredentialReference;
     database?: any;
     encoding?: any;
     encryptedCredential?: string;
@@ -942,7 +944,13 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
     port?: any;
     readBufferSize?: any;
     server?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
     sslMode?: any;
+    tenant?: any;
     timeout?: any;
     timezone?: any;
     trustServerCertificate?: any;
@@ -3537,11 +3545,23 @@ export interface GoogleSheetsLinkedService extends LinkedService {
 }
 
 // @public
+export type GreenplumAuthenticationType = string;
+
+// @public
 export interface GreenplumLinkedService extends LinkedService {
+    authenticationType?: GreenplumAuthenticationType;
+    commandTimeout?: any;
     connectionString?: any;
+    connectionTimeout?: any;
+    database?: any;
     encryptedCredential?: string;
+    host?: any;
+    password?: SecretBaseUnion;
+    port?: any;
     pwd?: AzureKeyVaultSecretReference;
+    sslMode?: any;
     type: "Greenplum";
+    username?: any;
 }
 
 // @public
@@ -4763,6 +4783,11 @@ export enum KnownGoogleBigQueryAuthenticationType {
 export enum KnownGoogleBigQueryV2AuthenticationType {
     ServiceAuthentication = "ServiceAuthentication",
     UserAuthentication = "UserAuthentication"
+}
+
+// @public
+export enum KnownGreenplumAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public
@@ -7704,6 +7729,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    returnMultistatementResult?: any;
     scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";

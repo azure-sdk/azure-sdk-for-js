@@ -13897,6 +13897,58 @@ export const AzurePostgreSqlLinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalKey: {
+        serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalEmbeddedCert: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCert",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalEmbeddedCertPassword: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "any",
+        },
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "any",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+        },
+      },
     },
   },
 };
@@ -14269,6 +14321,61 @@ export const GreenplumLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "String",
+        },
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String",
+        },
+      },
+      host: {
+        serializedName: "typeProperties.host",
+        type: {
+          name: "any",
+        },
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any",
+        },
+      },
+      username: {
+        serializedName: "typeProperties.username",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
+      sslMode: {
+        serializedName: "typeProperties.sslMode",
+        type: {
+          name: "any",
+        },
+      },
+      connectionTimeout: {
+        serializedName: "typeProperties.connectionTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      commandTimeout: {
+        serializedName: "typeProperties.commandTimeout",
+        type: {
+          name: "any",
+        },
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
         },
       },
     },
@@ -28446,6 +28553,12 @@ export const ScriptActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ScriptActivityTypePropertiesLogSettings",
+        },
+      },
+      returnMultistatementResult: {
+        serializedName: "typeProperties.returnMultistatementResult",
+        type: {
+          name: "any",
         },
       },
     },

@@ -270,7 +270,7 @@ importers:
         version: file:projects/arm-datadog.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-datafactory':
         specifier: file:./projects/arm-datafactory.tgz
-        version: file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-datalake-analytics':
         specifier: file:./projects/arm-datalake-analytics.tgz
         version: file:projects/arm-datalake-analytics.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -2968,7 +2968,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz':
-    resolution: {integrity: sha512-yKCDZJWfsdt2CAyDWYtOQ1p+LpbpsLdNvJunAeuTMn1yDg7sZ0tasVRaxGegryPnm+O7l4HS2nqGRCaQb7Vixg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-6MjhjLkfFFtglHK6Kv4MEz2q3j61cAaAkmyLhftIzeeCE3Mz43zw6ITPHjbHs3tg3hOIN9iuZK6RKb8alylFHQ==, tarball: file:projects/arm-datafactory.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-datalake-analytics@file:projects/arm-datalake-analytics.tgz':
@@ -13096,17 +13096,16 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/arm-datafactory@file:projects/arm-datafactory.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      tsx: 4.19.2
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -13126,6 +13125,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
