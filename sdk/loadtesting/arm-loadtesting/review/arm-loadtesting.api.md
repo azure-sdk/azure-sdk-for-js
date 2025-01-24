@@ -4,23 +4,51 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type ActionType = string;
+export interface CheckAvailabilityQuotaOptionalParams extends OperationOptions {
+}
 
 // @public
-export interface CheckQuotaAvailabilityResponse extends Resource {
+export interface CheckQuotaAvailabilityResponse {
+    readonly id: string;
+    readonly name?: string;
+    properties?: CheckQuotaAvailabilityResponseProperties;
+    readonly systemData?: SystemData;
+    readonly type: string;
+}
+
+// @public
+export interface CheckQuotaAvailabilityResponseProperties {
     availabilityStatus?: string;
     isAvailable?: boolean;
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateOrUpdateLoadtestOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DeleteLoadtestOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface EncryptionProperties {
@@ -30,14 +58,14 @@ export interface EncryptionProperties {
 
 // @public
 export interface EncryptionPropertiesIdentity {
-    resourceId?: string;
+    resourceId?: string | null;
     type?: Type;
 }
 
 // @public
 export interface EndpointDependency {
     readonly description?: string;
-    readonly domainName?: string;
+    readonly domainName: string;
     readonly endpointDetails?: EndpointDetail[];
 }
 
@@ -48,7 +76,7 @@ export interface EndpointDetail {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -67,11 +95,18 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GetLoadtestOptionalParams extends OperationOptions {
+}
 
 // @public
-export enum KnownActionType {
-    Internal = "Internal"
+export interface GetQuotaOptionalParams extends OperationOptions {
+}
+
+// @public
+export enum KnownAPIVersions {
+    v2022_12_01 = "2022-12-01",
+    v2023_12_01_preview = "2023-12-01-preview",
+    v2024_12_01_preview = "2024-12-01-preview"
 }
 
 // @public
@@ -84,17 +119,10 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
 }
 
 // @public
@@ -111,214 +139,76 @@ export enum KnownType {
     UserAssigned = "UserAssigned"
 }
 
+// @public
+export interface ListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ListQuotaOptionalParams extends OperationOptions {
+}
+
 // @public (undocumented)
-export class LoadTestClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LoadTestClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    loadTests: LoadTests;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    quotas: Quotas;
-    // (undocumented)
-    subscriptionId: string;
+export class LoadTestMgmtClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: LoadTestMgmtClientOptionalParams);
+    checkAvailabilityQuota(location: string, quotaBucketName: string, quotaBucketRequest: QuotaBucketRequest, options?: CheckAvailabilityQuotaOptionalParams): Promise<CheckQuotaAvailabilityResponse>;
+    createOrUpdateLoadtest(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: CreateOrUpdateLoadtestOptionalParams): PollerLike<OperationState<LoadTestResource>, LoadTestResource>;
+    deleteLoadtest(resourceGroupName: string, loadTestName: string, options?: DeleteLoadtestOptionalParams): PollerLike<OperationState<void>, void>;
+    getLoadtest(resourceGroupName: string, loadTestName: string, options?: GetLoadtestOptionalParams): Promise<LoadTestResource>;
+    getQuota(location: string, quotaBucketName: string, options?: GetQuotaOptionalParams): Promise<QuotaResource>;
+    listByResourceGroup(resourceGroupName: string, options?: ListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
+    listBySubscription(options?: ListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
+    listQuota(location: string, options?: ListQuotaOptionalParams): PagedAsyncIterableIterator<QuotaResource>;
+    outboundNetworkDependenciesEndpoints(resourceGroupName: string, loadTestName: string, options?: OutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+    readonly pipeline: Pipeline;
+    updateLoadtest(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourceUpdate, options?: UpdateLoadtestOptionalParams): PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface LoadTestClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface LoadTestMgmtClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
-export interface LoadTestResource extends TrackedResource {
+export interface LoadTestProperties {
     readonly dataPlaneURI?: string;
     description?: string;
     encryption?: EncryptionProperties;
-    identity?: ManagedServiceIdentity;
     readonly provisioningState?: ResourceState;
 }
 
 // @public
-export interface LoadTestResourcePageList {
-    nextLink?: string;
-    value?: LoadTestResource[];
+export interface LoadTestResource extends TrackedResource {
+    identity?: ManagedServiceIdentity;
+    properties?: LoadTestProperties;
 }
 
 // @public
-export interface LoadTestResourcePatchRequestBody {
+export interface LoadTestResourceUpdate {
+    identity?: ManagedServiceIdentity;
+    properties?: LoadTestResourceUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface LoadTestResourceUpdateProperties {
     description?: string;
     encryption?: EncryptionProperties;
-    identity?: ManagedServiceIdentity;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
-
-// @public
-export interface LoadTests {
-    beginCreateOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsCreateOrUpdateResponse>, LoadTestsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsUpdateResponse>, LoadTestsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
-    get(resourceGroupName: string, loadTestName: string, options?: LoadTestsGetOptionalParams): Promise<LoadTestsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: LoadTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
-    listBySubscription(options?: LoadTestsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
-    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, loadTestName: string, options?: LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-}
-
-// @public
-export interface LoadTestsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface LoadTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LoadTestsCreateOrUpdateResponse = LoadTestResource;
-
-// @public
-export interface LoadTestsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface LoadTestsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LoadTestsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsGetResponse = LoadTestResource;
-
-// @public
-export interface LoadTestsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListByResourceGroupNextResponse = LoadTestResourcePageList;
-
-// @public
-export interface LoadTestsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListByResourceGroupResponse = LoadTestResourcePageList;
-
-// @public
-export interface LoadTestsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListBySubscriptionNextResponse = LoadTestResourcePageList;
-
-// @public
-export interface LoadTestsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
-
-// @public
-export interface LoadTestsListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export interface LoadTestsListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LoadTestsListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
-
-// @public
-export interface LoadTestsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface LoadTestsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LoadTestsUpdateResponse = LoadTestResource;
 
 // @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
-
-// @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export interface OutboundEnvironmentEndpoint {
@@ -327,13 +217,32 @@ export interface OutboundEnvironmentEndpoint {
 }
 
 // @public
-export interface OutboundEnvironmentEndpointCollection {
-    nextLink?: string;
-    readonly value?: OutboundEnvironmentEndpoint[];
+export interface OutboundNetworkDependenciesEndpointsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface QuotaBucketRequest extends Resource {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface QuotaBucketRequest {
+    properties?: QuotaBucketRequestProperties;
+}
+
+// @public
+export interface QuotaBucketRequestProperties {
     currentQuota?: number;
     currentUsage?: number;
     dimensions?: QuotaBucketRequestPropertiesDimensions;
@@ -347,52 +256,16 @@ export interface QuotaBucketRequestPropertiesDimensions {
 }
 
 // @public
-export interface QuotaResource extends Resource {
+export interface QuotaResource extends ProxyResource {
+    properties?: QuotaResourceProperties;
+}
+
+// @public
+export interface QuotaResourceProperties {
     limit?: number;
     readonly provisioningState?: ResourceState;
     usage?: number;
 }
-
-// @public
-export interface QuotaResourceList {
-    readonly nextLink?: string;
-    readonly value?: QuotaResource[];
-}
-
-// @public
-export interface Quotas {
-    checkAvailability(location: string, quotaBucketName: string, quotaBucketRequest: QuotaBucketRequest, options?: QuotasCheckAvailabilityOptionalParams): Promise<QuotasCheckAvailabilityResponse>;
-    get(location: string, quotaBucketName: string, options?: QuotasGetOptionalParams): Promise<QuotasGetResponse>;
-    list(location: string, options?: QuotasListOptionalParams): PagedAsyncIterableIterator<QuotaResource>;
-}
-
-// @public
-export interface QuotasCheckAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotasCheckAvailabilityResponse = CheckQuotaAvailabilityResponse;
-
-// @public
-export interface QuotasGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotasGetResponse = QuotaResource;
-
-// @public
-export interface QuotasListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotasListNextResponse = QuotaResourceList;
-
-// @public
-export interface QuotasListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type QuotasListResponse = QuotaResourceList;
 
 // @public
 export interface Resource {
@@ -404,6 +277,16 @@ export interface Resource {
 
 // @public
 export type ResourceState = string;
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: LoadTestMgmtClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SystemData {
@@ -418,13 +301,16 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export type Type = string;
+
+// @public
+export interface UpdateLoadtestOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface UserAssignedIdentity {
