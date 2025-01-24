@@ -6,6 +6,7 @@ import {
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
+  errorResponseDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -22,9 +23,14 @@ export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Microsoft.Fabric/operations")
-    .get({ ...operationOptionsToRequestParameters(options) });
+  return context.path("/providers/Microsoft.Fabric/operations").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _operationsListDeserialize(
@@ -32,7 +38,9 @@ export async function _operationsListDeserialize(
 ): Promise<_OperationListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _operationListResultDeserializer(result.body);

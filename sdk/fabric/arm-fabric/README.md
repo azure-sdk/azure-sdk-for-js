@@ -2,8 +2,13 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Fabric client.
 
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-fabric) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview) |
+
+
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-fabric)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview)
 
 ## Getting started
 
@@ -40,7 +45,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure Fabric** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -60,8 +64,8 @@ const client = new FabricClient(new DefaultAzureCredential(), subscriptionId);
 // const client = new FabricClient(credential, subscriptionId);
 ```
 
-### JavaScript Bundle
 
+### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -82,6 +86,7 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
 
 ## Contributing
 

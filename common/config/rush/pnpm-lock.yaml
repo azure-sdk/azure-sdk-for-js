@@ -3084,7 +3084,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
-    resolution: {integrity: sha512-o6WRdWb4e75b/Z6dlGiUz83ERFWmiLj/TrDXgieN+u9EiE+5m7yJI/GqUehcWmHH76QzEM878SMSktTNLGEI/w==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-giCQD9AZMWJJqvpvC1shys+t5KV64ROYoH7l8WAaGRJmYFlD/zhNFYd0fzZ8NK9z6opxt3V7IsR5YVip/rCSgA==, tarball: file:projects/arm-fabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
@@ -13938,15 +13938,15 @@ snapshots:
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       eslint: 9.18.0
       playwright: 1.50.0
-      prettier: 3.4.2
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
