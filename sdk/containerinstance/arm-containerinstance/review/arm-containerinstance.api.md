@@ -11,10 +11,33 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface ApiEntityReference {
+    id?: string;
+}
+
+// @public
+export interface ApplicationGateway {
+    backendAddressPools?: ApplicationGatewayBackendAddressPool[];
+    resource?: string;
+}
+
+// @public
+export interface ApplicationGatewayBackendAddressPool {
+    resource?: string;
+}
+
+// @public
+export type AzureFileShareAccessTier = "Cool" | "Hot" | "Premium" | "TransactionOptimized";
+
+// @public
+export type AzureFileShareAccessType = "Shared" | "Exclusive";
+
+// @public
 export interface AzureFileVolume {
     readOnly?: boolean;
     shareName: string;
     storageAccountKey?: string;
+    storageAccountKeyReference?: string;
     storageAccountName: string;
 }
 
@@ -54,6 +77,122 @@ export interface CapabilitiesListResult {
 }
 
 // @public
+export interface CGProfile {
+    beginDelete(resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CGProfileDeleteResponse>, CGProfileDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileDeleteOptionalParams): Promise<CGProfileDeleteResponse>;
+    createOrUpdate(resourceGroupName: string, containerGroupProfileName: string, containerGroupProfile: ContainerGroupProfile, options?: CGProfileCreateOrUpdateOptionalParams): Promise<CGProfileCreateOrUpdateResponse>;
+    get(resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileGetOptionalParams): Promise<CGProfileGetResponse>;
+    getByRevisionNumber(resourceGroupName: string, containerGroupProfileName: string, revisionNumber: string, options?: CGProfileGetByRevisionNumberOptionalParams): Promise<CGProfileGetByRevisionNumberResponse>;
+    listAllRevisions(resourceGroupName: string, containerGroupProfileName: string, options?: CGProfileListAllRevisionsOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+    update(resourceGroupName: string, containerGroupProfileName: string, properties: ContainerGroupProfilePatch, options?: CGProfileUpdateOptionalParams): Promise<CGProfileUpdateResponse>;
+}
+
+// @public
+export interface CGProfileCreateOrUpdateHeaders {
+    // (undocumented)
+    xMsCorrelationRequestId?: string;
+}
+
+// @public
+export interface CGProfileCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileCreateOrUpdateResponse = CGProfileCreateOrUpdateHeaders & ContainerGroupProfile;
+
+// @public
+export interface CGProfileDeleteHeaders {
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    xMsCorrelationRequestId?: string;
+}
+
+// @public
+export interface CGProfileDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CGProfileDeleteResponse = CGProfileDeleteHeaders;
+
+// @public
+export interface CGProfileGetByRevisionNumberOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileGetByRevisionNumberResponse = ContainerGroupProfile;
+
+// @public
+export interface CGProfileGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileGetResponse = ContainerGroupProfile;
+
+// @public
+export interface CGProfileListAllRevisionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileListAllRevisionsNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfileListAllRevisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileListAllRevisionsResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfiles {
+    listByResourceGroup(resourceGroupName: string, options?: CGProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+    listBySubscription(options?: CGProfilesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+}
+
+// @public
+export interface CGProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfilesListByResourceGroupNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfilesListByResourceGroupResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfilesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfilesListBySubscriptionNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfilesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfilesListBySubscriptionResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface CGProfileUpdateHeaders {
+    // (undocumented)
+    xMsCorrelationRequestId?: string;
+}
+
+// @public
+export interface CGProfileUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CGProfileUpdateResponse = CGProfileUpdateHeaders & ContainerGroupProfile;
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -72,24 +211,16 @@ export interface ConfidentialComputeProperties {
 }
 
 // @public
-export interface ConfigMap {
-    keyValuePairs?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface Container {
     command?: string[];
-    configMap?: ConfigMap;
     environmentVariables?: EnvironmentVariable[];
-    image?: string;
+    image: string;
     readonly instanceView?: ContainerPropertiesInstanceView;
     livenessProbe?: ContainerProbe;
     name: string;
     ports?: ContainerPort[];
     readinessProbe?: ContainerProbe;
-    resources?: ResourceRequirements;
+    resources: ResourceRequirements;
     securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
@@ -158,40 +289,33 @@ export type ContainerGroupNetworkProtocol = string;
 export type ContainerGroupPriority = string;
 
 // @public
-export interface ContainerGroupProfile extends Resource, ContainerGroupProfileProperties {
+export interface ContainerGroupProfile extends Resource {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
+    containers?: Container[];
+    diagnostics?: ContainerGroupDiagnostics;
+    encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
+    imageRegistryCredentials?: ImageRegistryCredential[];
+    initContainers?: InitContainerDefinition[];
+    ipAddress?: IpAddress;
+    osType?: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
+    registeredRevisions?: number[];
+    restartPolicy?: ContainerGroupRestartPolicy;
+    revision?: number;
+    securityContext?: SecurityContextDefinition;
+    shutdownGracePeriod?: Date;
+    sku?: ContainerGroupSku;
+    readonly systemData?: SystemData;
+    timeToLive?: Date;
+    useKrypton?: boolean;
+    volumes?: Volume[];
 }
-
-// @public
-export interface ContainerGroupProfileGetByRevisionNumberOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileGetByRevisionNumberResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfileListAllRevisionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileListAllRevisionsNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfileListAllRevisionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfileListAllRevisionsResponse = ContainerGroupProfileListResult;
 
 // @public
 export interface ContainerGroupProfileListResult {
     nextLink?: string;
     value?: ContainerGroupProfile[];
-}
-
-// @public
-export interface ContainerGroupProfileOperations {
-    getByRevisionNumber(resourceGroupName: string, containerGroupProfileName: string, revisionNumber: string, options?: ContainerGroupProfileGetByRevisionNumberOptionalParams): Promise<ContainerGroupProfileGetByRevisionNumberResponse>;
-    listAllRevisions(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfileListAllRevisionsOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
 }
 
 // @public
@@ -202,113 +326,34 @@ export interface ContainerGroupProfilePatch {
 }
 
 // @public
-export interface ContainerGroupProfileProperties {
-    confidentialComputeProperties?: ConfidentialComputeProperties;
-    containers: Container[];
-    diagnostics?: ContainerGroupDiagnostics;
-    encryptionProperties?: EncryptionProperties;
-    extensions?: DeploymentExtensionSpec[];
-    imageRegistryCredentials?: ImageRegistryCredential[];
-    initContainers?: InitContainerDefinition[];
-    ipAddress?: IpAddress;
-    osType: OperatingSystemTypes;
-    priority?: ContainerGroupPriority;
-    restartPolicy?: ContainerGroupRestartPolicy;
-    readonly revision?: number;
-    sku?: ContainerGroupSku;
-    volumes?: Volume[];
-}
-
-// @public
-export interface ContainerGroupProfileReferenceDefinition {
-    id?: string;
+export interface ContainerGroupProfileStub {
+    containerGroupProperties?: NGroupContainerGroupProperties;
+    networkProfile?: NetworkProfile;
+    resource?: ApiEntityReference;
     revision?: number;
+    storageProfile?: StorageProfile;
 }
-
-// @public
-export interface ContainerGroupProfiles {
-    createOrUpdate(resourceGroupName: string, containerGroupProfileName: string, containerGroupProfile: ContainerGroupProfile, options?: ContainerGroupProfilesCreateOrUpdateOptionalParams): Promise<ContainerGroupProfilesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesGetOptionalParams): Promise<ContainerGroupProfilesGetResponse>;
-    list(options?: ContainerGroupProfilesListOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
-    listByResourceGroup(resourceGroupName: string, options?: ContainerGroupProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
-    patch(resourceGroupName: string, containerGroupProfileName: string, properties: ContainerGroupProfilePatch, options?: ContainerGroupProfilesPatchOptionalParams): Promise<ContainerGroupProfilesPatchResponse>;
-}
-
-// @public
-export interface ContainerGroupProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesCreateOrUpdateResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ContainerGroupProfilesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesGetResponse = ContainerGroupProfile;
-
-// @public
-export interface ContainerGroupProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListByResourceGroupNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListByResourceGroupResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListNextResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesListResponse = ContainerGroupProfileListResult;
-
-// @public
-export interface ContainerGroupProfilesPatchOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ContainerGroupProfilesPatchResponse = ContainerGroupProfile;
 
 // @public
 export interface ContainerGroupProperties {
     confidentialComputeProperties?: ConfidentialComputeProperties;
-    containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
     encryptionProperties?: EncryptionProperties;
     extensions?: DeploymentExtensionSpec[];
     identity?: ContainerGroupIdentity;
+    identityAcls?: IdentityAcls;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
-    readonly isCreatedFromStandbyPool?: boolean;
-    osType?: OperatingSystemTypes;
+    osType: OperatingSystemTypes;
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
+    secretReferences?: SecretReference[];
     sku?: ContainerGroupSku;
-    standbyPoolProfile?: StandbyPoolProfileDefinition;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
 }
@@ -450,15 +495,17 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     apiVersion: string;
     // (undocumented)
-    containerGroupProfileOperations: ContainerGroupProfileOperations;
+    cGProfile: CGProfile;
     // (undocumented)
-    containerGroupProfiles: ContainerGroupProfiles;
+    cGProfiles: CGProfiles;
     // (undocumented)
     containerGroups: ContainerGroups;
     // (undocumented)
     containers: Containers;
     // (undocumented)
     location: Location_2;
+    // (undocumented)
+    nGroups: NGroups;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -545,6 +592,9 @@ export interface ContainerState {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DeploymentExtensionSpec {
     extensionType?: string;
     name: string;
@@ -564,6 +614,25 @@ export interface DnsConfiguration {
 export type DnsNameLabelReusePolicy = string;
 
 // @public
+export interface ElasticProfile {
+    containerGroupNamingPolicy?: ElasticProfileContainerGroupNamingPolicy;
+    // (undocumented)
+    desiredCount?: number;
+    maintainDesiredCount?: boolean;
+}
+
+// @public
+export interface ElasticProfileContainerGroupNamingPolicy {
+    // (undocumented)
+    guidNamingPolicy?: ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy;
+}
+
+// @public (undocumented)
+export interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy {
+    prefix?: string;
+}
+
+// @public
 export interface EncryptionProperties {
     identity?: string;
     keyName: string;
@@ -575,7 +644,28 @@ export interface EncryptionProperties {
 export interface EnvironmentVariable {
     name: string;
     secureValue?: string;
+    secureValueReference?: string;
     value?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -588,6 +678,24 @@ interface Event_2 {
     readonly type?: string;
 }
 export { Event_2 as Event }
+
+// @public
+export interface FileShare {
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    properties?: FileShareProperties;
+    // (undocumented)
+    resourceGroupName?: string;
+    // (undocumented)
+    storageAccountName?: string;
+}
+
+// @public (undocumented)
+export interface FileShareProperties {
+    shareAccessTier?: AzureFileShareAccessTier;
+    shareAccessType?: AzureFileShareAccessType;
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -615,10 +723,26 @@ export interface HttpHeader {
 }
 
 // @public
+export interface IdentityAccessControl {
+    access?: IdentityAccessLevel;
+    identity?: string;
+}
+
+// @public
+export type IdentityAccessLevel = string;
+
+// @public
+export interface IdentityAcls {
+    acls?: IdentityAccessControl[];
+    defaultAccess?: IdentityAccessLevel;
+}
+
+// @public
 export interface ImageRegistryCredential {
     identity?: string;
     identityUrl?: string;
     password?: string;
+    passwordReference?: string;
     server: string;
     username?: string;
 }
@@ -681,6 +805,7 @@ export enum KnownContainerGroupRestartPolicy {
 export enum KnownContainerGroupSku {
     Confidential = "Confidential",
     Dedicated = "Dedicated",
+    NotSpecified = "NotSpecified",
     Standard = "Standard"
 }
 
@@ -694,6 +819,14 @@ export enum KnownContainerInstanceOperationsOrigin {
 export enum KnownContainerNetworkProtocol {
     TCP = "TCP",
     UDP = "UDP"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -713,9 +846,33 @@ export enum KnownGpuSku {
 }
 
 // @public
+export enum KnownIdentityAccessLevel {
+    All = "All",
+    System = "System",
+    User = "User"
+}
+
+// @public
 export enum KnownLogAnalyticsLogType {
     ContainerInsights = "ContainerInsights",
     ContainerInstanceLogs = "ContainerInstanceLogs"
+}
+
+// @public
+export enum KnownNGroupProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownNGroupUpdateMode {
+    Manual = "Manual",
+    Rolling = "Rolling"
 }
 
 // @public
@@ -728,6 +885,16 @@ export enum KnownOperatingSystemTypes {
 export enum KnownScheme {
     Http = "http",
     Https = "https"
+}
+
+// @public
+export interface LoadBalancer {
+    backendAddressPools?: LoadBalancerBackendAddressPool[];
+}
+
+// @public
+export interface LoadBalancerBackendAddressPool {
+    resource?: string;
 }
 
 // @public
@@ -793,6 +960,223 @@ export interface Logs {
 }
 
 // @public
+export interface NetworkProfile {
+    applicationGateway?: ApplicationGateway;
+    loadBalancer?: LoadBalancer;
+}
+
+// @public
+export interface NGroup extends Resource {
+    containerGroupProfiles?: ContainerGroupProfileStub[];
+    elasticProfile?: ElasticProfile;
+    identity?: NGroupIdentity;
+    location?: string;
+    placementProfile?: PlacementProfile;
+    readonly provisioningState?: NGroupProvisioningState;
+    readonly systemData?: SystemData;
+    updateProfile?: UpdateProfile;
+    zones?: string[];
+}
+
+// @public
+export interface NGroupCGPropertyContainer {
+    name?: string;
+    properties?: NGroupCGPropertyContainerProperties;
+}
+
+// @public
+export interface NGroupCGPropertyContainerProperties {
+    // (undocumented)
+    volumeMounts?: VolumeMount[];
+}
+
+// @public
+export interface NGroupCGPropertyVolume {
+    azureFile?: AzureFileVolume;
+    name: string;
+}
+
+// @public
+export interface NGroupContainerGroupProperties {
+    containers?: NGroupCGPropertyContainer[];
+    subnetIds?: ContainerGroupSubnetId[];
+    volumes?: NGroupCGPropertyVolume[];
+}
+
+// @public
+export interface NGroupIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentities;
+    };
+}
+
+// @public
+export type NGroupProvisioningState = string;
+
+// @public
+export interface NGroups {
+    beginCreateOrUpdate(resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NGroupsCreateOrUpdateResponse>, NGroupsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsCreateOrUpdateOptionalParams): Promise<NGroupsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, ngroupsName: string, options?: NGroupsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<NGroupsDeleteResponse>, NGroupsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, ngroupsName: string, options?: NGroupsDeleteOptionalParams): Promise<NGroupsDeleteResponse>;
+    beginRestart(resourceGroupName: string, ngroupsName: string, options?: NGroupsRestartOptionalParams): Promise<SimplePollerLike<OperationState<NGroupsRestartResponse>, NGroupsRestartResponse>>;
+    beginRestartAndWait(resourceGroupName: string, ngroupsName: string, options?: NGroupsRestartOptionalParams): Promise<NGroupsRestartResponse>;
+    beginStart(resourceGroupName: string, ngroupsName: string, options?: NGroupsStartOptionalParams): Promise<SimplePollerLike<OperationState<NGroupsStartResponse>, NGroupsStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, ngroupsName: string, options?: NGroupsStartOptionalParams): Promise<NGroupsStartResponse>;
+    beginUpdate(resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NGroupsUpdateResponse>, NGroupsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, ngroupsName: string, nGroup: NGroup, options?: NGroupsUpdateOptionalParams): Promise<NGroupsUpdateResponse>;
+    get(resourceGroupName: string, ngroupsName: string, options?: NGroupsGetOptionalParams): Promise<NGroupsGetResponse>;
+    list(options?: NGroupsListOptionalParams): PagedAsyncIterableIterator<NGroup>;
+    listByResourceGroup(resourceGroupName: string, options?: NGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NGroup>;
+    stop(resourceGroupName: string, ngroupsName: string, options?: NGroupsStopOptionalParams): Promise<void>;
+}
+
+// @public
+export interface NGroupsCreateOrUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface NGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupsCreateOrUpdateResponse = NGroupsCreateOrUpdateHeaders & NGroup;
+
+// @public
+export interface NGroupsDeleteHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupsDeleteResponse = NGroupsDeleteHeaders;
+
+// @public
+export interface NGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NGroupsGetResponse = NGroup;
+
+// @public
+export interface NGroupSkus {
+    resourceType?: string;
+    sku?: string;
+    skuCapacity?: string;
+}
+
+// @public
+export interface NGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NGroupsListByResourceGroupNextResponse = NGroupsListResult;
+
+// @public
+export interface NGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NGroupsListByResourceGroupResponse = NGroupsListResult;
+
+// @public
+export interface NGroupsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NGroupsListNextResponse = NGroupsListResult;
+
+// @public
+export interface NGroupsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NGroupsListResponse = NGroupsListResult;
+
+// @public
+export interface NGroupsListResult {
+    nextLink?: string;
+    value?: NGroup[];
+}
+
+// @public
+export interface NGroupsRestartHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NGroupsRestartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupsRestartResponse = NGroupsRestartHeaders;
+
+// @public
+export interface NGroupsSkusList {
+    nextLink?: string;
+    value?: NGroupSkus[];
+}
+
+// @public
+export interface NGroupsStartHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NGroupsStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupsStartResponse = NGroupsStartHeaders;
+
+// @public
+export interface NGroupsStopOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface NGroupsUpdateHeaders {
+    // (undocumented)
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface NGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NGroupsUpdateResponse = NGroupsUpdateHeaders & NGroup;
+
+// @public
+export type NGroupUpdateMode = string;
+
+// @public
 export type OperatingSystemTypes = string;
 
 // @public
@@ -835,6 +1219,11 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export interface PlacementProfile {
+    faultDomainCount?: number;
+}
 
 // @public
 export interface Port {
@@ -881,6 +1270,13 @@ export interface ResourceRequirements {
 export type Scheme = string;
 
 // @public
+export interface SecretReference {
+    identity: string;
+    name: string;
+    secretReferenceUri: string;
+}
+
+// @public
 export interface SecurityContextCapabilitiesDefinition {
     add?: string[];
     drop?: string[];
@@ -897,9 +1293,9 @@ export interface SecurityContextDefinition {
 }
 
 // @public
-export interface StandbyPoolProfileDefinition {
-    failContainerGroupCreateOnReuseFailure?: boolean;
-    id?: string;
+export interface StorageProfile {
+    // (undocumented)
+    fileShares?: FileShare[];
 }
 
 // @public
@@ -912,6 +1308,31 @@ export interface SubnetServiceAssociationLink {
 export interface SubnetServiceAssociationLinkDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface UpdateProfile {
+    rollingUpdateProfile?: UpdateProfileRollingUpdateProfile;
+    // (undocumented)
+    updateMode?: NGroupUpdateMode;
+}
+
+// @public
+export interface UpdateProfileRollingUpdateProfile {
+    inPlaceUpdate?: boolean;
+    maxBatchPercent?: number;
+    maxUnhealthyPercent?: number;
+    pauseTimeBetweenBatches?: string;
 }
 
 // @public
@@ -947,6 +1368,9 @@ export interface Volume {
     gitRepo?: GitRepoVolume;
     name: string;
     secret?: {
+        [propertyName: string]: string;
+    };
+    secretReference?: {
         [propertyName: string]: string;
     };
 }

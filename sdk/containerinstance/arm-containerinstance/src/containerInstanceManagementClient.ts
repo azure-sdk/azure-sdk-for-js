@@ -20,8 +20,9 @@ import {
   LocationImpl,
   ContainersImpl,
   SubnetServiceAssociationLinkImpl,
-  ContainerGroupProfilesImpl,
-  ContainerGroupProfileOperationsImpl,
+  NGroupsImpl,
+  CGProfilesImpl,
+  CGProfileImpl,
 } from "./operations/index.js";
 import {
   ContainerGroups,
@@ -29,8 +30,9 @@ import {
   Location,
   Containers,
   SubnetServiceAssociationLink,
-  ContainerGroupProfiles,
-  ContainerGroupProfileOperations,
+  NGroups,
+  CGProfiles,
+  CGProfile,
 } from "./operationsInterfaces/index.js";
 import { ContainerInstanceManagementClientOptionalParams } from "./models/index.js";
 
@@ -120,7 +122,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01-preview";
+    this.apiVersion = options.apiVersion || "2024-11-01-preview";
     this.containerGroups = new ContainerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
@@ -128,9 +130,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     this.subnetServiceAssociationLink = new SubnetServiceAssociationLinkImpl(
       this,
     );
-    this.containerGroupProfiles = new ContainerGroupProfilesImpl(this);
-    this.containerGroupProfileOperations =
-      new ContainerGroupProfileOperationsImpl(this);
+    this.nGroups = new NGroupsImpl(this);
+    this.cGProfiles = new CGProfilesImpl(this);
+    this.cGProfile = new CGProfileImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -167,6 +169,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   location: Location;
   containers: Containers;
   subnetServiceAssociationLink: SubnetServiceAssociationLink;
-  containerGroupProfiles: ContainerGroupProfiles;
-  containerGroupProfileOperations: ContainerGroupProfileOperations;
+  nGroups: NGroups;
+  cGProfiles: CGProfiles;
+  cGProfile: CGProfile;
 }
