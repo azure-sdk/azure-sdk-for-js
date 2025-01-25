@@ -17,21 +17,20 @@ export interface ResourceDetailsOperations {
   ) => PagedAsyncIterableIterator<ResourceDetailsObject>;
 }
 
-export function getResourceDetails(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getResourceDetails(context: DevOpsInfrastructureContext) {
   return {
     listByPool: (
       resourceGroupName: string,
       poolName: string,
       options?: ResourceDetailsListByPoolOptionalParams,
-    ) => resourceDetailsListByPool(context, subscriptionId, resourceGroupName, poolName, options),
+    ) => resourceDetailsListByPool(context, resourceGroupName, poolName, options),
   };
 }
 
-export function getResourceDetailsOperations(
+export function _getResourceDetailsOperations(
   context: DevOpsInfrastructureContext,
-  subscriptionId: string,
 ): ResourceDetailsOperations {
   return {
-    ...getResourceDetails(context, subscriptionId),
+    ..._getResourceDetails(context),
   };
 }

@@ -6,6 +6,7 @@ import {
   ResourceDetailsListByPoolOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   _ResourceDetailsObjectListResult,
   _resourceDetailsObjectListResultDeserializer,
   ResourceDetailsObject,
@@ -23,7 +24,6 @@ import {
 
 export function _resourceDetailsListByPoolSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   poolName: string,
   options: ResourceDetailsListByPoolOptionalParams = { requestOptions: {} },
@@ -31,11 +31,18 @@ export function _resourceDetailsListByPoolSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       poolName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _resourceDetailsListByPoolDeserialize(
@@ -43,7 +50,9 @@ export async function _resourceDetailsListByPoolDeserialize(
 ): Promise<_ResourceDetailsObjectListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _resourceDetailsObjectListResultDeserializer(result.body);
@@ -52,15 +61,13 @@ export async function _resourceDetailsListByPoolDeserialize(
 /** List ResourceDetailsObject resources by Pool */
 export function resourceDetailsListByPool(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   poolName: string,
   options: ResourceDetailsListByPoolOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceDetailsObject> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _resourceDetailsListByPoolSend(context, subscriptionId, resourceGroupName, poolName, options),
+    () => _resourceDetailsListByPoolSend(context, resourceGroupName, poolName, options),
     _resourceDetailsListByPoolDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

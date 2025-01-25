@@ -2,12 +2,13 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DevOpsInfrastructure client.
 
+
+
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devopsinfrastructure/arm-devopsinfrastructure)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-devopsinfrastructure)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-devopsinfrastructure?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples)
 
 ## Getting started
 
@@ -63,8 +64,8 @@ const client = new DevOpsInfrastructureClient(new DefaultAzureCredential(), subs
 // const client = new DevOpsInfrastructureClient(credential, subscriptionId);
 ```
 
-### JavaScript Bundle
 
+### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -86,9 +87,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devopsinfrastructure/arm-devopsinfrastructure/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
