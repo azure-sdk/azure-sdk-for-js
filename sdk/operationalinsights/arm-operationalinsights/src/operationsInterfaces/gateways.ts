@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GatewaysDeleteOptionalParams } from "../models";
+import { GatewaysDeleteOptionalParams } from "../models/index.js";
 
 /** Interface representing a Gateways. */
 export interface Gateways {
@@ -21,6 +21,6 @@ export interface Gateways {
     resourceGroupName: string,
     workspaceName: string,
     gatewayId: string,
-    options?: GatewaysDeleteOptionalParams
+    options?: GatewaysDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,8 +18,8 @@ import {
   QueriesPutResponse,
   QueriesUpdateOptionalParams,
   QueriesUpdateResponse,
-  QueriesDeleteOptionalParams
-} from "../models";
+  QueriesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Queries. */
@@ -33,7 +33,7 @@ export interface Queries {
   list(
     resourceGroupName: string,
     queryPackName: string,
-    options?: QueriesListOptionalParams
+    options?: QueriesListOptionalParams,
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPackQuery>;
   /**
    * Search a list of Queries defined within a Log Analytics QueryPack according to given search
@@ -48,7 +48,7 @@ export interface Queries {
     resourceGroupName: string,
     queryPackName: string,
     querySearchProperties: LogAnalyticsQueryPackQuerySearchProperties,
-    options?: QueriesSearchOptionalParams
+    options?: QueriesSearchOptionalParams,
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPackQuery>;
   /**
    * Gets a specific Log Analytics Query defined within a Log Analytics QueryPack.
@@ -61,7 +61,7 @@ export interface Queries {
     resourceGroupName: string,
     queryPackName: string,
     id: string,
-    options?: QueriesGetOptionalParams
+    options?: QueriesGetOptionalParams,
   ): Promise<QueriesGetResponse>;
   /**
    * Adds or Updates a specific Query within a Log Analytics QueryPack.
@@ -77,7 +77,7 @@ export interface Queries {
     queryPackName: string,
     id: string,
     queryPayload: LogAnalyticsQueryPackQuery,
-    options?: QueriesPutOptionalParams
+    options?: QueriesPutOptionalParams,
   ): Promise<QueriesPutResponse>;
   /**
    * Adds or Updates a specific Query within a Log Analytics QueryPack.
@@ -93,7 +93,7 @@ export interface Queries {
     queryPackName: string,
     id: string,
     queryPayload: LogAnalyticsQueryPackQuery,
-    options?: QueriesUpdateOptionalParams
+    options?: QueriesUpdateOptionalParams,
   ): Promise<QueriesUpdateResponse>;
   /**
    * Deletes a specific Query defined within an Log Analytics QueryPack.
@@ -106,6 +106,6 @@ export interface Queries {
     resourceGroupName: string,
     queryPackName: string,
     id: string,
-    options?: QueriesDeleteOptionalParams
+    options?: QueriesDeleteOptionalParams,
   ): Promise<void>;
 }
