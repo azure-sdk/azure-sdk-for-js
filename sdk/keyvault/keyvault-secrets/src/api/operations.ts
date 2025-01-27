@@ -53,18 +53,16 @@ export function _restoreSecretSend(
   parameters: SecretRestoreParameters,
   options: RestoreSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/restore")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: secretRestoreParametersSerializer(parameters),
-    });
+  return context.path("/secrets/restore").post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+    body: secretRestoreParametersSerializer(parameters),
+  });
 }
 
 export async function _restoreSecretDeserialize(
@@ -95,16 +93,14 @@ export function _backupSecretSend(
   secretName: string,
   options: BackupSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}/backup", secretName)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/secrets/{secret-name}/backup", secretName).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _backupSecretDeserialize(
@@ -135,16 +131,14 @@ export function _recoverDeletedSecretSend(
   secretName: string,
   options: RecoverDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/deletedsecrets/{secret-name}/recover", secretName)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/deletedsecrets/{secret-name}/recover", secretName).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _recoverDeletedSecretDeserialize(
@@ -175,21 +169,17 @@ export function _purgeDeletedSecretSend(
   secretName: string,
   options: PurgeDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/deletedsecrets/{secret-name}", secretName)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/deletedsecrets/{secret-name}", secretName).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
-export async function _purgeDeletedSecretDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _purgeDeletedSecretDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -215,16 +205,14 @@ export function _getDeletedSecretSend(
   secretName: string,
   options: GetDeletedSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/deletedsecrets/{secret-name}", secretName)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/deletedsecrets/{secret-name}", secretName).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _getDeletedSecretDeserialize(
@@ -254,19 +242,17 @@ export function _getDeletedSecretsSend(
   context: Client,
   options: GetDeletedSecretsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/deletedsecrets")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
-      },
-    });
+  return context.path("/deletedsecrets").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: {
+      "api-version": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+  });
 }
 
 export async function _getDeletedSecretsDeserialize(
@@ -301,19 +287,17 @@ export function _getSecretVersionsSend(
   secretName: string,
   options: GetSecretVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}/versions", secretName)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
-      },
-    });
+  return context.path("/secrets/{secret-name}/versions", secretName).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: {
+      "api-version": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+  });
 }
 
 export async function _getSecretVersionsDeserialize(
@@ -348,19 +332,17 @@ export function _getSecretsSend(
   context: Client,
   options: GetSecretsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: {
-        "api-version": context.apiVersion,
-        maxresults: options?.maxresults,
-      },
-    });
+  return context.path("/secrets").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: {
+      "api-version": context.apiVersion,
+      maxresults: options?.maxresults,
+    },
+  });
 }
 
 export async function _getSecretsDeserialize(
@@ -396,21 +378,17 @@ export function _getSecretSend(
   secretVersion: string,
   options: GetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
-export async function _getSecretDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecretBundle> {
+export async function _getSecretDeserialize(result: PathUncheckedResponse): Promise<SecretBundle> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -428,12 +406,7 @@ export async function getSecret(
   secretVersion: string,
   options: GetSecretOptionalParams = { requestOptions: {} },
 ): Promise<SecretBundle> {
-  const result = await _getSecretSend(
-    context,
-    secretName,
-    secretVersion,
-    options,
-  );
+  const result = await _getSecretSend(context, secretName, secretVersion, options);
   return _getSecretDeserialize(result);
 }
 
@@ -444,18 +417,16 @@ export function _updateSecretSend(
   parameters: SecretUpdateParameters,
   options: UpdateSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: secretUpdateParametersSerializer(parameters),
-    });
+  return context.path("/secrets/{secret-name}/{secret-version}", secretName, secretVersion).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+    body: secretUpdateParametersSerializer(parameters),
+  });
 }
 
 export async function _updateSecretDeserialize(
@@ -479,13 +450,7 @@ export async function updateSecret(
   parameters: SecretUpdateParameters,
   options: UpdateSecretOptionalParams = { requestOptions: {} },
 ): Promise<SecretBundle> {
-  const result = await _updateSecretSend(
-    context,
-    secretName,
-    secretVersion,
-    parameters,
-    options,
-  );
+  const result = await _updateSecretSend(context, secretName, secretVersion, parameters, options);
   return _updateSecretDeserialize(result);
 }
 
@@ -494,16 +459,14 @@ export function _deleteSecretSend(
   secretName: string,
   options: DeleteSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}", secretName)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/secrets/{secret-name}", secretName).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _deleteSecretDeserialize(
@@ -535,23 +498,19 @@ export function _setSecretSend(
   parameters: SecretSetParameters,
   options: SetSecretOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/secrets/{secret-name}", secretName)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-      body: secretSetParametersSerializer(parameters),
-    });
+  return context.path("/secrets/{secret-name}", secretName).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+    body: secretSetParametersSerializer(parameters),
+  });
 }
 
-export async function _setSecretDeserialize(
-  result: PathUncheckedResponse,
-): Promise<SecretBundle> {
+export async function _setSecretDeserialize(result: PathUncheckedResponse): Promise<SecretBundle> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
