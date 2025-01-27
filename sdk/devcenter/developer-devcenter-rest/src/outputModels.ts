@@ -228,7 +228,7 @@ export interface DevBoxOutput {
    *
    * Possible values: "Enabled", "Disabled"
    */
-  localAdministrator?: LocalAdminStatusOutput;
+  readonly localAdministrator?: LocalAdminStatusOutput;
 }
 
 /** Paged collection of Schedule items */
