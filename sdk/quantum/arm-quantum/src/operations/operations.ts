@@ -7,35 +7,35 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Operations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuantumManagementAPI } from "../azureQuantumManagementAPI.js";
 import {
   Operation,
   OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
   OperationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AzureQuantumManagementClient;
+  private readonly client: AzureQuantumManagementAPI;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuantumManagementClient) {
+  constructor(client: AzureQuantumManagementAPI) {
     this.client = client;
   }
 
   /**
-   * Returns list of operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Returns list of operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(
@@ -121,7 +121,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -137,7 +137,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
