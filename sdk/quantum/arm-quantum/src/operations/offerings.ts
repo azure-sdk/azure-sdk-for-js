@@ -7,30 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Offerings } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Offerings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuantumManagementAPI } from "../azureQuantumManagementAPI.js";
 import {
   ProviderDescription,
   OfferingsListNextOptionalParams,
   OfferingsListOptionalParams,
   OfferingsListResponse,
   OfferingsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Offerings operations. */
 export class OfferingsImpl implements Offerings {
-  private readonly client: AzureQuantumManagementClient;
+  private readonly client: AzureQuantumManagementAPI;
 
   /**
    * Initialize a new instance of the class Offerings class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuantumManagementClient) {
+  constructor(client: AzureQuantumManagementAPI) {
     this.client = client;
   }
 
@@ -160,8 +160,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
