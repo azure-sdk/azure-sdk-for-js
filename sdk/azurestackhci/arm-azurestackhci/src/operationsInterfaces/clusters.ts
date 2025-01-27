@@ -27,12 +27,6 @@ import {
   SoftwareAssuranceChangeRequest,
   ClustersExtendSoftwareAssuranceBenefitOptionalParams,
   ClustersExtendSoftwareAssuranceBenefitResponse,
-  LogCollectionRequest,
-  ClustersTriggerLogCollectionOptionalParams,
-  ClustersTriggerLogCollectionResponse,
-  RemoteSupportRequest,
-  ClustersConfigureRemoteSupportOptionalParams,
-  ClustersConfigureRemoteSupportResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -197,66 +191,4 @@ export interface Clusters {
     softwareAssuranceChangeRequest: SoftwareAssuranceChangeRequest,
     options?: ClustersExtendSoftwareAssuranceBenefitOptionalParams,
   ): Promise<ClustersExtendSoftwareAssuranceBenefitResponse>;
-  /**
-   * Trigger Log Collection on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param logCollectionRequest Trigger Log Collection Request Payload
-   * @param options The options parameters.
-   */
-  beginTriggerLogCollection(
-    resourceGroupName: string,
-    clusterName: string,
-    logCollectionRequest: LogCollectionRequest,
-    options?: ClustersTriggerLogCollectionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersTriggerLogCollectionResponse>,
-      ClustersTriggerLogCollectionResponse
-    >
-  >;
-  /**
-   * Trigger Log Collection on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param logCollectionRequest Trigger Log Collection Request Payload
-   * @param options The options parameters.
-   */
-  beginTriggerLogCollectionAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    logCollectionRequest: LogCollectionRequest,
-    options?: ClustersTriggerLogCollectionOptionalParams,
-  ): Promise<ClustersTriggerLogCollectionResponse>;
-  /**
-   * Configure RemoteSupport on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param remoteSupportRequest Configure Remote Support Request Payload
-   * @param options The options parameters.
-   */
-  beginConfigureRemoteSupport(
-    resourceGroupName: string,
-    clusterName: string,
-    remoteSupportRequest: RemoteSupportRequest,
-    options?: ClustersConfigureRemoteSupportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersConfigureRemoteSupportResponse>,
-      ClustersConfigureRemoteSupportResponse
-    >
-  >;
-  /**
-   * Configure RemoteSupport on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param remoteSupportRequest Configure Remote Support Request Payload
-   * @param options The options parameters.
-   */
-  beginConfigureRemoteSupportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    remoteSupportRequest: RemoteSupportRequest,
-    options?: ClustersConfigureRemoteSupportOptionalParams,
-  ): Promise<ClustersConfigureRemoteSupportResponse>;
 }
