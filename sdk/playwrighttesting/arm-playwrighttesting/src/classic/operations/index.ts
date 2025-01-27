@@ -13,16 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: AzurePlaywrightServiceContext) {
+function _getOperations(context: AzurePlaywrightServiceContext) {
   return {
     list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(
+export function _getOperationsOperations(
   context: AzurePlaywrightServiceContext,
 ): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

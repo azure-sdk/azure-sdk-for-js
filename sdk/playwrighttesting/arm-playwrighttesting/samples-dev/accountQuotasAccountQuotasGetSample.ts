@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzurePlaywrightServiceClient } = require("@azure/arm-playwrighttesting");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to get quota by name for an account.
@@ -10,11 +10,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary get quota by name for an account.
  * x-ms-original-file: 2024-12-01/AccountQuotas_Get.json
  */
-async function accountQuotasGet() {
+async function accountQuotasGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accountQuotas.get(
+  const result = await client.accountQuotas.AccountQuotas_get(
     "dummyrg",
     "myPlaywrightAccount",
     "ScalableExecution",
@@ -22,8 +22,8 @@ async function accountQuotasGet() {
   console.log(result);
 }
 
-async function main() {
-  accountQuotasGet();
+async function main(): Promise<void> {
+  await accountQuotasGet();
 }
 
 main().catch(console.error);
