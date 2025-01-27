@@ -163,6 +163,26 @@ export type CreatedByType = string;
 export type EnablementStatus = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FreeTrialProperties {
     readonly accountId: string;
     readonly state: FreeTrialState;
@@ -214,9 +234,9 @@ export enum KnownOfferingType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -237,7 +257,7 @@ export enum KnownQuotaNames {
 
 // @public
 export enum KnownVersions {
-    "V2024-12-01" = "2024-12-01"
+    "2024-12-01" = "2024-12-01"
 }
 
 // @public
@@ -245,8 +265,8 @@ export type OfferingType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;

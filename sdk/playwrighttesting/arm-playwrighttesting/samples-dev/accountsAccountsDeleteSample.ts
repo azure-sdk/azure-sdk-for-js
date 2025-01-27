@@ -5,21 +5,20 @@ import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get subscription quota by name.
+ * This sample demonstrates how to delete a Account
  *
- * @summary get subscription quota by name.
- * x-ms-original-file: 2024-12-01/Quotas_Get.json
+ * @summary delete a Account
+ * x-ms-original-file: 2024-12-01/Accounts_Delete.json
  */
-async function quotasGet() {
+async function accountsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.quotas.get("eastus", "ScalableExecution");
-  console.log(result);
+  await client.accounts.Accounts_delete("dummyrg", "myPlaywrightAccount");
 }
 
-async function main() {
-  quotasGet();
+async function main(): Promise<void> {
+  await accountsDelete();
 }
 
 main().catch(console.error);

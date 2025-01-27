@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzurePlaywrightServiceClient } = require("@azure/arm-playwrighttesting");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to update a Account
@@ -10,19 +10,19 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary update a Account
  * x-ms-original-file: 2024-12-01/Accounts_Update.json
  */
-async function accountsUpdate() {
+async function accountsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accounts.update("dummyrg", "myPlaywrightAccount", {
+  const result = await client.accounts.Accounts_update("dummyrg", "myPlaywrightAccount", {
     tags: { Team: "Dev Exp", Division: "LT" },
     properties: { regionalAffinity: "Enabled" },
   });
   console.log(result);
 }
 
-async function main() {
-  accountsUpdate();
+async function main(): Promise<void> {
+  await accountsUpdate();
 }
 
 main().catch(console.error);

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzurePlaywrightServiceClient } = require("@azure/arm-playwrighttesting");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to create a Account
@@ -10,11 +10,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary create a Account
  * x-ms-original-file: 2024-12-01/Accounts_CreateOrUpdate.json
  */
-async function accountsCreateOrUpdate() {
+async function accountsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new AzurePlaywrightServiceClient(credential, subscriptionId);
-  const result = await client.accounts.createOrUpdate("dummyrg", "myPlaywrightAccount", {
+  const result = await client.accounts.Accounts_createOrUpdate("dummyrg", "myPlaywrightAccount", {
     location: "westus",
     tags: { Team: "Dev Exp" },
     properties: { regionalAffinity: "Enabled" },
@@ -22,8 +22,8 @@ async function accountsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  accountsCreateOrUpdate();
+async function main(): Promise<void> {
+  await accountsCreateOrUpdate();
 }
 
 main().catch(console.error);
