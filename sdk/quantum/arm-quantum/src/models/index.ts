@@ -8,101 +8,34 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Properties of a Workspace */
-export interface WorkspaceResourceProperties {
-  /** List of Providers selected for this Workspace */
-  providers?: Provider[];
-  /**
-   * Whether the current workspace is ready to accept Jobs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly usable?: UsableStatus;
-  /**
-   * Provisioning status field
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningStatus;
-  /** ARM Resource Id of the storage account associated with this workspace. */
-  storageAccount?: string;
-  /**
-   * The URI of the workspace endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endpointUri?: string;
-  /** Indicator of enablement of the Quantum workspace Api keys. */
-  apiKeyEnabled?: boolean;
+/** Lists the operations available. */
+export interface OperationsList {
+  /** Url to follow for getting next page of operations. */
+  nextLink?: string;
+  /** Array of operations */
+  value: Operation[];
 }
 
-/** Information about a Provider. A Provider is an entity that offers Targets to run Azure Quantum Jobs. */
-export interface Provider {
-  /** Unique id of this provider. */
-  providerId?: string;
-  /** The sku associated with pricing information for this provider. */
-  providerSku?: string;
-  /** A Uri identifying the specific instance of this provider. */
-  instanceUri?: string;
-  /** The provider's marketplace application display name. */
-  applicationName?: string;
-  /** Provisioning status field */
-  provisioningState?: Status;
-  /** Id to track resource usage for the provider. */
-  resourceUsageId?: string;
+/** Operation provided by provider */
+export interface Operation {
+  /** Name of the operation */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Properties of the operation */
+  display?: OperationDisplay;
 }
 
-/** Managed Identity information. */
-export interface QuantumWorkspaceIdentity {
-  /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Properties of the operation */
+export interface OperationDisplay {
+  /** Provider name */
+  provider?: string;
+  /** Resource name */
+  resource?: string;
+  /** Operation name */
+  operation?: string;
+  /** Description of the operation */
+  description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -154,18 +87,25 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Tags object for patch operations. */
-export interface TagsObject {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
+/** Details of check name availability request body. */
+export interface CheckNameAvailabilityParameters {
+  /** Name for checking availability. */
+  name?: string;
+  /** The resource type of Quantum Workspace. */
+  type?: string;
 }
 
-/** The response of a list Workspaces operation. */
-export interface WorkspaceListResult {
-  /** Result of a list Workspaces operation. */
-  value?: QuantumWorkspace[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of Workspaces. */
-  nextLink?: string;
+/** Result of check name availability. */
+export interface CheckNameAvailabilityResult {
+  /** Indicator of availability of the Quantum Workspace resource name. */
+  nameAvailable?: boolean;
+  /** The reason of unavailability. */
+  reason?: string;
+  /**
+   * The detailed info regarding the reason associated with the Namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
 }
 
 /** The response of a list Providers operation. */
@@ -325,55 +265,115 @@ export interface PricingDimension {
   name?: string;
 }
 
-/** Lists the operations available. */
-export interface OperationsList {
-  /** Url to follow for getting next page of operations. */
+/** The response of a list Workspaces operation. */
+export interface WorkspaceListResult {
+  /** Result of a list Workspaces operation. */
+  value?: QuantumWorkspace[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of Workspaces. */
   nextLink?: string;
-  /** Array of operations */
-  value: Operation[];
 }
 
-/** Operation provided by provider */
-export interface Operation {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Properties of the operation */
-  display?: OperationDisplay;
-}
-
-/** Properties of the operation */
-export interface OperationDisplay {
-  /** Provider name */
-  provider?: string;
-  /** Resource name */
-  resource?: string;
-  /** Operation name */
-  operation?: string;
-  /** Description of the operation */
-  description?: string;
-}
-
-/** Details of check name availability request body. */
-export interface CheckNameAvailabilityParameters {
-  /** Name for checking availability. */
-  name?: string;
-  /** The resource type of Quantum Workspace. */
-  type?: string;
-}
-
-/** Result of check name availability. */
-export interface CheckNameAvailabilityResult {
-  /** Indicator of availability of the Quantum Workspace resource name. */
-  nameAvailable?: boolean;
-  /** The reason of unavailability. */
-  reason?: string;
+/** Properties of a Workspace */
+export interface WorkspaceResourceProperties {
+  /** List of Providers selected for this Workspace */
+  providers?: Provider[];
   /**
-   * The detailed info regarding the reason associated with the Namespace.
+   * Whether the current workspace is ready to accept Jobs.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message?: string;
+  readonly usable?: UsableStatus;
+  /**
+   * Provisioning status field
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStatus;
+  /** ARM Resource Id of the storage account associated with this workspace. */
+  storageAccount?: string;
+  /**
+   * The URI of the workspace endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointUri?: string;
+  /** Indicator of enablement of the Quantum workspace Api keys. */
+  apiKeyEnabled?: boolean;
+}
+
+/** Information about a Provider. A Provider is an entity that offers Targets to run Azure Quantum Jobs. */
+export interface Provider {
+  /** Unique id of this provider. */
+  providerId?: string;
+  /** The sku associated with pricing information for this provider. */
+  providerSku?: string;
+  /** A Uri identifying the specific instance of this provider. */
+  instanceUri?: string;
+  /** The provider's marketplace application display name. */
+  applicationName?: string;
+  /** Provisioning status field */
+  provisioningState?: Status;
+  /** Id to track resource usage for the provider. */
+  resourceUsageId?: string;
+}
+
+/** Managed Identity information. */
+export interface QuantumWorkspaceIdentity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Tags object for patch operations. */
+export interface TagsObject {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Result of list Api keys and connection strings. */
@@ -571,6 +571,67 @@ export enum KnownKeyType {
 export type KeyType = string;
 
 /** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationsList;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationsList;
+
+/** Optional parameters. */
+export interface WorkspaceCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type WorkspaceCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResult;
+
+/** Optional parameters. */
+export interface WorkspaceListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type WorkspaceListKeysResponse = ListKeysResult;
+
+/** Optional parameters. */
+export interface WorkspaceRegenerateKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface OfferingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OfferingsListResponse = OfferingsListResult;
+
+/** Optional parameters. */
+export interface OfferingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OfferingsListNextResponse = OfferingsListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type WorkspacesListBySubscriptionResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
+
+/** Optional parameters. */
 export interface WorkspacesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -606,20 +667,6 @@ export interface WorkspacesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface WorkspacesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type WorkspacesListBySubscriptionResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface WorkspacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
-
-/** Optional parameters. */
 export interface WorkspacesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -632,53 +679,6 @@ export interface WorkspacesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
-
-/** Optional parameters. */
-export interface OfferingsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OfferingsListResponse = OfferingsListResult;
-
-/** Optional parameters. */
-export interface OfferingsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OfferingsListNextResponse = OfferingsListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationsList;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationsList;
-
-/** Optional parameters. */
-export interface WorkspaceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type WorkspaceCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResult;
-
-/** Optional parameters. */
-export interface WorkspaceListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type WorkspaceListKeysResponse = ListKeysResult;
-
-/** Optional parameters. */
-export interface WorkspaceRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AzureQuantumManagementClientOptionalParams

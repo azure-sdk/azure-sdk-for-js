@@ -15,18 +15,18 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  WorkspacesImpl,
-  OfferingsImpl,
   OperationsImpl,
   WorkspaceImpl,
-} from "./operations";
+  OfferingsImpl,
+  WorkspacesImpl,
+} from "./operations/index.js";
 import {
-  Workspaces,
-  Offerings,
   Operations,
   Workspace,
-} from "./operationsInterfaces";
-import { AzureQuantumManagementClientOptionalParams } from "./models";
+  Offerings,
+  Workspaces,
+} from "./operationsInterfaces/index.js";
+import { AzureQuantumManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureQuantumManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -115,10 +115,10 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2023-11-13-preview";
-    this.workspaces = new WorkspacesImpl(this);
-    this.offerings = new OfferingsImpl(this);
     this.operations = new OperationsImpl(this);
     this.workspace = new WorkspaceImpl(this);
+    this.offerings = new OfferingsImpl(this);
+    this.workspaces = new WorkspacesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -150,8 +150,8 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  workspaces: Workspaces;
-  offerings: Offerings;
   operations: Operations;
   workspace: Workspace;
+  offerings: Offerings;
+  workspaces: Workspaces;
 }
