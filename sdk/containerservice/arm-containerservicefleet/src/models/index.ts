@@ -299,6 +299,8 @@ export interface FleetMemberListResult {
 
 /** The type used for update operations of the FleetMember. */
 export interface FleetMemberUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** The group this member belongs to for multi-cluster update management. */
   group?: string;
 }
@@ -604,6 +606,8 @@ export interface FleetMember extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
   clusterResourceId?: string;
   /** The group this member belongs to for multi-cluster update management. */
