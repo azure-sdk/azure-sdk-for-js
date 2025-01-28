@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RunbookDraftGetContentOptionalParams,
   RunbookDraftGetContentResponse,
@@ -15,7 +15,7 @@ import {
   RunbookDraftGetOptionalParams,
   RunbookDraftGetResponse,
   RunbookDraftUndoEditOptionalParams,
-  RunbookDraftUndoEditResponse
+  RunbookDraftUndoEditResponse,
 } from "../models/index.js";
 
 /** Interface representing a RunbookDraftOperations. */
@@ -31,14 +31,14 @@ export interface RunbookDraftOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookDraftGetContentOptionalParams
+    options?: RunbookDraftGetContentOptionalParams,
   ): Promise<RunbookDraftGetContentResponse>;
   /**
    * Replaces the runbook draft content.
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContent(
@@ -46,10 +46,10 @@ export interface RunbookDraftOperations {
     automationAccountName: string,
     runbookName: string,
     runbookContent: string,
-    options?: RunbookDraftReplaceContentOptionalParams
+    options?: RunbookDraftReplaceContentOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RunbookDraftReplaceContentResponse>,
+    SimplePollerLike<
+      OperationState<RunbookDraftReplaceContentResponse>,
       RunbookDraftReplaceContentResponse
     >
   >;
@@ -58,7 +58,7 @@ export interface RunbookDraftOperations {
    * @param resourceGroupName Name of an Azure Resource group.
    * @param automationAccountName The name of the automation account.
    * @param runbookName The runbook name.
-   * @param runbookContent The runbook draft content.
+   * @param runbookContent The runbook draft content.
    * @param options The options parameters.
    */
   beginReplaceContentAndWait(
@@ -66,7 +66,7 @@ export interface RunbookDraftOperations {
     automationAccountName: string,
     runbookName: string,
     runbookContent: string,
-    options?: RunbookDraftReplaceContentOptionalParams
+    options?: RunbookDraftReplaceContentOptionalParams,
   ): Promise<RunbookDraftReplaceContentResponse>;
   /**
    * Retrieve the runbook draft identified by runbook name.
@@ -79,7 +79,7 @@ export interface RunbookDraftOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookDraftGetOptionalParams
+    options?: RunbookDraftGetOptionalParams,
   ): Promise<RunbookDraftGetResponse>;
   /**
    * Undo draft edit to last known published state identified by runbook name.
@@ -92,6 +92,6 @@ export interface RunbookDraftOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: RunbookDraftUndoEditOptionalParams
+    options?: RunbookDraftUndoEditOptionalParams,
   ): Promise<RunbookDraftUndoEditResponse>;
 }

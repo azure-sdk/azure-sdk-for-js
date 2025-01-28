@@ -21,6 +21,6 @@ export interface Usages {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
 }

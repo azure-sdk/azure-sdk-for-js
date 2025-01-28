@@ -24,7 +24,7 @@ import {
   DscNodeUpdateParameters,
   DscNodeUpdateOptionalParams,
   DscNodeUpdateResponse,
-  DscNodeListByAutomationAccountNextResponse
+  DscNodeListByAutomationAccountNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,12 +49,12 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeListByAutomationAccountOptionalParams
+    options?: DscNodeListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<DscNode> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     options?: DscNodeListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DscNode[]> {
     let result: DscNodeListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
       result = await this._listByAutomationAccount(
         resourceGroupName,
         automationAccountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
         resourceGroupName,
         automationAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeListByAutomationAccountOptionalParams
+    options?: DscNodeListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<DscNode> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +135,11 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: DscNodeDeleteOptionalParams
+    options?: DscNodeDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -154,11 +154,11 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: DscNodeGetOptionalParams
+    options?: DscNodeGetOptionalParams,
   ): Promise<DscNodeGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nodeId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
     automationAccountName: string,
     nodeId: string,
     dscNodeUpdateParameters: DscNodeUpdateParameters,
-    options?: DscNodeUpdateOptionalParams
+    options?: DscNodeUpdateOptionalParams,
   ): Promise<DscNodeUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -183,9 +183,9 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
         automationAccountName,
         nodeId,
         dscNodeUpdateParameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeListByAutomationAccountOptionalParams
+    options?: DscNodeListByAutomationAccountOptionalParams,
   ): Promise<DscNodeListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -218,11 +218,11 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nextLink: string,
-    options?: DscNodeListByAutomationAccountNextOptionalParams
+    options?: DscNodeListByAutomationAccountNextOptionalParams,
   ): Promise<DscNodeListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, nextLink, options },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -230,120 +230,116 @@ export class DscNodeOperationsImpl implements DscNodeOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeId
+    Parameters.subscriptionId,
+    Parameters.nodeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNode
+      bodyMapper: Mappers.DscNode,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeId
+    Parameters.subscriptionId,
+    Parameters.nodeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes/{nodeId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNode
+      bodyMapper: Mappers.DscNode,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.dscNodeUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nodeId
+    Parameters.subscriptionId,
+    Parameters.nodeId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/nodes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeListResult
+      bodyMapper: Mappers.DscNodeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.skip,
     Parameters.top,
-    Parameters.inlinecount
+    Parameters.inlinecount,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DscNodeListResult
+      bodyMapper: Mappers.DscNodeListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.nextLink
+    Parameters.subscriptionId,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

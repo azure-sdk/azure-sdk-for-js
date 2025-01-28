@@ -16,12 +16,13 @@ import {
   AgentRegistrationInformationGetResponse,
   AgentRegistrationRegenerateKeyParameter,
   AgentRegistrationInformationRegenerateKeyOptionalParams,
-  AgentRegistrationInformationRegenerateKeyResponse
+  AgentRegistrationInformationRegenerateKeyResponse,
 } from "../models/index.js";
 
 /** Class containing AgentRegistrationInformation operations. */
 export class AgentRegistrationInformationImpl
-  implements AgentRegistrationInformation {
+  implements AgentRegistrationInformation
+{
   private readonly client: AutomationClient;
 
   /**
@@ -41,11 +42,11 @@ export class AgentRegistrationInformationImpl
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AgentRegistrationInformationGetOptionalParams
+    options?: AgentRegistrationInformationGetOptionalParams,
   ): Promise<AgentRegistrationInformationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -60,11 +61,11 @@ export class AgentRegistrationInformationImpl
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AgentRegistrationRegenerateKeyParameter,
-    options?: AgentRegistrationInformationRegenerateKeyOptionalParams
+    options?: AgentRegistrationInformationRegenerateKeyOptionalParams,
   ): Promise<AgentRegistrationInformationRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, parameters, options },
-      regenerateKeyOperationSpec
+      regenerateKeyOperationSpec,
     );
   }
 }
@@ -72,48 +73,46 @@ export class AgentRegistrationInformationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentRegistration
+      bodyMapper: Mappers.AgentRegistration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/agentRegistrationInformation/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentRegistration
+      bodyMapper: Mappers.AgentRegistration,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

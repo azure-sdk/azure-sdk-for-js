@@ -8,7 +8,7 @@
 
 import {
   KeysListByAutomationAccountOptionalParams,
-  KeysListByAutomationAccountResponse
+  KeysListByAutomationAccountResponse,
 } from "../models/index.js";
 
 /** Interface representing a Keys. */
@@ -22,6 +22,6 @@ export interface Keys {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: KeysListByAutomationAccountOptionalParams
+    options?: KeysListByAutomationAccountOptionalParams,
   ): Promise<KeysListByAutomationAccountResponse>;
 }

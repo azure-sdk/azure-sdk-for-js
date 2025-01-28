@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByAutomationAccountOptionalParams,
@@ -15,7 +15,8 @@ import {
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface PrivateEndpointConnections {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: PrivateEndpointConnectionsListByAutomationAccountOptionalParams
+    options?: PrivateEndpointConnectionsListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Gets a private endpoint connection.
@@ -43,7 +44,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     automationAccountName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
@@ -58,10 +59,10 @@ export interface PrivateEndpointConnections {
     automationAccountName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
       PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
@@ -78,7 +79,7 @@ export interface PrivateEndpointConnections {
     automationAccountName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -91,8 +92,13 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     automationAccountName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsDeleteResponse>,
+      PrivateEndpointConnectionsDeleteResponse
+    >
+  >;
   /**
    * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName Name of an Azure Resource group.
@@ -104,6 +110,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     automationAccountName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

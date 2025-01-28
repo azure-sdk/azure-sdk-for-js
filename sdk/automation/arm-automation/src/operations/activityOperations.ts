@@ -20,7 +20,7 @@ import {
   ActivityListByModuleResponse,
   ActivityGetOptionalParams,
   ActivityGetResponse,
-  ActivityListByModuleNextResponse
+  ActivityListByModuleNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class ActivityOperationsImpl implements ActivityOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ActivityListByModuleOptionalParams
+    options?: ActivityListByModuleOptionalParams,
   ): PagedAsyncIterableIterator<Activity> {
     const iter = this.listByModulePagingAll(
       resourceGroupName,
       automationAccountName,
       moduleName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class ActivityOperationsImpl implements ActivityOperations {
           automationAccountName,
           moduleName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class ActivityOperationsImpl implements ActivityOperations {
     automationAccountName: string,
     moduleName: string,
     options?: ActivityListByModuleOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Activity[]> {
     let result: ActivityListByModuleResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class ActivityOperationsImpl implements ActivityOperations {
         resourceGroupName,
         automationAccountName,
         moduleName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class ActivityOperationsImpl implements ActivityOperations {
         automationAccountName,
         moduleName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class ActivityOperationsImpl implements ActivityOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ActivityListByModuleOptionalParams
+    options?: ActivityListByModuleOptionalParams,
   ): AsyncIterableIterator<Activity> {
     for await (const page of this.listByModulePagingPage(
       resourceGroupName,
       automationAccountName,
       moduleName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -142,7 +142,7 @@ export class ActivityOperationsImpl implements ActivityOperations {
     automationAccountName: string,
     moduleName: string,
     activityName: string,
-    options?: ActivityGetOptionalParams
+    options?: ActivityGetOptionalParams,
   ): Promise<ActivityGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -150,9 +150,9 @@ export class ActivityOperationsImpl implements ActivityOperations {
         automationAccountName,
         moduleName,
         activityName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -167,11 +167,11 @@ export class ActivityOperationsImpl implements ActivityOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ActivityListByModuleOptionalParams
+    options?: ActivityListByModuleOptionalParams,
   ): Promise<ActivityListByModuleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, moduleName, options },
-      listByModuleOperationSpec
+      listByModuleOperationSpec,
     );
   }
 
@@ -188,7 +188,7 @@ export class ActivityOperationsImpl implements ActivityOperations {
     automationAccountName: string,
     moduleName: string,
     nextLink: string,
-    options?: ActivityListByModuleNextOptionalParams
+    options?: ActivityListByModuleNextOptionalParams,
   ): Promise<ActivityListByModuleNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -196,9 +196,9 @@ export class ActivityOperationsImpl implements ActivityOperations {
         automationAccountName,
         moduleName,
         nextLink,
-        options
+        options,
       },
-      listByModuleNextOperationSpec
+      listByModuleNextOperationSpec,
     );
   }
 }
@@ -206,71 +206,69 @@ export class ActivityOperationsImpl implements ActivityOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities/{activityName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Activity
+      bodyMapper: Mappers.Activity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.moduleName,
-    Parameters.activityName
+    Parameters.activityName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByModuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/modules/{moduleName}/activities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ActivityListResult
+      bodyMapper: Mappers.ActivityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.moduleName
+    Parameters.subscriptionId,
+    Parameters.moduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByModuleNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ActivityListResult
+      bodyMapper: Mappers.ActivityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.moduleName
+    Parameters.moduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

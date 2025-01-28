@@ -8,7 +8,7 @@
 
 import {
   LinkedWorkspaceGetOptionalParams,
-  LinkedWorkspaceGetResponse
+  LinkedWorkspaceGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a LinkedWorkspaceOperations. */
@@ -22,6 +22,6 @@ export interface LinkedWorkspaceOperations {
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: LinkedWorkspaceGetOptionalParams
+    options?: LinkedWorkspaceGetOptionalParams,
   ): Promise<LinkedWorkspaceGetResponse>;
 }

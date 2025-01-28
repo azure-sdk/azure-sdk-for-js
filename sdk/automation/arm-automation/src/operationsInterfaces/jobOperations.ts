@@ -21,7 +21,7 @@ import {
   JobCreateParameters,
   JobCreateOptionalParams,
   JobCreateResponse,
-  JobResumeOptionalParams
+  JobResumeOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface JobOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobListByAutomationAccountOptionalParams
+    options?: JobListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<JobCollectionItem>;
   /**
    * Retrieve the job output identified by job name.
@@ -49,7 +49,7 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobGetOutputOptionalParams
+    options?: JobGetOutputOptionalParams,
   ): Promise<JobGetOutputResponse>;
   /**
    * Retrieve the runbook content of the job identified by job name.
@@ -62,7 +62,7 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobGetRunbookContentOptionalParams
+    options?: JobGetRunbookContentOptionalParams,
   ): Promise<JobGetRunbookContentResponse>;
   /**
    * Suspend the job identified by job name.
@@ -75,7 +75,7 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobSuspendOptionalParams
+    options?: JobSuspendOptionalParams,
   ): Promise<void>;
   /**
    * Stop the job identified by jobName.
@@ -88,7 +88,7 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobStopOptionalParams
+    options?: JobStopOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the job identified by job name.
@@ -101,7 +101,7 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobGetOptionalParams
+    options?: JobGetOptionalParams,
   ): Promise<JobGetResponse>;
   /**
    * Create a job of the runbook.
@@ -116,7 +116,7 @@ export interface JobOperations {
     automationAccountName: string,
     jobName: string,
     parameters: JobCreateParameters,
-    options?: JobCreateOptionalParams
+    options?: JobCreateOptionalParams,
   ): Promise<JobCreateResponse>;
   /**
    * Resume the job identified by jobName.
@@ -129,6 +129,6 @@ export interface JobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobName: string,
-    options?: JobResumeOptionalParams
+    options?: JobResumeOptionalParams,
   ): Promise<void>;
 }

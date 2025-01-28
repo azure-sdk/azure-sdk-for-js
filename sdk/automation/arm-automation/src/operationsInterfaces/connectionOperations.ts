@@ -18,7 +18,7 @@ import {
   ConnectionCreateOrUpdateResponse,
   ConnectionUpdateParameters,
   ConnectionUpdateOptionalParams,
-  ConnectionUpdateResponse
+  ConnectionUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ConnectionOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ConnectionListByAutomationAccountOptionalParams
+    options?: ConnectionListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Connection>;
   /**
    * Delete the connection.
@@ -46,7 +46,7 @@ export interface ConnectionOperations {
     resourceGroupName: string,
     automationAccountName: string,
     connectionName: string,
-    options?: ConnectionDeleteOptionalParams
+    options?: ConnectionDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the connection identified by connection name.
@@ -59,7 +59,7 @@ export interface ConnectionOperations {
     resourceGroupName: string,
     automationAccountName: string,
     connectionName: string,
-    options?: ConnectionGetOptionalParams
+    options?: ConnectionGetOptionalParams,
   ): Promise<ConnectionGetResponse>;
   /**
    * Create or update a connection.
@@ -74,7 +74,7 @@ export interface ConnectionOperations {
     automationAccountName: string,
     connectionName: string,
     parameters: ConnectionCreateOrUpdateParameters,
-    options?: ConnectionCreateOrUpdateOptionalParams
+    options?: ConnectionCreateOrUpdateOptionalParams,
   ): Promise<ConnectionCreateOrUpdateResponse>;
   /**
    * Update a connection.
@@ -89,6 +89,6 @@ export interface ConnectionOperations {
     automationAccountName: string,
     connectionName: string,
     parameters: ConnectionUpdateParameters,
-    options?: ConnectionUpdateOptionalParams
+    options?: ConnectionUpdateOptionalParams,
   ): Promise<ConnectionUpdateResponse>;
 }

@@ -8,7 +8,7 @@
 
 import {
   DeletedAutomationAccountsListBySubscriptionOptionalParams,
-  DeletedAutomationAccountsListBySubscriptionResponse
+  DeletedAutomationAccountsListBySubscriptionResponse,
 } from "../models/index.js";
 
 /** Interface representing a DeletedAutomationAccounts. */
@@ -18,6 +18,6 @@ export interface DeletedAutomationAccounts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DeletedAutomationAccountsListBySubscriptionOptionalParams
+    options?: DeletedAutomationAccountsListBySubscriptionOptionalParams,
   ): Promise<DeletedAutomationAccountsListBySubscriptionResponse>;
 }

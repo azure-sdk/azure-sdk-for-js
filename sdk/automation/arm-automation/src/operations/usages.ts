@@ -15,7 +15,7 @@ import { AutomationClient } from "../automationClient.js";
 import {
   Usage,
   UsagesListByAutomationAccountOptionalParams,
-  UsagesListByAutomationAccountResponse
+  UsagesListByAutomationAccountResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,12 +40,12 @@ export class UsagesImpl implements Usages {
   public listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -62,9 +62,9 @@ export class UsagesImpl implements Usages {
           resourceGroupName,
           automationAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,13 +72,13 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     automationAccountName: string,
     options?: UsagesListByAutomationAccountOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: UsagesListByAutomationAccountResponse;
     result = await this._listByAutomationAccount(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -86,12 +86,12 @@ export class UsagesImpl implements Usages {
   private async *listByAutomationAccountPagingAll(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -106,11 +106,11 @@ export class UsagesImpl implements Usages {
   private _listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: UsagesListByAutomationAccountOptionalParams
+    options?: UsagesListByAutomationAccountOptionalParams,
   ): Promise<UsagesListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 }
@@ -118,24 +118,23 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
