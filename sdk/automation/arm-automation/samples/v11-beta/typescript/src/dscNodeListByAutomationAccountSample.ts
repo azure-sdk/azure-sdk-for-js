@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listAllDscNodesByAutomationAccount.json
  */
-async function listDscNodesByAutomationAccount() {
+async function listDscNodesByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -40,7 +40,7 @@ async function listDscNodesByAutomationAccount() {
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithNodeConfigurationNotAssignedFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNotAssignedFilter() {
+async function listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNotAssignedFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -73,7 +73,7 @@ async function listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNot
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter() {
+async function listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -107,7 +107,7 @@ async function listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFi
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithNameFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWithNameFilter() {
+async function listPagedDscNodesByAutomationAccountWithNameFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -140,7 +140,7 @@ async function listPagedDscNodesByAutomationAccountWithNameFilter() {
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithNoFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWithNoFilters() {
+async function listPagedDscNodesByAutomationAccountWithNoFilters(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -171,7 +171,7 @@ async function listPagedDscNodesByAutomationAccountWithNoFilters() {
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithStatusFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWithNodeStatusFilter() {
+async function listPagedDscNodesByAutomationAccountWithNodeStatusFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -204,7 +204,7 @@ async function listPagedDscNodesByAutomationAccountWithNodeStatusFilter() {
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithVersionFilter.json
  */
-async function listPagedDscNodesByAutomationAccountWithVersionFilter() {
+async function listPagedDscNodesByAutomationAccountWithVersionFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -237,7 +237,7 @@ async function listPagedDscNodesByAutomationAccountWithVersionFilter() {
  * @summary Retrieve a list of dsc nodes.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/listPagedDscNodesByAutomationAccountWithCompositeFilter.json
  */
-async function listPagedDscNodesWithFiltersSeparatedByAnd() {
+async function listPagedDscNodesWithFiltersSeparatedByAnd(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -265,7 +265,7 @@ async function listPagedDscNodesWithFiltersSeparatedByAnd() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDscNodesByAutomationAccount();
   listPagedDscNodesByAutomationAccountWhereNodeConfigurationsAreNotAssignedFilter();
   listPagedDscNodesByAutomationAccountWithNodeConfigurationCustomFilter();

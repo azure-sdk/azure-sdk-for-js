@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Retrieve a list of configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/getAllDscConfigurations.json
  */
-async function getDscConfiguration() {
+async function getDscConfiguration(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -40,7 +40,7 @@ async function getDscConfiguration() {
  * @summary Retrieve a list of configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/getPagedlDscConfigurationsWithNameFilter.json
  */
-async function listPagedDscConfigurationsWithNameFilter() {
+async function listPagedDscConfigurationsWithNameFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -73,7 +73,7 @@ async function listPagedDscConfigurationsWithNameFilter() {
  * @summary Retrieve a list of configurations.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/getPagedDscConfigurationsWithNoFilter.json
  */
-async function listPagedDscConfigurationsWithNoFilter() {
+async function listPagedDscConfigurationsWithNoFilter(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";
   const automationAccountName = "myAutomationAccount33";
@@ -98,7 +98,7 @@ async function listPagedDscConfigurationsWithNoFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDscConfiguration();
   listPagedDscConfigurationsWithNameFilter();
   listPagedDscConfigurationsWithNoFilter();

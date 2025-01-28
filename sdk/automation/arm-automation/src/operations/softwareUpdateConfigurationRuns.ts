@@ -15,12 +15,13 @@ import {
   SoftwareUpdateConfigurationRunsGetByIdOptionalParams,
   SoftwareUpdateConfigurationRunsGetByIdResponse,
   SoftwareUpdateConfigurationRunsListOptionalParams,
-  SoftwareUpdateConfigurationRunsListResponse
+  SoftwareUpdateConfigurationRunsListResponse,
 } from "../models/index.js";
 
 /** Class containing SoftwareUpdateConfigurationRuns operations. */
 export class SoftwareUpdateConfigurationRunsImpl
-  implements SoftwareUpdateConfigurationRuns {
+  implements SoftwareUpdateConfigurationRuns
+{
   private readonly client: AutomationClient;
 
   /**
@@ -42,16 +43,16 @@ export class SoftwareUpdateConfigurationRunsImpl
     resourceGroupName: string,
     automationAccountName: string,
     softwareUpdateConfigurationRunId: string,
-    options?: SoftwareUpdateConfigurationRunsGetByIdOptionalParams
+    options?: SoftwareUpdateConfigurationRunsGetByIdOptionalParams,
   ): Promise<SoftwareUpdateConfigurationRunsGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         automationAccountName,
         softwareUpdateConfigurationRunId,
-        options
+        options,
       },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -64,11 +65,11 @@ export class SoftwareUpdateConfigurationRunsImpl
   list(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SoftwareUpdateConfigurationRunsListOptionalParams
+    options?: SoftwareUpdateConfigurationRunsListOptionalParams,
   ): Promise<SoftwareUpdateConfigurationRunsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -76,52 +77,50 @@ export class SoftwareUpdateConfigurationRunsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurationRuns/{softwareUpdateConfigurationRunId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurationRuns/{softwareUpdateConfigurationRunId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SoftwareUpdateConfigurationRun
+      bodyMapper: Mappers.SoftwareUpdateConfigurationRun,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.softwareUpdateConfigurationRunId
+    Parameters.subscriptionId,
+    Parameters.softwareUpdateConfigurationRunId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurationRuns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurationRuns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SoftwareUpdateConfigurationRunListResult
+      bodyMapper: Mappers.SoftwareUpdateConfigurationRunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.filter,
-    Parameters.apiVersion2,
     Parameters.skip1,
-    Parameters.top1
+    Parameters.top1,
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.automationAccountName
+    Parameters.automationAccountName,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

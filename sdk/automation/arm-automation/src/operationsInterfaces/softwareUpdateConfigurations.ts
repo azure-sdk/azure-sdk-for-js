@@ -14,7 +14,7 @@ import {
   SoftwareUpdateConfigurationsGetByNameResponse,
   SoftwareUpdateConfigurationsDeleteOptionalParams,
   SoftwareUpdateConfigurationsListOptionalParams,
-  SoftwareUpdateConfigurationsListResponse
+  SoftwareUpdateConfigurationsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a SoftwareUpdateConfigurations. */
@@ -32,7 +32,7 @@ export interface SoftwareUpdateConfigurations {
     automationAccountName: string,
     softwareUpdateConfigurationName: string,
     parameters: SoftwareUpdateConfiguration,
-    options?: SoftwareUpdateConfigurationsCreateOptionalParams
+    options?: SoftwareUpdateConfigurationsCreateOptionalParams,
   ): Promise<SoftwareUpdateConfigurationsCreateResponse>;
   /**
    * Get a single software update configuration by name.
@@ -45,7 +45,7 @@ export interface SoftwareUpdateConfigurations {
     resourceGroupName: string,
     automationAccountName: string,
     softwareUpdateConfigurationName: string,
-    options?: SoftwareUpdateConfigurationsGetByNameOptionalParams
+    options?: SoftwareUpdateConfigurationsGetByNameOptionalParams,
   ): Promise<SoftwareUpdateConfigurationsGetByNameResponse>;
   /**
    * delete a specific software update configuration.
@@ -58,7 +58,7 @@ export interface SoftwareUpdateConfigurations {
     resourceGroupName: string,
     automationAccountName: string,
     softwareUpdateConfigurationName: string,
-    options?: SoftwareUpdateConfigurationsDeleteOptionalParams
+    options?: SoftwareUpdateConfigurationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get all software update configurations for the account.
@@ -69,6 +69,6 @@ export interface SoftwareUpdateConfigurations {
   list(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: SoftwareUpdateConfigurationsListOptionalParams
+    options?: SoftwareUpdateConfigurationsListOptionalParams,
   ): Promise<SoftwareUpdateConfigurationsListResponse>;
 }

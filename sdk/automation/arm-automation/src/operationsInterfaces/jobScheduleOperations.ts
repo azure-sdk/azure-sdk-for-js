@@ -15,7 +15,7 @@ import {
   JobScheduleGetResponse,
   JobScheduleCreateParameters,
   JobScheduleCreateOptionalParams,
-  JobScheduleCreateResponse
+  JobScheduleCreateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface JobScheduleOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobScheduleListByAutomationAccountOptionalParams
+    options?: JobScheduleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<JobSchedule>;
   /**
    * Delete the job schedule identified by job schedule name.
@@ -43,7 +43,7 @@ export interface JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobScheduleId: string,
-    options?: JobScheduleDeleteOptionalParams
+    options?: JobScheduleDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the job schedule identified by job schedule name.
@@ -56,7 +56,7 @@ export interface JobScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     jobScheduleId: string,
-    options?: JobScheduleGetOptionalParams
+    options?: JobScheduleGetOptionalParams,
   ): Promise<JobScheduleGetResponse>;
   /**
    * Create a job schedule.
@@ -71,6 +71,6 @@ export interface JobScheduleOperations {
     automationAccountName: string,
     jobScheduleId: string,
     parameters: JobScheduleCreateParameters,
-    options?: JobScheduleCreateOptionalParams
+    options?: JobScheduleCreateOptionalParams,
   ): Promise<JobScheduleCreateResponse>;
 }

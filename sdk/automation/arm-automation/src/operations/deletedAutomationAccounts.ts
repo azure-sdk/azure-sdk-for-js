@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { AutomationClient } from "../automationClient.js";
 import {
   DeletedAutomationAccountsListBySubscriptionOptionalParams,
-  DeletedAutomationAccountsListBySubscriptionResponse
+  DeletedAutomationAccountsListBySubscriptionResponse,
 } from "../models/index.js";
 
 /** Class containing DeletedAutomationAccounts operations. */
 export class DeletedAutomationAccountsImpl
-  implements DeletedAutomationAccounts {
+  implements DeletedAutomationAccounts
+{
   private readonly client: AutomationClient;
 
   /**
@@ -34,11 +35,11 @@ export class DeletedAutomationAccountsImpl
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DeletedAutomationAccountsListBySubscriptionOptionalParams
+    options?: DeletedAutomationAccountsListBySubscriptionOptionalParams,
   ): Promise<DeletedAutomationAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 }
@@ -46,19 +47,18 @@ export class DeletedAutomationAccountsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/deletedAutomationAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automation/deletedAutomationAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedAutomationAccountListResult
+      bodyMapper: Mappers.DeletedAutomationAccountListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
