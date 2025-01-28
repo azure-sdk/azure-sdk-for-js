@@ -1,15 +1,46 @@
 # Release History
-
-## 8.2.1 (Unreleased)
-
+    
+## 9.0.0 (2025-01-28)
+    
 ### Features Added
+
+  - Added operation group AttachedDatabaseConfigurations
+  - Added operation group ClusterPrincipalAssignments
+  - Added operation group Clusters
+  - Added operation group DatabaseOperations
+  - Added operation group DatabasePrincipalAssignments
+  - Added operation group Databases
+  - Added operation group DataConnections
+  - Added operation group ManagedPrivateEndpoints
+  - Added operation group Operations
+  - Added operation group OperationsResults
+  - Added operation group OperationsResultsLocation
+  - Added operation group PrivateEndpointConnections
+  - Added operation group PrivateLinkResources
+  - Added operation group SandboxCustomImages
+  - Added operation group Scripts
+  - Added operation group Skus
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AttachedDatabaseConfigurations
+  - Removed operation group ClusterPrincipalAssignments
+  - Removed operation group Clusters
+  - Removed operation group DatabaseOperations
+  - Removed operation group DatabasePrincipalAssignments
+  - Removed operation group Databases
+  - Removed operation group DataConnections
+  - Removed operation group ManagedPrivateEndpoints
+  - Removed operation group Operations
+  - Removed operation group OperationsResults
+  - Removed operation group OperationsResultsLocation
+  - Removed operation group PrivateEndpointConnections
+  - Removed operation group PrivateLinkResources
+  - Removed operation group SandboxCustomImages
+  - Removed operation group Scripts
+  - Removed operation group Skus
+    
+    
 ## 8.2.0 (2025-01-24)
     
 ### Features Added
