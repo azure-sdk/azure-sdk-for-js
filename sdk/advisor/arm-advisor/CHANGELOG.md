@@ -1,5 +1,36 @@
 # Release History
+    
+## 3.3.0 (2025-01-28)
+    
+### Features Added
 
+  - Added operation group AdvisorScores
+  - Added Interface AdvisorScoreEntity
+  - Added Interface AdvisorScoreEntityProperties
+  - Added Interface AdvisorScoreResponse
+  - Added Interface AdvisorScoresGetOptionalParams
+  - Added Interface AdvisorScoresListOptionalParams
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ScoreEntity
+  - Added Interface SystemData
+  - Added Interface TimeSeriesEntityItem
+  - Added Type Alias AdvisorScoresGetResponse
+  - Added Type Alias AdvisorScoresListResponse
+  - Added Type Alias Aggregated
+  - Added Type Alias CreatedByType
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Interface ConfigData has a new optional parameter duration
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownAggregated
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
+    
 ## 3.2.0 (2023-08-03)
 
 ### Features Added
@@ -33,7 +64,7 @@
 
 ## 3.0.1 (2022-03-22)
 
-### Features Added
+**features**
 
 - bug fix
 
@@ -45,4 +76,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
