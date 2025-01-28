@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -30,7 +30,7 @@ import {
   DevToolPortalsCreateOrUpdateResponse,
   DevToolPortalsDeleteOptionalParams,
   DevToolPortalsDeleteResponse,
-  DevToolPortalsListNextResponse
+  DevToolPortalsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
+    options?: DevToolPortalsListOptionalParams,
   ): PagedAsyncIterableIterator<DevToolPortalResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -74,9 +74,9 @@ export class DevToolPortalsImpl implements DevToolPortals {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     options?: DevToolPortalsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DevToolPortalResource[]> {
     let result: DevToolPortalsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class DevToolPortalsImpl implements DevToolPortals {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
+    options?: DevToolPortalsListOptionalParams,
   ): AsyncIterableIterator<DevToolPortalResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +133,11 @@ export class DevToolPortalsImpl implements DevToolPortals {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: DevToolPortalsListOptionalParams
+    options?: DevToolPortalsListOptionalParams,
   ): Promise<DevToolPortalsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsGetOptionalParams
+    options?: DevToolPortalsGetOptionalParams,
   ): Promise<DevToolPortalsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, devToolPortalName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -175,7 +175,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
+    options?: DevToolPortalsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevToolPortalsCreateOrUpdateResponse>,
@@ -184,21 +184,20 @@ export class DevToolPortalsImpl implements DevToolPortals {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevToolPortalsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -207,8 +206,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -216,8 +215,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -228,16 +227,16 @@ export class DevToolPortalsImpl implements DevToolPortals {
         serviceName,
         devToolPortalName,
         devToolPortalResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DevToolPortalsCreateOrUpdateResponse,
       OperationState<DevToolPortalsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -257,14 +256,14 @@ export class DevToolPortalsImpl implements DevToolPortals {
     serviceName: string,
     devToolPortalName: string,
     devToolPortalResource: DevToolPortalResource,
-    options?: DevToolPortalsCreateOrUpdateOptionalParams
+    options?: DevToolPortalsCreateOrUpdateOptionalParams,
   ): Promise<DevToolPortalsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       devToolPortalName,
       devToolPortalResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -281,7 +280,7 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    options?: DevToolPortalsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DevToolPortalsDeleteResponse>,
@@ -290,21 +289,20 @@ export class DevToolPortalsImpl implements DevToolPortals {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DevToolPortalsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -313,8 +311,8 @@ export class DevToolPortalsImpl implements DevToolPortals {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -322,22 +320,22 @@ export class DevToolPortalsImpl implements DevToolPortals {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, devToolPortalName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       DevToolPortalsDeleteResponse,
       OperationState<DevToolPortalsDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -355,13 +353,13 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     devToolPortalName: string,
-    options?: DevToolPortalsDeleteOptionalParams
+    options?: DevToolPortalsDeleteOptionalParams,
   ): Promise<DevToolPortalsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       devToolPortalName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -378,11 +376,11 @@ export class DevToolPortalsImpl implements DevToolPortals {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: DevToolPortalsListNextOptionalParams
+    options?: DevToolPortalsListNextOptionalParams,
   ): Promise<DevToolPortalsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -390,38 +388,15 @@ export class DevToolPortalsImpl implements DevToolPortals {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/devToolPortals",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/devToolPortals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection
+      bodyMapper: Mappers.DevToolPortalResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -429,31 +404,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DevToolPortalResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.devToolPortalName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.DevToolPortalResource,
     },
     201: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.DevToolPortalResource,
     },
     202: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.DevToolPortalResource,
     },
     204: {
-      bodyMapper: Mappers.DevToolPortalResource
+      bodyMapper: Mappers.DevToolPortalResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.devToolPortalResource,
   queryParameters: [Parameters.apiVersion],
@@ -462,32 +457,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName
+    Parameters.devToolPortalName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/DevToolPortals/{devToolPortalName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.DevToolPortalsDeleteHeaders
+      headersMapper: Mappers.DevToolPortalsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -495,29 +489,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.devToolPortalName
+    Parameters.devToolPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevToolPortalResourceCollection
+      bodyMapper: Mappers.DevToolPortalResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

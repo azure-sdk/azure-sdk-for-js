@@ -8,6 +8,7 @@
 
 export * from "./services.js";
 export * from "./apms.js";
+export * from "./eurekaServers.js";
 export * from "./configServers.js";
 export * from "./configurationServices.js";
 export * from "./serviceRegistries.js";
@@ -36,3 +37,7 @@ export * from "./apiPortalCustomDomains.js";
 export * from "./applicationAccelerators.js";
 export * from "./customizedAccelerators.js";
 export * from "./predefinedAccelerators.js";
+export * from "./jobs.js";
+export * from "./job.js";
+export * from "./jobExecutionOperations.js";
+export * from "./jobExecutions.js";

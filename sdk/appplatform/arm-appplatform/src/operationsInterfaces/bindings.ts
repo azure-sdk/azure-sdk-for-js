@@ -17,7 +17,7 @@ import {
   BindingsCreateOrUpdateResponse,
   BindingsDeleteOptionalParams,
   BindingsUpdateOptionalParams,
-  BindingsUpdateResponse
+  BindingsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Bindings {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: BindingsListOptionalParams
+    options?: BindingsListOptionalParams,
   ): PagedAsyncIterableIterator<BindingResource>;
   /**
    * Get a Binding and its properties.
@@ -51,7 +51,7 @@ export interface Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsGetOptionalParams
+    options?: BindingsGetOptionalParams,
   ): Promise<BindingsGetResponse>;
   /**
    * Create a new Binding or update an exiting Binding.
@@ -69,7 +69,7 @@ export interface Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsCreateOrUpdateOptionalParams
+    options?: BindingsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BindingsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsCreateOrUpdateOptionalParams
+    options?: BindingsCreateOrUpdateOptionalParams,
   ): Promise<BindingsCreateOrUpdateResponse>;
   /**
    * Operation to delete a Binding.
@@ -108,7 +108,7 @@ export interface Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsDeleteOptionalParams
+    options?: BindingsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a Binding.
@@ -124,7 +124,7 @@ export interface Bindings {
     serviceName: string,
     appName: string,
     bindingName: string,
-    options?: BindingsDeleteOptionalParams
+    options?: BindingsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting Binding.
@@ -142,7 +142,7 @@ export interface Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsUpdateOptionalParams
+    options?: BindingsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BindingsUpdateResponse>,
@@ -165,6 +165,6 @@ export interface Bindings {
     appName: string,
     bindingName: string,
     bindingResource: BindingResource,
-    options?: BindingsUpdateOptionalParams
+    options?: BindingsUpdateOptionalParams,
   ): Promise<BindingsUpdateResponse>;
 }
