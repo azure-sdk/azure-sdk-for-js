@@ -636,6 +636,13 @@ export const FleetMemberUpdate: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FleetMemberUpdate",
     modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
       group: {
         constraints: {
           Pattern: new RegExp("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"),
@@ -1296,6 +1303,13 @@ export const FleetMember: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
       clusterResourceId: {
