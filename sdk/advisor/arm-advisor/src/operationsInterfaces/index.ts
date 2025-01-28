@@ -11,3 +11,4 @@ export * from "./configurations.js";
 export * from "./recommendations.js";
 export * from "./operations.js";
 export * from "./suppressions.js";
+export * from "./advisorScores.js";
