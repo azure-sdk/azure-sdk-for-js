@@ -11,7 +11,7 @@ import {
   RoleEligibilityScheduleInstance,
   RoleEligibilityScheduleInstancesListForScopeOptionalParams,
   RoleEligibilityScheduleInstancesGetOptionalParams,
-  RoleEligibilityScheduleInstancesGetResponse
+  RoleEligibilityScheduleInstancesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface RoleEligibilityScheduleInstances {
    */
   listForScope(
     scope: string,
-    options?: RoleEligibilityScheduleInstancesListForScopeOptionalParams
+    options?: RoleEligibilityScheduleInstancesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleEligibilityScheduleInstance>;
   /**
    * Gets the specified role eligibility schedule instance.
@@ -36,6 +36,6 @@ export interface RoleEligibilityScheduleInstances {
   get(
     scope: string,
     roleEligibilityScheduleInstanceName: string,
-    options?: RoleEligibilityScheduleInstancesGetOptionalParams
+    options?: RoleEligibilityScheduleInstancesGetOptionalParams,
   ): Promise<RoleEligibilityScheduleInstancesGetResponse>;
 }

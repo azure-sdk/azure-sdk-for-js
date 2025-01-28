@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
 import {
   AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
-  AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
+  AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse,
 } from "../models/index.js";
 
 /** Class containing AccessReviewHistoryDefinitionInstance operations. */
 export class AccessReviewHistoryDefinitionInstanceImpl
-  implements AccessReviewHistoryDefinitionInstance {
+  implements AccessReviewHistoryDefinitionInstance
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -39,11 +40,11 @@ export class AccessReviewHistoryDefinitionInstanceImpl
   generateDownloadUri(
     historyDefinitionId: string,
     instanceId: string,
-    options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
+    options?: AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
   ): Promise<AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse> {
     return this.client.sendOperationRequest(
       { historyDefinitionId, instanceId, options },
-      generateDownloadUriOperationSpec
+      generateDownloadUriOperationSpec,
     );
   }
 }
@@ -51,24 +52,23 @@ export class AccessReviewHistoryDefinitionInstanceImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const generateDownloadUriOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}/instances/{instanceId}/generateDownloadUri",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}/instances/{instanceId}/generateDownloadUri",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryInstance
+      bodyMapper: Mappers.AccessReviewHistoryInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.historyDefinitionId,
-    Parameters.instanceId
+    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -20,13 +20,14 @@ import {
   ScopeAccessReviewHistoryDefinitionsListResponse,
   ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
   ScopeAccessReviewHistoryDefinitionsGetByIdResponse,
-  ScopeAccessReviewHistoryDefinitionsListNextResponse
+  ScopeAccessReviewHistoryDefinitionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScopeAccessReviewHistoryDefinitions operations. */
 export class ScopeAccessReviewHistoryDefinitionsImpl
-  implements ScopeAccessReviewHistoryDefinitions {
+  implements ScopeAccessReviewHistoryDefinitions
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -45,7 +46,7 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
    */
   public list(
     scope: string,
-    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewHistoryDefinition> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -60,14 +61,14 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewHistoryDefinition[]> {
     let result: ScopeAccessReviewHistoryDefinitionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +90,7 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
 
   private async *listPagingAll(
     scope: string,
-    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ): AsyncIterableIterator<AccessReviewHistoryDefinition> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
    */
   private _list(
     scope: string,
-    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -121,11 +122,11 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
   getById(
     scope: string,
     historyDefinitionId: string,
-    options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionsGetByIdResponse> {
     return this.client.sendOperationRequest(
       { scope, historyDefinitionId, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -138,11 +139,11 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: ScopeAccessReviewHistoryDefinitionsListNextOptionalParams
+    options?: ScopeAccessReviewHistoryDefinitionsListNextOptionalParams,
   ): Promise<ScopeAccessReviewHistoryDefinitionsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,55 +151,53 @@ export class ScopeAccessReviewHistoryDefinitionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryDefinitionListResult
+      bodyMapper: Mappers.AccessReviewHistoryDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryDefinition
+      bodyMapper: Mappers.AccessReviewHistoryDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.historyDefinitionId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryDefinitionListResult
+      bodyMapper: Mappers.AccessReviewHistoryDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

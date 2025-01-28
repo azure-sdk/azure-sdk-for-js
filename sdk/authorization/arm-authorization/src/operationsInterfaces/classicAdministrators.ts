@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ClassicAdministrator,
-  ClassicAdministratorsListOptionalParams
+  ClassicAdministratorsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface ClassicAdministrators {
    * @param options The options parameters.
    */
   list(
-    options?: ClassicAdministratorsListOptionalParams
+    options?: ClassicAdministratorsListOptionalParams,
   ): PagedAsyncIterableIterator<ClassicAdministrator>;
 }

@@ -16,12 +16,13 @@ import {
   ScopeAccessReviewDefaultSettingsGetResponse,
   AccessReviewScheduleSettings,
   ScopeAccessReviewDefaultSettingsPutOptionalParams,
-  ScopeAccessReviewDefaultSettingsPutResponse
+  ScopeAccessReviewDefaultSettingsPutResponse,
 } from "../models/index.js";
 
 /** Class containing ScopeAccessReviewDefaultSettings operations. */
 export class ScopeAccessReviewDefaultSettingsImpl
-  implements ScopeAccessReviewDefaultSettings {
+  implements ScopeAccessReviewDefaultSettings
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -39,11 +40,11 @@ export class ScopeAccessReviewDefaultSettingsImpl
    */
   get(
     scope: string,
-    options?: ScopeAccessReviewDefaultSettingsGetOptionalParams
+    options?: ScopeAccessReviewDefaultSettingsGetOptionalParams,
   ): Promise<ScopeAccessReviewDefaultSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -56,11 +57,11 @@ export class ScopeAccessReviewDefaultSettingsImpl
   put(
     scope: string,
     properties: AccessReviewScheduleSettings,
-    options?: ScopeAccessReviewDefaultSettingsPutOptionalParams
+    options?: ScopeAccessReviewDefaultSettingsPutOptionalParams,
   ): Promise<ScopeAccessReviewDefaultSettingsPutResponse> {
     return this.client.sendOperationRequest(
       { scope, properties, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 }
@@ -68,38 +69,36 @@ export class ScopeAccessReviewDefaultSettingsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDefaultSettings
+      bodyMapper: Mappers.AccessReviewDefaultSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewDefaultSettings
+      bodyMapper: Mappers.AccessReviewDefaultSettings,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties3,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.scope1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

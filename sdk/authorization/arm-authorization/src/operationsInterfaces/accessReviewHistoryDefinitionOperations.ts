@@ -10,7 +10,7 @@ import {
   AccessReviewHistoryDefinitionProperties,
   AccessReviewHistoryDefinitionCreateOptionalParams,
   AccessReviewHistoryDefinitionCreateResponse,
-  AccessReviewHistoryDefinitionDeleteByIdOptionalParams
+  AccessReviewHistoryDefinitionDeleteByIdOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a AccessReviewHistoryDefinitionOperations. */
@@ -24,7 +24,7 @@ export interface AccessReviewHistoryDefinitionOperations {
   create(
     historyDefinitionId: string,
     properties: AccessReviewHistoryDefinitionProperties,
-    options?: AccessReviewHistoryDefinitionCreateOptionalParams
+    options?: AccessReviewHistoryDefinitionCreateOptionalParams,
   ): Promise<AccessReviewHistoryDefinitionCreateResponse>;
   /**
    * Delete an access review history definition
@@ -33,6 +33,6 @@ export interface AccessReviewHistoryDefinitionOperations {
    */
   deleteById(
     historyDefinitionId: string,
-    options?: AccessReviewHistoryDefinitionDeleteByIdOptionalParams
+    options?: AccessReviewHistoryDefinitionDeleteByIdOptionalParams,
   ): Promise<void>;
 }
