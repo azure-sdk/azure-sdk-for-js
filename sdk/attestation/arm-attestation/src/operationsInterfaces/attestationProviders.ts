@@ -23,7 +23,7 @@ import {
   AttestationProvidersListDefaultOptionalParams,
   AttestationProvidersListDefaultResponse,
   AttestationProvidersGetDefaultByLocationOptionalParams,
-  AttestationProvidersGetDefaultByLocationResponse
+  AttestationProvidersGetDefaultByLocationResponse,
 } from "../models/index.js";
 
 /** Interface representing a AttestationProviders. */
@@ -37,10 +37,10 @@ export interface AttestationProviders {
   get(
     resourceGroupName: string,
     providerName: string,
-    options?: AttestationProvidersGetOptionalParams
+    options?: AttestationProvidersGetOptionalParams,
   ): Promise<AttestationProvidersGetResponse>;
   /**
-   * Creates a new Attestation Provider.
+   * Creates or updates an Attestation Provider.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param providerName Name of the attestation provider.
    * @param creationParams Client supplied parameters.
@@ -50,7 +50,7 @@ export interface AttestationProviders {
     resourceGroupName: string,
     providerName: string,
     creationParams: AttestationServiceCreationParams,
-    options?: AttestationProvidersCreateOptionalParams
+    options?: AttestationProvidersCreateOptionalParams,
   ): Promise<AttestationProvidersCreateResponse>;
   /**
    * Updates the Attestation Provider.
@@ -63,7 +63,7 @@ export interface AttestationProviders {
     resourceGroupName: string,
     providerName: string,
     updateParams: AttestationServicePatchParams,
-    options?: AttestationProvidersUpdateOptionalParams
+    options?: AttestationProvidersUpdateOptionalParams,
   ): Promise<AttestationProvidersUpdateResponse>;
   /**
    * Delete Attestation Service.
@@ -74,14 +74,14 @@ export interface AttestationProviders {
   delete(
     resourceGroupName: string,
     providerName: string,
-    options?: AttestationProvidersDeleteOptionalParams
+    options?: AttestationProvidersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a list of attestation providers in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: AttestationProvidersListOptionalParams
+    options?: AttestationProvidersListOptionalParams,
   ): Promise<AttestationProvidersListResponse>;
   /**
    * Returns attestation providers list in a resource group.
@@ -90,14 +90,14 @@ export interface AttestationProviders {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AttestationProvidersListByResourceGroupOptionalParams
+    options?: AttestationProvidersListByResourceGroupOptionalParams,
   ): Promise<AttestationProvidersListByResourceGroupResponse>;
   /**
    * Get the default provider
    * @param options The options parameters.
    */
   listDefault(
-    options?: AttestationProvidersListDefaultOptionalParams
+    options?: AttestationProvidersListDefaultOptionalParams,
   ): Promise<AttestationProvidersListDefaultResponse>;
   /**
    * Get the default provider by location.
@@ -106,6 +106,6 @@ export interface AttestationProviders {
    */
   getDefaultByLocation(
     location: string,
-    options?: AttestationProvidersGetDefaultByLocationOptionalParams
+    options?: AttestationProvidersGetDefaultByLocationOptionalParams,
   ): Promise<AttestationProvidersGetDefaultByLocationResponse>;
 }
