@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AccessReviewDecision,
-  AccessReviewInstanceDecisionsListOptionalParams
+  AccessReviewInstanceDecisionsListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface AccessReviewInstanceDecisions {
   list(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstanceDecisionsListOptionalParams
+    options?: AccessReviewInstanceDecisionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewDecision>;
 }
