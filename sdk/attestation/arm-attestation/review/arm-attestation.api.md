@@ -22,6 +22,8 @@ export class AttestationManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
+    privateLinkResources: PrivateLinkResources;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -36,8 +38,10 @@ export interface AttestationManagementClientOptionalParams extends coreClient.Se
 export interface AttestationProvider extends TrackedResource {
     attestUri?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    publicNetworkAccess?: PublicNetworkAccessType;
     status?: AttestationServiceStatus;
     readonly systemData?: SystemData;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
     trustModel?: string;
 }
 
@@ -124,13 +128,22 @@ export interface AttestationServiceCreationParams {
 // @public
 export interface AttestationServiceCreationSpecificParams {
     policySigningCertificates?: JsonWebKeySet;
+    publicNetworkAccess?: PublicNetworkAccessType;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 // @public
 export interface AttestationServicePatchParams {
+    properties?: AttestationServicePatchSpecificParams;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface AttestationServicePatchSpecificParams {
+    publicNetworkAccess?: PublicNetworkAccessType;
+    tpmAttestationAuthentication?: TpmAttestationAuthenticationType;
 }
 
 // @public
@@ -211,9 +224,32 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownPublicNetworkAccessType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownTpmAttestationAuthenticationType {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export interface LogSpecification {
+    displayName?: string;
+    name?: string;
+}
+
+// @public
 export interface OperationList {
     readonly systemData?: SystemData;
     value?: OperationsDefinition[];
+}
+
+// @public
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -225,6 +261,7 @@ export interface Operations {
 export interface OperationsDefinition {
     display?: OperationsDisplayDefinition;
     name?: string;
+    properties?: OperationProperties;
 }
 
 // @public
@@ -299,6 +336,30 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    listByProvider(resourceGroupName: string, providerName: string, options?: PrivateLinkResourcesListByProviderOptionalParams): Promise<PrivateLinkResourcesListByProviderResponse>;
+}
+
+// @public
+export interface PrivateLinkResourcesListByProviderOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByProviderResponse = PrivateLinkResourceListResult;
+
+// @public
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
@@ -306,10 +367,18 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export type PublicNetworkAccessType = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
+}
+
+// @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
 }
 
 // @public
@@ -321,6 +390,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TpmAttestationAuthenticationType = string;
 
 // @public
 export interface TrackedResource extends Resource {
