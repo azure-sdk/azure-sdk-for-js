@@ -1,15 +1,28 @@
 # Release History
-
-## 2.1.1 (Unreleased)
-
+    
+## 2.2.0 (2025-01-28)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation BackupInstances.beginValidateForModifyBackup
+  - Added operation BackupInstances.beginValidateForModifyBackupAndWait
+  - Added Interface BackupInstancesValidateForModifyBackupHeaders
+  - Added Interface BackupInstancesValidateForModifyBackupOptionalParams
+  - Added Interface ValidateForModifyBackupRequest
+  - Added Type Alias AKSVolumeTypes
+  - Added Type Alias BackupInstancesValidateForModifyBackupResponse
+  - Interface AzureBackupJobResourceList has a new optional parameter nextLink
+  - Interface AzureBackupRecoveryPointResourceList has a new optional parameter nextLink
+  - Interface BackupInstanceResourceList has a new optional parameter nextLink
+  - Interface BackupVaultResourceList has a new optional parameter nextLink
+  - Interface BaseBackupPolicyResourceList has a new optional parameter nextLink
+  - Interface DeletedBackupInstanceResourceList has a new optional parameter nextLink
+  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter includedVolumeTypes
+  - Interface ResourceGuardProxyBaseResourceList has a new optional parameter nextLink
+  - Interface ResourceGuardResourceList has a new optional parameter nextLink
+  - Added Enum KnownAKSVolumeTypes
+    
+    
 ## 2.1.0 (2024-07-08)
     
 ### Features Added
