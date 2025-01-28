@@ -14,7 +14,7 @@ import {
   PredefinedAcceleratorsGetOptionalParams,
   PredefinedAcceleratorsGetResponse,
   PredefinedAcceleratorsDisableOptionalParams,
-  PredefinedAcceleratorsEnableOptionalParams
+  PredefinedAcceleratorsEnableOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface PredefinedAccelerators {
     resourceGroupName: string,
     serviceName: string,
     applicationAcceleratorName: string,
-    options?: PredefinedAcceleratorsListOptionalParams
+    options?: PredefinedAcceleratorsListOptionalParams,
   ): PagedAsyncIterableIterator<PredefinedAcceleratorResource>;
   /**
    * Get the predefined accelerator.
@@ -48,7 +48,7 @@ export interface PredefinedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
-    options?: PredefinedAcceleratorsGetOptionalParams
+    options?: PredefinedAcceleratorsGetOptionalParams,
   ): Promise<PredefinedAcceleratorsGetResponse>;
   /**
    * Disable predefined accelerator.
@@ -64,7 +64,7 @@ export interface PredefinedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
-    options?: PredefinedAcceleratorsDisableOptionalParams
+    options?: PredefinedAcceleratorsDisableOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable predefined accelerator.
@@ -80,7 +80,7 @@ export interface PredefinedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
-    options?: PredefinedAcceleratorsDisableOptionalParams
+    options?: PredefinedAcceleratorsDisableOptionalParams,
   ): Promise<void>;
   /**
    * Enable predefined accelerator.
@@ -96,7 +96,7 @@ export interface PredefinedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
-    options?: PredefinedAcceleratorsEnableOptionalParams
+    options?: PredefinedAcceleratorsEnableOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Enable predefined accelerator.
@@ -112,6 +112,6 @@ export interface PredefinedAccelerators {
     serviceName: string,
     applicationAcceleratorName: string,
     predefinedAcceleratorName: string,
-    options?: PredefinedAcceleratorsEnableOptionalParams
+    options?: PredefinedAcceleratorsEnableOptionalParams,
   ): Promise<void>;
 }

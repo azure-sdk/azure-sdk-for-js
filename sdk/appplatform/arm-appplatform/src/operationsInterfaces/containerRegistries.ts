@@ -19,7 +19,7 @@ import {
   ContainerRegistriesDeleteResponse,
   ContainerRegistryProperties,
   ContainerRegistriesValidateOptionalParams,
-  ContainerRegistriesValidateResponse
+  ContainerRegistriesValidateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface ContainerRegistries {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ContainerRegistriesListOptionalParams
+    options?: ContainerRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ContainerRegistryResource>;
   /**
    * Get the container registries resource.
@@ -49,7 +49,7 @@ export interface ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesGetOptionalParams
+    options?: ContainerRegistriesGetOptionalParams,
   ): Promise<ContainerRegistriesGetResponse>;
   /**
    * Create or update container registry resource.
@@ -65,7 +65,7 @@ export interface ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesCreateOrUpdateResponse>,
@@ -86,7 +86,7 @@ export interface ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryResource: ContainerRegistryResource,
-    options?: ContainerRegistriesCreateOrUpdateOptionalParams
+    options?: ContainerRegistriesCreateOrUpdateOptionalParams,
   ): Promise<ContainerRegistriesCreateOrUpdateResponse>;
   /**
    * Delete a container registry resource.
@@ -100,7 +100,7 @@ export interface ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    options?: ContainerRegistriesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesDeleteResponse>,
@@ -119,7 +119,7 @@ export interface ContainerRegistries {
     resourceGroupName: string,
     serviceName: string,
     containerRegistryName: string,
-    options?: ContainerRegistriesDeleteOptionalParams
+    options?: ContainerRegistriesDeleteOptionalParams,
   ): Promise<ContainerRegistriesDeleteResponse>;
   /**
    * Check if the container registry properties are valid.
@@ -135,7 +135,7 @@ export interface ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
+    options?: ContainerRegistriesValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerRegistriesValidateResponse>,
@@ -156,6 +156,6 @@ export interface ContainerRegistries {
     serviceName: string,
     containerRegistryName: string,
     containerRegistryProperties: ContainerRegistryProperties,
-    options?: ContainerRegistriesValidateOptionalParams
+    options?: ContainerRegistriesValidateOptionalParams,
   ): Promise<ContainerRegistriesValidateResponse>;
 }
