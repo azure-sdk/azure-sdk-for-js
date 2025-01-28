@@ -11,7 +11,7 @@ import {
   Report,
   HcrpReportsListByConfigurationProfileAssignmentsOptionalParams,
   HcrpReportsGetOptionalParams,
-  HcrpReportsGetResponse
+  HcrpReportsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface HcrpReports {
     resourceGroupName: string,
     machineName: string,
     configurationProfileAssignmentName: string,
-    options?: HcrpReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: HcrpReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<Report>;
   /**
    * Get information about a report associated with a configuration profile assignment run
@@ -43,6 +43,6 @@ export interface HcrpReports {
     machineName: string,
     configurationProfileAssignmentName: string,
     reportName: string,
-    options?: HcrpReportsGetOptionalParams
+    options?: HcrpReportsGetOptionalParams,
   ): Promise<HcrpReportsGetResponse>;
 }

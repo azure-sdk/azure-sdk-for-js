@@ -14,7 +14,7 @@ import {
   ConfigurationProfilesVersionsCreateOrUpdateResponse,
   ConfigurationProfilesVersionsGetOptionalParams,
   ConfigurationProfilesVersionsGetResponse,
-  ConfigurationProfilesVersionsDeleteOptionalParams
+  ConfigurationProfilesVersionsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ConfigurationProfilesVersions {
   listChildResources(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams
+    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile>;
   /**
    * Creates a configuration profile version
@@ -44,7 +44,7 @@ export interface ConfigurationProfilesVersions {
     versionName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfile,
-    options?: ConfigurationProfilesVersionsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfilesVersionsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfilesVersionsCreateOrUpdateResponse>;
   /**
    * Get information about a configuration profile version
@@ -57,7 +57,7 @@ export interface ConfigurationProfilesVersions {
     configurationProfileName: string,
     versionName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsGetOptionalParams
+    options?: ConfigurationProfilesVersionsGetOptionalParams,
   ): Promise<ConfigurationProfilesVersionsGetResponse>;
   /**
    * Delete a configuration profile version
@@ -70,6 +70,6 @@ export interface ConfigurationProfilesVersions {
     resourceGroupName: string,
     configurationProfileName: string,
     versionName: string,
-    options?: ConfigurationProfilesVersionsDeleteOptionalParams
+    options?: ConfigurationProfilesVersionsDeleteOptionalParams,
   ): Promise<void>;
 }

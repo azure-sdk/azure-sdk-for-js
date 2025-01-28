@@ -11,7 +11,7 @@ import {
   ServicePrincipal,
   ServicePrincipalsListBySubscriptionOptionalParams,
   ServicePrincipalsGetOptionalParams,
-  ServicePrincipalsGetResponse
+  ServicePrincipalsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,13 +22,13 @@ export interface ServicePrincipals {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ServicePrincipalsListBySubscriptionOptionalParams
+    options?: ServicePrincipalsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ServicePrincipal>;
   /**
    * Get the Automanage AAD first party Application Service Principal details for the subscription id.
    * @param options The options parameters.
    */
   get(
-    options?: ServicePrincipalsGetOptionalParams
+    options?: ServicePrincipalsGetOptionalParams,
   ): Promise<ServicePrincipalsGetResponse>;
 }

@@ -17,7 +17,7 @@ import {
   ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ReportsListByConfigurationProfileAssignmentsResponse,
   ReportsGetOptionalParams,
-  ReportsGetResponse
+  ReportsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,13 +44,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<Report> {
     const iter = this.listByConfigurationProfileAssignmentsPagingAll(
       resourceGroupName,
       configurationProfileAssignmentName,
       vmName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +68,9 @@ export class ReportsImpl implements Reports {
           configurationProfileAssignmentName,
           vmName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,14 +79,14 @@ export class ReportsImpl implements Reports {
     configurationProfileAssignmentName: string,
     vmName: string,
     options?: ReportsListByConfigurationProfileAssignmentsOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Report[]> {
     let result: ReportsListByConfigurationProfileAssignmentsResponse;
     result = await this._listByConfigurationProfileAssignments(
       resourceGroupName,
       configurationProfileAssignmentName,
       vmName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -95,13 +95,13 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): AsyncIterableIterator<Report> {
     for await (const page of this.listByConfigurationProfileAssignmentsPagingPage(
       resourceGroupName,
       configurationProfileAssignmentName,
       vmName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +120,7 @@ export class ReportsImpl implements Reports {
     configurationProfileAssignmentName: string,
     reportName: string,
     vmName: string,
-    options?: ReportsGetOptionalParams
+    options?: ReportsGetOptionalParams,
   ): Promise<ReportsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -128,9 +128,9 @@ export class ReportsImpl implements Reports {
         configurationProfileAssignmentName,
         reportName,
         vmName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -145,16 +145,16 @@ export class ReportsImpl implements Reports {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): Promise<ReportsListByConfigurationProfileAssignmentsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         configurationProfileAssignmentName,
         vmName,
-        options
+        options,
       },
-      listByConfigurationProfileAssignmentsOperationSpec
+      listByConfigurationProfileAssignmentsOperationSpec,
     );
   }
 }
@@ -162,16 +162,15 @@ export class ReportsImpl implements Reports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports/{reportName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports/{reportName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Report
+      bodyMapper: Mappers.Report,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -180,31 +179,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
     Parameters.vmName,
-    Parameters.reportName
+    Parameters.reportName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByConfigurationProfileAssignmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReportList
+const listByConfigurationProfileAssignmentsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}/reports",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ReportList,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.configurationProfileAssignmentName,
-    Parameters.vmName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.configurationProfileAssignmentName,
+      Parameters.vmName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -26,7 +26,7 @@ import {
   ConfigurationProfileHcrpAssignmentsImpl,
   HcrpReportsImpl,
   ConfigurationProfileHCIAssignmentsImpl,
-  HCIReportsImpl
+  HCIReportsImpl,
 } from "./operations/index.js";
 import {
   BestPractices,
@@ -40,14 +40,14 @@ import {
   ConfigurationProfileHcrpAssignments,
   HcrpReports,
   ConfigurationProfileHCIAssignments,
-  HCIReports
+  HCIReports,
 } from "./operationsInterfaces/index.js";
 import { AutomanageClientOptionalParams } from "./models/index.js";
 
 export class AutomanageClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the AutomanageClient class.
@@ -58,13 +58,27 @@ export class AutomanageClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AutomanageClientOptionalParams
+    options?: AutomanageClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AutomanageClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AutomanageClientOptionalParams | string,
+    options?: AutomanageClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -73,10 +87,10 @@ export class AutomanageClient extends coreClient.ServiceClient {
     }
     const defaults: AutomanageClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-automanage/1.0.3`;
+    const packageDetails = `azsdk-js-arm-automanage/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -86,20 +100,21 @@ export class AutomanageClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -109,7 +124,7 @@ export class AutomanageClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -119,9 +134,9 @@ export class AutomanageClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -134,21 +149,18 @@ export class AutomanageClient extends coreClient.ServiceClient {
     this.bestPracticesVersions = new BestPracticesVersionsImpl(this);
     this.configurationProfiles = new ConfigurationProfilesImpl(this);
     this.configurationProfilesVersions = new ConfigurationProfilesVersionsImpl(
-      this
+      this,
     );
-    this.configurationProfileAssignments = new ConfigurationProfileAssignmentsImpl(
-      this
-    );
+    this.configurationProfileAssignments =
+      new ConfigurationProfileAssignmentsImpl(this);
     this.operations = new OperationsImpl(this);
     this.reports = new ReportsImpl(this);
     this.servicePrincipals = new ServicePrincipalsImpl(this);
-    this.configurationProfileHcrpAssignments = new ConfigurationProfileHcrpAssignmentsImpl(
-      this
-    );
+    this.configurationProfileHcrpAssignments =
+      new ConfigurationProfileHcrpAssignmentsImpl(this);
     this.hcrpReports = new HcrpReportsImpl(this);
-    this.configurationProfileHCIAssignments = new ConfigurationProfileHCIAssignmentsImpl(
-      this
-    );
+    this.configurationProfileHCIAssignments =
+      new ConfigurationProfileHCIAssignmentsImpl(this);
     this.hCIReports = new HCIReportsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -162,7 +174,7 @@ export class AutomanageClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -176,7 +188,7 @@ export class AutomanageClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

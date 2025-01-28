@@ -11,11 +11,26 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 // @public
 export type ActionType = string;
 
+// @public
+export interface AssignmentReportProperties {
+    readonly configurationProfile?: string;
+    readonly duration?: string;
+    endTime?: string;
+    readonly error?: ErrorDetail;
+    readonly lastModifiedTime?: string;
+    readonly reportFormatVersion?: string;
+    readonly resources?: ReportResource[];
+    startTime?: string;
+    readonly status?: string;
+    readonly type?: string;
+}
+
 // @public (undocumented)
 export class AutomanageClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AutomanageClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: AutomanageClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -43,7 +58,7 @@ export class AutomanageClient extends coreClient.ServiceClient {
     // (undocumented)
     servicePrincipals: ServicePrincipals;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -55,9 +70,9 @@ export interface AutomanageClientOptionalParams extends coreClient.ServiceClient
 
 // @public
 export interface BestPractice {
-    configuration?: Record<string, unknown>;
     readonly id?: string;
     readonly name?: string;
+    properties?: ConfigurationProfileProperties;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
@@ -474,17 +489,8 @@ export interface ProxyResource extends Resource {
 
 // @public
 interface Report_2 extends ProxyResource {
-    readonly configurationProfile?: string;
-    readonly duration?: string;
-    endTime?: string;
-    readonly error?: ErrorDetail;
-    readonly lastModifiedTime?: string;
-    readonly reportFormatVersion?: string;
-    readonly resources?: ReportResource[];
-    startTime?: string;
-    readonly status?: string;
+    properties?: AssignmentReportProperties;
     readonly systemData?: SystemData;
-    readonly typePropertiesType?: string;
 }
 export { Report_2 as Report }
 
@@ -532,14 +538,19 @@ export interface Resource {
 
 // @public
 export interface ServicePrincipal extends ProxyResource {
-    readonly authorizationSet?: boolean;
-    readonly servicePrincipalId?: string;
+    properties?: ServicePrincipalProperties;
     readonly systemData?: SystemData;
 }
 
 // @public
 export interface ServicePrincipalListResult {
     value?: ServicePrincipal[];
+}
+
+// @public
+export interface ServicePrincipalProperties {
+    readonly authorizationSet?: boolean;
+    readonly servicePrincipalId?: string;
 }
 
 // @public
