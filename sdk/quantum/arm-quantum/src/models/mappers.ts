@@ -8,210 +8,89 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const WorkspaceResourceProperties: coreClient.CompositeMapper = {
+export const OperationsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkspaceResourceProperties",
+    className: "OperationsList",
     modelProperties: {
-      providers: {
-        serializedName: "providers",
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Provider",
+              className: "Operation",
             },
           },
         },
       },
-      usable: {
-        serializedName: "usable",
-        readOnly: true,
+    },
+  },
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         type: {
           name: "String",
         },
       },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      storageAccount: {
-        serializedName: "storageAccount",
-        type: {
-          name: "String",
-        },
-      },
-      endpointUri: {
-        serializedName: "endpointUri",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      apiKeyEnabled: {
-        serializedName: "apiKeyEnabled",
+      isDataAction: {
+        serializedName: "isDataAction",
         type: {
           name: "Boolean",
         },
       },
-    },
-  },
-};
-
-export const Provider: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Provider",
-    modelProperties: {
-      providerId: {
-        serializedName: "providerId",
-        type: {
-          name: "String",
-        },
-      },
-      providerSku: {
-        serializedName: "providerSku",
-        type: {
-          name: "String",
-        },
-      },
-      instanceUri: {
-        serializedName: "instanceUri",
-        type: {
-          name: "String",
-        },
-      },
-      applicationName: {
-        serializedName: "applicationName",
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String",
-        },
-      },
-      resourceUsageId: {
-        serializedName: "resourceUsageId",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const QuantumWorkspaceIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuantumWorkspaceIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      systemData: {
-        serializedName: "systemData",
+      display: {
+        serializedName: "display",
         type: {
           name: "Composite",
-          className: "SystemData",
+          className: "OperationDisplay",
         },
       },
     },
   },
 };
 
-export const SystemData: coreClient.CompositeMapper = {
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemData",
+    className: "OperationDisplay",
     modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
+      provider: {
+        serializedName: "provider",
         type: {
           name: "String",
         },
       },
-      createdByType: {
-        serializedName: "createdByType",
+      resource: {
+        serializedName: "resource",
         type: {
           name: "String",
         },
       },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
+      operation: {
+        serializedName: "operation",
         type: {
           name: "String",
         },
       },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
+      description: {
+        serializedName: "description",
         type: {
           name: "String",
-        },
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime",
         },
       },
     },
@@ -314,41 +193,48 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const TagsObject: coreClient.CompositeMapper = {
+export const CheckNameAvailabilityParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TagsObject",
+    className: "CheckNameAvailabilityParameters",
     modelProperties: {
-      tags: {
-        serializedName: "tags",
+      name: {
+        serializedName: "name",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
+          name: "String",
+        },
+      },
+      type: {
+        defaultValue: "Microsoft.Quantum/Workspaces",
+        serializedName: "type",
+        type: {
+          name: "String",
         },
       },
     },
   },
 };
 
-export const WorkspaceListResult: coreClient.CompositeMapper = {
+export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkspaceListResult",
+    className: "CheckNameAvailabilityResult",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      nameAvailable: {
+        serializedName: "nameAvailable",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QuantumWorkspace",
-            },
-          },
+          name: "Boolean",
         },
       },
-      nextLink: {
-        serializedName: "nextLink",
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
         type: {
           name: "String",
         },
@@ -787,108 +673,152 @@ export const PricingDimension: coreClient.CompositeMapper = {
   },
 };
 
-export const OperationsList: coreClient.CompositeMapper = {
+export const WorkspaceListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationsList",
+    className: "WorkspaceListResult",
     modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QuantumWorkspace",
+            },
+          },
+        },
+      },
       nextLink: {
         serializedName: "nextLink",
         type: {
           name: "String",
         },
       },
-      value: {
-        serializedName: "value",
-        required: true,
+    },
+  },
+};
+
+export const WorkspaceResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkspaceResourceProperties",
+    modelProperties: {
+      providers: {
+        serializedName: "providers",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Operation",
+              className: "Provider",
             },
           },
         },
       },
-    },
-  },
-};
-
-export const Operation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Operation",
-    modelProperties: {
-      name: {
-        serializedName: "name",
+      usable: {
+        serializedName: "usable",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
-      isDataAction: {
-        serializedName: "isDataAction",
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAccount: {
+        serializedName: "storageAccount",
+        type: {
+          name: "String",
+        },
+      },
+      endpointUri: {
+        serializedName: "endpointUri",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      apiKeyEnabled: {
+        serializedName: "apiKeyEnabled",
         type: {
           name: "Boolean",
         },
       },
-      display: {
-        serializedName: "display",
+    },
+  },
+};
+
+export const Provider: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Provider",
+    modelProperties: {
+      providerId: {
+        serializedName: "providerId",
         type: {
-          name: "Composite",
-          className: "OperationDisplay",
+          name: "String",
+        },
+      },
+      providerSku: {
+        serializedName: "providerSku",
+        type: {
+          name: "String",
+        },
+      },
+      instanceUri: {
+        serializedName: "instanceUri",
+        type: {
+          name: "String",
+        },
+      },
+      applicationName: {
+        serializedName: "applicationName",
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String",
+        },
+      },
+      resourceUsageId: {
+        serializedName: "resourceUsageId",
+        type: {
+          name: "String",
         },
       },
     },
   },
 };
 
-export const OperationDisplay: coreClient.CompositeMapper = {
+export const QuantumWorkspaceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationDisplay",
+    className: "QuantumWorkspaceIdentity",
     modelProperties: {
-      provider: {
-        serializedName: "provider",
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String",
-        },
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String",
-        },
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const CheckNameAvailabilityParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CheckNameAvailabilityParameters",
-    modelProperties: {
-      name: {
-        serializedName: "name",
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
       type: {
-        defaultValue: "Microsoft.Quantum/Workspaces",
         serializedName: "type",
         type: {
           name: "String",
@@ -898,28 +828,98 @@ export const CheckNameAvailabilityParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CheckNameAvailabilityResult",
+    className: "Resource",
     modelProperties: {
-      nameAvailable: {
-        serializedName: "nameAvailable",
-        type: {
-          name: "Boolean",
-        },
-      },
-      reason: {
-        serializedName: "reason",
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
+      id: {
+        serializedName: "id",
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const TagsObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagsObject",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
