@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { CustomLocationsImpl, ResourceSyncRulesImpl } from "./operations/index.js";
@@ -21,7 +21,7 @@ import { CustomLocationsManagementClientOptionalParams } from "./models/index.js
 export class CustomLocationsManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the CustomLocationsManagementClient class.
@@ -32,13 +32,29 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: CustomLocationsManagementClientOptionalParams
+    options?: CustomLocationsManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: CustomLocationsManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | CustomLocationsManagementClientOptionalParams
+      | string,
+    options?: CustomLocationsManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -47,7 +63,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
     }
     const defaults: CustomLocationsManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-extendedlocation/1.0.0-beta.4`;
@@ -60,20 +76,21 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -83,7 +100,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -93,9 +110,9 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -103,7 +120,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-31-preview";
+    this.apiVersion = options.apiVersion || "2024-09-15-preview";
     this.customLocations = new CustomLocationsImpl(this);
     this.resourceSyncRules = new ResourceSyncRulesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -118,7 +135,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -132,7 +149,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

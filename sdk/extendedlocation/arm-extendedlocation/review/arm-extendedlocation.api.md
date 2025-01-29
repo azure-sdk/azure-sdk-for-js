@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type CreatedByType = string;
@@ -70,9 +70,9 @@ export interface CustomLocationPropertiesAuthentication {
 
 // @public
 export interface CustomLocations {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CustomLocationsCreateOrUpdateResponse>, CustomLocationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CustomLocationsCreateOrUpdateResponse>, CustomLocationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: CustomLocation, options?: CustomLocationsCreateOrUpdateOptionalParams): Promise<CustomLocationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: CustomLocationsDeleteOptionalParams): Promise<void>;
     findTargetResourceGroup(resourceGroupName: string, resourceName: string, parameters: CustomLocationFindTargetResourceGroupProperties, options?: CustomLocationsFindTargetResourceGroupOptionalParams): Promise<CustomLocationsFindTargetResourceGroupResponse>;
     get(resourceGroupName: string, resourceName: string, options?: CustomLocationsGetOptionalParams): Promise<CustomLocationsGetResponse>;
@@ -173,6 +173,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CustomLocationsManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: CustomLocationsManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -180,7 +181,7 @@ export class CustomLocationsManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     resourceSyncRules: ResourceSyncRules;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
@@ -272,6 +273,7 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownHostType {
+    EdgeCluster = "EdgeCluster",
     Kubernetes = "Kubernetes"
 }
 
@@ -353,9 +355,9 @@ export interface ResourceSyncRulePropertiesSelector {
 
 // @public
 export interface ResourceSyncRules {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>, ResourceSyncRulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ResourceSyncRulesCreateOrUpdateResponse>, ResourceSyncRulesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, childResourceName: string, parameters: ResourceSyncRule, options?: ResourceSyncRulesCreateOrUpdateOptionalParams): Promise<ResourceSyncRulesCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ResourceSyncRulesUpdateResponse>, ResourceSyncRulesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ResourceSyncRulesUpdateResponse>, ResourceSyncRulesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams): Promise<ResourceSyncRulesUpdateResponse>;
     delete(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesGetOptionalParams): Promise<ResourceSyncRulesGetResponse>;

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CustomLocationsManagementClient } from "../customLocationsManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ResourceSyncRule,
   ResourceSyncRulesListByCustomLocationIDNextOptionalParams,
@@ -27,7 +31,7 @@ import {
   ResourceSyncRulesDeleteOptionalParams,
   ResourceSyncRulesUpdateOptionalParams,
   ResourceSyncRulesUpdateResponse,
-  ResourceSyncRulesListByCustomLocationIDNextResponse
+  ResourceSyncRulesListByCustomLocationIDNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
   public listByCustomLocationID(
     resourceGroupName: string,
     resourceName: string,
-    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSyncRule> {
     const iter = this.listByCustomLocationIDPagingAll(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSyncRule[]> {
     let result: ResourceSyncRulesListByCustomLocationIDResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +97,7 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
       result = await this._listByCustomLocationID(
         resourceGroupName,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +109,7 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +121,12 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
   private async *listByCustomLocationIDPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ): AsyncIterableIterator<ResourceSyncRule> {
     for await (const page of this.listByCustomLocationIDPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +142,11 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
   private _listByCustomLocationID(
     resourceGroupName: string,
     resourceName: string,
-    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ): Promise<ResourceSyncRulesListByCustomLocationIDResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listByCustomLocationIDOperationSpec
+      listByCustomLocationIDOperationSpec,
     );
   }
 
@@ -158,11 +162,11 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesGetOptionalParams
+    options?: ResourceSyncRulesGetOptionalParams,
   ): Promise<ResourceSyncRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, childResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,30 +184,29 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>,
       ResourceSyncRulesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ResourceSyncRulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +215,8 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,26 +224,29 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         childResourceName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ResourceSyncRulesCreateOrUpdateResponse,
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -260,14 +266,14 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<ResourceSyncRulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       childResourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -284,11 +290,11 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesDeleteOptionalParams
+    options?: ResourceSyncRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, childResourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -304,30 +310,29 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
+    options?: ResourceSyncRulesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesUpdateResponse>,
       ResourceSyncRulesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ResourceSyncRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -336,8 +341,8 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -345,20 +350,23 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, childResourceName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, childResourceName, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ResourceSyncRulesUpdateResponse,
+      OperationState<ResourceSyncRulesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -376,13 +384,13 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
+    options?: ResourceSyncRulesUpdateOptionalParams,
   ): Promise<ResourceSyncRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
       childResourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -398,11 +406,11 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: ResourceSyncRulesListByCustomLocationIDNextOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDNextOptionalParams,
   ): Promise<ResourceSyncRulesListByCustomLocationIDNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listByCustomLocationIDNextOperationSpec
+      listByCustomLocationIDNextOperationSpec,
     );
   }
 }
@@ -410,38 +418,15 @@ export class ResourceSyncRulesImpl implements ResourceSyncRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCustomLocationIDOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSyncRuleListResult
+      bodyMapper: Mappers.ResourceSyncRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -449,31 +434,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.childResourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceSyncRule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.childResourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     201: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     202: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     204: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -482,22 +487,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.childResourceName
+    Parameters.childResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -505,40 +509,39 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.childResourceName
+    Parameters.childResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     201: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     202: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     204: {
-      bodyMapper: Mappers.ResourceSyncRule
+      bodyMapper: Mappers.ResourceSyncRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       tags: ["options", "tags"],
       priority: ["options", "priority"],
       selector: ["options", "selector"],
-      targetResourceGroup: ["options", "targetResourceGroup"]
+      targetResourceGroup: ["options", "targetResourceGroup"],
     },
-    mapper: { ...Mappers.PatchableResourceSyncRule, required: true }
+    mapper: { ...Mappers.PatchableResourceSyncRule, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -546,30 +549,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.childResourceName
+    Parameters.childResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByCustomLocationIDNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSyncRuleListResult
+      bodyMapper: Mappers.ResourceSyncRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

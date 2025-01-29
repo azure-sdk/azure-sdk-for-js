@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CustomLocationsManagementClient } from "../customLocationsManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   CustomLocationOperation,
   CustomLocationsListOperationsNextOptionalParams,
@@ -44,7 +48,7 @@ import {
   CustomLocationsListOperationsNextResponse,
   CustomLocationsListBySubscriptionNextResponse,
   CustomLocationsListByResourceGroupNextResponse,
-  CustomLocationsListEnabledResourceTypesNextResponse
+  CustomLocationsListEnabledResourceTypesNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,7 +69,7 @@ export class CustomLocationsImpl implements CustomLocations {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: CustomLocationsListOperationsOptionalParams
+    options?: CustomLocationsListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocationOperation> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -80,13 +84,13 @@ export class CustomLocationsImpl implements CustomLocations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listOperationsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listOperationsPagingPage(
     options?: CustomLocationsListOperationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomLocationOperation[]> {
     let result: CustomLocationsListOperationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +111,7 @@ export class CustomLocationsImpl implements CustomLocations {
   }
 
   private async *listOperationsPagingAll(
-    options?: CustomLocationsListOperationsOptionalParams
+    options?: CustomLocationsListOperationsOptionalParams,
   ): AsyncIterableIterator<CustomLocationOperation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -120,7 +124,7 @@ export class CustomLocationsImpl implements CustomLocations {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: CustomLocationsListBySubscriptionOptionalParams
+    options?: CustomLocationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocation> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -135,13 +139,13 @@ export class CustomLocationsImpl implements CustomLocations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: CustomLocationsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomLocation[]> {
     let result: CustomLocationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -162,7 +166,7 @@ export class CustomLocationsImpl implements CustomLocations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: CustomLocationsListBySubscriptionOptionalParams
+    options?: CustomLocationsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<CustomLocation> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -177,7 +181,7 @@ export class CustomLocationsImpl implements CustomLocations {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomLocationsListByResourceGroupOptionalParams
+    options?: CustomLocationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocation> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -194,16 +198,16 @@ export class CustomLocationsImpl implements CustomLocations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: CustomLocationsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomLocation[]> {
     let result: CustomLocationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -218,7 +222,7 @@ export class CustomLocationsImpl implements CustomLocations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -229,11 +233,11 @@ export class CustomLocationsImpl implements CustomLocations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: CustomLocationsListByResourceGroupOptionalParams
+    options?: CustomLocationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CustomLocation> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -248,12 +252,12 @@ export class CustomLocationsImpl implements CustomLocations {
   public listEnabledResourceTypes(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsListEnabledResourceTypesOptionalParams
+    options?: CustomLocationsListEnabledResourceTypesOptionalParams,
   ): PagedAsyncIterableIterator<EnabledResourceType> {
     const iter = this.listEnabledResourceTypesPagingAll(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -270,9 +274,9 @@ export class CustomLocationsImpl implements CustomLocations {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -280,7 +284,7 @@ export class CustomLocationsImpl implements CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     options?: CustomLocationsListEnabledResourceTypesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EnabledResourceType[]> {
     let result: CustomLocationsListEnabledResourceTypesResponse;
     let continuationToken = settings?.continuationToken;
@@ -288,7 +292,7 @@ export class CustomLocationsImpl implements CustomLocations {
       result = await this._listEnabledResourceTypes(
         resourceGroupName,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -300,7 +304,7 @@ export class CustomLocationsImpl implements CustomLocations {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -312,12 +316,12 @@ export class CustomLocationsImpl implements CustomLocations {
   private async *listEnabledResourceTypesPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsListEnabledResourceTypesOptionalParams
+    options?: CustomLocationsListEnabledResourceTypesOptionalParams,
   ): AsyncIterableIterator<EnabledResourceType> {
     for await (const page of this.listEnabledResourceTypesPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -328,11 +332,11 @@ export class CustomLocationsImpl implements CustomLocations {
    * @param options The options parameters.
    */
   private _listOperations(
-    options?: CustomLocationsListOperationsOptionalParams
+    options?: CustomLocationsListOperationsOptionalParams,
   ): Promise<CustomLocationsListOperationsResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listOperationsOperationSpec
+      listOperationsOperationSpec,
     );
   }
 
@@ -342,11 +346,11 @@ export class CustomLocationsImpl implements CustomLocations {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: CustomLocationsListBySubscriptionOptionalParams
+    options?: CustomLocationsListBySubscriptionOptionalParams,
   ): Promise<CustomLocationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -358,11 +362,11 @@ export class CustomLocationsImpl implements CustomLocations {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomLocationsListByResourceGroupOptionalParams
+    options?: CustomLocationsListByResourceGroupOptionalParams,
   ): Promise<CustomLocationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -375,11 +379,11 @@ export class CustomLocationsImpl implements CustomLocations {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsGetOptionalParams
+    options?: CustomLocationsGetOptionalParams,
   ): Promise<CustomLocationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -394,30 +398,29 @@ export class CustomLocationsImpl implements CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocation,
-    options?: CustomLocationsCreateOrUpdateOptionalParams
+    options?: CustomLocationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomLocationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomLocationsCreateOrUpdateResponse>,
       CustomLocationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<CustomLocationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +429,8 @@ export class CustomLocationsImpl implements CustomLocations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,20 +438,23 @@ export class CustomLocationsImpl implements CustomLocations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      CustomLocationsCreateOrUpdateResponse,
+      OperationState<CustomLocationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -465,13 +471,13 @@ export class CustomLocationsImpl implements CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocation,
-    options?: CustomLocationsCreateOrUpdateOptionalParams
+    options?: CustomLocationsCreateOrUpdateOptionalParams,
   ): Promise<CustomLocationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -485,25 +491,24 @@ export class CustomLocationsImpl implements CustomLocations {
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: CustomLocationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -512,8 +517,8 @@ export class CustomLocationsImpl implements CustomLocations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -521,20 +526,20 @@ export class CustomLocationsImpl implements CustomLocations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -549,12 +554,12 @@ export class CustomLocationsImpl implements CustomLocations {
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsDeleteOptionalParams
+    options?: CustomLocationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -569,11 +574,11 @@ export class CustomLocationsImpl implements CustomLocations {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsUpdateOptionalParams
+    options?: CustomLocationsUpdateOptionalParams,
   ): Promise<CustomLocationsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -586,11 +591,11 @@ export class CustomLocationsImpl implements CustomLocations {
   private _listEnabledResourceTypes(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsListEnabledResourceTypesOptionalParams
+    options?: CustomLocationsListEnabledResourceTypesOptionalParams,
   ): Promise<CustomLocationsListEnabledResourceTypesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listEnabledResourceTypesOperationSpec
+      listEnabledResourceTypesOperationSpec,
     );
   }
 
@@ -606,11 +611,11 @@ export class CustomLocationsImpl implements CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocationFindTargetResourceGroupProperties,
-    options?: CustomLocationsFindTargetResourceGroupOptionalParams
+    options?: CustomLocationsFindTargetResourceGroupOptionalParams,
   ): Promise<CustomLocationsFindTargetResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
-      findTargetResourceGroupOperationSpec
+      findTargetResourceGroupOperationSpec,
     );
   }
 
@@ -621,11 +626,11 @@ export class CustomLocationsImpl implements CustomLocations {
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: CustomLocationsListOperationsNextOptionalParams
+    options?: CustomLocationsListOperationsNextOptionalParams,
   ): Promise<CustomLocationsListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listOperationsNextOperationSpec
+      listOperationsNextOperationSpec,
     );
   }
 
@@ -636,11 +641,11 @@ export class CustomLocationsImpl implements CustomLocations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: CustomLocationsListBySubscriptionNextOptionalParams
+    options?: CustomLocationsListBySubscriptionNextOptionalParams,
   ): Promise<CustomLocationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -653,11 +658,11 @@ export class CustomLocationsImpl implements CustomLocations {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: CustomLocationsListByResourceGroupNextOptionalParams
+    options?: CustomLocationsListByResourceGroupNextOptionalParams,
   ): Promise<CustomLocationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -673,11 +678,11 @@ export class CustomLocationsImpl implements CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: CustomLocationsListEnabledResourceTypesNextOptionalParams
+    options?: CustomLocationsListEnabledResourceTypesNextOptionalParams,
   ): Promise<CustomLocationsListEnabledResourceTypesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listEnabledResourceTypesNextOperationSpec
+      listEnabledResourceTypesNextOperationSpec,
     );
   }
 }
@@ -689,97 +694,93 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationOperationsList
+      bodyMapper: Mappers.CustomLocationOperationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ExtendedLocation/customLocations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ExtendedLocation/customLocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationListResult
+      bodyMapper: Mappers.CustomLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationListResult
+      bodyMapper: Mappers.CustomLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomLocation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.CustomLocation,
     },
     201: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.CustomLocation,
     },
     202: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.CustomLocation,
     },
     204: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.CustomLocation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -787,15 +788,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -803,30 +803,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocation
+      bodyMapper: Mappers.CustomLocation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
@@ -838,55 +837,53 @@ const updateOperationSpec: coreClient.OperationSpec = {
       hostResourceId: ["options", "hostResourceId"],
       hostType: ["options", "hostType"],
       namespace: ["options", "namespace"],
-      provisioningState: ["options", "provisioningState"]
+      provisioningState: ["options", "provisioningState"],
     },
-    mapper: { ...Mappers.PatchableCustomLocations, required: true }
+    mapper: { ...Mappers.PatchableCustomLocations, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listEnabledResourceTypesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/enabledResourceTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/enabledResourceTypes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnabledResourceTypesListResult
+      bodyMapper: Mappers.EnabledResourceTypesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const findTargetResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/findTargetResourceGroup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/findTargetResourceGroup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationFindTargetResourceGroupResult
+      bodyMapper: Mappers.CustomLocationFindTargetResourceGroupResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -894,84 +891,84 @@ const findTargetResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationOperationsList
+      bodyMapper: Mappers.CustomLocationOperationsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationListResult
+      bodyMapper: Mappers.CustomLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomLocationListResult
+      bodyMapper: Mappers.CustomLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listEnabledResourceTypesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EnabledResourceTypesListResult
+      bodyMapper: Mappers.EnabledResourceTypesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
