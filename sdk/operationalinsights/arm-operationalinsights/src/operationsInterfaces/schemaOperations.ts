@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SchemaGetOptionalParams, SchemaGetResponse } from "../models";
+import { SchemaGetOptionalParams, SchemaGetResponse } from "../models/index.js";
 
 /** Interface representing a SchemaOperations. */
 export interface SchemaOperations {
@@ -19,6 +19,6 @@ export interface SchemaOperations {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SchemaGetOptionalParams
+    options?: SchemaGetOptionalParams,
   ): Promise<SchemaGetResponse>;
 }
