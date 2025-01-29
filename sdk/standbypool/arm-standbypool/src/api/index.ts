@@ -2,36 +2,57 @@
 // Licensed under the MIT License.
 
 export {
+  StandbyContainerGroupPoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyContainerGroupPoolRuntimeViewsGetOptionalParams,
+  StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
+  StandbyContainerGroupPoolsListByResourceGroupOptionalParams,
+  StandbyContainerGroupPoolsUpdateOptionalParams,
+  StandbyContainerGroupPoolsDeleteOptionalParams,
+  StandbyContainerGroupPoolsCreateOrUpdateOptionalParams,
+  StandbyContainerGroupPoolsGetOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsListByStandbyPoolOptionalParams,
+  StandbyVirtualMachinePoolRuntimeViewsGetOptionalParams,
+  StandbyVirtualMachinesListByStandbyVirtualMachinePoolResourceOptionalParams,
+  StandbyVirtualMachinesGetOptionalParams,
+  StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
+  StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
+  StandbyVirtualMachinePoolsUpdateOptionalParams,
+  StandbyVirtualMachinePoolsDeleteOptionalParams,
+  StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
+  StandbyVirtualMachinePoolsGetOptionalParams,
+  OperationsListOptionalParams,
+} from "./options.js";
+export {
   createStandbyPoolManagement,
-  StandbyPoolContext,
+  StandbyPoolManagementContext,
   StandbyPoolManagementClientOptionalParams,
 } from "./standbyPoolManagementContext.js";
 export { operationsList } from "./operations/index.js";
 export {
-  standbyContainerGroupPoolRuntimeViewsGet,
   standbyContainerGroupPoolRuntimeViewsListByStandbyPool,
+  standbyContainerGroupPoolRuntimeViewsGet,
 } from "./standbyContainerGroupPoolRuntimeViews/index.js";
 export {
-  standbyContainerGroupPoolsGet,
-  standbyContainerGroupPoolsCreateOrUpdate,
-  standbyContainerGroupPoolsDelete,
-  standbyContainerGroupPoolsUpdate,
-  standbyContainerGroupPoolsListByResourceGroup,
   standbyContainerGroupPoolsListBySubscription,
+  standbyContainerGroupPoolsListByResourceGroup,
+  standbyContainerGroupPoolsUpdate,
+  standbyContainerGroupPoolsDelete,
+  standbyContainerGroupPoolsCreateOrUpdate,
+  standbyContainerGroupPoolsGet,
 } from "./standbyContainerGroupPools/index.js";
 export {
-  standbyVirtualMachinePoolRuntimeViewsGet,
   standbyVirtualMachinePoolRuntimeViewsListByStandbyPool,
+  standbyVirtualMachinePoolRuntimeViewsGet,
 } from "./standbyVirtualMachinePoolRuntimeViews/index.js";
 export {
-  standbyVirtualMachinePoolsGet,
-  standbyVirtualMachinePoolsCreateOrUpdate,
-  standbyVirtualMachinePoolsDelete,
-  standbyVirtualMachinePoolsUpdate,
-  standbyVirtualMachinePoolsListByResourceGroup,
   standbyVirtualMachinePoolsListBySubscription,
+  standbyVirtualMachinePoolsListByResourceGroup,
+  standbyVirtualMachinePoolsUpdate,
+  standbyVirtualMachinePoolsDelete,
+  standbyVirtualMachinePoolsCreateOrUpdate,
+  standbyVirtualMachinePoolsGet,
 } from "./standbyVirtualMachinePools/index.js";
 export {
-  standbyVirtualMachinesGet,
   standbyVirtualMachinesListByStandbyVirtualMachinePoolResource,
+  standbyVirtualMachinesGet,
 } from "./standbyVirtualMachines/index.js";
