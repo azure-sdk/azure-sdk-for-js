@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { UsageMetric, UsagesListOptionalParams } from "../models";
+import { UsageMetric, UsagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
@@ -21,6 +21,6 @@ export interface Usages {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<UsageMetric>;
 }
