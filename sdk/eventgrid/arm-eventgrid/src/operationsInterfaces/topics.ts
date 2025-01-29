@@ -19,7 +19,6 @@ import {
   TopicsCreateOrUpdateOptionalParams,
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
-  TopicsDeleteResponse,
   TopicUpdateParameters,
   TopicsUpdateOptionalParams,
   TopicsListSharedAccessKeysOptionalParams,
@@ -115,9 +114,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete existing topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -128,7 +125,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<TopicsDeleteResponse>;
+  ): Promise<void>;
   /**
    * Asynchronously updates a topic with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
