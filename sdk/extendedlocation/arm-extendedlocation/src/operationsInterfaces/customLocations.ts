@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomLocationOperation,
   CustomLocationsListOperationsOptionalParams,
@@ -25,7 +25,7 @@ import {
   CustomLocationsUpdateResponse,
   CustomLocationFindTargetResourceGroupProperties,
   CustomLocationsFindTargetResourceGroupOptionalParams,
-  CustomLocationsFindTargetResourceGroupResponse
+  CustomLocationsFindTargetResourceGroupResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface CustomLocations {
    * @param options The options parameters.
    */
   listOperations(
-    options?: CustomLocationsListOperationsOptionalParams
+    options?: CustomLocationsListOperationsOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocationOperation>;
   /**
    * Gets a list of Custom Locations in the specified subscription. The operation returns properties of
@@ -44,7 +44,7 @@ export interface CustomLocations {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CustomLocationsListBySubscriptionOptionalParams
+    options?: CustomLocationsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocation>;
   /**
    * Gets a list of Custom Locations in the specified subscription and resource group. The operation
@@ -54,7 +54,7 @@ export interface CustomLocations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CustomLocationsListByResourceGroupOptionalParams
+    options?: CustomLocationsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CustomLocation>;
   /**
    * Gets the list of the Enabled Resource Types.
@@ -65,7 +65,7 @@ export interface CustomLocations {
   listEnabledResourceTypes(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsListEnabledResourceTypesOptionalParams
+    options?: CustomLocationsListEnabledResourceTypesOptionalParams,
   ): PagedAsyncIterableIterator<EnabledResourceType>;
   /**
    * Gets the details of the customLocation with a specified resource group and name.
@@ -76,7 +76,7 @@ export interface CustomLocations {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsGetOptionalParams
+    options?: CustomLocationsGetOptionalParams,
   ): Promise<CustomLocationsGetResponse>;
   /**
    * Creates or updates a Custom Location in the specified Subscription and Resource Group
@@ -89,10 +89,10 @@ export interface CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocation,
-    options?: CustomLocationsCreateOrUpdateOptionalParams
+    options?: CustomLocationsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomLocationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CustomLocationsCreateOrUpdateResponse>,
       CustomLocationsCreateOrUpdateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocation,
-    options?: CustomLocationsCreateOrUpdateOptionalParams
+    options?: CustomLocationsCreateOrUpdateOptionalParams,
   ): Promise<CustomLocationsCreateOrUpdateResponse>;
   /**
    * Deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
@@ -118,8 +118,8 @@ export interface CustomLocations {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: CustomLocationsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -129,7 +129,7 @@ export interface CustomLocations {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsDeleteOptionalParams
+    options?: CustomLocationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a Custom Location with the specified Resource Name in the specified Resource Group and
@@ -141,7 +141,7 @@ export interface CustomLocations {
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: CustomLocationsUpdateOptionalParams
+    options?: CustomLocationsUpdateOptionalParams,
   ): Promise<CustomLocationsUpdateResponse>;
   /**
    * Returns the target resource group associated with the resource sync rules of the Custom Location
@@ -155,6 +155,6 @@ export interface CustomLocations {
     resourceGroupName: string,
     resourceName: string,
     parameters: CustomLocationFindTargetResourceGroupProperties,
-    options?: CustomLocationsFindTargetResourceGroupOptionalParams
+    options?: CustomLocationsFindTargetResourceGroupOptionalParams,
   ): Promise<CustomLocationsFindTargetResourceGroupResponse>;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ResourceSyncRule,
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
@@ -17,7 +17,7 @@ import {
   ResourceSyncRulesCreateOrUpdateResponse,
   ResourceSyncRulesDeleteOptionalParams,
   ResourceSyncRulesUpdateOptionalParams,
-  ResourceSyncRulesUpdateResponse
+  ResourceSyncRulesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ResourceSyncRules {
   listByCustomLocationID(
     resourceGroupName: string,
     resourceName: string,
-    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams
+    options?: ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSyncRule>;
   /**
    * Gets the details of the resourceSyncRule with a specified resource group, subscription id Custom
@@ -47,7 +47,7 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesGetOptionalParams
+    options?: ResourceSyncRulesGetOptionalParams,
   ): Promise<ResourceSyncRulesGetResponse>;
   /**
    * Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource
@@ -63,10 +63,10 @@ export interface ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesCreateOrUpdateResponse>,
       ResourceSyncRulesCreateOrUpdateResponse
     >
   >;
@@ -84,7 +84,7 @@ export interface ResourceSyncRules {
     resourceName: string,
     childResourceName: string,
     parameters: ResourceSyncRule,
-    options?: ResourceSyncRulesCreateOrUpdateOptionalParams
+    options?: ResourceSyncRulesCreateOrUpdateOptionalParams,
   ): Promise<ResourceSyncRulesCreateOrUpdateResponse>;
   /**
    * Deletes the Resource Sync Rule with the specified Resource Sync Rule Name, Custom Location Resource
@@ -98,7 +98,7 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesDeleteOptionalParams
+    options?: ResourceSyncRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource
@@ -112,10 +112,10 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
+    options?: ResourceSyncRulesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ResourceSyncRulesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ResourceSyncRulesUpdateResponse>,
       ResourceSyncRulesUpdateResponse
     >
   >;
@@ -131,6 +131,6 @@ export interface ResourceSyncRules {
     resourceGroupName: string,
     resourceName: string,
     childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams
+    options?: ResourceSyncRulesUpdateOptionalParams,
   ): Promise<ResourceSyncRulesUpdateResponse>;
 }
