@@ -89,6 +89,7 @@ import {
   VerifierWorkspaceUpdate as VerifierWorkspaceUpdateMapper,
   NetworkVirtualAppliance as NetworkVirtualApplianceMapper,
   NetworkVirtualApplianceInstanceIds as NetworkVirtualApplianceInstanceIdsMapper,
+  NetworkVirtualApplianceBootDiagnosticParameters as NetworkVirtualApplianceBootDiagnosticParametersMapper,
   VirtualApplianceSite as VirtualApplianceSiteMapper,
   InboundSecurityRule as InboundSecurityRuleMapper,
   NetworkWatcher as NetworkWatcherMapper,
@@ -172,7 +173,7 @@ import {
   HubRouteTable as HubRouteTableMapper,
   RoutingIntent as RoutingIntentMapper,
   WebApplicationFirewallPolicy as WebApplicationFirewallPolicyMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -223,7 +224,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2024-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1224,11 +1225,39 @@ export const loadBalancingRuleName: OperationURLParameter = {
   },
 };
 
+export const groupName2: OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const loadBalancerName2: OperationURLParameter = {
+  parameterPath: "loadBalancerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "loadBalancerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const loadBalancingRuleName1: OperationURLParameter = {
   parameterPath: "loadBalancingRuleName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
     },
     serializedName: "loadBalancingRuleName",
     required: true,
@@ -1711,6 +1740,25 @@ export const parameters44: OperationParameter = {
 export const networkVirtualApplianceInstanceIds: OperationParameter = {
   parameterPath: ["options", "networkVirtualApplianceInstanceIds"],
   mapper: NetworkVirtualApplianceInstanceIdsMapper,
+};
+
+export const networkVirtualApplianceName1: OperationURLParameter = {
+  parameterPath: "networkVirtualApplianceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_]+"),
+    },
+    serializedName: "networkVirtualApplianceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const request1: OperationParameter = {
+  parameterPath: "request",
+  mapper: NetworkVirtualApplianceBootDiagnosticParametersMapper,
 };
 
 export const siteName: OperationURLParameter = {
@@ -2309,7 +2357,7 @@ export const stopParameters: OperationParameter = {
   mapper: ExpressRouteFailoverStopApiParametersMapper,
 };
 
-export const request1: OperationParameter = {
+export const request2: OperationParameter = {
   parameterPath: "request",
   mapper: P2SVpnConnectionRequestMapper,
 };
@@ -2459,7 +2507,7 @@ export const vpnSiteLinkName: OperationURLParameter = {
   },
 };
 
-export const request2: OperationParameter = {
+export const request3: OperationParameter = {
   parameterPath: "request",
   mapper: GetVpnSitesConfigurationRequestMapper,
 };
@@ -2661,7 +2709,7 @@ export const parameters89: OperationParameter = {
   mapper: P2SVpnProfileParametersMapper,
 };
 
-export const request3: OperationParameter = {
+export const request4: OperationParameter = {
   parameterPath: "request",
   mapper: P2SVpnConnectionHealthRequestMapper,
 };
@@ -2711,20 +2759,6 @@ export const putExpressRouteConnectionParameters: OperationParameter = {
 export const networkVirtualApplianceConnectionParameters: OperationParameter = {
   parameterPath: "networkVirtualApplianceConnectionParameters",
   mapper: NetworkVirtualApplianceConnectionMapper,
-};
-
-export const networkVirtualApplianceName1: OperationURLParameter = {
-  parameterPath: "networkVirtualApplianceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_]+"),
-    },
-    serializedName: "networkVirtualApplianceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const connectionName1: OperationURLParameter = {
