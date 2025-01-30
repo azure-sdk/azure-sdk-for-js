@@ -1,5 +1,34 @@
 # Release History
     
+## 34.0.0 (2025-01-30)
+    
+### Features Added
+
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogsAndWait
+  - Added operation NetworkVirtualAppliances.beginReimage
+  - Added operation NetworkVirtualAppliances.beginReimageAndWait
+  - Added Interface AdvertisedPublicPrefixProperties
+  - Added Interface NetworkVirtualApplianceBootDiagnosticParameters
+  - Added Interface NetworkVirtualApplianceInstanceId
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  - Added Interface NetworkVirtualAppliancesReimageHeaders
+  - Added Interface NetworkVirtualAppliancesReimageOptionalParams
+  - Added Type Alias AdvertisedPublicPrefixPropertiesValidationState
+  - Added Type Alias NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+  - Added Type Alias NetworkVirtualAppliancesReimageResponse
+  - Interface ExpressRouteCircuitPeeringConfig has a new optional parameter advertisedPublicPrefixInfo
+  - Interface IpamPool has a new optional parameter etag
+  - Interface ReachabilityAnalysisIntent has a new optional parameter etag
+  - Interface VerifierWorkspace has a new optional parameter etag
+  - Added Enum KnownAdvertisedPublicPrefixPropertiesValidationState
+
+### Breaking Changes
+
+  - Type of parameter networkInterfaceIPConfigurationId of interface LoadBalancerHealthPerRulePerBackendAddress is changed from NetworkInterfaceIPConfiguration to string
+    
+    
 ## 33.5.0 (2024-12-10)
     
 ### Features Added
