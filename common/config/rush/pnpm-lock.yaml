@@ -2944,7 +2944,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databox@file:projects/arm-databox.tgz':
-    resolution: {integrity: sha512-UTfTOztWsYBxUMmzCjVuZPtC9uTElYAt6FbWr3WIlXganxEMg+0xUxMZr+5CUPJOoVe0ehk4HzEF33ppH/W18Q==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-BdmYkq6NvvWV63atwd4j981U/I02KI43m359jq3YagdHW2GuSySnbVN3w/DUMEtF2XW6nFCbGiG+Kloz5kYyfw==, tarball: file:projects/arm-databox.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid@file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz':
@@ -2988,11 +2988,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz':
-    resolution: {integrity: sha512-ZaEr0u+7kNCc9ELaIVpFZvqNtQEXBA8fkmGjxKAVyVjY90X0kW/+NczZNJT4N6RHcSEe9HEFj2XdIFOrGixoZg==, tarball: file:projects/arm-deploymentmanager.tgz}
+    resolution: {integrity: sha512-uA6lslBO0FH35VKMCPxjXrpM4uvzlYtv05Bp/YO21o33gS8UV7ezLXivLx3K+e9AD48uXCYaBWGSVRd8urrQdQ==, tarball: file:projects/arm-deploymentmanager.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-desktopvirtualization@file:projects/arm-desktopvirtualization.tgz':
-    resolution: {integrity: sha512-dPAHe/KXMOdFXcFQEOzVYgssB02vVuCJ7ClSDC/CenhpU7iEsEu+K0R0tnRIZjcZmdp2cSh7zEpmqfUqTPIT5Q==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-ujCUlr/L3/h2Sv5pGTDJSUKCA8333DEQM+Gb0K5B+90Q7yr+CDBoVrGJXtLkZPmjvKb1fIzhYMmfBUDvGpIwGg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devcenter@file:projects/arm-devcenter.tgz':
@@ -3004,7 +3004,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-deviceprovisioningservices@file:projects/arm-deviceprovisioningservices.tgz':
-    resolution: {integrity: sha512-2NBCbYGWRXkWQzK/qga6bWkJdunPLd/82IUjg9VInnbWMnvE5t9dtgjdZH8+X6gfN68CLmRdiqWQI9dsD+/1Kw==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-RzUaCCVP7A2FBoiO0y/OSRKYvF/cnYjH5MP9EFI+wYELGvvtrWOh0Q/QvlfLl/700e1iUBgAdbNlRnrbYLoOiw==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceregistry@file:projects/arm-deviceregistry.tgz':
@@ -12883,12 +12883,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
+      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
       dotenv: 16.4.7
       playwright: 1.50.0
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -13262,7 +13262,6 @@ snapshots:
 
   '@rush-temp/arm-deploymentmanager@file:projects/arm-deploymentmanager.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
@@ -13400,7 +13399,6 @@ snapshots:
 
   '@rush-temp/arm-deviceprovisioningservices@file:projects/arm-deviceprovisioningservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
