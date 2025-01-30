@@ -390,6 +390,13 @@ export enum KnownStandardTierStorageRedundancy {
 }
 
 // @public
+export enum KnownState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownTriggerType {
     ForcedUpgrade = "ForcedUpgrade",
     UserTriggered = "UserTriggered"
@@ -749,6 +756,7 @@ export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
     readonly multiUserAuthorization?: MultiUserAuthorization;
     softDeleteSettings?: SoftDeleteSettings;
+    sourceScanConfiguration?: SourceScanConfiguration;
 }
 
 // @public
@@ -776,7 +784,23 @@ export interface SoftDeleteSettings {
 export type SoftDeleteState = string;
 
 // @public
+export interface SourceScanConfiguration {
+    sourceScanIdentity?: SourceScanIdentity;
+    // (undocumented)
+    state?: State;
+}
+
+// @public
+export interface SourceScanIdentity {
+    userAssignedIdentity?: string;
+    useSystemAssignedIdentity?: boolean;
+}
+
+// @public
 export type StandardTierStorageRedundancy = string;
+
+// @public
+export type State = string;
 
 // @public
 export interface SystemData {
