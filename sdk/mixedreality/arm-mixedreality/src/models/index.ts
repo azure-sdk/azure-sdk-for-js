@@ -360,7 +360,7 @@ export enum KnownNameUnavailableReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -382,7 +382,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -427,14 +427,16 @@ export interface SpatialAnchorsAccountsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SpatialAnchorsAccountsListBySubscriptionResponse = SpatialAnchorsAccountPage;
+export type SpatialAnchorsAccountsListBySubscriptionResponse =
+  SpatialAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface SpatialAnchorsAccountsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SpatialAnchorsAccountsListByResourceGroupResponse = SpatialAnchorsAccountPage;
+export type SpatialAnchorsAccountsListByResourceGroupResponse =
+  SpatialAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface SpatialAnchorsAccountsDeleteOptionalParams
@@ -480,28 +482,32 @@ export interface SpatialAnchorsAccountsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SpatialAnchorsAccountsListBySubscriptionNextResponse = SpatialAnchorsAccountPage;
+export type SpatialAnchorsAccountsListBySubscriptionNextResponse =
+  SpatialAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface SpatialAnchorsAccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SpatialAnchorsAccountsListByResourceGroupNextResponse = SpatialAnchorsAccountPage;
+export type SpatialAnchorsAccountsListByResourceGroupNextResponse =
+  SpatialAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type RemoteRenderingAccountsListBySubscriptionResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListBySubscriptionResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type RemoteRenderingAccountsListByResourceGroupResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListByResourceGroupResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsDeleteOptionalParams
@@ -547,28 +553,32 @@ export interface RemoteRenderingAccountsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type RemoteRenderingAccountsListBySubscriptionNextResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListBySubscriptionNextResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface RemoteRenderingAccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type RemoteRenderingAccountsListByResourceGroupNextResponse = RemoteRenderingAccountPage;
+export type RemoteRenderingAccountsListByResourceGroupNextResponse =
+  RemoteRenderingAccountPage;
 
 /** Optional parameters. */
 export interface ObjectAnchorsAccountsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ObjectAnchorsAccountsListBySubscriptionResponse = ObjectAnchorsAccountPage;
+export type ObjectAnchorsAccountsListBySubscriptionResponse =
+  ObjectAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface ObjectAnchorsAccountsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ObjectAnchorsAccountsListByResourceGroupResponse = ObjectAnchorsAccountPage;
+export type ObjectAnchorsAccountsListByResourceGroupResponse =
+  ObjectAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface ObjectAnchorsAccountsDeleteOptionalParams
@@ -614,14 +624,16 @@ export interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ObjectAnchorsAccountsListBySubscriptionNextResponse = ObjectAnchorsAccountPage;
+export type ObjectAnchorsAccountsListBySubscriptionNextResponse =
+  ObjectAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ObjectAnchorsAccountsListByResourceGroupNextResponse = ObjectAnchorsAccountPage;
+export type ObjectAnchorsAccountsListByResourceGroupNextResponse =
+  ObjectAnchorsAccountPage;
 
 /** Optional parameters. */
 export interface MixedRealityClientOptionalParams

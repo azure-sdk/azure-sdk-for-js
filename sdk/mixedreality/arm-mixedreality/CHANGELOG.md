@@ -1,15 +1,40 @@
 # Release History
-
-## 4.1.0-beta.2 (Unreleased)
-
+    
+## 4.1.0-beta.2 (2025-01-30)
+Compared with version 4.0.1
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ObjectAnchorsAccounts
+  - Added Interface ObjectAnchorsAccount
+  - Added Interface ObjectAnchorsAccountIdentity
+  - Added Interface ObjectAnchorsAccountPage
+  - Added Interface ObjectAnchorsAccountsCreateOptionalParams
+  - Added Interface ObjectAnchorsAccountsDeleteOptionalParams
+  - Added Interface ObjectAnchorsAccountsGetOptionalParams
+  - Added Interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams
+  - Added Interface ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  - Added Interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams
+  - Added Interface ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  - Added Interface ObjectAnchorsAccountsListKeysOptionalParams
+  - Added Interface ObjectAnchorsAccountsRegenerateKeysOptionalParams
+  - Added Interface ObjectAnchorsAccountsUpdateOptionalParams
+  - Added Interface RemoteRenderingAccount
+  - Added Interface SpatialAnchorsAccount
+  - Added Interface TrackedResource
+  - Added Type Alias ObjectAnchorsAccountsCreateResponse
+  - Added Type Alias ObjectAnchorsAccountsGetResponse
+  - Added Type Alias ObjectAnchorsAccountsListByResourceGroupNextResponse
+  - Added Type Alias ObjectAnchorsAccountsListByResourceGroupResponse
+  - Added Type Alias ObjectAnchorsAccountsListBySubscriptionNextResponse
+  - Added Type Alias ObjectAnchorsAccountsListBySubscriptionResponse
+  - Added Type Alias ObjectAnchorsAccountsListKeysResponse
+  - Added Type Alias ObjectAnchorsAccountsRegenerateKeysResponse
+  - Added Type Alias ObjectAnchorsAccountsUpdateResponse
+  - Interface MetricDimension has a new optional parameter toBeExportedForShoebox
+  - Added function getContinuationToken
+    
+    
 ## 4.1.0-beta.1 (2022-12-01)
     
 ### Features Added
@@ -57,4 +82,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
