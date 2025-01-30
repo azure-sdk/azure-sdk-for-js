@@ -16,7 +16,7 @@ import {
   ManagedNetworkSettingsRuleGetResponse,
   ManagedNetworkSettingsRuleCreateOrUpdateOptionalParams,
   ManagedNetworkSettingsRuleCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedNetworkSettingsRule. */
@@ -24,7 +24,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Lists the managed network outbound rules for a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   list(
@@ -35,7 +35,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Deletes an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -48,7 +48,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Deletes an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -61,7 +61,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Gets an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -74,7 +74,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Creates or updates an outbound rule in the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param body Outbound Rule to be created or updated in the managed network of a machine learning
    *             workspace.
@@ -95,7 +95,7 @@ export interface ManagedNetworkSettingsRule {
   /**
    * Creates or updates an outbound rule in the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param body Outbound Rule to be created or updated in the managed network of a machine learning
    *             workspace.
