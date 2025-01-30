@@ -11,21 +11,24 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface ApiKey {
     createdAt?: Date;
     readonly key?: string;
 }
 
 // @public
-export interface APIKeys {
+export interface ApiKeys {
     keys?: KeyType_2[];
 }
 
 // @public (undocumented)
-export class AzureQuantumManagementClient extends coreClient.ServiceClient {
+export class AzureQuantumManagementAPI extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureQuantumManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureQuantumManagementAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -35,29 +38,30 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
-    workspace: Workspace;
-    // (undocumented)
     workspaces: Workspaces;
 }
 
 // @public
-export interface AzureQuantumManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureQuantumManagementAPIOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export interface CheckNameAvailabilityParameters {
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
     name?: string;
     type?: string;
 }
 
 // @public
-export interface CheckNameAvailabilityResult {
-    readonly message?: string;
+export interface CheckNameAvailabilityResponse {
+    message?: string;
     nameAvailable?: boolean;
-    reason?: string;
+    reason?: CheckNameAvailabilityReason;
 }
 
 // @public
@@ -91,6 +95,17 @@ type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -105,23 +120,22 @@ export enum KnownKeyType {
 }
 
 // @public
-export enum KnownProvisioningStatus {
-    Failed = "Failed",
-    ProviderDeleting = "ProviderDeleting",
-    ProviderLaunching = "ProviderLaunching",
-    ProviderProvisioning = "ProviderProvisioning",
-    ProviderUpdating = "ProviderUpdating",
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownResourceIdentityType {
+export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAssigned = "SystemAssigned"
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
-export enum KnownStatus {
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProviderStatus {
     Deleted = "Deleted",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -138,6 +152,17 @@ export enum KnownUsableStatus {
 }
 
 // @public
+export enum KnownWorkspaceProvisioningStatus {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    ProviderDeleting = "ProviderDeleting",
+    ProviderLaunching = "ProviderLaunching",
+    ProviderProvisioning = "ProviderProvisioning",
+    ProviderUpdating = "ProviderUpdating",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export interface ListKeysResult {
     apiKeyEnabled?: boolean;
     readonly primaryConnectionString?: string;
@@ -145,6 +170,19 @@ export interface ListKeysResult {
     readonly secondaryConnectionString?: string;
     secondaryKey?: ApiKey;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Offerings {
@@ -168,22 +206,30 @@ export type OfferingsListResponse = OfferingsListResult;
 // @public
 export interface OfferingsListResult {
     nextLink?: string;
-    value?: ProviderDescription[];
+    value: ProviderDescription[];
 }
 
 // @public
 export interface Operation {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
-    isDataAction?: boolean;
-    name?: string;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -192,24 +238,21 @@ export interface Operations {
 }
 
 // @public
-export interface OperationsList {
-    nextLink?: string;
-    value: Operation[];
-}
-
-// @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationsList;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationsList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export interface PricingDetail {
@@ -229,7 +272,7 @@ export interface Provider {
     instanceUri?: string;
     providerId?: string;
     providerSku?: string;
-    provisioningState?: Status;
+    readonly provisioningState?: ProviderStatus;
     resourceUsageId?: string;
 }
 
@@ -267,19 +310,18 @@ export interface ProviderPropertiesManagedApplication {
 }
 
 // @public
-export type ProvisioningStatus = string;
+export type ProviderStatus = string;
 
 // @public
 export interface QuantumWorkspace extends TrackedResource {
-    identity?: QuantumWorkspaceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: WorkspaceResourceProperties;
 }
 
 // @public
-export interface QuantumWorkspaceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: ResourceIdentityType;
+export interface QuantumWorkspaceListResult {
+    nextLink?: string;
+    value: QuantumWorkspace[];
 }
 
 // @public
@@ -303,9 +345,6 @@ export interface Resource {
 }
 
 // @public
-export type ResourceIdentityType = string;
-
-// @public
 export interface SkuDescription {
     autoAdd?: boolean;
     description?: string;
@@ -317,9 +356,6 @@ export interface SkuDescription {
     targets?: string[];
     version?: string;
 }
-
-// @public
-export type Status = string;
 
 // @public
 export interface SystemData {
@@ -359,56 +395,50 @@ export interface TrackedResource extends Resource {
 export type UsableStatus = string;
 
 // @public
-export interface Workspace {
-    checkNameAvailability(locationName: string, checkNameAvailabilityParameters: CheckNameAvailabilityParameters, options?: WorkspaceCheckNameAvailabilityOptionalParams): Promise<WorkspaceCheckNameAvailabilityResponse>;
-    listKeys(resourceGroupName: string, workspaceName: string, options?: WorkspaceListKeysOptionalParams): Promise<WorkspaceListKeysResponse>;
-    regenerateKeys(resourceGroupName: string, workspaceName: string, keySpecification: APIKeys, options?: WorkspaceRegenerateKeysOptionalParams): Promise<void>;
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
-export interface WorkspaceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspaceCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-// @public
-export interface WorkspaceListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkspaceListKeysResponse = ListKeysResult;
-
-// @public
-export interface WorkspaceListResult {
-    nextLink?: string;
-    value?: QuantumWorkspace[];
-}
-
-// @public
-export interface WorkspaceRegenerateKeysOptionalParams extends coreClient.OperationOptions {
-}
+export type WorkspaceProvisioningStatus = string;
 
 // @public
 export interface WorkspaceResourceProperties {
     apiKeyEnabled?: boolean;
     readonly endpointUri?: string;
     providers?: Provider[];
-    readonly provisioningState?: ProvisioningStatus;
+    readonly provisioningState?: WorkspaceProvisioningStatus;
     storageAccount?: string;
     readonly usable?: UsableStatus;
 }
 
 // @public
 export interface Workspaces {
-    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, quantumWorkspace: QuantumWorkspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, quantumWorkspace: QuantumWorkspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, resource: QuantumWorkspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, resource: QuantumWorkspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<WorkspacesDeleteResponse>, WorkspacesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<WorkspacesDeleteResponse>;
+    checkNameAvailability(location: string, body: CheckNameAvailabilityRequest, options?: WorkspacesCheckNameAvailabilityOptionalParams): Promise<WorkspacesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<QuantumWorkspace>;
     listBySubscription(options?: WorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<QuantumWorkspace>;
-    updateTags(resourceGroupName: string, workspaceName: string, workspaceTags: TagsObject, options?: WorkspacesUpdateTagsOptionalParams): Promise<WorkspacesUpdateTagsResponse>;
+    listKeys(resourceGroupName: string, workspaceName: string, options?: WorkspacesListKeysOptionalParams): Promise<WorkspacesListKeysResponse>;
+    regenerateKeys(resourceGroupName: string, workspaceName: string, body: ApiKeys, options?: WorkspacesRegenerateKeysOptionalParams): Promise<void>;
+    updateTags(resourceGroupName: string, workspaceName: string, properties: TagsObject, options?: WorkspacesUpdateTagsOptionalParams): Promise<WorkspacesUpdateTagsResponse>;
+}
+
+// @public
+export interface WorkspacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+// @public
+export interface WorkspacesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -421,10 +451,19 @@ export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.Opera
 export type WorkspacesCreateOrUpdateResponse = QuantumWorkspace;
 
 // @public
+export interface WorkspacesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type WorkspacesDeleteResponse = WorkspacesDeleteHeaders;
 
 // @public
 export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
@@ -438,28 +477,39 @@ export interface WorkspacesListByResourceGroupNextOptionalParams extends coreCli
 }
 
 // @public
-export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
+export type WorkspacesListByResourceGroupNextResponse = QuantumWorkspaceListResult;
 
 // @public
 export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
+export type WorkspacesListByResourceGroupResponse = QuantumWorkspaceListResult;
 
 // @public
 export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
+export type WorkspacesListBySubscriptionNextResponse = QuantumWorkspaceListResult;
 
 // @public
 export interface WorkspacesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WorkspacesListBySubscriptionResponse = WorkspaceListResult;
+export type WorkspacesListBySubscriptionResponse = QuantumWorkspaceListResult;
+
+// @public
+export interface WorkspacesListKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListKeysResponse = ListKeysResult;
+
+// @public
+export interface WorkspacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export interface WorkspacesUpdateTagsOptionalParams extends coreClient.OperationOptions {
