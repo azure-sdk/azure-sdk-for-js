@@ -20,8 +20,8 @@ import {
   PostRulesGetCountersResponse,
   PostRulesRefreshCountersOptionalParams,
   PostRulesResetCountersOptionalParams,
-  PostRulesResetCountersResponse
-} from "../models";
+  PostRulesResetCountersResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PostRules. */
@@ -33,7 +33,7 @@ export interface PostRules {
    */
   list(
     globalRulestackName: string,
-    options?: PostRulesListOptionalParams
+    options?: PostRulesListOptionalParams,
   ): PagedAsyncIterableIterator<PostRulesResource>;
   /**
    * Get a PostRulesResource
@@ -44,7 +44,7 @@ export interface PostRules {
   get(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesGetOptionalParams
+    options?: PostRulesGetOptionalParams,
   ): Promise<PostRulesGetResponse>;
   /**
    * Create a PostRulesResource
@@ -57,7 +57,7 @@ export interface PostRules {
     globalRulestackName: string,
     priority: string,
     resource: PostRulesResource,
-    options?: PostRulesCreateOrUpdateOptionalParams
+    options?: PostRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PostRulesCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface PostRules {
     globalRulestackName: string,
     priority: string,
     resource: PostRulesResource,
-    options?: PostRulesCreateOrUpdateOptionalParams
+    options?: PostRulesCreateOrUpdateOptionalParams,
   ): Promise<PostRulesCreateOrUpdateResponse>;
   /**
    * Delete a PostRulesResource
@@ -86,7 +86,7 @@ export interface PostRules {
   beginDelete(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesDeleteOptionalParams
+    options?: PostRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a PostRulesResource
@@ -97,7 +97,7 @@ export interface PostRules {
   beginDeleteAndWait(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesDeleteOptionalParams
+    options?: PostRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get counters
@@ -108,7 +108,7 @@ export interface PostRules {
   getCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesGetCountersOptionalParams
+    options?: PostRulesGetCountersOptionalParams,
   ): Promise<PostRulesGetCountersResponse>;
   /**
    * Refresh counters
@@ -119,7 +119,7 @@ export interface PostRules {
   refreshCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesRefreshCountersOptionalParams
+    options?: PostRulesRefreshCountersOptionalParams,
   ): Promise<void>;
   /**
    * Reset counters
@@ -130,6 +130,6 @@ export interface PostRules {
   resetCounters(
     globalRulestackName: string,
     priority: string,
-    options?: PostRulesResetCountersOptionalParams
+    options?: PostRulesResetCountersOptionalParams,
   ): Promise<PostRulesResetCountersResponse>;
 }
