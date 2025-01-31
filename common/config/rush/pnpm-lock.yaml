@@ -999,7 +999,7 @@ importers:
         version: file:projects/keyvault-common.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/keyvault-keys':
         specifier: file:./projects/keyvault-keys.tgz
-        version: file:projects/keyvault-keys.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/keyvault-keys.tgz
       '@rush-temp/keyvault-secrets':
         specifier: file:./projects/keyvault-secrets.tgz
         version: file:projects/keyvault-secrets.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -3940,7 +3940,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz':
-    resolution: {integrity: sha512-+LFfNsp2Md64QjSfa5aTZe0XW0mRQkPfmxXMbJ1maWf8+tC7YurnTyOULnrP3vqXxN9ztb5zOFnmsMa3Bzd9jw==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-m9OXprzICV4p4U/UHbWOhmyP5P1fTc1KffTVth80yU6VtJUZ7Mu1pgMEtM0Ox3UhVH3MNEce1dfqB6Hzb9y2zw==, tarball: file:projects/keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
@@ -5323,9 +5323,6 @@ packages:
   date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}
     engines: {node: '>=4.0'}
-
-  dayjs@1.11.13:
-    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -19736,42 +19733,17 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.49.1(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
-      '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
-      dayjs: 1.11.13
       dotenv: 16.4.7
       eslint: 9.19.0
-      playwright: 1.50.0
       tslib: 2.8.1
-      typescript: 5.7.3
-      vitest: 3.0.4(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+      typescript: 5.6.3
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.4)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)':
     dependencies:
@@ -23410,8 +23382,6 @@ snapshots:
       '@babel/runtime': 7.26.7
 
   date-format@4.0.14: {}
-
-  dayjs@1.11.13: {}
 
   debug@2.6.9:
     dependencies:
