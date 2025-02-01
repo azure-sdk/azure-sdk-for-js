@@ -14,9 +14,10 @@ import {
   MsixPackagesGetResponse,
   MsixPackagesCreateOrUpdateOptionalParams,
   MsixPackagesCreateOrUpdateResponse,
-  MsixPackagesDeleteOptionalParams,
+  MsixPackagePatch,
   MsixPackagesUpdateOptionalParams,
   MsixPackagesUpdateResponse,
+  MsixPackagesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,16 +54,32 @@ export interface MsixPackages {
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixPackageFullName The version specific package full name of the MSIX package within
    *                            specified hostpool
-   * @param msixPackage Object containing  MSIX Package definitions.
+   * @param resource Object containing  MSIX Package definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    msixPackage: MsixPackage,
+    resource: MsixPackage,
     options?: MsixPackagesCreateOrUpdateOptionalParams,
   ): Promise<MsixPackagesCreateOrUpdateResponse>;
+  /**
+   * Update an  MSIX Package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param msixPackageFullName The version specific package full name of the MSIX package within
+   *                            specified hostpool
+   * @param properties Object containing MSIX Package definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    hostPoolName: string,
+    msixPackageFullName: string,
+    properties: MsixPackagePatch,
+    options?: MsixPackagesUpdateOptionalParams,
+  ): Promise<MsixPackagesUpdateResponse>;
   /**
    * Remove an MSIX Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -77,18 +94,4 @@ export interface MsixPackages {
     msixPackageFullName: string,
     options?: MsixPackagesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an  MSIX Package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesUpdateOptionalParams,
-  ): Promise<MsixPackagesUpdateResponse>;
 }
