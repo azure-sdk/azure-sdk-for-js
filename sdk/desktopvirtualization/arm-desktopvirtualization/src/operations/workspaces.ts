@@ -15,21 +15,22 @@ import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   Workspace,
-  WorkspacesListByResourceGroupNextOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
-  WorkspacesListByResourceGroupResponse,
   WorkspacesListBySubscriptionNextOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListBySubscriptionResponse,
+  WorkspacesListByResourceGroupNextOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesListByResourceGroupResponse,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
-  WorkspacesDeleteOptionalParams,
+  WorkspacePatch,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
-  WorkspacesListByResourceGroupNextResponse,
+  WorkspacesDeleteOptionalParams,
   WorkspacesListBySubscriptionNextResponse,
+  WorkspacesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,6 +44,60 @@ export class WorkspacesImpl implements Workspaces {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * List workspaces in subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Workspace> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Workspace[]> {
+    let result: WorkspacesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<Workspace> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -118,54 +173,28 @@ export class WorkspacesImpl implements Workspaces {
    * List workspaces in subscription.
    * @param options The options parameters.
    */
-  public listBySubscription(
+  private _listBySubscription(
     options?: WorkspacesListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Workspace> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
+  ): Promise<WorkspacesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
-  private async *listBySubscriptionPagingPage(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Workspace> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * List workspaces.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams,
+  ): Promise<WorkspacesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -189,18 +218,37 @@ export class WorkspacesImpl implements Workspaces {
    * Create or update a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param workspace Object containing Workspace definitions.
+   * @param resource Object containing Workspace definitions.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    workspace: Workspace,
+    resource: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, workspace, options },
+      { resourceGroupName, workspaceName, resource, options },
       createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Update a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param properties Object containing Workspace definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    properties: WorkspacePatch,
+    options?: WorkspacesUpdateOptionalParams,
+  ): Promise<WorkspacesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, properties, options },
+      updateOperationSpec,
     );
   }
 
@@ -222,47 +270,17 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Update a workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  update(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesUpdateOptionalParams,
-  ): Promise<WorkspacesUpdateResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: WorkspacesListBySubscriptionNextOptionalParams,
+  ): Promise<WorkspacesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * List workspaces.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-  ): Promise<WorkspacesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * List workspaces in subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-  ): Promise<WorkspacesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -282,25 +300,51 @@ export class WorkspacesImpl implements Workspaces {
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: WorkspacesListBySubscriptionNextOptionalParams,
-  ): Promise<WorkspacesListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/workspaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
   httpMethod: "GET",
@@ -309,7 +353,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Workspace,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -333,10 +377,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Workspace,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workspace,
+  requestBody: Parameters.resource3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -355,7 +422,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -364,90 +431,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Workspace,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.workspace1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/workspaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -460,13 +443,33 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkspaceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

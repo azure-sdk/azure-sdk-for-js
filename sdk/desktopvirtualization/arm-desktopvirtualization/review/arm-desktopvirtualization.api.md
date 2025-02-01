@@ -9,6 +9,78 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export type ActionType = string;
+
+// @public
+export interface ActiveDirectoryInfoProperties {
+    domainCredentials: KeyVaultCredentialProperties;
+    domainName: string;
+    ouPath: string;
+}
+
+// @public
+export interface ActiveSessionHostConfiguration extends ProxyResource {
+    availabilityZones?: number[];
+    bootDiagnosticsInfo?: BootDiagnosticsInfoProperties;
+    customConfigurationScriptUrl?: string;
+    diskInfo?: DiskInfoProperties;
+    domainInfo?: DomainInfoProperties;
+    readonly etag?: string;
+    friendlyName?: string;
+    identity?: ManagedServiceIdentity;
+    imageInfo?: ImageInfoProperties;
+    kind?: string;
+    managedBy?: string;
+    networkInfo?: NetworkInfoProperties;
+    plan?: Plan;
+    securityInfo?: SecurityInfoProperties;
+    sku?: Sku;
+    readonly version?: Date;
+    vmAdminCredentials?: KeyVaultCredentialProperties;
+    vmLocation?: string;
+    vmNamePrefix?: string;
+    vmResourceGroup?: string;
+    vmSizeId?: string;
+    vmTags?: string[];
+}
+
+// @public
+export interface ActiveSessionHostConfigurationList {
+    nextLink?: string;
+    value: ActiveSessionHostConfiguration[];
+}
+
+// @public
+export interface ActiveSessionHostConfigurations {
+    get(resourceGroupName: string, hostPoolName: string, activeSessionHostConfigurationName: string, options?: ActiveSessionHostConfigurationsGetOptionalParams): Promise<ActiveSessionHostConfigurationsGetResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: ActiveSessionHostConfigurationsListByHostPoolOptionalParams): PagedAsyncIterableIterator<ActiveSessionHostConfiguration>;
+}
+
+// @public
+export interface ActiveSessionHostConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsGetResponse = ActiveSessionHostConfiguration;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolNextResponse = ActiveSessionHostConfigurationList;
+
+// @public
+export interface ActiveSessionHostConfigurationsListByHostPoolOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
+}
+
+// @public
+export type ActiveSessionHostConfigurationsListByHostPoolResponse = ActiveSessionHostConfigurationList;
+
+// @public
 export interface AgentUpdatePatchProperties {
     maintenanceWindows?: MaintenanceWindowPatchProperties[];
     maintenanceWindowTimeZone?: string;
@@ -26,7 +98,11 @@ export interface AgentUpdateProperties {
 
 // @public
 export interface AppAttachPackage extends TrackedResource {
-    properties: AppAttachPackageProperties;
+    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum;
+    hostPoolReferences?: string[];
+    image?: AppAttachPackageInfoProperties;
+    keyVaultURL?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -52,7 +128,7 @@ export type AppAttachPackageGetResponse = AppAttachPackage;
 
 // @public
 export interface AppAttachPackageInfo {
-    listImport(resourceGroupName: string, hostPoolName: string, importPackageInfoRequest: ImportPackageInfoRequest, options?: AppAttachPackageInfoImportOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
+    listImport(resourceGroupName: string, hostPoolName: string, body: ImportPackageInfoRequest, options?: AppAttachPackageInfoImportOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
 }
 
 // @public
@@ -91,8 +167,8 @@ export interface AppAttachPackageInfoProperties {
 
 // @public
 export interface AppAttachPackageList {
-    readonly nextLink?: string;
-    value?: AppAttachPackage[];
+    nextLink?: string;
+    value: AppAttachPackage[];
 }
 
 // @public
@@ -127,46 +203,39 @@ export type AppAttachPackageListBySubscriptionResponse = AppAttachPackageList;
 
 // @public
 export interface AppAttachPackageOperations {
-    createOrUpdate(resourceGroupName: string, appAttachPackageName: string, appAttachPackage: AppAttachPackage, options?: AppAttachPackageCreateOrUpdateOptionalParams): Promise<AppAttachPackageCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, appAttachPackageName: string, resource: AppAttachPackage, options?: AppAttachPackageCreateOrUpdateOptionalParams): Promise<AppAttachPackageCreateOrUpdateResponse>;
     delete(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageGetOptionalParams): Promise<AppAttachPackageGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AppAttachPackageListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
     listBySubscription(options?: AppAttachPackageListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
-    update(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageUpdateOptionalParams): Promise<AppAttachPackageUpdateResponse>;
+    update(resourceGroupName: string, appAttachPackageName: string, properties: AppAttachPackagePatch, options?: AppAttachPackageUpdateOptionalParams): Promise<AppAttachPackageUpdateResponse>;
 }
 
 // @public
-export interface AppAttachPackagePatch extends Resource {
+export interface AppAttachPackagePatch extends ResourceAutoGenerated {
     properties?: AppAttachPackagePatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface AppAttachPackagePatchProperties {
-    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum;
     hostPoolReferences?: string[];
     image?: AppAttachPackageInfoProperties;
     keyVaultURL?: string;
-}
-
-// @public
-export interface AppAttachPackageProperties {
-    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
-    hostPoolReferences?: string[];
-    image?: AppAttachPackageInfoProperties;
-    keyVaultURL?: string;
-    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface AppAttachPackageUpdateOptionalParams extends coreClient.OperationOptions {
-    appAttachPackagePatch?: AppAttachPackagePatch;
 }
 
 // @public
 export type AppAttachPackageUpdateResponse = AppAttachPackage;
 
 // @public
-export interface Application extends Resource {
+export interface Application extends ProxyResource {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
     commandLineSetting: CommandLineSetting;
@@ -184,31 +253,42 @@ export interface Application extends Resource {
 }
 
 // @public
-export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
+export interface ApplicationGroup extends TrackedResource {
     applicationGroupType: ApplicationGroupType;
     readonly cloudPcResource?: boolean;
     description?: string;
+    readonly etag?: string;
     friendlyName?: string;
     hostPoolArmPath: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     showInFeed?: boolean;
+    sku?: Sku;
     readonly workspaceArmPath?: string;
 }
 
 // @public
 export interface ApplicationGroupList {
-    readonly nextLink?: string;
-    value?: ApplicationGroup[];
+    nextLink?: string;
+    value: ApplicationGroup[];
 }
 
 // @public
-export interface ApplicationGroupPatch extends Resource {
-    description?: string;
-    friendlyName?: string;
-    showInFeed?: boolean;
+export interface ApplicationGroupPatch extends ResourceAutoGenerated {
+    properties?: ApplicationGroupPatchProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ApplicationGroupPatchProperties {
+    description?: string;
+    friendlyName?: string;
+    showInFeed?: boolean;
 }
 
 // @public
@@ -218,7 +298,7 @@ export interface ApplicationGroups {
     get(resourceGroupName: string, applicationGroupName: string, options?: ApplicationGroupsGetOptionalParams): Promise<ApplicationGroupsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ApplicationGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ApplicationGroup>;
     listBySubscription(options?: ApplicationGroupsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ApplicationGroup>;
-    update(resourceGroupName: string, applicationGroupName: string, options?: ApplicationGroupsUpdateOptionalParams): Promise<ApplicationGroupsUpdateResponse>;
+    update(resourceGroupName: string, applicationGroupName: string, properties: ApplicationGroupPatch, options?: ApplicationGroupsUpdateOptionalParams): Promise<ApplicationGroupsUpdateResponse>;
 }
 
 // @public
@@ -274,7 +354,6 @@ export type ApplicationGroupsListBySubscriptionResponse = ApplicationGroupList;
 
 // @public
 export interface ApplicationGroupsUpdateOptionalParams extends coreClient.OperationOptions {
-    applicationGroup?: ApplicationGroupPatch;
 }
 
 // @public
@@ -285,12 +364,17 @@ export type ApplicationGroupType = string;
 
 // @public
 export interface ApplicationList {
-    readonly nextLink?: string;
-    value?: Application[];
+    nextLink?: string;
+    value: Application[];
 }
 
 // @public
 export interface ApplicationPatch {
+    properties?: ApplicationPatchProperties;
+}
+
+// @public
+export interface ApplicationPatchProperties {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
     commandLineSetting?: CommandLineSetting;
@@ -302,18 +386,15 @@ export interface ApplicationPatch {
     msixPackageApplicationId?: string;
     msixPackageFamilyName?: string;
     showInPortal?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface Applications {
-    createOrUpdate(resourceGroupName: string, applicationGroupName: string, applicationName: string, application: Application, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, applicationGroupName: string, applicationName: string, resource: Application, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, applicationGroupName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, applicationGroupName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
     list(resourceGroupName: string, applicationGroupName: string, options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
-    update(resourceGroupName: string, applicationGroupName: string, applicationName: string, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
+    update(resourceGroupName: string, applicationGroupName: string, applicationName: string, properties: ApplicationPatch, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
 }
 
 // @public
@@ -353,7 +434,6 @@ export type ApplicationsListResponse = ApplicationList;
 
 // @public
 export interface ApplicationsUpdateOptionalParams extends coreClient.OperationOptions {
-    application?: ApplicationPatch;
 }
 
 // @public
@@ -363,14 +443,14 @@ export type ApplicationsUpdateResponse = Application;
 export type ApplicationType = string;
 
 // @public
-export interface CloudError {
-    error?: CloudErrorProperties;
+export interface AzureActiveDirectoryInfoProperties {
+    mdmProviderGuid: string;
 }
 
 // @public
-export interface CloudErrorProperties {
-    code?: string;
-    message?: string;
+export interface BootDiagnosticsInfoProperties {
+    enabled: boolean;
+    storageUri: string;
 }
 
 // @public
@@ -380,37 +460,50 @@ export type CommandLineSetting = string;
 export type CreatedByType = string;
 
 // @public
+export interface CustomInfoProperties {
+    imageResourceId: string;
+}
+
+// @public
 export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 // @public
-export interface Desktop extends Resource {
+export interface Desktop extends ProxyResource {
     description?: string;
+    readonly etag?: string;
     friendlyName?: string;
     readonly iconContent?: Uint8Array;
     readonly iconHash?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
+    sku?: Sku;
 }
 
 // @public
 export interface DesktopList {
-    readonly nextLink?: string;
-    value?: Desktop[];
+    nextLink?: string;
+    value: Desktop[];
 }
 
 // @public
 export interface DesktopPatch {
+    properties?: DesktopPatchProperties;
+}
+
+// @public
+export interface DesktopPatchProperties {
     description?: string;
     friendlyName?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
 export interface Desktops {
     get(resourceGroupName: string, applicationGroupName: string, desktopName: string, options?: DesktopsGetOptionalParams): Promise<DesktopsGetResponse>;
     list(resourceGroupName: string, applicationGroupName: string, options?: DesktopsListOptionalParams): PagedAsyncIterableIterator<Desktop>;
-    update(resourceGroupName: string, applicationGroupName: string, desktopName: string, options?: DesktopsUpdateOptionalParams): Promise<DesktopsUpdateResponse>;
+    update(resourceGroupName: string, applicationGroupName: string, desktopName: string, properties: DesktopPatch, options?: DesktopsUpdateOptionalParams): Promise<DesktopsUpdateResponse>;
 }
 
 // @public
@@ -439,7 +532,6 @@ export type DesktopsListResponse = DesktopList;
 
 // @public
 export interface DesktopsUpdateOptionalParams extends coreClient.OperationOptions {
-    desktop?: DesktopPatch;
 }
 
 // @public
@@ -450,6 +542,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DesktopVirtualizationAPIClientOptionalParams);
+    // (undocumented)
+    activeSessionHostConfigurations: ActiveSessionHostConfigurations;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -471,7 +565,7 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
+    privateEndpointConnectionsOperations: PrivateEndpointConnectionsOperations;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
@@ -500,6 +594,24 @@ export interface DesktopVirtualizationAPIClientOptionalParams extends coreClient
 }
 
 // @public
+export type DirectUDP = string;
+
+// @public
+export interface DiskInfoProperties {
+    type: DiskType;
+}
+
+// @public
+export type DiskType = string;
+
+// @public
+export interface DomainInfoProperties {
+    activeDirectoryInfo: ActiveDirectoryInfoProperties;
+    azureActiveDirectoryInfo: AzureActiveDirectoryInfoProperties;
+    joinType: JoinType;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -520,7 +632,18 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface ExpandMsixImage extends Resource {
+export interface ExpandMsixImage extends ResourceAutoGenerated {
+    properties?: ExpandMsixImageProperties;
+}
+
+// @public
+export interface ExpandMsixImageList {
+    nextLink?: string;
+    value: ExpandMsixImage[];
+}
+
+// @public
+export interface ExpandMsixImageProperties {
     certificateExpiry?: Date;
     certificateName?: string;
     displayName?: string;
@@ -539,13 +662,7 @@ export interface ExpandMsixImage extends Resource {
 }
 
 // @public
-export interface ExpandMsixImageList {
-    readonly nextLink?: string;
-    value?: ExpandMsixImage[];
-}
-
-// @public
-export type FailHealthCheckOnStagingFailure = string;
+export type FailHealthCheckOnStagingFailureEnum = string;
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -557,24 +674,34 @@ export type HealthCheckName = string;
 export type HealthCheckResult = string;
 
 // @public
-export interface HostPool extends ResourceModelWithAllowedPropertySet {
+export interface HostPool extends TrackedResource {
     agentUpdate?: AgentUpdateProperties;
     readonly appAttachPackageReferences?: string[];
     readonly applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
+    readonly etag?: string;
     friendlyName?: string;
     hostPoolType: HostPoolType;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
     loadBalancerType: LoadBalancerType;
+    managedBy?: string;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     readonly objectId?: string;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
+    plan?: Plan;
     preferredAppGroupType: PreferredAppGroupType;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfo;
+    relayUDP?: RelayUDP;
     ring?: number;
+    sku?: Sku;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
     ssoClientSecretKeyVaultPath?: string;
@@ -586,31 +713,40 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
 
 // @public
 export interface HostPoolList {
-    readonly nextLink?: string;
-    value?: HostPool[];
+    nextLink?: string;
+    value: HostPool[];
 }
 
 // @public
-export interface HostPoolPatch extends Resource {
+export interface HostPoolPatch extends ResourceAutoGenerated {
+    properties?: HostPoolPatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface HostPoolPatchProperties {
     agentUpdate?: AgentUpdatePatchProperties;
     customRdpProperty?: string;
     description?: string;
+    directUDP?: DirectUDP;
     friendlyName?: string;
     loadBalancerType?: LoadBalancerType;
+    managedPrivateUDP?: ManagedPrivateUDP;
     maxSessionLimit?: number;
     personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
     preferredAppGroupType?: PreferredAppGroupType;
     publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    publicUDP?: PublicUDP;
     registrationInfo?: RegistrationInfoPatch;
+    relayUDP?: RelayUDP;
     ring?: number;
     ssoadfsAuthority?: string;
     ssoClientId?: string;
     ssoClientSecretKeyVaultPath?: string;
     ssoSecretType?: SSOSecretType;
     startVMOnConnect?: boolean;
-    tags?: {
-        [propertyName: string]: string;
-    };
     validationEnvironment?: boolean;
     vmTemplate?: string;
 }
@@ -620,14 +756,14 @@ export type HostpoolPublicNetworkAccess = string;
 
 // @public
 export interface HostPools {
-    createOrUpdate(resourceGroupName: string, hostPoolName: string, hostPool: HostPool, options?: HostPoolsCreateOrUpdateOptionalParams): Promise<HostPoolsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, hostPoolName: string, resource: HostPool, options?: HostPoolsCreateOrUpdateOptionalParams): Promise<HostPoolsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, hostPoolName: string, options?: HostPoolsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, hostPoolName: string, options?: HostPoolsGetOptionalParams): Promise<HostPoolsGetResponse>;
     list(options?: HostPoolsListOptionalParams): PagedAsyncIterableIterator<HostPool>;
     listByResourceGroup(resourceGroupName: string, options?: HostPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HostPool>;
     listRegistrationTokens(resourceGroupName: string, hostPoolName: string, options?: HostPoolsListRegistrationTokensOptionalParams): Promise<HostPoolsListRegistrationTokensResponse>;
     retrieveRegistrationToken(resourceGroupName: string, hostPoolName: string, options?: HostPoolsRetrieveRegistrationTokenOptionalParams): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
-    update(resourceGroupName: string, hostPoolName: string, options?: HostPoolsUpdateOptionalParams): Promise<HostPoolsUpdateResponse>;
+    update(resourceGroupName: string, hostPoolName: string, properties: HostPoolPatch, options?: HostPoolsUpdateOptionalParams): Promise<HostPoolsUpdateResponse>;
 }
 
 // @public
@@ -699,7 +835,6 @@ export type HostPoolsRetrieveRegistrationTokenResponse = RegistrationInfo;
 
 // @public
 export interface HostPoolsUpdateOptionalParams extends coreClient.OperationOptions {
-    hostPool?: HostPoolPatch;
 }
 
 // @public
@@ -709,16 +844,33 @@ export type HostPoolsUpdateResponse = HostPool;
 export type HostPoolType = string;
 
 // @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: "SystemAssigned";
+export interface ImageInfoProperties {
+    customInfo: CustomInfoProperties;
+    marketplaceInfo: MarketplaceInfoProperties;
+    type: ImageType;
 }
+
+// @public
+export type ImageType = string;
 
 // @public
 export interface ImportPackageInfoRequest {
     packageArchitecture?: AppAttachPackageArchitectures;
     path?: string;
+}
+
+// @public
+export type JoinType = string;
+
+// @public
+export interface KeyVaultCredentialProperties {
+    passwordKeyVaultSecretUri: string;
+    usernameKeyVaultSecretUri: string;
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -760,7 +912,21 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownFailHealthCheckOnStagingFailure {
+export enum KnownDirectUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDiskType {
+    PremiumLRS = "Premium_LRS",
+    StandardLRS = "Standard_LRS",
+    StandardSSDLRS = "StandardSSD_LRS"
+}
+
+// @public
+export enum KnownFailHealthCheckOnStagingFailureEnum {
     DoNotFail = "DoNotFail",
     NeedsAssistance = "NeedsAssistance",
     Unhealthy = "Unhealthy"
@@ -805,10 +971,45 @@ export enum KnownHostPoolType {
 }
 
 // @public
+export enum KnownImageType {
+    Custom = "Custom",
+    Marketplace = "Marketplace"
+}
+
+// @public
+export enum KnownJoinType {
+    ActiveDirectory = "ActiveDirectory",
+    AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+// @public
 export enum KnownLoadBalancerType {
     BreadthFirst = "BreadthFirst",
     DepthFirst = "DepthFirst",
+    MultiPersistent = "MultiPersistent",
     Persistent = "Persistent"
+}
+
+// @public
+export enum KnownManagedPrivateUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -860,10 +1061,24 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownPublicUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownRegistrationTokenOperation {
     Delete = "Delete",
     None = "None",
     Update = "Update"
+}
+
+// @public
+export enum KnownRelayUDP {
+    Default = "Default",
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -878,14 +1093,10 @@ export enum KnownScalingHostPoolType {
 }
 
 // @public
-export enum KnownScalingScheduleDaysOfWeekItem {
-    Friday = "Friday",
-    Monday = "Monday",
-    Saturday = "Saturday",
-    Sunday = "Sunday",
-    Thursday = "Thursday",
-    Tuesday = "Tuesday",
-    Wednesday = "Wednesday"
+export enum KnownSecurityType {
+    ConfidentialVM = "ConfidentialVM",
+    Standard = "Standard",
+    TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
@@ -973,13 +1184,6 @@ export enum KnownUpdateState {
 export type LoadBalancerType = string;
 
 // @public
-export interface LogSpecification {
-    blobDuration?: string;
-    displayName?: string;
-    name?: string;
-}
-
-// @public
 export interface MaintenanceWindowPatchProperties {
     dayOfWeek?: DayOfWeek;
     hour?: number;
@@ -992,8 +1196,32 @@ export interface MaintenanceWindowProperties {
 }
 
 // @public
+export type ManagedPrivateUDP = string;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MarketplaceInfoProperties {
+    exactVersion: string;
+    offer: string;
+    publisher: string;
+    sku: string;
+}
+
+// @public
 export interface MsixImages {
-    listExpand(resourceGroupName: string, hostPoolName: string, msixImageURI: MsixImageURI, options?: MsixImagesExpandOptionalParams): PagedAsyncIterableIterator<ExpandMsixImage>;
+    listExpand(resourceGroupName: string, hostPoolName: string, body: MsixImageURI, options?: MsixImagesExpandOptionalParams): PagedAsyncIterableIterator<ExpandMsixImage>;
 }
 
 // @public
@@ -1016,17 +1244,23 @@ export interface MsixImageURI {
 }
 
 // @public
-export interface MsixPackage extends Resource {
+export interface MsixPackage extends ProxyResource {
     displayName?: string;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
     imagePath?: string;
     isActive?: boolean;
     isRegularRegistration?: boolean;
+    kind?: string;
     lastUpdated?: Date;
+    managedBy?: string;
     packageApplications?: MsixPackageApplications[];
     packageDependencies?: MsixPackageDependencies[];
     packageFamilyName?: string;
     packageName?: string;
     packageRelativePath?: string;
+    plan?: Plan;
+    sku?: Sku;
     version?: string;
 }
 
@@ -1050,12 +1284,17 @@ export interface MsixPackageDependencies {
 
 // @public
 export interface MsixPackageList {
-    readonly nextLink?: string;
-    value?: MsixPackage[];
+    nextLink?: string;
+    value: MsixPackage[];
 }
 
 // @public
-export interface MsixPackagePatch extends Resource {
+export interface MsixPackagePatch extends ResourceAutoGenerated {
+    properties?: MsixPackagePatchProperties;
+}
+
+// @public
+export interface MsixPackagePatchProperties {
     displayName?: string;
     isActive?: boolean;
     isRegularRegistration?: boolean;
@@ -1063,11 +1302,11 @@ export interface MsixPackagePatch extends Resource {
 
 // @public
 export interface MsixPackages {
-    createOrUpdate(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, msixPackage: MsixPackage, options?: MsixPackagesCreateOrUpdateOptionalParams): Promise<MsixPackagesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, resource: MsixPackage, options?: MsixPackagesCreateOrUpdateOptionalParams): Promise<MsixPackagesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesGetOptionalParams): Promise<MsixPackagesGetResponse>;
     list(resourceGroupName: string, hostPoolName: string, options?: MsixPackagesListOptionalParams): PagedAsyncIterableIterator<MsixPackage>;
-    update(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, options?: MsixPackagesUpdateOptionalParams): Promise<MsixPackagesUpdateResponse>;
+    update(resourceGroupName: string, hostPoolName: string, msixPackageFullName: string, properties: MsixPackagePatch, options?: MsixPackagesUpdateOptionalParams): Promise<MsixPackagesUpdateResponse>;
 }
 
 // @public
@@ -1107,20 +1346,43 @@ export type MsixPackagesListResponse = MsixPackageList;
 
 // @public
 export interface MsixPackagesUpdateOptionalParams extends coreClient.OperationOptions {
-    msixPackage?: MsixPackagePatch;
 }
 
 // @public
 export type MsixPackagesUpdateResponse = MsixPackage;
 
 // @public
-export interface OperationProperties {
-    serviceSpecification?: ServiceSpecification;
+export interface NetworkInfoProperties {
+    securityGroupId: string;
+    subnetId: string;
+}
+
+// @public
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<ResourceProviderOperation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -1128,14 +1390,17 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = ResourceProviderOperationList;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = ResourceProviderOperationList;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export type PackageTimestamped = string;
@@ -1161,32 +1426,33 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
-    readonly groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+export interface PrivateEndpointConnection extends ResourceAutoGenerated {
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResultWithSystemData {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnectionWithSystemData[];
+export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    deleteByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams): Promise<void>;
-    deleteByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams): Promise<void>;
-    getByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
-    getByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
-    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateEndpointConnectionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
-    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, connection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
+export interface PrivateEndpointConnections extends TrackedResource {
+    readonly etag?: string;
+    readonly groupIds?: string[];
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    sku?: Sku;
 }
 
 // @public
@@ -1202,21 +1468,21 @@ export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams extends c
 }
 
 // @public
-export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnections;
 
 // @public
 export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnections;
 
 // @public
 export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionsListResult;
 
 // @public
 export interface PrivateEndpointConnectionsListByHostPoolOptionalParams extends coreClient.OperationOptions {
@@ -1226,54 +1492,76 @@ export interface PrivateEndpointConnectionsListByHostPoolOptionalParams extends 
 }
 
 // @public
-export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionsListResult;
 
 // @public
 export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionsListResult;
 
 // @public
 export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+    initialSkip?: number;
+    isDescending?: boolean;
+    pageSize?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
+export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionsListResult;
+
+// @public
+export interface PrivateEndpointConnectionsListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnections[];
+}
+
+// @public
+export interface PrivateEndpointConnectionsOperations {
+    deleteByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams): Promise<void>;
+    deleteByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams): Promise<void>;
+    getByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
+    getByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
+    listByHostPool(resourceGroupName: string, hostPoolName: string, options?: PrivateEndpointConnectionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnections>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnections>;
+    updateByHostPool(resourceGroupName: string, hostPoolName: string, privateEndpointConnectionName: string, body: PrivateEndpointConnections, options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
+    updateByWorkspace(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, body: PrivateEndpointConnections, options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
+}
 
 // @public
 export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
+export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnections;
 
 // @public
 export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-// @public
-export interface PrivateEndpointConnectionWithSystemData extends PrivateEndpointConnection {
-}
+export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnections;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
+export interface PrivateLinkResource extends ResourceAutoGenerated {
+    properties?: PrivateLinkResourceProperties;
 }
 
 // @public
 export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -1334,6 +1622,9 @@ export interface ProxyResource extends Resource {
 export type PublicNetworkAccess = string;
 
 // @public
+export type PublicUDP = string;
+
+// @public
 export interface RegistrationInfo {
     expirationTime?: Date;
     registrationTokenOperation?: RegistrationTokenOperation;
@@ -1362,6 +1653,9 @@ export interface RegistrationTokenMinimal {
 export type RegistrationTokenOperation = string;
 
 // @public
+export type RelayUDP = string;
+
+// @public
 export type RemoteApplicationType = string;
 
 // @public
@@ -1373,50 +1667,11 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
-    readonly etag?: string;
-    // (undocumented)
-    identity?: ResourceModelWithAllowedPropertySetIdentity;
-    kind?: string;
-    managedBy?: string;
-    // (undocumented)
-    plan?: ResourceModelWithAllowedPropertySetPlan;
-    // (undocumented)
-    sku?: ResourceModelWithAllowedPropertySetSku;
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
-
-// @public (undocumented)
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
-}
-
-// @public
-export interface ResourceProviderOperation {
-    display?: ResourceProviderOperationDisplay;
-    isDataAction?: boolean;
-    name?: string;
-    properties?: OperationProperties;
-}
-
-// @public
-export interface ResourceProviderOperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface ResourceProviderOperationList {
-    readonly nextLink?: string;
-    value?: ResourceProviderOperation[];
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
 
 // @public
@@ -1429,39 +1684,54 @@ export interface ScalingHostPoolReference {
 export type ScalingHostPoolType = string;
 
 // @public
-export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
+export interface ScalingPlan extends TrackedResource {
     description?: string;
+    readonly etag?: string;
     exclusionTag?: string;
     friendlyName?: string;
     hostPoolReferences?: ScalingHostPoolReference[];
     hostPoolType?: ScalingHostPoolType;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     schedules?: ScalingSchedule[];
+    sku?: Sku;
     timeZone: string;
 }
 
 // @public
 export interface ScalingPlanList {
-    readonly nextLink?: string;
-    value?: ScalingPlan[];
+    nextLink?: string;
+    value: ScalingPlan[];
 }
 
 // @public
 export interface ScalingPlanPatch {
+    properties?: ScalingPlanPatchProperties;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ScalingPlanPatchProperties {
     description?: string;
     exclusionTag?: string;
     friendlyName?: string;
     hostPoolReferences?: ScalingHostPoolReference[];
     schedules?: ScalingSchedule[];
-    tags?: {
-        [propertyName: string]: string;
-    };
     timeZone?: string;
 }
 
 // @public
 export interface ScalingPlanPersonalSchedule extends ProxyResource {
     daysOfWeek?: DayOfWeek[];
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     offPeakActionOnDisconnect?: SessionHandlingOperation;
     offPeakActionOnLogoff?: SessionHandlingOperation;
     offPeakMinutesToWaitOnDisconnect?: number;
@@ -1474,6 +1744,7 @@ export interface ScalingPlanPersonalSchedule extends ProxyResource {
     peakMinutesToWaitOnLogoff?: number;
     peakStartTime?: Time;
     peakStartVMOnConnect?: SetStartVMOnConnect;
+    plan?: Plan;
     rampDownActionOnDisconnect?: SessionHandlingOperation;
     rampDownActionOnLogoff?: SessionHandlingOperation;
     rampDownMinutesToWaitOnDisconnect?: number;
@@ -1487,16 +1758,22 @@ export interface ScalingPlanPersonalSchedule extends ProxyResource {
     rampUpMinutesToWaitOnLogoff?: number;
     rampUpStartTime?: Time;
     rampUpStartVMOnConnect?: SetStartVMOnConnect;
+    sku?: Sku;
 }
 
 // @public
 export interface ScalingPlanPersonalScheduleList {
-    readonly nextLink?: string;
-    value?: ScalingPlanPersonalSchedule[];
+    nextLink?: string;
+    value: ScalingPlanPersonalSchedule[];
 }
 
 // @public
 export interface ScalingPlanPersonalSchedulePatch {
+    properties?: ScalingPlanPersonalScheduleProperties;
+}
+
+// @public
+export interface ScalingPlanPersonalScheduleProperties {
     daysOfWeek?: DayOfWeek[];
     offPeakActionOnDisconnect?: SessionHandlingOperation;
     offPeakActionOnLogoff?: SessionHandlingOperation;
@@ -1527,11 +1804,11 @@ export interface ScalingPlanPersonalSchedulePatch {
 
 // @public
 export interface ScalingPlanPersonalSchedules {
-    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, scalingPlanSchedule: ScalingPlanPersonalSchedule, options?: ScalingPlanPersonalSchedulesCreateOptionalParams): Promise<ScalingPlanPersonalSchedulesCreateResponse>;
+    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, resource: ScalingPlanPersonalSchedule, options?: ScalingPlanPersonalSchedulesCreateOptionalParams): Promise<ScalingPlanPersonalSchedulesCreateResponse>;
     delete(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesGetOptionalParams): Promise<ScalingPlanPersonalSchedulesGetResponse>;
     list(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlanPersonalSchedulesListOptionalParams): PagedAsyncIterableIterator<ScalingPlanPersonalSchedule>;
-    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPersonalSchedulesUpdateOptionalParams): Promise<ScalingPlanPersonalSchedulesUpdateResponse>;
+    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, properties: ScalingPlanPersonalSchedulePatch, options?: ScalingPlanPersonalSchedulesUpdateOptionalParams): Promise<ScalingPlanPersonalSchedulesUpdateResponse>;
 }
 
 // @public
@@ -1571,19 +1848,23 @@ export type ScalingPlanPersonalSchedulesListResponse = ScalingPlanPersonalSchedu
 
 // @public
 export interface ScalingPlanPersonalSchedulesUpdateOptionalParams extends coreClient.OperationOptions {
-    scalingPlanSchedule?: ScalingPlanPersonalSchedulePatch;
 }
 
 // @public
 export type ScalingPlanPersonalSchedulesUpdateResponse = ScalingPlanPersonalSchedule;
 
 // @public
-export interface ScalingPlanPooledSchedule extends Resource {
+export interface ScalingPlanPooledSchedule extends ProxyResource {
     daysOfWeek?: DayOfWeek[];
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
     peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     peakStartTime?: Time;
+    plan?: Plan;
     rampDownCapacityThresholdPct?: number;
     rampDownForceLogoffUsers?: boolean;
     rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
@@ -1596,16 +1877,22 @@ export interface ScalingPlanPooledSchedule extends Resource {
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
     rampUpStartTime?: Time;
+    sku?: Sku;
 }
 
 // @public
 export interface ScalingPlanPooledScheduleList {
-    readonly nextLink?: string;
-    value?: ScalingPlanPooledSchedule[];
+    nextLink?: string;
+    value: ScalingPlanPooledSchedule[];
 }
 
 // @public
-export interface ScalingPlanPooledSchedulePatch extends Resource {
+export interface ScalingPlanPooledSchedulePatch extends ResourceAutoGenerated {
+    properties?: ScalingPlanPooledScheduleProperties;
+}
+
+// @public
+export interface ScalingPlanPooledScheduleProperties {
     daysOfWeek?: DayOfWeek[];
     offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     offPeakStartTime?: Time;
@@ -1627,11 +1914,11 @@ export interface ScalingPlanPooledSchedulePatch extends Resource {
 
 // @public
 export interface ScalingPlanPooledSchedules {
-    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, scalingPlanSchedule: ScalingPlanPooledSchedule, options?: ScalingPlanPooledSchedulesCreateOptionalParams): Promise<ScalingPlanPooledSchedulesCreateResponse>;
+    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, resource: ScalingPlanPooledSchedule, options?: ScalingPlanPooledSchedulesCreateOptionalParams): Promise<ScalingPlanPooledSchedulesCreateResponse>;
     delete(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesGetOptionalParams): Promise<ScalingPlanPooledSchedulesGetResponse>;
     list(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlanPooledSchedulesListOptionalParams): PagedAsyncIterableIterator<ScalingPlanPooledSchedule>;
-    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesUpdateOptionalParams): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
+    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, properties: ScalingPlanPooledSchedulePatch, options?: ScalingPlanPooledSchedulesUpdateOptionalParams): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
 }
 
 // @public
@@ -1671,7 +1958,6 @@ export type ScalingPlanPooledSchedulesListResponse = ScalingPlanPooledScheduleLi
 
 // @public
 export interface ScalingPlanPooledSchedulesUpdateOptionalParams extends coreClient.OperationOptions {
-    scalingPlanSchedule?: ScalingPlanPooledSchedulePatch;
 }
 
 // @public
@@ -1679,13 +1965,13 @@ export type ScalingPlanPooledSchedulesUpdateResponse = ScalingPlanPooledSchedule
 
 // @public
 export interface ScalingPlans {
-    create(resourceGroupName: string, scalingPlanName: string, scalingPlan: ScalingPlan, options?: ScalingPlansCreateOptionalParams): Promise<ScalingPlansCreateResponse>;
+    create(resourceGroupName: string, scalingPlanName: string, resource: ScalingPlan, options?: ScalingPlansCreateOptionalParams): Promise<ScalingPlansCreateResponse>;
     delete(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlansDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlansGetOptionalParams): Promise<ScalingPlansGetResponse>;
     listByHostPool(resourceGroupName: string, hostPoolName: string, options?: ScalingPlansListByHostPoolOptionalParams): PagedAsyncIterableIterator<ScalingPlan>;
     listByResourceGroup(resourceGroupName: string, options?: ScalingPlansListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ScalingPlan>;
     listBySubscription(options?: ScalingPlansListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ScalingPlan>;
-    update(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlansUpdateOptionalParams): Promise<ScalingPlansUpdateResponse>;
+    update(resourceGroupName: string, scalingPlanName: string, properties: ScalingPlanPatch, options?: ScalingPlansUpdateOptionalParams): Promise<ScalingPlansUpdateResponse>;
 }
 
 // @public
@@ -1759,7 +2045,6 @@ export type ScalingPlansListBySubscriptionResponse = ScalingPlanList;
 
 // @public
 export interface ScalingPlansUpdateOptionalParams extends coreClient.OperationOptions {
-    scalingPlan?: ScalingPlanPatch;
 }
 
 // @public
@@ -1788,7 +2073,17 @@ export interface ScalingSchedule {
 }
 
 // @public
-export type ScalingScheduleDaysOfWeekItem = string;
+export type ScalingScheduleDaysOfWeekItem = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+
+// @public
+export interface SecurityInfoProperties {
+    secureBootEnabled: boolean;
+    type: SecurityType;
+    vTPMEnabled: boolean;
+}
+
+// @public
+export type SecurityType = string;
 
 // @public
 export interface SendMessage {
@@ -1797,31 +2092,32 @@ export interface SendMessage {
 }
 
 // @public
-export interface ServiceSpecification {
-    logSpecifications?: LogSpecification[];
-}
-
-// @public
 export type SessionHandlingOperation = string;
 
 // @public
-export interface SessionHost extends Resource {
+export interface SessionHost extends ProxyResource {
     agentVersion?: string;
     allowNewSession?: boolean;
     assignedUser?: string;
+    readonly etag?: string;
     friendlyName?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
     lastHeartBeat?: Date;
     readonly lastUpdateTime?: Date;
+    managedBy?: string;
     readonly objectId?: string;
     osVersion?: string;
+    plan?: Plan;
     readonly resourceId?: string;
     readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
     sessions?: number;
+    sku?: Sku;
     status?: Status;
     readonly statusTimestamp?: Date;
     sxSStackVersion?: string;
     updateErrorMessage?: string;
-    updateState?: UpdateState;
+    readonly updateState?: UpdateState;
     readonly virtualMachineId?: string;
 }
 
@@ -1844,15 +2140,20 @@ export interface SessionHostHealthCheckReport {
 
 // @public
 export interface SessionHostList {
-    readonly nextLink?: string;
-    value?: SessionHost[];
+    nextLink?: string;
+    value: SessionHost[];
 }
 
 // @public
 export type SessionHostLoadBalancingAlgorithm = string;
 
 // @public
-export interface SessionHostPatch extends Resource {
+export interface SessionHostPatch extends ResourceAutoGenerated {
+    properties?: SessionHostPatchProperties;
+}
+
+// @public
+export interface SessionHostPatchProperties {
     allowNewSession?: boolean;
     assignedUser?: string;
     friendlyName?: string;
@@ -1863,7 +2164,7 @@ export interface SessionHosts {
     delete(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsGetOptionalParams): Promise<SessionHostsGetResponse>;
     list(resourceGroupName: string, hostPoolName: string, options?: SessionHostsListOptionalParams): PagedAsyncIterableIterator<SessionHost>;
-    update(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: SessionHostsUpdateOptionalParams): Promise<SessionHostsUpdateResponse>;
+    update(resourceGroupName: string, hostPoolName: string, sessionHostName: string, properties: SessionHostPatch, options?: SessionHostsUpdateOptionalParams): Promise<SessionHostsUpdateResponse>;
 }
 
 // @public
@@ -1898,7 +2199,6 @@ export type SessionHostsListResponse = SessionHostList;
 // @public
 export interface SessionHostsUpdateOptionalParams extends coreClient.OperationOptions {
     force?: boolean;
-    sessionHost?: SessionHostPatch;
 }
 
 // @public
@@ -1926,18 +2226,23 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export type SSOSecretType = string;
 
 // @public
-export interface StartMenuItem extends Resource {
+export interface StartMenuItem extends ResourceAutoGenerated {
+    properties?: StartMenuItemProperties;
+}
+
+// @public
+export interface StartMenuItemList {
+    nextLink?: string;
+    value: StartMenuItem[];
+}
+
+// @public
+export interface StartMenuItemProperties {
     appAlias?: string;
     commandLineArguments?: string;
     filePath?: string;
     iconIndex?: number;
     iconPath?: string;
-}
-
-// @public
-export interface StartMenuItemList {
-    readonly nextLink?: string;
-    value?: StartMenuItem[];
 }
 
 // @public
@@ -1999,19 +2304,31 @@ export interface TrackedResource extends Resource {
 export type UpdateState = string;
 
 // @public
-export interface UserSession extends Resource {
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface UserSession extends ProxyResource {
     activeDirectoryUserName?: string;
     applicationType?: ApplicationType;
     createTime?: Date;
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     sessionState?: SessionState;
+    sku?: Sku;
     userPrincipalName?: string;
 }
 
 // @public
 export interface UserSessionList {
-    readonly nextLink?: string;
-    value?: UserSession[];
+    nextLink?: string;
+    value: UserSession[];
 }
 
 // @public
@@ -2021,7 +2338,7 @@ export interface UserSessions {
     get(resourceGroupName: string, hostPoolName: string, sessionHostName: string, userSessionId: string, options?: UserSessionsGetOptionalParams): Promise<UserSessionsGetResponse>;
     list(resourceGroupName: string, hostPoolName: string, sessionHostName: string, options?: UserSessionsListOptionalParams): PagedAsyncIterableIterator<UserSession>;
     listByHostPool(resourceGroupName: string, hostPoolName: string, options?: UserSessionsListByHostPoolOptionalParams): PagedAsyncIterableIterator<UserSession>;
-    sendMessage(resourceGroupName: string, hostPoolName: string, sessionHostName: string, userSessionId: string, options?: UserSessionsSendMessageOptionalParams): Promise<void>;
+    sendMessage(resourceGroupName: string, hostPoolName: string, sessionHostName: string, userSessionId: string, body: SendMessage, options?: UserSessionsSendMessageOptionalParams): Promise<void>;
 }
 
 // @public
@@ -2077,45 +2394,55 @@ export type UserSessionsListResponse = UserSessionList;
 
 // @public
 export interface UserSessionsSendMessageOptionalParams extends coreClient.OperationOptions {
-    sendMessage?: SendMessage;
 }
 
 // @public
-export interface Workspace extends ResourceModelWithAllowedPropertySet {
+export interface Workspace extends TrackedResource {
     applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     description?: string;
+    readonly etag?: string;
     friendlyName?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
     readonly objectId?: string;
+    plan?: Plan;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: PublicNetworkAccess;
+    sku?: Sku;
 }
 
 // @public
 export interface WorkspaceList {
-    readonly nextLink?: string;
-    value?: Workspace[];
+    nextLink?: string;
+    value: Workspace[];
 }
 
 // @public
 export interface WorkspacePatch {
-    applicationGroupReferences?: string[];
-    description?: string;
-    friendlyName?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
+    properties?: WorkspacePatchProperties;
     tags?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
+export interface WorkspacePatchProperties {
+    applicationGroupReferences?: string[];
+    description?: string;
+    friendlyName?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
 export interface Workspaces {
-    createOrUpdate(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, workspaceName: string, resource: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
     listBySubscription(options?: WorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Workspace>;
-    update(resourceGroupName: string, workspaceName: string, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
+    update(resourceGroupName: string, workspaceName: string, properties: WorkspacePatch, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
 }
 
 // @public
@@ -2169,7 +2496,6 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceList;
 
 // @public
 export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
-    workspace?: WorkspacePatch;
 }
 
 // @public
