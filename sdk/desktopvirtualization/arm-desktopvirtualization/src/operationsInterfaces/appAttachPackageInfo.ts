@@ -20,13 +20,13 @@ export interface AppAttachPackageInfo {
    * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param body Object containing URI to package image and other optional properties
    * @param options The options parameters.
    */
   listImport(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     options?: AppAttachPackageInfoImportOptionalParams,
   ): PagedAsyncIterableIterator<AppAttachPackage>;
 }
