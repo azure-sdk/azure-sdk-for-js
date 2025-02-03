@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./static-helpers/pagingHelpers.js";
-
-export { KeyVaultClient } from "./keyVaultClient.js";
 export {
   KeyCreateParameters,
   KnownJsonWebKeyType,
@@ -54,32 +47,4 @@ export {
   GetRandomBytesRequest,
   RandomBytes,
   KnownVersions,
-} from "./models/index.js";
-export {
-  KeyVaultClientOptionalParams,
-  GetRandomBytesOptionalParams,
-  UpdateKeyRotationPolicyOptionalParams,
-  GetKeyRotationPolicyOptionalParams,
-  RecoverDeletedKeyOptionalParams,
-  PurgeDeletedKeyOptionalParams,
-  GetDeletedKeyOptionalParams,
-  GetDeletedKeysOptionalParams,
-  ReleaseOptionalParams,
-  UnwrapKeyOptionalParams,
-  WrapKeyOptionalParams,
-  VerifyOptionalParams,
-  SignOptionalParams,
-  DecryptOptionalParams,
-  EncryptOptionalParams,
-  RestoreKeyOptionalParams,
-  BackupKeyOptionalParams,
-  GetKeysOptionalParams,
-  GetKeyVersionsOptionalParams,
-  GetKeyOptionalParams,
-  UpdateKeyOptionalParams,
-  DeleteKeyOptionalParams,
-  ImportKeyOptionalParams,
-  RotateKeyOptionalParams,
-  CreateKeyOptionalParams,
-} from "./api/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+} from "./models.js";
