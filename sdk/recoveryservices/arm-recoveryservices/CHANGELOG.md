@@ -1,15 +1,18 @@
 # Release History
-
-## 6.0.1 (Unreleased)
-
+    
+## 6.1.0 (2025-02-03)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SourceScanConfiguration
+  - Added Interface SourceScanIdentity
+  - Added Type Alias IdentityType
+  - Added Type Alias State
+  - Interface SecuritySettings has a new optional parameter sourceScanConfiguration
+  - Added Enum KnownIdentityType
+  - Added Enum KnownState
+    
+    
 ## 6.0.0 (2024-04-17)
     
 ### Features Added
