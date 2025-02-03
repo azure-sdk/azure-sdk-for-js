@@ -2652,7 +2652,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
-    resolution: {integrity: sha512-1U3jcGllnkhOoCoriUgDUaZFCaIV3B9eX5XaVmQRkWGKDezQtydp4Zmqe4Nef4VsReUu1GTjs92ZyQavbQrmSw==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-muVvozfs5WYW9Sq5We2j3qNXiqje3h30LVyXSskzbSELZOht2klaQnjklwRkrFrITKyKdm8BWD++v/NwmfEvQA==, tarball: file:projects/ai-document-translator.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
@@ -3052,11 +3052,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
-    resolution: {integrity: sha512-S8EgwKzCGb1lLVke/bex8KvrDjBoGuZtMpFXJHTKrN4UhBZXhsqHrrmG4lbtpeIkexLSTKmS2GMZ7robuBqDyA==, tarball: file:projects/arm-domainservices.tgz}
+    resolution: {integrity: sha512-uUK61Wp1+m0bDCO49iDqlHGvNWmm+x+IaxctJ7C8CgeonDY9Xb/2XPe+IgUdP5MLZM+USins4IUvkm1TVSOU/w==, tarball: file:projects/arm-domainservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
-    resolution: {integrity: sha512-hlq/6uFA5Ta/xzn563NcNOkhpjdqHnrgsEZOzN7Oe6lkYUUwPGiBHb0wCPMECp6Zh3dLdPWywF94aJVgnAkCsw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-vsFjiZPiUzVtJspD9FO1oB+6jDwdvI4YHcjiYeXITtwWEgmDeH8m5taa1xHhHGfT/KeS/NJK7HUaGclWqmYerA==, tarball: file:projects/arm-dynatrace.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':
@@ -3804,7 +3804,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
-    resolution: {integrity: sha512-ypcwYe3wOTAXtcIKTxGc6qph9stRPSO10JQP9nk/iIyXlff7oPPXH/ojWwlKkJhIfVCsfDD/SLQSRHODHlKaGw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-5vAIXNKLSNXGxvDuAKsAgkfnX+MFdevJZtjRiNHAaZ0Y/u3qY8wLwe/bBiDnVUu5EgqdjbwJeKi6NV/0PKV7Ig==, tarball: file:projects/core-http-compat.tgz}
     version: 0.0.0
 
   '@rush-temp/core-lro@file:projects/core-lro.tgz':
@@ -3848,7 +3848,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-undVy7cGgk/vzx5acgN0ryzAxRbyCQcj0PtoJ7mY8NWjuGkQcICmkSpGh4sSz8WaG8nfNuIr1hUHxhG6vsKX3g==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-12oujwcJZYF2mealed/mFD41GgSez6UE1ICuPTnzoDyW2yaasQKrp5z8RowLVQFmIZz6Y6xcPKPhRUSQ3Optug==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -3876,7 +3876,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
-    resolution: {integrity: sha512-6HTQ1AqLGr7IUosvRwzgJwvnR/EwzbqlGdMSjAgBPtRZ9ab+6OQeFCSWgkRPY17TofTebEg+siGTpi11Sngegw==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-srUO9oTLC++YHrsS11mCsL1EyDPqle23g6ejk91geru9EbFos8EKzv4Kh+LirC5cMzRHH3Si7ZbnSAGbReYpLg==, tarball: file:projects/eventgrid-system-events.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
@@ -4156,7 +4156,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-gDtFjHRTpg080DOLALhNomtt2FufRwILNg6aDM0EKL6I+cDizUpAnzZ1/H5y9mGD63hohGlDCjQezo6TIerKbw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-pXsOSqgPhJlk4sQdIe5htRBCNPm4HnaZFgtcoEq1wFBJ2rQ/2sVV9YssxvsHBZwjcl+68iRpRMzfHq0xXN7pyg==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
@@ -4559,9 +4559,6 @@ packages:
 
   '@types/unzipper@0.10.10':
     resolution: {integrity: sha512-jKJdNxhmCHTZsaKW5x0qjn6rB+gHk0w5VFbEKsw84i+RJqXZyfTmGnpjDcKqzMpjz7VVLsUBMtO5T3mVidpt0g==}
-
-  '@types/uuid@8.3.4':
-    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
 
   '@types/ws@7.4.7':
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
@@ -19063,13 +19060,15 @@ snapshots:
 
   '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
       eslint: 9.19.0
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -21040,7 +21039,6 @@ snapshots:
       '@azure/schema-registry': 1.3.0
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.1)
       '@types/node': 18.19.74
-      '@types/uuid': 8.3.4
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       avsc: 5.7.7
@@ -21053,7 +21051,6 @@ snapshots:
       stream: 0.0.3
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22448,8 +22445,6 @@ snapshots:
   '@types/unzipper@0.10.10':
     dependencies:
       '@types/node': 18.19.74
-
-  '@types/uuid@8.3.4': {}
 
   '@types/ws@7.4.7':
     dependencies:
