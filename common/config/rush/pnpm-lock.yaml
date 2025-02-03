@@ -2720,7 +2720,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
-    resolution: {integrity: sha512-UKoLzhhpvr2E3xT+edFPP4A6HdLEmfGi4Gl9niqptUBMvxrpjpTHt2wXoWGyWAcDrdMZ9FYYmbMN4EhaZh4Fhw==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-RwArwjvB4tdwgo39cyDhERVcfrGF/E0FAekKWUVDC211sM2UV6Ko0eRagAPeC90HhY+fT7umSWA2Gfrt8+Fj+A==, tarball: file:projects/arm-advisor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz':
@@ -10874,12 +10874,12 @@ snapshots:
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
