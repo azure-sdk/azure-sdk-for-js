@@ -218,6 +218,9 @@ export interface IdentityData {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export interface ImmutabilitySettings {
     // (undocumented)
     state?: ImmutabilityState;
@@ -293,6 +296,12 @@ export enum KnownEnhancedSecurityState {
     Disabled = "Disabled",
     Enabled = "Enabled",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -387,6 +396,13 @@ export enum KnownStandardTierStorageRedundancy {
     Invalid = "Invalid",
     LocallyRedundant = "LocallyRedundant",
     ZoneRedundant = "ZoneRedundant"
+}
+
+// @public
+export enum KnownState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Invalid = "Invalid"
 }
 
 // @public
@@ -749,6 +765,7 @@ export interface SecuritySettings {
     immutabilitySettings?: ImmutabilitySettings;
     readonly multiUserAuthorization?: MultiUserAuthorization;
     softDeleteSettings?: SoftDeleteSettings;
+    sourceScanConfiguration?: SourceScanConfiguration;
 }
 
 // @public
@@ -776,7 +793,23 @@ export interface SoftDeleteSettings {
 export type SoftDeleteState = string;
 
 // @public
+export interface SourceScanConfiguration {
+    sourceScanIdentity?: SourceScanIdentity;
+    // (undocumented)
+    state?: State;
+}
+
+// @public
+export interface SourceScanIdentity {
+    identityType?: IdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
 export type StandardTierStorageRedundancy = string;
+
+// @public
+export type State = string;
 
 // @public
 export interface SystemData {
