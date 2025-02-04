@@ -15,8 +15,8 @@ import {
   PrefixListGlobalRulestackGetResponse,
   PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   PrefixListGlobalRulestackCreateOrUpdateResponse,
-  PrefixListGlobalRulestackDeleteOptionalParams
-} from "../models";
+  PrefixListGlobalRulestackDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrefixListGlobalRulestack. */
@@ -28,7 +28,7 @@ export interface PrefixListGlobalRulestack {
    */
   list(
     globalRulestackName: string,
-    options?: PrefixListGlobalRulestackListOptionalParams
+    options?: PrefixListGlobalRulestackListOptionalParams,
   ): PagedAsyncIterableIterator<PrefixListGlobalRulestackResource>;
   /**
    * Get a PrefixListGlobalRulestackResource
@@ -39,7 +39,7 @@ export interface PrefixListGlobalRulestack {
   get(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackGetOptionalParams
+    options?: PrefixListGlobalRulestackGetOptionalParams,
   ): Promise<PrefixListGlobalRulestackGetResponse>;
   /**
    * Create a PrefixListGlobalRulestackResource
@@ -52,7 +52,7 @@ export interface PrefixListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: PrefixListGlobalRulestackResource,
-    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrefixListGlobalRulestackCreateOrUpdateResponse>,
@@ -70,7 +70,7 @@ export interface PrefixListGlobalRulestack {
     globalRulestackName: string,
     name: string,
     resource: PrefixListGlobalRulestackResource,
-    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams
+    options?: PrefixListGlobalRulestackCreateOrUpdateOptionalParams,
   ): Promise<PrefixListGlobalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a PrefixListGlobalRulestackResource
@@ -81,7 +81,7 @@ export interface PrefixListGlobalRulestack {
   beginDelete(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackDeleteOptionalParams
+    options?: PrefixListGlobalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a PrefixListGlobalRulestackResource
@@ -92,6 +92,6 @@ export interface PrefixListGlobalRulestack {
   beginDeleteAndWait(
     globalRulestackName: string,
     name: string,
-    options?: PrefixListGlobalRulestackDeleteOptionalParams
+    options?: PrefixListGlobalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }

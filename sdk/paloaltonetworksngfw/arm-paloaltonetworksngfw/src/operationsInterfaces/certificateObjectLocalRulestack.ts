@@ -15,8 +15,8 @@ import {
   CertificateObjectLocalRulestackGetResponse,
   CertificateObjectLocalRulestackCreateOrUpdateOptionalParams,
   CertificateObjectLocalRulestackCreateOrUpdateResponse,
-  CertificateObjectLocalRulestackDeleteOptionalParams
-} from "../models";
+  CertificateObjectLocalRulestackDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CertificateObjectLocalRulestack. */
@@ -30,7 +30,7 @@ export interface CertificateObjectLocalRulestack {
   listByLocalRulestacks(
     resourceGroupName: string,
     localRulestackName: string,
-    options?: CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams
+    options?: CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams,
   ): PagedAsyncIterableIterator<CertificateObjectLocalRulestackResource>;
   /**
    * Get a CertificateObjectLocalRulestackResource
@@ -43,7 +43,7 @@ export interface CertificateObjectLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: CertificateObjectLocalRulestackGetOptionalParams
+    options?: CertificateObjectLocalRulestackGetOptionalParams,
   ): Promise<CertificateObjectLocalRulestackGetResponse>;
   /**
    * Create a CertificateObjectLocalRulestackResource
@@ -58,7 +58,7 @@ export interface CertificateObjectLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: CertificateObjectLocalRulestackResource,
-    options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificateObjectLocalRulestackCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface CertificateObjectLocalRulestack {
     localRulestackName: string,
     name: string,
     resource: CertificateObjectLocalRulestackResource,
-    options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
+    options?: CertificateObjectLocalRulestackCreateOrUpdateOptionalParams,
   ): Promise<CertificateObjectLocalRulestackCreateOrUpdateResponse>;
   /**
    * Delete a CertificateObjectLocalRulestackResource
@@ -91,7 +91,7 @@ export interface CertificateObjectLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: CertificateObjectLocalRulestackDeleteOptionalParams
+    options?: CertificateObjectLocalRulestackDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a CertificateObjectLocalRulestackResource
@@ -104,6 +104,6 @@ export interface CertificateObjectLocalRulestack {
     resourceGroupName: string,
     localRulestackName: string,
     name: string,
-    options?: CertificateObjectLocalRulestackDeleteOptionalParams
+    options?: CertificateObjectLocalRulestackDeleteOptionalParams,
   ): Promise<void>;
 }

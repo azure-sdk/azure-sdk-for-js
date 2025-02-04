@@ -11,8 +11,8 @@ import {
   FirewallStatusResource,
   FirewallStatusListByFirewallsOptionalParams,
   FirewallStatusGetOptionalParams,
-  FirewallStatusGetResponse
-} from "../models";
+  FirewallStatusGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FirewallStatus. */
@@ -26,7 +26,7 @@ export interface FirewallStatus {
   listByFirewalls(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusListByFirewallsOptionalParams
+    options?: FirewallStatusListByFirewallsOptionalParams,
   ): PagedAsyncIterableIterator<FirewallStatusResource>;
   /**
    * Get a FirewallStatusResource
@@ -37,6 +37,6 @@ export interface FirewallStatus {
   get(
     resourceGroupName: string,
     firewallName: string,
-    options?: FirewallStatusGetOptionalParams
+    options?: FirewallStatusGetOptionalParams,
   ): Promise<FirewallStatusGetResponse>;
 }
