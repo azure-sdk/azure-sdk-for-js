@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates the properties of an existing Batch account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountUpdate.json
  */
-async function batchAccountUpdate() {
+async function batchAccountUpdate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -39,7 +39,7 @@ async function batchAccountUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountUpdate();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountCreate_BYOS.json
  */
-async function batchAccountCreateByos() {
+async function batchAccountCreateByos(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -51,7 +51,7 @@ async function batchAccountCreateByos() {
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountCreate_Default.json
  */
-async function batchAccountCreateDefault() {
+async function batchAccountCreateDefault(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -79,7 +79,7 @@ async function batchAccountCreateDefault() {
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountCreate_SystemAssignedIdentity.json
  */
-async function batchAccountCreateSystemAssignedIdentity() {
+async function batchAccountCreateSystemAssignedIdentity(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -108,7 +108,7 @@ async function batchAccountCreateSystemAssignedIdentity() {
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountCreate_UserAssignedIdentity.json
  */
-async function batchAccountCreateUserAssignedIdentity() {
+async function batchAccountCreateUserAssignedIdentity(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -143,7 +143,7 @@ async function batchAccountCreateUserAssignedIdentity() {
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PrivateBatchAccountCreate.json
  */
-async function privateBatchAccountCreate() {
+async function privateBatchAccountCreate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
@@ -170,7 +170,7 @@ async function privateBatchAccountCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   batchAccountCreateByos();
   batchAccountCreateDefault();
   batchAccountCreateSystemAssignedIdentity();
