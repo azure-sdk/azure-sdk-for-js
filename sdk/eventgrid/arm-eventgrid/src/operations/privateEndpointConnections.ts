@@ -30,7 +30,6 @@ import {
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse,
   PrivateEndpointConnectionsListByResourceNextResponse,
 } from "../models/index.js";
 
@@ -305,16 +304,11 @@ export class PrivateEndpointConnectionsImpl
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsDeleteResponse>,
-      PrivateEndpointConnectionsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<PrivateEndpointConnectionsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -360,10 +354,7 @@ export class PrivateEndpointConnectionsImpl
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      PrivateEndpointConnectionsDeleteResponse,
-      OperationState<PrivateEndpointConnectionsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
     });
@@ -388,7 +379,7 @@ export class PrivateEndpointConnectionsImpl
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<PrivateEndpointConnectionsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       parentType,
@@ -502,21 +493,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders,
-    },
-    default: {},
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

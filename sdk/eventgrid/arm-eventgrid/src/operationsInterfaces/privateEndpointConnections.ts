@@ -17,7 +17,6 @@ import {
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -115,12 +114,7 @@ export interface PrivateEndpointConnections {
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateEndpointConnectionsDeleteResponse>,
-      PrivateEndpointConnectionsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a specific private endpoint connection under a topic, domain, or partner namespace or
    * namespace.
@@ -138,5 +132,5 @@ export interface PrivateEndpointConnections {
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ): Promise<PrivateEndpointConnectionsDeleteResponse>;
+  ): Promise<void>;
 }
