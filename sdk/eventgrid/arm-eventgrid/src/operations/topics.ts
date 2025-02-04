@@ -35,7 +35,6 @@ import {
   TopicsCreateOrUpdateOptionalParams,
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
-  TopicsDeleteResponse,
   TopicUpdateParameters,
   TopicsUpdateOptionalParams,
   TopicsListSharedAccessKeysOptionalParams,
@@ -386,13 +385,11 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<TopicsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -432,10 +429,7 @@ export class TopicsImpl implements Topics {
       args: { resourceGroupName, topicName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      TopicsDeleteResponse,
-      OperationState<TopicsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
     });
@@ -453,7 +447,7 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<TopicsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       topicName,
@@ -801,21 +795,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.TopicsDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.TopicsDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.TopicsDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.TopicsDeleteHeaders,
-    },
-    default: {},
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
