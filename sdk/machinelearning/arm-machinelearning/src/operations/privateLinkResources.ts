@@ -6,16 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
+  PrivateLinkResource,
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
-} from "../models";
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private readonly client: AzureMachineLearningServicesManagementClient;
@@ -29,12 +32,80 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * Gets the private link resources that need to be created for a workspace.
+   * Called by Client (Portal, CLI, etc) to get available "private link resources" for the workspace.
+   * Each "private link resource" is a connection endpoint (IP address) to the resource.
+   * Pre single connection endpoint per workspace: the Data Plane IP address, returned by DNS resolution.
+   *
+   * Other RPs, such as Azure Storage, have multiple - one for Blobs, other for Queues, etc.
+   * Defined in the "[NRP] Private Endpoint Design" doc, topic "GET API for GroupIds".
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
-  list(
+  public list(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource> {
+    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          workspaceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<PrivateLinkResource[]> {
+    let result: PrivateLinkResourcesListResponse;
+    result = await this._list(resourceGroupName, workspaceName, options);
+    yield result.value || [];
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): AsyncIterableIterator<PrivateLinkResource> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      workspaceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Called by Client (Portal, CLI, etc) to get available "private link resources" for the workspace.
+   * Each "private link resource" is a connection endpoint (IP address) to the resource.
+   * Pre single connection endpoint per workspace: the Data Plane IP address, returned by DNS resolution.
+   *
+   * Other RPs, such as Azure Storage, have multiple - one for Blobs, other for Queues, etc.
+   * Defined in the "[NRP] Private Endpoint Design" doc, topic "GET API for GroupIds".
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param options The options parameters.
+   */
+  private _list(
     resourceGroupName: string,
     workspaceName: string,
     options?: PrivateLinkResourcesListOptionalParams,
