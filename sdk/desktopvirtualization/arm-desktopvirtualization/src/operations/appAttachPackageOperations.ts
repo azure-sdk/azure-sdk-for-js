@@ -15,21 +15,22 @@ import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   AppAttachPackage,
-  AppAttachPackageListByResourceGroupNextOptionalParams,
-  AppAttachPackageListByResourceGroupOptionalParams,
-  AppAttachPackageListByResourceGroupResponse,
   AppAttachPackageListBySubscriptionNextOptionalParams,
   AppAttachPackageListBySubscriptionOptionalParams,
   AppAttachPackageListBySubscriptionResponse,
+  AppAttachPackageListByResourceGroupNextOptionalParams,
+  AppAttachPackageListByResourceGroupOptionalParams,
+  AppAttachPackageListByResourceGroupResponse,
   AppAttachPackageGetOptionalParams,
   AppAttachPackageGetResponse,
   AppAttachPackageCreateOrUpdateOptionalParams,
   AppAttachPackageCreateOrUpdateResponse,
-  AppAttachPackageDeleteOptionalParams,
+  AppAttachPackagePatch,
   AppAttachPackageUpdateOptionalParams,
   AppAttachPackageUpdateResponse,
-  AppAttachPackageListByResourceGroupNextResponse,
+  AppAttachPackageDeleteOptionalParams,
   AppAttachPackageListBySubscriptionNextResponse,
+  AppAttachPackageListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,6 +46,60 @@ export class AppAttachPackageOperationsImpl
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * List App Attach packages in subscription.
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<AppAttachPackage[]> {
+    let result: AppAttachPackageListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<AppAttachPackage> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -120,54 +175,28 @@ export class AppAttachPackageOperationsImpl
    * List App Attach packages in subscription.
    * @param options The options parameters.
    */
-  public listBySubscription(
+  private _listBySubscription(
     options?: AppAttachPackageListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<AppAttachPackage> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
-      },
-    };
+  ): Promise<AppAttachPackageListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
   }
 
-  private async *listBySubscriptionPagingPage(
-    options?: AppAttachPackageListBySubscriptionOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<AppAttachPackage[]> {
-    let result: AppAttachPackageListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: AppAttachPackageListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<AppAttachPackage> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * List App Attach packages in resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: AppAttachPackageListByResourceGroupOptionalParams,
+  ): Promise<AppAttachPackageListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -207,6 +236,25 @@ export class AppAttachPackageOperationsImpl
   }
 
   /**
+   * Update an App Attach Package
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appAttachPackageName The name of the App Attach package
+   * @param properties Object containing App Attach Package definition.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    appAttachPackageName: string,
+    properties: AppAttachPackagePatch,
+    options?: AppAttachPackageUpdateOptionalParams,
+  ): Promise<AppAttachPackageUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, appAttachPackageName, properties, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param appAttachPackageName The name of the App Attach package
@@ -224,47 +272,17 @@ export class AppAttachPackageOperationsImpl
   }
 
   /**
-   * Update an App Attach Package
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  update(
-    resourceGroupName: string,
-    appAttachPackageName: string,
-    options?: AppAttachPackageUpdateOptionalParams,
-  ): Promise<AppAttachPackageUpdateResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: AppAttachPackageListBySubscriptionNextOptionalParams,
+  ): Promise<AppAttachPackageListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, appAttachPackageName, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * List App Attach packages in resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: AppAttachPackageListByResourceGroupOptionalParams,
-  ): Promise<AppAttachPackageListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * List App Attach packages in subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: AppAttachPackageListBySubscriptionOptionalParams,
-  ): Promise<AppAttachPackageListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -284,25 +302,46 @@ export class AppAttachPackageOperationsImpl
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: AppAttachPackageListBySubscriptionNextOptionalParams,
-  ): Promise<AppAttachPackageListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppAttachPackageList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppAttachPackageList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "GET",
@@ -350,6 +389,29 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppAttachPackage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.appAttachPackageName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
   httpMethod: "DELETE",
@@ -370,31 +432,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppAttachPackage,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.appAttachPackagePatch,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.appAttachPackageName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -404,28 +443,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppAttachPackageList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -445,25 +467,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppAttachPackageList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

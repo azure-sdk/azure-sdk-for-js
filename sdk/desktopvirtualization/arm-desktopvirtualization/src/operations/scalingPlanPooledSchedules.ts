@@ -22,9 +22,10 @@ import {
   ScalingPlanPooledSchedulesGetResponse,
   ScalingPlanPooledSchedulesCreateOptionalParams,
   ScalingPlanPooledSchedulesCreateResponse,
-  ScalingPlanPooledSchedulesDeleteOptionalParams,
+  ScalingPlanPooledSchedulePatch,
   ScalingPlanPooledSchedulesUpdateOptionalParams,
   ScalingPlanPooledSchedulesUpdateResponse,
+  ScalingPlanPooledSchedulesDeleteOptionalParams,
   ScalingPlanPooledSchedulesListNextResponse,
 } from "../models/index.js";
 
@@ -124,6 +125,23 @@ export class ScalingPlanPooledSchedulesImpl
   }
 
   /**
+   * List ScalingPlanPooledSchedules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    options?: ScalingPlanPooledSchedulesListOptionalParams,
+  ): Promise<ScalingPlanPooledSchedulesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, scalingPlanName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Get a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
@@ -170,6 +188,33 @@ export class ScalingPlanPooledSchedulesImpl
   }
 
   /**
+   * Update a ScalingPlanPooledSchedule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
+   * @param properties Object containing ScalingPlanPooledSchedule definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    properties: ScalingPlanPooledSchedulePatch,
+    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
+  ): Promise<ScalingPlanPooledSchedulesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        scalingPlanName,
+        scalingPlanScheduleName,
+        properties,
+        options,
+      },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Remove a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
@@ -185,42 +230,6 @@ export class ScalingPlanPooledSchedulesImpl
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
       deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Update a ScalingPlanPooledSchedule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
-   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
-  ): Promise<ScalingPlanPooledSchedulesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
-      updateOperationSpec,
-    );
-  }
-
-  /**
-   * List ScalingPlanPooledSchedules.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    options?: ScalingPlanPooledSchedulesListOptionalParams,
-  ): Promise<ScalingPlanPooledSchedulesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, scalingPlanName, options },
-      listOperationSpec,
     );
   }
 
@@ -246,6 +255,32 @@ export class ScalingPlanPooledSchedulesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScalingPlanPooledScheduleList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.scalingPlanName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
   httpMethod: "GET",
@@ -254,7 +289,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlanPooledSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -279,10 +314,34 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlanPooledSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.scalingPlanSchedule,
+  requestBody: Parameters.scalingPlanSchedule1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.scalingPlanName,
+    Parameters.scalingPlanScheduleName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ScalingPlanPooledSchedule,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.properties11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -302,7 +361,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -312,56 +371,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
     Parameters.scalingPlanScheduleName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanPooledSchedule,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.scalingPlanSchedule1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.scalingPlanName,
-    Parameters.scalingPlanScheduleName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScalingPlanPooledScheduleList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.scalingPlanName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -374,7 +383,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ScalingPlanPooledScheduleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
