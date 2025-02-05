@@ -2916,7 +2916,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-riUbzWS7DLA1AF3nx1KRvcOnI3v61gEpK2iDQ1Pnqyclt+wlo2uxRm2Gdt68IanuQ9R7AlTWarunH5JNRIztug==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-g4JIkskJ/SA6pFMru7Ib1L0o6lXISYtoE5JIGbmHHdy5itSt8xzgHwzNoSNzddbW7mA3HjSnqcrCfFwghPrOqg==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3088,7 +3088,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-j2XY+SuSD2mFdpJeHSDpX3rP39/uansqBWn4zeYllMO+BtzMeAczXukLb3tuSfhpYKa50osJGDIm8DhoEfclWA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-mhaJ6Omd/viOSXvzaWdju3lxQJzXJ8DDQ4sdWdkcoNu5fyv24s7VEvHN3QrVP6Nxjv9dE6d9EAQYfBRI8pX0Aw==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
@@ -4024,7 +4024,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jayeVd5uwRMKpPlpcpfe18IH7vq9LLcRBIcumGtKOe9IoCu4/WHkFslqF7QIr7II0wFC3fqLzhDMp9CV5eGcLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-mPX1Aau04IC1JPC68Y9/c4IlQfRSDotxS4i5iHYeKYyG/iBQWiBP4rHNJAFJA/ubzp4fLxXLG3YTzpK/t+7sAA==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -12558,12 +12558,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
