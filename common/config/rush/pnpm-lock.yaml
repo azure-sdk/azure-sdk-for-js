@@ -1002,7 +1002,7 @@ importers:
         version: file:projects/keyvault-keys.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/keyvault-secrets':
         specifier: file:./projects/keyvault-secrets.tgz
-        version: file:projects/keyvault-secrets.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+        version: file:projects/keyvault-secrets.tgz
       '@rush-temp/load-testing':
         specifier: file:./projects/load-testing.tgz
         version: file:projects/load-testing.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -3088,7 +3088,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-j2XY+SuSD2mFdpJeHSDpX3rP39/uansqBWn4zeYllMO+BtzMeAczXukLb3tuSfhpYKa50osJGDIm8DhoEfclWA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-mhaJ6Omd/viOSXvzaWdju3lxQJzXJ8DDQ4sdWdkcoNu5fyv24s7VEvHN3QrVP6Nxjv9dE6d9EAQYfBRI8pX0Aw==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
@@ -3952,7 +3952,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
-    resolution: {integrity: sha512-bOeuPAh75MY4m1HGSvRxY0hxXzdoTscfWYp+WOkbQGNShjWGYgKpQAWbT9bK0jHBiICtIXBbH4uyadCslk3cJw==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-sM0lvJ1M59VB0p0UvCr9Za0cL2yCLYuh3B3GGjDwgfHQWFqr+ztCGCnl9Y4nrpNcyM+Xi+5zG+E5P6QFWait0A==, tarball: file:projects/keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
@@ -4024,7 +4024,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jayeVd5uwRMKpPlpcpfe18IH7vq9LLcRBIcumGtKOe9IoCu4/WHkFslqF7QIr7II0wFC3fqLzhDMp9CV5eGcLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-mPX1Aau04IC1JPC68Y9/c4IlQfRSDotxS4i5iHYeKYyG/iBQWiBP4rHNJAFJA/ubzp4fLxXLG3YTzpK/t+7sAA==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -19765,36 +19765,17 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)':
+  '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
     dependencies:
-      '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       eslint: 9.19.0
-      playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
-      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+      typescript: 5.6.3
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/browser'
-      - '@vitest/ui'
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - yaml
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
