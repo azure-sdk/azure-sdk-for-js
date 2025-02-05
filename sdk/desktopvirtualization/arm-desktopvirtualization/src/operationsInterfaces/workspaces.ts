@@ -9,20 +9,28 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Workspace,
-  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
-  WorkspacesDeleteOptionalParams,
+  WorkspacePatch,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
+  WorkspacesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
 export interface Workspaces {
+  /**
+   * List workspaces in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Workspace>;
   /**
    * List workspaces.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -31,13 +39,6 @@ export interface Workspaces {
   listByResourceGroup(
     resourceGroupName: string,
     options?: WorkspacesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Workspace>;
-  /**
-   * List workspaces in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workspace>;
   /**
    * Get a workspace.
@@ -64,6 +65,19 @@ export interface Workspaces {
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
+   * Update a workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param properties Object containing Workspace definitions.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    workspaceName: string,
+    properties: WorkspacePatch,
+    options?: WorkspacesUpdateOptionalParams,
+  ): Promise<WorkspacesUpdateResponse>;
+  /**
    * Remove a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -74,15 +88,4 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update a workspace.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesUpdateOptionalParams,
-  ): Promise<WorkspacesUpdateResponse>;
 }

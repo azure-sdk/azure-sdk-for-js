@@ -37,6 +37,7 @@ export class MsixImagesImpl implements MsixImages {
 
   /**
    * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * This action uses incorrect Msix casing intentionally to match the previous APIs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixImageURI Object containing URI to MSIX Image
@@ -130,6 +131,7 @@ export class MsixImagesImpl implements MsixImages {
 
   /**
    * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * This action uses incorrect Msix casing intentionally to match the previous APIs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param msixImageURI Object containing URI to MSIX Image
@@ -179,7 +181,7 @@ const expandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.msixImageURI,
@@ -202,7 +204,7 @@ const expandNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
