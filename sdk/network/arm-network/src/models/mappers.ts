@@ -3894,6 +3894,52 @@ export const ExpressRouteCircuitPeeringConfig: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      advertisedPublicPrefixInfo: {
+        serializedName: "advertisedPublicPrefixInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdvertisedPublicPrefixProperties",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AdvertisedPublicPrefixProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvertisedPublicPrefixProperties",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "String",
+        },
+      },
+      validationId: {
+        serializedName: "validationId",
+        type: {
+          name: "String",
+        },
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String",
+        },
+      },
+      validationState: {
+        serializedName: "validationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6725,8 +6771,7 @@ export const LoadBalancerHealthPerRulePerBackendAddress: coreClient.CompositeMap
         networkInterfaceIPConfigurationId: {
           serializedName: "networkInterfaceIPConfigurationId",
           type: {
-            name: "Composite",
-            className: "NetworkInterfaceIPConfiguration",
+            name: "String",
           },
         },
         state: {
@@ -9252,6 +9297,49 @@ export const NetworkVirtualApplianceInstanceIds: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const NetworkVirtualApplianceBootDiagnosticParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualApplianceBootDiagnosticParameters",
+      modelProperties: {
+        instanceId: {
+          serializedName: "instanceId",
+          type: {
+            name: "Number",
+          },
+        },
+        serialConsoleStorageSasUrl: {
+          serializedName: "serialConsoleStorageSasUrl",
+          type: {
+            name: "String",
+          },
+        },
+        consoleScreenshotStorageSasUrl: {
+          serializedName: "consoleScreenshotStorageSasUrl",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualApplianceInstanceId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkVirtualApplianceInstanceId",
+    modelProperties: {
+      instanceId: {
+        serializedName: "instanceId",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -12669,129 +12757,6 @@ export const ConnectionMonitorResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ConnectionMonitorQueryResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectionMonitorQueryResult",
-    modelProperties: {
-      sourceStatus: {
-        serializedName: "sourceStatus",
-        type: {
-          name: "String",
-        },
-      },
-      states: {
-        serializedName: "states",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectionStateSnapshot",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const ConnectionStateSnapshot: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectionStateSnapshot",
-    modelProperties: {
-      connectionState: {
-        serializedName: "connectionState",
-        type: {
-          name: "String",
-        },
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime",
-        },
-      },
-      endTime: {
-        serializedName: "endTime",
-        type: {
-          name: "DateTime",
-        },
-      },
-      evaluationState: {
-        serializedName: "evaluationState",
-        type: {
-          name: "String",
-        },
-      },
-      avgLatencyInMs: {
-        constraints: {
-          InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "avgLatencyInMs",
-        type: {
-          name: "Number",
-        },
-      },
-      minLatencyInMs: {
-        constraints: {
-          InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "minLatencyInMs",
-        type: {
-          name: "Number",
-        },
-      },
-      maxLatencyInMs: {
-        constraints: {
-          InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "maxLatencyInMs",
-        type: {
-          name: "Number",
-        },
-      },
-      probesSent: {
-        constraints: {
-          InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "probesSent",
-        type: {
-          name: "Number",
-        },
-      },
-      probesFailed: {
-        constraints: {
-          InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0,
-        },
-        serializedName: "probesFailed",
-        type: {
-          name: "Number",
-        },
-      },
-      hops: {
-        serializedName: "hops",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectivityHop",
-            },
-          },
         },
       },
     },
@@ -19071,6 +19036,129 @@ export const AzureAsyncOperationResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectionStateSnapshot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectionStateSnapshot",
+    modelProperties: {
+      connectionState: {
+        serializedName: "connectionState",
+        type: {
+          name: "String",
+        },
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      evaluationState: {
+        serializedName: "evaluationState",
+        type: {
+          name: "String",
+        },
+      },
+      avgLatencyInMs: {
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "avgLatencyInMs",
+        type: {
+          name: "Number",
+        },
+      },
+      minLatencyInMs: {
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "minLatencyInMs",
+        type: {
+          name: "Number",
+        },
+      },
+      maxLatencyInMs: {
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "maxLatencyInMs",
+        type: {
+          name: "Number",
+        },
+      },
+      probesSent: {
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "probesSent",
+        type: {
+          name: "Number",
+        },
+      },
+      probesFailed: {
+        constraints: {
+          InclusiveMaximum: 4294967295,
+          InclusiveMinimum: 0,
+        },
+        serializedName: "probesFailed",
+        type: {
+          name: "Number",
+        },
+      },
+      hops: {
+        serializedName: "hops",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectivityHop",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ConnectionMonitorQueryResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectionMonitorQueryResult",
+    modelProperties: {
+      sourceStatus: {
+        serializedName: "sourceStatus",
+        type: {
+          name: "String",
+        },
+      },
+      states: {
+        serializedName: "states",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectionStateSnapshot",
+            },
+          },
         },
       },
     },
@@ -34491,6 +34579,38 @@ export const NetworkVirtualAppliancesRestartHeaders: coreClient.CompositeMapper 
     type: {
       name: "Composite",
       className: "NetworkVirtualAppliancesRestartHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualAppliancesReimageHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualAppliancesReimageHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders",
       modelProperties: {
         location: {
           serializedName: "location",
