@@ -826,6 +826,9 @@ importers:
       '@rush-temp/batch':
         specifier: file:./projects/batch.tgz
         version: file:projects/batch.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+      '@rush-temp/codetransparency-rest':
+        specifier: file:./projects/codetransparency-rest.tgz
+        version: file:projects/codetransparency-rest.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/communication-alpha-ids':
         specifier: file:./projects/communication-alpha-ids.tgz
         version: file:projects/communication-alpha-ids.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -3088,7 +3091,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-j2XY+SuSD2mFdpJeHSDpX3rP39/uansqBWn4zeYllMO+BtzMeAczXukLb3tuSfhpYKa50osJGDIm8DhoEfclWA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-mhaJ6Omd/viOSXvzaWdju3lxQJzXJ8DDQ4sdWdkcoNu5fyv24s7VEvHN3QrVP6Nxjv9dE6d9EAQYfBRI8pX0Aw==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
@@ -3719,6 +3722,10 @@ packages:
     resolution: {integrity: sha512-Yovctao/EAHsURyQiVo3XJevkmPM18zcVYMp/mApkOMxk46/zJAsOmvdbEJGdBf9dfn8UzL27rJtWdVeUEZUCQ==, tarball: file:projects/batch.tgz}
     version: 0.0.0
 
+  '@rush-temp/codetransparency-rest@file:projects/codetransparency-rest.tgz':
+    resolution: {integrity: sha512-Hh3N4cwwBmZlGjPsldLU7r29zcBR7ighQY5bfH2Aak+Ql2dnIp6fUiSIeMiqDM8zG3NDytQPSScsM9b9YLivFA==, tarball: file:projects/codetransparency-rest.tgz}
+    version: 0.0.0
+
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz':
     resolution: {integrity: sha512-PSYp1KjFAiS63OX1UxBFHMX8XPdNGObuvW1YRgzf1EjMQLYgD6XDq//54wo4uMhpom/lDqth+cpngI6VdK0Z0A==, tarball: file:projects/communication-alpha-ids.tgz}
     version: 0.0.0
@@ -4024,7 +4031,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jayeVd5uwRMKpPlpcpfe18IH7vq9LLcRBIcumGtKOe9IoCu4/WHkFslqF7QIr7II0wFC3fqLzhDMp9CV5eGcLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-mPX1Aau04IC1JPC68Y9/c4IlQfRSDotxS4i5iHYeKYyG/iBQWiBP4rHNJAFJA/ubzp4fLxXLG3YTzpK/t+7sAA==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -17595,6 +17602,42 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/codetransparency-rest@file:projects/codetransparency-rest.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.74)
+      '@types/node': 18.19.74
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
+      eslint: 9.19.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/communication-alpha-ids@file:projects/communication-alpha-ids.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -22216,11 +22259,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -22238,7 +22281,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/cookie@0.6.0': {}
 
@@ -22267,7 +22310,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -22282,16 +22325,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22302,22 +22345,22 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.8':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/jws@3.2.10':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -22346,11 +22389,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.74':
@@ -22392,7 +22435,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22403,12 +22446,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -22423,11 +22466,11 @@ snapshots:
 
   '@types/stoppable@1.1.3':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -22445,7 +22488,7 @@ snapshots:
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
 
   '@types/ws@8.5.14':
     dependencies:
@@ -23528,7 +23571,7 @@ snapshots:
   engine.io@6.6.4:
     dependencies:
       '@types/cors': 2.8.17
-      '@types/node': 18.19.74
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
