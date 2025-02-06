@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Workspaces } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Workspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuantumManagementAPI } from "../azureQuantumManagementAPI.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   QuantumWorkspace,
   WorkspacesListBySubscriptionNextOptionalParams,
@@ -27,28 +27,36 @@ import {
   WorkspacesListByResourceGroupNextOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
   WorkspacesListByResourceGroupResponse,
+  CheckNameAvailabilityRequest,
+  WorkspacesCheckNameAvailabilityOptionalParams,
+  WorkspacesCheckNameAvailabilityResponse,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
-  TagsObject,
+  QuantumWorkspaceTagsUpdate,
   WorkspacesUpdateTagsOptionalParams,
   WorkspacesUpdateTagsResponse,
   WorkspacesDeleteOptionalParams,
+  WorkspacesDeleteResponse,
+  WorkspacesListKeysOptionalParams,
+  WorkspacesListKeysResponse,
+  ApiKeys,
+  WorkspacesRegenerateKeysOptionalParams,
   WorkspacesListBySubscriptionNextResponse,
   WorkspacesListByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Workspaces operations. */
 export class WorkspacesImpl implements Workspaces {
-  private readonly client: AzureQuantumManagementClient;
+  private readonly client: AzureQuantumManagementAPI;
 
   /**
    * Initialize a new instance of the class Workspaces class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuantumManagementClient) {
+  constructor(client: AzureQuantumManagementAPI) {
     this.client = client;
   }
 
@@ -176,6 +184,51 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
+   * Check the availability of the resource name for the given location.
+   * @param location The name of the Azure region.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    location: string,
+    body: CheckNameAvailabilityRequest,
+    options?: WorkspacesCheckNameAvailabilityOptionalParams,
+  ): Promise<WorkspacesCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { location, body, options },
+      checkNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the list of Workspaces within a Subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): Promise<WorkspacesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the list of Workspaces within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams,
+  ): Promise<WorkspacesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
    * Returns the Workspace resource associated with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
@@ -193,16 +246,16 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Creates or updates a workspace resource.
+   * Creates or updates a Workspace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param quantumWorkspace Workspace details.
+   * @param resource Workspace details.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    quantumWorkspace: QuantumWorkspace,
+    resource: QuantumWorkspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -250,7 +303,7 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, quantumWorkspace, options },
+      args: { resourceGroupName, workspaceName, resource, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -266,42 +319,42 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Creates or updates a workspace resource.
+   * Creates or updates a Workspace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param quantumWorkspace Workspace details.
+   * @param resource Workspace details.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    quantumWorkspace: QuantumWorkspace,
+    resource: QuantumWorkspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      quantumWorkspace,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates an existing workspace's tags.
+   * Updates an existing Workspace's tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param workspaceTags Parameters supplied to update tags.
+   * @param properties Parameters supplied to update tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     workspaceName: string,
-    workspaceTags: TagsObject,
+    properties: QuantumWorkspaceTagsUpdate,
     options?: WorkspacesUpdateTagsOptionalParams,
   ): Promise<WorkspacesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, workspaceTags, options },
+      { resourceGroupName, workspaceName, properties, options },
       updateTagsOperationSpec,
     );
   }
@@ -316,11 +369,16 @@ export class WorkspacesImpl implements Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesDeleteResponse>,
+      WorkspacesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<WorkspacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -360,7 +418,10 @@ export class WorkspacesImpl implements Workspaces {
       args: { resourceGroupName, workspaceName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      WorkspacesDeleteResponse,
+      OperationState<WorkspacesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -379,7 +440,7 @@ export class WorkspacesImpl implements Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<WorkspacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
@@ -389,30 +450,41 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets the list of Workspaces within a Subscription.
+   * Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the
+   * Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key
+   * regeneration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
-  private _listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-  ): Promise<WorkspacesListBySubscriptionResponse> {
+  listKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListKeysOptionalParams,
+  ): Promise<WorkspacesListKeysResponse> {
     return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
+      { resourceGroupName, workspaceName, options },
+      listKeysOperationSpec,
     );
   }
 
   /**
-   * Gets the list of Workspaces within a resource group.
+   * Regenerate either the primary or secondary key for use with the Quantum APIs. The old key will stop
+   * working immediately.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
+   * @param body Which key to regenerate:  primary or secondary.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  regenerateKeys(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-  ): Promise<WorkspacesListByResourceGroupResponse> {
+    workspaceName: string,
+    body: ApiKeys,
+    options?: WorkspacesRegenerateKeysOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
+      { resourceGroupName, workspaceName, body, options },
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -451,6 +523,64 @@ export class WorkspacesImpl implements Workspaces {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{location}/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/workspaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuantumWorkspaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuantumWorkspaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}",
   httpMethod: "GET",
@@ -465,8 +595,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
@@ -492,12 +622,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.quantumWorkspace,
+  requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -515,12 +645,12 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workspaceTags,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -531,10 +661,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.WorkspacesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.WorkspacesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.WorkspacesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.WorkspacesDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -542,35 +680,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/workspaces",
-  httpMethod: "GET",
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/listKeys",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceListResult,
+      bodyMapper: Mappers.ListKeysResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -579,10 +701,32 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const regenerateKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/regenerateKey",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -590,7 +734,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult,
+      bodyMapper: Mappers.QuantumWorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -598,8 +742,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -609,7 +753,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult,
+      bodyMapper: Mappers.QuantumWorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -617,9 +761,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

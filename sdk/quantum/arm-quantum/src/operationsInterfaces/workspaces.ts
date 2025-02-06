@@ -12,15 +12,23 @@ import {
   QuantumWorkspace,
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
+  CheckNameAvailabilityRequest,
+  WorkspacesCheckNameAvailabilityOptionalParams,
+  WorkspacesCheckNameAvailabilityResponse,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesCreateOrUpdateResponse,
-  TagsObject,
+  QuantumWorkspaceTagsUpdate,
   WorkspacesUpdateTagsOptionalParams,
   WorkspacesUpdateTagsResponse,
   WorkspacesDeleteOptionalParams,
-} from "../models";
+  WorkspacesDeleteResponse,
+  WorkspacesListKeysOptionalParams,
+  WorkspacesListKeysResponse,
+  ApiKeys,
+  WorkspacesRegenerateKeysOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workspaces. */
@@ -42,6 +50,17 @@ export interface Workspaces {
     options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<QuantumWorkspace>;
   /**
+   * Check the availability of the resource name for the given location.
+   * @param location The name of the Azure region.
+   * @param body The CheckAvailability request
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    location: string,
+    body: CheckNameAvailabilityRequest,
+    options?: WorkspacesCheckNameAvailabilityOptionalParams,
+  ): Promise<WorkspacesCheckNameAvailabilityResponse>;
+  /**
    * Returns the Workspace resource associated with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
@@ -53,16 +72,16 @@ export interface Workspaces {
     options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
-   * Creates or updates a workspace resource.
+   * Creates or updates a Workspace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param quantumWorkspace Workspace details.
+   * @param resource Workspace details.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    quantumWorkspace: QuantumWorkspace,
+    resource: QuantumWorkspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -71,29 +90,29 @@ export interface Workspaces {
     >
   >;
   /**
-   * Creates or updates a workspace resource.
+   * Creates or updates a Workspace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param quantumWorkspace Workspace details.
+   * @param resource Workspace details.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    quantumWorkspace: QuantumWorkspace,
+    resource: QuantumWorkspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
-   * Updates an existing workspace's tags.
+   * Updates an existing Workspace's tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
-   * @param workspaceTags Parameters supplied to update tags.
+   * @param properties Parameters supplied to update tags.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     workspaceName: string,
-    workspaceTags: TagsObject,
+    properties: QuantumWorkspaceTagsUpdate,
     options?: WorkspacesUpdateTagsOptionalParams,
   ): Promise<WorkspacesUpdateTagsResponse>;
   /**
@@ -106,7 +125,12 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesDeleteResponse>,
+      WorkspacesDeleteResponse
+    >
+  >;
   /**
    * Deletes a Workspace resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -117,5 +141,32 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
+  ): Promise<WorkspacesDeleteResponse>;
+  /**
+   * Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the
+   * Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key
+   * regeneration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
+   * @param options The options parameters.
+   */
+  listKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListKeysOptionalParams,
+  ): Promise<WorkspacesListKeysResponse>;
+  /**
+   * Regenerate either the primary or secondary key for use with the Quantum APIs. The old key will stop
+   * working immediately.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the quantum workspace resource.
+   * @param body Which key to regenerate:  primary or secondary.
+   * @param options The options parameters.
+   */
+  regenerateKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: ApiKeys,
+    options?: WorkspacesRegenerateKeysOptionalParams,
   ): Promise<void>;
 }

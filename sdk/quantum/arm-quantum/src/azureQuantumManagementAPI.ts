@@ -14,27 +14,17 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  WorkspacesImpl,
-  OfferingsImpl,
-  OperationsImpl,
-  WorkspaceImpl,
-} from "./operations";
-import {
-  Workspaces,
-  Offerings,
-  Operations,
-  Workspace,
-} from "./operationsInterfaces";
-import { AzureQuantumManagementClientOptionalParams } from "./models";
+import { OperationsImpl, WorkspacesImpl, OfferingsImpl } from "./operations/index.js";
+import { Operations, Workspaces, Offerings } from "./operationsInterfaces/index.js";
+import { AzureQuantumManagementAPIOptionalParams } from "./models/index.js";
 
-export class AzureQuantumManagementClient extends coreClient.ServiceClient {
+export class AzureQuantumManagementAPI extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureQuantumManagementClient class.
+   * Initializes a new instance of the AzureQuantumManagementAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
@@ -42,7 +32,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureQuantumManagementClientOptionalParams,
+    options?: AzureQuantumManagementAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,7 +45,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureQuantumManagementClientOptionalParams = {
+    const defaults: AzureQuantumManagementAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials,
     };
@@ -115,10 +105,9 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2023-11-13-preview";
+    this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.offerings = new OfferingsImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.workspace = new WorkspaceImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -150,8 +139,7 @@ export class AzureQuantumManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  operations: Operations;
   workspaces: Workspaces;
   offerings: Offerings;
-  operations: Operations;
-  workspace: Workspace;
 }
