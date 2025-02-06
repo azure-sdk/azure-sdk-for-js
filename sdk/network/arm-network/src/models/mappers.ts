@@ -3894,6 +3894,52 @@ export const ExpressRouteCircuitPeeringConfig: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      advertisedPublicPrefixInfo: {
+        serializedName: "advertisedPublicPrefixInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdvertisedPublicPrefixProperties",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const AdvertisedPublicPrefixProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvertisedPublicPrefixProperties",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "String",
+        },
+      },
+      validationId: {
+        serializedName: "validationId",
+        type: {
+          name: "String",
+        },
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String",
+        },
+      },
+      validationState: {
+        serializedName: "validationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6725,8 +6771,7 @@ export const LoadBalancerHealthPerRulePerBackendAddress: coreClient.CompositeMap
         networkInterfaceIPConfigurationId: {
           serializedName: "networkInterfaceIPConfigurationId",
           type: {
-            name: "Composite",
-            className: "NetworkInterfaceIPConfiguration",
+            name: "String",
           },
         },
         state: {
@@ -7613,6 +7658,13 @@ export const EffectiveConnectivityConfiguration: coreClient.CompositeMapper = {
         serializedName: "properties.isGlobal",
         type: {
           name: "String",
+        },
+      },
+      connectivityCapabilities: {
+        serializedName: "properties.connectivityCapabilities",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
         },
       },
       appliesToGroups: {
@@ -9252,6 +9304,49 @@ export const NetworkVirtualApplianceInstanceIds: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const NetworkVirtualApplianceBootDiagnosticParameters: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualApplianceBootDiagnosticParameters",
+      modelProperties: {
+        instanceId: {
+          serializedName: "instanceId",
+          type: {
+            name: "Number",
+          },
+        },
+        serialConsoleStorageSasUrl: {
+          serializedName: "serialConsoleStorageSasUrl",
+          type: {
+            name: "String",
+          },
+        },
+        consoleScreenshotStorageSasUrl: {
+          serializedName: "consoleScreenshotStorageSasUrl",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualApplianceInstanceId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkVirtualApplianceInstanceId",
+    modelProperties: {
+      instanceId: {
+        serializedName: "instanceId",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -19071,6 +19166,36 @@ export const AzureAsyncOperationResult: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectivityCapabilitiesItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectivityCapabilitiesItem",
+    modelProperties: {
+      connectedGroupPrivateEndpointScale: {
+        defaultValue: "Standard",
+        serializedName: "connectedGroupPrivateEndpointScale",
+        type: {
+          name: "String",
+        },
+      },
+      connectedGroupAddressOverlap: {
+        defaultValue: "Allowed",
+        serializedName: "connectedGroupAddressOverlap",
+        type: {
+          name: "String",
+        },
+      },
+      peeringEnforcement: {
+        defaultValue: "Unenforced",
+        serializedName: "peeringEnforcement",
+        type: {
+          name: "String",
         },
       },
     },
@@ -32471,6 +32596,13 @@ export const ConnectivityConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      connectivityCapabilities: {
+        serializedName: "properties.connectivityCapabilities",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
       appliesToGroups: {
         serializedName: "properties.appliesToGroups",
         type: {
@@ -34491,6 +34623,38 @@ export const NetworkVirtualAppliancesRestartHeaders: coreClient.CompositeMapper 
     type: {
       name: "Composite",
       className: "NetworkVirtualAppliancesRestartHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualAppliancesReimageHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualAppliancesReimageHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders",
       modelProperties: {
         location: {
           serializedName: "location",

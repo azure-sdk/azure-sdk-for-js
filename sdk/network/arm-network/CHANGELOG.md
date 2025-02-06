@@ -1,5 +1,40 @@
 # Release History
     
+## 34.0.0 (2025-02-06)
+    
+### Features Added
+
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogsAndWait
+  - Added operation NetworkVirtualAppliances.beginReimage
+  - Added operation NetworkVirtualAppliances.beginReimageAndWait
+  - Added Interface AdvertisedPublicPrefixProperties
+  - Added Interface ConnectivityCapabilitiesItem
+  - Added Interface NetworkVirtualApplianceBootDiagnosticParameters
+  - Added Interface NetworkVirtualApplianceInstanceId
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  - Added Interface NetworkVirtualAppliancesReimageHeaders
+  - Added Interface NetworkVirtualAppliancesReimageOptionalParams
+  - Added Type Alias AdvertisedPublicPrefixPropertiesValidationState
+  - Added Type Alias ConnectedGroupAddressOverlap
+  - Added Type Alias ConnectedGroupPrivateEndpointScale
+  - Added Type Alias NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+  - Added Type Alias NetworkVirtualAppliancesReimageResponse
+  - Added Type Alias PeeringEnforcement
+  - Interface ConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface ExpressRouteCircuitPeeringConfig has a new optional parameter advertisedPublicPrefixInfo
+  - Added Enum KnownAdvertisedPublicPrefixPropertiesValidationState
+  - Added Enum KnownConnectedGroupAddressOverlap
+  - Added Enum KnownConnectedGroupPrivateEndpointScale
+  - Added Enum KnownPeeringEnforcement
+
+### Breaking Changes
+
+  - Type of parameter networkInterfaceIPConfigurationId of interface LoadBalancerHealthPerRulePerBackendAddress is changed from NetworkInterfaceIPConfiguration to string
+    
+    
 ## 33.5.0 (2024-12-10)
     
 ### Features Added
