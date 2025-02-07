@@ -1,5 +1,14 @@
 # Release History
     
+## 4.2.0 (2025-02-07)
+    
+### Features Added
+
+  - Added Interface ConfigurationStoresDeleteHeaders
+  - Interface ConfigurationStore has a new optional parameter revisionRetentionPeriodInSeconds
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter revisionRetentionPeriodInSeconds
+    
+    
 ## 4.1.0 (2024-11-11)
     
 ### Features Added
