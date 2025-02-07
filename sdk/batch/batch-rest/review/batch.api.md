@@ -4,13 +4,10 @@
 
 ```ts
 
-import { AzureNamedKeyCredential } from '@azure/core-auth';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { PipelinePolicy } from '@azure/core-rest-pipeline';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -1635,11 +1632,8 @@ export type ContainerWorkingDirectory = string;
 // @public
 export type ContainerWorkingDirectoryOutput = string;
 
-// @public (undocumented)
-export function createBatchSharedKeyCredentialsPolicy(credentials: AzureNamedKeyCredential): PipelinePolicy;
-
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | AzureNamedKeyCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: BatchClientOptions): BatchClient;
 export default createClient;
 
 // @public (undocumented)
@@ -3310,6 +3304,20 @@ export interface GetApplicationQueryParamProperties {
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
+// @public
+export interface GetJob$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetJob$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface GetJob200Headers {
     "client-request-id"?: string;
@@ -3364,9 +3372,23 @@ export interface GetJobQueryParam {
 
 // @public (undocumented)
 export interface GetJobQueryParamProperties {
-    $expand?: string[];
-    $select?: string[];
+    $expand?: string[] | GetJob$expandQueryParam;
+    $select?: string[] | GetJob$selectQueryParam;
     timeOut?: number;
+}
+
+// @public
+export interface GetJobSchedule$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetJobSchedule$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -3423,8 +3445,8 @@ export interface GetJobScheduleQueryParam {
 
 // @public (undocumented)
 export interface GetJobScheduleQueryParamProperties {
-    $expand?: string[];
-    $select?: string[];
+    $expand?: string[] | GetJobSchedule$expandQueryParam;
+    $select?: string[] | GetJobSchedule$selectQueryParam;
     timeOut?: number;
 }
 
@@ -3486,6 +3508,13 @@ export interface GetJobTaskCountsQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface GetNode$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface GetNode {
     get(options?: GetNodeParameters): StreamableMethod<GetNode200Response | GetNodeDefaultResponse>;
@@ -3515,6 +3544,13 @@ export interface GetNodeDefaultResponse extends HttpResponse {
     body: BatchErrorOutput;
     // (undocumented)
     status: string;
+}
+
+// @public
+export interface GetNodeExtension$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -3572,7 +3608,7 @@ export interface GetNodeExtensionQueryParam {
 
 // @public (undocumented)
 export interface GetNodeExtensionQueryParamProperties {
-    $select?: string[];
+    $select?: string[] | GetNodeExtension$selectQueryParam;
     timeOut?: number;
 }
 
@@ -3719,7 +3755,7 @@ export interface GetNodeQueryParam {
 
 // @public (undocumented)
 export interface GetNodeQueryParamProperties {
-    $select?: string[];
+    $select?: string[] | GetNode$selectQueryParam;
     timeOut?: number;
 }
 
@@ -3782,10 +3818,24 @@ export interface GetNodeRemoteLoginSettingsQueryParamProperties {
 }
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
+
+// @public
+export interface GetPool$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetPool$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
 
 // @public (undocumented)
 export interface GetPool200Headers {
@@ -3841,9 +3891,23 @@ export interface GetPoolQueryParam {
 
 // @public (undocumented)
 export interface GetPoolQueryParamProperties {
-    $expand?: string[];
-    $select?: string[];
+    $expand?: string[] | GetPool$expandQueryParam;
+    $select?: string[] | GetPool$selectQueryParam;
     timeOut?: number;
+}
+
+// @public
+export interface GetTask$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetTask$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -4020,8 +4084,8 @@ export interface GetTaskQueryParam {
 
 // @public (undocumented)
 export interface GetTaskQueryParamProperties {
-    $expand?: string[];
-    $select?: string[];
+    $expand?: string[] | GetTask$expandQueryParam;
+    $select?: string[] | GetTask$selectQueryParam;
     timeOut?: number;
 }
 
@@ -4473,6 +4537,13 @@ export interface ListApplicationsQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface ListJobPreparationAndReleaseTaskStatus$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface ListJobPreparationAndReleaseTaskStatus {
     get(options?: ListJobPreparationAndReleaseTaskStatusParameters): StreamableMethod<ListJobPreparationAndReleaseTaskStatus200Response | ListJobPreparationAndReleaseTaskStatusDefaultResponse>;
@@ -4529,9 +4600,23 @@ export interface ListJobPreparationAndReleaseTaskStatusQueryParam {
 // @public (undocumented)
 export interface ListJobPreparationAndReleaseTaskStatusQueryParamProperties {
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListJobPreparationAndReleaseTaskStatus$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
+}
+
+// @public
+export interface ListJobs$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface ListJobs$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -4550,6 +4635,20 @@ export interface ListJobs200Response extends HttpResponse {
     headers: RawHttpHeaders & ListJobs200Headers;
     // (undocumented)
     status: "200";
+}
+
+// @public
+export interface ListJobSchedules$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface ListJobSchedules$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -4602,9 +4701,9 @@ export interface ListJobSchedulesQueryParam {
 
 // @public (undocumented)
 export interface ListJobSchedulesQueryParamProperties {
-    $expand?: string[];
+    $expand?: string[] | ListJobSchedules$expandQueryParam;
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListJobSchedules$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -4615,6 +4714,20 @@ export interface ListJobsDefaultResponse extends HttpResponse {
     body: BatchErrorOutput;
     // (undocumented)
     status: string;
+}
+
+// @public
+export interface ListJobsFromSchedule$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface ListJobsFromSchedule$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -4672,9 +4785,9 @@ export interface ListJobsFromScheduleQueryParam {
 
 // @public (undocumented)
 export interface ListJobsFromScheduleQueryParamProperties {
-    $expand?: string[];
+    $expand?: string[] | ListJobsFromSchedule$expandQueryParam;
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListJobsFromSchedule$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -4703,11 +4816,18 @@ export interface ListJobsQueryParam {
 
 // @public (undocumented)
 export interface ListJobsQueryParamProperties {
-    $expand?: string[];
+    $expand?: string[] | ListJobs$expandQueryParam;
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListJobs$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
+}
+
+// @public
+export interface ListNodeExtensions$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -4765,7 +4885,7 @@ export interface ListNodeExtensionsQueryParam {
 
 // @public (undocumented)
 export interface ListNodeExtensionsQueryParamProperties {
-    $select?: string[];
+    $select?: string[] | ListNodeExtensions$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -4831,6 +4951,13 @@ export interface ListNodeFilesQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface ListNodes$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface ListNodes {
     get(options?: ListNodesParameters): StreamableMethod<ListNodes200Response | ListNodesDefaultResponse>;
@@ -4887,7 +5014,7 @@ export interface ListNodesQueryParam {
 // @public (undocumented)
 export interface ListNodesQueryParamProperties {
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListNodes$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -4952,6 +5079,20 @@ export interface ListPoolNodeCountsQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface ListPools$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface ListPools$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface ListPools200Headers {
     "client-request-id"?: string;
@@ -5002,9 +5143,9 @@ export interface ListPoolsQueryParam {
 
 // @public (undocumented)
 export interface ListPoolsQueryParamProperties {
-    $expand?: string[];
+    $expand?: string[] | ListPools$expandQueryParam;
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListPools$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -5071,6 +5212,13 @@ export interface ListPoolUsageMetricsQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface ListSubTasks$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface ListSubTasks {
     get(options?: ListSubTasksParameters): StreamableMethod<ListSubTasks200Response | ListSubTasksDefaultResponse>;
@@ -5126,7 +5274,7 @@ export interface ListSubTasksQueryParam {
 
 // @public (undocumented)
 export interface ListSubTasksQueryParamProperties {
-    $select?: string[];
+    $select?: string[] | ListSubTasks$selectQueryParam;
     timeOut?: number;
 }
 
@@ -5251,6 +5399,20 @@ export interface ListTaskFilesQueryParamProperties {
     timeOut?: number;
 }
 
+// @public
+export interface ListTasks$expandQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface ListTasks$selectQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export interface ListTasks200Headers {
     "client-request-id"?: string;
@@ -5301,9 +5463,9 @@ export interface ListTasksQueryParam {
 
 // @public (undocumented)
 export interface ListTasksQueryParamProperties {
-    $expand?: string[];
+    $expand?: string[] | ListTasks$expandQueryParam;
     $filter?: string;
-    $select?: string[];
+    $select?: string[] | ListTasks$selectQueryParam;
     maxresults?: number;
     timeOut?: number;
 }
@@ -5521,6 +5683,18 @@ export interface OutputFileUploadConfig {
 // @public
 export interface OutputFileUploadConfigOutput {
     uploadCondition: OutputFileUploadConditionOutput;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
