@@ -30,7 +30,7 @@ import {
   ProfilesDeleteOptionalParams,
   ProfilesDeleteResponse,
   ProfilesUpdateOptionalParams,
-  ProfilesUpdateResponse
+  ProfilesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,7 +53,7 @@ export class ProfilesImpl implements Profiles {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Profile> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -70,16 +70,16 @@ export class ProfilesImpl implements Profiles {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ProfilesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Profile[]> {
     let result: ProfilesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -88,11 +88,11 @@ export class ProfilesImpl implements Profiles {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Profile> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -103,7 +103,7 @@ export class ProfilesImpl implements Profiles {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ProfilesListBySubscriptionOptionalParams
+    options?: ProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Profile> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -118,13 +118,13 @@ export class ProfilesImpl implements Profiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ProfilesListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Profile[]> {
     let result: ProfilesListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -132,7 +132,7 @@ export class ProfilesImpl implements Profiles {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ProfilesListBySubscriptionOptionalParams
+    options?: ProfilesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Profile> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -147,11 +147,11 @@ export class ProfilesImpl implements Profiles {
    */
   checkTrafficManagerRelativeDnsNameAvailability(
     parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-    options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams
+    options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ): Promise<ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec
+      checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class ProfilesImpl implements Profiles {
    */
   checkTrafficManagerNameAvailabilityV2(
     parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams
+    options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ): Promise<ProfilesCheckTrafficManagerNameAvailabilityV2Response> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      checkTrafficManagerNameAvailabilityV2OperationSpec
+      checkTrafficManagerNameAvailabilityV2OperationSpec,
     );
   }
 
@@ -178,11 +178,11 @@ export class ProfilesImpl implements Profiles {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): Promise<ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class ProfilesImpl implements Profiles {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ProfilesListBySubscriptionOptionalParams
+    options?: ProfilesListBySubscriptionOptionalParams,
   ): Promise<ProfilesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -208,11 +208,11 @@ export class ProfilesImpl implements Profiles {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGetOptionalParams
+    options?: ProfilesGetOptionalParams,
   ): Promise<ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     parameters: Profile,
-    options?: ProfilesCreateOrUpdateOptionalParams
+    options?: ProfilesCreateOrUpdateOptionalParams,
   ): Promise<ProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -244,11 +244,11 @@ export class ProfilesImpl implements Profiles {
   delete(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
+    options?: ProfilesDeleteOptionalParams,
   ): Promise<ProfilesDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -263,128 +263,125 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     parameters: Profile,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<ProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Network/checkTrafficManagerNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrafficManagerNameAvailability
+const checkTrafficManagerRelativeDnsNameAvailabilityOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/Microsoft.Network/checkTrafficManagerNameAvailability",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.TrafficManagerNameAvailability,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const checkTrafficManagerNameAvailabilityV2OperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrafficManagerNameAvailability
+    requestBody: Parameters.parameters1,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
+const checkTrafficManagerNameAvailabilityV2OperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkTrafficManagerNameAvailabilityV2",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.TrafficManagerNameAvailability,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.parameters1,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/trafficmanagerprofiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     201: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -392,46 +389,44 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.DeleteOperationResult
+      bodyMapper: Mappers.DeleteOperationResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficmanagerprofiles/{profileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -439,9 +434,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
