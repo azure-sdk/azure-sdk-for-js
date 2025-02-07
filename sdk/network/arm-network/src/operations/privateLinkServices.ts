@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkServices } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PrivateLinkServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateLinkService,
   PrivateLinkServicesListNextOptionalParams,
@@ -58,7 +58,7 @@ import {
   PrivateLinkServicesListPrivateEndpointConnectionsNextResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesNextResponse,
   PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkServices operations. */
@@ -1128,11 +1128,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
@@ -1149,11 +1149,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
@@ -1179,12 +1179,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters73,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1202,11 +1202,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1222,7 +1222,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1238,11 +1238,11 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.peConnectionName,
   ],
@@ -1260,12 +1260,12 @@ const updatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  requestBody: Parameters.parameters66,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters74,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.peConnectionName,
   ],
@@ -1285,11 +1285,11 @@ const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.peConnectionName,
   ],
@@ -1307,11 +1307,11 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
@@ -1335,11 +1335,11 @@ const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.PrivateLinkServiceVisibility,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    requestBody: Parameters.parameters67,
-    queryParameters: [Parameters.apiVersion],
+    requestBody: Parameters.parameters75,
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -1367,15 +1367,15 @@ const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.
         bodyMapper: Mappers.PrivateLinkServiceVisibility,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    requestBody: Parameters.parameters67,
-    queryParameters: [Parameters.apiVersion],
+    requestBody: Parameters.parameters75,
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.location,
     ],
     headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1391,10 +1391,10 @@ const listAutoApprovedPrivateLinkServicesOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -1412,14 +1412,14 @@ const listAutoApprovedPrivateLinkServicesByResourceGroupOperationSpec: coreClien
         bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
-    queryParameters: [Parameters.apiVersion],
+    queryParameters: [Parameters.apiVersion1],
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.location,
     ],
     headerParameters: [Parameters.accept],
@@ -1438,8 +1438,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
@@ -1478,8 +1478,8 @@ const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec 
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.nextLink,
       Parameters.serviceName,
     ],
@@ -1495,7 +1495,7 @@ const listAutoApprovedPrivateLinkServicesNextOperationSpec: coreClient.Operation
         bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
     urlParameters: [
@@ -1516,13 +1516,13 @@ const listAutoApprovedPrivateLinkServicesByResourceGroupNextOperationSpec: coreC
         bodyMapper: Mappers.AutoApprovedPrivateLinkServicesResult,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.CloudErrorAutoGenerated,
       },
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.resourceGroupName,
       Parameters.subscriptionId,
+      Parameters.resourceGroupName,
       Parameters.nextLink,
       Parameters.location,
     ],
