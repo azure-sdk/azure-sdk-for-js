@@ -2941,7 +2941,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-70LuLNNK6MxKzIs4O0uXpqeJQt8T9aTQ8H2bXY8D6mZkY7DI5+H7RbkAK73HmZJxEB4Glep9AU/9DDE8W/g5DA==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-r51t64znDo8nSQ+NKByg9diAOkf+GTuAqxfOdNcB8hY59osTcG2cOkcx+5lVeMfeDi0YfwOGhoOjFMWuWlak3w==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
@@ -3705,7 +3705,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-v9YVLjFKbVmx5EWiE7LsPWU04QvgDtvIkB2cGhQhm+sbNsCmXtdvkuRLCU7KqB/fWUMjAmnE14leCv/9cKYr8Q==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-W9fBB7WMF5gfDbwrm/+PSnA+WE5TINWRGDqtkYExIK22ctG4Sxl0oEBrPEji8VZJDyU8Ke/AJbD1G6UejadiFw==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -3801,7 +3801,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/iot-modelsrepository@file:projects/iot-modelsrepository.tgz':
-    resolution: {integrity: sha512-imAkwrq0V7gma8A+skFLi19LzTpaxqEwRL7l3lF+c+K1/1qNtYzsHYjwxtfMJAJrghrlpzU709zt7ZDLrG7TUQ==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-wEoTj/HVC4ccRzCgzWKViHn5CihSm0u1/fqVa9IjG4EB7RGPH0a8RAj2B41ADCuqO4wjqSoCFLFlzGkxScCs1g==, tarball: file:projects/iot-modelsrepository.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
@@ -13603,12 +13603,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
-      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
