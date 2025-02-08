@@ -1,8 +1,8 @@
 {
-  "commit": "2bde125befabb21807a2021765901f20e3e74ec8",
+  "commit": "5f2f29a72c2c8addea845fc6d8ba1b7d2d8d010a",
   "readme": "specification/containerservice/resource-manager/Microsoft.ContainerService/aks/readme.md",
-  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\containerservice\\resource-manager\\Microsoft.ContainerService\\aks\\readme.md --use=@autorest/typescript@6.0.29 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/containerservice/resource-manager/Microsoft.ContainerService/aks/readme.md --use=@autorest/typescript@^6.0.12",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.16",
-  "use": "@autorest/typescript@6.0.29"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.18",
+  "use": "@autorest/typescript@^6.0.12"
 }
