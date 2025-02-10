@@ -1,15 +1,141 @@
 # Release History
-
-## 22.3.1 (Unreleased)
-
+    
+## 23.0.0 (2025-02-10)
+    
 ### Features Added
+
+  - Added operation group AvailabilitySets
+  - Added operation group CapacityReservationGroups
+  - Added operation group CapacityReservations
+  - Added operation group CloudServiceOperatingSystems
+  - Added operation group CloudServiceRoleInstances
+  - Added operation group CloudServiceRoles
+  - Added operation group CloudServices
+  - Added operation group CloudServicesUpdateDomain
+  - Added operation group CommunityGalleries
+  - Added operation group CommunityGalleryImages
+  - Added operation group CommunityGalleryImageVersions
+  - Added operation group DedicatedHostGroups
+  - Added operation group DedicatedHosts
+  - Added operation group DiskAccesses
+  - Added operation group DiskEncryptionSets
+  - Added operation group DiskRestorePointOperations
+  - Added operation group Disks
+  - Added operation group Galleries
+  - Added operation group GalleryApplications
+  - Added operation group GalleryApplicationVersions
+  - Added operation group GalleryImages
+  - Added operation group GalleryImageVersions
+  - Added operation group GallerySharingProfile
+  - Added operation group Images
+  - Added operation group LogAnalytics
+  - Added operation group Operations
+  - Added operation group ProximityPlacementGroups
+  - Added operation group ResourceSkus
+  - Added operation group RestorePointCollections
+  - Added operation group RestorePoints
+  - Added operation group SharedGalleries
+  - Added operation group SharedGalleryImages
+  - Added operation group SharedGalleryImageVersions
+  - Added operation group Snapshots
+  - Added operation group SshPublicKeys
+  - Added operation group UsageOperations
+  - Added operation group VirtualMachineExtensionImages
+  - Added operation group VirtualMachineExtensions
+  - Added operation group VirtualMachineImages
+  - Added operation group VirtualMachineImagesEdgeZone
+  - Added operation group VirtualMachineRunCommands
+  - Added operation group VirtualMachines
+  - Added operation group VirtualMachineScaleSetExtensions
+  - Added operation group VirtualMachineScaleSetRollingUpgrades
+  - Added operation group VirtualMachineScaleSets
+  - Added operation group VirtualMachineScaleSetVMExtensions
+  - Added operation group VirtualMachineScaleSetVMRunCommands
+  - Added operation group VirtualMachineScaleSetVMs
+  - Added operation group VirtualMachineSizes
+  - Added Type Alias ResilientVMDeletionStatus
+  - Interface VirtualMachineScaleSetVM has a new optional parameter resilientVMDeletionStatus
+  - Added Enum KnownResilientVMDeletionStatus
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AvailabilitySets
+  - Removed operation group CapacityReservationGroups
+  - Removed operation group CapacityReservations
+  - Removed operation group CloudServiceOperatingSystems
+  - Removed operation group CloudServiceRoleInstances
+  - Removed operation group CloudServiceRoles
+  - Removed operation group CloudServices
+  - Removed operation group CloudServicesUpdateDomain
+  - Removed operation group CommunityGalleries
+  - Removed operation group CommunityGalleryImages
+  - Removed operation group CommunityGalleryImageVersions
+  - Removed operation group DedicatedHostGroups
+  - Removed operation group DedicatedHosts
+  - Removed operation group DiskAccesses
+  - Removed operation group DiskEncryptionSets
+  - Removed operation group DiskRestorePointOperations
+  - Removed operation group Disks
+  - Removed operation group Galleries
+  - Removed operation group GalleryApplications
+  - Removed operation group GalleryApplicationVersions
+  - Removed operation group GalleryImages
+  - Removed operation group GalleryImageVersions
+  - Removed operation group GalleryInVMAccessControlProfiles
+  - Removed operation group GalleryInVMAccessControlProfileVersions
+  - Removed operation group GallerySharingProfile
+  - Removed operation group Images
+  - Removed operation group LogAnalytics
+  - Removed operation group Operations
+  - Removed operation group ProximityPlacementGroups
+  - Removed operation group ResourceSkus
+  - Removed operation group RestorePointCollections
+  - Removed operation group RestorePoints
+  - Removed operation group SharedGalleries
+  - Removed operation group SharedGalleryImages
+  - Removed operation group SharedGalleryImageVersions
+  - Removed operation group Snapshots
+  - Removed operation group SoftDeletedResource
+  - Removed operation group SshPublicKeys
+  - Removed operation group UsageOperations
+  - Removed operation group VirtualMachineExtensionImages
+  - Removed operation group VirtualMachineExtensions
+  - Removed operation group VirtualMachineImages
+  - Removed operation group VirtualMachineImagesEdgeZone
+  - Removed operation group VirtualMachineRunCommands
+  - Removed operation group VirtualMachines
+  - Removed operation group VirtualMachineScaleSetExtensions
+  - Removed operation group VirtualMachineScaleSetRollingUpgrades
+  - Removed operation group VirtualMachineScaleSets
+  - Removed operation group VirtualMachineScaleSetVMExtensions
+  - Removed operation group VirtualMachineScaleSetVMRunCommands
+  - Removed operation group VirtualMachineScaleSetVMs
+  - Removed operation group VirtualMachineSizes
+  - Interface CloudServiceVaultCertificate no longer has parameter isBootstrapCertificate
+  - Interface Gallery no longer has parameter identity
+  - Interface GalleryImage no longer has parameter allowUpdateImage
+  - Interface GalleryImageFeature no longer has parameter startsAtVersion
+  - Interface GalleryImageUpdate no longer has parameter allowUpdateImage
+  - Interface GalleryImageVersion no longer has parameter restore
+  - Interface GalleryImageVersion no longer has parameter validationsProfile
+  - Interface GalleryImageVersionSafetyProfile no longer has parameter blockDeletionBeforeEndOfLife
+  - Interface GalleryImageVersionUpdate no longer has parameter restore
+  - Interface GalleryImageVersionUpdate no longer has parameter validationsProfile
+  - Interface GalleryList no longer has parameter securityProfile
+  - Interface GalleryUpdate no longer has parameter identity
+  - Interface TargetRegion no longer has parameter additionalReplicaSets
+  - Interface UserArtifactSettings no longer has parameter scriptBehaviorAfterReboot
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfiles
+  - Class ComputeManagementClient no longer has parameter galleryInVMAccessControlProfileVersions
+  - Class ComputeManagementClient no longer has parameter softDeletedResource
+  - Removed Enum KnownAccessControlRulesMode
+  - Removed Enum KnownEndpointAccess
+  - Removed Enum KnownGalleryApplicationScriptRebootBehavior
+  - Removed Enum KnownSoftDeletedArtifactTypes
+  - Removed Enum KnownValidationStatus
+  - Enum KnownStorageAccountType no longer has value PremiumV2LRS
+    
+    
 ## 22.3.0 (2025-01-09)
     
 ### Features Added
