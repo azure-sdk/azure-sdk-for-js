@@ -16,6 +16,7 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   AmlFilesystemsImpl,
+  AutoExportJobsImpl,
   ImportJobsImpl,
   OperationsImpl,
   SkusImpl,
@@ -25,9 +26,10 @@ import {
   CachesImpl,
   StorageTargetsImpl,
   StorageTargetOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AmlFilesystems,
+  AutoExportJobs,
   ImportJobs,
   Operations,
   Skus,
@@ -37,15 +39,15 @@ import {
   Caches,
   StorageTargets,
   StorageTargetOperations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   StorageCacheManagementClientOptionalParams,
   CheckAmlFSSubnetsOptionalParams,
   GetRequiredAmlFSSubnetsSizeOptionalParams,
   GetRequiredAmlFSSubnetsSizeResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class StorageCacheManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -79,7 +81,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storagecache/8.0.1`;
+    const packageDetails = `azsdk-js-arm-storagecache/8.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,8 +135,9 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
+    this.apiVersion = options.apiVersion || "2024-07-01";
     this.amlFilesystems = new AmlFilesystemsImpl(this);
+    this.autoExportJobs = new AutoExportJobsImpl(this);
     this.importJobs = new ImportJobsImpl(this);
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
@@ -200,6 +203,7 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
   }
 
   amlFilesystems: AmlFilesystems;
+  autoExportJobs: AutoExportJobs;
   importJobs: ImportJobs;
   operations: Operations;
   skus: Skus;

@@ -15,6 +15,8 @@ import {
   AmlFilesystem as AmlFilesystemMapper,
   AmlFilesystemUpdate as AmlFilesystemUpdateMapper,
   AmlFilesystemArchiveInfo as AmlFilesystemArchiveInfoMapper,
+  AutoExportJob as AutoExportJobMapper,
+  AutoExportJobUpdate as AutoExportJobUpdateMapper,
   ImportJob as ImportJobMapper,
   ImportJobUpdate as ImportJobUpdateMapper,
   AmlFilesystemSubnetInfo as AmlFilesystemSubnetInfoMapper,
@@ -23,7 +25,7 @@ import {
   PrimingJob as PrimingJobMapper,
   PrimingJobIdParameter as PrimingJobIdParameterMapper,
   StorageTarget as StorageTargetMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -52,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01",
+    defaultValue: "2024-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -143,6 +145,32 @@ export const nextLink: OperationURLParameter = {
     },
   },
   skipEncoding: true,
+};
+
+export const autoExportJobName: OperationURLParameter = {
+  parameterPath: "autoExportJobName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9a-zA-Z][-0-9a-zA-Z_]{0,78}[0-9a-zA-Z]$"),
+      MaxLength: 80,
+      MinLength: 2,
+    },
+    serializedName: "autoExportJobName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const autoExportJob: OperationParameter = {
+  parameterPath: "autoExportJob",
+  mapper: AutoExportJobMapper,
+};
+
+export const autoExportJob1: OperationParameter = {
+  parameterPath: "autoExportJob",
+  mapper: AutoExportJobUpdateMapper,
 };
 
 export const importJobName: OperationURLParameter = {
