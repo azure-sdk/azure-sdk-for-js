@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ImportJobs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ImportJobs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageCacheManagementClient } from "../storageCacheManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageCacheManagementClient } from "../storageCacheManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ImportJob,
   ImportJobsListByAmlFilesystemNextOptionalParams,
@@ -34,7 +34,7 @@ import {
   ImportJobsUpdateOptionalParams,
   ImportJobsUpdateResponse,
   ImportJobsListByAmlFilesystemNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ImportJobs operations. */
@@ -255,7 +255,7 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Create or update an import job. Import jobs are automatically deleted 72 hours after completion.
+   * Create or update an import job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
@@ -339,7 +339,7 @@ export class ImportJobsImpl implements ImportJobs {
   }
 
   /**
-   * Create or update an import job. Import jobs are automatically deleted 72 hours after completion.
+   * Create or update an import job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param amlFilesystemName Name for the AML file system. Allows alphanumerics, underscores, and
    *                          hyphens. Start and end with alphanumeric.
