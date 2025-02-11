@@ -321,6 +321,5 @@ export {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
-  ServiceApiVersions,
+  KnownServiceApiVersions,
 } from "./models.js";
-// export * from "./options.js";
