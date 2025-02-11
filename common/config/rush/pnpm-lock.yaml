@@ -412,6 +412,9 @@ importers:
       '@rush-temp/arm-imagebuilder':
         specifier: file:./projects/arm-imagebuilder.tgz
         version: file:projects/arm-imagebuilder.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-impactreporting':
+        specifier: file:./projects/arm-impactreporting.tgz
+        version: file:projects/arm-impactreporting.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-informaticadatamanagement':
         specifier: file:./projects/arm-informaticadatamanagement.tgz
         version: file:projects/arm-informaticadatamanagement.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -3026,6 +3029,10 @@ packages:
 
   '@rush-temp/arm-imagebuilder@file:projects/arm-imagebuilder.tgz':
     resolution: {integrity: sha512-IP1RWGe4uVJR1CV2YiNb4GjTScDFgenPbTaM9a1USoJAUe/PQr1b+w4QxYGQvnnlIRLoA5g1ykDMndht0RuhsQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz':
+    resolution: {integrity: sha512-nOnGCpcRMgCFTHrC1nsK15bmgupNJmMYBWgt82izqGheZVKj4ducqODQG8LZ9r0ZEOHy0WyylXK7mierQDRQQQ==, tarball: file:projects/arm-impactreporting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
@@ -14358,6 +14365,42 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
+      '@types/node': 18.19.75
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
+      eslint: 9.20.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -22193,7 +22236,7 @@ snapshots:
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22216,7 +22259,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -22231,7 +22274,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
@@ -22259,7 +22302,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.8':
     dependencies:
@@ -22343,7 +22386,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22410,7 +22453,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.23.0(@typescript-eslint/parser@8.23.0(eslint@9.20.0)(typescript@5.7.3))(eslint@9.20.0)(typescript@5.7.3)':
