@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Datastores } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Datastores } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   Datastore,
   DatastoresListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   DatastoresListSecretsOptionalParams,
   DatastoresListSecretsResponse,
   DatastoresListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Datastores operations. */
@@ -321,7 +321,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body19,
+  requestBody: Parameters.body17,
   queryParameters: [Parameters.apiVersion, Parameters.skipValidation],
   urlParameters: [
     Parameters.$host,
@@ -370,9 +370,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
