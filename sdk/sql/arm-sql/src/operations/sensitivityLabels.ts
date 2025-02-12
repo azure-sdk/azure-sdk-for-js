@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SensitivityLabels } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SensitivityLabels } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SqlManagementClient } from "../sqlManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SqlManagementClient } from "../sqlManagementClient.js";
 import {
   SensitivityLabel,
   SensitivityLabelsListCurrentByDatabaseNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   SensitivityLabelsDeleteOptionalParams,
   SensitivityLabelsListCurrentByDatabaseNextResponse,
   SensitivityLabelsListRecommendedByDatabaseNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SensitivityLabels operations. */
@@ -552,7 +552,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -662,7 +662,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
