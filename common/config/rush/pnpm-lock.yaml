@@ -2609,7 +2609,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz':
-    resolution: {integrity: sha512-awvcYS/oMlLCwFG/DYVyetNRhnsCKHe93Sa6hoj4HjDqiF5a6LxOXEe7PEMGJzAPDA2OgJI2RZg32K168YZ/1A==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-ieRfr7xs2xZY6lO+t5Nxvng73jYCGgN/hVA27v6wMaL0TDr9nJh9Fo4IuTphPtZJvaCYOpBwrIYamh3TGR32ZQ==, tarball: file:projects/arm-appinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appplatform@file:projects/arm-appplatform.tgz':
@@ -10725,11 +10725,12 @@ snapshots:
   '@rush-temp/arm-appinsights@file:projects/arm-appinsights.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.75
-      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22445,7 +22446,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
