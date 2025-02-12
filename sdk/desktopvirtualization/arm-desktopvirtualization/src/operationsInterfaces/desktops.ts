@@ -12,6 +12,7 @@ import {
   DesktopsListOptionalParams,
   DesktopsGetOptionalParams,
   DesktopsGetResponse,
+  DesktopPatch,
   DesktopsUpdateOptionalParams,
   DesktopsUpdateResponse,
 } from "../models/index.js";
@@ -48,12 +49,14 @@ export interface Desktops {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
    * @param desktopName The name of the desktop within the specified desktop group
+   * @param desktop Object containing Desktop definitions.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     applicationGroupName: string,
     desktopName: string,
+    desktop: DesktopPatch,
     options?: DesktopsUpdateOptionalParams,
   ): Promise<DesktopsUpdateResponse>;
 }
