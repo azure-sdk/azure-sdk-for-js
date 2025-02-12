@@ -1,8 +1,8 @@
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import { ResourceManagementClient } from "../src/resourceManagementClient";
+import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { OperationRequest } from "@azure/core-client";
+import { assert } from "vitest";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
   // this is not a real token, does not contain any sensitive info, just for test.
@@ -13,7 +13,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
   it("should proceed CAE process for mgmt client if a valid CAE challenge", async function () {
     let getTokenCount = 0;
     const credential: TokenCredential = {
-      getToken: async (scopes) => {
+      getToken: async () => {
         getTokenCount++;
         let token = "testToken";
         if (getTokenCount === 0) {
@@ -53,7 +53,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
   it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
     let getTokenCount = 0;
     const credential: TokenCredential = {
-      getToken: async (scopes) => {
+      getToken: async () => {
         getTokenCount++;
         let token = "testToken";
         if (getTokenCount === 0) {
