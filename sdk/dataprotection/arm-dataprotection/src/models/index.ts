@@ -27,7 +27,7 @@ export type DataStoreParametersUnion =
 export type BackupDatasourceParametersUnion =
   | BackupDatasourceParameters
   | KubernetesClusterBackupDatasourceParameters
-  | BlobBackupDatasourceParameters;
+  | BlobBackupDatasourceParametersUnion;
 export type AuthCredentialsUnion =
   | AuthCredentials
   | SecretStoreBasedAuthCredentials;
@@ -67,6 +67,9 @@ export type ItemLevelRestoreCriteriaUnion =
   | KubernetesPVRestoreCriteria
   | KubernetesClusterRestoreCriteria
   | KubernetesClusterVaultTierRestoreCriteria;
+export type BlobBackupDatasourceParametersUnion =
+  | BlobBackupDatasourceParameters
+  | AdlsBlobBackupDatasourceParameters;
 export type AzureBackupRecoveryPointBasedRestoreRequestUnion =
   | AzureBackupRecoveryPointBasedRestoreRequest
   | AzureBackupRestoreWithRehydrationRequest;
@@ -636,7 +639,8 @@ export interface BackupDatasourceParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "KubernetesClusterBackupDatasourceParameters"
-    | "BlobBackupDatasourceParameters";
+    | "BlobBackupDatasourceParameters"
+    | "AdlsBlobBackupDatasourceParameters";
 }
 
 /** Protection status details */
@@ -740,6 +744,47 @@ export interface ValidateForBackupRequest {
   backupInstance: BackupInstance;
 }
 
+/** Validate for modify backup request */
+export interface ValidateForModifyBackupRequest {
+  /** Backup Instance */
+  backupInstance: BackupInstance;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** Azure backup recoveryPoint */
 export interface AzureBackupRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -805,41 +850,6 @@ export interface RestoreTargetInfoBase {
 export interface CrossRegionRestoreDetails {
   sourceRegion: string;
   sourceBackupInstanceId: string;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
 /** Cross Region Restore Request Object */
@@ -934,7 +944,7 @@ export interface AzureBackupJob {
   sourceSubscriptionID: string;
   /** StartTime of the job(in UTC) */
   startTime: Date;
-  /** Status of the job like InProgress/Success/Failed/Cancelled/SuccessWithWarning */
+  /** Status of the job like InProgress/Completed/Failed/Cancelled/CompletedWithWarnings/Cancelling/Paused */
   status: string;
   /** Subscription Id of the corresponding backup vault */
   subscriptionId: string;
@@ -1461,42 +1471,56 @@ export interface ResourceGuardResource extends DppBaseTrackedResource {
 export interface BackupVaultResourceList extends DppResourceList {
   /** List of resources. */
   value?: BackupVaultResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of BaseBackupPolicy resources */
 export interface BaseBackupPolicyResourceList extends DppResourceList {
   /** List of resources. */
   value?: BaseBackupPolicyResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** BackupInstance Resource list response */
 export interface BackupInstanceResourceList extends DppResourceList {
   /** List of resources. */
   value?: BackupInstanceResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Azure backup recoveryPoint resource list */
 export interface AzureBackupRecoveryPointResourceList extends DppResourceList {
   /** List of resources. */
   value?: AzureBackupRecoveryPointResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of AzureBackup Job resources */
 export interface AzureBackupJobResourceList extends DppResourceList {
   /** List of resources. */
   value?: AzureBackupJobResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of DeletedBackupInstance resources */
 export interface DeletedBackupInstanceResourceList extends DppResourceList {
   /** List of resources. */
   value?: DeletedBackupInstanceResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends DppResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Operation Job Extended Info */
@@ -1603,6 +1627,8 @@ export interface KubernetesClusterBackupDatasourceParameters
   objectType: "KubernetesClusterBackupDatasourceParameters";
   /** Gets or sets the volume snapshot property. This property if enabled will take volume snapshots during backup. */
   snapshotVolumes: boolean;
+  /** Gets or sets the include volume types property. This property sets the volume types to be included during backup. */
+  includedVolumeTypes?: AKSVolumeTypes[];
   /** Gets or sets the include cluster resources property. This property if enabled will include cluster scope resources during backup. */
   includeClusterScopeResources: boolean;
   /** Gets or sets the include namespaces property. This property sets the namespaces to be included during backup. */
@@ -1623,7 +1649,9 @@ export interface KubernetesClusterBackupDatasourceParameters
 export interface BlobBackupDatasourceParameters
   extends BackupDatasourceParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  objectType: "BlobBackupDatasourceParameters";
+  objectType:
+    | "BlobBackupDatasourceParameters"
+    | "AdlsBlobBackupDatasourceParameters";
   /** List of containers to be backed up during configuration of backup of blobs */
   containersList: string[];
 }
@@ -1719,6 +1747,8 @@ export interface RestoreTargetInfo extends RestoreTargetInfoBase {
 export interface ResourceGuardResourceList extends DppTrackedResourceList {
   /** List of resources. */
   value?: ResourceGuardResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** Delete option with duration */
@@ -1933,6 +1963,15 @@ export interface BackupVaultResource extends DppTrackedResource {
   properties: BackupVault;
 }
 
+/** Parameters to be used during configuration of backup of azure data lake storage account blobs */
+export interface AdlsBlobBackupDatasourceParameters
+  extends BlobBackupDatasourceParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "AdlsBlobBackupDatasourceParameters";
+  /** List of containers to be backed up during configuration of backup of azure data lake storage account blobs */
+  containersList: string[];
+}
+
 /** AzureBackup Restore with Rehydration Request */
 export interface AzureBackupRestoreWithRehydrationRequest
   extends AzureBackupRecoveryPointBasedRestoreRequest {
@@ -1994,6 +2033,16 @@ export interface BackupInstancesAdhocBackupHeaders {
 
 /** Defines headers for BackupInstances_validateForBackup operation. */
 export interface BackupInstancesValidateForBackupHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for BackupInstances_validateForModifyBackup operation. */
+export interface BackupInstancesValidateForModifyBackupHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -2731,6 +2780,24 @@ export enum KnownRecoveryPointCompletionState {
  */
 export type RecoveryPointCompletionState = string;
 
+/** Known values of {@link AKSVolumeTypes} that the service accepts. */
+export enum KnownAKSVolumeTypes {
+  /** AzureDisk */
+  AzureDisk = "AzureDisk",
+  /** AzureFileShareSMB */
+  AzureFileShareSMB = "AzureFileShareSMB",
+}
+
+/**
+ * Defines values for AKSVolumeTypes. \
+ * {@link KnownAKSVolumeTypes} can be used interchangeably with AKSVolumeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureDisk** \
+ * **AzureFileShareSMB**
+ */
+export type AKSVolumeTypes = string;
+
 /** Known values of {@link FeatureType} that the service accepts. */
 export enum KnownFeatureType {
   /** Invalid */
@@ -3217,6 +3284,19 @@ export interface BackupInstancesValidateForBackupOptionalParams
 
 /** Contains response data for the validateForBackup operation. */
 export type BackupInstancesValidateForBackupResponse = OperationJobExtendedInfo;
+
+/** Optional parameters. */
+export interface BackupInstancesValidateForModifyBackupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validateForModifyBackup operation. */
+export type BackupInstancesValidateForModifyBackupResponse =
+  BackupInstancesValidateForModifyBackupHeaders;
 
 /** Optional parameters. */
 export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams
