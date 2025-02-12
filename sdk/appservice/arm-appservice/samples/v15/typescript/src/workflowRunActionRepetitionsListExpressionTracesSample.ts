@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Lists a workflow run expression trace.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRunActionRepetitions_ListExpressionTraces.json
  */
-async function listExpressionTracesForARepetition() {
+async function listExpressionTracesForARepetition(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -42,7 +42,7 @@ async function listExpressionTracesForARepetition() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listExpressionTracesForARepetition();
 }
 

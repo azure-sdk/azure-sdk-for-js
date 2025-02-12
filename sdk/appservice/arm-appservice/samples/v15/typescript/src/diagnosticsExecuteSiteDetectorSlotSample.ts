@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Description for Execute Detector
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_ExecuteSiteDetector.json
  */
-async function executeSiteDetector() {
+async function executeSiteDetector(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -43,7 +43,7 @@ async function executeSiteDetector() {
  * @summary Description for Execute Detector
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
  */
-async function executeSiteSlotDetector() {
+async function executeSiteSlotDetector(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -65,7 +65,7 @@ async function executeSiteSlotDetector() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   executeSiteDetector();
   executeSiteSlotDetector();
 }
