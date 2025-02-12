@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Description for Get Diagnostics Category
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDiagnosticCategory.json
  */
-async function getAppDiagnosticCategory() {
+async function getAppDiagnosticCategory(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -39,7 +39,7 @@ async function getAppDiagnosticCategory() {
  * @summary Description for Get Diagnostics Category
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetSiteDiagnosticCategorySlot.json
  */
-async function getAppSlotDiagnosticCategory() {
+async function getAppSlotDiagnosticCategory(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -57,7 +57,7 @@ async function getAppSlotDiagnosticCategory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAppDiagnosticCategory();
   getAppSlotDiagnosticCategory();
 }
