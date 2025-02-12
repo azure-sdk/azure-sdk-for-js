@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Description for Approves or rejects a private endpoint connection
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ApproveOrRejectPrivateEndpointConnection.json
  */
-async function approvesOrRejectsAPrivateEndpointConnection() {
+async function approvesOrRejectsAPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -44,7 +44,7 @@ async function approvesOrRejectsAPrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   approvesOrRejectsAPrivateEndpointConnection();
 }
 
