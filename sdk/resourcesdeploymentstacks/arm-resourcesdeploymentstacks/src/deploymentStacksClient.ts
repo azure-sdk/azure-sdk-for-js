@@ -14,9 +14,9 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { DeploymentStacksImpl } from "./operations";
-import { DeploymentStacks } from "./operationsInterfaces";
-import { DeploymentStacksClientOptionalParams } from "./models";
+import { DeploymentStacksImpl } from "./operations/index.js";
+import { DeploymentStacks } from "./operationsInterfaces/index.js";
+import { DeploymentStacksClientOptionalParams } from "./models/index.js";
 
 export class DeploymentStacksClient extends coreClient.ServiceClient {
   $host: string;
@@ -64,7 +64,7 @@ export class DeploymentStacksClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resourcesdeploymentstacks/1.0.1`;
+    const packageDetails = `azsdk-js-arm-resourcesdeploymentstacks/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
