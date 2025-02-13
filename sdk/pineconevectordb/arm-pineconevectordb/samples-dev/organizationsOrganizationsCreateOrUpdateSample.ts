@@ -14,7 +14,7 @@ async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
-  const result = await client.organizations.createOrUpdate(
+  const result = await client.organizations.Organizations_createOrUpdate(
     "rgopenapi",
     "example-organization-name",
     {
