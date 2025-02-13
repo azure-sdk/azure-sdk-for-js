@@ -647,6 +647,13 @@ export const FleetMemberUpdate: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
     },
   },
 };
@@ -1320,6 +1327,13 @@ export const FleetMember: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
