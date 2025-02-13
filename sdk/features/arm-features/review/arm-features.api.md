@@ -34,6 +34,7 @@ export class FeatureClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: FeatureClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -42,7 +43,7 @@ export class FeatureClient extends coreClient.ServiceClient {
     // (undocumented)
     subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
 }
 
 // @public
