@@ -1,15 +1,24 @@
 # Release History
-
-## 13.1.1 (Unreleased)
-
+    
+## 13.2.0 (2025-02-13)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureStorageContainer has a new optional parameter operationType
+  - Interface BackupEngineBaseResourceList has a new optional parameter nextLink
+  - Interface JobResourceList has a new optional parameter nextLink
+  - Interface ProtectableContainerResourceList has a new optional parameter nextLink
+  - Interface ProtectedItemResourceList has a new optional parameter nextLink
+  - Interface ProtectionContainerResourceList has a new optional parameter nextLink
+  - Interface ProtectionIntentResourceList has a new optional parameter nextLink
+  - Interface ProtectionPolicyResourceList has a new optional parameter nextLink
+  - Interface RecoveryPointResourceList has a new optional parameter nextLink
+  - Interface ResourceGuardProxyBaseResourceList has a new optional parameter nextLink
+  - Interface WorkloadItemResourceList has a new optional parameter nextLink
+  - Interface WorkloadProtectableItemResourceList has a new optional parameter nextLink
+  - Enum KnownOperationType has a new value Rehydrate
+    
+    
 ## 13.1.0 (2024-05-08)
     
 ### Features Added
