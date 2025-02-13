@@ -6,6 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./solutionConfigurations.js";
+export * from "./inventory.js";
+export * from "./generateAwsTemplate.js";
+export * from "./publicCloudConnectors.js";
+export * from "./solutionTypes.js";
 export * from "./operations.js";
 export * from "./endpoints.js";
 export * from "./serviceConfigurations.js";
