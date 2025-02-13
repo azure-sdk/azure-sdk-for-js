@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ScheduledQueryRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ScheduledQueryRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   ScheduledQueryRuleResource,
   ScheduledQueryRulesListBySubscriptionNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   ScheduledQueryRulesDeleteOptionalParams,
   ScheduledQueryRulesListBySubscriptionNextResponse,
   ScheduledQueryRulesListByResourceGroupNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScheduledQueryRules operations. */
@@ -315,7 +315,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -331,7 +331,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -351,7 +351,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -375,8 +375,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -398,8 +398,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  requestBody: Parameters.parameters7,
-  queryParameters: [Parameters.apiVersion10],
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -420,7 +420,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract,
     },
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
