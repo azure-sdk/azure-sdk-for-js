@@ -232,6 +232,9 @@ importers:
       '@rush-temp/arm-containerservicefleet':
         specifier: file:./projects/arm-containerservicefleet.tgz
         version: file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-contoso':
+        specifier: file:./projects/arm-contoso.tgz
+        version: file:projects/arm-contoso.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
         version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -2772,6 +2775,10 @@ packages:
     resolution: {integrity: sha512-0WPI8FThbnqbv2iRZgYiWSof0af6iKLT3jo8hl5JULtWHAAkAD4lwszf4O0/76njRHslK2YRRbgirlH2BSKwzA==, tarball: file:projects/arm-containerservicefleet.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz':
+    resolution: {integrity: sha512-BEt5bLWxr6rElWF3SQSzVJnKtrQ3i/c0B9CvI7mRoq0qgbpIt8sijZssKVu7bOjr/WAIUYOaB+4Gh7l6P/Z3rw==, tarball: file:projects/arm-contoso.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
     resolution: {integrity: sha512-HxS/g3sWYGXQyKmends8pmLrsuUmKSVk9g6xblgv/6L6bpuWjeiF8h6AxiRwMDFcuKg85F0w0TRoHqSbLgX0RQ==, tarball: file:projects/arm-cosmosdb.tgz}
     version: 0.0.0
@@ -3677,7 +3684,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
-    resolution: {integrity: sha512-KuyCsmV1jwWfI//Inkkq/5zp6us3o1nGZRXZPyL4Y5tMN10wr8lJcoHvzu7PazOrjyLY42qLsGndFnyP6JH2HQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-/0l4gaWNX1XLWL3BKOK35Au6+MEhE7NpUqGaMrQDvGfYfX48GSewDRIP8vmpXk2UIUzNFD20l7FWRSIVzL9y4A==, tarball: file:projects/core-xml.tgz}
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
@@ -3809,27 +3816,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/maps-common@file:projects/maps-common.tgz':
-    resolution: {integrity: sha512-pEDPVV6wf4UMdwH5r2ijblru3828QQNfOnWG1qIMdmaeIKHsZgGdPFSiZ6UPqoR//QB7DSdK0PxcyvhHHt2fWA==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-OxLomHT1do8MQ2MdNodMycx+P6qKXExYhGnVPyWQHOS61YEgMd19BI3LwlYDR2n3o6K+WOSyeuJCLoLNKwroxA==, tarball: file:projects/maps-common.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-geolocation@file:projects/maps-geolocation.tgz':
-    resolution: {integrity: sha512-Mm8atKEh29PCVkPnVwjWRGOKb+lgbpK7z/6o6C0gPoF8iG3psv791rQTIdHOq3OiqSSvqkPBs7zSQBmh5zCXcA==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-tYgBBCPJaW7kVfZM1+9w+48OEu4gg7LFYGe59CN/ceTSNQmvL+So9rcdZTVJb3QcPxrBJ0vZDh4vsH1B8rePkg==, tarball: file:projects/maps-geolocation.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-render@file:projects/maps-render.tgz':
-    resolution: {integrity: sha512-nTnX6WV2p9nVQ+f0JFa1jRobvNK7K1YlHQhri6AbSUZ9eYQ1Mo6tLaCEyeQws3+QhTWWlqaRlTTiNXlxTitXEA==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-ISWc/IPpaTlNKrdGaHmHHQBkkPGv3fnJ4Zt6nZ7k+ZQMGgX+SqoN39Rql82di9LX/tiFREhQxUnRYvv8lHRTDw==, tarball: file:projects/maps-render.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-route@file:projects/maps-route.tgz':
-    resolution: {integrity: sha512-EUoilqWTmaHApomPOszhjAAKYSgz1ZTf55Kbmj24TtZMTJ4nKB7RPM3k7BIDrlU5v2Xs3i0N/hjrMG0STTnOZw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-hDkhcBFUMBMkBVPSNgVMqf0+Lz6QSmMhWKNgg/Bdy2lM8FIW9x7tRjtpdkC07SkTx9TnaG8i+RAp8z1q5b293A==, tarball: file:projects/maps-route.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-search@file:projects/maps-search.tgz':
-    resolution: {integrity: sha512-X82fMsXuPzcFjyO7DOacHi/+hnfPBhQL80QaPp1NsP107AQ7MM+dzCLlFTiGXoseDJkMfA+cSnRRpjUc0QbbaQ==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-FWS52zpdMkX1UCbtJGHY3XMgzH3vX5Iv1CoG7u0yyTd7N0WVhKgjOIqltIdFaoKW7Fhnw6/BcO4uQDmiJp260g==, tarball: file:projects/maps-search.tgz}
     version: 0.0.0
 
   '@rush-temp/maps-timezone@file:projects/maps-timezone.tgz':
-    resolution: {integrity: sha512-Tu6gW/3IA85KboRz5+nSDFYtpylXD5Bi/Ouji0opiahXxhVRAKsy2P7pnGTJXdLls56jWaea26jhVPN5Xy/0Fw==, tarball: file:projects/maps-timezone.tgz}
+    resolution: {integrity: sha512-JXKy2YAkuCCa23oK0r+GfnIvzvItuQq1GMtJcw0WlYpPqSs369ih8tW+A5xkU+JxCMhdLzNWlZiN4CTRsI4Hfg==, tarball: file:projects/maps-timezone.tgz}
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
@@ -12182,6 +12189,42 @@ snapshots:
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-contoso@file:projects/arm-contoso.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
+      '@types/node': 18.19.75
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
+      eslint: 9.20.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22643,11 +22686,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
@@ -22665,13 +22708,13 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/cookie@0.6.0': {}
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22694,7 +22737,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -22709,18 +22752,18 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/gensync@1.0.4': {}
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -22737,7 +22780,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.8':
     dependencies:
@@ -22775,11 +22818,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       form-data: 4.0.1
 
   '@types/node@18.19.75':
@@ -22804,7 +22847,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       pg-protocol: 1.7.0
       pg-types: 2.2.0
 
@@ -22821,7 +22864,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -22832,12 +22875,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -22856,7 +22899,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -22888,7 +22931,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
     optional: true
 
   '@typescript-eslint/eslint-plugin@8.23.0(@typescript-eslint/parser@8.23.0(eslint@9.20.0)(typescript@5.7.3))(eslint@9.20.0)(typescript@5.7.3)':
@@ -23839,7 +23882,7 @@ snapshots:
   engine.io@6.6.4:
     dependencies:
       '@types/cors': 2.8.17
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
