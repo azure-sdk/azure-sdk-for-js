@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents } from "./static-helpers/multipartHelpers.js";
-
-export { AssistantsClient } from "./assistantsClient.js";
 export {
   AssistantCreationOptions,
   ToolDefinition,
@@ -180,48 +177,4 @@ export {
   ListSortOrder,
   VectorStoreFileStatusFilter,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export {
-  AssistantsClientOptionalParams,
-  ListVectorStoreFileBatchFilesOptionalParams,
-  CancelVectorStoreFileBatchOptionalParams,
-  GetVectorStoreFileBatchOptionalParams,
-  CreateVectorStoreFileBatchOptionalParams,
-  DeleteVectorStoreFileOptionalParams,
-  GetVectorStoreFileOptionalParams,
-  CreateVectorStoreFileOptionalParams,
-  ListVectorStoreFilesOptionalParams,
-  DeleteVectorStoreOptionalParams,
-  ModifyVectorStoreOptionalParams,
-  GetVectorStoreOptionalParams,
-  CreateVectorStoreOptionalParams,
-  ListVectorStoresOptionalParams,
-  GetFileContentOptionalParams,
-  GetFileOptionalParams,
-  DeleteFileOptionalParams,
-  UploadFileOptionalParams,
-  ListFilesOptionalParams,
-  ListRunStepsOptionalParams,
-  GetRunStepOptionalParams,
-  CreateThreadAndRunOptionalParams,
-  CancelRunOptionalParams,
-  SubmitToolOutputsToRunOptionalParams,
-  UpdateRunOptionalParams,
-  GetRunOptionalParams,
-  ListRunsOptionalParams,
-  CreateRunOptionalParams,
-  UpdateMessageOptionalParams,
-  GetMessageOptionalParams,
-  ListMessagesOptionalParams,
-  CreateMessageOptionalParams,
-  DeleteThreadOptionalParams,
-  UpdateThreadOptionalParams,
-  GetThreadOptionalParams,
-  CreateThreadOptionalParams,
-  DeleteAssistantOptionalParams,
-  UpdateAssistantOptionalParams,
-  GetAssistantOptionalParams,
-  ListAssistantsOptionalParams,
-  CreateAssistantOptionalParams,
-} from "./api/index.js";
-export { FileContents };
+} from "./models.js";
