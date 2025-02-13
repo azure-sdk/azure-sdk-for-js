@@ -1,15 +1,16 @@
 # Release History
-
-## 22.3.1 (Unreleased)
-
+    
+## 23.0.0 (2025-02-13)
+    
 ### Features Added
+
+  - Enum KnownNetworkApiVersion has a new value TwoThousandTwentyTwo1101
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CloudServiceVaultCertificate no longer has parameter isBootstrapCertificate
+    
+    
 ## 22.3.0 (2025-01-09)
     
 ### Features Added

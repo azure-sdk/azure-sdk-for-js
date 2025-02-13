@@ -12421,12 +12421,6 @@ export const CloudServiceVaultCertificate: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      isBootstrapCertificate: {
-        serializedName: "isBootstrapCertificate",
-        type: {
-          name: "Boolean",
-        },
-      },
     },
   },
 };

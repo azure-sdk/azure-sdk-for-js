@@ -970,7 +970,6 @@ export interface CloudServiceVaultAndSecretReference {
 // @public
 export interface CloudServiceVaultCertificate {
     certificateUrl?: string;
-    isBootstrapCertificate?: boolean;
 }
 
 // @public
@@ -3849,7 +3848,8 @@ export enum KnownNetworkAccessPolicy {
 
 // @public
 export enum KnownNetworkApiVersion {
-    TwoThousandTwenty1101 = "2020-11-01"
+    TwoThousandTwenty1101 = "2020-11-01",
+    TwoThousandTwentyTwo1101 = "2022-11-01"
 }
 
 // @public
