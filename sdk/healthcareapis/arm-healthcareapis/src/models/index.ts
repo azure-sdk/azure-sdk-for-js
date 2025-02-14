@@ -396,6 +396,18 @@ export interface StorageConfiguration {
   storageResourceId?: string;
   /** The filesystem name of connected storage account. */
   fileSystemName?: string;
+  /** The configuration for monitoring changes in the specified storage account. */
+  storageMonitorConfiguration?: StorageMonitorConfiguration;
+}
+
+/** The configuration for monitoring changes in a connected storage. */
+export interface StorageMonitorConfiguration {
+  /** The resource id of the Azure Event Grid Namespace. */
+  namespaceResourceId?: string;
+  /** The name of the namespace topic within the specified namespace. */
+  topicName?: string;
+  /** The name of the event subscription associated with the given namespace topic that contains storage events. */
+  eventSubscriptionName?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */

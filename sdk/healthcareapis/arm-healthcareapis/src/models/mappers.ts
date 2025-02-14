@@ -1052,6 +1052,40 @@ export const StorageConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      storageMonitorConfiguration: {
+        serializedName: "storageMonitorConfiguration",
+        type: {
+          name: "Composite",
+          className: "StorageMonitorConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const StorageMonitorConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageMonitorConfiguration",
+    modelProperties: {
+      namespaceResourceId: {
+        serializedName: "namespaceResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      topicName: {
+        serializedName: "topicName",
+        type: {
+          name: "String",
+        },
+      },
+      eventSubscriptionName: {
+        serializedName: "eventSubscriptionName",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };

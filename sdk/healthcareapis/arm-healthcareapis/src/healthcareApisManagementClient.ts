@@ -78,7 +78,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-healthcareapis/3.1.1`;
+    const packageDetails = `azsdk-js-arm-healthcareapis/3.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,7 +132,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-31";
+    this.apiVersion = options.apiVersion || "2025-03-01-preview";
     this.services = new ServicesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);

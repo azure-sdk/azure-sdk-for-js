@@ -1,15 +1,14 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 3.2.0-beta.1 (2025-02-14)
+Compared with version 3.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface StorageMonitorConfiguration
+  - Interface StorageConfiguration has a new optional parameter storageMonitorConfiguration
+    
+    
 ## 3.1.0 (2024-04-19)
     
 ### Features Added
