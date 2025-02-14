@@ -1110,7 +1110,15 @@ export interface SmartIdentityProviderConfiguration {
 // @public
 export interface StorageConfiguration {
     fileSystemName?: string;
+    storageMonitorConfiguration?: StorageMonitorConfiguration;
     storageResourceId?: string;
+}
+
+// @public
+export interface StorageMonitorConfiguration {
+    eventSubscriptionName?: string;
+    namespaceResourceId?: string;
+    topicName?: string;
 }
 
 // @public
