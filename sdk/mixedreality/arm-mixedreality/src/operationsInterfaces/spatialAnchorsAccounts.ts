@@ -22,30 +22,51 @@ import {
   SpatialAnchorsAccountsListKeysResponse,
   AccountKeyRegenerateRequest,
   SpatialAnchorsAccountsRegenerateKeysOptionalParams,
-  SpatialAnchorsAccountsRegenerateKeysResponse
+  SpatialAnchorsAccountsRegenerateKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SpatialAnchorsAccounts. */
 export interface SpatialAnchorsAccounts {
   /**
-   * List Spatial Anchors Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Spatial Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
+    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpatialAnchorsAccount>;
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
+    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpatialAnchorsAccount>;
   /**
-   * Delete a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Delete a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -53,10 +74,17 @@ export interface SpatialAnchorsAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsDeleteOptionalParams
+    options?: SpatialAnchorsAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Retrieve a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -64,10 +92,17 @@ export interface SpatialAnchorsAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsGetOptionalParams
+    options?: SpatialAnchorsAccountsGetOptionalParams,
   ): Promise<SpatialAnchorsAccountsGetResponse>;
   /**
-   * Updating a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Updating a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
@@ -77,10 +112,17 @@ export interface SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsUpdateOptionalParams
+    options?: SpatialAnchorsAccountsUpdateOptionalParams,
   ): Promise<SpatialAnchorsAccountsUpdateResponse>;
   /**
-   * Creating or Updating a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Creating or Updating a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
@@ -90,10 +132,17 @@ export interface SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsCreateOptionalParams
+    options?: SpatialAnchorsAccountsCreateOptionalParams,
   ): Promise<SpatialAnchorsAccountsCreateResponse>;
   /**
-   * List Both of the 2 Keys of a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Both of the 2 Keys of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -101,10 +150,17 @@ export interface SpatialAnchorsAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsListKeysOptionalParams
+    options?: SpatialAnchorsAccountsListKeysOptionalParams,
   ): Promise<SpatialAnchorsAccountsListKeysResponse>;
   /**
-   * Regenerate specified Key of a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Regenerate specified Key of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -114,6 +170,6 @@ export interface SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams
+    options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams,
   ): Promise<SpatialAnchorsAccountsRegenerateKeysResponse>;
 }
