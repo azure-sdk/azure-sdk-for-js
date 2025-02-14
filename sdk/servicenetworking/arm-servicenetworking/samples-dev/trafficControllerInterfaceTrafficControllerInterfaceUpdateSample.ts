@@ -8,15 +8,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a TrafficController
  *
  * @summary update a TrafficController
- * x-ms-original-file: 2025-01-01/TrafficControllerPatch.json
+ * x-ms-original-file: 2025-03-01-preview/TrafficControllerPatch.json
  */
 async function patchTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  const result = await client.trafficControllerInterface.update("rg1", "tc1", {
-    tags: { key1: "value1" },
-  });
+  const result = await client.trafficControllerInterface.TrafficControllerInterface_update(
+    "rg1",
+    "tc1",
+    { tags: { key1: "value1" } },
+  );
   console.log(result);
 }
 

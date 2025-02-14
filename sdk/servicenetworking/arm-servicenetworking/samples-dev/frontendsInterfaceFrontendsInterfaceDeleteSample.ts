@@ -8,13 +8,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Frontend
  *
  * @summary delete a Frontend
- * x-ms-original-file: 2025-01-01/FrontendDelete.json
+ * x-ms-original-file: 2025-03-01-preview/FrontendDelete.json
  */
 async function deleteFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  await client.frontendsInterface.delete("rg1", "tc1", "fe1");
+  await client.frontendsInterface.FrontendsInterface_delete("rg1", "tc1", "fe1");
 }
 
 async function main(): Promise<void> {
