@@ -38,3 +38,5 @@ extends:
         safeName: azureeventgridnamespaces
       - name: azure-eventgrid-systemevents
         safeName: azureeventgridsystemevents
+      - name: azure-eventgrid-system-events
+        safeName: azureeventgridsystemevents
