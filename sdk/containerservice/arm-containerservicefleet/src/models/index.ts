@@ -301,6 +301,8 @@ export interface FleetMemberListResult {
 export interface FleetMemberUpdate {
   /** The group this member belongs to for multi-cluster update management. */
   group?: string;
+  /** The labels for the fleet member. */
+  labels?: { [propertyName: string]: string };
 }
 
 /** The response of a UpdateRun list operation. */
@@ -613,6 +615,8 @@ export interface FleetMember extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetMemberProvisioningState;
+  /** The labels for the fleet member. */
+  labels?: { [propertyName: string]: string };
 }
 
 /** A multi-stage process to perform update operations across members of a Fleet. */
