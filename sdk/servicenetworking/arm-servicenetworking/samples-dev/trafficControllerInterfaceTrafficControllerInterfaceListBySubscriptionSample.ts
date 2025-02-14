@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list TrafficController resources by subscription ID
  *
  * @summary list TrafficController resources by subscription ID
- * x-ms-original-file: 2025-01-01/TrafficControllersGetList.json
+ * x-ms-original-file: 2025-03-01-preview/TrafficControllersGetList.json
  */
 async function getTrafficControllersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trafficControllerInterface.listBySubscription()) {
+  for await (let item of client.trafficControllerInterface.TrafficControllerInterface_listBySubscription()) {
     resArray.push(item);
   }
 
