@@ -3081,7 +3081,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-g2aUmBq19hhIekjrg6cwKRS2/q/BW8kQXKsIbv75KWIC01P7mKNltovhePUqufGz0saD2I9LSqBr97r3qV9n6w==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-uSjf86XpJZ8wCV1azujgsvYhhLZThlnDPevSl01WBEIUw0mlccLSEC55kNtacUyRqo1DkszNk2BI5p76MnQXjA==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
@@ -3849,11 +3849,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dvuiJ3sNRdt1sNwIAEfhjOs8qnYZYqwpGXeJMfq8gND0EM4Zl42TQ3gd+r6tWtlK0IUKe3gCD3/u4u42BJkjtQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-YLL1fo04qN7uEbiPJpy2wOHs6iF8RF0lj/YFk7tmz6Y6ZVMYkA2xTQnoWcdjBebYm1VbRqjC3c1ne+y6V0TVIw==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-hEnlLvehlh3ejDkAZMH2pTtAPU+i6O550upJ4DPMW89QmlerdmJT9CJt3u8yCb6af/ei6C871wpRH/JEXKk4ig==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-gYNw155B6HI+lQInIpZhU6fNZvEqpj6PezKQg/gdptSpJf5ERm+76kMQCAdWzbgOew9KkaufLrXS2QrjwPbuDQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
@@ -3861,7 +3861,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-QySGA7L+mDLcyYqOmT0uB3vusB6f8FBSVbJPPkU0lpSji3nBLw590UHS8m8UOdKSdDKKZOGhgYyCbAFWML42sA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-FfDHQlhugBYGKJAG+Qvo0eA9RxpyaY0LHrPOjcmIyF8gy3hxeJf0+Z9/XSfi3jDrCdv+l1K3as1cbuiY48Or4Q==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -14880,12 +14880,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.75
-      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22769,7 +22769,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
