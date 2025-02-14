@@ -216,7 +216,7 @@ export enum KnownSubscriptionFeatureRegistrationState {
   /** Unregistering */
   Unregistering = "Unregistering",
   /** Unregistered */
-  Unregistered = "Unregistered"
+  Unregistered = "Unregistered",
 }
 
 /**
@@ -241,7 +241,7 @@ export enum KnownSubscriptionFeatureRegistrationApprovalType {
   /** ApprovalRequired */
   ApprovalRequired = "ApprovalRequired",
   /** AutoApproval */
-  AutoApproval = "AutoApproval"
+  AutoApproval = "AutoApproval",
 }
 
 /**
@@ -323,7 +323,8 @@ export interface SubscriptionFeatureRegistrationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SubscriptionFeatureRegistrationsGetResponse = SubscriptionFeatureRegistration;
+export type SubscriptionFeatureRegistrationsGetResponse =
+  SubscriptionFeatureRegistration;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
@@ -333,7 +334,8 @@ export interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse = SubscriptionFeatureRegistration;
+export type SubscriptionFeatureRegistrationsCreateOrUpdateResponse =
+  SubscriptionFeatureRegistration;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsDeleteOptionalParams
@@ -344,28 +346,32 @@ export interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListBySubscriptionResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllBySubscription operation. */
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListBySubscriptionNextResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllBySubscriptionNext operation. */
-export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse = SubscriptionFeatureRegistrationList;
+export type SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse =
+  SubscriptionFeatureRegistrationList;
 
 /** Optional parameters. */
 export interface FeatureClientOptionalParams
