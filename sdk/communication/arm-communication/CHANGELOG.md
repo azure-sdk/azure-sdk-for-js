@@ -1,15 +1,48 @@
 # Release History
-
-## 4.1.1 (Unreleased)
-
+    
+## 4.2.0-beta.1 (2025-02-14)
+Compared with version 4.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SmtpUsernames
+  - Added operation group SuppressionListAddresses
+  - Added operation group SuppressionLists
+  - Added Interface SmtpUsernameResource
+  - Added Interface SmtpUsernameResourceCollection
+  - Added Interface SmtpUsernamesCreateOrUpdateOptionalParams
+  - Added Interface SmtpUsernamesDeleteOptionalParams
+  - Added Interface SmtpUsernamesGetOptionalParams
+  - Added Interface SmtpUsernamesListNextOptionalParams
+  - Added Interface SmtpUsernamesListOptionalParams
+  - Added Interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListAddressesDeleteOptionalParams
+  - Added Interface SuppressionListAddressesGetOptionalParams
+  - Added Interface SuppressionListAddressesListNextOptionalParams
+  - Added Interface SuppressionListAddressesListOptionalParams
+  - Added Interface SuppressionListAddressResource
+  - Added Interface SuppressionListAddressResourceCollection
+  - Added Interface SuppressionListResource
+  - Added Interface SuppressionListResourceCollection
+  - Added Interface SuppressionListsCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListsDeleteOptionalParams
+  - Added Interface SuppressionListsGetOptionalParams
+  - Added Interface SuppressionListsListByDomainNextOptionalParams
+  - Added Interface SuppressionListsListByDomainOptionalParams
+  - Added Type Alias SmtpUsernamesCreateOrUpdateResponse
+  - Added Type Alias SmtpUsernamesGetResponse
+  - Added Type Alias SmtpUsernamesListNextResponse
+  - Added Type Alias SmtpUsernamesListResponse
+  - Added Type Alias SuppressionListAddressesCreateOrUpdateResponse
+  - Added Type Alias SuppressionListAddressesGetResponse
+  - Added Type Alias SuppressionListAddressesListNextResponse
+  - Added Type Alias SuppressionListAddressesListResponse
+  - Added Type Alias SuppressionListsCreateOrUpdateResponse
+  - Added Type Alias SuppressionListsGetResponse
+  - Added Type Alias SuppressionListsListByDomainNextResponse
+  - Added Type Alias SuppressionListsListByDomainResponse
+    
+    
 ## 4.1.0 (2024-03-08)
     
 ### Features Added
@@ -195,7 +228,7 @@
     
 ## 3.0.1 (2022-04-11)
 
-### Features Added
+**features**
 
   - Bug fix
 
