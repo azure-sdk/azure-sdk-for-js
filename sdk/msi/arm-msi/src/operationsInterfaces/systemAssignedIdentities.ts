@@ -8,8 +8,8 @@
 
 import {
   SystemAssignedIdentitiesGetByScopeOptionalParams,
-  SystemAssignedIdentitiesGetByScopeResponse
-} from "../models";
+  SystemAssignedIdentitiesGetByScopeResponse,
+} from "../models/index.js";
 
 /** Interface representing a SystemAssignedIdentities. */
 export interface SystemAssignedIdentities {
@@ -21,6 +21,6 @@ export interface SystemAssignedIdentities {
    */
   getByScope(
     scope: string,
-    options?: SystemAssignedIdentitiesGetByScopeOptionalParams
+    options?: SystemAssignedIdentitiesGetByScopeOptionalParams,
   ): Promise<SystemAssignedIdentitiesGetByScopeResponse>;
 }
