@@ -266,6 +266,30 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
+/** AutoUpgradeProfileStatus is the status of an auto upgrade profile. */
+export interface AutoUpgradeProfileStatus {
+  /**
+   * The time of the last attempt to automatically create and start an UpdateRun as triggered by the release of new versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggeredAt?: Date;
+  /**
+   *  The status of the last AutoUpgrade trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+  /**
+   * The error details of the last AutoUpgrade trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerError?: ErrorDetail;
+  /**
+   * The target Kubernetes version or Node Image versions of the last AutoUpgrade trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTriggerUpgradeVersions?: string[];
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -595,6 +619,11 @@ export interface AutoUpgradeProfile extends ProxyResource {
    * By default, this is set to False.
    */
   disabled?: boolean;
+  /**
+   * AutoUpgradeProfileStatus is the status of an auto upgrade profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -962,6 +991,24 @@ export enum KnownAutoUpgradeNodeImageSelectionType {
  * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'.
  */
 export type AutoUpgradeNodeImageSelectionType = string;
+
+/** Known values of {@link AutoUpgradeLastTriggerStatus} that the service accepts. */
+export enum KnownAutoUpgradeLastTriggerStatus {
+  /** The last trigger for this AutoUpgrade succeeded. */
+  Succeeded = "Succeeded",
+  /** The last trigger for this AutoUpgrade failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for AutoUpgradeLastTriggerStatus. \
+ * {@link KnownAutoUpgradeLastTriggerStatus} can be used interchangeably with AutoUpgradeLastTriggerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The last trigger for this AutoUpgrade succeeded. \
+ * **Failed**: The last trigger for this AutoUpgrade failed.
+ */
+export type AutoUpgradeLastTriggerStatus = string;
 
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
