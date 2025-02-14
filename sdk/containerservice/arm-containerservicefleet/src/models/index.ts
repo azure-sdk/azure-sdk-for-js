@@ -266,6 +266,12 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /** ID of the generated update run. */
+  id: string;
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -541,6 +547,12 @@ export interface FleetUpdateStrategyListResult {
   nextLink?: string;
 }
 
+/** GenerateUpdateRunsRequest is the HTTP body of a generate updateruns request. */
+export interface GenerateUpdateRunRequest {
+  /** The update spec that will be applied to managed clusters when generating update runs. */
+  updateSpecification: ManagedClusterUpdate;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -709,6 +721,16 @@ export interface AutoUpgradeProfilesDeleteHeaders {
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for AutoUpgradeProfile_generate operation. */
+export interface AutoUpgradeProfileGenerateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -1283,6 +1305,20 @@ export interface AutoUpgradeProfilesListByFleetNextOptionalParams
 /** Contains response data for the listByFleetNext operation. */
 export type AutoUpgradeProfilesListByFleetNextResponse =
   AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileGenerateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether to start the update run after it is created in the generate operation. Empty value indicates that update run will not be started. */
+  startUpdateRun?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generate operation. */
+export type AutoUpgradeProfileGenerateResponse = GenerateResponse;
 
 /** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams
