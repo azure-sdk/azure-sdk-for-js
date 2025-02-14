@@ -45,9 +45,32 @@ export interface AutoUpgradeProfile extends ProxyResource {
 }
 
 // @public
+export interface AutoUpgradeProfileGenerateHeaders {
+    azureAsyncOperation?: string;
+    ifMatch?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileGenerateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    startUpdateRun?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfileGenerateResponse = GenerateResponse;
+
+// @public
 export interface AutoUpgradeProfileListResult {
     nextLink?: string;
     value: AutoUpgradeProfile[];
+}
+
+// @public
+export interface AutoUpgradeProfileOperations {
+    beginGenerate(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileGenerateOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfileGenerateResponse>, AutoUpgradeProfileGenerateResponse>>;
+    beginGenerateAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileGenerateOptionalParams): Promise<AutoUpgradeProfileGenerateResponse>;
 }
 
 // @public
@@ -124,6 +147,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    autoUpgradeProfileOperations: AutoUpgradeProfileOperations;
     // (undocumented)
     autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
@@ -492,6 +517,16 @@ export interface FleetUpdateStrategyListResult {
 
 // @public
 export type FleetUpdateStrategyProvisioningState = string;
+
+// @public
+export interface GenerateResponse {
+    id: string;
+}
+
+// @public
+export interface GenerateUpdateRunRequest {
+    updateSpecification: ManagedClusterUpdate;
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;

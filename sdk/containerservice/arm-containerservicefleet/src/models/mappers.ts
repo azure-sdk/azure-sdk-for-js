@@ -558,6 +558,22 @@ export const AutoUpgradeNodeImageSelection: coreClient.CompositeMapper = {
   },
 };
 
+export const GenerateResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenerateResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1164,6 +1180,22 @@ export const FleetUpdateStrategyListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const GenerateUpdateRunRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenerateUpdateRunRequest",
+    modelProperties: {
+      updateSpecification: {
+        serializedName: "updateSpecification",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterUpdate",
+        },
+      },
+    },
+  },
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1502,6 +1534,33 @@ export const AutoUpgradeProfilesDeleteHeaders: coreClient.CompositeMapper = {
         serializedName: "retry-after",
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const AutoUpgradeProfileGenerateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeProfileGenerateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      ifMatch: {
+        serializedName: "if-match",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
