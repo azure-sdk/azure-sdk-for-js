@@ -34,7 +34,7 @@ import {
   SpatialAnchorsAccountsRegenerateKeysOptionalParams,
   SpatialAnchorsAccountsRegenerateKeysResponse,
   SpatialAnchorsAccountsListBySubscriptionNextResponse,
-  SpatialAnchorsAccountsListByResourceGroupNextResponse
+  SpatialAnchorsAccountsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,11 +51,18 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Spatial Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
+    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpatialAnchorsAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -70,13 +77,13 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SpatialAnchorsAccount[]> {
     let result: SpatialAnchorsAccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +104,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
+    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SpatialAnchorsAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -105,13 +112,20 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
+    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpatialAnchorsAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -128,16 +142,16 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SpatialAnchorsAccount[]> {
     let result: SpatialAnchorsAccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -152,7 +166,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -163,46 +177,67 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
+    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SpatialAnchorsAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Spatial Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
+    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams,
   ): Promise<SpatialAnchorsAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
+    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams,
   ): Promise<SpatialAnchorsAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Delete a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Delete a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -210,16 +245,23 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsDeleteOptionalParams
+    options?: SpatialAnchorsAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Retrieve a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -227,16 +269,23 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsGetOptionalParams
+    options?: SpatialAnchorsAccountsGetOptionalParams,
   ): Promise<SpatialAnchorsAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Updating a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Updating a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
@@ -246,16 +295,23 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsUpdateOptionalParams
+    options?: SpatialAnchorsAccountsUpdateOptionalParams,
   ): Promise<SpatialAnchorsAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, spatialAnchorsAccount, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
-   * Creating or Updating a Spatial Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Creating or Updating a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
@@ -265,16 +321,23 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsCreateOptionalParams
+    options?: SpatialAnchorsAccountsCreateOptionalParams,
   ): Promise<SpatialAnchorsAccountsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, spatialAnchorsAccount, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
   /**
-   * List Both of the 2 Keys of a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Both of the 2 Keys of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -282,16 +345,23 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsListKeysOptionalParams
+    options?: SpatialAnchorsAccountsListKeysOptionalParams,
   ): Promise<SpatialAnchorsAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
-   * Regenerate specified Key of a Spatial Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Regenerate specified Key of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -301,11 +371,11 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams
+    options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams,
   ): Promise<SpatialAnchorsAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, regenerate, options },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -316,11 +386,11 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SpatialAnchorsAccountsListBySubscriptionNextOptionalParams
+    options?: SpatialAnchorsAccountsListBySubscriptionNextOptionalParams,
   ): Promise<SpatialAnchorsAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -333,11 +403,11 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupNextOptionalParams
+    options?: SpatialAnchorsAccountsListByResourceGroupNextOptionalParams,
   ): Promise<SpatialAnchorsAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -345,97 +415,92 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.SpatialAnchorsAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.SpatialAnchorsAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.SpatialAnchorsAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.SpatialAnchorsAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.spatialAnchorsAccount,
   queryParameters: [Parameters.apiVersion],
@@ -443,26 +508,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.SpatialAnchorsAccount,
     },
     201: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.SpatialAnchorsAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.spatialAnchorsAccount,
   queryParameters: [Parameters.apiVersion],
@@ -470,45 +534,43 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountKeys
+      bodyMapper: Mappers.AccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountKeys
+      bodyMapper: Mappers.AccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.regenerate,
   queryParameters: [Parameters.apiVersion],
@@ -516,50 +578,48 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.SpatialAnchorsAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.SpatialAnchorsAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

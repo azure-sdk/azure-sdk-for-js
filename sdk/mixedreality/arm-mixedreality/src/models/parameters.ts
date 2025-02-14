@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   SpatialAnchorsAccount as SpatialAnchorsAccountMapper,
   AccountKeyRegenerateRequest as AccountKeyRegenerateRequestMapper,
   RemoteRenderingAccount as RemoteRenderingAccountMapper,
-  ObjectAnchorsAccount as ObjectAnchorsAccountMapper
+  ObjectAnchorsAccount as ObjectAnchorsAccountMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -50,9 +50,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -61,10 +61,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -74,14 +74,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const checkNameAvailability: OperationParameter = {
   parameterPath: "checkNameAvailability",
-  mapper: CheckNameAvailabilityRequestMapper
+  mapper: CheckNameAvailabilityRequestMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -90,9 +90,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
@@ -101,14 +101,14 @@ export const location: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -117,14 +117,14 @@ export const resourceGroupName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accountName: OperationURLParameter = {
@@ -133,32 +133,32 @@ export const accountName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "accountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const spatialAnchorsAccount: OperationParameter = {
   parameterPath: "spatialAnchorsAccount",
-  mapper: SpatialAnchorsAccountMapper
+  mapper: SpatialAnchorsAccountMapper,
 };
 
 export const regenerate: OperationParameter = {
   parameterPath: "regenerate",
-  mapper: AccountKeyRegenerateRequestMapper
+  mapper: AccountKeyRegenerateRequestMapper,
 };
 
 export const remoteRenderingAccount: OperationParameter = {
   parameterPath: "remoteRenderingAccount",
-  mapper: RemoteRenderingAccountMapper
+  mapper: RemoteRenderingAccountMapper,
 };
 
 export const objectAnchorsAccount: OperationParameter = {
   parameterPath: "objectAnchorsAccount",
-  mapper: ObjectAnchorsAccountMapper
+  mapper: ObjectAnchorsAccountMapper,
 };

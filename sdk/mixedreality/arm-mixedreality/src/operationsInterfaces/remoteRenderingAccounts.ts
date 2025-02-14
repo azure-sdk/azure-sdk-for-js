@@ -22,30 +22,51 @@ import {
   RemoteRenderingAccountsListKeysResponse,
   AccountKeyRegenerateRequest,
   RemoteRenderingAccountsRegenerateKeysOptionalParams,
-  RemoteRenderingAccountsRegenerateKeysResponse
+  RemoteRenderingAccountsRegenerateKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RemoteRenderingAccounts. */
 export interface RemoteRenderingAccounts {
   /**
-   * List Remote Rendering Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Remote Rendering Accounts by Subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount>;
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount>;
   /**
-   * Delete a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Delete a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -53,10 +74,17 @@ export interface RemoteRenderingAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsDeleteOptionalParams
+    options?: RemoteRenderingAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Retrieve a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -64,10 +92,17 @@ export interface RemoteRenderingAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsGetOptionalParams
+    options?: RemoteRenderingAccountsGetOptionalParams,
   ): Promise<RemoteRenderingAccountsGetResponse>;
   /**
-   * Updating a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Updating a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
@@ -77,10 +112,17 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsUpdateOptionalParams
+    options?: RemoteRenderingAccountsUpdateOptionalParams,
   ): Promise<RemoteRenderingAccountsUpdateResponse>;
   /**
-   * Creating or Updating a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Creating or Updating a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
@@ -90,10 +132,17 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsCreateOptionalParams
+    options?: RemoteRenderingAccountsCreateOptionalParams,
   ): Promise<RemoteRenderingAccountsCreateResponse>;
   /**
-   * List Both of the 2 Keys of a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Both of the 2 Keys of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -101,10 +150,17 @@ export interface RemoteRenderingAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsListKeysOptionalParams
+    options?: RemoteRenderingAccountsListKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsListKeysResponse>;
   /**
-   * Regenerate specified Key of a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Regenerate specified Key of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -114,6 +170,6 @@ export interface RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams
+    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsRegenerateKeysResponse>;
 }
