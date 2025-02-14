@@ -27,6 +27,9 @@ export interface APIServerAccessProfile {
 }
 
 // @public
+export type AutoUpgradeLastTriggerStatus = string;
+
+// @public
 export interface AutoUpgradeNodeImageSelection {
     type: AutoUpgradeNodeImageSelectionType;
 }
@@ -36,6 +39,7 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    readonly autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
     channel?: UpgradeChannel;
     disabled?: boolean;
     readonly eTag?: string;
@@ -116,6 +120,14 @@ export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient
 
 // @public
 export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
+
+// @public
+export interface AutoUpgradeProfileStatus {
+    readonly lastTriggeredAt?: Date;
+    readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+    readonly lastTriggerUpgradeVersions?: string[];
+}
 
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
@@ -499,6 +511,12 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoUpgradeLastTriggerStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
