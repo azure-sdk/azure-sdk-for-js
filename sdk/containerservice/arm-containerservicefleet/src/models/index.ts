@@ -266,6 +266,51 @@ export interface AutoUpgradeNodeImageSelection {
   type: AutoUpgradeNodeImageSelectionType;
 }
 
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /** ID of the generated update run. */
+  id: string;
+}
+
+/** GenerateUpdateRunsRequest is the HTTP body of a generate updateruns request. */
+export interface GenerateUpdateRunRequest {
+  /** The update spec that will be applied to managed clusters when generating update runs. */
+  updateSpecification: ManagedClusterUpdate;
+}
+
+/** The update to be applied to the ManagedClusters. */
+export interface ManagedClusterUpdate {
+  /** The upgrade to apply to the ManagedClusters. */
+  upgrade: ManagedClusterUpgradeSpec;
+  /** The node image upgrade to be applied to the target nodes in update run. */
+  nodeImageSelection?: NodeImageSelection;
+}
+
+/** The upgrade to apply to a ManagedCluster. */
+export interface ManagedClusterUpgradeSpec {
+  /** ManagedClusterUpgradeType is the type of upgrade to be applied. */
+  type: ManagedClusterUpgradeType;
+  /** The Kubernetes version to upgrade the member clusters to. */
+  kubernetesVersion?: string;
+}
+
+/** The node image upgrade to be applied to the target nodes in update run. */
+export interface NodeImageSelection {
+  /** The node image upgrade type. */
+  type: NodeImageSelectionType;
+  /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
+  customNodeImageVersions?: NodeImageVersion[];
+}
+
+/** The node upgrade image version. */
+export interface NodeImageVersion {
+  /**
+   * The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13').
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /**
@@ -342,39 +387,6 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
-}
-
-/** The update to be applied to the ManagedClusters. */
-export interface ManagedClusterUpdate {
-  /** The upgrade to apply to the ManagedClusters. */
-  upgrade: ManagedClusterUpgradeSpec;
-  /** The node image upgrade to be applied to the target nodes in update run. */
-  nodeImageSelection?: NodeImageSelection;
-}
-
-/** The upgrade to apply to a ManagedCluster. */
-export interface ManagedClusterUpgradeSpec {
-  /** ManagedClusterUpgradeType is the type of upgrade to be applied. */
-  type: ManagedClusterUpgradeType;
-  /** The Kubernetes version to upgrade the member clusters to. */
-  kubernetesVersion?: string;
-}
-
-/** The node image upgrade to be applied to the target nodes in update run. */
-export interface NodeImageSelection {
-  /** The node image upgrade type. */
-  type: NodeImageSelectionType;
-  /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
-  customNodeImageVersions?: NodeImageVersion[];
-}
-
-/** The node upgrade image version. */
-export interface NodeImageVersion {
-  /**
-   * The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13').
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly version?: string;
 }
 
 /** The status of a UpdateRun. */
@@ -711,6 +723,16 @@ export interface AutoUpgradeProfilesDeleteHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for AutoUpgradeProfileOperations_generate operation. */
+export interface AutoUpgradeProfileOperationsGenerateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
 /** Defines headers for FleetMembers_create operation. */
 export interface FleetMembersCreateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -963,6 +985,48 @@ export enum KnownAutoUpgradeNodeImageSelectionType {
  */
 export type AutoUpgradeNodeImageSelectionType = string;
 
+/** Known values of {@link ManagedClusterUpgradeType} that the service accepts. */
+export enum KnownManagedClusterUpgradeType {
+  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
+  Full = "Full",
+  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. */
+  NodeImageOnly = "NodeImageOnly",
+  /** ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
+  ControlPlaneOnly = "ControlPlaneOnly",
+}
+
+/**
+ * Defines values for ManagedClusterUpgradeType. \
+ * {@link KnownManagedClusterUpgradeType} can be used interchangeably with ManagedClusterUpgradeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. \
+ * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. \
+ * **ControlPlaneOnly**: ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set.
+ */
+export type ManagedClusterUpgradeType = string;
+
+/** Known values of {@link NodeImageSelectionType} that the service accepts. */
+export enum KnownNodeImageSelectionType {
+  /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
+  Latest = "Latest",
+  /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
+  Consistent = "Consistent",
+  /** Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty. */
+  Custom = "Custom",
+}
+
+/**
+ * Defines values for NodeImageSelectionType. \
+ * {@link KnownNodeImageSelectionType} can be used interchangeably with NodeImageSelectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Latest**: Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. \
+ * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. \
+ * **Custom**: Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty.
+ */
+export type NodeImageSelectionType = string;
+
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
   /** Resource has been created. */
@@ -1013,48 +1077,6 @@ export enum KnownUpdateRunProvisioningState {
  * **Canceled**: Resource creation was canceled.
  */
 export type UpdateRunProvisioningState = string;
-
-/** Known values of {@link ManagedClusterUpgradeType} that the service accepts. */
-export enum KnownManagedClusterUpgradeType {
-  /** Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
-  Full = "Full",
-  /** NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. */
-  NodeImageOnly = "NodeImageOnly",
-  /** ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. */
-  ControlPlaneOnly = "ControlPlaneOnly",
-}
-
-/**
- * Defines values for ManagedClusterUpgradeType. \
- * {@link KnownManagedClusterUpgradeType} can be used interchangeably with ManagedClusterUpgradeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Full**: Full upgrades the control plane and all agent pools of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set. \
- * **NodeImageOnly**: NodeImageOnly upgrades only the node images of the target ManagedClusters. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to NOT be set. \
- * **ControlPlaneOnly**: ControlPlaneOnly upgrades only targets the KubernetesVersion of the ManagedClusters and will not be applied to the AgentPool. Requires the ManagedClusterUpgradeSpec.KubernetesVersion property to be set.
- */
-export type ManagedClusterUpgradeType = string;
-
-/** Known values of {@link NodeImageSelectionType} that the service accepts. */
-export enum KnownNodeImageSelectionType {
-  /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
-  Latest = "Latest",
-  /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
-  Consistent = "Consistent",
-  /** Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty. */
-  Custom = "Custom",
-}
-
-/**
- * Defines values for NodeImageSelectionType. \
- * {@link KnownNodeImageSelectionType} can be used interchangeably with NodeImageSelectionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Latest**: Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. \
- * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. \
- * **Custom**: Upgrade the nodes to the custom image versions. When set, update run will use node image versions provided in customNodeImageVersions to upgrade the nodes. If set, customNodeImageVersions must not be empty.
- */
-export type NodeImageSelectionType = string;
 
 /** Known values of {@link UpdateState} that the service accepts. */
 export enum KnownUpdateState {
@@ -1283,6 +1305,31 @@ export interface AutoUpgradeProfilesListByFleetNextOptionalParams
 /** Contains response data for the listByFleetNext operation. */
 export type AutoUpgradeProfilesListByFleetNextResponse =
   AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileOperationsGenerateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Whether to start the update run after it is created in the generate operation. Empty value indicates that update run will not be started. */
+  startUpdateRun?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generate operation. */
+export type AutoUpgradeProfileOperationsGenerateResponse = GenerateResponse;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunsOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the generateUpdateRuns operation. */
+export type AutoUpgradeProfileOperationsGenerateUpdateRunsResponse =
+  AutoUpgradeProfile;
 
 /** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams

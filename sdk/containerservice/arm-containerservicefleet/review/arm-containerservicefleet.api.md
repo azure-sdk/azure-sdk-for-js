@@ -51,6 +51,38 @@ export interface AutoUpgradeProfileListResult {
 }
 
 // @public
+export interface AutoUpgradeProfileOperations {
+    beginGenerate(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateOptionalParams): Promise<SimplePollerLike<OperationState<AutoUpgradeProfileOperationsGenerateResponse>, AutoUpgradeProfileOperationsGenerateResponse>>;
+    beginGenerateAndWait(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, options?: AutoUpgradeProfileOperationsGenerateOptionalParams): Promise<AutoUpgradeProfileOperationsGenerateResponse>;
+    generateUpdateRuns(resourceGroupName: string, fleetName: string, autoUpgradeProfileName: string, body: GenerateUpdateRunRequest, options?: AutoUpgradeProfileOperationsGenerateUpdateRunsOptionalParams): Promise<AutoUpgradeProfileOperationsGenerateUpdateRunsResponse>;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateHeaders {
+    azureAsyncOperation?: string;
+    ifMatch?: string;
+    location?: string;
+}
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    startUpdateRun?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AutoUpgradeProfileOperationsGenerateResponse = GenerateResponse;
+
+// @public
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunsOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type AutoUpgradeProfileOperationsGenerateUpdateRunsResponse = AutoUpgradeProfile;
+
+// @public
 export type AutoUpgradeProfileProvisioningState = string;
 
 // @public
@@ -124,6 +156,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceFleetClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    autoUpgradeProfileOperations: AutoUpgradeProfileOperations;
     // (undocumented)
     autoUpgradeProfiles: AutoUpgradeProfiles;
     // (undocumented)
@@ -492,6 +526,16 @@ export interface FleetUpdateStrategyListResult {
 
 // @public
 export type FleetUpdateStrategyProvisioningState = string;
+
+// @public
+export interface GenerateResponse {
+    id: string;
+}
+
+// @public
+export interface GenerateUpdateRunRequest {
+    updateSpecification: ManagedClusterUpdate;
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;

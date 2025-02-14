@@ -558,6 +558,127 @@ export const AutoUpgradeNodeImageSelection: coreClient.CompositeMapper = {
   },
 };
 
+export const GenerateResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenerateResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const GenerateUpdateRunRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GenerateUpdateRunRequest",
+    modelProperties: {
+      updateSpecification: {
+        serializedName: "updateSpecification",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterUpdate",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterUpdate",
+    modelProperties: {
+      upgrade: {
+        serializedName: "upgrade",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterUpgradeSpec",
+        },
+      },
+      nodeImageSelection: {
+        serializedName: "nodeImageSelection",
+        type: {
+          name: "Composite",
+          className: "NodeImageSelection",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterUpgradeSpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterUpgradeSpec",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      kubernetesVersion: {
+        serializedName: "kubernetesVersion",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NodeImageSelection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeImageSelection",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      customNodeImageVersions: {
+        serializedName: "customNodeImageVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NodeImageVersion",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const NodeImageVersion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NodeImageVersion",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -753,95 +874,6 @@ export const UpdateGroup: coreClient.CompositeMapper = {
         },
         serializedName: "name",
         required: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ManagedClusterUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterUpdate",
-    modelProperties: {
-      upgrade: {
-        serializedName: "upgrade",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterUpgradeSpec",
-        },
-      },
-      nodeImageSelection: {
-        serializedName: "nodeImageSelection",
-        type: {
-          name: "Composite",
-          className: "NodeImageSelection",
-        },
-      },
-    },
-  },
-};
-
-export const ManagedClusterUpgradeSpec: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterUpgradeSpec",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      kubernetesVersion: {
-        serializedName: "kubernetesVersion",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const NodeImageSelection: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeImageSelection",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      customNodeImageVersions: {
-        serializedName: "customNodeImageVersions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NodeImageVersion",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const NodeImageVersion: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NodeImageVersion",
-    modelProperties: {
-      version: {
-        serializedName: "version",
-        readOnly: true,
         type: {
           name: "String",
         },
@@ -1507,6 +1539,34 @@ export const AutoUpgradeProfilesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const AutoUpgradeProfileOperationsGenerateHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AutoUpgradeProfileOperationsGenerateHeaders",
+      modelProperties: {
+        azureAsyncOperation: {
+          serializedName: "azure-asyncoperation",
+          type: {
+            name: "String",
+          },
+        },
+        ifMatch: {
+          serializedName: "if-match",
+          type: {
+            name: "String",
+          },
+        },
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const FleetMembersCreateHeaders: coreClient.CompositeMapper = {
   type: {
