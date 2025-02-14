@@ -15,6 +15,7 @@ import {
   Fleet as FleetMapper,
   FleetPatch as FleetPatchMapper,
   AutoUpgradeProfile as AutoUpgradeProfileMapper,
+  GenerateUpdateRunRequest as GenerateUpdateRunRequestMapper,
   FleetMember as FleetMemberMapper,
   FleetMemberUpdate as FleetMemberUpdateMapper,
   UpdateRun as UpdateRunMapper,
@@ -49,7 +50,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-02-preview",
+    defaultValue: "2025-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -178,6 +179,21 @@ export const resource1: OperationParameter = {
   mapper: AutoUpgradeProfileMapper,
 };
 
+export const startUpdateRun: OperationParameter = {
+  parameterPath: ["options", "startUpdateRun"],
+  mapper: {
+    serializedName: "StartUpdateRun",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: GenerateUpdateRunRequestMapper,
+};
+
 export const fleetMemberName: OperationURLParameter = {
   parameterPath: "fleetMemberName",
   mapper: {
@@ -225,7 +241,7 @@ export const resource3: OperationParameter = {
   mapper: UpdateRunMapper,
 };
 
-export const body: OperationParameter = {
+export const body1: OperationParameter = {
   parameterPath: "body",
   mapper: SkipPropertiesMapper,
 };
