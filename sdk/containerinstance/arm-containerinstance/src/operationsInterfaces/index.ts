@@ -11,5 +11,6 @@ export * from "./operations.js";
 export * from "./location.js";
 export * from "./containers.js";
 export * from "./subnetServiceAssociationLink.js";
-export * from "./containerGroupProfiles.js";
-export * from "./containerGroupProfileOperations.js";
+export * from "./nGroups.js";
+export * from "./cGProfiles.js";
+export * from "./cGProfile.js";
