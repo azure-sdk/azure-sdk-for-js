@@ -8,14 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list TrafficController resources by resource group
  *
  * @summary list TrafficController resources by resource group
- * x-ms-original-file: 2025-01-01/TrafficControllersGet.json
+ * x-ms-original-file: 2025-03-01-preview/TrafficControllersGet.json
  */
 async function getTrafficControllers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trafficControllerInterface.listByResourceGroup("rg1")) {
+  for await (let item of client.trafficControllerInterface.TrafficControllerInterface_listByResourceGroup(
+    "rg1",
+  )) {
     resArray.push(item);
   }
 
