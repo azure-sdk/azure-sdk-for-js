@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DataSources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DataSources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   DataSource,
   DataSourcesListByWorkspaceNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   DataSourcesDeleteOptionalParams,
   DataSourcesGetOptionalParams,
   DataSourcesGetResponse,
-  DataSourcesListByWorkspaceNextResponse
-} from "../models";
+  DataSourcesListByWorkspaceNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataSources operations. */
@@ -50,13 +50,13 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     filter: string,
-    options?: DataSourcesListByWorkspaceOptionalParams
+    options?: DataSourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataSource> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
       filter,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class DataSourcesImpl implements DataSources {
           workspaceName,
           filter,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class DataSourcesImpl implements DataSources {
     workspaceName: string,
     filter: string,
     options?: DataSourcesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataSource[]> {
     let result: DataSourcesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class DataSourcesImpl implements DataSources {
         resourceGroupName,
         workspaceName,
         filter,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -106,7 +106,7 @@ export class DataSourcesImpl implements DataSources {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -119,13 +119,13 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     filter: string,
-    options?: DataSourcesListByWorkspaceOptionalParams
+    options?: DataSourcesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<DataSource> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
       filter,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,11 +144,11 @@ export class DataSourcesImpl implements DataSources {
     workspaceName: string,
     dataSourceName: string,
     parameters: DataSource,
-    options?: DataSourcesCreateOrUpdateOptionalParams
+    options?: DataSourcesCreateOrUpdateOptionalParams,
   ): Promise<DataSourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -163,11 +163,11 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceName: string,
-    options?: DataSourcesDeleteOptionalParams
+    options?: DataSourcesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceName: string,
-    options?: DataSourcesGetOptionalParams
+    options?: DataSourcesGetOptionalParams,
   ): Promise<DataSourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataSourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     filter: string,
-    options?: DataSourcesListByWorkspaceOptionalParams
+    options?: DataSourcesListByWorkspaceOptionalParams,
   ): Promise<DataSourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, filter, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DataSourcesListByWorkspaceNextOptionalParams
+    options?: DataSourcesListByWorkspaceNextOptionalParams,
   ): Promise<DataSourcesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 }
@@ -232,103 +232,99 @@ export class DataSourcesImpl implements DataSources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataSource
+      bodyMapper: Mappers.DataSource,
     },
     201: {
-      bodyMapper: Mappers.DataSource
-    }
+      bodyMapper: Mappers.DataSource,
+    },
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceName
+    Parameters.dataSourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceName
+    Parameters.dataSourceName,
   ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataSource
-    }
+      bodyMapper: Mappers.DataSource,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataSourceName
+    Parameters.dataSourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataSourceListResult
-    }
+      bodyMapper: Mappers.DataSourceListResult,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skiptoken
+    Parameters.skiptoken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataSourceListResult
-    }
+      bodyMapper: Mappers.DataSourceListResult,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.nextLink,
-    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

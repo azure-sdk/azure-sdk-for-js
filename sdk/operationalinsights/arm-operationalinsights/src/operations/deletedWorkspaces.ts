@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { DeletedWorkspaces } from "../operationsInterfaces";
+import { DeletedWorkspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   Workspace,
   DeletedWorkspacesListOptionalParams,
   DeletedWorkspacesListResponse,
   DeletedWorkspacesListByResourceGroupOptionalParams,
-  DeletedWorkspacesListByResourceGroupResponse
-} from "../models";
+  DeletedWorkspacesListByResourceGroupResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedWorkspaces operations. */
@@ -38,7 +38,7 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
    * @param options The options parameters.
    */
   public list(
-    options?: DeletedWorkspacesListOptionalParams
+    options?: DeletedWorkspacesListOptionalParams,
   ): PagedAsyncIterableIterator<Workspace> {
     const iter = this.listPagingAll(options);
     return {
@@ -53,13 +53,13 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DeletedWorkspacesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Workspace[]> {
     let result: DeletedWorkspacesListResponse;
     result = await this._list(options);
@@ -67,7 +67,7 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
   }
 
   private async *listPagingAll(
-    options?: DeletedWorkspacesListOptionalParams
+    options?: DeletedWorkspacesListOptionalParams,
   ): AsyncIterableIterator<Workspace> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -81,7 +81,7 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DeletedWorkspacesListByResourceGroupOptionalParams
+    options?: DeletedWorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workspace> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -98,16 +98,16 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DeletedWorkspacesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Workspace[]> {
     let result: DeletedWorkspacesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -116,11 +116,11 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DeletedWorkspacesListByResourceGroupOptionalParams
+    options?: DeletedWorkspacesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Workspace> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,7 +131,7 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
    * @param options The options parameters.
    */
   private _list(
-    options?: DeletedWorkspacesListOptionalParams
+    options?: DeletedWorkspacesListOptionalParams,
   ): Promise<DeletedWorkspacesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -143,11 +143,11 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DeletedWorkspacesListByResourceGroupOptionalParams
+    options?: DeletedWorkspacesListByResourceGroupOptionalParams,
   ): Promise<DeletedWorkspacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 }
@@ -155,40 +155,38 @@ export class DeletedWorkspacesImpl implements DeletedWorkspaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/deletedWorkspaces",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.OperationalInsights/deletedWorkspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/deletedWorkspaces",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/deletedWorkspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

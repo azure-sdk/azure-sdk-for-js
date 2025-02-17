@@ -11,8 +11,8 @@ import {
   WorkspacePurgePurgeOptionalParams,
   WorkspacePurgePurgeResponse,
   WorkspacePurgeGetPurgeStatusOptionalParams,
-  WorkspacePurgeGetPurgeStatusResponse
-} from "../models";
+  WorkspacePurgeGetPurgeStatusResponse,
+} from "../models/index.js";
 
 /** Interface representing a WorkspacePurge. */
 export interface WorkspacePurge {
@@ -36,7 +36,7 @@ export interface WorkspacePurge {
     resourceGroupName: string,
     workspaceName: string,
     body: WorkspacePurgeBody,
-    options?: WorkspacePurgePurgeOptionalParams
+    options?: WorkspacePurgePurgeOptionalParams,
   ): Promise<WorkspacePurgePurgeResponse>;
   /**
    * Gets status of an ongoing purge operation.
@@ -50,6 +50,6 @@ export interface WorkspacePurge {
     resourceGroupName: string,
     workspaceName: string,
     purgeId: string,
-    options?: WorkspacePurgeGetPurgeStatusOptionalParams
+    options?: WorkspacePurgeGetPurgeStatusOptionalParams,
   ): Promise<WorkspacePurgeGetPurgeStatusResponse>;
 }
