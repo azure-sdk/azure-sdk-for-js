@@ -7,22 +7,22 @@ export {
   AzureFleetClientOptionalParams,
 } from "./azureFleetContext.js";
 export {
-  OperationsListOptionalParams,
-  FleetsGetOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
+  FleetsListBySubscriptionOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateOptionalParams,
+  FleetsCreateOrUpdateOptionalParams,
+  FleetsGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./options.js";
 export {
-  fleetsGet,
-  fleetsCreateOrUpdate,
-  fleetsUpdate,
-  fleetsDelete,
-  fleetsListByResourceGroup,
-  fleetsListBySubscription,
   fleetsListVirtualMachineScaleSets,
+  fleetsListBySubscription,
+  fleetsListByResourceGroup,
+  fleetsDelete,
+  fleetsUpdate,
+  fleetsCreateOrUpdate,
+  fleetsGet,
 } from "./fleets/index.js";
 export { operationsList } from "./operations/index.js";
