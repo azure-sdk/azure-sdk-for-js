@@ -87,6 +87,26 @@ export interface DeidUpdate {
     tags?: Record<string, string>;
 }
 
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
 // @public (undocumented)
 export class HealthDataAIServicesClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: HealthDataAIServicesClientOptionalParams);
@@ -117,17 +137,17 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
+    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -158,7 +178,7 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V2024_09_20 = "2024-09-20"
+    v2024_09_20 = "2024-09-20"
 }
 
 // @public
@@ -180,8 +200,8 @@ export interface ManagedServiceIdentityUpdate {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;

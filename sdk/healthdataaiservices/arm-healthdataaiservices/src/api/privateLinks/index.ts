@@ -9,6 +9,7 @@ import {
   _PrivateLinkResourceListResult,
   _privateLinkResourceListResultDeserializer,
   PrivateLinkResource,
+  errorResponseDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -23,7 +24,6 @@ import {
 
 export function _privateLinksListByDeidServiceSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
@@ -31,11 +31,18 @@ export function _privateLinksListByDeidServiceSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateLinkResources",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       deidServiceName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _privateLinksListByDeidServiceDeserialize(
@@ -43,7 +50,9 @@ export async function _privateLinksListByDeidServiceDeserialize(
 ): Promise<_PrivateLinkResourceListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _privateLinkResourceListResultDeserializer(result.body);
@@ -52,21 +61,13 @@ export async function _privateLinksListByDeidServiceDeserialize(
 /** List private links on the given resource */
 export function privateLinksListByDeidService(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   deidServiceName: string,
   options: PrivateLinksListByDeidServiceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _privateLinksListByDeidServiceSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+    () => _privateLinksListByDeidServiceSend(context, resourceGroupName, deidServiceName, options),
     _privateLinksListByDeidServiceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
