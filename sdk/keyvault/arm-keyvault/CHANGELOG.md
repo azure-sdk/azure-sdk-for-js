@@ -1,15 +1,20 @@
 # Release History
-
-## 3.1.1 (Unreleased)
-
+    
+## 4.0.0 (2025-02-18)
+    
 ### Features Added
+
+  - Enum KnownManagedHsmSkuFamily has a new value C
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Vaults.beginCreateOrUpdate
+  - Removed operation Vaults.beginCreateOrUpdateAndWait
+  - Removed operation Vaults.delete
+  - Removed operation Vaults.get
+  - Removed operation Vaults.update
+    
+    
 ## 3.1.0 (2023-10-18)
     
 ### Features Added
