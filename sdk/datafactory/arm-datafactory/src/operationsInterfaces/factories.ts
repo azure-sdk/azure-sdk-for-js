@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Factory,
-  FactoriesListOptionalParams,
   FactoriesListByResourceGroupOptionalParams,
   FactoryRepoUpdate,
   FactoriesConfigureFactoryRepoOptionalParams,
@@ -33,13 +32,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Factories. */
 export interface Factories {
-  /**
-   * Lists factories under the specified subscription.
-   * @param options The options parameters.
-   */
-  list(
-    options?: FactoriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Factory>;
   /**
    * Lists factories.
    * @param resourceGroupName The resource group name.
