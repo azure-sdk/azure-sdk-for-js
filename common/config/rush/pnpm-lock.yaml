@@ -2929,7 +2929,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-IVAiyftN+higXHNlvvPpYgvbq5TtwEpg1Wpe32Eokdq6ysmsowxiEe7jXhnOl0QEGeCRsEbaq2fPc8ax3VMPJQ==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-WgZ94Vsls6/LFRt6HR1F7CE37/7naN8TR8Az3+KBW4pH08UWLQ+2HrsBr8U3BA5Z6NEASbPzlO00T6thVQQD0w==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
@@ -13495,12 +13495,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.75
-      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23307,7 +23307,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
