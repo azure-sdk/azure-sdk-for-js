@@ -16,6 +16,7 @@ export interface DocumentIntelligenceClientOptions extends ClientOptions {
 /**
  * Initialize a new instance of `DocumentIntelligenceClient`
  * @param endpointParam - The Document Intelligence service endpoint.
+ * @param authorizationCode - The parameter authorizationCode
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
