@@ -93,17 +93,6 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -119,6 +108,17 @@ export const contentType: OperationParameter = {
 export const factoryRepoUpdate: OperationParameter = {
   parameterPath: "factoryRepoUpdate",
   mapper: FactoryRepoUpdateMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const locationId: OperationURLParameter = {
