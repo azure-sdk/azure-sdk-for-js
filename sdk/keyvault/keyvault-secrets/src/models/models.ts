@@ -47,12 +47,8 @@ export interface SecretAttributes {
 export function secretAttributesSerializer(item: SecretAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"]
-      ? item["notBefore"]
-      : (item["notBefore"].getTime() / 1000) | 0,
-    exp: !item["expires"]
-      ? item["expires"]
-      : (item["expires"].getTime() / 1000) | 0,
+    nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
+    exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
   };
 }
 
@@ -61,12 +57,8 @@ export function secretAttributesDeserializer(item: any): SecretAttributes {
     enabled: item["enabled"],
     notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
     expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
-    created: !item["created"]
-      ? item["created"]
-      : new Date(item["created"] * 1000),
-    updated: !item["updated"]
-      ? item["updated"]
-      : new Date(item["updated"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
   };
@@ -145,29 +137,43 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : _keyVaultErrorErrorDeserializer(item["error"]),
   };
 }
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
+
+/** model interface _KeyVaultErrorError */
+export interface _KeyVaultErrorError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel_1;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _keyVaultErrorErrorDeserializer(item: any): _KeyVaultErrorError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _keyVaultErrorErrorDeserializer(item["innererror"]),
   };
 }
+
+/** Alias for ErrorModel */
+export type ErrorModel_1 = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
 /** A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export interface DeletedSecretBundle {
@@ -193,9 +199,7 @@ export interface DeletedSecretBundle {
   readonly deletedDate?: Date;
 }
 
-export function deletedSecretBundleDeserializer(
-  item: any,
-): DeletedSecretBundle {
+export function deletedSecretBundleDeserializer(item: any): DeletedSecretBundle {
   return {
     value: item["value"],
     id: item["id"],
@@ -210,9 +214,7 @@ export function deletedSecretBundleDeserializer(
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -226,9 +228,7 @@ export interface SecretUpdateParameters {
   tags?: Record<string, string>;
 }
 
-export function secretUpdateParametersSerializer(
-  item: SecretUpdateParameters,
-): any {
+export function secretUpdateParametersSerializer(item: SecretUpdateParameters): any {
   return {
     contentType: item["contentType"],
     attributes: !item["secretAttributes"]
@@ -248,9 +248,7 @@ export interface _SecretListResult {
 
 export function _secretListResultDeserializer(item: any): _SecretListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : secretItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : secretItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -295,20 +293,14 @@ export interface _DeletedSecretListResult {
   readonly nextLink?: string;
 }
 
-export function _deletedSecretListResultDeserializer(
-  item: any,
-): _DeletedSecretListResult {
+export function _deletedSecretListResultDeserializer(item: any): _DeletedSecretListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : deletedSecretItemArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : deletedSecretItemArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function deletedSecretItemArrayDeserializer(
-  result: Array<DeletedSecretItem>,
-): any[] {
+export function deletedSecretItemArrayDeserializer(result: Array<DeletedSecretItem>): any[] {
   return result.map((item) => {
     return deletedSecretItemDeserializer(item);
   });
@@ -347,9 +339,7 @@ export function deletedSecretItemDeserializer(item: any): DeletedSecretItem {
     scheduledPurgeDate: !item["scheduledPurgeDate"]
       ? item["scheduledPurgeDate"]
       : new Date(item["scheduledPurgeDate"] * 1000),
-    deletedDate: !item["deletedDate"]
-      ? item["deletedDate"]
-      : new Date(item["deletedDate"] * 1000),
+    deletedDate: !item["deletedDate"] ? item["deletedDate"] : new Date(item["deletedDate"] * 1000),
   };
 }
 
@@ -375,9 +365,7 @@ export interface SecretRestoreParameters {
   secretBundleBackup: Uint8Array;
 }
 
-export function secretRestoreParametersSerializer(
-  item: SecretRestoreParameters,
-): any {
+export function secretRestoreParametersSerializer(item: SecretRestoreParameters): any {
   return { value: uint8ArrayToString(item["secretBundleBackup"], "base64url") };
 }
 
@@ -385,6 +373,6 @@ export function secretRestoreParametersSerializer(
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }
