@@ -412,6 +412,9 @@ importers:
       '@rush-temp/arm-imagebuilder':
         specifier: file:./projects/arm-imagebuilder.tgz
         version: file:projects/arm-imagebuilder.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-impact':
+        specifier: file:./projects/arm-impact.tgz
+        version: file:projects/arm-impact.tgz
       '@rush-temp/arm-informaticadatamanagement':
         specifier: file:./projects/arm-informaticadatamanagement.tgz
         version: file:projects/arm-informaticadatamanagement.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -2737,7 +2740,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-Xc2JkbgagP65oltPB9A4krmQn4o6YTZ2V6gL6JqJYBfe1ARa/pNWa+bhKY3+u/ImzMpWj+eZ433VGXuTja5EwQ==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-YE6nJTK/BVAb1nBjvV/qgoJOgtmzrPI3GPW7DOuKyyVO1yNCIZ15X46xdfFgoZysUzTvglU7TgAUYur+STPBYw==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3024,6 +3027,10 @@ packages:
     resolution: {integrity: sha512-IP1RWGe4uVJR1CV2YiNb4GjTScDFgenPbTaM9a1USoJAUe/PQr1b+w4QxYGQvnnlIRLoA5g1ykDMndht0RuhsQ==, tarball: file:projects/arm-imagebuilder.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-impact@file:projects/arm-impact.tgz':
+    resolution: {integrity: sha512-EHGPoRIHqvQICcq0t0gaGhSjUtIIOcxzMWsUZU+OzycixQ50mTGFMOOFUoKsR/2iPH5VKqUu31oQyuJYm/Frjw==, tarball: file:projects/arm-impact.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
     resolution: {integrity: sha512-VWMchjUXam3h8umFyj6oqBuvOX8cc6ypbCcYHAV58y8QO91DNV87PXzDDovGc91qOvfnLkkOshVqQs8IoiI2zw==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     version: 0.0.0
@@ -3249,7 +3256,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
-    resolution: {integrity: sha512-h4htkOBXb/SsaNfmBHi3B7j8LJGsPAVjXZQJR9dLkg8fhCHT3EWVckIfhLpDNu/+FHPG4yf8EefdcUxdBWrX1g==, tarball: file:projects/arm-pineconevectordb.tgz}
+    resolution: {integrity: sha512-jW914Jzu10EhN3yiXskFA40AOpqHyI/GdT35ak04F3dP0ug5Ouk2R40dYLf//wsxHpkaPF4PBnXOaMtv7Ew5ZA==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -3433,7 +3440,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-arlvJb/ozRYbK5/eX6UKRRFByc5mhGztqsWFR6U9o+wSfu6VAZuksYw2w8rUovVSzWx+LCKhX2uG2nBaYdfxgw==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-y41ds59a+CS9sqMVLi7Wdabb4hBxBIi+T7GFQCWDR1MwU68OfVmhlCoYOtgJKZI6dPVMLtoGc62yHXXPeHv4HA==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
@@ -3705,7 +3712,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-12oujwcJZYF2mealed/mFD41GgSez6UE1ICuPTnzoDyW2yaasQKrp5z8RowLVQFmIZz6Y6xcPKPhRUSQ3Optug==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-jI8Yq+2wjHPEivyY7P7u6aSgf7vh4DhhJATtBjuVYuowO353vHtGL2f1Q05SEZLm4i2zkeRiYfRb6GP0gNbjUQ==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -11824,7 +11831,6 @@ snapshots:
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -14328,6 +14334,26 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-impact@file:projects/arm-impact.tgz':
+    dependencies:
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/core-lro': 2.7.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.10
+      '@types/node': 18.19.75
+      chai: 4.5.0
+      dotenv: 16.4.7
+      mocha: 11.1.0
+      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.6.3)
+      tslib: 2.8.1
+      tsx: 4.19.2
+      typescript: 5.6.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
@@ -16207,7 +16233,6 @@ snapshots:
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -17552,7 +17577,6 @@ snapshots:
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -19941,7 +19965,6 @@ snapshots:
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -23423,7 +23446,7 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.9':
     dependencies:
@@ -23431,7 +23454,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
@@ -23493,7 +23516,7 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/gensync@1.0.4': {}
 
@@ -23617,7 +23640,7 @@ snapshots:
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -23636,7 +23659,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -27397,6 +27420,24 @@ snapshots:
     dependencies:
       '@ts-morph/common': 0.26.1
       code-block-writer: 13.0.3
+
+  ts-node@10.9.2(@types/node@18.19.75)(typescript@5.6.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.75
+      acorn: 8.14.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.6.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
 
   ts-node@10.9.2(@types/node@18.19.75)(typescript@5.7.3):
     dependencies:
