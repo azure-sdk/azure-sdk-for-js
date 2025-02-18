@@ -939,6 +939,13 @@ export const VolumeGroupProperties: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
+        },
+      },
     },
   },
 };
@@ -1073,6 +1080,30 @@ export const VirtualNetworkRule: coreClient.CompositeMapper = {
   },
 };
 
+export const DeleteRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteRetentionPolicy",
+    modelProperties: {
+      policyState: {
+        serializedName: "policyState",
+        type: {
+          name: "String",
+        },
+      },
+      retentionPeriodDays: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "retentionPeriodDays",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
 export const VolumeGroupUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1131,6 +1162,13 @@ export const VolumeGroupUpdateProperties: coreClient.CompositeMapper = {
         serializedName: "enforceDataIntegrityCheckForIscsi",
         type: {
           name: "Boolean",
+        },
+      },
+      deleteRetentionPolicy: {
+        serializedName: "deleteRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "DeleteRetentionPolicy",
         },
       },
     },
@@ -1741,6 +1779,22 @@ export const VolumesDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const ElasticSanManagementRestoreVolumeHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ElasticSanManagementRestoreVolumeHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
   {
