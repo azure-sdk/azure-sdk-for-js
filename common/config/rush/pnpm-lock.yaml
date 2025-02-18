@@ -3433,7 +3433,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-arlvJb/ozRYbK5/eX6UKRRFByc5mhGztqsWFR6U9o+wSfu6VAZuksYw2w8rUovVSzWx+LCKhX2uG2nBaYdfxgw==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-077yfi1/tUlF98xylM6ZhJeUyTAXi4zQoQA6nUl3xNsis5Vyha9xEmzkf4tRlvFS/pV4w3wR2TUbGLIkIpCmGw==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
