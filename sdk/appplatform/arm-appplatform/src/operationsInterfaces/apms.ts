@@ -18,7 +18,7 @@ import {
   ApmsDeleteOptionalParams,
   ApmsDeleteResponse,
   ApmsListSecretKeysOptionalParams,
-  ApmsListSecretKeysResponse
+  ApmsListSecretKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Apms {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApmsListOptionalParams
+    options?: ApmsListOptionalParams,
   ): PagedAsyncIterableIterator<ApmResource>;
   /**
    * Get the APM by name.
@@ -48,7 +48,7 @@ export interface Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsGetOptionalParams
+    options?: ApmsGetOptionalParams,
   ): Promise<ApmsGetResponse>;
   /**
    * Create or update an APM.
@@ -64,7 +64,7 @@ export interface Apms {
     serviceName: string,
     apmName: string,
     apmResource: ApmResource,
-    options?: ApmsCreateOrUpdateOptionalParams
+    options?: ApmsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApmsCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface Apms {
     serviceName: string,
     apmName: string,
     apmResource: ApmResource,
-    options?: ApmsCreateOrUpdateOptionalParams
+    options?: ApmsCreateOrUpdateOptionalParams,
   ): Promise<ApmsCreateOrUpdateResponse>;
   /**
    * Operation to delete an APM
@@ -99,7 +99,7 @@ export interface Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsDeleteOptionalParams
+    options?: ApmsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<ApmsDeleteResponse>, ApmsDeleteResponse>
   >;
@@ -115,7 +115,7 @@ export interface Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsDeleteOptionalParams
+    options?: ApmsDeleteOptionalParams,
   ): Promise<ApmsDeleteResponse>;
   /**
    * List keys of APM sensitive properties.
@@ -129,6 +129,6 @@ export interface Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsListSecretKeysOptionalParams
+    options?: ApmsListSecretKeysOptionalParams,
   ): Promise<ApmsListSecretKeysResponse>;
 }

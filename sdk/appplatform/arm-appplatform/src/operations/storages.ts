@@ -16,7 +16,7 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,7 +29,7 @@ import {
   StoragesCreateOrUpdateOptionalParams,
   StoragesCreateOrUpdateResponse,
   StoragesDeleteOptionalParams,
-  StoragesListNextResponse
+  StoragesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +55,7 @@ export class StoragesImpl implements Storages {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: StoragesListOptionalParams
+    options?: StoragesListOptionalParams,
   ): PagedAsyncIterableIterator<StorageResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -73,9 +73,9 @@ export class StoragesImpl implements Storages {
           resourceGroupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +83,7 @@ export class StoragesImpl implements Storages {
     resourceGroupName: string,
     serviceName: string,
     options?: StoragesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<StorageResource[]> {
     let result: StoragesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class StoragesImpl implements Storages {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class StoragesImpl implements Storages {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: StoragesListOptionalParams
+    options?: StoragesListOptionalParams,
   ): AsyncIterableIterator<StorageResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class StoragesImpl implements Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesGetOptionalParams
+    options?: StoragesGetOptionalParams,
   ): Promise<StoragesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, storageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -156,7 +156,7 @@ export class StoragesImpl implements Storages {
     serviceName: string,
     storageName: string,
     storageResource: StorageResource,
-    options?: StoragesCreateOrUpdateOptionalParams
+    options?: StoragesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<StoragesCreateOrUpdateResponse>,
@@ -165,21 +165,20 @@ export class StoragesImpl implements Storages {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<StoragesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -188,8 +187,8 @@ export class StoragesImpl implements Storages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -197,8 +196,8 @@ export class StoragesImpl implements Storages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -209,16 +208,16 @@ export class StoragesImpl implements Storages {
         serviceName,
         storageName,
         storageResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       StoragesCreateOrUpdateResponse,
       OperationState<StoragesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -238,14 +237,14 @@ export class StoragesImpl implements Storages {
     serviceName: string,
     storageName: string,
     storageResource: StorageResource,
-    options?: StoragesCreateOrUpdateOptionalParams
+    options?: StoragesCreateOrUpdateOptionalParams,
   ): Promise<StoragesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       storageName,
       storageResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -262,25 +261,24 @@ export class StoragesImpl implements Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesDeleteOptionalParams
+    options?: StoragesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -289,8 +287,8 @@ export class StoragesImpl implements Storages {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -298,19 +296,19 @@ export class StoragesImpl implements Storages {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, storageName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -328,13 +326,13 @@ export class StoragesImpl implements Storages {
     resourceGroupName: string,
     serviceName: string,
     storageName: string,
-    options?: StoragesDeleteOptionalParams
+    options?: StoragesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       storageName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -349,11 +347,11 @@ export class StoragesImpl implements Storages {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: StoragesListOptionalParams
+    options?: StoragesListOptionalParams,
   ): Promise<StoragesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -369,11 +367,11 @@ export class StoragesImpl implements Storages {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: StoragesListNextOptionalParams
+    options?: StoragesListNextOptionalParams,
   ): Promise<StoragesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -381,16 +379,15 @@ export class StoragesImpl implements Storages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageResource
+      bodyMapper: Mappers.StorageResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -398,31 +395,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.storageName
+    Parameters.storageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageResource
+      bodyMapper: Mappers.StorageResource,
     },
     201: {
-      bodyMapper: Mappers.StorageResource
+      bodyMapper: Mappers.StorageResource,
     },
     202: {
-      bodyMapper: Mappers.StorageResource
+      bodyMapper: Mappers.StorageResource,
     },
     204: {
-      bodyMapper: Mappers.StorageResource
+      bodyMapper: Mappers.StorageResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.storageResource,
   queryParameters: [Parameters.apiVersion],
@@ -431,15 +427,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.storageName
+    Parameters.storageName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages/{storageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -447,8 +442,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -456,51 +451,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.storageName
+    Parameters.storageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageResourceCollection
+      bodyMapper: Mappers.StorageResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageResourceCollection
+      bodyMapper: Mappers.StorageResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ import {
   ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ApplicationLiveViewsCreateOrUpdateResponse,
   ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse
+  ApplicationLiveViewsDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ApplicationLiveViews {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApplicationLiveViewsListOptionalParams
+    options?: ApplicationLiveViewsListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationLiveViewResource>;
   /**
    * Get the Application Live  and its properties.
@@ -46,7 +46,7 @@ export interface ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsGetOptionalParams
+    options?: ApplicationLiveViewsGetOptionalParams,
   ): Promise<ApplicationLiveViewsGetResponse>;
   /**
    * Create the default Application Live View or update the existing Application Live View.
@@ -62,7 +62,7 @@ export interface ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationLiveViewsCreateOrUpdateResponse>,
@@ -83,7 +83,7 @@ export interface ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     applicationLiveViewResource: ApplicationLiveViewResource,
-    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams
+    options?: ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationLiveViewsCreateOrUpdateResponse>;
   /**
    * Disable the default Application Live View.
@@ -97,7 +97,7 @@ export interface ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    options?: ApplicationLiveViewsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationLiveViewsDeleteResponse>,
@@ -116,6 +116,6 @@ export interface ApplicationLiveViews {
     resourceGroupName: string,
     serviceName: string,
     applicationLiveViewName: string,
-    options?: ApplicationLiveViewsDeleteOptionalParams
+    options?: ApplicationLiveViewsDeleteOptionalParams,
   ): Promise<ApplicationLiveViewsDeleteResponse>;
 }

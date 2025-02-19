@@ -18,7 +18,7 @@ import {
   ApiPortalsDeleteOptionalParams,
   CustomDomainValidatePayload,
   ApiPortalsValidateDomainOptionalParams,
-  ApiPortalsValidateDomainResponse
+  ApiPortalsValidateDomainResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface ApiPortals {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApiPortalsListOptionalParams
+    options?: ApiPortalsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiPortalResource>;
   /**
    * Get the API portal and its properties.
@@ -48,7 +48,7 @@ export interface ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsGetOptionalParams
+    options?: ApiPortalsGetOptionalParams,
   ): Promise<ApiPortalsGetResponse>;
   /**
    * Create the default API portal or update the existing API portal.
@@ -64,7 +64,7 @@ export interface ApiPortals {
     serviceName: string,
     apiPortalName: string,
     apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams
+    options?: ApiPortalsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiPortalsCreateOrUpdateResponse>,
@@ -85,7 +85,7 @@ export interface ApiPortals {
     serviceName: string,
     apiPortalName: string,
     apiPortalResource: ApiPortalResource,
-    options?: ApiPortalsCreateOrUpdateOptionalParams
+    options?: ApiPortalsCreateOrUpdateOptionalParams,
   ): Promise<ApiPortalsCreateOrUpdateResponse>;
   /**
    * Delete the default API portal.
@@ -99,7 +99,7 @@ export interface ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams
+    options?: ApiPortalsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the default API portal.
@@ -113,7 +113,7 @@ export interface ApiPortals {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalsDeleteOptionalParams
+    options?: ApiPortalsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Check the domains are valid as well as not in use.
@@ -129,6 +129,6 @@ export interface ApiPortals {
     serviceName: string,
     apiPortalName: string,
     validatePayload: CustomDomainValidatePayload,
-    options?: ApiPortalsValidateDomainOptionalParams
+    options?: ApiPortalsValidateDomainOptionalParams,
   ): Promise<ApiPortalsValidateDomainResponse>;
 }
