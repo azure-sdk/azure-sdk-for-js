@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AddonUnion,
   AddonsListByRoleNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   AddonsCreateOrUpdateOptionalParams,
   AddonsCreateOrUpdateResponse,
   AddonsDeleteOptionalParams,
-  AddonsListByRoleNextResponse
+  AddonsListByRoleNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,13 +56,13 @@ export class AddonsImpl implements Addons {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: AddonsListByRoleOptionalParams
+    options?: AddonsListByRoleOptionalParams,
   ): PagedAsyncIterableIterator<AddonUnion> {
     const iter = this.listByRolePagingAll(
       deviceName,
       roleName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +80,9 @@ export class AddonsImpl implements Addons {
           roleName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +91,7 @@ export class AddonsImpl implements Addons {
     roleName: string,
     resourceGroupName: string,
     options?: AddonsListByRoleOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AddonUnion[]> {
     let result: AddonsListByRoleResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +100,7 @@ export class AddonsImpl implements Addons {
         deviceName,
         roleName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +113,7 @@ export class AddonsImpl implements Addons {
         roleName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,13 +126,13 @@ export class AddonsImpl implements Addons {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: AddonsListByRoleOptionalParams
+    options?: AddonsListByRoleOptionalParams,
   ): AsyncIterableIterator<AddonUnion> {
     for await (const page of this.listByRolePagingPage(
       deviceName,
       roleName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -145,11 +149,11 @@ export class AddonsImpl implements Addons {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: AddonsListByRoleOptionalParams
+    options?: AddonsListByRoleOptionalParams,
   ): Promise<AddonsListByRoleResponse> {
     return this.client.sendOperationRequest(
       { deviceName, roleName, resourceGroupName, options },
-      listByRoleOperationSpec
+      listByRoleOperationSpec,
     );
   }
 
@@ -166,11 +170,11 @@ export class AddonsImpl implements Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsGetOptionalParams
+    options?: AddonsGetOptionalParams,
   ): Promise<AddonsGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, roleName, addonName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -189,30 +193,29 @@ export class AddonsImpl implements Addons {
     addonName: string,
     resourceGroupName: string,
     addon: AddonUnion,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -221,8 +224,8 @@ export class AddonsImpl implements Addons {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -230,19 +233,29 @@ export class AddonsImpl implements Addons {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, roleName, addonName, resourceGroupName, addon, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        deviceName,
+        roleName,
+        addonName,
+        resourceGroupName,
+        addon,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AddonsCreateOrUpdateResponse,
+      OperationState<AddonsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -263,7 +276,7 @@ export class AddonsImpl implements Addons {
     addonName: string,
     resourceGroupName: string,
     addon: AddonUnion,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<AddonsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
@@ -271,7 +284,7 @@ export class AddonsImpl implements Addons {
       addonName,
       resourceGroupName,
       addon,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -289,25 +302,24 @@ export class AddonsImpl implements Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: AddonsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +328,8 @@ export class AddonsImpl implements Addons {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,19 +337,19 @@ export class AddonsImpl implements Addons {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, roleName, addonName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, roleName, addonName, resourceGroupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -356,14 +368,14 @@ export class AddonsImpl implements Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
       roleName,
       addonName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -381,11 +393,11 @@ export class AddonsImpl implements Addons {
     roleName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: AddonsListByRoleNextOptionalParams
+    options?: AddonsListByRoleNextOptionalParams,
   ): Promise<AddonsListByRoleNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, roleName, resourceGroupName, nextLink, options },
-      listByRoleNextOperationSpec
+      listByRoleNextOperationSpec,
     );
   }
 }
@@ -393,39 +405,15 @@ export class AddonsImpl implements Addons {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByRoleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonList
+      bodyMapper: Mappers.AddonList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.roleName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,31 +422,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
-    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Addon,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deviceName,
+    Parameters.roleName,
+    Parameters.addonName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     201: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     202: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     204: {
-      bodyMapper: Mappers.Addon
+      bodyMapper: Mappers.Addon,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.addon,
   queryParameters: [Parameters.apiVersion],
@@ -468,15 +477,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
-    Parameters.addonName
+    Parameters.addonName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -484,8 +492,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -494,31 +502,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.roleName,
-    Parameters.addonName
+    Parameters.addonName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByRoleNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonList
+      bodyMapper: Mappers.AddonList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.roleName
+    Parameters.roleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

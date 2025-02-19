@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Container,
   ContainersListByStorageAccountOptionalParams,
@@ -16,7 +16,7 @@ import {
   ContainersCreateOrUpdateOptionalParams,
   ContainersCreateOrUpdateResponse,
   ContainersDeleteOptionalParams,
-  ContainersRefreshOptionalParams
+  ContainersRefreshOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Containers {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: ContainersListByStorageAccountOptionalParams
+    options?: ContainersListByStorageAccountOptionalParams,
   ): PagedAsyncIterableIterator<Container>;
   /**
    * Gets a container by name.
@@ -48,7 +48,7 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersGetOptionalParams
+    options?: ContainersGetOptionalParams,
   ): Promise<ContainersGetResponse>;
   /**
    * Creates a new container or updates an existing container on the device.
@@ -65,10 +65,10 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     container: Container,
-    options?: ContainersCreateOrUpdateOptionalParams
+    options?: ContainersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainersCreateOrUpdateResponse>,
       ContainersCreateOrUpdateResponse
     >
   >;
@@ -87,7 +87,7 @@ export interface Containers {
     containerName: string,
     resourceGroupName: string,
     container: Container,
-    options?: ContainersCreateOrUpdateOptionalParams
+    options?: ContainersCreateOrUpdateOptionalParams,
   ): Promise<ContainersCreateOrUpdateResponse>;
   /**
    * Deletes the container on the Data Box Edge/Data Box Gateway device.
@@ -102,8 +102,8 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ContainersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the container on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -117,7 +117,7 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersDeleteOptionalParams
+    options?: ContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Refreshes the container metadata with the data from the cloud.
@@ -132,8 +132,8 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ContainersRefreshOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes the container metadata with the data from the cloud.
    * @param deviceName The device name.
@@ -147,6 +147,6 @@ export interface Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersRefreshOptionalParams
+    options?: ContainersRefreshOptionalParams,
   ): Promise<void>;
 }

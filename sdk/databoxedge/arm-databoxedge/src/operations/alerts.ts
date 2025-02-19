@@ -20,7 +20,7 @@ import {
   AlertsListByDataBoxEdgeDeviceResponse,
   AlertsGetOptionalParams,
   AlertsGetResponse,
-  AlertsListByDataBoxEdgeDeviceNextResponse
+  AlertsListByDataBoxEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class AlertsImpl implements Alerts {
   public listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
+    options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Alert> {
     const iter = this.listByDataBoxEdgeDevicePagingAll(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class AlertsImpl implements Alerts {
           deviceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class AlertsImpl implements Alerts {
     deviceName: string,
     resourceGroupName: string,
     options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Alert[]> {
     let result: AlertsListByDataBoxEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class AlertsImpl implements Alerts {
       result = await this._listByDataBoxEdgeDevice(
         deviceName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class AlertsImpl implements Alerts {
         deviceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class AlertsImpl implements Alerts {
   private async *listByDataBoxEdgeDevicePagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
+    options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
   ): AsyncIterableIterator<Alert> {
     for await (const page of this.listByDataBoxEdgeDevicePagingPage(
       deviceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class AlertsImpl implements Alerts {
   private _listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
+    options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
   ): Promise<AlertsListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listByDataBoxEdgeDeviceOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class AlertsImpl implements Alerts {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: AlertsGetOptionalParams
+    options?: AlertsGetOptionalParams,
   ): Promise<AlertsGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, name, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class AlertsImpl implements Alerts {
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: AlertsListByDataBoxEdgeDeviceNextOptionalParams
+    options?: AlertsListByDataBoxEdgeDeviceNextOptionalParams,
   ): Promise<AlertsListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listByDataBoxEdgeDeviceNextOperationSpec,
     );
   }
 }
@@ -180,38 +180,15 @@ export class AlertsImpl implements Alerts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertList
+      bodyMapper: Mappers.AlertList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Alert
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -219,30 +196,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Alert,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deviceName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertList
+      bodyMapper: Mappers.AlertList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

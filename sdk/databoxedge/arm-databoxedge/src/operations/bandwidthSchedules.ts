@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   BandwidthSchedule,
   BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   BandwidthSchedulesCreateOrUpdateOptionalParams,
   BandwidthSchedulesCreateOrUpdateResponse,
   BandwidthSchedulesDeleteOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse
+  BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +54,12 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   public listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
+    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<BandwidthSchedule> {
     const iter = this.listByDataBoxEdgeDevicePagingAll(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +76,9 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
           deviceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +86,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     deviceName: string,
     resourceGroupName: string,
     options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BandwidthSchedule[]> {
     let result: BandwidthSchedulesListByDataBoxEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +94,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
       result = await this._listByDataBoxEdgeDevice(
         deviceName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +106,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         deviceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +118,12 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   private async *listByDataBoxEdgeDevicePagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
+    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
   ): AsyncIterableIterator<BandwidthSchedule> {
     for await (const page of this.listByDataBoxEdgeDevicePagingPage(
       deviceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +138,11 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   private _listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
+    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
   ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listByDataBoxEdgeDeviceOperationSpec,
     );
   }
 
@@ -153,11 +157,11 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesGetOptionalParams
+    options?: BandwidthSchedulesGetOptionalParams,
   ): Promise<BandwidthSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, name, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,30 +178,29 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    options?: BandwidthSchedulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BandwidthSchedulesCreateOrUpdateResponse>,
       BandwidthSchedulesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BandwidthSchedulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +209,8 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,19 +218,22 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BandwidthSchedulesCreateOrUpdateResponse,
+      OperationState<BandwidthSchedulesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -246,14 +252,14 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    options?: BandwidthSchedulesCreateOrUpdateOptionalParams,
   ): Promise<BandwidthSchedulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       name,
       resourceGroupName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,25 +275,24 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: BandwidthSchedulesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +301,8 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,19 +310,19 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -334,13 +339,13 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: BandwidthSchedulesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
       name,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -357,11 +362,11 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams
+    options?: BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams,
   ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listByDataBoxEdgeDeviceNextOperationSpec,
     );
   }
 }
@@ -369,38 +374,15 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.BandwidthSchedulesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -408,31 +390,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BandwidthSchedule,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deviceName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.BandwidthSchedule,
     },
     201: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.BandwidthSchedule,
     },
     202: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.BandwidthSchedule,
     },
     204: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.BandwidthSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -441,15 +443,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -457,8 +458,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -466,30 +467,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.BandwidthSchedulesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   RoleUnion,
   RolesListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   RolesGetResponse,
   RolesCreateOrUpdateOptionalParams,
   RolesCreateOrUpdateResponse,
-  RolesDeleteOptionalParams
+  RolesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Roles {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: RolesListByDataBoxEdgeDeviceOptionalParams
+    options?: RolesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<RoleUnion>;
   /**
    * Gets a specific role by name.
@@ -43,7 +43,7 @@ export interface Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesGetOptionalParams
+    options?: RolesGetOptionalParams,
   ): Promise<RolesGetResponse>;
   /**
    * Create or update a role.
@@ -58,10 +58,10 @@ export interface Roles {
     name: string,
     resourceGroupName: string,
     role: RoleUnion,
-    options?: RolesCreateOrUpdateOptionalParams
+    options?: RolesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RolesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RolesCreateOrUpdateResponse>,
       RolesCreateOrUpdateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface Roles {
     name: string,
     resourceGroupName: string,
     role: RoleUnion,
-    options?: RolesCreateOrUpdateOptionalParams
+    options?: RolesCreateOrUpdateOptionalParams,
   ): Promise<RolesCreateOrUpdateResponse>;
   /**
    * Deletes the role on the device.
@@ -91,8 +91,8 @@ export interface Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: RolesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the role on the device.
    * @param deviceName The device name.
@@ -104,6 +104,6 @@ export interface Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<void>;
 }

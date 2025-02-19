@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Order,
   OrdersListByDataBoxEdgeDeviceNextOptionalParams,
@@ -27,7 +31,7 @@ import {
   OrdersDeleteOptionalParams,
   OrdersListDCAccessCodeOptionalParams,
   OrdersListDCAccessCodeResponse,
-  OrdersListByDataBoxEdgeDeviceNextResponse
+  OrdersListByDataBoxEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +56,12 @@ export class OrdersImpl implements Orders {
   public listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListByDataBoxEdgeDeviceOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Order> {
     const iter = this.listByDataBoxEdgeDevicePagingAll(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +78,9 @@ export class OrdersImpl implements Orders {
           deviceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +88,7 @@ export class OrdersImpl implements Orders {
     deviceName: string,
     resourceGroupName: string,
     options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Order[]> {
     let result: OrdersListByDataBoxEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +96,7 @@ export class OrdersImpl implements Orders {
       result = await this._listByDataBoxEdgeDevice(
         deviceName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +108,7 @@ export class OrdersImpl implements Orders {
         deviceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +120,12 @@ export class OrdersImpl implements Orders {
   private async *listByDataBoxEdgeDevicePagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListByDataBoxEdgeDeviceOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
   ): AsyncIterableIterator<Order> {
     for await (const page of this.listByDataBoxEdgeDevicePagingPage(
       deviceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +140,11 @@ export class OrdersImpl implements Orders {
   private _listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListByDataBoxEdgeDeviceOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
   ): Promise<OrdersListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listByDataBoxEdgeDeviceOperationSpec,
     );
   }
 
@@ -153,11 +157,11 @@ export class OrdersImpl implements Orders {
   get(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersGetOptionalParams
+    options?: OrdersGetOptionalParams,
   ): Promise<OrdersGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,30 +176,29 @@ export class OrdersImpl implements Orders {
     deviceName: string,
     resourceGroupName: string,
     order: Order,
-    options?: OrdersCreateOrUpdateOptionalParams
+    options?: OrdersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OrdersCreateOrUpdateResponse>,
       OrdersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<OrdersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -204,8 +207,8 @@ export class OrdersImpl implements Orders {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -213,19 +216,22 @@ export class OrdersImpl implements Orders {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, order, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, order, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OrdersCreateOrUpdateResponse,
+      OperationState<OrdersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -242,13 +248,13 @@ export class OrdersImpl implements Orders {
     deviceName: string,
     resourceGroupName: string,
     order: Order,
-    options?: OrdersCreateOrUpdateOptionalParams
+    options?: OrdersCreateOrUpdateOptionalParams,
   ): Promise<OrdersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       resourceGroupName,
       order,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -262,25 +268,24 @@ export class OrdersImpl implements Orders {
   async beginDelete(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: OrdersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -289,8 +294,8 @@ export class OrdersImpl implements Orders {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -298,19 +303,19 @@ export class OrdersImpl implements Orders {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, resourceGroupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -325,12 +330,12 @@ export class OrdersImpl implements Orders {
   async beginDeleteAndWait(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersDeleteOptionalParams
+    options?: OrdersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -344,11 +349,11 @@ export class OrdersImpl implements Orders {
   listDCAccessCode(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListDCAccessCodeOptionalParams
+    options?: OrdersListDCAccessCodeOptionalParams,
   ): Promise<OrdersListDCAccessCodeResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listDCAccessCodeOperationSpec
+      listDCAccessCodeOperationSpec,
     );
   }
 
@@ -364,11 +369,11 @@ export class OrdersImpl implements Orders {
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: OrdersListByDataBoxEdgeDeviceNextOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceNextOptionalParams,
   ): Promise<OrdersListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listByDataBoxEdgeDeviceNextOperationSpec,
     );
   }
 }
@@ -376,69 +381,66 @@ export class OrdersImpl implements Orders {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrderList
+      bodyMapper: Mappers.OrderList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Order
+      bodyMapper: Mappers.Order,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Order
+      bodyMapper: Mappers.Order,
     },
     201: {
-      bodyMapper: Mappers.Order
+      bodyMapper: Mappers.Order,
     },
     202: {
-      bodyMapper: Mappers.Order
+      bodyMapper: Mappers.Order,
     },
     204: {
-      bodyMapper: Mappers.Order
+      bodyMapper: Mappers.Order,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.order,
   queryParameters: [Parameters.apiVersion],
@@ -446,15 +448,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -462,60 +463,58 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listDCAccessCodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default/listDCAccessCode",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders/default/listDCAccessCode",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DCAccessCode
+      bodyMapper: Mappers.DCAccessCode,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OrderList
+      bodyMapper: Mappers.OrderList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

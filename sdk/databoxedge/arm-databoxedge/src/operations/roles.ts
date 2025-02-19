@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   RoleUnion,
   RolesListByDataBoxEdgeDeviceNextOptionalParams,
@@ -25,7 +29,7 @@ import {
   RolesCreateOrUpdateOptionalParams,
   RolesCreateOrUpdateResponse,
   RolesDeleteOptionalParams,
-  RolesListByDataBoxEdgeDeviceNextResponse
+  RolesListByDataBoxEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +54,12 @@ export class RolesImpl implements Roles {
   public listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: RolesListByDataBoxEdgeDeviceOptionalParams
+    options?: RolesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<RoleUnion> {
     const iter = this.listByDataBoxEdgeDevicePagingAll(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +76,9 @@ export class RolesImpl implements Roles {
           deviceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +86,7 @@ export class RolesImpl implements Roles {
     deviceName: string,
     resourceGroupName: string,
     options?: RolesListByDataBoxEdgeDeviceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleUnion[]> {
     let result: RolesListByDataBoxEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +94,7 @@ export class RolesImpl implements Roles {
       result = await this._listByDataBoxEdgeDevice(
         deviceName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +106,7 @@ export class RolesImpl implements Roles {
         deviceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +118,12 @@ export class RolesImpl implements Roles {
   private async *listByDataBoxEdgeDevicePagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: RolesListByDataBoxEdgeDeviceOptionalParams
+    options?: RolesListByDataBoxEdgeDeviceOptionalParams,
   ): AsyncIterableIterator<RoleUnion> {
     for await (const page of this.listByDataBoxEdgeDevicePagingPage(
       deviceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +138,11 @@ export class RolesImpl implements Roles {
   private _listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: RolesListByDataBoxEdgeDeviceOptionalParams
+    options?: RolesListByDataBoxEdgeDeviceOptionalParams,
   ): Promise<RolesListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listByDataBoxEdgeDeviceOperationSpec,
     );
   }
 
@@ -153,11 +157,11 @@ export class RolesImpl implements Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesGetOptionalParams
+    options?: RolesGetOptionalParams,
   ): Promise<RolesGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, name, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,30 +178,29 @@ export class RolesImpl implements Roles {
     name: string,
     resourceGroupName: string,
     role: RoleUnion,
-    options?: RolesCreateOrUpdateOptionalParams
+    options?: RolesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<RolesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<RolesCreateOrUpdateResponse>,
       RolesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RolesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +209,8 @@ export class RolesImpl implements Roles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,19 +218,22 @@ export class RolesImpl implements Roles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, role, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, role, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      RolesCreateOrUpdateResponse,
+      OperationState<RolesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -246,14 +252,14 @@ export class RolesImpl implements Roles {
     name: string,
     resourceGroupName: string,
     role: RoleUnion,
-    options?: RolesCreateOrUpdateOptionalParams
+    options?: RolesCreateOrUpdateOptionalParams,
   ): Promise<RolesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
       name,
       resourceGroupName,
       role,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -269,25 +275,24 @@ export class RolesImpl implements Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: RolesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -296,8 +301,8 @@ export class RolesImpl implements Roles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -305,19 +310,19 @@ export class RolesImpl implements Roles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { deviceName, name, resourceGroupName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { deviceName, name, resourceGroupName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -334,13 +339,13 @@ export class RolesImpl implements Roles {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
       name,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -357,11 +362,11 @@ export class RolesImpl implements Roles {
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: RolesListByDataBoxEdgeDeviceNextOptionalParams
+    options?: RolesListByDataBoxEdgeDeviceNextOptionalParams,
   ): Promise<RolesListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listByDataBoxEdgeDeviceNextOperationSpec,
     );
   }
 }
@@ -369,38 +374,15 @@ export class RolesImpl implements Roles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleList
+      bodyMapper: Mappers.RoleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -408,31 +390,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Role,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deviceName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     201: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     202: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     204: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.role,
   queryParameters: [Parameters.apiVersion],
@@ -441,15 +443,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -457,8 +458,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -466,30 +467,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleList
+      bodyMapper: Mappers.RoleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

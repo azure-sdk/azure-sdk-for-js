@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
@@ -23,7 +27,7 @@ import {
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse,
   DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
-  DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
+  DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse,
 } from "../models/index.js";
 
 /** Class containing DiagnosticSettings operations. */
@@ -47,13 +51,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
   getDiagnosticProactiveLogCollectionSettings(
     deviceName: string,
     resourceGroupName: string,
-    options?: DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams
-  ): Promise<
-    DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse
-  > {
+    options?: DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
+  ): Promise<DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      getDiagnosticProactiveLogCollectionSettingsOperationSpec
+      getDiagnosticProactiveLogCollectionSettingsOperationSpec,
     );
   }
 
@@ -68,32 +70,29 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
-      >,
+    SimplePollerLike<
+      OperationState<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -102,8 +101,8 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -111,24 +110,27 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         resourceGroupName,
         proactiveLogCollectionSettings,
-        options
+        options,
       },
-      updateDiagnosticProactiveLogCollectionSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateDiagnosticProactiveLogCollectionSettingsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse,
+      OperationState<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -145,16 +147,15 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
-  ): Promise<
-    DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
-  > {
-    const poller = await this.beginUpdateDiagnosticProactiveLogCollectionSettings(
-      deviceName,
-      resourceGroupName,
-      proactiveLogCollectionSettings,
-      options
-    );
+    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
+  ): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse> {
+    const poller =
+      await this.beginUpdateDiagnosticProactiveLogCollectionSettings(
+        deviceName,
+        resourceGroupName,
+        proactiveLogCollectionSettings,
+        options,
+      );
     return poller.pollUntilDone();
   }
 
@@ -167,11 +168,11 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
   getDiagnosticRemoteSupportSettings(
     deviceName: string,
     resourceGroupName: string,
-    options?: DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      getDiagnosticRemoteSupportSettingsOperationSpec
+      getDiagnosticRemoteSupportSettingsOperationSpec,
     );
   }
 
@@ -186,32 +187,29 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
-      >,
+    SimplePollerLike<
+      OperationState<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -220,8 +218,8 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -229,24 +227,27 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         resourceGroupName,
         diagnosticRemoteSupportSettings,
-        options
+        options,
       },
-      updateDiagnosticRemoteSupportSettingsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateDiagnosticRemoteSupportSettingsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse,
+      OperationState<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -263,13 +264,13 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse> {
     const poller = await this.beginUpdateDiagnosticRemoteSupportSettings(
       deviceName,
       resourceGroupName,
       diagnosticRemoteSupportSettings,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -277,113 +278,113 @@ export class DiagnosticSettingsImpl implements DiagnosticSettings {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticProactiveLogCollectionSettings/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings
+const getDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticProactiveLogCollectionSettings/default",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticProactiveLogCollectionSettings/default",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.deviceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const updateDiagnosticProactiveLogCollectionSettingsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticProactiveLogCollectionSettings/default",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings,
+      },
+      201: {
+        bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings,
+      },
+      202: {
+        bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings,
+      },
+      204: {
+        bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    201: {
-      bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings
+    requestBody: Parameters.proactiveLogCollectionSettings,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.deviceName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
+const getDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticRemoteSupportSettings/default",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DiagnosticRemoteSupportSettings,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    202: {
-      bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.deviceName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const updateDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticRemoteSupportSettings/default",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DiagnosticRemoteSupportSettings,
+      },
+      201: {
+        bodyMapper: Mappers.DiagnosticRemoteSupportSettings,
+      },
+      202: {
+        bodyMapper: Mappers.DiagnosticRemoteSupportSettings,
+      },
+      204: {
+        bodyMapper: Mappers.DiagnosticRemoteSupportSettings,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    204: {
-      bodyMapper: Mappers.DiagnosticProactiveLogCollectionSettings
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.proactiveLogCollectionSettings,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticRemoteSupportSettings/default",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticRemoteSupportSettings
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateDiagnosticRemoteSupportSettingsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/diagnosticRemoteSupportSettings/default",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticRemoteSupportSettings
-    },
-    201: {
-      bodyMapper: Mappers.DiagnosticRemoteSupportSettings
-    },
-    202: {
-      bodyMapper: Mappers.DiagnosticRemoteSupportSettings
-    },
-    204: {
-      bodyMapper: Mappers.DiagnosticRemoteSupportSettings
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.diagnosticRemoteSupportSettings,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.diagnosticRemoteSupportSettings,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.deviceName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };

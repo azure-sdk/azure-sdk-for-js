@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccount,
   StorageAccountsListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   StorageAccountsGetResponse,
   StorageAccountsCreateOrUpdateOptionalParams,
   StorageAccountsCreateOrUpdateResponse,
-  StorageAccountsDeleteOptionalParams
+  StorageAccountsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface StorageAccounts {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: StorageAccountsListByDataBoxEdgeDeviceOptionalParams
+    options?: StorageAccountsListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<StorageAccount>;
   /**
    * Gets a StorageAccount by name.
@@ -43,7 +43,7 @@ export interface StorageAccounts {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: StorageAccountsGetOptionalParams
+    options?: StorageAccountsGetOptionalParams,
   ): Promise<StorageAccountsGetResponse>;
   /**
    * Creates a new StorageAccount or updates an existing StorageAccount on the device.
@@ -58,10 +58,10 @@ export interface StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     storageAccount: StorageAccount,
-    options?: StorageAccountsCreateOrUpdateOptionalParams
+    options?: StorageAccountsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountsCreateOrUpdateResponse>,
       StorageAccountsCreateOrUpdateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface StorageAccounts {
     storageAccountName: string,
     resourceGroupName: string,
     storageAccount: StorageAccount,
-    options?: StorageAccountsCreateOrUpdateOptionalParams
+    options?: StorageAccountsCreateOrUpdateOptionalParams,
   ): Promise<StorageAccountsCreateOrUpdateResponse>;
   /**
    * Deletes the StorageAccount on the Data Box Edge/Data Box Gateway device.
@@ -91,8 +91,8 @@ export interface StorageAccounts {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: StorageAccountsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: StorageAccountsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the StorageAccount on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -104,6 +104,6 @@ export interface StorageAccounts {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: StorageAccountsDeleteOptionalParams
+    options?: StorageAccountsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,7 +18,7 @@ import {
   AvailableSkusListNextOptionalParams,
   AvailableSkusListOptionalParams,
   AvailableSkusListResponse,
-  AvailableSkusListNextResponse
+  AvailableSkusListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class AvailableSkusImpl implements AvailableSkus {
    * @param options The options parameters.
    */
   public list(
-    options?: AvailableSkusListOptionalParams
+    options?: AvailableSkusListOptionalParams,
   ): PagedAsyncIterableIterator<DataBoxEdgeSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class AvailableSkusImpl implements AvailableSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AvailableSkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataBoxEdgeSku[]> {
     let result: AvailableSkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class AvailableSkusImpl implements AvailableSkus {
   }
 
   private async *listPagingAll(
-    options?: AvailableSkusListOptionalParams
+    options?: AvailableSkusListOptionalParams,
   ): AsyncIterableIterator<DataBoxEdgeSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class AvailableSkusImpl implements AvailableSkus {
    * @param options The options parameters.
    */
   private _list(
-    options?: AvailableSkusListOptionalParams
+    options?: AvailableSkusListOptionalParams,
   ): Promise<AvailableSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class AvailableSkusImpl implements AvailableSkus {
    */
   private _listNext(
     nextLink: string,
-    options?: AvailableSkusListNextOptionalParams
+    options?: AvailableSkusListNextOptionalParams,
   ): Promise<AvailableSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -117,39 +117,37 @@ export class AvailableSkusImpl implements AvailableSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataBoxEdgeSkuList
+      bodyMapper: Mappers.DataBoxEdgeSkuList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataBoxEdgeSkuList
+      bodyMapper: Mappers.DataBoxEdgeSkuList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

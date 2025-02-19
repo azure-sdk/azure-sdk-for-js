@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   User,
   UsersListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   UsersGetResponse,
   UsersCreateOrUpdateOptionalParams,
   UsersCreateOrUpdateResponse,
-  UsersDeleteOptionalParams
+  UsersDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Users {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: UsersListByDataBoxEdgeDeviceOptionalParams
+    options?: UsersListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<User>;
   /**
    * Gets the properties of the specified user.
@@ -43,7 +43,7 @@ export interface Users {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: UsersGetOptionalParams
+    options?: UsersGetOptionalParams,
   ): Promise<UsersGetResponse>;
   /**
    * Creates a new user or updates an existing user's information on a Data Box Edge/Data Box Gateway
@@ -59,10 +59,10 @@ export interface Users {
     name: string,
     resourceGroupName: string,
     user: User,
-    options?: UsersCreateOrUpdateOptionalParams
+    options?: UsersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<UsersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<UsersCreateOrUpdateResponse>,
       UsersCreateOrUpdateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface Users {
     name: string,
     resourceGroupName: string,
     user: User,
-    options?: UsersCreateOrUpdateOptionalParams
+    options?: UsersCreateOrUpdateOptionalParams,
   ): Promise<UsersCreateOrUpdateResponse>;
   /**
    * Deletes the user on a databox edge/gateway device.
@@ -93,8 +93,8 @@ export interface Users {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: UsersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: UsersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the user on a databox edge/gateway device.
    * @param deviceName The device name.
@@ -106,6 +106,6 @@ export interface Users {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: UsersDeleteOptionalParams
+    options?: UsersDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   StorageAccountCredential,
   StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   StorageAccountCredentialsGetResponse,
   StorageAccountCredentialsCreateOrUpdateOptionalParams,
   StorageAccountCredentialsCreateOrUpdateResponse,
-  StorageAccountCredentialsDeleteOptionalParams
+  StorageAccountCredentialsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface StorageAccountCredentials {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams
+    options?: StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<StorageAccountCredential>;
   /**
    * Gets the properties of the specified storage account credential.
@@ -43,7 +43,7 @@ export interface StorageAccountCredentials {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: StorageAccountCredentialsGetOptionalParams
+    options?: StorageAccountCredentialsGetOptionalParams,
   ): Promise<StorageAccountCredentialsGetResponse>;
   /**
    * Creates or updates the storage account credential.
@@ -58,10 +58,10 @@ export interface StorageAccountCredentials {
     name: string,
     resourceGroupName: string,
     storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<StorageAccountCredentialsCreateOrUpdateResponse>,
       StorageAccountCredentialsCreateOrUpdateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface StorageAccountCredentials {
     name: string,
     resourceGroupName: string,
     storageAccountCredential: StorageAccountCredential,
-    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams
+    options?: StorageAccountCredentialsCreateOrUpdateOptionalParams,
   ): Promise<StorageAccountCredentialsCreateOrUpdateResponse>;
   /**
    * Deletes the storage account credential.
@@ -91,8 +91,8 @@ export interface StorageAccountCredentials {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: StorageAccountCredentialsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: StorageAccountCredentialsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the storage account credential.
    * @param deviceName The device name.
@@ -104,6 +104,6 @@ export interface StorageAccountCredentials {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: StorageAccountCredentialsDeleteOptionalParams
+    options?: StorageAccountCredentialsDeleteOptionalParams,
   ): Promise<void>;
 }

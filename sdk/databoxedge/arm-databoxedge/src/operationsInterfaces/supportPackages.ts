@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TriggerSupportPackageRequest,
-  SupportPackagesTriggerSupportPackageOptionalParams
+  SupportPackagesTriggerSupportPackageOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a SupportPackages. */
@@ -25,8 +25,8 @@ export interface SupportPackages {
     deviceName: string,
     resourceGroupName: string,
     triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SupportPackagesTriggerSupportPackageOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Triggers support package on the device
    * @param deviceName The device name.
@@ -38,6 +38,6 @@ export interface SupportPackages {
     deviceName: string,
     resourceGroupName: string,
     triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    options?: SupportPackagesTriggerSupportPackageOptionalParams,
   ): Promise<void>;
 }

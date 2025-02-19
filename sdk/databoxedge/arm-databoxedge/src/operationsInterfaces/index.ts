@@ -11,6 +11,8 @@ export * from "./availableSkus.js";
 export * from "./devices.js";
 export * from "./alerts.js";
 export * from "./bandwidthSchedules.js";
+export * from "./deviceCapacityCheck.js";
+export * from "./deviceCapacityInfoOperations.js";
 export * from "./diagnosticSettings.js";
 export * from "./jobs.js";
 export * from "./nodes.js";

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AddonUnion,
   AddonsListByRoleOptionalParams,
@@ -15,7 +15,7 @@ import {
   AddonsGetResponse,
   AddonsCreateOrUpdateOptionalParams,
   AddonsCreateOrUpdateResponse,
-  AddonsDeleteOptionalParams
+  AddonsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Addons {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: AddonsListByRoleOptionalParams
+    options?: AddonsListByRoleOptionalParams,
   ): PagedAsyncIterableIterator<AddonUnion>;
   /**
    * Gets a specific addon by name.
@@ -47,7 +47,7 @@ export interface Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsGetOptionalParams
+    options?: AddonsGetOptionalParams,
   ): Promise<AddonsGetResponse>;
   /**
    * Create or update a addon.
@@ -64,10 +64,10 @@ export interface Addons {
     addonName: string,
     resourceGroupName: string,
     addon: AddonUnion,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AddonsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AddonsCreateOrUpdateResponse>,
       AddonsCreateOrUpdateResponse
     >
   >;
@@ -86,7 +86,7 @@ export interface Addons {
     addonName: string,
     resourceGroupName: string,
     addon: AddonUnion,
-    options?: AddonsCreateOrUpdateOptionalParams
+    options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<AddonsCreateOrUpdateResponse>;
   /**
    * Deletes the addon on the device.
@@ -101,8 +101,8 @@ export interface Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: AddonsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the addon on the device.
    * @param deviceName The device name.
@@ -116,6 +116,6 @@ export interface Addons {
     roleName: string,
     addonName: string,
     resourceGroupName: string,
-    options?: AddonsDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams,
   ): Promise<void>;
 }

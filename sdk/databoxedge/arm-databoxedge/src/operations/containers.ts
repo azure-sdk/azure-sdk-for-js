@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Container,
   ContainersListByStorageAccountNextOptionalParams,
@@ -26,7 +30,7 @@ import {
   ContainersCreateOrUpdateResponse,
   ContainersDeleteOptionalParams,
   ContainersRefreshOptionalParams,
-  ContainersListByStorageAccountNextResponse
+  ContainersListByStorageAccountNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,13 +57,13 @@ export class ContainersImpl implements Containers {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: ContainersListByStorageAccountOptionalParams
+    options?: ContainersListByStorageAccountOptionalParams,
   ): PagedAsyncIterableIterator<Container> {
     const iter = this.listByStorageAccountPagingAll(
       deviceName,
       storageAccountName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +81,9 @@ export class ContainersImpl implements Containers {
           storageAccountName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +92,7 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     resourceGroupName: string,
     options?: ContainersListByStorageAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Container[]> {
     let result: ContainersListByStorageAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +101,7 @@ export class ContainersImpl implements Containers {
         deviceName,
         storageAccountName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -110,7 +114,7 @@ export class ContainersImpl implements Containers {
         storageAccountName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,13 +127,13 @@ export class ContainersImpl implements Containers {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: ContainersListByStorageAccountOptionalParams
+    options?: ContainersListByStorageAccountOptionalParams,
   ): AsyncIterableIterator<Container> {
     for await (const page of this.listByStorageAccountPagingPage(
       deviceName,
       storageAccountName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +150,11 @@ export class ContainersImpl implements Containers {
     deviceName: string,
     storageAccountName: string,
     resourceGroupName: string,
-    options?: ContainersListByStorageAccountOptionalParams
+    options?: ContainersListByStorageAccountOptionalParams,
   ): Promise<ContainersListByStorageAccountResponse> {
     return this.client.sendOperationRequest(
       { deviceName, storageAccountName, resourceGroupName, options },
-      listByStorageAccountOperationSpec
+      listByStorageAccountOperationSpec,
     );
   }
 
@@ -167,7 +171,7 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersGetOptionalParams
+    options?: ContainersGetOptionalParams,
   ): Promise<ContainersGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -175,9 +179,9 @@ export class ContainersImpl implements Containers {
         storageAccountName,
         containerName,
         resourceGroupName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -196,30 +200,29 @@ export class ContainersImpl implements Containers {
     containerName: string,
     resourceGroupName: string,
     container: Container,
-    options?: ContainersCreateOrUpdateOptionalParams
+    options?: ContainersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ContainersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ContainersCreateOrUpdateResponse>,
       ContainersCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContainersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -228,8 +231,8 @@ export class ContainersImpl implements Containers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -237,26 +240,29 @@ export class ContainersImpl implements Containers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         storageAccountName,
         containerName,
         resourceGroupName,
         container,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ContainersCreateOrUpdateResponse,
+      OperationState<ContainersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -277,7 +283,7 @@ export class ContainersImpl implements Containers {
     containerName: string,
     resourceGroupName: string,
     container: Container,
-    options?: ContainersCreateOrUpdateOptionalParams
+    options?: ContainersCreateOrUpdateOptionalParams,
   ): Promise<ContainersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
@@ -285,7 +291,7 @@ export class ContainersImpl implements Containers {
       containerName,
       resourceGroupName,
       container,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -303,25 +309,24 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ContainersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -330,8 +335,8 @@ export class ContainersImpl implements Containers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -339,25 +344,25 @@ export class ContainersImpl implements Containers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         storageAccountName,
         containerName,
         resourceGroupName,
-        options
+        options,
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -376,14 +381,14 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersDeleteOptionalParams
+    options?: ContainersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
       storageAccountName,
       containerName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -401,25 +406,24 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ContainersRefreshOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -428,8 +432,8 @@ export class ContainersImpl implements Containers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -437,25 +441,25 @@ export class ContainersImpl implements Containers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         deviceName,
         storageAccountName,
         containerName,
         resourceGroupName,
-        options
+        options,
       },
-      refreshOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: refreshOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -474,14 +478,14 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     containerName: string,
     resourceGroupName: string,
-    options?: ContainersRefreshOptionalParams
+    options?: ContainersRefreshOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRefresh(
       deviceName,
       storageAccountName,
       containerName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -499,11 +503,11 @@ export class ContainersImpl implements Containers {
     storageAccountName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ContainersListByStorageAccountNextOptionalParams
+    options?: ContainersListByStorageAccountNextOptionalParams,
   ): Promise<ContainersListByStorageAccountNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, storageAccountName, resourceGroupName, nextLink, options },
-      listByStorageAccountNextOperationSpec
+      listByStorageAccountNextOperationSpec,
     );
   }
 }
@@ -511,39 +515,15 @@ export class ContainersImpl implements Containers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByStorageAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerList
+      bodyMapper: Mappers.ContainerList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-    Parameters.storageAccountName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Container
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -552,31 +532,52 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.storageAccountName,
-    Parameters.containerName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Container,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deviceName,
+    Parameters.storageAccountName,
+    Parameters.containerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Container
+      bodyMapper: Mappers.Container,
     },
     201: {
-      bodyMapper: Mappers.Container
+      bodyMapper: Mappers.Container,
     },
     202: {
-      bodyMapper: Mappers.Container
+      bodyMapper: Mappers.Container,
     },
     204: {
-      bodyMapper: Mappers.Container
+      bodyMapper: Mappers.Container,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.container,
   queryParameters: [Parameters.apiVersion],
@@ -586,15 +587,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.storageAccountName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -602,8 +602,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -612,14 +612,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.storageAccountName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}/refresh",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers/{containerName}/refresh",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -627,8 +626,8 @@ const refreshOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -637,31 +636,30 @@ const refreshOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.deviceName,
     Parameters.storageAccountName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByStorageAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerList
+      bodyMapper: Mappers.ContainerList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.storageAccountName
+    Parameters.storageAccountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

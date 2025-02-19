@@ -1,15 +1,50 @@
 # Release History
-
-## 2.1.1 (Unreleased)
-
+    
+## 3.0.0 (2025-02-19)
+    
 ### Features Added
+
+  - Added operation group DeviceCapacityCheck
+  - Added operation group DeviceCapacityInfoOperations
+  - Added Interface ClusterCapacityViewData
+  - Added Interface ClusterGpuCapacity
+  - Added Interface ClusterMemoryCapacity
+  - Added Interface ClusterStorageViewData
+  - Added Interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
+  - Added Interface DeviceCapacityInfo
+  - Added Interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  - Added Interface DeviceCapacityRequestInfo
+  - Added Interface HostCapacity
+  - Added Interface NumaNodeData
+  - Added Interface VmMemory
+  - Added Interface VmPlacementRequestResult
+  - Added Type Alias ClusterWitnessType
+  - Added Type Alias DeviceCapacityInfoGetDeviceCapacityInfoResponse
+  - Interface DataBoxEdgeDevice has a new optional parameter kubernetesWorkloadProfile
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter cloudWitnessContainerName
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter cloudWitnessStorageAccountName
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter cloudWitnessStorageEndpoint
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter clusterWitnessType
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter fileShareWitnessLocation
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter fileShareWitnessUsername
+  - Interface DataBoxEdgeDeviceExtendedInfo has a new optional parameter systemData
+  - Interface LoadBalancerConfig has a new optional parameter ipRange
+  - Interface Order has a new optional parameter kind
+  - Interface Order has a new optional parameter orderId
+  - Added Enum KnownClusterWitnessType
+  - Enum KnownSkuName has a new value EdgeMRTCP
+  - Enum KnownSkuName has a new value EP2128GPU1Mx1W
+  - Enum KnownSkuName has a new value EP2256GPU2Mx1
+  - Enum KnownSkuName has a new value EP264Mx1W
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DevicesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface DevicesListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface TriggersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+  - Interface UsersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+    
+    
 ## 2.1.0 (2022-11-21)
     
 ### Features Added
@@ -46,7 +81,7 @@
     
 ## 2.0.1 (2022-04-15)
 
-### Features Added
+**features**
 
   - Bug fix
 
@@ -58,4 +93,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
