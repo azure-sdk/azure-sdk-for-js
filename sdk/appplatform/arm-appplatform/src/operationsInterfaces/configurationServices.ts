@@ -20,7 +20,7 @@ import {
   ConfigurationServicesValidateOptionalParams,
   ConfigurationServicesValidateResponse,
   ConfigurationServicesValidateResourceOptionalParams,
-  ConfigurationServicesValidateResourceResponse
+  ConfigurationServicesValidateResourceResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface ConfigurationServices {
   list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ConfigurationServicesListOptionalParams
+    options?: ConfigurationServicesListOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationServiceResource>;
   /**
    * Get the Application Configuration Service and its properties.
@@ -50,7 +50,7 @@ export interface ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesGetOptionalParams
+    options?: ConfigurationServicesGetOptionalParams,
   ): Promise<ConfigurationServicesGetResponse>;
   /**
    * Create the default Application Configuration Service or update the existing Application
@@ -67,7 +67,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesCreateOrUpdateOptionalParams
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesCreateOrUpdateResponse>,
@@ -89,7 +89,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesCreateOrUpdateOptionalParams
+    options?: ConfigurationServicesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationServicesCreateOrUpdateResponse>;
   /**
    * Disable the default Application Configuration Service.
@@ -103,7 +103,7 @@ export interface ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesDeleteOptionalParams
+    options?: ConfigurationServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Disable the default Application Configuration Service.
@@ -117,7 +117,7 @@ export interface ConfigurationServices {
     resourceGroupName: string,
     serviceName: string,
     configurationServiceName: string,
-    options?: ConfigurationServicesDeleteOptionalParams
+    options?: ConfigurationServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Check if the Application Configuration Service settings are valid.
@@ -133,7 +133,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     settings: ConfigurationServiceSettings,
-    options?: ConfigurationServicesValidateOptionalParams
+    options?: ConfigurationServicesValidateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesValidateResponse>,
@@ -154,7 +154,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     settings: ConfigurationServiceSettings,
-    options?: ConfigurationServicesValidateOptionalParams
+    options?: ConfigurationServicesValidateOptionalParams,
   ): Promise<ConfigurationServicesValidateResponse>;
   /**
    * Check if the Application Configuration Service resource is valid.
@@ -170,7 +170,7 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesValidateResourceOptionalParams
+    options?: ConfigurationServicesValidateResourceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationServicesValidateResourceResponse>,
@@ -191,6 +191,6 @@ export interface ConfigurationServices {
     serviceName: string,
     configurationServiceName: string,
     configurationServiceResource: ConfigurationServiceResource,
-    options?: ConfigurationServicesValidateResourceOptionalParams
+    options?: ConfigurationServicesValidateResourceOptionalParams,
   ): Promise<ConfigurationServicesValidateResourceResponse>;
 }

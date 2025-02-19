@@ -15,7 +15,7 @@ import {
   ApiPortalCustomDomainsGetResponse,
   ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ApiPortalCustomDomainsCreateOrUpdateResponse,
-  ApiPortalCustomDomainsDeleteOptionalParams
+  ApiPortalCustomDomainsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ApiPortalCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalCustomDomainsListOptionalParams
+    options?: ApiPortalCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiPortalCustomDomainResource>;
   /**
    * Get the API portal custom domain.
@@ -49,7 +49,7 @@ export interface ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsGetOptionalParams
+    options?: ApiPortalCustomDomainsGetOptionalParams,
   ): Promise<ApiPortalCustomDomainsGetResponse>;
   /**
    * Create or update the API portal custom domain.
@@ -67,7 +67,7 @@ export interface ApiPortalCustomDomains {
     apiPortalName: string,
     domainName: string,
     apiPortalCustomDomainResource: ApiPortalCustomDomainResource,
-    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>,
@@ -90,7 +90,7 @@ export interface ApiPortalCustomDomains {
     apiPortalName: string,
     domainName: string,
     apiPortalCustomDomainResource: ApiPortalCustomDomainResource,
-    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<ApiPortalCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete the API portal custom domain.
@@ -106,7 +106,7 @@ export interface ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsDeleteOptionalParams
+    options?: ApiPortalCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the API portal custom domain.
@@ -122,6 +122,6 @@ export interface ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsDeleteOptionalParams
+    options?: ApiPortalCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
 }
