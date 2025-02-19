@@ -3137,7 +3137,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
-    resolution: {integrity: sha512-s2a6cdIalPyEpcarbDEbTpimxwYXAzB4WzKfk2Rdq3dQ++Akovo8b/pfPTazJ4DlNnM+V2T5Nir83CNnmcv8xQ==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-T8Pnu35BI97Kk89zHb6ZJU2nJPF7SBzWtTuIBFl/x1S4NByPw17Q4x3sFzfGX0ZuhU32Aw7XPtrZrxGhIWz+Lg==, tarball: file:projects/arm-migrate.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
@@ -15320,13 +15320,14 @@ snapshots:
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
