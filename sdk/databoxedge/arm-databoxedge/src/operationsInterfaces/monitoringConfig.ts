@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MonitoringMetricConfiguration,
   MonitoringConfigListOptionalParams,
@@ -15,7 +15,7 @@ import {
   MonitoringConfigGetResponse,
   MonitoringConfigCreateOrUpdateOptionalParams,
   MonitoringConfigCreateOrUpdateResponse,
-  MonitoringConfigDeleteOptionalParams
+  MonitoringConfigDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface MonitoringConfig {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: MonitoringConfigListOptionalParams
+    options?: MonitoringConfigListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringMetricConfiguration>;
   /**
    * Gets a  metric configuration of a role.
@@ -45,7 +45,7 @@ export interface MonitoringConfig {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: MonitoringConfigGetOptionalParams
+    options?: MonitoringConfigGetOptionalParams,
   ): Promise<MonitoringConfigGetResponse>;
   /**
    * Creates a new metric configuration or updates an existing one for a role.
@@ -60,10 +60,10 @@ export interface MonitoringConfig {
     roleName: string,
     resourceGroupName: string,
     monitoringMetricConfiguration: MonitoringMetricConfiguration,
-    options?: MonitoringConfigCreateOrUpdateOptionalParams
+    options?: MonitoringConfigCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<MonitoringConfigCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MonitoringConfigCreateOrUpdateResponse>,
       MonitoringConfigCreateOrUpdateResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface MonitoringConfig {
     roleName: string,
     resourceGroupName: string,
     monitoringMetricConfiguration: MonitoringMetricConfiguration,
-    options?: MonitoringConfigCreateOrUpdateOptionalParams
+    options?: MonitoringConfigCreateOrUpdateOptionalParams,
   ): Promise<MonitoringConfigCreateOrUpdateResponse>;
   /**
    * deletes a new metric configuration for a role.
@@ -93,8 +93,8 @@ export interface MonitoringConfig {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: MonitoringConfigDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: MonitoringConfigDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * deletes a new metric configuration for a role.
    * @param deviceName The device name.
@@ -106,6 +106,6 @@ export interface MonitoringConfig {
     deviceName: string,
     roleName: string,
     resourceGroupName: string,
-    options?: MonitoringConfigDeleteOptionalParams
+    options?: MonitoringConfigDeleteOptionalParams,
   ): Promise<void>;
 }

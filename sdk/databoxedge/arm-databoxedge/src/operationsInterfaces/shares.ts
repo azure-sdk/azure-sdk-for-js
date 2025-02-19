@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Share,
   SharesListByDataBoxEdgeDeviceOptionalParams,
@@ -16,7 +16,7 @@ import {
   SharesCreateOrUpdateOptionalParams,
   SharesCreateOrUpdateResponse,
   SharesDeleteOptionalParams,
-  SharesRefreshOptionalParams
+  SharesRefreshOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Shares {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: SharesListByDataBoxEdgeDeviceOptionalParams
+    options?: SharesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Share>;
   /**
    * Gets a share by name.
@@ -44,7 +44,7 @@ export interface Shares {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: SharesGetOptionalParams
+    options?: SharesGetOptionalParams,
   ): Promise<SharesGetResponse>;
   /**
    * Creates a new share or updates an existing share on the device.
@@ -59,10 +59,10 @@ export interface Shares {
     name: string,
     resourceGroupName: string,
     share: Share,
-    options?: SharesCreateOrUpdateOptionalParams
+    options?: SharesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SharesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SharesCreateOrUpdateResponse>,
       SharesCreateOrUpdateResponse
     >
   >;
@@ -79,7 +79,7 @@ export interface Shares {
     name: string,
     resourceGroupName: string,
     share: Share,
-    options?: SharesCreateOrUpdateOptionalParams
+    options?: SharesCreateOrUpdateOptionalParams,
   ): Promise<SharesCreateOrUpdateResponse>;
   /**
    * Deletes the share on the Data Box Edge/Data Box Gateway device.
@@ -92,8 +92,8 @@ export interface Shares {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: SharesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SharesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the share on the Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -105,7 +105,7 @@ export interface Shares {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: SharesDeleteOptionalParams
+    options?: SharesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Refreshes the share metadata with the data from the cloud.
@@ -118,8 +118,8 @@ export interface Shares {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: SharesRefreshOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: SharesRefreshOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes the share metadata with the data from the cloud.
    * @param deviceName The device name.
@@ -131,6 +131,6 @@ export interface Shares {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: SharesRefreshOptionalParams
+    options?: SharesRefreshOptionalParams,
   ): Promise<void>;
 }

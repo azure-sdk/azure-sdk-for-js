@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient.js";
 import {
   OperationsStatusGetOptionalParams,
-  OperationsStatusGetResponse
+  OperationsStatusGetResponse,
 } from "../models/index.js";
 
 /** Class containing OperationsStatus operations. */
@@ -39,11 +39,11 @@ export class OperationsStatusImpl implements OperationsStatus {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: OperationsStatusGetOptionalParams
+    options?: OperationsStatusGetOptionalParams,
   ): Promise<OperationsStatusGetResponse> {
     return this.client.sendOperationRequest(
       { deviceName, name, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -51,16 +51,15 @@ export class OperationsStatusImpl implements OperationsStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/operationsStatus/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/operationsStatus/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Job
+      bodyMapper: Mappers.Job,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -68,8 +67,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

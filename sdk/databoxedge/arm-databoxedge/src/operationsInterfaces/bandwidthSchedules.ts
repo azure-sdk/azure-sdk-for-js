@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BandwidthSchedule,
   BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   BandwidthSchedulesGetResponse,
   BandwidthSchedulesCreateOrUpdateOptionalParams,
   BandwidthSchedulesCreateOrUpdateResponse,
-  BandwidthSchedulesDeleteOptionalParams
+  BandwidthSchedulesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface BandwidthSchedules {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
+    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<BandwidthSchedule>;
   /**
    * Gets the properties of the specified bandwidth schedule.
@@ -43,7 +43,7 @@ export interface BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesGetOptionalParams
+    options?: BandwidthSchedulesGetOptionalParams,
   ): Promise<BandwidthSchedulesGetResponse>;
   /**
    * Creates or updates a bandwidth schedule.
@@ -58,10 +58,10 @@ export interface BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    options?: BandwidthSchedulesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BandwidthSchedulesCreateOrUpdateResponse>,
       BandwidthSchedulesCreateOrUpdateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface BandwidthSchedules {
     name: string,
     resourceGroupName: string,
     parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    options?: BandwidthSchedulesCreateOrUpdateOptionalParams,
   ): Promise<BandwidthSchedulesCreateOrUpdateResponse>;
   /**
    * Deletes the specified bandwidth schedule.
@@ -91,8 +91,8 @@ export interface BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: BandwidthSchedulesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified bandwidth schedule.
    * @param deviceName The device name.
@@ -104,6 +104,6 @@ export interface BandwidthSchedules {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: BandwidthSchedulesDeleteOptionalParams,
   ): Promise<void>;
 }

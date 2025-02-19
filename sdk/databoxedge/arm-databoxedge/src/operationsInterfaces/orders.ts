@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Order,
   OrdersListByDataBoxEdgeDeviceOptionalParams,
@@ -17,7 +17,7 @@ import {
   OrdersCreateOrUpdateResponse,
   OrdersDeleteOptionalParams,
   OrdersListDCAccessCodeOptionalParams,
-  OrdersListDCAccessCodeResponse
+  OrdersListDCAccessCodeResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Orders {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListByDataBoxEdgeDeviceOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Order>;
   /**
    * Gets a specific order by name.
@@ -43,7 +43,7 @@ export interface Orders {
   get(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersGetOptionalParams
+    options?: OrdersGetOptionalParams,
   ): Promise<OrdersGetResponse>;
   /**
    * Creates or updates an order.
@@ -56,10 +56,10 @@ export interface Orders {
     deviceName: string,
     resourceGroupName: string,
     order: Order,
-    options?: OrdersCreateOrUpdateOptionalParams
+    options?: OrdersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OrdersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OrdersCreateOrUpdateResponse>,
       OrdersCreateOrUpdateResponse
     >
   >;
@@ -74,7 +74,7 @@ export interface Orders {
     deviceName: string,
     resourceGroupName: string,
     order: Order,
-    options?: OrdersCreateOrUpdateOptionalParams
+    options?: OrdersCreateOrUpdateOptionalParams,
   ): Promise<OrdersCreateOrUpdateResponse>;
   /**
    * Deletes the order related to the device.
@@ -85,8 +85,8 @@ export interface Orders {
   beginDelete(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OrdersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the order related to the device.
    * @param deviceName The device name.
@@ -96,7 +96,7 @@ export interface Orders {
   beginDeleteAndWait(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersDeleteOptionalParams
+    options?: OrdersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the DCAccess Code
@@ -107,6 +107,6 @@ export interface Orders {
   listDCAccessCode(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListDCAccessCodeOptionalParams
+    options?: OrdersListDCAccessCodeOptionalParams,
   ): Promise<OrdersListDCAccessCodeResponse>;
 }

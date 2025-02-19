@@ -11,7 +11,7 @@ import {
   Alert,
   AlertsListByDataBoxEdgeDeviceOptionalParams,
   AlertsGetOptionalParams,
-  AlertsGetResponse
+  AlertsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Alerts {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: AlertsListByDataBoxEdgeDeviceOptionalParams
+    options?: AlertsListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * Gets an alert by name.
@@ -39,6 +39,6 @@ export interface Alerts {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: AlertsGetOptionalParams
+    options?: AlertsGetOptionalParams,
   ): Promise<AlertsGetResponse>;
 }

@@ -18,7 +18,7 @@ import {
   NodesListByDataBoxEdgeDeviceNextOptionalParams,
   NodesListByDataBoxEdgeDeviceOptionalParams,
   NodesListByDataBoxEdgeDeviceResponse,
-  NodesListByDataBoxEdgeDeviceNextResponse
+  NodesListByDataBoxEdgeDeviceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,12 +43,12 @@ export class NodesImpl implements Nodes {
   public listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: NodesListByDataBoxEdgeDeviceOptionalParams
+    options?: NodesListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<Node> {
     const iter = this.listByDataBoxEdgeDevicePagingAll(
       deviceName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -65,9 +65,9 @@ export class NodesImpl implements Nodes {
           deviceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -75,7 +75,7 @@ export class NodesImpl implements Nodes {
     deviceName: string,
     resourceGroupName: string,
     options?: NodesListByDataBoxEdgeDeviceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Node[]> {
     let result: NodesListByDataBoxEdgeDeviceResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class NodesImpl implements Nodes {
       result = await this._listByDataBoxEdgeDevice(
         deviceName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -95,7 +95,7 @@ export class NodesImpl implements Nodes {
         deviceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class NodesImpl implements Nodes {
   private async *listByDataBoxEdgeDevicePagingAll(
     deviceName: string,
     resourceGroupName: string,
-    options?: NodesListByDataBoxEdgeDeviceOptionalParams
+    options?: NodesListByDataBoxEdgeDeviceOptionalParams,
   ): AsyncIterableIterator<Node> {
     for await (const page of this.listByDataBoxEdgeDevicePagingPage(
       deviceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class NodesImpl implements Nodes {
   private _listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: NodesListByDataBoxEdgeDeviceOptionalParams
+    options?: NodesListByDataBoxEdgeDeviceOptionalParams,
   ): Promise<NodesListByDataBoxEdgeDeviceResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      listByDataBoxEdgeDeviceOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class NodesImpl implements Nodes {
     deviceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: NodesListByDataBoxEdgeDeviceNextOptionalParams
+    options?: NodesListByDataBoxEdgeDeviceNextOptionalParams,
   ): Promise<NodesListByDataBoxEdgeDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      listByDataBoxEdgeDeviceNextOperationSpec,
     );
   }
 }
@@ -159,46 +159,44 @@ export class NodesImpl implements Nodes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/nodes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/nodes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NodeList
+      bodyMapper: Mappers.NodeList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NodeList
+      bodyMapper: Mappers.NodeList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

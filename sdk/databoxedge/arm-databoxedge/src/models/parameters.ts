@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DataBoxEdgeDevice as DataBoxEdgeDeviceMapper,
@@ -18,6 +18,7 @@ import {
   DataBoxEdgeDeviceExtendedInfoPatch as DataBoxEdgeDeviceExtendedInfoPatchMapper,
   UploadCertificateRequest as UploadCertificateRequestMapper,
   BandwidthSchedule as BandwidthScheduleMapper,
+  DeviceCapacityRequestInfo as DeviceCapacityRequestInfoMapper,
   DiagnosticProactiveLogCollectionSettings as DiagnosticProactiveLogCollectionSettingsMapper,
   DiagnosticRemoteSupportSettings as DiagnosticRemoteSupportSettingsMapper,
   Order as OrderMapper,
@@ -30,7 +31,7 @@ import {
   Container as ContainerMapper,
   Trigger as TriggerMapper,
   TriggerSupportPackageRequest as TriggerSupportPackageRequestMapper,
-  User as UserMapper
+  User as UserMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -40,9 +41,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -51,22 +52,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2023-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -75,10 +76,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -87,9 +88,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -97,9 +98,9 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -108,9 +109,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deviceName: OperationURLParameter = {
@@ -119,9 +120,9 @@ export const deviceName: OperationURLParameter = {
     serializedName: "deviceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -131,34 +132,34 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const dataBoxEdgeDevice: OperationParameter = {
   parameterPath: "dataBoxEdgeDevice",
-  mapper: DataBoxEdgeDeviceMapper
+  mapper: DataBoxEdgeDeviceMapper,
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DataBoxEdgeDevicePatchMapper
+  mapper: DataBoxEdgeDevicePatchMapper,
 };
 
 export const securitySettings: OperationParameter = {
   parameterPath: "securitySettings",
-  mapper: SecuritySettingsMapper
+  mapper: SecuritySettingsMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: DataBoxEdgeDeviceExtendedInfoPatchMapper
+  mapper: DataBoxEdgeDeviceExtendedInfoPatchMapper,
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: UploadCertificateRequestMapper
+  mapper: UploadCertificateRequestMapper,
 };
 
 export const name: OperationURLParameter = {
@@ -167,34 +168,49 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: BandwidthScheduleMapper
+  mapper: BandwidthScheduleMapper,
+};
+
+export const deviceCapacityRequestInfo: OperationParameter = {
+  parameterPath: "deviceCapacityRequestInfo",
+  mapper: DeviceCapacityRequestInfoMapper,
+};
+
+export const capacityName: OperationQueryParameter = {
+  parameterPath: ["options", "capacityName"],
+  mapper: {
+    serializedName: "capacityName",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const proactiveLogCollectionSettings: OperationParameter = {
   parameterPath: "proactiveLogCollectionSettings",
-  mapper: DiagnosticProactiveLogCollectionSettingsMapper
+  mapper: DiagnosticProactiveLogCollectionSettingsMapper,
 };
 
 export const diagnosticRemoteSupportSettings: OperationParameter = {
   parameterPath: "diagnosticRemoteSupportSettings",
-  mapper: DiagnosticRemoteSupportSettingsMapper
+  mapper: DiagnosticRemoteSupportSettingsMapper,
 };
 
 export const order: OperationParameter = {
   parameterPath: "order",
-  mapper: OrderMapper
+  mapper: OrderMapper,
 };
 
 export const role: OperationParameter = {
   parameterPath: "role",
-  mapper: RoleMapper
+  mapper: RoleMapper,
 };
 
 export const roleName: OperationURLParameter = {
@@ -203,9 +219,9 @@ export const roleName: OperationURLParameter = {
     serializedName: "roleName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const addonName: OperationURLParameter = {
@@ -214,29 +230,29 @@ export const addonName: OperationURLParameter = {
     serializedName: "addonName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const addon: OperationParameter = {
   parameterPath: "addon",
-  mapper: AddonMapper
+  mapper: AddonMapper,
 };
 
 export const monitoringMetricConfiguration: OperationParameter = {
   parameterPath: "monitoringMetricConfiguration",
-  mapper: MonitoringMetricConfigurationMapper
+  mapper: MonitoringMetricConfigurationMapper,
 };
 
 export const share: OperationParameter = {
   parameterPath: "share",
-  mapper: ShareMapper
+  mapper: ShareMapper,
 };
 
 export const storageAccountCredential: OperationParameter = {
   parameterPath: "storageAccountCredential",
-  mapper: StorageAccountCredentialMapper
+  mapper: StorageAccountCredentialMapper,
 };
 
 export const storageAccountName: OperationURLParameter = {
@@ -245,14 +261,14 @@ export const storageAccountName: OperationURLParameter = {
     serializedName: "storageAccountName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageAccount: OperationParameter = {
   parameterPath: "storageAccount",
-  mapper: StorageAccountMapper
+  mapper: StorageAccountMapper,
 };
 
 export const containerName: OperationURLParameter = {
@@ -261,14 +277,14 @@ export const containerName: OperationURLParameter = {
     serializedName: "containerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const container: OperationParameter = {
   parameterPath: "container",
-  mapper: ContainerMapper
+  mapper: ContainerMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -276,22 +292,22 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const trigger: OperationParameter = {
   parameterPath: "trigger",
-  mapper: TriggerMapper
+  mapper: TriggerMapper,
 };
 
 export const triggerSupportPackageRequest: OperationParameter = {
   parameterPath: "triggerSupportPackageRequest",
-  mapper: TriggerSupportPackageRequestMapper
+  mapper: TriggerSupportPackageRequestMapper,
 };
 
 export const user: OperationParameter = {
   parameterPath: "user",
-  mapper: UserMapper
+  mapper: UserMapper,
 };

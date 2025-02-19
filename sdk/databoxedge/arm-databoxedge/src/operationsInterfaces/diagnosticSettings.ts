@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse,
@@ -17,7 +17,7 @@ import {
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse,
   DiagnosticRemoteSupportSettings,
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
-  DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
+  DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse,
 } from "../models/index.js";
 
 /** Interface representing a DiagnosticSettings. */
@@ -31,10 +31,8 @@ export interface DiagnosticSettings {
   getDiagnosticProactiveLogCollectionSettings(
     deviceName: string,
     resourceGroupName: string,
-    options?: DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams
-  ): Promise<
-    DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse
-  >;
+    options?: DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
+  ): Promise<DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsResponse>;
   /**
    * Updates the proactive log collection settings on a Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -46,12 +44,10 @@ export interface DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
-      >,
+    SimplePollerLike<
+      OperationState<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>,
       DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
     >
   >;
@@ -66,10 +62,8 @@ export interface DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     proactiveLogCollectionSettings: DiagnosticProactiveLogCollectionSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams
-  ): Promise<
-    DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse
-  >;
+    options?: DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
+  ): Promise<DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsResponse>;
   /**
    * Gets the diagnostic remote support settings of the specified Data Box Edge/Data Box Gateway device.
    * @param deviceName The device name.
@@ -79,7 +73,7 @@ export interface DiagnosticSettings {
   getDiagnosticRemoteSupportSettings(
     deviceName: string,
     resourceGroupName: string,
-    options?: DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<DiagnosticSettingsGetDiagnosticRemoteSupportSettingsResponse>;
   /**
    * Updates the diagnostic remote support settings on a Data Box Edge/Data Box Gateway device.
@@ -92,12 +86,10 @@ export interface DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
-      >,
+    SimplePollerLike<
+      OperationState<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>,
       DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse
     >
   >;
@@ -112,6 +104,6 @@ export interface DiagnosticSettings {
     deviceName: string,
     resourceGroupName: string,
     diagnosticRemoteSupportSettings: DiagnosticRemoteSupportSettings,
-    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams
+    options?: DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   ): Promise<DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsResponse>;
 }

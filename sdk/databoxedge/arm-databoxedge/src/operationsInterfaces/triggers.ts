@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TriggerUnion,
   TriggersListByDataBoxEdgeDeviceOptionalParams,
@@ -15,7 +15,7 @@ import {
   TriggersGetResponse,
   TriggersCreateOrUpdateOptionalParams,
   TriggersCreateOrUpdateResponse,
-  TriggersDeleteOptionalParams
+  TriggersDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Triggers {
   listByDataBoxEdgeDevice(
     deviceName: string,
     resourceGroupName: string,
-    options?: TriggersListByDataBoxEdgeDeviceOptionalParams
+    options?: TriggersListByDataBoxEdgeDeviceOptionalParams,
   ): PagedAsyncIterableIterator<TriggerUnion>;
   /**
    * Get a specific trigger by name.
@@ -43,7 +43,7 @@ export interface Triggers {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: TriggersGetOptionalParams
+    options?: TriggersGetOptionalParams,
   ): Promise<TriggersGetResponse>;
   /**
    * Creates or updates a trigger.
@@ -58,10 +58,10 @@ export interface Triggers {
     name: string,
     resourceGroupName: string,
     trigger: TriggerUnion,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TriggersCreateOrUpdateResponse>,
       TriggersCreateOrUpdateResponse
     >
   >;
@@ -78,7 +78,7 @@ export interface Triggers {
     name: string,
     resourceGroupName: string,
     trigger: TriggerUnion,
-    options?: TriggersCreateOrUpdateOptionalParams
+    options?: TriggersCreateOrUpdateOptionalParams,
   ): Promise<TriggersCreateOrUpdateResponse>;
   /**
    * Deletes the trigger on the gateway device.
@@ -91,8 +91,8 @@ export interface Triggers {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: TriggersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: TriggersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the trigger on the gateway device.
    * @param deviceName The device name.
@@ -104,6 +104,6 @@ export interface Triggers {
     deviceName: string,
     name: string,
     resourceGroupName: string,
-    options?: TriggersDeleteOptionalParams
+    options?: TriggersDeleteOptionalParams,
   ): Promise<void>;
 }

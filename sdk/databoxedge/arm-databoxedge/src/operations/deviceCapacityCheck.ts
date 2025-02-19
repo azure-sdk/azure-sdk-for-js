@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SupportPackages } from "../operationsInterfaces/index.js";
+import { DeviceCapacityCheck } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -18,16 +18,16 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  TriggerSupportPackageRequest,
-  SupportPackagesTriggerSupportPackageOptionalParams,
+  DeviceCapacityRequestInfo,
+  DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams,
 } from "../models/index.js";
 
-/** Class containing SupportPackages operations. */
-export class SupportPackagesImpl implements SupportPackages {
+/** Class containing DeviceCapacityCheck operations. */
+export class DeviceCapacityCheckImpl implements DeviceCapacityCheck {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class SupportPackages class.
+   * Initialize a new instance of the class DeviceCapacityCheck class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -35,17 +35,17 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Posts the device capacity request info to check feasibility.
    * @param resourceGroupName The resource group name.
-   * @param triggerSupportPackageRequest The trigger support package request object
+   * @param deviceName The device name.
+   * @param deviceCapacityRequestInfo The device capacity request info.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackage(
-    deviceName: string,
+  async beginCheckResourceCreationFeasibility(
     resourceGroupName: string,
-    triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams,
+    deviceName: string,
+    deviceCapacityRequestInfo: DeviceCapacityRequestInfo,
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -88,38 +88,39 @@ export class SupportPackagesImpl implements SupportPackages {
     const lro = createLroSpec({
       sendOperationFn,
       args: {
-        deviceName,
         resourceGroupName,
-        triggerSupportPackageRequest,
+        deviceName,
+        deviceCapacityRequestInfo,
         options,
       },
-      spec: triggerSupportPackageOperationSpec,
+      spec: checkResourceCreationFeasibilityOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Posts the device capacity request info to check feasibility.
    * @param resourceGroupName The resource group name.
-   * @param triggerSupportPackageRequest The trigger support package request object
+   * @param deviceName The device name.
+   * @param deviceCapacityRequestInfo The device capacity request info.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackageAndWait(
-    deviceName: string,
+  async beginCheckResourceCreationFeasibilityAndWait(
     resourceGroupName: string,
-    triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams,
+    deviceName: string,
+    deviceCapacityRequestInfo: DeviceCapacityRequestInfo,
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginTriggerSupportPackage(
-      deviceName,
+    const poller = await this.beginCheckResourceCreationFeasibility(
       resourceGroupName,
-      triggerSupportPackageRequest,
+      deviceName,
+      deviceCapacityRequestInfo,
       options,
     );
     return poller.pollUntilDone();
@@ -128,27 +129,28 @@ export class SupportPackagesImpl implements SupportPackages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggerSupportPackage",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
+const checkResourceCreationFeasibilityOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/deviceCapacityCheck",
+    httpMethod: "POST",
+    responses: {
+      200: {},
+      201: {},
+      202: {},
+      204: {},
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-  },
-  requestBody: Parameters.triggerSupportPackageRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deviceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
+    requestBody: Parameters.deviceCapacityRequestInfo,
+    queryParameters: [Parameters.apiVersion, Parameters.capacityName],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.deviceName,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer,
+  };
