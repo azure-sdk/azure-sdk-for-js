@@ -14,6 +14,7 @@ import {
 import {
   ConfigData as ConfigDataMapper,
   SuppressionContract as SuppressionContractMapper,
+  PredictionRequest as PredictionRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -40,21 +41,10 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-01-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -188,7 +178,23 @@ export const recommendationId: OperationURLParameter = {
   },
 };
 
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
   mapper: SuppressionContractMapper,
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper,
 };
