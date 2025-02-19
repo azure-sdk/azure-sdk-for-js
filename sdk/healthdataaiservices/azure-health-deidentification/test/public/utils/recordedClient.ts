@@ -1,41 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { TokenCredential } from "@azure/core-auth";
-import type { DeidentificationClient } from "../../../src/clientDefinitions.js";
-import createClient from "../../../src/deidentificationClient.js";
+import {
+  Recorder,
+  RecorderStartOptions,
+  VitestTestContext,
+} from "@azure-tools/test-recorder";
+
+const replaceableVariables: Record<string, string> = {
+  SUBSCRIPTION_ID: "azure_subscription_id",
+};
+
+const recorderEnvSetup: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables,
+};
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(testContext: VitestTestContext): Promise<Recorder> {
-  return new Recorder(testContext);
-}
-
-export function getStorageAccountLocation(): string {
-  return `https://${assertEnvironmentVariable("STORAGE_ACCOUNT_NAME")}.blob.core.windows.net/${assertEnvironmentVariable("STORAGE_CONTAINER_NAME")}`;
-}
-
-export function getTestEnvironment(): string {
-  if (typeof process !== "undefined" && process.versions != null && process.versions.node != null) {
-    return "node";
-  }
-
-  return "browser";
-}
-
-export async function createRecordedDeidentificationClient(
-  recorder: Recorder,
-  credentials: TokenCredential,
-): Promise<DeidentificationClient> {
-  const endpoint = isPlaybackMode()
-    ? "example.com"
-    : assertEnvironmentVariable("DEID_SERVICE_ENDPOINT");
-  const client = await createClient(endpoint, credentials, recorder.configureClientOptions({}));
-
-  return client;
+export async function createRecorder(
+  context: VitestTestContext,
+): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderEnvSetup);
+  return recorder;
 }
