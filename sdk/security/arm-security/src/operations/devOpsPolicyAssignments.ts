@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { DevOpsConfigurations } from "../operationsInterfaces/index.js";
+import { DevOpsPolicyAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,27 +20,27 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  DevOpsConfiguration,
-  DevOpsConfigurationsListNextOptionalParams,
-  DevOpsConfigurationsListOptionalParams,
-  DevOpsConfigurationsListResponse,
-  DevOpsConfigurationsGetOptionalParams,
-  DevOpsConfigurationsGetResponse,
-  DevOpsConfigurationsCreateOrUpdateOptionalParams,
-  DevOpsConfigurationsCreateOrUpdateResponse,
-  DevOpsConfigurationsUpdateOptionalParams,
-  DevOpsConfigurationsUpdateResponse,
-  DevOpsConfigurationsDeleteOptionalParams,
-  DevOpsConfigurationsListNextResponse,
+  DevOpsPolicyAssignment,
+  DevOpsPolicyAssignmentsListNextOptionalParams,
+  DevOpsPolicyAssignmentsListOptionalParams,
+  DevOpsPolicyAssignmentsListResponse,
+  DevOpsPolicyAssignmentsGetOptionalParams,
+  DevOpsPolicyAssignmentsGetResponse,
+  DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams,
+  DevOpsPolicyAssignmentsCreateOrUpdateResponse,
+  DevOpsPolicyAssignmentsUpdateOptionalParams,
+  DevOpsPolicyAssignmentsUpdateResponse,
+  DevOpsPolicyAssignmentsDeleteOptionalParams,
+  DevOpsPolicyAssignmentsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DevOpsConfigurations operations. */
-export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
+/** Class containing DevOpsPolicyAssignments operations. */
+export class DevOpsPolicyAssignmentsImpl implements DevOpsPolicyAssignments {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class DevOpsConfigurations class.
+   * Initialize a new instance of the class DevOpsPolicyAssignments class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -48,7 +48,7 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * List DevOps Configurations.
+   * Returns a list of DevOps Policy Assignments.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
@@ -56,8 +56,8 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   public list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<DevOpsConfiguration> {
+    options?: DevOpsPolicyAssignmentsListOptionalParams,
+  ): PagedAsyncIterableIterator<DevOpsPolicyAssignment> {
     const iter = this.listPagingAll(
       resourceGroupName,
       securityConnectorName,
@@ -87,10 +87,10 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   private async *listPagingPage(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsListOptionalParams,
+    options?: DevOpsPolicyAssignmentsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<DevOpsConfiguration[]> {
-    let result: DevOpsConfigurationsListResponse;
+  ): AsyncIterableIterator<DevOpsPolicyAssignment[]> {
+    let result: DevOpsPolicyAssignmentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -120,8 +120,8 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   private async *listPagingAll(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsListOptionalParams,
-  ): AsyncIterableIterator<DevOpsConfiguration> {
+    options?: DevOpsPolicyAssignmentsListOptionalParams,
+  ): AsyncIterableIterator<DevOpsPolicyAssignment> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       securityConnectorName,
@@ -132,7 +132,7 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * List DevOps Configurations.
+   * Returns a list of DevOps Policy Assignments.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
@@ -140,8 +140,8 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   private _list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsListOptionalParams,
-  ): Promise<DevOpsConfigurationsListResponse> {
+    options?: DevOpsPolicyAssignmentsListOptionalParams,
+  ): Promise<DevOpsPolicyAssignmentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, options },
       listOperationSpec,
@@ -149,44 +149,48 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * Gets a DevOps Configuration.
+   * Returns a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
+   * @param policyAssignmentId The policy assignment Id.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsGetOptionalParams,
-  ): Promise<DevOpsConfigurationsGetResponse> {
+    policyAssignmentId: string,
+    options?: DevOpsPolicyAssignmentsGetOptionalParams,
+  ): Promise<DevOpsPolicyAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, securityConnectorName, options },
+      { resourceGroupName, securityConnectorName, policyAssignmentId, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a DevOps Configuration.
+   * Creates or updates a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param devOpsConfiguration The DevOps configuration resource payload.
+   * @param policyAssignmentId The policy assignment Id.
+   * @param devOpsPolicyAssignment The DevOps Policy Assignment.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: DevOpsConfiguration,
-    options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
+    policyAssignmentId: string,
+    devOpsPolicyAssignment: DevOpsPolicyAssignment,
+    options?: DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevOpsConfigurationsCreateOrUpdateResponse>,
-      DevOpsConfigurationsCreateOrUpdateResponse
+      OperationState<DevOpsPolicyAssignmentsCreateOrUpdateResponse>,
+      DevOpsPolicyAssignmentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevOpsConfigurationsCreateOrUpdateResponse> => {
+    ): Promise<DevOpsPolicyAssignmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,14 +230,15 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
       args: {
         resourceGroupName,
         securityConnectorName,
-        devOpsConfiguration,
+        policyAssignmentId,
+        devOpsPolicyAssignment,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevOpsConfigurationsCreateOrUpdateResponse,
-      OperationState<DevOpsConfigurationsCreateOrUpdateResponse>
+      DevOpsPolicyAssignmentsCreateOrUpdateResponse,
+      OperationState<DevOpsPolicyAssignmentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -244,49 +249,54 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * Creates or updates a DevOps Configuration.
+   * Creates or updates a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param devOpsConfiguration The DevOps configuration resource payload.
+   * @param policyAssignmentId The policy assignment Id.
+   * @param devOpsPolicyAssignment The DevOps Policy Assignment.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: DevOpsConfiguration,
-    options?: DevOpsConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<DevOpsConfigurationsCreateOrUpdateResponse> {
+    policyAssignmentId: string,
+    devOpsPolicyAssignment: DevOpsPolicyAssignment,
+    options?: DevOpsPolicyAssignmentsCreateOrUpdateOptionalParams,
+  ): Promise<DevOpsPolicyAssignmentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       securityConnectorName,
-      devOpsConfiguration,
+      policyAssignmentId,
+      devOpsPolicyAssignment,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates a DevOps Configuration.
+   * Updates a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param devOpsConfiguration The DevOps configuration resource payload.
+   * @param policyAssignmentId The policy assignment Id.
+   * @param devOpsPolicyAssignment The DevOps Policy Assignment.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: DevOpsConfiguration,
-    options?: DevOpsConfigurationsUpdateOptionalParams,
+    policyAssignmentId: string,
+    devOpsPolicyAssignment: DevOpsPolicyAssignment,
+    options?: DevOpsPolicyAssignmentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<DevOpsConfigurationsUpdateResponse>,
-      DevOpsConfigurationsUpdateResponse
+      OperationState<DevOpsPolicyAssignmentsUpdateResponse>,
+      DevOpsPolicyAssignmentsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<DevOpsConfigurationsUpdateResponse> => {
+    ): Promise<DevOpsPolicyAssignmentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -326,14 +336,15 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
       args: {
         resourceGroupName,
         securityConnectorName,
-        devOpsConfiguration,
+        policyAssignmentId,
+        devOpsPolicyAssignment,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      DevOpsConfigurationsUpdateResponse,
-      OperationState<DevOpsConfigurationsUpdateResponse>
+      DevOpsPolicyAssignmentsUpdateResponse,
+      OperationState<DevOpsPolicyAssignmentsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -344,37 +355,42 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * Updates a DevOps Configuration.
+   * Updates a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
-   * @param devOpsConfiguration The DevOps configuration resource payload.
+   * @param policyAssignmentId The policy assignment Id.
+   * @param devOpsPolicyAssignment The DevOps Policy Assignment.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     securityConnectorName: string,
-    devOpsConfiguration: DevOpsConfiguration,
-    options?: DevOpsConfigurationsUpdateOptionalParams,
-  ): Promise<DevOpsConfigurationsUpdateResponse> {
+    policyAssignmentId: string,
+    devOpsPolicyAssignment: DevOpsPolicyAssignment,
+    options?: DevOpsPolicyAssignmentsUpdateOptionalParams,
+  ): Promise<DevOpsPolicyAssignmentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       securityConnectorName,
-      devOpsConfiguration,
+      policyAssignmentId,
+      devOpsPolicyAssignment,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a DevOps Connector.
+   * Deletes a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
+   * @param policyAssignmentId The policy assignment Id.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsDeleteOptionalParams,
+    policyAssignmentId: string,
+    options?: DevOpsPolicyAssignmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -416,7 +432,12 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, securityConnectorName, options },
+      args: {
+        resourceGroupName,
+        securityConnectorName,
+        policyAssignmentId,
+        options,
+      },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -428,19 +449,22 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
   }
 
   /**
-   * Deletes a DevOps Connector.
+   * Deletes a DevOps Policy Assignment Resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
+   * @param policyAssignmentId The policy assignment Id.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: DevOpsConfigurationsDeleteOptionalParams,
+    policyAssignmentId: string,
+    options?: DevOpsPolicyAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       securityConnectorName,
+      policyAssignmentId,
       options,
     );
     return poller.pollUntilDone();
@@ -457,8 +481,8 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
     resourceGroupName: string,
     securityConnectorName: string,
     nextLink: string,
-    options?: DevOpsConfigurationsListNextOptionalParams,
-  ): Promise<DevOpsConfigurationsListNextResponse> {
+    options?: DevOpsPolicyAssignmentsListNextOptionalParams,
+  ): Promise<DevOpsPolicyAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, nextLink, options },
       listNextOperationSpec,
@@ -469,17 +493,21 @@ export class DevOpsConfigurationsImpl implements DevOpsConfigurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policyAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevOpsConfigurationListResponse,
+      bodyMapper: Mappers.DevOpsPolicyAssignmentListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
     },
   },
-  queryParameters: [Parameters.apiVersion16],
+  queryParameters: [
+    Parameters.apiVersion16,
+    Parameters.devOpsPolicyType,
+    Parameters.resourceId1,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -490,11 +518,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policyAssignments/{policyAssignmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
@@ -506,76 +534,79 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
+    Parameters.policyAssignmentId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policyAssignments/{policyAssignmentId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     201: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     202: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     204: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
     },
   },
-  requestBody: Parameters.devOpsConfiguration,
+  requestBody: Parameters.devOpsPolicyAssignment,
   queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
+    Parameters.policyAssignmentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policyAssignments/{policyAssignmentId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     201: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     202: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     204: {
-      bodyMapper: Mappers.DevOpsConfiguration,
+      bodyMapper: Mappers.DevOpsPolicyAssignment,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
     },
   },
-  requestBody: Parameters.devOpsConfiguration,
+  requestBody: Parameters.devOpsPolicyAssignment,
   queryParameters: [Parameters.apiVersion16],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
+    Parameters.policyAssignmentId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policyAssignments/{policyAssignmentId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -592,6 +623,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.securityConnectorName,
     Parameters.resourceGroupName1,
+    Parameters.policyAssignmentId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -601,7 +633,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DevOpsConfigurationListResponse,
+      bodyMapper: Mappers.DevOpsPolicyAssignmentListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponseAutoGenerated2,
