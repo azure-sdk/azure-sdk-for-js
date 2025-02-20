@@ -1,15 +1,28 @@
 # Release History
-
-## 1.3.0-beta.3 (Unreleased)
-
+    
+## 1.3.0-beta.3 (2025-02-20)
+Compared with version 1.2.1
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Extensions.beginDisableAzureMonitorAgent
+  - Added operation Extensions.beginDisableAzureMonitorAgentAndWait
+  - Added operation Extensions.beginEnableAzureMonitorAgent
+  - Added operation Extensions.beginEnableAzureMonitorAgentAndWait
+  - Added operation Extensions.getAzureMonitorAgentStatus
+  - Added Interface ExtensionsDisableAzureMonitorAgentOptionalParams
+  - Added Interface ExtensionsEnableAzureMonitorAgentOptionalParams
+  - Added Interface ExtensionsGetAzureMonitorAgentStatusOptionalParams
+  - Added Interface IpTag
+  - Added Type Alias ExtensionsGetAzureMonitorAgentStatusResponse
+  - Added Type Alias OutboundDependenciesManagedType
+  - Interface ClusterPatchParameters has a new optional parameter identity
+  - Interface NetworkProperties has a new optional parameter outboundDependenciesManagedType
+  - Interface NetworkProperties has a new optional parameter publicIpTag
+  - Interface StorageAccount has a new optional parameter enableSecureChannel
+  - Added Enum KnownOutboundDependenciesManagedType
+    
+    
 ## 1.3.0-beta.2 (2024-08-13)
 Compared with version 1.2.1
     
