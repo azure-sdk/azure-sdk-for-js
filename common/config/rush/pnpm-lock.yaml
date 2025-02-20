@@ -3089,7 +3089,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-g2aUmBq19hhIekjrg6cwKRS2/q/BW8kQXKsIbv75KWIC01P7mKNltovhePUqufGz0saD2I9LSqBr97r3qV9n6w==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-C/N61vrXwffxi3fo3xoygOH+4cYgXnTO+rC2TpGYwLIneuOXR7XgOJS81teN1h4qkMBg5Is6VvjPzBJ2pBnxPQ==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':
@@ -14910,12 +14910,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23734,7 +23734,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
