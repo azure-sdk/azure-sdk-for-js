@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Galleries } from "../operationsInterfaces/index.js";
+import { ProjectPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,29 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Gallery,
-  GalleriesListByDevCenterNextOptionalParams,
-  GalleriesListByDevCenterOptionalParams,
-  GalleriesListByDevCenterResponse,
-  GalleriesGetOptionalParams,
-  GalleriesGetResponse,
-  GalleriesCreateOrUpdateOptionalParams,
-  GalleriesCreateOrUpdateResponse,
-  GalleriesDeleteOptionalParams,
-  GalleriesDeleteResponse,
-  GalleriesListByDevCenterNextResponse,
+  ProjectPolicy,
+  ProjectPoliciesListByDevCenterNextOptionalParams,
+  ProjectPoliciesListByDevCenterOptionalParams,
+  ProjectPoliciesListByDevCenterResponse,
+  ProjectPoliciesGetOptionalParams,
+  ProjectPoliciesGetResponse,
+  ProjectPoliciesCreateOrUpdateOptionalParams,
+  ProjectPoliciesCreateOrUpdateResponse,
+  ProjectPolicyUpdate,
+  ProjectPoliciesUpdateOptionalParams,
+  ProjectPoliciesUpdateResponse,
+  ProjectPoliciesDeleteOptionalParams,
+  ProjectPoliciesDeleteResponse,
+  ProjectPoliciesListByDevCenterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Galleries operations. */
-export class GalleriesImpl implements Galleries {
+/** Class containing ProjectPolicies operations. */
+export class ProjectPoliciesImpl implements ProjectPolicies {
   private readonly client: DevCenterClient;
 
   /**
-   * Initialize a new instance of the class Galleries class.
+   * Initialize a new instance of the class ProjectPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: DevCenterClient) {
@@ -47,7 +50,7 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Lists galleries for a devcenter.
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -55,8 +58,8 @@ export class GalleriesImpl implements Galleries {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): PagedAsyncIterableIterator<Gallery> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): PagedAsyncIterableIterator<ProjectPolicy> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
@@ -86,10 +89,10 @@ export class GalleriesImpl implements Galleries {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Gallery[]> {
-    let result: GalleriesListByDevCenterResponse;
+  ): AsyncIterableIterator<ProjectPolicy[]> {
+    let result: ProjectPoliciesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByDevCenter(
@@ -119,8 +122,8 @@ export class GalleriesImpl implements Galleries {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): AsyncIterableIterator<Gallery> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): AsyncIterableIterator<ProjectPolicy> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
@@ -131,7 +134,7 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Lists galleries for a devcenter.
+   * Lists all project policies in the dev center
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
@@ -139,8 +142,8 @@ export class GalleriesImpl implements Galleries {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams,
-  ): Promise<GalleriesListByDevCenterResponse> {
+    options?: ProjectPoliciesListByDevCenterOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
       listByDevCenterOperationSpec,
@@ -148,48 +151,48 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Gets a gallery
+   * Gets a specific project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    options?: GalleriesGetOptionalParams,
-  ): Promise<GalleriesGetResponse> {
+    projectPolicyName: string,
+    options?: ProjectPoliciesGetOptionalParams,
+  ): Promise<ProjectPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, devCenterName, galleryName, options },
+      { resourceGroupName, devCenterName, projectPolicyName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a gallery.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
-   * @param body Represents a gallery.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams,
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleriesCreateOrUpdateResponse>,
-      GalleriesCreateOrUpdateResponse
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>,
+      ProjectPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleriesCreateOrUpdateResponse> => {
+    ): Promise<ProjectPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -226,12 +229,18 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, devCenterName, galleryName, body, options },
+      args: {
+        resourceGroupName,
+        devCenterName,
+        projectPolicyName,
+        body,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleriesCreateOrUpdateResponse,
-      OperationState<GalleriesCreateOrUpdateResponse>
+      ProjectPoliciesCreateOrUpdateResponse,
+      OperationState<ProjectPoliciesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -242,24 +251,24 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Creates or updates a gallery.
+   * Creates or updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
-   * @param body Represents a gallery.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Represents an project policy.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    body: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams,
-  ): Promise<GalleriesCreateOrUpdateResponse> {
+    projectPolicyName: string,
+    body: ProjectPolicy,
+    options?: ProjectPoliciesCreateOrUpdateOptionalParams,
+  ): Promise<ProjectPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       devCenterName,
-      galleryName,
+      projectPolicyName,
       body,
       options,
     );
@@ -267,27 +276,29 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Deletes a gallery resource.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
    * @param options The options parameters.
    */
-  async beginDelete(
+  async beginUpdate(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    options?: GalleriesDeleteOptionalParams,
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<GalleriesDeleteResponse>,
-      GalleriesDeleteResponse
+      OperationState<ProjectPoliciesUpdateResponse>,
+      ProjectPoliciesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleriesDeleteResponse> => {
+    ): Promise<ProjectPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -324,12 +335,18 @@ export class GalleriesImpl implements Galleries {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, devCenterName, galleryName, options },
-      spec: deleteOperationSpec,
+      args: {
+        resourceGroupName,
+        devCenterName,
+        projectPolicyName,
+        body,
+        options,
+      },
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      GalleriesDeleteResponse,
-      OperationState<GalleriesDeleteResponse>
+      ProjectPoliciesUpdateResponse,
+      OperationState<ProjectPoliciesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -340,22 +357,120 @@ export class GalleriesImpl implements Galleries {
   }
 
   /**
-   * Deletes a gallery resource.
+   * Partially updates an project policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
-   * @param galleryName The name of the gallery.
+   * @param projectPolicyName The name of the project policy.
+   * @param body Updatable project policy properties.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    devCenterName: string,
+    projectPolicyName: string,
+    body: ProjectPolicyUpdate,
+    options?: ProjectPoliciesUpdateOptionalParams,
+  ): Promise<ProjectPoliciesUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      devCenterName,
+      projectPolicyName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Deletes an project policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    devCenterName: string,
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectPoliciesDeleteResponse>,
+      ProjectPoliciesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProjectPoliciesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, devCenterName, projectPolicyName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProjectPoliciesDeleteResponse,
+      OperationState<ProjectPoliciesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an project policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param devCenterName The name of the devcenter.
+   * @param projectPolicyName The name of the project policy.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     devCenterName: string,
-    galleryName: string,
-    options?: GalleriesDeleteOptionalParams,
-  ): Promise<GalleriesDeleteResponse> {
+    projectPolicyName: string,
+    options?: ProjectPoliciesDeleteOptionalParams,
+  ): Promise<ProjectPoliciesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       devCenterName,
-      galleryName,
+      projectPolicyName,
       options,
     );
     return poller.pollUntilDone();
@@ -372,8 +487,8 @@ export class GalleriesImpl implements Galleries {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: GalleriesListByDevCenterNextOptionalParams,
-  ): Promise<GalleriesListByDevCenterNextResponse> {
+    options?: ProjectPoliciesListByDevCenterNextOptionalParams,
+  ): Promise<ProjectPoliciesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
       listByDevCenterNextOperationSpec,
@@ -384,11 +499,11 @@ export class GalleriesImpl implements Galleries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -405,11 +520,11 @@ const listByDevCenterOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -421,59 +536,92 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     201: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     202: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     204: {
-      bodyMapper: Mappers.Gallery,
+      bodyMapper: Mappers.ProjectPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName,
+    Parameters.projectPolicyName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProjectPolicy,
+    },
+    201: {
+      bodyMapper: Mappers.ProjectPolicy,
+    },
+    202: {
+      bodyMapper: Mappers.ProjectPolicy,
+    },
+    204: {
+      bodyMapper: Mappers.ProjectPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/projectPolicies/{projectPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.GalleriesDeleteHeaders,
+      headersMapper: Mappers.ProjectPoliciesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -485,7 +633,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName,
+    Parameters.projectPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -495,7 +643,7 @@ const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GalleryListResult,
+      bodyMapper: Mappers.ProjectPolicyListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
