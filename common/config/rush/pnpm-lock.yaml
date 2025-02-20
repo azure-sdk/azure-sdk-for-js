@@ -2841,7 +2841,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dataprotection@file:projects/arm-dataprotection.tgz':
-    resolution: {integrity: sha512-wRv8JETOioIRRzfjiZBCYMGNzUYHvR9yUZbE/mYFQzIWFPeaSsP5WhgWW9PRTjB1M1QMVD4wgo0eRzRrppi0wQ==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-4j8UkkEYXilRJswG/ayOAfov/pHLJva1TmRZ7iyMF+RW7NeZqZ/mcp2+ZT7kmMbCDjDlrJ7zUbyhyI0XcHuO3w==, tarball: file:projects/arm-dataprotection.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-defendereasm@file:projects/arm-defendereasm.tgz':
@@ -12757,12 +12757,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23734,7 +23734,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
