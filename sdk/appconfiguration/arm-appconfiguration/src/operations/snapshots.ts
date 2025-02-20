@@ -38,9 +38,9 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets the properties of the specified snapshot. NOTE: This operation is intended for use in Azure
-   * Resource Manager (ARM) Template deployments. For all other scenarios involving App Configuration
-   * snapshots the data plane API should be used instead.
+   * Gets the properties of the specified snapshot. NOTE: This operation is intended for use in ARM
+   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
+   * API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.
@@ -59,9 +59,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM)
-   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
-   * API should be used instead.
+   * Creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration snapshots the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.
@@ -136,9 +135,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM)
-   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
-   * API should be used instead.
+   * Creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration snapshots the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.

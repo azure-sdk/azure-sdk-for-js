@@ -13,3 +13,4 @@ export * from "./privateLinkResources.js";
 export * from "./keyValues.js";
 export * from "./replicas.js";
 export * from "./snapshots.js";
+export * from "./experimentationOperations.js";

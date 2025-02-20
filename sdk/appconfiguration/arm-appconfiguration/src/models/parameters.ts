@@ -20,6 +20,7 @@ import {
   KeyValue as KeyValueMapper,
   Replica as ReplicaMapper,
   Snapshot as SnapshotMapper,
+  Experimentation as ExperimentationMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -60,7 +61,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2025-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -266,4 +267,23 @@ export const snapshotName: OperationURLParameter = {
 export const body: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotMapper,
+};
+
+export const experimentationName: OperationURLParameter = {
+  parameterPath: "experimentationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^experimentation$"),
+    },
+    serializedName: "experimentationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const experimentationCreationParameters: OperationParameter = {
+  parameterPath: ["options", "experimentationCreationParameters"],
+  mapper: ExperimentationMapper,
 };
