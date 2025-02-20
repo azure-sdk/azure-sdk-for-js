@@ -40,12 +40,10 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureSiteRecoveryManagementServiceAPIOptionalParams);
     // (undocumented)
     apiVersion: string;
-    checkNameAvailability(location: string, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
-    deploymentPreflight(resourceGroupName: string, deploymentId: string, options?: DeploymentPreflightOptionalParams): Promise<DeploymentPreflightResponse>;
     // (undocumented)
-    dra: Dra;
+    checkNameAvailability: CheckNameAvailability;
     // (undocumented)
-    draOperationStatus: DraOperationStatus;
+    deploymentPreflight: DeploymentPreflight;
     // (undocumented)
     emailConfiguration: EmailConfiguration;
     // (undocumented)
@@ -53,33 +51,31 @@ export class AzureSiteRecoveryManagementServiceAPI extends coreClient.ServiceCli
     // (undocumented)
     fabric: Fabric;
     // (undocumented)
-    fabricOperationsStatus: FabricOperationsStatus;
+    fabricAgent: FabricAgent;
+    // (undocumented)
+    job: Job;
+    // (undocumented)
+    operationResults: OperationResults;
     // (undocumented)
     operations: Operations;
     // (undocumented)
     policy: Policy;
     // (undocumented)
-    policyOperationStatus: PolicyOperationStatus;
+    privateEndpointConnectionProxies: PrivateEndpointConnectionProxies;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     protectedItem: ProtectedItem;
     // (undocumented)
-    protectedItemOperationStatus: ProtectedItemOperationStatus;
-    // (undocumented)
-    recoveryPoints: RecoveryPoints;
+    recoveryPoint: RecoveryPoint;
     // (undocumented)
     replicationExtension: ReplicationExtension;
-    // (undocumented)
-    replicationExtensionOperationStatus: ReplicationExtensionOperationStatus;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
     vault: Vault;
-    // (undocumented)
-    vaultOperationStatus: VaultOperationStatus;
-    // (undocumented)
-    workflow: Workflow;
-    // (undocumented)
-    workflowOperationStatus: WorkflowOperationStatus;
 }
 
 // @public
@@ -90,18 +86,23 @@ export interface AzureSiteRecoveryManagementServiceAPIOptionalParams extends cor
 }
 
 // @public
+export interface CheckNameAvailability {
+    post(location: string, options?: CheckNameAvailabilityPostOptionalParams): Promise<CheckNameAvailabilityPostResponse>;
+}
+
+// @public
 export interface CheckNameAvailabilityModel {
     name?: string;
     type?: string;
 }
 
 // @public
-export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface CheckNameAvailabilityPostOptionalParams extends coreClient.OperationOptions {
     body?: CheckNameAvailabilityModel;
 }
 
 // @public
-export type CheckNameAvailabilityResponse = CheckNameAvailabilityResponseModel;
+export type CheckNameAvailabilityPostResponse = CheckNameAvailabilityResponseModel;
 
 // @public
 export interface CheckNameAvailabilityResponseModel {
@@ -111,147 +112,60 @@ export interface CheckNameAvailabilityResponseModel {
 }
 
 // @public
+export interface ConnectionDetails {
+    groupId?: string;
+    id?: string;
+    linkIdentifier?: string;
+    memberName?: string;
+    privateIpAddress?: string;
+}
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface DeploymentPreflight {
+    post(resourceGroupName: string, deploymentId: string, options?: DeploymentPreflightPostOptionalParams): Promise<DeploymentPreflightPostResponse>;
+}
+
+// @public
 export interface DeploymentPreflightModel {
     resources?: DeploymentPreflightResource[];
 }
 
 // @public
-export interface DeploymentPreflightOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentPreflightPostOptionalParams extends coreClient.OperationOptions {
     body?: DeploymentPreflightModel;
 }
+
+// @public
+export type DeploymentPreflightPostResponse = DeploymentPreflightModel;
 
 // @public
 export interface DeploymentPreflightResource {
     apiVersion?: string;
     location?: string;
     name?: string;
+    properties?: any;
     type?: string;
 }
 
 // @public
-export type DeploymentPreflightResponse = DeploymentPreflightModel;
-
-// @public
-export interface Dra {
-    beginCreate(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: DraCreateOptionalParams): Promise<SimplePollerLike<OperationState<DraCreateResponse>, DraCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: DraCreateOptionalParams): Promise<DraCreateResponse>;
-    beginDelete(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: DraDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DraDeleteResponse>, DraDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: DraDeleteOptionalParams): Promise<DraDeleteResponse>;
-    get(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: DraGetOptionalParams): Promise<DraGetResponse>;
-    list(resourceGroupName: string, fabricName: string, options?: DraListOptionalParams): PagedAsyncIterableIterator<DraModel>;
+export interface DiskControllerInputs {
+    controllerId: number;
+    controllerLocation: number;
+    controllerName: string;
 }
-
-// @public
-export interface DraCreateOptionalParams extends coreClient.OperationOptions {
-    body?: DraModel;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DraCreateResponse = DraModel;
-
-// @public
-export interface DraDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DraDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DraDeleteResponse = DraDeleteHeaders;
-
-// @public
-export interface DraGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DraGetResponse = DraModel;
-
-// @public
-export interface DraListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DraListNextResponse = DraModelCollection;
-
-// @public
-export interface DraListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DraListResponse = DraModelCollection;
-
-// @public
-export interface DraModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: DraModelProperties;
-    readonly systemData?: DraModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface DraModelCollection {
-    nextLink?: string;
-    value?: DraModel[];
-}
-
-// @public
-export interface DraModelCustomProperties {
-    instanceType: "VMware";
-}
-
-// @public (undocumented)
-export type DraModelCustomPropertiesUnion = DraModelCustomProperties | VMwareDraModelCustomProperties;
-
-// @public
-export interface DraModelProperties {
-    authenticationIdentity: IdentityModel;
-    readonly correlationId?: string;
-    customProperties: DraModelCustomPropertiesUnion;
-    readonly healthErrors?: HealthErrorModel[];
-    readonly isResponsive?: boolean;
-    readonly lastHeartbeat?: Date;
-    machineId: string;
-    machineName: string;
-    readonly provisioningState?: ProvisioningState;
-    resourceAccessIdentity: IdentityModel;
-    readonly versionNumber?: string;
-}
-
-// @public (undocumented)
-export interface DraModelSystemData extends SystemDataModel {
-}
-
-// @public
-export interface DraOperationStatus {
-    get(resourceGroupName: string, fabricName: string, fabricAgentName: string, operationId: string, options?: DraOperationStatusGetOptionalParams): Promise<DraOperationStatusGetResponse>;
-}
-
-// @public
-export interface DraOperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DraOperationStatusGetResponse = OperationStatus;
 
 // @public
 export interface EmailConfiguration {
-    create(resourceGroupName: string, vaultName: string, emailConfigurationName: string, options?: EmailConfigurationCreateOptionalParams): Promise<EmailConfigurationCreateResponse>;
+    create(resourceGroupName: string, vaultName: string, emailConfigurationName: string, body: EmailConfigurationModel, options?: EmailConfigurationCreateOptionalParams): Promise<EmailConfigurationCreateResponse>;
     get(resourceGroupName: string, vaultName: string, emailConfigurationName: string, options?: EmailConfigurationGetOptionalParams): Promise<EmailConfigurationGetResponse>;
     list(resourceGroupName: string, vaultName: string, options?: EmailConfigurationListOptionalParams): PagedAsyncIterableIterator<EmailConfigurationModel>;
 }
 
 // @public
 export interface EmailConfigurationCreateOptionalParams extends coreClient.OperationOptions {
-    body?: EmailConfigurationModel;
 }
 
 // @public
@@ -269,39 +183,32 @@ export interface EmailConfigurationListNextOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type EmailConfigurationListNextResponse = EmailConfigurationModelCollection;
+export type EmailConfigurationListNextResponse = EmailConfigurationModelListResult;
 
 // @public
 export interface EmailConfigurationListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type EmailConfigurationListResponse = EmailConfigurationModelCollection;
+export type EmailConfigurationListResponse = EmailConfigurationModelListResult;
 
 // @public
-export interface EmailConfigurationModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: EmailConfigurationModelProperties;
-    readonly systemData?: EmailConfigurationModelSystemData;
-    readonly type?: string;
+export interface EmailConfigurationModel extends ProxyResource {
+    properties?: EmailConfigurationModelProperties;
 }
 
 // @public
-export interface EmailConfigurationModelCollection {
+export interface EmailConfigurationModelListResult {
     nextLink?: string;
-    value?: EmailConfigurationModel[];
+    value: EmailConfigurationModel[];
 }
 
 // @public
 export interface EmailConfigurationModelProperties {
     customEmailAddresses?: string[];
     locale?: string;
+    readonly provisioningState?: ProvisioningState;
     sendToOwners: boolean;
-}
-
-// @public (undocumented)
-export interface EmailConfigurationModelSystemData extends SystemDataModel {
 }
 
 // @public
@@ -354,39 +261,36 @@ export interface EventListNextOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type EventListNextResponse = EventModelCollection;
+export type EventListNextResponse = EventModelListResult;
 
 // @public
 export interface EventListOptionalParams extends coreClient.OperationOptions {
     continuationToken?: string;
-    filter?: string;
+    odataOptions?: string;
+    pageSize?: number;
 }
 
 // @public
-export type EventListResponse = EventModelCollection;
+export type EventListResponse = EventModelListResult;
 
 // @public
-export interface EventModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: EventModelProperties;
-    readonly systemData?: EventModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface EventModelCollection {
-    nextLink?: string;
-    value?: EventModel[];
+export interface EventModel extends ProxyResource {
+    properties?: EventModelProperties;
 }
 
 // @public
 export interface EventModelCustomProperties {
-    instanceType: "HyperVToAzStackHCI";
+    instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
 }
 
 // @public (undocumented)
-export type EventModelCustomPropertiesUnion = EventModelCustomProperties | HyperVToAzStackHCIEventModelCustomProperties;
+export type EventModelCustomPropertiesUnion = EventModelCustomProperties | HyperVToAzStackHCIEventModelCustomProperties | VMwareToAzStackHCIEventModelCustomProperties;
+
+// @public
+export interface EventModelListResult {
+    nextLink?: string;
+    value: EventModel[];
+}
 
 // @public
 export interface EventModelProperties {
@@ -396,32 +300,129 @@ export interface EventModelProperties {
     readonly eventName?: string;
     readonly eventType?: string;
     readonly healthErrors?: HealthErrorModel[];
+    readonly provisioningState?: ProvisioningState;
     readonly resourceName?: string;
     readonly resourceType?: string;
     readonly severity?: string;
     readonly timeOfOccurrence?: Date;
 }
 
-// @public (undocumented)
-export interface EventModelSystemData extends SystemDataModel {
-}
-
 // @public
 export interface Fabric {
-    beginCreate(resourceGroupName: string, fabricName: string, options?: FabricCreateOptionalParams): Promise<SimplePollerLike<OperationState<FabricCreateResponse>, FabricCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, fabricName: string, options?: FabricCreateOptionalParams): Promise<FabricCreateResponse>;
+    beginCreate(resourceGroupName: string, fabricName: string, body: FabricModel, options?: FabricCreateOptionalParams): Promise<SimplePollerLike<OperationState<FabricCreateResponse>, FabricCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, fabricName: string, body: FabricModel, options?: FabricCreateOptionalParams): Promise<FabricCreateResponse>;
     beginDelete(resourceGroupName: string, fabricName: string, options?: FabricDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FabricDeleteResponse>, FabricDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, fabricName: string, options?: FabricDeleteOptionalParams): Promise<FabricDeleteResponse>;
-    beginUpdate(resourceGroupName: string, fabricName: string, options?: FabricUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FabricUpdateResponse>, FabricUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, fabricName: string, options?: FabricUpdateOptionalParams): Promise<FabricUpdateResponse>;
+    beginUpdate(resourceGroupName: string, fabricName: string, body: FabricModelUpdate, options?: FabricUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FabricUpdateResponse>, FabricUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fabricName: string, body: FabricModelUpdate, options?: FabricUpdateOptionalParams): Promise<FabricUpdateResponse>;
     get(resourceGroupName: string, fabricName: string, options?: FabricGetOptionalParams): Promise<FabricGetResponse>;
     list(resourceGroupName: string, options?: FabricListOptionalParams): PagedAsyncIterableIterator<FabricModel>;
     listBySubscription(options?: FabricListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FabricModel>;
 }
 
 // @public
+export interface FabricAgent {
+    beginCreate(resourceGroupName: string, fabricName: string, fabricAgentName: string, body: FabricAgentModel, options?: FabricAgentCreateOptionalParams): Promise<SimplePollerLike<OperationState<FabricAgentCreateResponse>, FabricAgentCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, fabricName: string, fabricAgentName: string, body: FabricAgentModel, options?: FabricAgentCreateOptionalParams): Promise<FabricAgentCreateResponse>;
+    beginDelete(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: FabricAgentDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FabricAgentDeleteResponse>, FabricAgentDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: FabricAgentDeleteOptionalParams): Promise<FabricAgentDeleteResponse>;
+    get(resourceGroupName: string, fabricName: string, fabricAgentName: string, options?: FabricAgentGetOptionalParams): Promise<FabricAgentGetResponse>;
+    list(resourceGroupName: string, fabricName: string, options?: FabricAgentListOptionalParams): PagedAsyncIterableIterator<FabricAgentModel>;
+}
+
+// @public
+export interface FabricAgentCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricAgentCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FabricAgentCreateResponse = FabricAgentModel;
+
+// @public
+export interface FabricAgentDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FabricAgentDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FabricAgentDeleteResponse = FabricAgentDeleteHeaders;
+
+// @public
+export interface FabricAgentGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricAgentGetResponse = FabricAgentModel;
+
+// @public
+export interface FabricAgentListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricAgentListNextResponse = FabricAgentModelListResult;
+
+// @public
+export interface FabricAgentListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FabricAgentListResponse = FabricAgentModelListResult;
+
+// @public
+export interface FabricAgentModel extends ProxyResource {
+    properties?: FabricAgentModelProperties;
+}
+
+// @public
+export interface FabricAgentModelCustomProperties {
+    instanceType: "VMware";
+}
+
+// @public (undocumented)
+export type FabricAgentModelCustomPropertiesUnion = FabricAgentModelCustomProperties | VMwareFabricAgentModelCustomProperties;
+
+// @public
+export interface FabricAgentModelListResult {
+    nextLink?: string;
+    value: FabricAgentModel[];
+}
+
+// @public
+export interface FabricAgentModelProperties {
+    authenticationIdentity: IdentityModel;
+    readonly correlationId?: string;
+    customProperties: FabricAgentModelCustomPropertiesUnion;
+    readonly healthErrors?: HealthErrorModel[];
+    readonly isResponsive?: boolean;
+    readonly lastHeartbeat?: Date;
+    machineId: string;
+    machineName: string;
+    readonly provisioningState?: ProvisioningState;
+    resourceAccessIdentity: IdentityModel;
+    readonly versionNumber?: string;
+}
+
+// @public
+export interface FabricCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface FabricCreateOptionalParams extends coreClient.OperationOptions {
-    body?: FabricModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -431,9 +432,8 @@ export type FabricCreateResponse = FabricModel;
 
 // @public
 export interface FabricDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -457,22 +457,21 @@ export interface FabricListBySubscriptionNextOptionalParams extends coreClient.O
 }
 
 // @public
-export type FabricListBySubscriptionNextResponse = FabricModelCollection;
+export type FabricListBySubscriptionNextResponse = FabricModelListResult;
 
 // @public
 export interface FabricListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
-export type FabricListBySubscriptionResponse = FabricModelCollection;
+export type FabricListBySubscriptionResponse = FabricModelListResult;
 
 // @public
 export interface FabricListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FabricListNextResponse = FabricModelCollection;
+export type FabricListNextResponse = FabricModelListResult;
 
 // @public
 export interface FabricListOptionalParams extends coreClient.OperationOptions {
@@ -480,25 +479,11 @@ export interface FabricListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type FabricListResponse = FabricModelCollection;
+export type FabricListResponse = FabricModelListResult;
 
 // @public
-export interface FabricModel {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
-    properties: FabricModelProperties;
-    readonly systemData?: FabricModelSystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
-export interface FabricModelCollection {
-    nextLink?: string;
-    value?: FabricModel[];
+export interface FabricModel extends TrackedResource {
+    properties?: FabricModelProperties;
 }
 
 // @public
@@ -510,6 +495,12 @@ export interface FabricModelCustomProperties {
 export type FabricModelCustomPropertiesUnion = FabricModelCustomProperties | AzStackHCIFabricModelCustomProperties | HyperVMigrateFabricModelCustomProperties | VMwareMigrateFabricModelCustomProperties;
 
 // @public
+export interface FabricModelListResult {
+    nextLink?: string;
+    value: FabricModel[];
+}
+
+// @public
 export interface FabricModelProperties {
     customProperties: FabricModelCustomPropertiesUnion;
     readonly health?: HealthStatus;
@@ -519,54 +510,38 @@ export interface FabricModelProperties {
     readonly serviceResourceId?: string;
 }
 
-// @public (undocumented)
-export interface FabricModelSystemData extends SystemDataModel {
-}
-
 // @public
 export interface FabricModelUpdate {
     readonly id?: string;
     readonly name?: string;
     properties?: FabricModelProperties;
-    readonly systemData?: FabricModelUpdateSystemData;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
 }
 
-// @public (undocumented)
-export interface FabricModelUpdateSystemData extends SystemDataModel {
-}
-
-// @public
-export interface FabricOperationsStatus {
-    get(resourceGroupName: string, fabricName: string, operationId: string, options?: FabricOperationsStatusGetOptionalParams): Promise<FabricOperationsStatusGetResponse>;
-}
-
-// @public
-export interface FabricOperationsStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FabricOperationsStatusGetResponse = OperationStatus;
-
 // @public
 export interface FabricUpdateHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface FabricUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: FabricModelUpdate;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export type FabricUpdateResponse = FabricModel;
+
+// @public
+export interface FailoverJobModelCustomProperties extends JobModelCustomProperties {
+    instanceType: "FailoverJobDetails";
+    readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+}
 
 // @public
 export interface FailoverProtectedItemProperties {
@@ -580,13 +555,17 @@ export interface FailoverProtectedItemProperties {
 }
 
 // @public
-export interface FailoverWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
-    instanceType: "FailoverWorkflowDetails";
-    readonly protectedItemDetails?: FailoverProtectedItemProperties[];
-}
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GroupConnectivityInformation {
+    customerVisibleFqdns?: string[];
+    groupId?: string;
+    internalFqdn?: string;
+    memberName?: string;
+    privateLinkServiceArmRegion?: string;
+    redirectMapId?: string;
+}
 
 // @public
 export interface HealthErrorModel {
@@ -621,8 +600,13 @@ export interface HyperVMigrateFabricModelCustomProperties extends FabricModelCus
 
 // @public
 export interface HyperVToAzStackHCIDiskInput {
+    diskBlockSize?: number;
+    diskController?: DiskControllerInputs;
     diskFileFormat: string;
     diskId: string;
+    diskIdentifier?: string;
+    diskLogicalSectorSize?: number;
+    diskPhysicalSectorSize?: number;
     diskSizeGB: number;
     isDynamic?: boolean;
     isOsDisk: boolean;
@@ -641,11 +625,13 @@ export interface HyperVToAzStackHCIEventModelCustomProperties extends EventModel
 
 // @public
 export interface HyperVToAzStackHCINicInput {
+    isMacMigrationEnabled?: boolean;
+    isStaticIpMigrationEnabled?: boolean;
     readonly networkName?: string;
     nicId: string;
     selectionTypeForFailover: VMNicSelection;
-    targetNetworkId: string;
-    testNetworkId: string;
+    targetNetworkId?: string;
+    testNetworkId?: string;
 }
 
 // @public
@@ -665,6 +651,9 @@ export interface HyperVToAzStackHCIPolicyModelCustomProperties extends PolicyMod
 // @public
 export interface HyperVToAzStackHCIProtectedDiskProperties {
     readonly capacityInBytes?: number;
+    readonly diskBlockSize?: number;
+    readonly diskLogicalSectorSize?: number;
+    readonly diskPhysicalSectorSize?: number;
     readonly diskType?: string;
     readonly isDynamic?: boolean;
     readonly isOsDisk?: boolean;
@@ -702,7 +691,7 @@ export interface HyperVToAzStackHCIProtectedItemModelCustomProperties extends Pr
     runAsAccountId: string;
     readonly sourceApplianceName?: string;
     readonly sourceCpuCores?: number;
-    sourceDraName: string;
+    sourceFabricAgentName: string;
     readonly sourceMemoryInMegaBytes?: number;
     readonly sourceVmName?: string;
     storageContainerId: string;
@@ -710,7 +699,7 @@ export interface HyperVToAzStackHCIProtectedItemModelCustomProperties extends Pr
     targetArcClusterCustomLocationId: string;
     readonly targetAzStackHciClusterName?: string;
     targetCpuCores?: number;
-    targetDraName: string;
+    targetFabricAgentName: string;
     targetHciClusterId: string;
     readonly targetLocation?: string;
     targetMemoryInMegaBytes?: number;
@@ -719,6 +708,17 @@ export interface HyperVToAzStackHCIProtectedItemModelCustomProperties extends Pr
     readonly targetVmBiosId?: string;
     targetVmName?: string;
     testNetworkId?: string;
+}
+
+// @public
+export interface HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate extends ProtectedItemModelCustomPropertiesUpdate {
+    dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig;
+    instanceType: "HyperVToAzStackHCI";
+    isDynamicRam?: boolean;
+    nicsToInclude?: HyperVToAzStackHCINicInput[];
+    osType?: string;
+    targetCpuCores?: number;
+    targetMemoryInMegaBytes?: number;
 }
 
 // @public
@@ -783,8 +783,102 @@ export interface InnerHealthErrorModel {
 }
 
 // @public
+export interface Job {
+    get(resourceGroupName: string, vaultName: string, jobName: string, options?: JobGetOptionalParams): Promise<JobGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: JobListOptionalParams): PagedAsyncIterableIterator<JobModel>;
+}
+
+// @public
+export interface JobGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobGetResponse = JobModel;
+
+// @public
+export interface JobListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobListNextResponse = JobModelListResult;
+
+// @public
+export interface JobListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    odataOptions?: string;
+    pageSize?: number;
+}
+
+// @public
+export type JobListResponse = JobModelListResult;
+
+// @public
+export interface JobModel extends ProxyResource {
+    properties?: JobModelProperties;
+}
+
+// @public
+export interface JobModelCustomProperties {
+    readonly affectedObjectDetails?: JobModelCustomPropertiesAffectedObjectDetails;
+    instanceType: "FailoverJobDetails" | "TestFailoverCleanupJobDetails" | "TestFailoverJobDetails";
+}
+
+// @public
+export interface JobModelCustomPropertiesAffectedObjectDetails {
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    type?: "object";
+}
+
+// @public (undocumented)
+export type JobModelCustomPropertiesUnion = JobModelCustomProperties | FailoverJobModelCustomProperties | TestFailoverCleanupJobModelCustomProperties | TestFailoverJobModelCustomProperties;
+
+// @public
+export interface JobModelListResult {
+    nextLink?: string;
+    value: JobModel[];
+}
+
+// @public
+export interface JobModelProperties {
+    readonly activityId?: string;
+    readonly allowedActions?: string[];
+    customProperties: JobModelCustomPropertiesUnion;
+    readonly displayName?: string;
+    readonly endTime?: Date;
+    readonly errors?: ErrorModel[];
+    readonly objectId?: string;
+    readonly objectInternalId?: string;
+    readonly objectInternalName?: string;
+    readonly objectName?: string;
+    readonly objectType?: JobObjectType;
+    readonly provisioningState?: ProvisioningState;
+    readonly replicationProviderId?: string;
+    readonly sourceFabricProviderId?: string;
+    readonly startTime?: Date;
+    readonly state?: JobState;
+    readonly targetFabricProviderId?: string;
+    readonly tasks?: TaskModel[];
+}
+
+// @public
+export type JobObjectType = string;
+
+// @public
+export type JobState = string;
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -795,10 +889,51 @@ export enum KnownHealthStatus {
 }
 
 // @public
+export enum KnownJobObjectType {
+    AvsDiskPool = "AvsDiskPool",
+    Fabric = "Fabric",
+    FabricAgent = "FabricAgent",
+    Policy = "Policy",
+    ProtectedItem = "ProtectedItem",
+    RecoveryPlan = "RecoveryPlan",
+    ReplicationExtension = "ReplicationExtension",
+    Vault = "Vault"
+}
+
+// @public
+export enum KnownJobState {
+    Cancelled = "Cancelled",
+    Cancelling = "Cancelling",
+    CompletedWithErrors = "CompletedWithErrors",
+    CompletedWithInformation = "CompletedWithInformation",
+    CompletedWithWarnings = "CompletedWithWarnings",
+    Failed = "Failed",
+    Pending = "Pending",
+    Started = "Started",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected"
 }
 
 // @public
@@ -918,6 +1053,13 @@ export enum KnownTestFailoverState {
 }
 
 // @public
+export enum KnownVaultIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownVMNicSelection {
     NotSelected = "NotSelected",
     SelectedByDefault = "SelectedByDefault",
@@ -933,29 +1075,17 @@ export enum KnownVMwareToAzureMigrateResyncState {
 }
 
 // @public
-export enum KnownWorkflowObjectType {
-    AvsDiskPool = "AvsDiskPool",
-    Dra = "Dra",
-    Fabric = "Fabric",
-    Policy = "Policy",
-    ProtectedItem = "ProtectedItem",
-    RecoveryPlan = "RecoveryPlan",
-    ReplicationExtension = "ReplicationExtension",
-    Vault = "Vault"
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
 }
 
 // @public
-export enum KnownWorkflowState {
-    Cancelled = "Cancelled",
-    Cancelling = "Cancelling",
-    CompletedWithErrors = "CompletedWithErrors",
-    CompletedWithInformation = "CompletedWithInformation",
-    CompletedWithWarnings = "CompletedWithWarnings",
-    Failed = "Failed",
-    Pending = "Pending",
-    Started = "Started",
-    Succeeded = "Succeeded"
-}
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -981,26 +1111,16 @@ export interface OperationListResult {
 }
 
 // @public
-export interface OperationModel {
-    display?: OperationModelProperties;
-    isDataAction?: boolean;
-    name?: string;
-    origin?: string;
+export interface OperationResults {
+    get(resourceGroupName: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
 }
 
 // @public
-export interface OperationModelCollection {
-    nextLink?: string;
-    value?: OperationModel[];
+export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface OperationModelProperties {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
+export type OperationResultsGetResponse = OperationStatus;
 
 // @public
 export interface Operations {
@@ -1053,8 +1173,8 @@ export interface PlannedFailoverModelProperties {
 
 // @public
 export interface Policy {
-    beginCreate(resourceGroupName: string, vaultName: string, policyName: string, options?: PolicyCreateOptionalParams): Promise<SimplePollerLike<OperationState<PolicyCreateResponse>, PolicyCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, vaultName: string, policyName: string, options?: PolicyCreateOptionalParams): Promise<PolicyCreateResponse>;
+    beginCreate(resourceGroupName: string, vaultName: string, policyName: string, body: PolicyModel, options?: PolicyCreateOptionalParams): Promise<SimplePollerLike<OperationState<PolicyCreateResponse>, PolicyCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, vaultName: string, policyName: string, body: PolicyModel, options?: PolicyCreateOptionalParams): Promise<PolicyCreateResponse>;
     beginDelete(resourceGroupName: string, vaultName: string, policyName: string, options?: PolicyDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PolicyDeleteResponse>, PolicyDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, policyName: string, options?: PolicyDeleteOptionalParams): Promise<PolicyDeleteResponse>;
     get(resourceGroupName: string, vaultName: string, policyName: string, options?: PolicyGetOptionalParams): Promise<PolicyGetResponse>;
@@ -1062,8 +1182,13 @@ export interface Policy {
 }
 
 // @public
+export interface PolicyCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PolicyCreateOptionalParams extends coreClient.OperationOptions {
-    body?: PolicyModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1073,9 +1198,8 @@ export type PolicyCreateResponse = PolicyModel;
 
 // @public
 export interface PolicyDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1099,28 +1223,18 @@ export interface PolicyListNextOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type PolicyListNextResponse = PolicyModelCollection;
+export type PolicyListNextResponse = PolicyModelListResult;
 
 // @public
 export interface PolicyListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type PolicyListResponse = PolicyModelCollection;
+export type PolicyListResponse = PolicyModelListResult;
 
 // @public
-export interface PolicyModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: PolicyModelProperties;
-    readonly systemData?: PolicyModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface PolicyModelCollection {
-    nextLink?: string;
-    value?: PolicyModel[];
+export interface PolicyModel extends ProxyResource {
+    properties?: PolicyModelProperties;
 }
 
 // @public
@@ -1132,35 +1246,251 @@ export interface PolicyModelCustomProperties {
 export type PolicyModelCustomPropertiesUnion = PolicyModelCustomProperties | HyperVToAzStackHCIPolicyModelCustomProperties | VMwareToAzStackHCIPolicyModelCustomProperties;
 
 // @public
+export interface PolicyModelListResult {
+    nextLink?: string;
+    value: PolicyModel[];
+}
+
+// @public
 export interface PolicyModelProperties {
     customProperties: PolicyModelCustomPropertiesUnion;
     readonly provisioningState?: ProvisioningState;
 }
 
-// @public (undocumented)
-export interface PolicyModelSystemData extends SystemDataModel {
+// @public
+export interface PrivateEndpoint {
+    id?: string;
 }
 
 // @public
-export interface PolicyOperationStatus {
-    get(resourceGroupName: string, vaultName: string, policyName: string, operationId: string, options?: PolicyOperationStatusGetOptionalParams): Promise<PolicyOperationStatusGetResponse>;
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionResponseProperties;
 }
 
 // @public
-export interface PolicyOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnection[];
 }
 
 // @public
-export type PolicyOperationStatusGetResponse = OperationStatus;
+export interface PrivateEndpointConnectionProxies {
+    beginDelete(resourceGroupName: string, vaultName: string, privateEndpointConnectionProxyName: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionProxiesDeleteResponse>, PrivateEndpointConnectionProxiesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, vaultName: string, privateEndpointConnectionProxyName: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<PrivateEndpointConnectionProxiesDeleteResponse>;
+    create(resourceGroupName: string, vaultName: string, privateEndpointConnectionProxyName: string, body: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOptionalParams): Promise<PrivateEndpointConnectionProxiesCreateResponse>;
+    get(resourceGroupName: string, vaultName: string, privateEndpointConnectionProxyName: string, options?: PrivateEndpointConnectionProxiesGetOptionalParams): Promise<PrivateEndpointConnectionProxiesGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: PrivateEndpointConnectionProxiesListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionProxy>;
+    validate(resourceGroupName: string, vaultName: string, privateEndpointConnectionProxyName: string, body: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesValidateOptionalParams): Promise<PrivateEndpointConnectionProxiesValidateResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxiesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesCreateResponse = PrivateEndpointConnectionProxy;
+
+// @public
+export interface PrivateEndpointConnectionProxiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxiesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesDeleteResponse = PrivateEndpointConnectionProxiesDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionProxiesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesGetResponse = PrivateEndpointConnectionProxy;
+
+// @public
+export interface PrivateEndpointConnectionProxiesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesListNextResponse = PrivateEndpointConnectionProxyListResult;
+
+// @public
+export interface PrivateEndpointConnectionProxiesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesListResponse = PrivateEndpointConnectionProxyListResult;
+
+// @public
+export interface PrivateEndpointConnectionProxiesValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionProxiesValidateResponse = PrivateEndpointConnectionProxy;
+
+// @public
+export interface PrivateEndpointConnectionProxy extends ProxyResource {
+    etag?: string;
+    properties?: PrivateEndpointConnectionProxyProperties;
+}
+
+// @public
+export interface PrivateEndpointConnectionProxyListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnectionProxy[];
+}
+
+// @public
+export interface PrivateEndpointConnectionProxyProperties {
+    readonly provisioningState?: ProvisioningState;
+    remotePrivateEndpoint?: RemotePrivateEndpoint;
+}
+
+// @public
+export interface PrivateEndpointConnectionResponseProperties {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnections {
+    beginDelete(resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    get(resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    update(resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, body: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointConnectionStatus = string;
+
+// @public
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    groupId?: string;
+    readonly provisioningState?: ProvisioningState;
+    requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    get(resourceGroupName: string, vaultName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, vaultName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkServiceConnection {
+    groupIds?: string[];
+    name?: string;
+    requestMessage?: string;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointConnectionStatus;
+}
+
+// @public
+export interface PrivateLinkServiceProxy {
+    groupConnectivityInformation?: GroupConnectivityInformation[];
+    id?: string;
+    remotePrivateEndpointConnection?: RemotePrivateEndpointConnection;
+    remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+}
 
 // @public
 export interface ProtectedItem {
-    beginCreate(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemCreateResponse>, ProtectedItemCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemCreateOptionalParams): Promise<ProtectedItemCreateResponse>;
+    beginCreate(resourceGroupName: string, vaultName: string, protectedItemName: string, body: ProtectedItemModel, options?: ProtectedItemCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemCreateResponse>, ProtectedItemCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, body: ProtectedItemModel, options?: ProtectedItemCreateOptionalParams): Promise<ProtectedItemCreateResponse>;
     beginDelete(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemDeleteResponse>, ProtectedItemDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemDeleteOptionalParams): Promise<ProtectedItemDeleteResponse>;
-    beginPlannedFailover(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemPlannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemPlannedFailoverResponse>, ProtectedItemPlannedFailoverResponse>>;
-    beginPlannedFailoverAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemPlannedFailoverOptionalParams): Promise<ProtectedItemPlannedFailoverResponse>;
+    beginPlannedFailover(resourceGroupName: string, vaultName: string, protectedItemName: string, body: PlannedFailoverModel, options?: ProtectedItemPlannedFailoverOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemPlannedFailoverResponse>, ProtectedItemPlannedFailoverResponse>>;
+    beginPlannedFailoverAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, body: PlannedFailoverModel, options?: ProtectedItemPlannedFailoverOptionalParams): Promise<ProtectedItemPlannedFailoverResponse>;
+    beginUpdate(resourceGroupName: string, vaultName: string, protectedItemName: string, body: ProtectedItemModelUpdate, options?: ProtectedItemUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProtectedItemUpdateResponse>, ProtectedItemUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, vaultName: string, protectedItemName: string, body: ProtectedItemModelUpdate, options?: ProtectedItemUpdateOptionalParams): Promise<ProtectedItemUpdateResponse>;
     get(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: ProtectedItemGetOptionalParams): Promise<ProtectedItemGetResponse>;
     list(resourceGroupName: string, vaultName: string, options?: ProtectedItemListOptionalParams): PagedAsyncIterableIterator<ProtectedItemModel>;
 }
@@ -1169,8 +1499,13 @@ export interface ProtectedItem {
 export type ProtectedItemActiveLocation = string;
 
 // @public
+export interface ProtectedItemCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ProtectedItemCreateOptionalParams extends coreClient.OperationOptions {
-    body?: ProtectedItemModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1180,9 +1515,8 @@ export type ProtectedItemCreateResponse = ProtectedItemModel;
 
 // @public
 export interface ProtectedItemDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1225,28 +1559,21 @@ export interface ProtectedItemListNextOptionalParams extends coreClient.Operatio
 }
 
 // @public
-export type ProtectedItemListNextResponse = ProtectedItemModelCollection;
+export type ProtectedItemListNextResponse = ProtectedItemModelListResult;
 
 // @public
 export interface ProtectedItemListOptionalParams extends coreClient.OperationOptions {
+    continuationToken?: string;
+    odataOptions?: string;
+    pageSize?: number;
 }
 
 // @public
-export type ProtectedItemListResponse = ProtectedItemModelCollection;
+export type ProtectedItemListResponse = ProtectedItemModelListResult;
 
 // @public
-export interface ProtectedItemModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: ProtectedItemModelProperties;
-    readonly systemData?: ProtectedItemModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface ProtectedItemModelCollection {
-    nextLink?: string;
-    value?: ProtectedItemModel[];
+export interface ProtectedItemModel extends ProxyResource {
+    properties?: ProtectedItemModelProperties;
 }
 
 // @public
@@ -1258,22 +1585,36 @@ export interface ProtectedItemModelCustomProperties {
 export type ProtectedItemModelCustomPropertiesUnion = ProtectedItemModelCustomProperties | HyperVToAzStackHCIProtectedItemModelCustomProperties | VMwareToAzStackHCIProtectedItemModelCustomProperties;
 
 // @public
+export interface ProtectedItemModelCustomPropertiesUpdate {
+    instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCI";
+}
+
+// @public (undocumented)
+export type ProtectedItemModelCustomPropertiesUpdateUnion = ProtectedItemModelCustomPropertiesUpdate | HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate | VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate;
+
+// @public
+export interface ProtectedItemModelListResult {
+    nextLink?: string;
+    value: ProtectedItemModel[];
+}
+
+// @public
 export interface ProtectedItemModelProperties {
     readonly allowedJobs?: string[];
     readonly correlationId?: string;
-    readonly currentJob?: ProtectedItemModelPropertiesCurrentJob;
+    readonly currentJob?: ProtectedItemJobProperties;
     customProperties: ProtectedItemModelCustomPropertiesUnion;
-    readonly draId?: string;
+    readonly fabricAgentId?: string;
     readonly fabricId?: string;
     readonly fabricObjectId?: string;
     readonly fabricObjectName?: string;
     readonly healthErrors?: HealthErrorModel[];
-    readonly lastFailedEnableProtectionJob?: ProtectedItemModelPropertiesLastFailedEnableProtectionJob;
-    readonly lastFailedPlannedFailoverJob?: ProtectedItemModelPropertiesLastFailedPlannedFailoverJob;
+    readonly lastFailedEnableProtectionJob?: ProtectedItemJobProperties;
+    readonly lastFailedPlannedFailoverJob?: ProtectedItemJobProperties;
     readonly lastSuccessfulPlannedFailoverTime?: Date;
     readonly lastSuccessfulTestFailoverTime?: Date;
     readonly lastSuccessfulUnplannedFailoverTime?: Date;
-    readonly lastTestFailoverJob?: ProtectedItemModelPropertiesLastTestFailoverJob;
+    readonly lastTestFailoverJob?: ProtectedItemJobProperties;
     policyName: string;
     readonly protectionState?: ProtectionState;
     readonly protectionStateDescription?: string;
@@ -1283,55 +1624,35 @@ export interface ProtectedItemModelProperties {
     readonly resynchronizationState?: ResynchronizationState;
     readonly resyncRequired?: boolean;
     readonly sourceFabricProviderId?: string;
-    readonly targetDraId?: string;
+    readonly targetFabricAgentId?: string;
     readonly targetFabricId?: string;
     readonly targetFabricProviderId?: string;
     readonly testFailoverState?: TestFailoverState;
     readonly testFailoverStateDescription?: string;
 }
 
-// @public (undocumented)
-export interface ProtectedItemModelPropertiesCurrentJob extends ProtectedItemJobProperties {
-}
-
-// @public (undocumented)
-export interface ProtectedItemModelPropertiesLastFailedEnableProtectionJob extends ProtectedItemJobProperties {
-}
-
-// @public (undocumented)
-export interface ProtectedItemModelPropertiesLastFailedPlannedFailoverJob extends ProtectedItemJobProperties {
-}
-
-// @public (undocumented)
-export interface ProtectedItemModelPropertiesLastTestFailoverJob extends ProtectedItemJobProperties {
-}
-
-// @public (undocumented)
-export interface ProtectedItemModelSystemData extends SystemDataModel {
+// @public
+export interface ProtectedItemModelPropertiesUpdate {
+    customProperties?: ProtectedItemModelCustomPropertiesUpdateUnion;
 }
 
 // @public
-export interface ProtectedItemOperationStatus {
-    get(resourceGroupName: string, vaultName: string, protectedItemName: string, operationId: string, options?: ProtectedItemOperationStatusGetOptionalParams): Promise<ProtectedItemOperationStatusGetResponse>;
+export interface ProtectedItemModelUpdate {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: ProtectedItemModelPropertiesUpdate;
+    readonly systemData?: SystemData;
+    readonly type?: string;
 }
-
-// @public
-export interface ProtectedItemOperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProtectedItemOperationStatusGetResponse = OperationStatus;
 
 // @public
 export interface ProtectedItemPlannedFailoverHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface ProtectedItemPlannedFailoverOptionalParams extends coreClient.OperationOptions {
-    body?: PlannedFailoverModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1340,79 +1661,105 @@ export interface ProtectedItemPlannedFailoverOptionalParams extends coreClient.O
 export type ProtectedItemPlannedFailoverResponse = PlannedFailoverModel;
 
 // @public
+export interface ProtectedItemUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface ProtectedItemUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProtectedItemUpdateResponse = ProtectedItemModel;
+
+// @public
 export type ProtectionState = string;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export interface RecoveryPointModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: RecoveryPointModelProperties;
-    readonly systemData?: RecoveryPointModelSystemData;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface RecoveryPointModelCollection {
-    nextLink?: string;
-    value?: RecoveryPointModel[];
+export interface RecoveryPoint {
+    get(resourceGroupName: string, vaultName: string, protectedItemName: string, recoveryPointName: string, options?: RecoveryPointGetOptionalParams): Promise<RecoveryPointGetResponse>;
+    list(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: RecoveryPointListOptionalParams): PagedAsyncIterableIterator<RecoveryPointModel>;
+}
+
+// @public
+export interface RecoveryPointGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryPointGetResponse = RecoveryPointModel;
+
+// @public
+export interface RecoveryPointListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryPointListNextResponse = RecoveryPointModelListResult;
+
+// @public
+export interface RecoveryPointListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecoveryPointListResponse = RecoveryPointModelListResult;
+
+// @public
+export interface RecoveryPointModel extends ProxyResource {
+    properties?: RecoveryPointModelProperties;
 }
 
 // @public
 export interface RecoveryPointModelCustomProperties {
-    instanceType: "HyperVToAzStackHCI";
+    instanceType: "HyperVToAzStackHCI" | "VMwareToAzStackHCIRecoveryPointModelCustomProperties";
 }
 
 // @public (undocumented)
-export type RecoveryPointModelCustomPropertiesUnion = RecoveryPointModelCustomProperties | HyperVToAzStackHCIRecoveryPointModelCustomProperties;
+export type RecoveryPointModelCustomPropertiesUnion = RecoveryPointModelCustomProperties | HyperVToAzStackHCIRecoveryPointModelCustomProperties | VMwareToAzStackHCIRecoveryPointModelCustomProperties;
+
+// @public
+export interface RecoveryPointModelListResult {
+    nextLink?: string;
+    value: RecoveryPointModel[];
+}
 
 // @public
 export interface RecoveryPointModelProperties {
     customProperties: RecoveryPointModelCustomPropertiesUnion;
+    readonly provisioningState?: ProvisioningState;
     recoveryPointTime: Date;
     recoveryPointType: RecoveryPointType;
 }
-
-// @public (undocumented)
-export interface RecoveryPointModelSystemData extends SystemDataModel {
-}
-
-// @public
-export interface RecoveryPoints {
-    get(resourceGroupName: string, vaultName: string, protectedItemName: string, recoveryPointName: string, options?: RecoveryPointsGetOptionalParams): Promise<RecoveryPointsGetResponse>;
-    list(resourceGroupName: string, vaultName: string, protectedItemName: string, options?: RecoveryPointsListOptionalParams): PagedAsyncIterableIterator<RecoveryPointModel>;
-}
-
-// @public
-export interface RecoveryPointsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryPointsGetResponse = RecoveryPointModel;
-
-// @public
-export interface RecoveryPointsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryPointsListNextResponse = RecoveryPointModelCollection;
-
-// @public
-export interface RecoveryPointsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryPointsListResponse = RecoveryPointModelCollection;
 
 // @public
 export type RecoveryPointType = string;
 
 // @public
+export interface RemotePrivateEndpoint {
+    connectionDetails?: ConnectionDetails[];
+    id: string;
+    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+    privateLinkServiceConnections?: PrivateLinkServiceConnection[];
+    privateLinkServiceProxies?: PrivateLinkServiceProxy[];
+}
+
+// @public
+export interface RemotePrivateEndpointConnection {
+    id?: string;
+}
+
+// @public
 export interface ReplicationExtension {
-    beginCreate(resourceGroupName: string, vaultName: string, replicationExtensionName: string, options?: ReplicationExtensionCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationExtensionCreateResponse>, ReplicationExtensionCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, vaultName: string, replicationExtensionName: string, options?: ReplicationExtensionCreateOptionalParams): Promise<ReplicationExtensionCreateResponse>;
+    beginCreate(resourceGroupName: string, vaultName: string, replicationExtensionName: string, body: ReplicationExtensionModel, options?: ReplicationExtensionCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationExtensionCreateResponse>, ReplicationExtensionCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, vaultName: string, replicationExtensionName: string, body: ReplicationExtensionModel, options?: ReplicationExtensionCreateOptionalParams): Promise<ReplicationExtensionCreateResponse>;
     beginDelete(resourceGroupName: string, vaultName: string, replicationExtensionName: string, options?: ReplicationExtensionDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationExtensionDeleteResponse>, ReplicationExtensionDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, replicationExtensionName: string, options?: ReplicationExtensionDeleteOptionalParams): Promise<ReplicationExtensionDeleteResponse>;
     get(resourceGroupName: string, vaultName: string, replicationExtensionName: string, options?: ReplicationExtensionGetOptionalParams): Promise<ReplicationExtensionGetResponse>;
@@ -1420,8 +1767,13 @@ export interface ReplicationExtension {
 }
 
 // @public
+export interface ReplicationExtensionCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ReplicationExtensionCreateOptionalParams extends coreClient.OperationOptions {
-    body?: ReplicationExtensionModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1431,9 +1783,8 @@ export type ReplicationExtensionCreateResponse = ReplicationExtensionModel;
 
 // @public
 export interface ReplicationExtensionDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1457,28 +1808,18 @@ export interface ReplicationExtensionListNextOptionalParams extends coreClient.O
 }
 
 // @public
-export type ReplicationExtensionListNextResponse = ReplicationExtensionModelCollection;
+export type ReplicationExtensionListNextResponse = ReplicationExtensionModelListResult;
 
 // @public
 export interface ReplicationExtensionListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReplicationExtensionListResponse = ReplicationExtensionModelCollection;
+export type ReplicationExtensionListResponse = ReplicationExtensionModelListResult;
 
 // @public
-export interface ReplicationExtensionModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: ReplicationExtensionModelProperties;
-    readonly systemData?: ReplicationExtensionModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface ReplicationExtensionModelCollection {
-    nextLink?: string;
-    value?: ReplicationExtensionModel[];
+export interface ReplicationExtensionModel extends ProxyResource {
+    properties?: ReplicationExtensionModelProperties;
 }
 
 // @public
@@ -1490,29 +1831,27 @@ export interface ReplicationExtensionModelCustomProperties {
 export type ReplicationExtensionModelCustomPropertiesUnion = ReplicationExtensionModelCustomProperties | HyperVToAzStackHCIReplicationExtensionModelCustomProperties | VMwareToAzStackHCIReplicationExtensionModelCustomProperties;
 
 // @public
+export interface ReplicationExtensionModelListResult {
+    nextLink?: string;
+    value: ReplicationExtensionModel[];
+}
+
+// @public
 export interface ReplicationExtensionModelProperties {
     customProperties: ReplicationExtensionModelCustomPropertiesUnion;
     readonly provisioningState?: ProvisioningState;
 }
 
-// @public (undocumented)
-export interface ReplicationExtensionModelSystemData extends SystemDataModel {
-}
-
-// @public
-export interface ReplicationExtensionOperationStatus {
-    get(resourceGroupName: string, vaultName: string, replicationExtensionName: string, operationId: string, options?: ReplicationExtensionOperationStatusGetOptionalParams): Promise<ReplicationExtensionOperationStatusGetResponse>;
-}
-
-// @public
-export interface ReplicationExtensionOperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReplicationExtensionOperationStatusGetResponse = OperationStatus;
-
 // @public
 export type ReplicationVaultType = string;
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
 
 // @public
 export type ResynchronizationState = string;
@@ -1524,18 +1863,18 @@ export interface StorageContainerProperties {
 }
 
 // @public
-export interface SystemDataModel {
+export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: string;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
 export interface TaskModel {
-    childrenWorkflows?: WorkflowModel[];
+    childrenJobs?: JobModel[];
     customProperties?: TaskModelCustomProperties;
     readonly endTime?: Date;
     readonly startTime?: Date;
@@ -1552,36 +1891,55 @@ export interface TaskModelCustomProperties {
 export type TaskState = string;
 
 // @public
-export interface TestFailoverCleanupWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
+export interface TestFailoverCleanupJobModelCustomProperties extends JobModelCustomProperties {
     readonly comments?: string;
-    instanceType: "TestFailoverCleanupWorkflowDetails";
+    instanceType: "TestFailoverCleanupJobDetails";
+}
+
+// @public
+export interface TestFailoverJobModelCustomProperties extends JobModelCustomProperties {
+    instanceType: "TestFailoverJobDetails";
+    readonly protectedItemDetails?: FailoverProtectedItemProperties[];
 }
 
 // @public
 export type TestFailoverState = string;
 
 // @public
-export interface TestFailoverWorkflowModelCustomProperties extends WorkflowModelCustomProperties {
-    instanceType: "TestFailoverWorkflowDetails";
-    readonly protectedItemDetails?: FailoverProtectedItemProperties[];
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
 export interface Vault {
-    beginCreate(resourceGroupName: string, vaultName: string, options?: VaultCreateOptionalParams): Promise<SimplePollerLike<OperationState<VaultCreateResponse>, VaultCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, vaultName: string, options?: VaultCreateOptionalParams): Promise<VaultCreateResponse>;
+    beginCreate(resourceGroupName: string, vaultName: string, body: VaultModel, options?: VaultCreateOptionalParams): Promise<SimplePollerLike<OperationState<VaultCreateResponse>, VaultCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, vaultName: string, body: VaultModel, options?: VaultCreateOptionalParams): Promise<VaultCreateResponse>;
     beginDelete(resourceGroupName: string, vaultName: string, options?: VaultDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VaultDeleteResponse>, VaultDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, vaultName: string, options?: VaultDeleteOptionalParams): Promise<VaultDeleteResponse>;
-    beginUpdate(resourceGroupName: string, vaultName: string, options?: VaultUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultUpdateResponse>, VaultUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, vaultName: string, options?: VaultUpdateOptionalParams): Promise<VaultUpdateResponse>;
+    beginUpdate(resourceGroupName: string, vaultName: string, body: VaultModelUpdate, options?: VaultUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VaultUpdateResponse>, VaultUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, vaultName: string, body: VaultModelUpdate, options?: VaultUpdateOptionalParams): Promise<VaultUpdateResponse>;
     get(resourceGroupName: string, vaultName: string, options?: VaultGetOptionalParams): Promise<VaultGetResponse>;
     list(resourceGroupName: string, options?: VaultListOptionalParams): PagedAsyncIterableIterator<VaultModel>;
     listBySubscription(options?: VaultListBySubscriptionOptionalParams): PagedAsyncIterableIterator<VaultModel>;
 }
 
 // @public
+export interface VaultCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface VaultCreateOptionalParams extends coreClient.OperationOptions {
-    body?: VaultModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1591,9 +1949,8 @@ export type VaultCreateResponse = VaultModel;
 
 // @public
 export interface VaultDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -1613,26 +1970,35 @@ export interface VaultGetOptionalParams extends coreClient.OperationOptions {
 export type VaultGetResponse = VaultModel;
 
 // @public
+export interface VaultIdentityModel {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: VaultIdentityType;
+}
+
+// @public
+export type VaultIdentityType = string;
+
+// @public
 export interface VaultListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VaultListBySubscriptionNextResponse = VaultModelCollection;
+export type VaultListBySubscriptionNextResponse = VaultModelListResult;
 
 // @public
 export interface VaultListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
-export type VaultListBySubscriptionResponse = VaultModelCollection;
+export type VaultListBySubscriptionResponse = VaultModelListResult;
 
 // @public
 export interface VaultListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VaultListNextResponse = VaultModelCollection;
+export type VaultListNextResponse = VaultModelListResult;
 
 // @public
 export interface VaultListOptionalParams extends coreClient.OperationOptions {
@@ -1640,25 +2006,18 @@ export interface VaultListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type VaultListResponse = VaultModelCollection;
+export type VaultListResponse = VaultModelListResult;
 
 // @public
-export interface VaultModel {
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
+export interface VaultModel extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     properties?: VaultModelProperties;
-    readonly systemData?: VaultModelSystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
-export interface VaultModelCollection {
+export interface VaultModelListResult {
     nextLink?: string;
-    value?: VaultModel[];
+    value: VaultModel[];
 }
 
 // @public
@@ -1668,48 +2027,27 @@ export interface VaultModelProperties {
     vaultType?: ReplicationVaultType;
 }
 
-// @public (undocumented)
-export interface VaultModelSystemData extends SystemDataModel {
-}
-
 // @public
 export interface VaultModelUpdate {
     readonly id?: string;
+    identity?: VaultIdentityModel;
     readonly name?: string;
     properties?: VaultModelProperties;
-    readonly systemData?: VaultModelUpdateSystemData;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
 }
 
-// @public (undocumented)
-export interface VaultModelUpdateSystemData extends SystemDataModel {
-}
-
-// @public
-export interface VaultOperationStatus {
-    get(resourceGroupName: string, vaultName: string, operationId: string, options?: VaultOperationStatusGetOptionalParams): Promise<VaultOperationStatusGetResponse>;
-}
-
-// @public
-export interface VaultOperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VaultOperationStatusGetResponse = OperationStatus;
-
 // @public
 export interface VaultUpdateHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface VaultUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: VaultModelUpdate;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1721,7 +2059,7 @@ export type VaultUpdateResponse = VaultModel;
 export type VMNicSelection = string;
 
 // @public
-export interface VMwareDraModelCustomProperties extends DraModelCustomProperties {
+export interface VMwareFabricAgentModelCustomProperties extends FabricAgentModelCustomProperties {
     biosId: string;
     instanceType: "VMware";
     marsAuthenticationIdentity: IdentityModel;
@@ -1736,8 +2074,13 @@ export interface VMwareMigrateFabricModelCustomProperties extends FabricModelCus
 
 // @public
 export interface VMwareToAzStackHCIDiskInput {
+    diskBlockSize?: number;
+    diskController?: DiskControllerInputs;
     diskFileFormat: string;
     diskId: string;
+    diskIdentifier?: string;
+    diskLogicalSectorSize?: number;
+    diskPhysicalSectorSize?: number;
     diskSizeGB: number;
     isDynamic?: boolean;
     isOsDisk: boolean;
@@ -1745,13 +2088,25 @@ export interface VMwareToAzStackHCIDiskInput {
 }
 
 // @public
+export interface VMwareToAzStackHCIEventModelCustomProperties extends EventModelCustomProperties {
+    readonly eventSourceFriendlyName?: string;
+    instanceType: "VMwareToAzStackHCI";
+    readonly protectedItemFriendlyName?: string;
+    readonly serverType?: string;
+    readonly sourceApplianceName?: string;
+    readonly targetApplianceName?: string;
+}
+
+// @public
 export interface VMwareToAzStackHCINicInput {
+    isMacMigrationEnabled?: boolean;
+    isStaticIpMigrationEnabled?: boolean;
     label: string;
     readonly networkName?: string;
     nicId: string;
     selectionTypeForFailover: VMNicSelection;
-    targetNetworkId: string;
-    testNetworkId: string;
+    targetNetworkId?: string;
+    testNetworkId?: string;
 }
 
 // @public
@@ -1771,6 +2126,9 @@ export interface VMwareToAzStackHCIPolicyModelCustomProperties extends PolicyMod
 // @public
 export interface VMwareToAzStackHCIProtectedDiskProperties {
     readonly capacityInBytes?: number;
+    readonly diskBlockSize?: number;
+    readonly diskLogicalSectorSize?: number;
+    readonly diskPhysicalSectorSize?: number;
     readonly diskType?: string;
     readonly isDynamic?: boolean;
     readonly isOsDisk?: boolean;
@@ -1815,7 +2173,7 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties extends Pr
     runAsAccountId: string;
     readonly sourceApplianceName?: string;
     readonly sourceCpuCores?: number;
-    sourceDraName: string;
+    sourceFabricAgentName: string;
     readonly sourceMemoryInMegaBytes?: number;
     readonly sourceVmName?: string;
     storageContainerId: string;
@@ -1823,7 +2181,7 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties extends Pr
     targetArcClusterCustomLocationId: string;
     readonly targetAzStackHciClusterName?: string;
     targetCpuCores?: number;
-    targetDraName: string;
+    targetFabricAgentName: string;
     targetHciClusterId: string;
     readonly targetLocation?: string;
     targetMemoryInMegaBytes?: number;
@@ -1832,6 +2190,17 @@ export interface VMwareToAzStackHCIProtectedItemModelCustomProperties extends Pr
     readonly targetVmBiosId?: string;
     targetVmName?: string;
     testNetworkId?: string;
+}
+
+// @public
+export interface VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate extends ProtectedItemModelCustomPropertiesUpdate {
+    dynamicMemoryConfig?: ProtectedItemDynamicMemoryConfig;
+    instanceType: "VMwareToAzStackHCI";
+    isDynamicRam?: boolean;
+    nicsToInclude?: VMwareToAzStackHCINicInput[];
+    osType?: string;
+    targetCpuCores?: number;
+    targetMemoryInMegaBytes?: number;
 }
 
 // @public
@@ -1844,6 +2213,12 @@ export interface VMwareToAzStackHCIProtectedNicProperties {
     readonly selectionTypeForFailover?: VMNicSelection;
     readonly targetNetworkId?: string;
     readonly testNetworkId?: string;
+}
+
+// @public
+export interface VMwareToAzStackHCIRecoveryPointModelCustomProperties extends RecoveryPointModelCustomProperties {
+    readonly diskIds?: string[];
+    instanceType: "VMwareToAzStackHCIRecoveryPointModelCustomProperties";
 }
 
 // @public
@@ -1869,104 +2244,6 @@ export interface VMwareToAzStackHCIReplicationExtensionModelCustomProperties ext
 
 // @public
 export type VMwareToAzureMigrateResyncState = string;
-
-// @public
-export interface Workflow {
-    get(resourceGroupName: string, vaultName: string, jobName: string, options?: WorkflowGetOptionalParams): Promise<WorkflowGetResponse>;
-    list(resourceGroupName: string, vaultName: string, options?: WorkflowListOptionalParams): PagedAsyncIterableIterator<WorkflowModel>;
-}
-
-// @public
-export interface WorkflowGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowGetResponse = WorkflowModel;
-
-// @public
-export interface WorkflowListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowListNextResponse = WorkflowModelCollection;
-
-// @public
-export interface WorkflowListOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    filter?: string;
-}
-
-// @public
-export type WorkflowListResponse = WorkflowModelCollection;
-
-// @public
-export interface WorkflowModel {
-    readonly id?: string;
-    readonly name?: string;
-    properties: WorkflowModelProperties;
-    readonly systemData?: WorkflowModelSystemData;
-    readonly type?: string;
-}
-
-// @public
-export interface WorkflowModelCollection {
-    nextLink?: string;
-    value?: WorkflowModel[];
-}
-
-// @public
-export interface WorkflowModelCustomProperties {
-    readonly affectedObjectDetails?: {
-        [propertyName: string]: string;
-    };
-    instanceType: "FailoverWorkflowDetails" | "TestFailoverCleanupWorkflowDetails" | "TestFailoverWorkflowDetails";
-}
-
-// @public (undocumented)
-export type WorkflowModelCustomPropertiesUnion = WorkflowModelCustomProperties | FailoverWorkflowModelCustomProperties | TestFailoverCleanupWorkflowModelCustomProperties | TestFailoverWorkflowModelCustomProperties;
-
-// @public
-export interface WorkflowModelProperties {
-    readonly activityId?: string;
-    readonly allowedActions?: string[];
-    customProperties: WorkflowModelCustomPropertiesUnion;
-    readonly displayName?: string;
-    readonly endTime?: Date;
-    readonly errors?: ErrorModel[];
-    readonly objectId?: string;
-    readonly objectInternalId?: string;
-    readonly objectInternalName?: string;
-    readonly objectName?: string;
-    readonly objectType?: WorkflowObjectType;
-    readonly replicationProviderId?: string;
-    readonly sourceFabricProviderId?: string;
-    readonly startTime?: Date;
-    readonly state?: WorkflowState;
-    readonly targetFabricProviderId?: string;
-    readonly tasks?: TaskModel[];
-}
-
-// @public (undocumented)
-export interface WorkflowModelSystemData extends SystemDataModel {
-}
-
-// @public
-export type WorkflowObjectType = string;
-
-// @public
-export interface WorkflowOperationStatus {
-    get(resourceGroupName: string, vaultName: string, jobName: string, operationId: string, options?: WorkflowOperationStatusGetOptionalParams): Promise<WorkflowOperationStatusGetResponse>;
-}
-
-// @public
-export interface WorkflowOperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WorkflowOperationStatusGetResponse = OperationStatus;
-
-// @public
-export type WorkflowState = string;
 
 // (No @packageDocumentation comment for this package)
 

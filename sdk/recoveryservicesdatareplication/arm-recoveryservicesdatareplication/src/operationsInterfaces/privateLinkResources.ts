@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EventModel,
-  EventListOptionalParams,
-  EventGetOptionalParams,
-  EventGetResponse,
+  PrivateLinkResource,
+  PrivateLinkResourcesListOptionalParams,
+  PrivateLinkResourcesGetOptionalParams,
+  PrivateLinkResourcesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Event. */
-export interface Event {
+/** Interface representing a PrivateLinkResources. */
+export interface PrivateLinkResources {
   /**
-   * Gets the list of events in the given vault.
+   * Gets the list of private link resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface Event {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams,
-  ): PagedAsyncIterableIterator<EventModel>;
+    options?: PrivateLinkResourcesListOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateLinkResource>;
   /**
-   * Gets the details of the event.
+   * Gets the details of site recovery private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param eventName The event name.
+   * @param privateLinkResourceName The private link name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    eventName: string,
-    options?: EventGetOptionalParams,
-  ): Promise<EventGetResponse>;
+    privateLinkResourceName: string,
+    options?: PrivateLinkResourcesGetOptionalParams,
+  ): Promise<PrivateLinkResourcesGetResponse>;
 }

@@ -16,7 +16,7 @@ import {
   PolicyCreateOptionalParams,
   PolicyCreateResponse,
   PolicyDeleteOptionalParams,
-  PolicyDeleteResponse
+  PolicyDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Policy {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: PolicyListOptionalParams
+    options?: PolicyListOptionalParams,
   ): PagedAsyncIterableIterator<PolicyModel>;
   /**
    * Gets the details of the policy.
@@ -44,20 +44,22 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyGetOptionalParams
+    options?: PolicyGetOptionalParams,
   ): Promise<PolicyGetResponse>;
   /**
    * Creates the policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param policyName The policy name.
+   * @param body Policy model.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    body: PolicyModel,
+    options?: PolicyCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyCreateResponse>, PolicyCreateResponse>
   >;
@@ -66,13 +68,15 @@ export interface Policy {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param policyName The policy name.
+   * @param body Policy model.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyCreateOptionalParams
+    body: PolicyModel,
+    options?: PolicyCreateOptionalParams,
   ): Promise<PolicyCreateResponse>;
   /**
    * Removes the policy.
@@ -85,7 +89,7 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PolicyDeleteResponse>, PolicyDeleteResponse>
   >;
@@ -100,6 +104,6 @@ export interface Policy {
     resourceGroupName: string,
     vaultName: string,
     policyName: string,
-    options?: PolicyDeleteOptionalParams
+    options?: PolicyDeleteOptionalParams,
   ): Promise<PolicyDeleteResponse>;
 }

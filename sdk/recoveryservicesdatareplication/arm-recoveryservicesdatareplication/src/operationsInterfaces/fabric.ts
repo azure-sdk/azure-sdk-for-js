@@ -16,10 +16,11 @@ import {
   FabricGetResponse,
   FabricCreateOptionalParams,
   FabricCreateResponse,
+  FabricModelUpdate,
   FabricUpdateOptionalParams,
   FabricUpdateResponse,
   FabricDeleteOptionalParams,
-  FabricDeleteResponse
+  FabricDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface Fabric {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: FabricListBySubscriptionOptionalParams
+    options?: FabricListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<FabricModel>;
   /**
    * Gets the list of fabrics in the given subscription and resource group.
@@ -39,7 +40,7 @@ export interface Fabric {
    */
   list(
     resourceGroupName: string,
-    options?: FabricListOptionalParams
+    options?: FabricListOptionalParams,
   ): PagedAsyncIterableIterator<FabricModel>;
   /**
    * Gets the details of the fabric.
@@ -50,18 +51,20 @@ export interface Fabric {
   get(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricGetOptionalParams
+    options?: FabricGetOptionalParams,
   ): Promise<FabricGetResponse>;
   /**
    * Creates the fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fabricName The fabric name.
+   * @param body Fabric properties.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricCreateOptionalParams
+    body: FabricModel,
+    options?: FabricCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<FabricCreateResponse>, FabricCreateResponse>
   >;
@@ -69,23 +72,27 @@ export interface Fabric {
    * Creates the fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fabricName The fabric name.
+   * @param body Fabric properties.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricCreateOptionalParams
+    body: FabricModel,
+    options?: FabricCreateOptionalParams,
   ): Promise<FabricCreateResponse>;
   /**
    * Performs update on the fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fabricName The fabric name.
+   * @param body Fabric properties.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricUpdateOptionalParams
+    body: FabricModelUpdate,
+    options?: FabricUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<FabricUpdateResponse>, FabricUpdateResponse>
   >;
@@ -93,12 +100,14 @@ export interface Fabric {
    * Performs update on the fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param fabricName The fabric name.
+   * @param body Fabric properties.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricUpdateOptionalParams
+    body: FabricModelUpdate,
+    options?: FabricUpdateOptionalParams,
   ): Promise<FabricUpdateResponse>;
   /**
    * Removes the fabric.
@@ -109,7 +118,7 @@ export interface Fabric {
   beginDelete(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricDeleteOptionalParams
+    options?: FabricDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<FabricDeleteResponse>, FabricDeleteResponse>
   >;
@@ -122,6 +131,6 @@ export interface Fabric {
   beginDeleteAndWait(
     resourceGroupName: string,
     fabricName: string,
-    options?: FabricDeleteOptionalParams
+    options?: FabricDeleteOptionalParams,
   ): Promise<FabricDeleteResponse>;
 }
