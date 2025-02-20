@@ -1302,6 +1302,10 @@ packages:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-network@33.5.0':
+    resolution: {integrity: sha512-wXD34p4/J2kZrkWylabtxLzrea5TK2m9NRwYtBLCvgQXN5NFTQohHgOFhoi/7DgV6w1qaM+qGz9mo5HRxpU70w==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -2809,7 +2813,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid@file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-8v0u5aXKMk5xbJ3xf4XaWPubY2Ro2O4ZufHvlWAlf+9lYMankohYTWXITEPnrFbB9lLFaUNSlDGBNgvRnJoCCg==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-kyWweKxHUuMwBGDBaJrltxaJOObNcNmz2MgCQBqWScpvvL1bxVqnYVminlDZQdi9G4/aTQHuqZWWy0ZaJZJo9Q==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoxedge@file:projects/arm-databoxedge.tgz':
@@ -3153,7 +3157,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-IV75GkJIy826xX3bpXNNtD5NA8T2xtd2XyhDNitkSqKm3vAGsn5pRJx3bZefvIBWfcBluTLuDDEqq/Px+dI3Nw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-VSHtcSa5nz7I0ALaEsRuydRjY3qaJUeytkprso0UVWMmcsLNQgxomEu8s8ZlN1hFG/6OW0K4pPd3+e1prrN58w==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3185,7 +3189,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
-    resolution: {integrity: sha512-q4ASyNd5Eq5yjwbjsSw/jdjm7J+kEmN9btEESalt2ga97OmAqVFEQXz0+zAQEJ5eIdRKmI2puc4Ek1E+0i1efg==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-Rd/GOxBxUJTh2NZyH1KHBR8xW9LcEi3gvYQqPdylN6YhDzs8fhPrPEw1SNAduIlz6rtiiCSEHH8add5cpkGlBw==, tarball: file:projects/arm-network-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-profile-2020-09-01-hybrid@file:projects/arm-network-profile-2020-09-01-hybrid.tgz':
@@ -3301,7 +3305,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-quota@file:projects/arm-quota.tgz':
-    resolution: {integrity: sha512-d8Zy/YF3kwBoeFO0hA++IGCkRHlb2a+v1Ri81Z35lr+Am2l75ywml3udF4k8DfYv86QgcZfLzNA5/8wBRD8xYQ==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-zUG7x90AUOhJpX6PkDPMmEERGtC+kl+jzkhDIwm9gUa/CKIQ+Dr5MBMmWFmbrta1niUU2NyXfBv/3rTlpPKnHQ==, tarball: file:projects/arm-quota.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices-siterecovery@file:projects/arm-recoveryservices-siterecovery.tgz':
@@ -3325,7 +3329,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-rediscache@file:projects/arm-rediscache.tgz':
-    resolution: {integrity: sha512-w1+NAPS5jnkNWnBdCV9AIbS7t5YscZ68dYErIFYERs+k7QDPINil9WivGoNiIFL+MZoVdn5Dknn3aK4AA+Ekww==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-LW/SLnQe4HmxNXfmmD0MoBZ0DpUBpQ1pK0lq5dCmysldX91a+ez1gH94GARJM0l6RzSxlHXTZ1nRfjRFKCrgpg==, tarball: file:projects/arm-rediscache.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-redisenterprisecache@file:projects/arm-redisenterprisecache.tgz':
@@ -3705,7 +3709,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-vNxjMthiFsTI/KrNoZJrx+GT3/LEUZFQEc2ML4Pg/8v8zw34kKB2o/DvnTrOy0N8B2+POO9Cfq8z3PW4U7RQ7g==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-p9TJgzqpkASmRO92La5qMAYqxczmjRBK/7rF24pKoxghKJSC3m3aJPehnS5WHOs1DN12NspuYSrzQxaaasc7WQ==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -8298,6 +8302,18 @@ snapshots:
   '@azure/arm-network@32.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-network@33.5.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.2
       '@azure/core-lro': 2.7.2
@@ -15457,6 +15473,7 @@ snapshots:
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/arm-network': 33.5.0
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
@@ -15738,12 +15755,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20308,7 +20325,6 @@ snapshots:
       concurrently: 8.2.2
       cross-env: 7.0.3
       dotenv: 16.4.7
-      env-paths: 2.2.1
       eslint: 9.20.1
       express: 4.21.2
       fs-extra: 11.3.0
@@ -23735,7 +23751,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
