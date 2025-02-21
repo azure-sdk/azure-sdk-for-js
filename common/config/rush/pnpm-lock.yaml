@@ -2717,7 +2717,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-aXX8Ytyln4lKOu3fu7LUYBLRjcdoe2ZZE7N8XE9Q9dDl+Z1seLFrbjslMyE1T937Uo0tw5NG5uLihdozAWjvnw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-YWmigYpwL0pSnXzKSuQFuNW9dLgYKEdFso3TBq6B1mpHLmxDmnIU8ADiqBKL2R3F4pq12n74SFdKCiB0GiawHQ==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -3777,7 +3777,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-ZTtfbFsxE9zOm0NMlclq93/O21+B9K4tcKHCZmiGJ5j31fBAjldp1zQOHInJC6V78rsIUUZ+ZTc+zPsEO/XCHg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-dSgduyLLGw4z+86SZyiNOOAgnfklr/Wnzv5u+xHnUi4njOmiO6/71xRdxUX4R4PJsZBI9dueTxzCaXcXuGOCDQ==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -11672,15 +11672,14 @@ snapshots:
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23734,7 +23733,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
