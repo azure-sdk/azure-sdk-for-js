@@ -1,0 +1,4 @@
+directory: specification/databasewatcher/DatabaseWatcher.Management
+commit: 45b61ef8a43ed360e117ebc2d90a1ddd4c4c76fa
+repo: ../azure-rest-api-specs
+additionalDirectories: 
