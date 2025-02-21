@@ -1,5 +1,47 @@
 # Release History
     
+## 4.2.0-beta.1 (2025-02-21)
+Compared with version 4.1.0
+    
+### Features Added
+
+  - Added operation ConfigurationStores.generateSasToken
+  - Added operation ConfigurationStores.resetSasKind
+  - Added Interface ConfigurationStoresDeleteHeaders
+  - Added Interface ConfigurationStoresGenerateSasTokenOptionalParams
+  - Added Interface ConfigurationStoresPurgeDeletedHeaders
+  - Added Interface ConfigurationStoresResetSasKindOptionalParams
+  - Added Interface ExperimentationProperties
+  - Added Interface KeyValuesDeleteHeaders
+  - Added Interface KvSasTokenScope
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Interface ResetSasKindParameters
+  - Added Interface SasKindInfo
+  - Added Interface SasProperties
+  - Added Interface SasTokenGenerationParameters
+  - Added Interface SasTokenGenerationResult
+  - Added Interface SasTokenScope
+  - Added Interface SnapshotSasTokenScope
+  - Added Interface TelemetryProperties
+  - Added Type Alias ConfigurationStoresGenerateSasTokenResponse
+  - Added Type Alias ConfigurationStoresResetSasKindResponse
+  - Added Type Alias ResourceType
+  - Added Type Alias SasKind
+  - Added Type Alias SasStatus
+  - Added Type Alias SasTokenScopeUnion
+  - Interface ConfigurationStore has a new optional parameter experimentation
+  - Interface ConfigurationStore has a new optional parameter sas
+  - Interface ConfigurationStore has a new optional parameter telemetry
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter experimentation
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter sas
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter telemetry
+  - Interface ReplicasDeleteHeaders has a new optional parameter location
+  - Interface ReplicasDeleteHeaders has a new optional parameter retryAfter
+  - Added Enum KnownResourceType
+  - Added Enum KnownSasKind
+  - Added Enum KnownSasStatus
+    
+    
 ## 4.1.0 (2024-11-11)
     
 ### Features Added

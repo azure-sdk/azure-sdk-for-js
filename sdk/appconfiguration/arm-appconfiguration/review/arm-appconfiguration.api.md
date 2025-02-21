@@ -85,13 +85,16 @@ export interface ConfigurationStore extends TrackedResource {
     enablePurgeProtection?: boolean;
     encryption?: EncryptionProperties;
     readonly endpoint?: string;
+    experimentation?: ExperimentationProperties;
     identity?: ResourceIdentity;
     readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    sas?: SasProperties;
     sku: Sku;
     softDeleteRetentionInDays?: number;
     readonly systemData?: SystemData;
+    telemetry?: TelemetryProperties;
 }
 
 // @public
@@ -110,6 +113,7 @@ export interface ConfigurationStores {
     beginPurgeDeletedAndWait(location: string, configStoreName: string, options?: ConfigurationStoresPurgeDeletedOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationStoresUpdateResponse>, ConfigurationStoresUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, configStoreName: string, configStoreUpdateParameters: ConfigurationStoreUpdateParameters, options?: ConfigurationStoresUpdateOptionalParams): Promise<ConfigurationStoresUpdateResponse>;
+    generateSasToken(resourceGroupName: string, configStoreName: string, sasTokenGenerationParameters: SasTokenGenerationParameters, options?: ConfigurationStoresGenerateSasTokenOptionalParams): Promise<ConfigurationStoresGenerateSasTokenResponse>;
     get(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresGetOptionalParams): Promise<ConfigurationStoresGetResponse>;
     getDeleted(location: string, configStoreName: string, options?: ConfigurationStoresGetDeletedOptionalParams): Promise<ConfigurationStoresGetDeletedResponse>;
     list(options?: ConfigurationStoresListOptionalParams): PagedAsyncIterableIterator<ConfigurationStore>;
@@ -117,6 +121,7 @@ export interface ConfigurationStores {
     listDeleted(options?: ConfigurationStoresListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedConfigurationStore>;
     listKeys(resourceGroupName: string, configStoreName: string, options?: ConfigurationStoresListKeysOptionalParams): PagedAsyncIterableIterator<ApiKey>;
     regenerateKey(resourceGroupName: string, configStoreName: string, regenerateKeyParameters: RegenerateKeyParameters, options?: ConfigurationStoresRegenerateKeyOptionalParams): Promise<ConfigurationStoresRegenerateKeyResponse>;
+    resetSasKind(resourceGroupName: string, configStoreName: string, resetSasKindParameters: ResetSasKindParameters, options?: ConfigurationStoresResetSasKindOptionalParams): Promise<ConfigurationStoresResetSasKindResponse>;
 }
 
 // @public
@@ -129,10 +134,24 @@ export interface ConfigurationStoresCreateOptionalParams extends coreClient.Oper
 export type ConfigurationStoresCreateResponse = ConfigurationStore;
 
 // @public
+export interface ConfigurationStoresDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ConfigurationStoresDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface ConfigurationStoresGenerateSasTokenOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationStoresGenerateSasTokenResponse = SasTokenGenerationResult;
 
 // @public
 export interface ConfigurationStoresGetDeletedOptionalParams extends coreClient.OperationOptions {
@@ -208,6 +227,13 @@ export interface ConfigurationStoresListOptionalParams extends coreClient.Operat
 export type ConfigurationStoresListResponse = ConfigurationStoreListResult;
 
 // @public
+export interface ConfigurationStoresPurgeDeletedHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ConfigurationStoresPurgeDeletedOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -219,6 +245,13 @@ export interface ConfigurationStoresRegenerateKeyOptionalParams extends coreClie
 
 // @public
 export type ConfigurationStoresRegenerateKeyResponse = ApiKey;
+
+// @public
+export interface ConfigurationStoresResetSasKindOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationStoresResetSasKindResponse = ConfigurationStore;
 
 // @public
 export interface ConfigurationStoresUpdateOptionalParams extends coreClient.OperationOptions {
@@ -235,12 +268,15 @@ export interface ConfigurationStoreUpdateParameters {
     disableLocalAuth?: boolean;
     enablePurgeProtection?: boolean;
     encryption?: EncryptionProperties;
+    experimentation?: ExperimentationProperties;
     identity?: ResourceIdentity;
     publicNetworkAccess?: PublicNetworkAccess;
+    sas?: SasProperties;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };
+    telemetry?: TelemetryProperties;
 }
 
 // @public
@@ -317,6 +353,12 @@ export interface ErrorResponseAutoGenerated {
 }
 
 // @public
+export interface ExperimentationProperties {
+    dataPlaneEndpoint?: string;
+    resourceId?: string;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -366,6 +408,13 @@ export interface KeyValuesCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type KeyValuesCreateOrUpdateResponse = KeyValue;
+
+// @public
+export interface KeyValuesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface KeyValuesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -465,11 +514,37 @@ export enum KnownReplicaProvisioningState {
 }
 
 // @public
+export enum KnownResourceType {
+    Kv = "Kv",
+    Snapshot = "Snapshot"
+}
+
+// @public
+export enum KnownSasKind {
+    Primary = "Primary",
+    Secondary = "Secondary"
+}
+
+// @public
+export enum KnownSasStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSnapshotStatus {
     Archived = "Archived",
     Failed = "Failed",
     Provisioning = "Provisioning",
     Ready = "Ready"
+}
+
+// @public
+export interface KvSasTokenScope extends SasTokenScope {
+    key?: string;
+    label?: string;
+    resourceType: "Kv";
+    tags?: string[];
 }
 
 // @public
@@ -620,6 +695,13 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 // @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -752,6 +834,8 @@ export type ReplicasCreateResponse = Replica;
 // @public
 export interface ReplicasDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -783,6 +867,11 @@ export interface ReplicasListByConfigurationStoreOptionalParams extends coreClie
 export type ReplicasListByConfigurationStoreResponse = ReplicaListResult;
 
 // @public
+export interface ResetSasKindParameters {
+    name: SasKind;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -798,6 +887,52 @@ export interface ResourceIdentity {
         [propertyName: string]: UserIdentity;
     };
 }
+
+// @public
+export type ResourceType = string;
+
+// @public
+export type SasKind = string;
+
+// @public
+export interface SasKindInfo {
+    readonly lastModifiedAt?: Date;
+    readonly name?: SasKind;
+}
+
+// @public
+export interface SasProperties {
+    readonly kinds?: SasKindInfo[];
+    status?: SasStatus;
+}
+
+// @public
+export type SasStatus = string;
+
+// @public
+export interface SasTokenGenerationParameters {
+    cacheControlMaxAge?: number;
+    expires: Date;
+    kind: SasKind;
+    sasTokenScope: SasTokenScopeUnion;
+}
+
+// @public
+export interface SasTokenGenerationResult {
+    readonly cacheControlMaxAge?: number;
+    readonly expires?: Date;
+    readonly kind?: SasKind;
+    readonly sasTokenScope?: SasTokenScopeUnion;
+    readonly value?: string;
+}
+
+// @public
+export interface SasTokenScope {
+    resourceType: "Kv" | "Snapshot";
+}
+
+// @public (undocumented)
+export type SasTokenScopeUnion = SasTokenScope | KvSasTokenScope | SnapshotSasTokenScope;
 
 // @public
 export interface ServiceSpecification {
@@ -838,6 +973,12 @@ export interface Snapshots {
 }
 
 // @public
+export interface SnapshotSasTokenScope extends SasTokenScope {
+    name: string;
+    resourceType: "Snapshot";
+}
+
+// @public
 export interface SnapshotsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -864,6 +1005,11 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TelemetryProperties {
+    resourceId?: string;
 }
 
 // @public

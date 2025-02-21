@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type SasTokenScopeUnion =
+  | SasTokenScope
+  | KvSasTokenScope
+  | SnapshotSasTokenScope;
+
 /** The result of a request to list configuration stores. */
 export interface ConfigurationStoreListResult {
   /** The collection value. */
@@ -109,12 +114,51 @@ export interface PrivateLinkServiceConnectionState {
   readonly actionsRequired?: ActionsRequired;
 }
 
+/** The SAS authentication settings of the configuration store. */
+export interface SasProperties {
+  /** The status of the SAS token authentication. This property manages if SAS token authentication is enabled or disabled. */
+  status?: SasStatus;
+  /**
+   * Information about different kinds of SAS token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kinds?: SasKindInfo[];
+}
+
+/** Information about a specific kind of SAS token. */
+export interface SasKindInfo {
+  /**
+   * The kind of the SAS token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: SasKind;
+  /**
+   * The last reset time of all tokens of the specified SAS kind.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedAt?: Date;
+}
+
 /** The data plane proxy settings for a configuration store. */
 export interface DataPlaneProxyProperties {
   /** The data plane proxy authentication mode. This property manages the authentication mode of request to the data plane resources. */
   authenticationMode?: AuthenticationMode;
   /** The data plane proxy private link delegation. This property manages if a request from delegated Azure Resource Manager (ARM) private link is allowed when the data plane resource requires private link. */
   privateLinkDelegation?: PrivateLinkDelegation;
+}
+
+/** Telemetry settings */
+export interface TelemetryProperties {
+  /** Resource ID of a resource enabling telemetry collection */
+  resourceId?: string;
+}
+
+/** Experimentation settings */
+export interface ExperimentationProperties {
+  /** Resource ID of a resource enabling experimentation */
+  resourceId?: string;
+  /** The data plane endpoint of the Split experimentation workspace resource where experimentation data can be retrieved */
+  dataPlaneEndpoint?: string;
 }
 
 /** Describes a configuration store SKU. */
@@ -207,14 +251,20 @@ export interface ConfigurationStoreUpdateParameters {
   tags?: { [propertyName: string]: string };
   /** The encryption settings of the configuration store. */
   encryption?: EncryptionProperties;
-  /** Disables all authentication methods other than AAD authentication. */
+  /** Disables access key authentication. */
   disableLocalAuth?: boolean;
+  /** The SAS authentication settings of the configuration store. */
+  sas?: SasProperties;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
   enablePurgeProtection?: boolean;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
   dataPlaneProxy?: DataPlaneProxyProperties;
+  /** Property specifying the configuration of telemetry to update for this configuration store */
+  telemetry?: TelemetryProperties;
+  /** Property specifying the configuration of experimentation to update for this configuration store */
+  experimentation?: ExperimentationProperties;
 }
 
 /** Parameters used for checking whether a resource name is available. */
@@ -290,6 +340,60 @@ export interface ApiKey {
 export interface RegenerateKeyParameters {
   /** The id of the key to regenerate. */
   id?: string;
+}
+
+/** Parameters used for generating SAS token. */
+export interface SasTokenGenerationParameters {
+  /** The data plane resource scope that the SAS token is authorized to access. */
+  sasTokenScope: SasTokenScopeUnion;
+  /** The time that the SAS token expires in the Universal ISO 8601 DateTime format. Max allowed expiration is 1 year from the time of token creation. */
+  expires: Date;
+  /** Time (in seconds) for which the data plane response may be cached by clients. App Configuration sets the Cache-Control response header `max-age` to the value that's specified on the SAS token. See [rfc9111](https://www.rfc-editor.org/rfc/rfc9111#name-max-age-2) for more details. */
+  cacheControlMaxAge?: number;
+  /** The kind of the SAS token. */
+  kind: SasKind;
+}
+
+/** The data plane resource scope that the SAS token is authorized to access. */
+export interface SasTokenScope {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Kv" | "Snapshot";
+}
+
+/** The result of a request to generate a SAS token. */
+export interface SasTokenGenerationResult {
+  /**
+   * The data plane resource scope that the SAS token is authorized to access.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sasTokenScope?: SasTokenScopeUnion;
+  /**
+   * The time that the SAS token expires in the Universal ISO 8601 DateTime format. Max allowed expiration is 1 year from the time of token creation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expires?: Date;
+  /**
+   * Time (in seconds) for which the data plane response may be cached by clients. App Configuration sets the Cache-Control response header `max-age` to the value that's specified on the SAS token. See [rfc9111](https://www.rfc-editor.org/rfc/rfc9111#name-max-age-2) for more details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cacheControlMaxAge?: number;
+  /**
+   * The kind of the SAS token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: SasKind;
+  /**
+   * The value of the SAS token.
+   * This value contains a credential. Consider obscuring before showing to users
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** Parameters used for resetting SAS kind. */
+export interface ResetSasKindParameters {
+  /** The kind of the SAS token. */
+  name: SasKind;
 }
 
 /** The result of a request to list configuration store operations. */
@@ -739,6 +843,32 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
+/** The key value resource scope that the SAS token is authorized to access. */
+export interface KvSasTokenScope extends SasTokenScope {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Kv";
+  /**
+   * A filter used to match keys. Syntax reference:
+   * https://aka.ms/azconfig/docs/keyvaluefiltering.
+   */
+  key?: string;
+  /**
+   * A filter used to match labels. Syntax reference:
+   * https://aka.ms/azconfig/docs/keyvaluefiltering.
+   */
+  label?: string;
+  /** An array of tag filters used to match tags. */
+  tags?: string[];
+}
+
+/** The snapshot resource scope that the SAS token is authorized to access. */
+export interface SnapshotSasTokenScope extends SasTokenScope {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Snapshot";
+  /** The name of the snapshot. */
+  name: string;
+}
+
 /** The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it. */
 export interface ConfigurationStore extends TrackedResource {
   /** The managed identity information, if configured. */
@@ -774,8 +904,10 @@ export interface ConfigurationStore extends TrackedResource {
   readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Disables all authentication methods other than AAD authentication. */
+  /** Disables access key authentication. */
   disableLocalAuth?: boolean;
+  /** The SAS authentication settings of the configuration store. */
+  sas?: SasProperties;
   /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
   softDeleteRetentionInDays?: number;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
@@ -784,12 +916,60 @@ export interface ConfigurationStore extends TrackedResource {
   dataPlaneProxy?: DataPlaneProxyProperties;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
+  /** Property specifying the configuration of telemetry for this configuration store */
+  telemetry?: TelemetryProperties;
+  /** Property specifying the configuration of experimentation for this configuration store */
+  experimentation?: ExperimentationProperties;
+}
+
+/** Defines headers for ConfigurationStores_delete operation. */
+export interface ConfigurationStoresDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates the time (in seconds) the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ConfigurationStores_purgeDeleted operation. */
+export interface ConfigurationStoresPurgeDeletedHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates the time (in seconds) the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates the time (in seconds) the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
+}
+
+/** Defines headers for KeyValues_delete operation. */
+export interface KeyValuesDeleteHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates the time (in seconds) the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Replicas_delete operation. */
 export interface ReplicasDeleteHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates the time (in seconds) the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link IdentityType} that the service accepts. */
@@ -906,6 +1086,42 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link SasStatus} that the service accepts. */
+export enum KnownSasStatus {
+  /** SAS token authentication is enabled. */
+  Enabled = "Enabled",
+  /** SAS token authentication is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for SasStatus. \
+ * {@link KnownSasStatus} can be used interchangeably with SasStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: SAS token authentication is enabled. \
+ * **Disabled**: SAS token authentication is disabled.
+ */
+export type SasStatus = string;
+
+/** Known values of {@link SasKind} that the service accepts. */
+export enum KnownSasKind {
+  /** Primary */
+  Primary = "Primary",
+  /** Secondary */
+  Secondary = "Secondary",
+}
+
+/**
+ * Defines values for SasKind. \
+ * {@link KnownSasKind} can be used interchangeably with SasKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary**
+ */
+export type SasKind = string;
+
 /** Known values of {@link AuthenticationMode} that the service accepts. */
 export enum KnownAuthenticationMode {
   /** The local authentication mode. Users are not required to have data plane permissions if local authentication is not disabled. */
@@ -980,6 +1196,24 @@ export enum KnownConfigurationResourceType {
  * **Microsoft.AppConfiguration\/configurationStores**
  */
 export type ConfigurationResourceType = string;
+
+/** Known values of {@link ResourceType} that the service accepts. */
+export enum KnownResourceType {
+  /** Kv */
+  Kv = "Kv",
+  /** Snapshot */
+  Snapshot = "Snapshot",
+}
+
+/**
+ * Defines values for ResourceType. \
+ * {@link KnownResourceType} can be used interchangeably with ResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Kv** \
+ * **Snapshot**
+ */
+export type ResourceType = string;
 
 /** Known values of {@link ReplicaProvisioningState} that the service accepts. */
 export enum KnownReplicaProvisioningState {
@@ -1129,6 +1363,21 @@ export interface ConfigurationStoresRegenerateKeyOptionalParams
 
 /** Contains response data for the regenerateKey operation. */
 export type ConfigurationStoresRegenerateKeyResponse = ApiKey;
+
+/** Optional parameters. */
+export interface ConfigurationStoresGenerateSasTokenOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generateSasToken operation. */
+export type ConfigurationStoresGenerateSasTokenResponse =
+  SasTokenGenerationResult;
+
+/** Optional parameters. */
+export interface ConfigurationStoresResetSasKindOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the resetSasKind operation. */
+export type ConfigurationStoresResetSasKindResponse = ConfigurationStore;
 
 /** Optional parameters. */
 export interface ConfigurationStoresListDeletedOptionalParams

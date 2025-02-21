@@ -27,6 +27,12 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
+  SasTokenGenerationParameters,
+  ConfigurationStoresGenerateSasTokenOptionalParams,
+  ConfigurationStoresGenerateSasTokenResponse,
+  ResetSasKindParameters,
+  ConfigurationStoresResetSasKindOptionalParams,
+  ConfigurationStoresResetSasKindResponse,
   ConfigurationStoresGetDeletedOptionalParams,
   ConfigurationStoresGetDeletedResponse,
   ConfigurationStoresPurgeDeletedOptionalParams,
@@ -177,6 +183,33 @@ export interface ConfigurationStores {
     regenerateKeyParameters: RegenerateKeyParameters,
     options?: ConfigurationStoresRegenerateKeyOptionalParams,
   ): Promise<ConfigurationStoresRegenerateKeyResponse>;
+  /**
+   * Generates a SAS token for scoped, read-only access of the specified configuration store.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param sasTokenGenerationParameters The object containing information for the SAS token generation
+   *                                     request.
+   * @param options The options parameters.
+   */
+  generateSasToken(
+    resourceGroupName: string,
+    configStoreName: string,
+    sasTokenGenerationParameters: SasTokenGenerationParameters,
+    options?: ConfigurationStoresGenerateSasTokenOptionalParams,
+  ): Promise<ConfigurationStoresGenerateSasTokenResponse>;
+  /**
+   * Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param resetSasKindParameters The object containing information for the SAS kind reset request.
+   * @param options The options parameters.
+   */
+  resetSasKind(
+    resourceGroupName: string,
+    configStoreName: string,
+    resetSasKindParameters: ResetSasKindParameters,
+    options?: ConfigurationStoresResetSasKindOptionalParams,
+  ): Promise<ConfigurationStoresResetSasKindResponse>;
   /**
    * Gets a deleted Azure app configuration store.
    * @param location The location in which uniqueness will be verified.
