@@ -24,15 +24,14 @@ import {
   GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams,
   GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
   GalleryInVMAccessControlProfilesListByGalleryResponse,
+  GalleryInVMAccessControlProfilesGetOptionalParams,
+  GalleryInVMAccessControlProfilesGetResponse,
   GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams,
   GalleryInVMAccessControlProfilesCreateOrUpdateResponse,
   GalleryInVMAccessControlProfileUpdate,
   GalleryInVMAccessControlProfilesUpdateOptionalParams,
   GalleryInVMAccessControlProfilesUpdateResponse,
-  GalleryInVMAccessControlProfilesGetOptionalParams,
-  GalleryInVMAccessControlProfilesGetResponse,
   GalleryInVMAccessControlProfilesDeleteOptionalParams,
-  GalleryInVMAccessControlProfilesDeleteResponse,
   GalleryInVMAccessControlProfilesListByGalleryNextResponse,
 } from "../models/index.js";
 
@@ -53,9 +52,8 @@ export class GalleryInVMAccessControlProfilesImpl
 
   /**
    * List gallery inVMAccessControlProfiles in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   public listByGallery(
@@ -137,13 +135,48 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
+   * List gallery inVMAccessControlProfiles in a gallery.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param options The options parameters.
+   */
+  private _listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
+  ): Promise<GalleryInVMAccessControlProfilesListByGalleryResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, options },
+      listByGalleryOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery inVMAccessControlProfile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    inVMAccessControlProfileName: string,
+    options?: GalleryInVMAccessControlProfilesGetOptionalParams,
+  ): Promise<GalleryInVMAccessControlProfilesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, inVMAccessControlProfileName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be created.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
-   *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
-   *                                     in the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param galleryInVMAccessControlProfile Parameters supplied to the create or update gallery
    *                                        inVMAccessControlProfile operation.
    * @param options The options parameters.
@@ -215,6 +248,7 @@ export class GalleryInVMAccessControlProfilesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -222,12 +256,10 @@ export class GalleryInVMAccessControlProfilesImpl
 
   /**
    * Create or update a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be created.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be created
-   *                                     or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed
-   *                                     in the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param galleryInVMAccessControlProfile Parameters supplied to the create or update gallery
    *                                        inVMAccessControlProfile operation.
    * @param options The options parameters.
@@ -251,12 +283,10 @@ export class GalleryInVMAccessControlProfilesImpl
 
   /**
    * Update a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be updated.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
-   *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-   *                                     middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param galleryInVMAccessControlProfile Parameters supplied to the update gallery
    *                                        inVMAccessControlProfile operation.
    * @param options The options parameters.
@@ -328,6 +358,7 @@ export class GalleryInVMAccessControlProfilesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -335,12 +366,10 @@ export class GalleryInVMAccessControlProfilesImpl
 
   /**
    * Update a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the InVMAccessControlProfile is to
-   *                    be updated.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be updated.
-   *                                     The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-   *                                     middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param galleryInVMAccessControlProfile Parameters supplied to the update gallery
    *                                        inVMAccessControlProfile operation.
    * @param options The options parameters.
@@ -363,32 +392,11 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * Retrieves information about a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be retrieved.
+   * Delete a gallery inVMAccessControlProfile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
    *                                     retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    inVMAccessControlProfileName: string,
-    options?: GalleryInVMAccessControlProfilesGetOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, inVMAccessControlProfileName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Delete a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName he name of the Shared Image Gallery in which the InVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -396,16 +404,11 @@ export class GalleryInVMAccessControlProfilesImpl
     galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GalleryInVMAccessControlProfilesDeleteResponse>,
-      GalleryInVMAccessControlProfilesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<GalleryInVMAccessControlProfilesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -450,12 +453,10 @@ export class GalleryInVMAccessControlProfilesImpl
       },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      GalleryInVMAccessControlProfilesDeleteResponse,
-      OperationState<GalleryInVMAccessControlProfilesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -463,10 +464,10 @@ export class GalleryInVMAccessControlProfilesImpl
 
   /**
    * Delete a gallery inVMAccessControlProfile.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName he name of the Shared Image Gallery in which the InVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -474,7 +475,7 @@ export class GalleryInVMAccessControlProfilesImpl
     galleryName: string,
     inVMAccessControlProfileName: string,
     options?: GalleryInVMAccessControlProfilesDeleteOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       galleryName,
@@ -485,28 +486,9 @@ export class GalleryInVMAccessControlProfilesImpl
   }
 
   /**
-   * List gallery inVMAccessControlProfiles in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be listed.
-   * @param options The options parameters.
-   */
-  private _listByGallery(
-    resourceGroupName: string,
-    galleryName: string,
-    options?: GalleryInVMAccessControlProfilesListByGalleryOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfilesListByGalleryResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, options },
-      listByGalleryOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the InVMAccessControlProfiles are
-   *                    to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param nextLink The nextLink from the previous successful call to the ListByGallery method.
    * @param options The options parameters.
    */
@@ -525,6 +507,49 @@ export class GalleryInVMAccessControlProfilesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.inVMAccessControlProfileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
   httpMethod: "PUT",
@@ -551,7 +576,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.inVMAccessControlProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -564,15 +589,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      headersMapper: Mappers.GalleryInVMAccessControlProfilesUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      headersMapper: Mappers.GalleryInVMAccessControlProfilesUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      headersMapper: Mappers.GalleryInVMAccessControlProfilesUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfile,
+      headersMapper: Mappers.GalleryInVMAccessControlProfilesUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -585,50 +614,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
+    Parameters.inVMAccessControlProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfile,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.GalleryInVMAccessControlProfilesDeleteHeaders,
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -639,28 +638,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfileList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.inVMAccessControlProfileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -678,10 +656,10 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
