@@ -1,0 +1,4 @@
+directory: specification/workloads/Workloads.SAPVirtualInstance.Management
+commit: e780f47536a27082d34ccc554b87efe2c496bf1a
+repo: ../azure-rest-api-specs
+additionalDirectories: 
