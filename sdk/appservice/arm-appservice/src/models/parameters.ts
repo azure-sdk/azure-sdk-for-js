@@ -38,6 +38,7 @@ import {
   VnetRoute as VnetRouteMapper,
   Certificate as CertificateMapper,
   CertificatePatchResource as CertificatePatchResourceMapper,
+  ContainerApp as ContainerAppMapper,
   KubeEnvironment as KubeEnvironmentMapper,
   KubeEnvironmentPatchResource as KubeEnvironmentPatchResourceMapper,
   User as UserMapper,
@@ -140,7 +141,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2024-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -644,6 +645,23 @@ export const certificateEnvelope1: OperationParameter = {
   mapper: CertificatePatchResourceMapper,
 };
 
+export const containerAppEnvelope: OperationParameter = {
+  parameterPath: "containerAppEnvelope",
+  mapper: ContainerAppMapper,
+};
+
+export const containerAppName: OperationURLParameter = {
+  parameterPath: "containerAppName",
+  mapper: {
+    serializedName: "containerAppName",
+    required: true,
+    xmlName: "containerAppName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -971,6 +989,64 @@ export const location1: OperationURLParameter = {
     serializedName: "location",
     required: true,
     xmlName: "location",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    xmlName: "resourceGroupName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const name2: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-z][A-z0-9]*$"),
+    },
+    serializedName: "name",
+    required: true,
+    xmlName: "name",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-z][A-z0-9]*$"),
+    },
+    serializedName: "certificateName",
+    required: true,
+    xmlName: "certificateName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName1: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    serializedName: "certificateName",
+    required: true,
+    xmlName: "certificateName",
     type: {
       name: "String",
     },

@@ -19,6 +19,9 @@ export interface AbnormalTimePeriod {
 }
 
 // @public
+export type ActiveRevisionsMode = string;
+
+// @public
 export interface Address {
     address1: string;
     address2?: string;
@@ -1957,6 +1960,14 @@ export interface CloningInfo {
 export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 
 // @public
+export interface Configuration {
+    activeRevisionsMode?: ActiveRevisionsMode;
+    ingress?: Ingress;
+    registries?: RegistryCredentials[];
+    secrets?: Secret[];
+}
+
+// @public
 export interface ConnectionStringDictionary extends ProxyOnlyResource {
     properties?: {
         [propertyName: string]: ConnStringValueTypePair;
@@ -2002,6 +2013,37 @@ export interface Container {
     resources?: ContainerResources;
 }
 
+// @public
+export interface ContainerApp extends Resource {
+    configuration?: Configuration;
+    kubeEnvironmentId?: string;
+    readonly latestRevisionFqdn?: string;
+    readonly latestRevisionName?: string;
+    readonly provisioningState?: ContainerAppProvisioningState;
+    template?: Template;
+}
+
+// @public
+export interface ContainerAppCollection {
+    readonly nextLink?: string;
+    value: ContainerApp[];
+}
+
+// @public
+export type ContainerAppProvisioningState = string;
+
+// @public
+export interface ContainerApps {
+    beginCreateOrUpdate(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, name: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
+    listBySubscription(options?: ContainerAppsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
+    listSecrets(name: string, options?: ContainerAppsListSecretsOptionalParams): Promise<ContainerAppsListSecretsResponse>;
+}
+
 // @public (undocumented)
 export interface ContainerAppsConfiguration {
     appSubnetResourceId?: string;
@@ -2010,6 +2052,111 @@ export interface ContainerAppsConfiguration {
     dockerBridgeCidr?: string;
     platformReservedCidr?: string;
     platformReservedDnsIP?: string;
+}
+
+// @public
+export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContainerAppSecret {
+    readonly name?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface ContainerAppsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsGetResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListSecretsResponse = SecretsCollection;
+
+// @public
+export interface ContainerAppsRevisions {
+    activateRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsActivateRevisionOptionalParams): Promise<void>;
+    deactivateRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams): Promise<void>;
+    getRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsGetRevisionOptionalParams): Promise<ContainerAppsRevisionsGetRevisionResponse>;
+    listRevisions(resourceGroupName: string, containerAppName: string, options?: ContainerAppsRevisionsListRevisionsOptionalParams): PagedAsyncIterableIterator<Revision>;
+    restartRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsRestartRevisionOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ContainerAppsRevisionsActivateRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsGetRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsGetRevisionResponse = Revision;
+
+// @public
+export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
+
+// @public
+export interface ContainerAppsRevisionsListRevisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
+
+// @public
+export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -3891,6 +4038,20 @@ export interface InboundEnvironmentEndpointCollection {
 }
 
 // @public
+export interface Ingress {
+    allowInsecure?: boolean;
+    external?: boolean;
+    readonly fqdn?: string;
+    targetPort?: number;
+    // (undocumented)
+    traffic?: TrafficWeight[];
+    transport?: IngressTransportMethod;
+}
+
+// @public
+export type IngressTransportMethod = string;
+
+// @public
 export type InsightStatus = "Critical" | "Warning" | "Info" | "Success" | "None";
 
 // @public
@@ -3964,6 +4125,12 @@ export type KeyVaultSecretStatus = "Initialized" | "WaitingOnCertificateOrder" |
 export type Kind = string;
 
 // @public
+export enum KnownActiveRevisionsMode {
+    Multiple = "multiple",
+    Single = "single"
+}
+
+// @public
 export enum KnownAuthenticationType {
     StorageAccountConnectionString = "StorageAccountConnectionString",
     SystemAssignedIdentity = "SystemAssignedIdentity",
@@ -4003,6 +4170,14 @@ export enum KnownCheckNameResourceTypes {
     PublishingUser = "PublishingUser",
     Site = "Site",
     Slot = "Slot"
+}
+
+// @public
+export enum KnownContainerAppProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -4079,6 +4254,13 @@ export enum KnownFunctionsDeploymentStorageType {
 export enum KnownInAvailabilityReasonType {
     AlreadyExists = "AlreadyExists",
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownIngressTransportMethod {
+    Auto = "auto",
+    Http = "http",
+    Http2 = "http2"
 }
 
 // @public
@@ -4174,6 +4356,22 @@ export enum KnownResourceScopeType {
     ServerFarm = "ServerFarm",
     Subscription = "Subscription",
     WebSite = "WebSite"
+}
+
+// @public
+export enum KnownRevisionHealthState {
+    Healthy = "Healthy",
+    None = "None",
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownRevisionProvisioningState {
+    Deprovisioned = "Deprovisioned",
+    Deprovisioning = "Deprovisioning",
+    Failed = "Failed",
+    Provisioned = "Provisioned",
+    Provisioning = "Provisioning"
 }
 
 // @public
@@ -5578,6 +5776,13 @@ export interface RegenerateActionParameter {
 }
 
 // @public
+export interface RegistryCredentials {
+    passwordSecretRef?: string;
+    server?: string;
+    username?: string;
+}
+
+// @public
 export interface ReissueCertificateOrderRequest extends ProxyOnlyResource {
     csr?: string;
     delayExistingRevokeInHours?: number;
@@ -5902,6 +6107,31 @@ export interface RetryHistory {
 }
 
 // @public
+export interface Revision extends Resource {
+    readonly active?: boolean;
+    readonly createdTime?: Date;
+    readonly fqdn?: string;
+    readonly healthState?: RevisionHealthState;
+    readonly provisioningError?: string;
+    readonly provisioningState?: RevisionProvisioningState;
+    readonly replicas?: number;
+    readonly template?: Template;
+    readonly trafficWeight?: number;
+}
+
+// @public
+export interface RevisionCollection {
+    readonly nextLink?: string;
+    value: Revision[];
+}
+
+// @public
+export type RevisionHealthState = string;
+
+// @public
+export type RevisionProvisioningState = string;
+
+// @public
 export type RouteType = string;
 
 // @public
@@ -5948,6 +6178,17 @@ export interface ScaleRuleAuth {
 
 // @public
 export type ScmType = string;
+
+// @public
+export interface Secret {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface SecretsCollection {
+    value: ContainerAppSecret[];
+}
 
 // @public
 export interface ServiceSpecification {
@@ -6072,6 +6313,98 @@ export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
 
 // @public
 export type SiteAvailabilityState = "Normal" | "Limited" | "DisasterRecoveryMode";
+
+// @public
+export interface SiteCertificates {
+    createOrUpdate(resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateOptionalParams): Promise<SiteCertificatesCreateOrUpdateResponse>;
+    createOrUpdateSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: Certificate, options?: SiteCertificatesCreateOrUpdateSlotOptionalParams): Promise<SiteCertificatesCreateOrUpdateSlotResponse>;
+    delete(resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesDeleteOptionalParams): Promise<void>;
+    deleteSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesDeleteSlotOptionalParams): Promise<void>;
+    get(resourceGroupName: string, name: string, certificateName: string, options?: SiteCertificatesGetOptionalParams): Promise<SiteCertificatesGetResponse>;
+    getSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, options?: SiteCertificatesGetSlotOptionalParams): Promise<SiteCertificatesGetSlotResponse>;
+    list(resourceGroupName: string, name: string, options?: SiteCertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
+    listSlot(resourceGroupName: string, name: string, slot: string, options?: SiteCertificatesListSlotOptionalParams): PagedAsyncIterableIterator<Certificate>;
+    update(resourceGroupName: string, name: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateOptionalParams): Promise<SiteCertificatesUpdateResponse>;
+    updateSlot(resourceGroupName: string, name: string, slot: string, certificateName: string, certificateEnvelope: CertificatePatchResource, options?: SiteCertificatesUpdateSlotOptionalParams): Promise<SiteCertificatesUpdateSlotResponse>;
+}
+
+// @public
+export interface SiteCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesCreateOrUpdateResponse = Certificate;
+
+// @public
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
+
+// @public
+export interface SiteCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SiteCertificatesDeleteSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SiteCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesGetResponse = Certificate;
+
+// @public
+export interface SiteCertificatesGetSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesGetSlotResponse = Certificate;
+
+// @public
+export interface SiteCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListNextResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListSlotNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListSlotNextResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesListSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesListSlotResponse = CertificateCollection;
+
+// @public
+export interface SiteCertificatesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesUpdateResponse = Certificate;
+
+// @public
+export interface SiteCertificatesUpdateSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SiteCertificatesUpdateSlotResponse = Certificate;
 
 // @public
 export interface SiteCloneability {
@@ -7774,6 +8107,13 @@ export interface TopLevelDomainsListOptionalParams extends coreClient.OperationO
 
 // @public
 export type TopLevelDomainsListResponse = TopLevelDomainCollection;
+
+// @public
+export interface TrafficWeight {
+    latestRevision?: boolean;
+    revisionName?: string;
+    weight?: number;
+}
 
 // @public
 export interface TriggeredJobHistory extends ProxyOnlyResource {
@@ -11912,6 +12252,10 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     certificates: Certificates;
     checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     // (undocumented)
+    containerApps: ContainerApps;
+    // (undocumented)
+    containerAppsRevisions: ContainerAppsRevisions;
+    // (undocumented)
     deletedWebApps: DeletedWebApps;
     // (undocumented)
     diagnostics: Diagnostics;
@@ -11943,6 +12287,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     recommendations: Recommendations;
     // (undocumented)
     resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
+    // (undocumented)
+    siteCertificates: SiteCertificates;
     // (undocumented)
     staticSites: StaticSites;
     // (undocumented)
