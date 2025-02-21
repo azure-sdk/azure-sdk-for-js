@@ -247,6 +247,9 @@ importers:
       '@rush-temp/arm-dashboard':
         specifier: file:./projects/arm-dashboard.tgz
         version: file:projects/arm-dashboard.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-databasewatcher':
+        specifier: file:./projects/arm-databasewatcher.tgz
+        version: file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-databoundaries':
         specifier: file:./projects/arm-databoundaries.tgz
         version: file:projects/arm-databoundaries.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -2800,6 +2803,10 @@ packages:
     resolution: {integrity: sha512-F3E5mVGf1SLYnCrCcwbwd/iS+vxKjqnAdXbAvbUh2Ai/raPFg2HwoHcPmVxMwXti8yE8TNjagtbd+MWI5nQVhg==, tarball: file:projects/arm-dashboard.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
+    resolution: {integrity: sha512-SosTLssFKHehdEMgvAaY+MUnMBG77VJh9iSoWmZrjeQ4R8ILUmvllfLPr14aeKEBGWLDWwkZbaWvVXZlVzAi5g==, tarball: file:projects/arm-databasewatcher.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
     resolution: {integrity: sha512-ItqSxMC9OYnKnBBA2gLnpQ+fFb6LlU5fZtdTiJ0h6Nb8H4oMmMfJo5x33rPQU9hTwHObNAVC8WmpzTqH748lWg==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
@@ -3777,7 +3784,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
-    resolution: {integrity: sha512-ZTtfbFsxE9zOm0NMlclq93/O21+B9K4tcKHCZmiGJ5j31fBAjldp1zQOHInJC6V78rsIUUZ+ZTc+zPsEO/XCHg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-dSgduyLLGw4z+86SZyiNOOAgnfklr/Wnzv5u+xHnUi4njOmiO6/71xRdxUX4R4PJsZBI9dueTxzCaXcXuGOCDQ==, tarball: file:projects/identity.tgz}
     version: 0.0.0
 
   '@rush-temp/iot-device-update@file:projects/iot-device-update.tgz':
@@ -12383,6 +12390,42 @@ snapshots:
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.50.0(@types/node@18.19.76)
+      '@types/node': 18.19.76
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
+      dotenv: 16.4.7
+      eslint: 9.20.1
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23777,7 +23820,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 18.19.76
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23792,7 +23835,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.76
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
@@ -23818,7 +23861,7 @@ snapshots:
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.76
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.8':
     dependencies:
@@ -23902,7 +23945,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.76
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
