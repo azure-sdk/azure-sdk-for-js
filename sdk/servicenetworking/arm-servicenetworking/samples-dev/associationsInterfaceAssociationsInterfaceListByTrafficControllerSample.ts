@@ -15,7 +15,10 @@ async function getAssociations(): Promise<void> {
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.associationsInterface.listByTrafficController("rg1", "tc1")) {
+  for await (let item of client.associationsInterface.AssociationsInterface_listByTrafficController(
+    "rg1",
+    "tc1",
+  )) {
     resArray.push(item);
   }
 
