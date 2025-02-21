@@ -15,7 +15,9 @@ async function getTrafficControllers(): Promise<void> {
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trafficControllerInterface.listByResourceGroup("rg1")) {
+  for await (let item of client.trafficControllerInterface.TrafficControllerInterface_listByResourceGroup(
+    "rg1",
+  )) {
     resArray.push(item);
   }
 

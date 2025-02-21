@@ -14,10 +14,11 @@ async function putTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  const result = await client.trafficControllerInterface.createOrUpdate("rg1", "tc1", {
-    location: "NorthCentralUS",
-    tags: { key1: "value1" },
-  });
+  const result = await client.trafficControllerInterface.TrafficControllerInterface_createOrUpdate(
+    "rg1",
+    "tc1",
+    { location: "NorthCentralUS", tags: { key1: "value1" } },
+  );
   console.log(result);
 }
 
