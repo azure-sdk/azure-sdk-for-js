@@ -9,6 +9,7 @@ import {
   IoTOperationsContext as Client,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   BrokerListenerResource,
   brokerListenerResourceSerializer,
   brokerListenerResourceDeserializer,
@@ -28,63 +29,139 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _brokerListenerGetSend(
+export function _brokerListenerListByResourceGroupSend(
   context: Client,
-  subscriptionId: string,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  options: BrokerListenerListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners",
+      context.subscriptionId,
+      resourceGroupName,
+      instanceName,
+      brokerName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _brokerListenerListByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_BrokerListenerResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _brokerListenerResourceListResultDeserializer(result.body);
+}
+
+/** List BrokerListenerResource resources by BrokerResource */
+export function brokerListenerListByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  options: BrokerListenerListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<BrokerListenerResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _brokerListenerListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    _brokerListenerListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _brokerListenerDeleteSend(
+  context: Client,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  options: BrokerListenerGetOptionalParams = { requestOptions: {} },
+  options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
       listenerName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _brokerListenerGetDeserialize(
+export async function _brokerListenerDeleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerListenerResource> {
-  const expectedStatuses = ["200"];
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return brokerListenerResourceDeserializer(result.body);
+  return;
 }
 
-/** Get a BrokerListenerResource */
-export async function brokerListenerGet(
+/** Delete a BrokerListenerResource */
+export function brokerListenerDelete(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  options: BrokerListenerGetOptionalParams = { requestOptions: {} },
-): Promise<BrokerListenerResource> {
-  const result = await _brokerListenerGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    instanceName,
-    brokerName,
-    listenerName,
-    options,
-  );
-  return _brokerListenerGetDeserialize(result);
+  options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _brokerListenerDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _brokerListenerDeleteSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        listenerName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerListenerCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -95,7 +172,7 @@ export function _brokerListenerCreateOrUpdateSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
@@ -103,6 +180,12 @@ export function _brokerListenerCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
       body: brokerListenerResourceSerializer(resource),
     });
 }
@@ -112,7 +195,9 @@ export async function _brokerListenerCreateOrUpdateDeserialize(
 ): Promise<BrokerListenerResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return brokerListenerResourceDeserializer(result.body);
@@ -121,7 +206,6 @@ export async function _brokerListenerCreateOrUpdateDeserialize(
 /** Create a BrokerListenerResource */
 export function brokerListenerCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -135,7 +219,6 @@ export function brokerListenerCreateOrUpdate(
     getInitialResponse: () =>
       _brokerListenerCreateOrUpdateSend(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         brokerName,
@@ -147,121 +230,62 @@ export function brokerListenerCreateOrUpdate(
   }) as PollerLike<OperationState<BrokerListenerResource>, BrokerListenerResource>;
 }
 
-export function _brokerListenerDeleteSend(
+export function _brokerListenerGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
+  options: BrokerListenerGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners/{listenerName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
       listenerName,
     )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _brokerListenerDeleteDeserialize(
+export async function _brokerListenerGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+): Promise<BrokerListenerResource> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return;
+  return brokerListenerResourceDeserializer(result.body);
 }
 
-/** Delete a BrokerListenerResource */
-export function brokerListenerDelete(
+/** Get a BrokerListenerResource */
+export async function brokerListenerGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   listenerName: string,
-  options: BrokerListenerDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _brokerListenerDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _brokerListenerDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        listenerName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _brokerListenerListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  options: BrokerListenerListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _brokerListenerListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_BrokerListenerResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _brokerListenerResourceListResultDeserializer(result.body);
-}
-
-/** List BrokerListenerResource resources by BrokerResource */
-export function brokerListenerListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  options: BrokerListenerListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<BrokerListenerResource> {
-  return buildPagedAsyncIterator(
+  options: BrokerListenerGetOptionalParams = { requestOptions: {} },
+): Promise<BrokerListenerResource> {
+  const result = await _brokerListenerGetSend(
     context,
-    () =>
-      _brokerListenerListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
-    _brokerListenerListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    instanceName,
+    brokerName,
+    listenerName,
+    options,
   );
+  return _brokerListenerGetDeserialize(result);
 }

@@ -9,6 +9,7 @@ import {
   DataflowListByResourceGroupOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   DataflowResource,
   dataflowResourceSerializer,
   dataflowResourceDeserializer,
@@ -28,63 +29,133 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _dataflowGetSend(
+export function _dataflowListByResourceGroupSend(
   context: Client,
-  subscriptionId: string,
+  resourceGroupName: string,
+  instanceName: string,
+  dataflowProfileName: string,
+  options: DataflowListByResourceGroupOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows",
+      context.subscriptionId,
+      resourceGroupName,
+      instanceName,
+      dataflowProfileName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _dataflowListByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_DataflowResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _dataflowResourceListResultDeserializer(result.body);
+}
+
+/** List DataflowResource resources by DataflowProfileResource */
+export function dataflowListByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  dataflowProfileName: string,
+  options: DataflowListByResourceGroupOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<DataflowResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _dataflowListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        dataflowProfileName,
+        options,
+      ),
+    _dataflowListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _dataflowDeleteSend(
+  context: Client,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
   dataflowName: string,
-  options: DataflowGetOptionalParams = { requestOptions: {} },
+  options: DataflowDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       dataflowProfileName,
       dataflowName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _dataflowGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DataflowResource> {
-  const expectedStatuses = ["200"];
+export async function _dataflowDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return dataflowResourceDeserializer(result.body);
+  return;
 }
 
-/** Get a DataflowResource */
-export async function dataflowGet(
+/** Delete a DataflowResource */
+export function dataflowDelete(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
   dataflowName: string,
-  options: DataflowGetOptionalParams = { requestOptions: {} },
-): Promise<DataflowResource> {
-  const result = await _dataflowGetSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    instanceName,
-    dataflowProfileName,
-    dataflowName,
-    options,
-  );
-  return _dataflowGetDeserialize(result);
+  options: DataflowDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _dataflowDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataflowDeleteSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        dataflowProfileName,
+        dataflowName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _dataflowCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
@@ -95,7 +166,7 @@ export function _dataflowCreateOrUpdateSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       dataflowProfileName,
@@ -103,6 +174,12 @@ export function _dataflowCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
       body: dataflowResourceSerializer(resource),
     });
 }
@@ -112,7 +189,9 @@ export async function _dataflowCreateOrUpdateDeserialize(
 ): Promise<DataflowResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return dataflowResourceDeserializer(result.body);
@@ -121,7 +200,6 @@ export async function _dataflowCreateOrUpdateDeserialize(
 /** Create a DataflowResource */
 export function dataflowCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
@@ -135,7 +213,6 @@ export function dataflowCreateOrUpdate(
     getInitialResponse: () =>
       _dataflowCreateOrUpdateSend(
         context,
-        subscriptionId,
         resourceGroupName,
         instanceName,
         dataflowProfileName,
@@ -147,115 +224,62 @@ export function dataflowCreateOrUpdate(
   }) as PollerLike<OperationState<DataflowResource>, DataflowResource>;
 }
 
-export function _dataflowDeleteSend(
+export function _dataflowGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
   dataflowName: string,
-  options: DataflowDeleteOptionalParams = { requestOptions: {} },
+  options: DataflowGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows/{dataflowName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       dataflowProfileName,
       dataflowName,
     )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _dataflowDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+export async function _dataflowGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DataflowResource> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return;
+  return dataflowResourceDeserializer(result.body);
 }
 
-/** Delete a DataflowResource */
-export function dataflowDelete(
+/** Get a DataflowResource */
+export async function dataflowGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   dataflowProfileName: string,
   dataflowName: string,
-  options: DataflowDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _dataflowDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _dataflowDeleteSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        dataflowName,
-        options,
-      ),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _dataflowListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  dataflowProfileName: string,
-  options: DataflowListByResourceGroupOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      dataflowProfileName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _dataflowListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_DataflowResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _dataflowResourceListResultDeserializer(result.body);
-}
-
-/** List DataflowResource resources by DataflowProfileResource */
-export function dataflowListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  dataflowProfileName: string,
-  options: DataflowListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DataflowResource> {
-  return buildPagedAsyncIterator(
+  options: DataflowGetOptionalParams = { requestOptions: {} },
+): Promise<DataflowResource> {
+  const result = await _dataflowGetSend(
     context,
-    () =>
-      _dataflowListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        dataflowProfileName,
-        options,
-      ),
-    _dataflowListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    instanceName,
+    dataflowProfileName,
+    dataflowName,
+    options,
   );
+  return _dataflowGetDeserialize(result);
 }

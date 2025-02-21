@@ -1,4 +1,4 @@
 directory: specification/iotoperations/IoTOperations.Management
-commit: e725ba2ceffe71772df6918b2950bf571577f968
-repo: Azure/azure-rest-api-specs
+commit: 34f514f1362bbb1d325c6fa16476acdf840163e9
+repo: ../azure-rest-api-specs
 additionalDirectories: 
