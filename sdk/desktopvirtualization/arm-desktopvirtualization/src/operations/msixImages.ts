@@ -37,21 +37,22 @@ export class MsixImagesImpl implements MsixImages {
 
   /**
    * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * This action uses incorrect Msix casing intentionally to match the previous APIs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   public listExpand(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    body: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
   ): PagedAsyncIterableIterator<ExpandMsixImage> {
     const iter = this.expandPagingAll(
       resourceGroupName,
       hostPoolName,
-      msixImageURI,
+      body,
       options,
     );
     return {
@@ -68,7 +69,7 @@ export class MsixImagesImpl implements MsixImages {
         return this.expandPagingPage(
           resourceGroupName,
           hostPoolName,
-          msixImageURI,
+          body,
           options,
           settings,
         );
@@ -79,7 +80,7 @@ export class MsixImagesImpl implements MsixImages {
   private async *expandPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    body: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<ExpandMsixImage[]> {
@@ -89,7 +90,7 @@ export class MsixImagesImpl implements MsixImages {
       result = await this._expand(
         resourceGroupName,
         hostPoolName,
-        msixImageURI,
+        body,
         options,
       );
       let page = result.value || [];
@@ -101,7 +102,7 @@ export class MsixImagesImpl implements MsixImages {
       result = await this._expandNext(
         resourceGroupName,
         hostPoolName,
-        msixImageURI,
+        body,
         continuationToken,
         options,
       );
@@ -115,13 +116,13 @@ export class MsixImagesImpl implements MsixImages {
   private async *expandPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    body: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
   ): AsyncIterableIterator<ExpandMsixImage> {
     for await (const page of this.expandPagingPage(
       resourceGroupName,
       hostPoolName,
-      msixImageURI,
+      body,
       options,
     )) {
       yield* page;
@@ -130,19 +131,20 @@ export class MsixImagesImpl implements MsixImages {
 
   /**
    * Expands and Lists MSIX packages in an Image, given the Image Path.
+   * This action uses incorrect Msix casing intentionally to match the previous APIs.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   private _expand(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    body: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
   ): Promise<MsixImagesExpandResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixImageURI, options },
+      { resourceGroupName, hostPoolName, body, options },
       expandOperationSpec,
     );
   }
@@ -151,19 +153,19 @@ export class MsixImagesImpl implements MsixImages {
    * ExpandNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixImageURI Object containing URI to MSIX Image
+   * @param body The content of the action request
    * @param nextLink The nextLink from the previous successful call to the Expand method.
    * @param options The options parameters.
    */
   private _expandNext(
     resourceGroupName: string,
     hostPoolName: string,
-    msixImageURI: MsixImageURI,
+    body: MsixImageURI,
     nextLink: string,
     options?: MsixImagesExpandNextOptionalParams,
   ): Promise<MsixImagesExpandNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixImageURI, nextLink, options },
+      { resourceGroupName, hostPoolName, body, nextLink, options },
       expandNextOperationSpec,
     );
   }
@@ -179,10 +181,10 @@ const expandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.msixImageURI,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -202,7 +204,7 @@ const expandNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

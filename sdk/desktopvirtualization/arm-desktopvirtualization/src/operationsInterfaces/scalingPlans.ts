@@ -9,30 +9,22 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ScalingPlan,
-  ScalingPlansListByResourceGroupOptionalParams,
   ScalingPlansListBySubscriptionOptionalParams,
   ScalingPlansListByHostPoolOptionalParams,
+  ScalingPlansListByResourceGroupOptionalParams,
   ScalingPlansGetOptionalParams,
   ScalingPlansGetResponse,
   ScalingPlansCreateOptionalParams,
   ScalingPlansCreateResponse,
-  ScalingPlansDeleteOptionalParams,
+  ScalingPlanPatch,
   ScalingPlansUpdateOptionalParams,
   ScalingPlansUpdateResponse,
+  ScalingPlansDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ScalingPlans. */
 export interface ScalingPlans {
-  /**
-   * List scaling plans.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ScalingPlansListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ScalingPlan>;
   /**
    * List scaling plans in subscription.
    * @param options The options parameters.
@@ -50,6 +42,15 @@ export interface ScalingPlans {
     resourceGroupName: string,
     hostPoolName: string,
     options?: ScalingPlansListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<ScalingPlan>;
+  /**
+   * List scaling plans.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: ScalingPlansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlan>;
   /**
    * Get a scaling plan.
@@ -76,6 +77,19 @@ export interface ScalingPlans {
     options?: ScalingPlansCreateOptionalParams,
   ): Promise<ScalingPlansCreateResponse>;
   /**
+   * Update a scaling plan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param body The resource properties to be updated
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    body: ScalingPlanPatch,
+    options?: ScalingPlansUpdateOptionalParams,
+  ): Promise<ScalingPlansUpdateResponse>;
+  /**
    * Remove a scaling plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
@@ -86,15 +100,4 @@ export interface ScalingPlans {
     scalingPlanName: string,
     options?: ScalingPlansDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update a scaling plan.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    options?: ScalingPlansUpdateOptionalParams,
-  ): Promise<ScalingPlansUpdateResponse>;
 }
