@@ -1,0 +1,4 @@
+directory: specification/databasefleetmanager/DatabaseFleetManager.Management
+commit: c57b4b46b23bd9a8f0b1058ef9ea80c787da2061
+repo: ../azure-rest-api-specs
+additionalDirectories: 
