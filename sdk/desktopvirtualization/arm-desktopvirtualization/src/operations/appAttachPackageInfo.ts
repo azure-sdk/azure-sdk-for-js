@@ -39,19 +39,19 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   public listImport(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     options?: AppAttachPackageInfoImportOptionalParams,
   ): PagedAsyncIterableIterator<AppAttachPackage> {
     const iter = this.importPagingAll(
       resourceGroupName,
       hostPoolName,
-      importPackageInfoRequest,
+      body,
       options,
     );
     return {
@@ -68,7 +68,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
         return this.importPagingPage(
           resourceGroupName,
           hostPoolName,
-          importPackageInfoRequest,
+          body,
           options,
           settings,
         );
@@ -79,7 +79,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
   private async *importPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     options?: AppAttachPackageInfoImportOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<AppAttachPackage[]> {
@@ -89,7 +89,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
       result = await this._import(
         resourceGroupName,
         hostPoolName,
-        importPackageInfoRequest,
+        body,
         options,
       );
       let page = result.value || [];
@@ -101,7 +101,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
       result = await this._importNext(
         resourceGroupName,
         hostPoolName,
-        importPackageInfoRequest,
+        body,
         continuationToken,
         options,
       );
@@ -115,13 +115,13 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
   private async *importPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     options?: AppAttachPackageInfoImportOptionalParams,
   ): AsyncIterableIterator<AppAttachPackage> {
     for await (const page of this.importPagingPage(
       resourceGroupName,
       hostPoolName,
-      importPackageInfoRequest,
+      body,
       options,
     )) {
       yield* page;
@@ -132,17 +132,17 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   private _import(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     options?: AppAttachPackageInfoImportOptionalParams,
   ): Promise<AppAttachPackageInfoImportResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, importPackageInfoRequest, options },
+      { resourceGroupName, hostPoolName, body, options },
       importOperationSpec,
     );
   }
@@ -151,25 +151,19 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * ImportNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param body The content of the action request
    * @param nextLink The nextLink from the previous successful call to the Import method.
    * @param options The options parameters.
    */
   private _importNext(
     resourceGroupName: string,
     hostPoolName: string,
-    importPackageInfoRequest: ImportPackageInfoRequest,
+    body: ImportPackageInfoRequest,
     nextLink: string,
     options?: AppAttachPackageInfoImportNextOptionalParams,
   ): Promise<AppAttachPackageInfoImportNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        hostPoolName,
-        importPackageInfoRequest,
-        nextLink,
-        options,
-      },
+      { resourceGroupName, hostPoolName, body, nextLink, options },
       importNextOperationSpec,
     );
   }
@@ -188,7 +182,7 @@ const importOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.importPackageInfoRequest,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

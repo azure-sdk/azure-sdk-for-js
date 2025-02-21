@@ -9,20 +9,28 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ApplicationGroup,
-  ApplicationGroupsListByResourceGroupOptionalParams,
   ApplicationGroupsListBySubscriptionOptionalParams,
+  ApplicationGroupsListByResourceGroupOptionalParams,
   ApplicationGroupsGetOptionalParams,
   ApplicationGroupsGetResponse,
   ApplicationGroupsCreateOrUpdateOptionalParams,
   ApplicationGroupsCreateOrUpdateResponse,
-  ApplicationGroupsDeleteOptionalParams,
+  ApplicationGroupPatch,
   ApplicationGroupsUpdateOptionalParams,
   ApplicationGroupsUpdateResponse,
+  ApplicationGroupsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationGroups. */
 export interface ApplicationGroups {
+  /**
+   * List applicationGroups in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: ApplicationGroupsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * List applicationGroups.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -31,13 +39,6 @@ export interface ApplicationGroups {
   listByResourceGroup(
     resourceGroupName: string,
     options?: ApplicationGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ApplicationGroup>;
-  /**
-   * List applicationGroups in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: ApplicationGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup>;
   /**
    * Get an application group.
@@ -64,6 +65,19 @@ export interface ApplicationGroups {
     options?: ApplicationGroupsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGroupsCreateOrUpdateResponse>;
   /**
+   * Update an applicationGroup.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param body The resource properties to be updated
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    body: ApplicationGroupPatch,
+    options?: ApplicationGroupsUpdateOptionalParams,
+  ): Promise<ApplicationGroupsUpdateResponse>;
+  /**
    * Remove an applicationGroup.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
@@ -74,15 +88,4 @@ export interface ApplicationGroups {
     applicationGroupName: string,
     options?: ApplicationGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Update an applicationGroup.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: ApplicationGroupsUpdateOptionalParams,
-  ): Promise<ApplicationGroupsUpdateResponse>;
 }

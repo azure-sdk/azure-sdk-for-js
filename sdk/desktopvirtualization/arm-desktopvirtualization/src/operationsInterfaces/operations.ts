@@ -16,7 +16,7 @@ import {
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all of the available operations the Desktop Virtualization resource provider supports.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   list(

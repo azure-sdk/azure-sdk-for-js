@@ -6,27 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  AppAttachPackage,
-  ImportPackageInfoRequest,
-  AppAttachPackageInfoImportOptionalParams,
+  UpdateSessionHostsRequestBody,
+  InitiateSessionHostUpdatePostOptionalParams,
+  InitiateSessionHostUpdatePostResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
-/** Interface representing a AppAttachPackageInfo. */
-export interface AppAttachPackageInfo {
+/** Interface representing a InitiateSessionHostUpdate. */
+export interface InitiateSessionHostUpdate {
   /**
-   * Gets information from a package given the path to the package.
+   * Initiates a hostpool update or schedule an update for the future.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param body The content of the action request
    * @param options The options parameters.
    */
-  listImport(
+  post(
     resourceGroupName: string,
     hostPoolName: string,
-    body: ImportPackageInfoRequest,
-    options?: AppAttachPackageInfoImportOptionalParams,
-  ): PagedAsyncIterableIterator<AppAttachPackage>;
+    body: UpdateSessionHostsRequestBody,
+    options?: InitiateSessionHostUpdatePostOptionalParams,
+  ): Promise<InitiateSessionHostUpdatePostResponse>;
 }
