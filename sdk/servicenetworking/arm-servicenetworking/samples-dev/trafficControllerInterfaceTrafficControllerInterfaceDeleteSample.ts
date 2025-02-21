@@ -14,7 +14,7 @@ async function deleteTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  await client.trafficControllerInterface.delete("rg1", "tc1");
+  await client.trafficControllerInterface.TrafficControllerInterface_delete("rg1", "tc1");
 }
 
 async function main(): Promise<void> {
