@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { TargetComputeSizes } from "../operationsInterfaces/index.js";
+import { ClusterRecoveryPoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
-  TargetComputeSize,
-  TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams,
-  TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-  TargetComputeSizesListByReplicationProtectedItemsResponse,
-  TargetComputeSizesListByReplicationProtectedItemsNextResponse,
+  ClusterRecoveryPoint,
+  ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams,
+  ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
+  ClusterRecoveryPointsListByReplicationProtectionClusterResponse,
+  ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing TargetComputeSizes operations. */
-export class TargetComputeSizesImpl implements TargetComputeSizes {
+/** Class containing ClusterRecoveryPoints operations. */
+export class ClusterRecoveryPointsImpl implements ClusterRecoveryPoints {
   private readonly client: SiteRecoveryManagementClient;
 
   /**
-   * Initialize a new instance of the class TargetComputeSizes class.
+   * Initialize a new instance of the class ClusterRecoveryPoints class.
    * @param client Reference to the service client
    */
   constructor(client: SiteRecoveryManagementClient) {
@@ -35,29 +35,29 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
   }
 
   /**
-   * Lists the available target compute sizes for a replication protected item.
+   * The list of cluster recovery points.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
-   * @param protectionContainerName protection container name.
-   * @param replicatedProtectedItemName Replication protected item name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  public listByReplicationProtectedItems(
+  public listByReplicationProtectionCluster(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-  ): PagedAsyncIterableIterator<TargetComputeSize> {
-    const iter = this.listByReplicationProtectedItemsPagingAll(
+    replicationProtectionClusterName: string,
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
+  ): PagedAsyncIterableIterator<ClusterRecoveryPoint> {
+    const iter = this.listByReplicationProtectionClusterPagingAll(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      replicatedProtectedItemName,
+      replicationProtectionClusterName,
       options,
     );
     return {
@@ -71,12 +71,12 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByReplicationProtectedItemsPagingPage(
+        return this.listByReplicationProtectionClusterPagingPage(
           resourceGroupName,
           resourceName,
           fabricName,
           protectionContainerName,
-          replicatedProtectedItemName,
+          replicationProtectionClusterName,
           options,
           settings,
         );
@@ -84,24 +84,24 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     };
   }
 
-  private async *listByReplicationProtectedItemsPagingPage(
+  private async *listByReplicationProtectionClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
+    replicationProtectionClusterName: string,
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<TargetComputeSize[]> {
-    let result: TargetComputeSizesListByReplicationProtectedItemsResponse;
+  ): AsyncIterableIterator<ClusterRecoveryPoint[]> {
+    let result: ClusterRecoveryPointsListByReplicationProtectionClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByReplicationProtectedItems(
+      result = await this._listByReplicationProtectionCluster(
         resourceGroupName,
         resourceName,
         fabricName,
         protectionContainerName,
-        replicatedProtectedItemName,
+        replicationProtectionClusterName,
         options,
       );
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByReplicationProtectedItemsNext(
+      result = await this._listByReplicationProtectionClusterNext(
         resourceGroupName,
         resourceName,
         fabricName,
         protectionContainerName,
-        replicatedProtectedItemName,
+        replicationProtectionClusterName,
         continuationToken,
         options,
       );
@@ -126,20 +126,20 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
     }
   }
 
-  private async *listByReplicationProtectedItemsPagingAll(
+  private async *listByReplicationProtectionClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-  ): AsyncIterableIterator<TargetComputeSize> {
-    for await (const page of this.listByReplicationProtectedItemsPagingPage(
+    replicationProtectionClusterName: string,
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
+  ): AsyncIterableIterator<ClusterRecoveryPoint> {
+    for await (const page of this.listByReplicationProtectionClusterPagingPage(
       resourceGroupName,
       resourceName,
       fabricName,
       protectionContainerName,
-      replicatedProtectedItemName,
+      replicationProtectionClusterName,
       options,
     )) {
       yield* page;
@@ -147,102 +147,109 @@ export class TargetComputeSizesImpl implements TargetComputeSizes {
   }
 
   /**
-   * Lists the available target compute sizes for a replication protected item.
+   * The list of cluster recovery points.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
-   * @param protectionContainerName protection container name.
-   * @param replicatedProtectedItemName Replication protected item name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param options The options parameters.
    */
-  private _listByReplicationProtectedItems(
+  private _listByReplicationProtectionCluster(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
-  ): Promise<TargetComputeSizesListByReplicationProtectedItemsResponse> {
+    replicationProtectionClusterName: string,
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterOptionalParams,
+  ): Promise<ClusterRecoveryPointsListByReplicationProtectionClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         fabricName,
         protectionContainerName,
-        replicatedProtectedItemName,
+        replicationProtectionClusterName,
         options,
       },
-      listByReplicationProtectedItemsOperationSpec,
+      listByReplicationProtectionClusterOperationSpec,
     );
   }
 
   /**
-   * ListByReplicationProtectedItemsNext
+   * ListByReplicationProtectionClusterNext
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
    * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric name.
-   * @param protectionContainerName protection container name.
-   * @param replicatedProtectedItemName Replication protected item name.
+   * @param protectionContainerName Protection container name.
+   * @param replicationProtectionClusterName Replication protection cluster name.
    * @param nextLink The nextLink from the previous successful call to the
-   *                 ListByReplicationProtectedItems method.
+   *                 ListByReplicationProtectionCluster method.
    * @param options The options parameters.
    */
-  private _listByReplicationProtectedItemsNext(
+  private _listByReplicationProtectionClusterNext(
     resourceGroupName: string,
     resourceName: string,
     fabricName: string,
     protectionContainerName: string,
-    replicatedProtectedItemName: string,
+    replicationProtectionClusterName: string,
     nextLink: string,
-    options?: TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams,
-  ): Promise<TargetComputeSizesListByReplicationProtectedItemsNextResponse> {
+    options?: ClusterRecoveryPointsListByReplicationProtectionClusterNextOptionalParams,
+  ): Promise<ClusterRecoveryPointsListByReplicationProtectionClusterNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         resourceName,
         fabricName,
         protectionContainerName,
-        replicatedProtectedItemName,
+        replicationProtectionClusterName,
         nextLink,
         options,
       },
-      listByReplicationProtectedItemsNextOperationSpec,
+      listByReplicationProtectionClusterNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByReplicationProtectedItemsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TargetComputeSizeCollection,
+const listByReplicationProtectionClusterOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/recoveryPoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.ClusterRecoveryPointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
     },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName,
-    Parameters.replicatedProtectedItemName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec =
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.resourceName1,
+      Parameters.fabricName1,
+      Parameters.protectionContainerName1,
+      Parameters.replicationProtectionClusterName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listByReplicationProtectionClusterNextOperationSpec: coreClient.OperationSpec =
   {
     path: "{nextLink}",
     httpMethod: "GET",
     responses: {
       200: {
-        bodyMapper: Mappers.TargetComputeSizeCollection,
+        bodyMapper: Mappers.ClusterRecoveryPointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     urlParameters: [
@@ -250,10 +257,10 @@ const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec
       Parameters.resourceGroupName,
       Parameters.subscriptionId,
       Parameters.nextLink,
-      Parameters.resourceName,
-      Parameters.fabricName,
-      Parameters.protectionContainerName,
-      Parameters.replicatedProtectedItemName,
+      Parameters.resourceName1,
+      Parameters.fabricName1,
+      Parameters.protectionContainerName1,
+      Parameters.replicationProtectionClusterName,
     ],
     headerParameters: [Parameters.accept],
     serializer,
