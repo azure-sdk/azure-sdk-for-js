@@ -8,17 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EventModel,
-  EventListOptionalParams,
-  EventGetOptionalParams,
-  EventGetResponse,
+  JobModel,
+  JobListOptionalParams,
+  JobGetOptionalParams,
+  JobGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Event. */
-export interface Event {
+/** Interface representing a Job. */
+export interface Job {
   /**
-   * Gets the list of events in the given vault.
+   * Gets the list of jobs in the given vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -26,19 +26,19 @@ export interface Event {
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams,
-  ): PagedAsyncIterableIterator<EventModel>;
+    options?: JobListOptionalParams,
+  ): PagedAsyncIterableIterator<JobModel>;
   /**
-   * Gets the details of the event.
+   * Gets the details of the job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param eventName The event name.
+   * @param jobName The job name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    eventName: string,
-    options?: EventGetOptionalParams,
-  ): Promise<EventGetResponse>;
+    jobName: string,
+    options?: JobGetOptionalParams,
+  ): Promise<JobGetResponse>;
 }

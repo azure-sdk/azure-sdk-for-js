@@ -8,30 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { EmailConfiguration } from "../operationsInterfaces/index.js";
+import { Job } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
-  EmailConfigurationModel,
-  EmailConfigurationListNextOptionalParams,
-  EmailConfigurationListOptionalParams,
-  EmailConfigurationListResponse,
-  EmailConfigurationGetOptionalParams,
-  EmailConfigurationGetResponse,
-  EmailConfigurationCreateOptionalParams,
-  EmailConfigurationCreateResponse,
-  EmailConfigurationListNextResponse,
+  JobModel,
+  JobListNextOptionalParams,
+  JobListOptionalParams,
+  JobListResponse,
+  JobGetOptionalParams,
+  JobGetResponse,
+  JobListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EmailConfiguration operations. */
-export class EmailConfigurationImpl implements EmailConfiguration {
+/** Class containing Job operations. */
+export class JobImpl implements Job {
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class EmailConfiguration class.
+   * Initialize a new instance of the class Job class.
    * @param client Reference to the service client
    */
   constructor(client: AzureSiteRecoveryManagementServiceAPI) {
@@ -39,7 +37,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of jobs in the given vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -47,8 +45,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): PagedAsyncIterableIterator<EmailConfigurationModel> {
+    options?: JobListOptionalParams,
+  ): PagedAsyncIterableIterator<JobModel> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
       next() {
@@ -74,10 +72,10 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
+    options?: JobListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EmailConfigurationModel[]> {
-    let result: EmailConfigurationListResponse;
+  ): AsyncIterableIterator<JobModel[]> {
+    let result: JobListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, vaultName, options);
@@ -103,8 +101,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): AsyncIterableIterator<EmailConfigurationModel> {
+    options?: JobListOptionalParams,
+  ): AsyncIterableIterator<JobModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
@@ -115,7 +113,7 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the list of alert configuration settings for the given vault.
+   * Gets the list of jobs in the given vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
    * @param options The options parameters.
@@ -123,8 +121,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EmailConfigurationListOptionalParams,
-  ): Promise<EmailConfigurationListResponse> {
+    options?: JobListOptionalParams,
+  ): Promise<JobListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
       listOperationSpec,
@@ -132,42 +130,21 @@ export class EmailConfigurationImpl implements EmailConfiguration {
   }
 
   /**
-   * Gets the details of the alert configuration setting.
+   * Gets the details of the job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
+   * @param jobName The job name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    emailConfigurationName: string,
-    options?: EmailConfigurationGetOptionalParams,
-  ): Promise<EmailConfigurationGetResponse> {
+    jobName: string,
+    options?: JobGetOptionalParams,
+  ): Promise<JobGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, options },
+      { resourceGroupName, vaultName, jobName, options },
       getOperationSpec,
-    );
-  }
-
-  /**
-   * Creates an alert configuration setting for the given vault.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param emailConfigurationName The email configuration name.
-   * @param body EmailConfiguration model.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    vaultName: string,
-    emailConfigurationName: string,
-    body: EmailConfigurationModel,
-    options?: EmailConfigurationCreateOptionalParams,
-  ): Promise<EmailConfigurationCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, emailConfigurationName, body, options },
-      createOperationSpec,
     );
   }
 
@@ -182,8 +159,8 @@ export class EmailConfigurationImpl implements EmailConfiguration {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: EmailConfigurationListNextOptionalParams,
-  ): Promise<EmailConfigurationListNextResponse> {
+    options?: JobListNextOptionalParams,
+  ): Promise<JobListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
       listNextOperationSpec,
@@ -194,17 +171,22 @@ export class EmailConfigurationImpl implements EmailConfiguration {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.JobModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.continuationToken,
+    Parameters.odataOptions,
+    Parameters.pageSize,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -215,11 +197,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/jobs/{jobName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
+      bodyMapper: Mappers.JobModel,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -231,36 +213,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.emailConfigurationName,
+    Parameters.jobName,
   ],
   headerParameters: [Parameters.accept],
-  serializer,
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/alertSettings/{emailConfigurationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    201: {
-      bodyMapper: Mappers.EmailConfigurationModel,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.body7,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.emailConfigurationName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -268,7 +223,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EmailConfigurationModelListResult,
+      bodyMapper: Mappers.JobModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

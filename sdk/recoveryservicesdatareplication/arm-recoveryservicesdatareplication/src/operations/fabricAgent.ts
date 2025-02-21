@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ReplicationExtension } from "../operationsInterfaces/index.js";
+import { FabricAgent } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,26 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ReplicationExtensionModel,
-  ReplicationExtensionListNextOptionalParams,
-  ReplicationExtensionListOptionalParams,
-  ReplicationExtensionListResponse,
-  ReplicationExtensionGetOptionalParams,
-  ReplicationExtensionGetResponse,
-  ReplicationExtensionCreateOptionalParams,
-  ReplicationExtensionCreateResponse,
-  ReplicationExtensionDeleteOptionalParams,
-  ReplicationExtensionDeleteResponse,
-  ReplicationExtensionListNextResponse,
+  FabricAgentModel,
+  FabricAgentListNextOptionalParams,
+  FabricAgentListOptionalParams,
+  FabricAgentListResponse,
+  FabricAgentGetOptionalParams,
+  FabricAgentGetResponse,
+  FabricAgentCreateOptionalParams,
+  FabricAgentCreateResponse,
+  FabricAgentDeleteOptionalParams,
+  FabricAgentDeleteResponse,
+  FabricAgentListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ReplicationExtension operations. */
-export class ReplicationExtensionImpl implements ReplicationExtension {
+/** Class containing FabricAgent operations. */
+export class FabricAgentImpl implements FabricAgent {
   private readonly client: AzureSiteRecoveryManagementServiceAPI;
 
   /**
-   * Initialize a new instance of the class ReplicationExtension class.
+   * Initialize a new instance of the class FabricAgent class.
    * @param client Reference to the service client
    */
   constructor(client: AzureSiteRecoveryManagementServiceAPI) {
@@ -47,17 +47,17 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Gets the list of replication extensions in the given vault.
+   * Gets the list of fabric agents in the given fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
+   * @param fabricName The fabric name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): PagedAsyncIterableIterator<ReplicationExtensionModel> {
-    const iter = this.listPagingAll(resourceGroupName, vaultName, options);
+    fabricName: string,
+    options?: FabricAgentListOptionalParams,
+  ): PagedAsyncIterableIterator<FabricAgentModel> {
+    const iter = this.listPagingAll(resourceGroupName, fabricName, options);
     return {
       next() {
         return iter.next();
@@ -71,7 +71,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
         }
         return this.listPagingPage(
           resourceGroupName,
-          vaultName,
+          fabricName,
           options,
           settings,
         );
@@ -81,14 +81,14 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 
   private async *listPagingPage(
     resourceGroupName: string,
-    vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
+    fabricName: string,
+    options?: FabricAgentListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ReplicationExtensionModel[]> {
-    let result: ReplicationExtensionListResponse;
+  ): AsyncIterableIterator<FabricAgentModel[]> {
+    let result: FabricAgentListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, vaultName, options);
+      result = await this._list(resourceGroupName, fabricName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -97,7 +97,7 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        vaultName,
+        fabricName,
         continuationToken,
         options,
       );
@@ -110,12 +110,12 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): AsyncIterableIterator<ReplicationExtensionModel> {
+    fabricName: string,
+    options?: FabricAgentListOptionalParams,
+  ): AsyncIterableIterator<FabricAgentModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      vaultName,
+      fabricName,
       options,
     )) {
       yield* page;
@@ -123,65 +123,65 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Gets the list of replication extensions in the given vault.
+   * Gets the list of fabric agents in the given fabric.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
+   * @param fabricName The fabric name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    vaultName: string,
-    options?: ReplicationExtensionListOptionalParams,
-  ): Promise<ReplicationExtensionListResponse> {
+    fabricName: string,
+    options?: FabricAgentListOptionalParams,
+  ): Promise<FabricAgentListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, options },
+      { resourceGroupName, fabricName, options },
       listOperationSpec,
     );
   }
 
   /**
-   * Gets the details of the replication extension.
+   * Gets the details of the fabric agent.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
+   * @param fabricName The fabric name.
+   * @param fabricAgentName The fabric agent name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionGetOptionalParams,
-  ): Promise<ReplicationExtensionGetResponse> {
+    fabricName: string,
+    fabricAgentName: string,
+    options?: FabricAgentGetOptionalParams,
+  ): Promise<FabricAgentGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, replicationExtensionName, options },
+      { resourceGroupName, fabricName, fabricAgentName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates the replication extension in the given vault.
+   * Creates the fabric agent.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
-   * @param body Replication extension model.
+   * @param fabricName The fabric name.
+   * @param fabricAgentName The fabric agent name.
+   * @param body Fabric agent model.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    body: ReplicationExtensionModel,
-    options?: ReplicationExtensionCreateOptionalParams,
+    fabricName: string,
+    fabricAgentName: string,
+    body: FabricAgentModel,
+    options?: FabricAgentCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationExtensionCreateResponse>,
-      ReplicationExtensionCreateResponse
+      OperationState<FabricAgentCreateResponse>,
+      FabricAgentCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationExtensionCreateResponse> => {
+    ): Promise<FabricAgentCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -218,18 +218,12 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        vaultName,
-        replicationExtensionName,
-        body,
-        options,
-      },
+      args: { resourceGroupName, fabricName, fabricAgentName, body, options },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationExtensionCreateResponse,
-      OperationState<ReplicationExtensionCreateResponse>
+      FabricAgentCreateResponse,
+      OperationState<FabricAgentCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -240,24 +234,24 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Creates the replication extension in the given vault.
+   * Creates the fabric agent.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
-   * @param body Replication extension model.
+   * @param fabricName The fabric name.
+   * @param fabricAgentName The fabric agent name.
+   * @param body Fabric agent model.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    body: ReplicationExtensionModel,
-    options?: ReplicationExtensionCreateOptionalParams,
-  ): Promise<ReplicationExtensionCreateResponse> {
+    fabricName: string,
+    fabricAgentName: string,
+    body: FabricAgentModel,
+    options?: FabricAgentCreateOptionalParams,
+  ): Promise<FabricAgentCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
-      vaultName,
-      replicationExtensionName,
+      fabricName,
+      fabricAgentName,
       body,
       options,
     );
@@ -265,27 +259,27 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Deletes the replication extension in the given vault.
+   * Deletes fabric agent.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
+   * @param fabricName The fabric name.
+   * @param fabricAgentName The fabric agent name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams,
+    fabricName: string,
+    fabricAgentName: string,
+    options?: FabricAgentDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<ReplicationExtensionDeleteResponse>,
-      ReplicationExtensionDeleteResponse
+      OperationState<FabricAgentDeleteResponse>,
+      FabricAgentDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicationExtensionDeleteResponse> => {
+    ): Promise<FabricAgentDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -322,12 +316,12 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, vaultName, replicationExtensionName, options },
+      args: { resourceGroupName, fabricName, fabricAgentName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicationExtensionDeleteResponse,
-      OperationState<ReplicationExtensionDeleteResponse>
+      FabricAgentDeleteResponse,
+      OperationState<FabricAgentDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -338,22 +332,22 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   }
 
   /**
-   * Deletes the replication extension in the given vault.
+   * Deletes fabric agent.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
-   * @param replicationExtensionName The replication extension name.
+   * @param fabricName The fabric name.
+   * @param fabricAgentName The fabric agent name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    vaultName: string,
-    replicationExtensionName: string,
-    options?: ReplicationExtensionDeleteOptionalParams,
-  ): Promise<ReplicationExtensionDeleteResponse> {
+    fabricName: string,
+    fabricAgentName: string,
+    options?: FabricAgentDeleteOptionalParams,
+  ): Promise<FabricAgentDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      vaultName,
-      replicationExtensionName,
+      fabricName,
+      fabricAgentName,
       options,
     );
     return poller.pollUntilDone();
@@ -362,18 +356,18 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param vaultName The vault name.
+   * @param fabricName The fabric name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    vaultName: string,
+    fabricName: string,
     nextLink: string,
-    options?: ReplicationExtensionListNextOptionalParams,
-  ): Promise<ReplicationExtensionListNextResponse> {
+    options?: FabricAgentListNextOptionalParams,
+  ): Promise<FabricAgentListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vaultName, nextLink, options },
+      { resourceGroupName, fabricName, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -382,11 +376,11 @@ export class ReplicationExtensionImpl implements ReplicationExtension {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelListResult,
+      bodyMapper: Mappers.FabricAgentModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -397,17 +391,17 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.FabricAgentModel,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -418,60 +412,60 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.fabricName,
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.FabricAgentModel,
     },
     201: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.FabricAgentModel,
     },
     202: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.FabricAgentModel,
     },
     204: {
-      bodyMapper: Mappers.ReplicationExtensionModel,
+      bodyMapper: Mappers.FabricAgentModel,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body13,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.fabricName,
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationVaults/{vaultName}/replicationExtensions/{replicationExtensionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataReplication/replicationFabrics/{fabricName}/fabricAgents/{fabricAgentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.FabricAgentDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.FabricAgentDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.FabricAgentDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ReplicationExtensionDeleteHeaders,
+      headersMapper: Mappers.FabricAgentDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -482,8 +476,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
-    Parameters.replicationExtensionName,
+    Parameters.fabricName,
+    Parameters.fabricAgentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -493,7 +487,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationExtensionModelListResult,
+      bodyMapper: Mappers.FabricAgentModelListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -504,7 +498,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName,
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

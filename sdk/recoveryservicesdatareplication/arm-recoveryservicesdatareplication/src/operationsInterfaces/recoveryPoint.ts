@@ -8,37 +8,41 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EventModel,
-  EventListOptionalParams,
-  EventGetOptionalParams,
-  EventGetResponse,
+  RecoveryPointModel,
+  RecoveryPointListOptionalParams,
+  RecoveryPointGetOptionalParams,
+  RecoveryPointGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Event. */
-export interface Event {
+/** Interface representing a RecoveryPoint. */
+export interface RecoveryPoint {
   /**
-   * Gets the list of events in the given vault.
+   * Gets the list of recovery points of the given protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
+   * @param protectedItemName The protected item name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     vaultName: string,
-    options?: EventListOptionalParams,
-  ): PagedAsyncIterableIterator<EventModel>;
+    protectedItemName: string,
+    options?: RecoveryPointListOptionalParams,
+  ): PagedAsyncIterableIterator<RecoveryPointModel>;
   /**
-   * Gets the details of the event.
+   * Gets the details of the recovery point of a protected item.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The vault name.
-   * @param eventName The event name.
+   * @param protectedItemName The protected item name.
+   * @param recoveryPointName The recovery point name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vaultName: string,
-    eventName: string,
-    options?: EventGetOptionalParams,
-  ): Promise<EventGetResponse>;
+    protectedItemName: string,
+    recoveryPointName: string,
+    options?: RecoveryPointGetOptionalParams,
+  ): Promise<RecoveryPointGetResponse>;
 }
