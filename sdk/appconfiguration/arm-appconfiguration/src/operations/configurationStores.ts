@@ -46,6 +46,12 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
+  SasTokenGenerationParameters,
+  ConfigurationStoresGenerateSasTokenOptionalParams,
+  ConfigurationStoresGenerateSasTokenResponse,
+  ResetSasKindParameters,
+  ConfigurationStoresResetSasKindOptionalParams,
+  ConfigurationStoresResetSasKindResponse,
   ConfigurationStoresGetDeletedOptionalParams,
   ConfigurationStoresGetDeletedResponse,
   ConfigurationStoresPurgeDeletedOptionalParams,
@@ -687,6 +693,50 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
+   * Generates a SAS token for scoped, read-only access of the specified configuration store.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param sasTokenGenerationParameters The object containing information for the SAS token generation
+   *                                     request.
+   * @param options The options parameters.
+   */
+  generateSasToken(
+    resourceGroupName: string,
+    configStoreName: string,
+    sasTokenGenerationParameters: SasTokenGenerationParameters,
+    options?: ConfigurationStoresGenerateSasTokenOptionalParams,
+  ): Promise<ConfigurationStoresGenerateSasTokenResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        configStoreName,
+        sasTokenGenerationParameters,
+        options,
+      },
+      generateSasTokenOperationSpec,
+    );
+  }
+
+  /**
+   * Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param resetSasKindParameters The object containing information for the SAS kind reset request.
+   * @param options The options parameters.
+   */
+  resetSasKind(
+    resourceGroupName: string,
+    configStoreName: string,
+    resetSasKindParameters: ResetSasKindParameters,
+    options?: ConfigurationStoresResetSasKindOptionalParams,
+  ): Promise<ConfigurationStoresResetSasKindResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, configStoreName, resetSasKindParameters, options },
+      resetSasKindOperationSpec,
+    );
+  }
+
+  /**
    * Gets information about the deleted configuration stores in a subscription.
    * @param options The options parameters.
    */
@@ -1042,6 +1092,52 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.regenerateKeyParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.configStoreName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const generateSasTokenOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/generateSasToken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SasTokenGenerationResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.sasTokenGenerationParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.configStoreName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const resetSasKindOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/resetSasKind",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationStore,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resetSasKindParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
