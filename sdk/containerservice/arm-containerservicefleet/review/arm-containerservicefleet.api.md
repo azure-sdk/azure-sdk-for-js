@@ -770,6 +770,7 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
     managedClusterUpdate?: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;
