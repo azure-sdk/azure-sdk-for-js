@@ -655,6 +655,11 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: UpdateRunStatus;
+  /**
+   * AutoUpgradeProfileId is the id of an auto upgrade profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoUpgradeProfileId?: string;
 }
 
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */

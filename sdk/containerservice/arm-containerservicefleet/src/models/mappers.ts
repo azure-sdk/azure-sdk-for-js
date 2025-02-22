@@ -1373,6 +1373,13 @@ export const UpdateRun: coreClient.CompositeMapper = {
           className: "UpdateRunStatus",
         },
       },
+      autoUpgradeProfileId: {
+        serializedName: "properties.autoUpgradeProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
