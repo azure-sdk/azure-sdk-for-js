@@ -1,0 +1,4 @@
+directory: specification/ai/Azure.AI.Projects/RAISvc
+commit: 8e31473d2ecaf78d269ba84cd1b918e5ac9e7cd5
+repo: /mnt/vss/_work/1/s/azure-rest-api-specs
+additionalDirectories: 

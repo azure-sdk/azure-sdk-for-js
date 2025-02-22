@@ -1,0 +1,81 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { MachineLearningServicesClient } from "./clientDefinitions.js";
+
+/** The optional parameters for the client */
+export interface MachineLearningServicesClientOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
+
+/**
+ * Initialize a new instance of `MachineLearningServicesClient`
+ * @param endpointParam - Supported Azure-AI endpoints.
+ * @param subscriptionId - The ID of the target subscription.
+ * @param resourceGroupName - The name of the Resource Group.
+ * @param workspaceName - The name of the AzureML workspace or AI project.
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
+ */
+export default function createClient(
+  endpointParam: string,
+  subscriptionId: string,
+  resourceGroupName: string,
+  workspaceName: string,
+  credentials: TokenCredential,
+  {
+    apiVersion = "2022-11-01-preview",
+    ...options
+  }: MachineLearningServicesClientOptions = {},
+): MachineLearningServicesClient {
+  const endpointUrl =
+    options.endpoint ??
+    options.baseUrl ??
+    `${endpointParam}/raisvc/v1.0/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${workspaceName}`;
+  const userAgentInfo = `azsdk-js- microsoft-machinelearningservices-rest/1.0.0-beta.1`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://ml.azure.com/.default"],
+    },
+  };
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as MachineLearningServicesClient;
+
+  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  client.pipeline.addPolicy({
+    name: "ClientApiVersionPolicy",
+    sendRequest: (req, next) => {
+      // Use the apiVersion defined in request url directly
+      // Append one if there is no apiVersion and we have one at client options
+      const url = new URL(req.url);
+      if (!url.searchParams.get("api-version") && apiVersion) {
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
+      }
+
+      return next(req);
+    },
+  });
+
+  return client;
+}
