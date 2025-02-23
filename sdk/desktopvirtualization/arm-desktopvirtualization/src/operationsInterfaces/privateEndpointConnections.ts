@@ -9,37 +9,25 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateEndpointConnectionWithSystemData,
-  PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   PrivateEndpointConnectionsListByHostPoolOptionalParams,
-  PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
-  PrivateEndpointConnectionsGetByWorkspaceResponse,
-  PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
-  PrivateEndpointConnectionsUpdateByWorkspaceResponse,
+  PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   PrivateEndpointConnectionsGetByHostPoolOptionalParams,
   PrivateEndpointConnectionsGetByHostPoolResponse,
-  PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
   PrivateEndpointConnectionsUpdateByHostPoolResponse,
+  PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
+  PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
+  PrivateEndpointConnectionsGetByWorkspaceResponse,
+  PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
+  PrivateEndpointConnectionsUpdateByWorkspaceResponse,
+  PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * List private endpoint connections.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param options The options parameters.
-   */
-  listByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
-  /**
-   * List private endpoint connections associated with hostpool.
+   * Get a PrivateEndpointConnectionWithSystemData
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
@@ -50,55 +38,21 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
   /**
-   * Get a private endpoint connection.
+   * Get a PrivateEndpointConnectionWithSystemData
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
    * @param options The options parameters.
    */
-  getByWorkspace(
+  listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
-  ): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
+  ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData>;
   /**
-   * Remove a connection.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
-   * @param options The options parameters.
-   */
-  deleteByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
-  ): Promise<void>;
-  /**
-   * Approve or reject a private endpoint connection.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
-   * @param connection Object containing the updated connection.
-   * @param options The options parameters.
-   */
-  updateByWorkspace(
-    resourceGroupName: string,
-    workspaceName: string,
-    privateEndpointConnectionName: string,
-    connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
-  ): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
-  /**
-   * Get a private endpoint connection.
+   * Get a PrivateEndpointConnectionWithSystemData
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
+   * @param privateEndpointConnectionName The name parameter for private endpoint
    * @param options The options parameters.
    */
   getByHostPool(
@@ -108,11 +62,25 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetByHostPoolResponse>;
   /**
-   * Remove a connection.
+   * Create a PrivateEndpointConnectionWithSystemData
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
+   * @param privateEndpointConnectionName The name parameter for private endpoint
+   * @param connection Resource create parameters.
+   * @param options The options parameters.
+   */
+  updateByHostPool(
+    resourceGroupName: string,
+    hostPoolName: string,
+    privateEndpointConnectionName: string,
+    connection: PrivateEndpointConnectionWithSystemData,
+    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
+  ): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
+  /**
+   * Delete a PrivateEndpointConnectionWithSystemData
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param privateEndpointConnectionName The name parameter for private endpoint
    * @param options The options parameters.
    */
   deleteByHostPool(
@@ -122,19 +90,44 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   ): Promise<void>;
   /**
-   * Approve or reject a private endpoint connection.
+   * Get a PrivateEndpointConnectionWithSystemData
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource.
-   * @param connection Object containing the updated connection.
+   * @param workspaceName The name of the workspace
+   * @param privateEndpointConnectionName The name parameter for private endpoint
    * @param options The options parameters.
    */
-  updateByHostPool(
+  getByWorkspace(
     resourceGroupName: string,
-    hostPoolName: string,
+    workspaceName: string,
     privateEndpointConnectionName: string,
-    connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
-  ): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse>;
+    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
+  ): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse>;
+  /**
+   * Create a PrivateEndpointConnectionWithSystemData
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param privateEndpointConnectionName The name parameter for private endpoint
+   * @param connection Resource create parameters.
+   * @param options The options parameters.
+   */
+  updateByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    privateEndpointConnectionName: string,
+    connection: PrivateEndpointConnectionWithSystemData,
+    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
+  ): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse>;
+  /**
+   * Delete a PrivateEndpointConnectionWithSystemData
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param privateEndpointConnectionName The name parameter for private endpoint
+   * @param options The options parameters.
+   */
+  deleteByWorkspace(
+    resourceGroupName: string,
+    workspaceName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
+  ): Promise<void>;
 }

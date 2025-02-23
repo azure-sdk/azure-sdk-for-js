@@ -165,7 +165,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StartMenuItemList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -191,7 +191,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StartMenuItemList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
