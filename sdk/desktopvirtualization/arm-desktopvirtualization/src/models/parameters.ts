@@ -12,30 +12,36 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Workspace as WorkspaceMapper,
-  WorkspacePatch as WorkspacePatchMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  ScalingPlan as ScalingPlanMapper,
-  ScalingPlanPatch as ScalingPlanPatchMapper,
-  ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
-  ScalingPlanPooledSchedulePatch as ScalingPlanPooledSchedulePatchMapper,
-  ScalingPlanPersonalSchedule as ScalingPlanPersonalScheduleMapper,
-  ScalingPlanPersonalSchedulePatch as ScalingPlanPersonalSchedulePatchMapper,
+  AppAttachPackage as AppAttachPackageMapper,
+  AppAttachPackagePatch as AppAttachPackagePatchMapper,
   ApplicationGroup as ApplicationGroupMapper,
   ApplicationGroupPatch as ApplicationGroupPatchMapper,
+  HostPool as HostPoolMapper,
+  HostPoolPatch as HostPoolPatchMapper,
+  ScalingPlan as ScalingPlanMapper,
+  ScalingPlanPatch as ScalingPlanPatchMapper,
+  Workspace as WorkspaceMapper,
+  WorkspacePatch as WorkspacePatchMapper,
   Application as ApplicationMapper,
   ApplicationPatch as ApplicationPatchMapper,
   DesktopPatch as DesktopPatchMapper,
-  HostPool as HostPoolMapper,
-  HostPoolPatch as HostPoolPatchMapper,
-  SendMessage as SendMessageMapper,
-  SessionHostPatch as SessionHostPatchMapper,
+  MsixImageURI as MsixImageURIMapper,
+  ImportPackageInfoRequest as ImportPackageInfoRequestMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  ImportPackageInfoRequest as ImportPackageInfoRequestMapper,
-  MsixImageURI as MsixImageURIMapper,
-  AppAttachPackage as AppAttachPackageMapper,
-  AppAttachPackagePatch as AppAttachPackagePatchMapper,
+  PrivateEndpointConnectionWithSystemData as PrivateEndpointConnectionWithSystemDataMapper,
+  SessionHostConfiguration as SessionHostConfigurationMapper,
+  SessionHostConfigurationPatch as SessionHostConfigurationPatchMapper,
+  SessionHostManagement as SessionHostManagementMapper,
+  SessionHostManagementPatch as SessionHostManagementPatchMapper,
+  HostPoolUpdateControlParameter as HostPoolUpdateControlParameterMapper,
+  UpdateSessionHostsRequestBody as UpdateSessionHostsRequestBodyMapper,
+  SessionHostPatch as SessionHostPatchMapper,
+  SendMessage as SendMessageMapper,
+  ScalingPlanPersonalSchedule as ScalingPlanPersonalScheduleMapper,
+  ScalingPlanPersonalSchedulePatch as ScalingPlanPersonalSchedulePatchMapper,
+  ScalingPlanPooledSchedule as ScalingPlanPooledScheduleMapper,
+  ScalingPlanPooledSchedulePatch as ScalingPlanPooledSchedulePatchMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -65,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-03",
+    defaultValue: "2024-08-08-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -97,6 +103,16 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -112,15 +128,15 @@ export const resourceGroupName: OperationURLParameter = {
   },
 };
 
-export const workspaceName: OperationURLParameter = {
-  parameterPath: "workspaceName",
+export const appAttachPackageName: OperationURLParameter = {
+  parameterPath: "appAttachPackageName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
+      Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
+      MaxLength: 100,
       MinLength: 3,
     },
-    serializedName: "workspaceName",
+    serializedName: "appAttachPackageName",
     required: true,
     type: {
       name: "String",
@@ -140,14 +156,24 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const workspace: OperationParameter = {
-  parameterPath: "workspace",
-  mapper: WorkspaceMapper,
+export const appAttachPackage: OperationParameter = {
+  parameterPath: "appAttachPackage",
+  mapper: AppAttachPackageMapper,
 };
 
-export const workspace1: OperationParameter = {
-  parameterPath: ["options", "workspace"],
-  mapper: WorkspacePatchMapper,
+export const appAttachPackagePatch: OperationParameter = {
+  parameterPath: ["options", "appAttachPackagePatch"],
+  mapper: AppAttachPackagePatchMapper,
+};
+
+export const force: OperationQueryParameter = {
+  parameterPath: ["options", "force"],
+  mapper: {
+    serializedName: "force",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const pageSize: OperationQueryParameter = {
@@ -180,10 +206,15 @@ export const initialSkip: OperationQueryParameter = {
   },
 };
 
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
+export const applicationGroupName: OperationURLParameter = {
+  parameterPath: "applicationGroupName",
   mapper: {
-    serializedName: "privateEndpointConnectionName",
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
+      MaxLength: 64,
+      MinLength: 3,
+    },
+    serializedName: "applicationGroupName",
     required: true,
     type: {
       name: "String",
@@ -191,9 +222,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const connection: OperationParameter = {
-  parameterPath: "connection",
-  mapper: PrivateEndpointConnectionMapper,
+export const applicationGroup: OperationParameter = {
+  parameterPath: "applicationGroup",
+  mapper: ApplicationGroupMapper,
+};
+
+export const applicationGroup1: OperationParameter = {
+  parameterPath: ["options", "applicationGroup"],
+  mapper: ApplicationGroupPatchMapper,
 };
 
 export const hostPoolName: OperationURLParameter = {
@@ -210,6 +246,16 @@ export const hostPoolName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const hostPool: OperationParameter = {
+  parameterPath: "hostPool",
+  mapper: HostPoolMapper,
+};
+
+export const hostPool1: OperationParameter = {
+  parameterPath: ["options", "hostPool"],
+  mapper: HostPoolPatchMapper,
 };
 
 export const scalingPlanName: OperationURLParameter = {
@@ -238,51 +284,15 @@ export const scalingPlan1: OperationParameter = {
   mapper: ScalingPlanPatchMapper,
 };
 
-export const scalingPlanScheduleName: OperationURLParameter = {
-  parameterPath: "scalingPlanScheduleName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 64,
-      MinLength: 1,
-    },
-    serializedName: "scalingPlanScheduleName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const scalingPlanSchedule: OperationParameter = {
-  parameterPath: "scalingPlanSchedule",
-  mapper: ScalingPlanPooledScheduleMapper,
-};
-
-export const scalingPlanSchedule1: OperationParameter = {
-  parameterPath: ["options", "scalingPlanSchedule"],
-  mapper: ScalingPlanPooledSchedulePatchMapper,
-};
-
-export const scalingPlanSchedule2: OperationParameter = {
-  parameterPath: "scalingPlanSchedule",
-  mapper: ScalingPlanPersonalScheduleMapper,
-};
-
-export const scalingPlanSchedule3: OperationParameter = {
-  parameterPath: ["options", "scalingPlanSchedule"],
-  mapper: ScalingPlanPersonalSchedulePatchMapper,
-};
-
-export const applicationGroupName: OperationURLParameter = {
-  parameterPath: "applicationGroupName",
+export const workspaceName: OperationURLParameter = {
+  parameterPath: "workspaceName",
   mapper: {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
       MaxLength: 64,
       MinLength: 3,
     },
-    serializedName: "applicationGroupName",
+    serializedName: "workspaceName",
     required: true,
     type: {
       name: "String",
@@ -290,24 +300,14 @@ export const applicationGroupName: OperationURLParameter = {
   },
 };
 
-export const applicationGroup: OperationParameter = {
-  parameterPath: "applicationGroup",
-  mapper: ApplicationGroupMapper,
+export const workspace: OperationParameter = {
+  parameterPath: "workspace",
+  mapper: WorkspaceMapper,
 };
 
-export const applicationGroup1: OperationParameter = {
-  parameterPath: ["options", "applicationGroup"],
-  mapper: ApplicationGroupPatchMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
+export const workspace1: OperationParameter = {
+  parameterPath: ["options", "workspace"],
+  mapper: WorkspacePatchMapper,
 };
 
 export const applicationName: OperationURLParameter = {
@@ -357,65 +357,14 @@ export const desktop: OperationParameter = {
   mapper: DesktopPatchMapper,
 };
 
-export const hostPool: OperationParameter = {
-  parameterPath: "hostPool",
-  mapper: HostPoolMapper,
+export const msixImageURI: OperationParameter = {
+  parameterPath: "msixImageURI",
+  mapper: MsixImageURIMapper,
 };
 
-export const force: OperationQueryParameter = {
-  parameterPath: ["options", "force"],
-  mapper: {
-    serializedName: "force",
-    type: {
-      name: "Boolean",
-    },
-  },
-};
-
-export const hostPool1: OperationParameter = {
-  parameterPath: ["options", "hostPool"],
-  mapper: HostPoolPatchMapper,
-};
-
-export const sessionHostName: OperationURLParameter = {
-  parameterPath: "sessionHostName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
-      MaxLength: 48,
-      MinLength: 3,
-    },
-    serializedName: "sessionHostName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const userSessionId: OperationURLParameter = {
-  parameterPath: "userSessionId",
-  mapper: {
-    constraints: {
-      MaxLength: 24,
-      MinLength: 1,
-    },
-    serializedName: "userSessionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const sendMessage: OperationParameter = {
-  parameterPath: ["options", "sendMessage"],
-  mapper: SendMessageMapper,
-};
-
-export const sessionHost: OperationParameter = {
-  parameterPath: ["options", "sessionHost"],
-  mapper: SessionHostPatchMapper,
+export const importPackageInfoRequest: OperationParameter = {
+  parameterPath: "importPackageInfoRequest",
+  mapper: ImportPackageInfoRequestMapper,
 };
 
 export const msixPackageFullName: OperationURLParameter = {
@@ -440,29 +389,14 @@ export const msixPackage: OperationParameter = {
 };
 
 export const msixPackage1: OperationParameter = {
-  parameterPath: ["options", "msixPackage"],
+  parameterPath: "msixPackage",
   mapper: MsixPackagePatchMapper,
 };
 
-export const importPackageInfoRequest: OperationParameter = {
-  parameterPath: "importPackageInfoRequest",
-  mapper: ImportPackageInfoRequestMapper,
-};
-
-export const msixImageURI: OperationParameter = {
-  parameterPath: "msixImageURI",
-  mapper: MsixImageURIMapper,
-};
-
-export const appAttachPackageName: OperationURLParameter = {
-  parameterPath: "appAttachPackageName",
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$"),
-      MaxLength: 100,
-      MinLength: 3,
-    },
-    serializedName: "appAttachPackageName",
+    serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
       name: "String",
@@ -470,12 +404,129 @@ export const appAttachPackageName: OperationURLParameter = {
   },
 };
 
-export const appAttachPackage: OperationParameter = {
-  parameterPath: "appAttachPackage",
-  mapper: AppAttachPackageMapper,
+export const connection: OperationParameter = {
+  parameterPath: "connection",
+  mapper: PrivateEndpointConnectionWithSystemDataMapper,
 };
 
-export const appAttachPackagePatch: OperationParameter = {
-  parameterPath: ["options", "appAttachPackagePatch"],
-  mapper: AppAttachPackagePatchMapper,
+export const sessionHostConfiguration: OperationParameter = {
+  parameterPath: "sessionHostConfiguration",
+  mapper: SessionHostConfigurationMapper,
+};
+
+export const sessionHostConfiguration1: OperationParameter = {
+  parameterPath: ["options", "sessionHostConfiguration"],
+  mapper: SessionHostConfigurationPatchMapper,
+};
+
+export const sessionHostManagement: OperationParameter = {
+  parameterPath: "sessionHostManagement",
+  mapper: SessionHostManagementMapper,
+};
+
+export const sessionHostManagement1: OperationParameter = {
+  parameterPath: ["options", "sessionHostManagement"],
+  mapper: SessionHostManagementPatchMapper,
+};
+
+export const hostPoolUpdateControlParameter: OperationParameter = {
+  parameterPath: "hostPoolUpdateControlParameter",
+  mapper: HostPoolUpdateControlParameterMapper,
+};
+
+export const updateSessionHostsRequestBody: OperationParameter = {
+  parameterPath: ["options", "updateSessionHostsRequestBody"],
+  mapper: UpdateSessionHostsRequestBodyMapper,
+};
+
+export const vmPath: OperationQueryParameter = {
+  parameterPath: ["options", "vmPath"],
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Z][a-z][0-9][@./-_ ]*$"),
+      MaxLength: 1092,
+      MinLength: 3,
+    },
+    serializedName: "vmPath",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sessionHostName: OperationURLParameter = {
+  parameterPath: "sessionHostName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
+      MaxLength: 48,
+      MinLength: 3,
+    },
+    serializedName: "sessionHostName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sessionHost: OperationParameter = {
+  parameterPath: ["options", "sessionHost"],
+  mapper: SessionHostPatchMapper,
+};
+
+export const userSessionId: OperationURLParameter = {
+  parameterPath: "userSessionId",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 1,
+    },
+    serializedName: "userSessionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const sendMessage: OperationParameter = {
+  parameterPath: ["options", "sendMessage"],
+  mapper: SendMessageMapper,
+};
+
+export const scalingPlanScheduleName: OperationURLParameter = {
+  parameterPath: "scalingPlanScheduleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9@.\\-_ ]*$"),
+      MaxLength: 64,
+      MinLength: 1,
+    },
+    serializedName: "scalingPlanScheduleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const scalingPlanSchedule: OperationParameter = {
+  parameterPath: "scalingPlanSchedule",
+  mapper: ScalingPlanPersonalScheduleMapper,
+};
+
+export const scalingPlanSchedule1: OperationParameter = {
+  parameterPath: ["options", "scalingPlanSchedule"],
+  mapper: ScalingPlanPersonalSchedulePatchMapper,
+};
+
+export const scalingPlanSchedule2: OperationParameter = {
+  parameterPath: "scalingPlanSchedule",
+  mapper: ScalingPlanPooledScheduleMapper,
+};
+
+export const scalingPlanSchedule3: OperationParameter = {
+  parameterPath: ["options", "scalingPlanSchedule"],
+  mapper: ScalingPlanPooledSchedulePatchMapper,
 };

@@ -15,25 +15,25 @@ import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   HostPool,
-  HostPoolsListByResourceGroupNextOptionalParams,
-  HostPoolsListByResourceGroupOptionalParams,
-  HostPoolsListByResourceGroupResponse,
   HostPoolsListNextOptionalParams,
   HostPoolsListOptionalParams,
   HostPoolsListResponse,
+  HostPoolsListByResourceGroupNextOptionalParams,
+  HostPoolsListByResourceGroupOptionalParams,
+  HostPoolsListByResourceGroupResponse,
   HostPoolsGetOptionalParams,
   HostPoolsGetResponse,
   HostPoolsCreateOrUpdateOptionalParams,
   HostPoolsCreateOrUpdateResponse,
-  HostPoolsDeleteOptionalParams,
   HostPoolsUpdateOptionalParams,
   HostPoolsUpdateResponse,
-  HostPoolsRetrieveRegistrationTokenOptionalParams,
-  HostPoolsRetrieveRegistrationTokenResponse,
+  HostPoolsDeleteOptionalParams,
   HostPoolsListRegistrationTokensOptionalParams,
   HostPoolsListRegistrationTokensResponse,
-  HostPoolsListByResourceGroupNextResponse,
+  HostPoolsRetrieveRegistrationTokenOptionalParams,
+  HostPoolsRetrieveRegistrationTokenResponse,
   HostPoolsListNextResponse,
+  HostPoolsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,6 +47,60 @@ export class HostPoolsImpl implements HostPools {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
+  }
+
+  /**
+   * List hostPools in subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: HostPoolsListOptionalParams,
+  ): PagedAsyncIterableIterator<HostPool> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: HostPoolsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<HostPool[]> {
+    let result: HostPoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: HostPoolsListOptionalParams,
+  ): AsyncIterableIterator<HostPool> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -122,54 +176,25 @@ export class HostPoolsImpl implements HostPools {
    * List hostPools in subscription.
    * @param options The options parameters.
    */
-  public list(
+  private _list(
     options?: HostPoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
+  ): Promise<HostPoolsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: HostPoolsListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<HostPool[]> {
-    let result: HostPoolsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: HostPoolsListOptionalParams,
-  ): AsyncIterableIterator<HostPool> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * List hostPools.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: HostPoolsListByResourceGroupOptionalParams,
+  ): Promise<HostPoolsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
   /**
@@ -209,23 +234,6 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * Remove a host pool.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    hostPoolName: string,
-    options?: HostPoolsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
    * Update a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
@@ -243,44 +251,19 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * List hostPools.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams,
-  ): Promise<HostPoolsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * List hostPools in subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: HostPoolsListOptionalParams,
-  ): Promise<HostPoolsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Registration token of the host pool.
+   * Remove a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  retrieveRegistrationToken(
+  delete(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
-  ): Promise<HostPoolsRetrieveRegistrationTokenResponse> {
+    options?: HostPoolsDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      retrieveRegistrationTokenOperationSpec,
+      deleteOperationSpec,
     );
   }
 
@@ -302,19 +285,19 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * ListByResourceGroupNext
+   * Registration token of the host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  retrieveRegistrationToken(
     resourceGroupName: string,
-    nextLink: string,
-    options?: HostPoolsListByResourceGroupNextOptionalParams,
-  ): Promise<HostPoolsListByResourceGroupNextResponse> {
+    hostPoolName: string,
+    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
+  ): Promise<HostPoolsRetrieveRegistrationTokenResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      { resourceGroupName, hostPoolName, options },
+      retrieveRegistrationTokenOperationSpec,
     );
   }
 
@@ -332,10 +315,73 @@ export class HostPoolsImpl implements HostPools {
       listNextOperationSpec,
     );
   }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: HostPoolsListByResourceGroupNextOptionalParams,
+  ): Promise<HostPoolsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HostPoolList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HostPoolList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
   httpMethod: "GET",
@@ -344,7 +390,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.HostPool,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -368,10 +414,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.HostPool,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.hostPool,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostPoolName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HostPool,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.hostPool1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -390,100 +459,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HostPool,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.hostPool1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HostPoolList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.HostPoolList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const retrieveRegistrationTokenOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/retrieveRegistrationToken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RegistrationInfo,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -501,7 +480,7 @@ const listRegistrationTokensOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RegistrationTokenList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -514,22 +493,23 @@ const listRegistrationTokensOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const retrieveRegistrationTokenOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/retrieveRegistrationToken",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.HostPoolList,
+      bodyMapper: Mappers.RegistrationInfo,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -542,13 +522,33 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.HostPoolList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HostPoolList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
