@@ -2062,6 +2062,45 @@ export const GatewaySettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      restAuthEntraUsers: {
+        serializedName: "restAuthEntraUsers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntraUserInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const EntraUserInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EntraUserInfo",
+    modelProperties: {
+      objectId: {
+        serializedName: "objectId",
+        type: {
+          name: "String",
+        },
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
+        },
+      },
+      upn: {
+        serializedName: "upn",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -2088,6 +2127,18 @@ export const UpdateGatewaySettingsParameters: coreClient.CompositeMapper = {
         serializedName: "restAuthCredential\\.password",
         type: {
           name: "String",
+        },
+      },
+      restAuthEntraUsers: {
+        serializedName: "restAuthEntraUsers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntraUserInfo",
+            },
+          },
         },
       },
     },
