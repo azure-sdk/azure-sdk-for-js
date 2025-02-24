@@ -990,7 +990,7 @@ importers:
         version: file:projects/iot-modelsrepository.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/keyvault-admin':
         specifier: file:./projects/keyvault-admin.tgz
-        version: file:projects/keyvault-admin.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+        version: file:projects/keyvault-admin.tgz
       '@rush-temp/keyvault-certificates':
         specifier: file:./projects/keyvault-certificates.tgz
         version: file:projects/keyvault-certificates.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3729,7 +3729,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-jHR5Jke9Gg35qF5lwxx44fO8SkE3sAqAfL3T+C689Fei5HWsvV6zJB3IljrqsYabRr9D/HeRuIYBeuO8ZNUE0w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-iv7Z7q957O9fkwMzOmh5xWgN8hM+vXgMQhVv4aeewi31zGc1nwfjmOHk+vKpEqC3Puff0a3E642bmICE8fNYfg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
@@ -3765,15 +3765,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/health-insights-cancerprofiling@file:projects/health-insights-cancerprofiling.tgz':
-    resolution: {integrity: sha512-mUjY8RXdANXOqnwSaYF611CvnZ9jKXXESGfM1k9E3noUvxq73Wy0H5Q73UzQ3skjh411cmZeTE4KNNVQL8feRg==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    resolution: {integrity: sha512-CpWzmZ42bIIs+VoAHJaODjL4cXIYXzZLobh5yUjO9MyZFZ0cEwHkmkghUWbnTVYc3VKyfE1jcxhjyEtq1E3IDQ==, tarball: file:projects/health-insights-cancerprofiling.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-clinicalmatching@file:projects/health-insights-clinicalmatching.tgz':
-    resolution: {integrity: sha512-x9ZfhcddShl9hZWssysQ/hG2TDiVxzAaUoRHGUZfA6zEzzRolzyj+wvzJHccIbgsFPG18Lg8pfUtVpY7HajLWw==, tarball: file:projects/health-insights-clinicalmatching.tgz}
+    resolution: {integrity: sha512-sxZem/WuyaUrUrKQ6kffS5r0+VrOIiDWYagMzGSBl8LKOnSgHokZk8w8GFvd1H4G4S8ISL7NMmmQZgEN/b4xlw==, tarball: file:projects/health-insights-clinicalmatching.tgz}
     version: 0.0.0
 
   '@rush-temp/health-insights-radiologyinsights@file:projects/health-insights-radiologyinsights.tgz':
-    resolution: {integrity: sha512-fYcEy80yPbG6jJwTunEqFEg4/hOycR0iPHlXPXOi7tLja1O8GrwO439drxFP0rFLqBhOggn5rguGPQZ4ICHC0Q==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    resolution: {integrity: sha512-GvT4/hL8NrpO+wwJ+OggN7UdrOGuxNPj2uVwesW0B4GaAO/+EQDK4nOj3qtOEgT/0T0I7aSYBmhx8s+qdm2VWQ==, tarball: file:projects/health-insights-radiologyinsights.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
@@ -3801,7 +3801,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-XDSiv/NzBuTwVd6IEU2guGNubo3cgnwnq+jDoDSSBOXaGLWKQn+zL86Z/LHrl8kImGJrxZXcBqfGM/cU2n962A==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-NQ/Jfp2zur72Dxh6UN2uJVFOnW5WrmnnvLpwcMcppvyJxh9Zdw25ZnbG3Q5nI7zMhCRYE4L346G5PeJAPScn4g==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
@@ -3993,27 +3993,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
-    resolution: {integrity: sha512-JN7KDRMb8lz+Y1R4/qCzgXnPtMIQ/BBGW8lg0Yo+EX9kRNQ0kSpvCmccMzd+ZgFXg0LfgfTC/Rxg0yLnW/OxrQ==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-sJnGYrisxfkOdG5jMzS3pzpdQLIy3Si35zykLbtDhzcbryjnil23kCF8FQvIN1NbssKa2uVuQDGLL6XnxIzzjQ==, tarball: file:projects/purview-administration.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-catalog@file:projects/purview-catalog.tgz':
-    resolution: {integrity: sha512-PHilTNhf1GdmFvq8Fh49/BJ+eKmBH+STjsheH4liNw9oyKw+5C3NR5ilP4v68L2PhtGY9X09e+qzuv1aQgru6A==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-2oWMgCH8s0r+H7dsaHfrRgjLZge6WDmIT0+PIFpngox1JIV6QlJ7fCxicc/67Ck6+BkbRbLe4YFKdLiNYinrVw==, tarball: file:projects/purview-catalog.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-datamap@file:projects/purview-datamap.tgz':
-    resolution: {integrity: sha512-mbfNApSFXC82V/3/QPOydA02WcutCZMshPGFfpU8HkMVakFGFrypEoAuDslDag6zUcko0Tok09pm5nLj1LHSZA==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-RJ78L/3egQyb4gbQKiG3t0N4BE1i1GUcoW/XOxYkxFyzyT4Y6EQMi1NoWgmS8k/TR0+TI188tkcJYS/mLdjq3g==, tarball: file:projects/purview-datamap.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-7ClgZ7XFDalHtF+2oSmGmQMKlODSZxJRK08rTvkIXJdHC6dDB4z9oLjNgwyCORjPpYlp1fJgHONkDqzta01UBA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-TL1/ylOzDiXMi3tE/hEHz8tO6DTBvEQe4NlMgKQv7rooOer60cYrpKEP/cSsK8RDmIVLTXmFBYQYnZoPTQUGsA==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
-    resolution: {integrity: sha512-x5acmxazA9OMmKOUaxqQXZ4TOCYxQ+COYhugU7cx6ra6yDhnxOdNcXh5o0ue2k2rackAgTSgyR2LHgCx2kVLxA==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-O3GupcDG6n+axBs2udqt/9yZpol94twhESjYp5zHln1Chp/qq67TnEWlnOu/JmirDwhwbJ7CM7tK40BWAeyVsQ==, tarball: file:projects/purview-sharing.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-workflow@file:projects/purview-workflow.tgz':
-    resolution: {integrity: sha512-q6nYKQ4y3xA4gzw0irSfi946oi5rRKtbWpImRsstW4yFS/sZK3GKcFbHBZ/g2bbRw7KqOw+sWbq1wSsohw3zRg==, tarball: file:projects/purview-workflow.tgz}
+    resolution: {integrity: sha512-S7eV3LUggY8JSQ7Db0sUSsJkAUyS+ed+NDmPBZE3apMPmQvHuKJKuyyZuWoxNb1b8qzgezA+bfIbpop07oUTRg==, tarball: file:projects/purview-workflow.tgz}
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
@@ -4259,9 +4259,6 @@ packages:
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
-
-  '@types/eslint__js@8.42.3':
-    resolution: {integrity: sha512-alfG737uhmPdnvkrLdZLcEKJ/B8s9Y4hrZ+YAdzUeoArBlSUERA2E87ROfOaS4jd/C45fzOoZzidLc1IPwLqOw==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -20448,7 +20445,6 @@ snapshots:
       '@eslint/js': 9.21.0
       '@types/eslint': 9.6.1
       '@types/eslint-config-prettier': 6.11.3
-      '@types/eslint__js': 8.42.3
       '@types/estree': 1.0.6
       '@types/node': 18.19.76
       '@typescript-eslint/eslint-plugin': 8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.21.0)(typescript@5.7.3))(eslint@9.21.0)(typescript@5.7.3)
@@ -21150,40 +21146,17 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
     dependencies:
+      '@microsoft/api-extractor': 7.50.1(@types/node@18.19.76)
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
-      '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       eslint: 9.21.0
-      playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
-      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+      typescript: 5.6.3
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - happy-dom
       - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
       - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
@@ -23785,10 +23758,6 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.6
       '@types/json-schema': 7.0.15
-
-  '@types/eslint__js@8.42.3':
-    dependencies:
-      '@types/eslint': 9.6.1
 
   '@types/estree@1.0.6': {}
 
