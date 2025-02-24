@@ -14,7 +14,7 @@ async function deleteFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  await client.frontendsInterface.delete("rg1", "tc1", "fe1");
+  await client.frontendsInterface.FrontendsInterface_delete("rg1", "tc1", "fe1");
 }
 
 async function main(): Promise<void> {
