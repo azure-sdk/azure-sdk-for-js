@@ -15,7 +15,10 @@ async function getFrontends(): Promise<void> {
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.frontendsInterface.listByTrafficController("rg1", "tc1")) {
+  for await (let item of client.frontendsInterface.FrontendsInterface_listByTrafficController(
+    "rg1",
+    "tc1",
+  )) {
     resArray.push(item);
   }
 

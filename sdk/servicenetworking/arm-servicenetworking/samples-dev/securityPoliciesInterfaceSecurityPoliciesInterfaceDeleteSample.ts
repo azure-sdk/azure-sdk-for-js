@@ -14,7 +14,7 @@ async function deleteSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  await client.securityPoliciesInterface.delete("rg1", "tc1", "sp1");
+  await client.securityPoliciesInterface.SecurityPoliciesInterface_delete("rg1", "tc1", "sp1");
 }
 
 async function main(): Promise<void> {

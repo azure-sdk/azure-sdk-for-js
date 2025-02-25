@@ -14,10 +14,12 @@ async function putFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  const result = await client.frontendsInterface.createOrUpdate("rg1", "tc1", "fe1", {
-    location: "NorthCentralUS",
-    properties: {},
-  });
+  const result = await client.frontendsInterface.FrontendsInterface_createOrUpdate(
+    "rg1",
+    "tc1",
+    "fe1",
+    { location: "NorthCentralUS", properties: {} },
+  );
   console.log(result);
 }
 
