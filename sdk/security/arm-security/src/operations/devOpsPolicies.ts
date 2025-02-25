@@ -8,28 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { SecurityConnectorApplications } from "../operationsInterfaces/index.js";
+import { DevOpsPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SecurityCenter } from "../securityCenter.js";
 import {
-  Application,
-  SecurityConnectorApplicationsListNextOptionalParams,
-  SecurityConnectorApplicationsListOptionalParams,
-  SecurityConnectorApplicationsListResponse,
-  SecurityConnectorApplicationsListNextResponse,
+  DevOpsPolicy,
+  DevOpsPoliciesListNextOptionalParams,
+  DevOpsPoliciesListOptionalParams,
+  DevOpsPoliciesListResponse,
+  DevOpsPoliciesGetOptionalParams,
+  DevOpsPoliciesGetResponse,
+  DevOpsPoliciesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SecurityConnectorApplications operations. */
-export class SecurityConnectorApplicationsImpl
-  implements SecurityConnectorApplications
-{
+/** Class containing DevOpsPolicies operations. */
+export class DevOpsPoliciesImpl implements DevOpsPolicies {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SecurityConnectorApplications class.
+   * Initialize a new instance of the class DevOpsPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -37,17 +37,16 @@ export class SecurityConnectorApplicationsImpl
   }
 
   /**
-   * Get a list of all relevant applications over a security connector level scope
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Returns a list of DevOps Policies.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Application> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): PagedAsyncIterableIterator<DevOpsPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       securityConnectorName,
@@ -77,10 +76,10 @@ export class SecurityConnectorApplicationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams,
+    options?: DevOpsPoliciesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Application[]> {
-    let result: SecurityConnectorApplicationsListResponse;
+  ): AsyncIterableIterator<DevOpsPolicy[]> {
+    let result: DevOpsPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -110,8 +109,8 @@ export class SecurityConnectorApplicationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams,
-  ): AsyncIterableIterator<Application> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): AsyncIterableIterator<DevOpsPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       securityConnectorName,
@@ -122,17 +121,16 @@ export class SecurityConnectorApplicationsImpl
   }
 
   /**
-   * Get a list of all relevant applications over a security connector level scope
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * Returns a list of DevOps Policies.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams,
-  ): Promise<SecurityConnectorApplicationsListResponse> {
+    options?: DevOpsPoliciesListOptionalParams,
+  ): Promise<DevOpsPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, options },
       listOperationSpec,
@@ -140,9 +138,27 @@ export class SecurityConnectorApplicationsImpl
   }
 
   /**
+   * Returns a DevOps Policy.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param securityConnectorName The security connector name.
+   * @param policyName The policy name.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    securityConnectorName: string,
+    policyName: string,
+    options?: DevOpsPoliciesGetOptionalParams,
+  ): Promise<DevOpsPoliciesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, securityConnectorName, policyName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param securityConnectorName The security connector name.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -151,8 +167,8 @@ export class SecurityConnectorApplicationsImpl
     resourceGroupName: string,
     securityConnectorName: string,
     nextLink: string,
-    options?: SecurityConnectorApplicationsListNextOptionalParams,
-  ): Promise<SecurityConnectorApplicationsListNextResponse> {
+    options?: DevOpsPoliciesListNextOptionalParams,
+  ): Promise<DevOpsPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, securityConnectorName, nextLink, options },
       listNextOperationSpec,
@@ -163,22 +179,44 @@ export class SecurityConnectorApplicationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList,
+      bodyMapper: Mappers.DevOpsPolicyListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion15, Parameters.devOpsPolicyType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.securityConnectorName,
+    Parameters.resourceGroupName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/devops/default/policies/{policyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DevOpsPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
+  },
+  queryParameters: [Parameters.apiVersion15],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.securityConnectorName,
+    Parameters.resourceGroupName1,
+    Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -188,18 +226,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationsList,
+      bodyMapper: Mappers.DevOpsPolicyListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.securityConnectorName,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
