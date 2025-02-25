@@ -396,6 +396,26 @@ export interface StorageConfiguration {
   storageResourceId?: string;
   /** The filesystem name of connected storage account. */
   fileSystemName?: string;
+  /** The configuration for monitoring changes in the specified storage account. */
+  storageMonitorConfiguration?: StorageMonitorConfiguration;
+}
+
+/** The configuration for monitoring changes in a connected storage account. */
+export interface StorageMonitorConfiguration {
+  /** The resource id of the Azure Event Grid System Topic. */
+  systemTopicResourceId?: string;
+  /** The Azure Storage queue used for storage events. */
+  messageQueue?: StorageMonitorQueue;
+  /** The Azure Storage queue used for events that failed to be processed. */
+  poisonQueue?: StorageMonitorQueue;
+}
+
+/** An Azure Storage queue used for Data Lake Storage Gen 2 events. */
+export interface StorageMonitorQueue {
+  /** The name of the Azure Storage queue. */
+  name?: string;
+  /** The Azure Storage queue message time-to-live in seconds. */
+  timeToLiveInSeconds?: number;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */

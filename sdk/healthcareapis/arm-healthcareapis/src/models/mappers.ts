@@ -1052,6 +1052,63 @@ export const StorageConfiguration: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      storageMonitorConfiguration: {
+        serializedName: "storageMonitorConfiguration",
+        type: {
+          name: "Composite",
+          className: "StorageMonitorConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const StorageMonitorConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageMonitorConfiguration",
+    modelProperties: {
+      systemTopicResourceId: {
+        serializedName: "systemTopicResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      messageQueue: {
+        serializedName: "messageQueue",
+        type: {
+          name: "Composite",
+          className: "StorageMonitorQueue",
+        },
+      },
+      poisonQueue: {
+        serializedName: "poisonQueue",
+        type: {
+          name: "Composite",
+          className: "StorageMonitorQueue",
+        },
+      },
+    },
+  },
+};
+
+export const StorageMonitorQueue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageMonitorQueue",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      timeToLiveInSeconds: {
+        serializedName: "timeToLiveInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
