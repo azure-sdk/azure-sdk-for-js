@@ -207,7 +207,7 @@ export interface UserAssignedIdentity {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -264,6 +264,12 @@ export interface AutoUpgradeProfileListResult {
 export interface AutoUpgradeNodeImageSelection {
   /** The node image upgrade type. */
   type: AutoUpgradeNodeImageSelectionType;
+}
+
+/** GenerateResponse is the response of a generate request. */
+export interface GenerateResponse {
+  /** The ARM resource id of the generated UpdateRun. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'. */
+  id: string;
 }
 
 /** The Credential results response. */
@@ -709,6 +715,16 @@ export interface AutoUpgradeProfilesDeleteHeaders {
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for AutoUpgradeProfileOperations_generateUpdateRun operation. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_create operation. */
@@ -1283,6 +1299,19 @@ export interface AutoUpgradeProfilesListByFleetNextOptionalParams
 /** Contains response data for the listByFleetNext operation. */
 export type AutoUpgradeProfilesListByFleetNextResponse =
   AutoUpgradeProfileListResult;
+
+/** Optional parameters. */
+export interface AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the generateUpdateRun operation. */
+export type AutoUpgradeProfileOperationsGenerateUpdateRunResponse =
+  GenerateResponse;
 
 /** Optional parameters. */
 export interface FleetMembersListByFleetOptionalParams
