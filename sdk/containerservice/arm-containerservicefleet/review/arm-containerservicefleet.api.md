@@ -210,6 +210,9 @@ export interface FleetMember extends ProxyResource {
     clusterResourceId?: string;
     readonly eTag?: string;
     group?: string;
+    labels?: {
+        [propertyName: string]: string;
+    };
     readonly provisioningState?: FleetMemberProvisioningState;
 }
 
@@ -303,6 +306,9 @@ export type FleetMembersUpdateResponse = FleetMember;
 // @public
 export interface FleetMemberUpdate {
     group?: string;
+    labels?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
