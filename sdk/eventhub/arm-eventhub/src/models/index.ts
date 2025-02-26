@@ -1036,6 +1036,14 @@ export interface EHNamespace extends TrackedResource {
   geoDataReplication?: GeoDataReplicationProperties;
 }
 
+/** Defines headers for Namespaces_createOrUpdate operation. */
+export interface NamespacesCreateOrUpdateHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Defines headers for Namespaces_failover operation. */
 export interface NamespacesFailoverHeaders {
   /** URI to poll for completion status. */
