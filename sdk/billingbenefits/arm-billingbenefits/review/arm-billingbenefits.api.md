@@ -6,12 +6,28 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
+
+// @public
+export interface AppliedDiscount extends ProxyResource {
+    appliedScopeType?: DiscountAppliedScopeType;
+    readonly benefitResourceId?: string;
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    displayName?: string;
+    entityType?: DiscountEntityType;
+    productCode?: string;
+    readonly provisioningState?: DiscountProvisioningState;
+    startAt?: Date;
+    readonly status?: DiscountStatus;
+    systemId?: string;
+}
 
 // @public
 export interface AppliedScopeProperties {
@@ -25,13 +41,21 @@ export interface AppliedScopeProperties {
 // @public
 export type AppliedScopeType = string;
 
+// @public
+export type ApplyDiscountOn = string;
+
 // @public (undocumented)
 export class BillingBenefitsRP extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BillingBenefitsRPOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: BillingBenefitsRPOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    discountOperations: DiscountOperations;
+    // (undocumented)
+    discounts: Discounts;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -42,6 +66,8 @@ export class BillingBenefitsRP extends coreClient.ServiceClient {
     savingsPlanOrder: SavingsPlanOrder;
     // (undocumented)
     savingsPlanOrderAlias: SavingsPlanOrderAlias;
+    // (undocumented)
+    subscriptionId?: string;
     validatePurchase(body: SavingsPlanPurchaseValidateRequest, options?: ValidatePurchaseOptionalParams): Promise<ValidatePurchaseResponse>;
 }
 
@@ -75,6 +101,14 @@ export interface BillingPlanInformation {
 }
 
 // @public
+export interface CatalogClaimsItem {
+    // (undocumented)
+    catalogClaimsItemType?: string;
+    // (undocumented)
+    value?: string;
+}
+
+// @public
 export interface Commitment extends Price {
     grain?: CommitmentGrain;
 }
@@ -83,7 +117,297 @@ export interface Commitment extends Price {
 export type CommitmentGrain = string;
 
 // @public
+export interface ConditionsItem {
+    // (undocumented)
+    conditionName?: string;
+    // (undocumented)
+    type?: string;
+    value?: string[];
+}
+
+// @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomPriceProperties {
+    billingPeriod?: string;
+    catalogClaims: CatalogClaimsItem[];
+    catalogId: string;
+    marketSetPrices: MarketSetPricesItems[];
+    meterType?: string;
+    ruleType: DiscountRuleType;
+    termUnits?: string;
+}
+
+// @public
+export interface Discount extends ResourceModelWithAllowedPropertySet {
+    appliedScopeType?: DiscountAppliedScopeType;
+    readonly benefitResourceId?: string;
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    displayName?: string;
+    entityType?: DiscountEntityType;
+    productCode?: string;
+    readonly provisioningState?: DiscountProvisioningState;
+    startAt?: Date;
+    readonly status?: DiscountStatus;
+    systemId?: string;
+}
+
+// @public
+export type DiscountAppliedScopeType = string;
+
+// @public
+export type DiscountCombinationRule = string;
+
+// @public
+export type DiscountEntityType = string;
+
+// @public
+export interface DiscountGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountGetResponse = Discount;
+
+// @public
+export interface DiscountList {
+    nextLink?: string;
+    value?: Discount[];
+}
+
+// @public
+export interface DiscountOperations {
+    beginUpdate(resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DiscountUpdateResponse>, DiscountUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, discountName: string, body: DiscountPatchRequest, options?: DiscountUpdateOptionalParams): Promise<DiscountUpdateResponse>;
+    get(resourceGroupName: string, discountName: string, options?: DiscountGetOptionalParams): Promise<DiscountGetResponse>;
+}
+
+// @public
+export interface DiscountPatchRequest {
+    displayName?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DiscountProperties {
+    appliedScopeType?: DiscountAppliedScopeType;
+    readonly benefitResourceId?: string;
+    readonly billingAccountResourceId?: string;
+    readonly billingProfileResourceId?: string;
+    readonly customerResourceId?: string;
+    displayName?: string;
+    entityType: "Affiliate" | "Primary";
+    productCode: string;
+    readonly provisioningState?: DiscountProvisioningState;
+    startAt: Date;
+    readonly status?: DiscountStatus;
+    systemId?: string;
+}
+
+// @public (undocumented)
+export type DiscountPropertiesUnion = DiscountProperties | EntityTypeAffiliateDiscount | EntityTypePrimaryDiscount;
+
+// @public
+export type DiscountProvisioningState = string;
+
+// @public
+export type DiscountProvisioningSubState = string;
+
+// @public
+export type DiscountRuleType = string;
+
+// @public
+export interface Discounts {
+    beginCancel(resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams): Promise<SimplePollerLike<OperationState<DiscountsCancelResponse>, DiscountsCancelResponse>>;
+    beginCancelAndWait(resourceGroupName: string, discountName: string, options?: DiscountsCancelOptionalParams): Promise<DiscountsCancelResponse>;
+    beginCreate(resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<DiscountsCreateResponse>, DiscountsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, discountName: string, body: Discount, options?: DiscountsCreateOptionalParams): Promise<DiscountsCreateResponse>;
+    beginDelete(resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DiscountsDeleteResponse>, DiscountsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, discountName: string, options?: DiscountsDeleteOptionalParams): Promise<DiscountsDeleteResponse>;
+    listResourceGroupList(resourceGroupName: string, options?: DiscountsResourceGroupListOptionalParams): PagedAsyncIterableIterator<Discount>;
+    listScopeList(scope: string, options?: DiscountsScopeListOptionalParams): PagedAsyncIterableIterator<Discount>;
+    listSubscriptionList(options?: DiscountsSubscriptionListOptionalParams): PagedAsyncIterableIterator<Discount>;
+}
+
+// @public
+export interface DiscountsCancelHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DiscountsCancelOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiscountsCancelResponse = Discount;
+
+// @public
+export interface DiscountsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DiscountsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiscountsCreateResponse = Discount;
+
+// @public
+export interface DiscountsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DiscountsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiscountsDeleteResponse = DiscountsDeleteHeaders;
+
+// @public
+export interface DiscountsResourceGroupListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsResourceGroupListNextResponse = DiscountList;
+
+// @public
+export interface DiscountsResourceGroupListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsResourceGroupListResponse = DiscountList;
+
+// @public
+export interface DiscountsScopeListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsScopeListNextResponse = DiscountList;
+
+// @public
+export interface DiscountsScopeListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsScopeListResponse = DiscountList;
+
+// @public
+export interface DiscountsSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsSubscriptionListNextResponse = DiscountList;
+
+// @public
+export interface DiscountsSubscriptionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DiscountsSubscriptionListResponse = DiscountList;
+
+// @public
+export type DiscountStatus = string;
+
+// @public
+export type DiscountType = string;
+
+// @public
+export interface DiscountTypeCustomPrice extends DiscountTypeProperties {
+    customPriceProperties?: CustomPriceProperties;
+    discountType: "CustomPrice" | "CustomPriceMultiCurrency";
+    productFamilyName?: string;
+    productId?: string;
+    skuId?: string;
+}
+
+// @public
+export interface DiscountTypeCustomPriceMultiCurrency extends DiscountTypeCustomPrice {
+    discountType: "CustomPriceMultiCurrency";
+}
+
+// @public (undocumented)
+export type DiscountTypeCustomPriceUnion = DiscountTypeCustomPrice | DiscountTypeCustomPriceMultiCurrency;
+
+// @public
+export interface DiscountTypeProduct extends DiscountTypeProperties {
+    discountType: "Product";
+    productFamilyName?: string;
+    productId?: string;
+}
+
+// @public
+export interface DiscountTypeProductFamily extends DiscountTypeProperties {
+    discountType: "ProductFamily";
+    productFamilyName?: string;
+}
+
+// @public
+export interface DiscountTypeProductSku extends DiscountTypeProperties {
+    discountType: "Sku";
+    productFamilyName?: string;
+    productId?: string;
+    skuId?: string;
+}
+
+// @public
+export interface DiscountTypeProperties {
+    applyDiscountOn: ApplyDiscountOn;
+    conditions?: ConditionsItem[];
+    discountCombinationRule?: DiscountCombinationRule;
+    discountPercentage?: number;
+    discountType: "ProductFamily" | "Product" | "Sku" | "CustomPrice" | "CustomPriceMultiCurrency";
+    priceGuaranteeProperties?: PriceGuaranteeProperties;
+}
+
+// @public (undocumented)
+export type DiscountTypePropertiesUnion = DiscountTypeProperties | DiscountTypeProductFamily | DiscountTypeProduct | DiscountTypeProductSku | DiscountTypeCustomPriceUnion;
+
+// @public
+export interface DiscountUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DiscountUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DiscountUpdateResponse = Discount;
+
+// @public
+export interface EntityTypeAffiliateDiscount extends DiscountProperties {
+    readonly endAt?: Date;
+    entityType: "Affiliate";
+    readonly primaryResourceId?: string;
+}
+
+// @public
+export interface EntityTypePrimaryDiscount extends DiscountProperties {
+    discountTypeProperties?: DiscountTypePropertiesUnion;
+    endAt: Date;
+    entityType: "Primary";
+}
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -130,13 +454,22 @@ export enum KnownAppliedScopeType {
 }
 
 // @public
+export enum KnownApplyDiscountOn {
+    Consume = "Consume",
+    Purchase = "Purchase",
+    Renew = "Renew"
+}
+
+// @public
 export enum KnownBillingPlan {
     P1M = "P1M"
 }
 
 // @public
 export enum KnownCommitmentGrain {
-    Hourly = "Hourly"
+    FullTerm = "FullTerm",
+    Hourly = "Hourly",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -148,9 +481,77 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDiscountAppliedScopeType {
+    BillingAccount = "BillingAccount",
+    BillingProfile = "BillingProfile",
+    Customer = "Customer"
+}
+
+// @public
+export enum KnownDiscountCombinationRule {
+    BestOf = "BestOf",
+    Stackable = "Stackable"
+}
+
+// @public
+export enum KnownDiscountEntityType {
+    Affiliate = "Affiliate",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownDiscountProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Pending = "Pending",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDiscountProvisioningSubState {
+    Expired = "Expired",
+    None = "None",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownDiscountRuleType {
+    FixedListPrice = "FixedListPrice",
+    FixedPriceLock = "FixedPriceLock",
+    PriceCeiling = "PriceCeiling"
+}
+
+// @public
+export enum KnownDiscountStatus {
+    Active = "Active",
+    Canceled = "Canceled",
+    Expired = "Expired",
+    Failed = "Failed",
+    Pending = "Pending"
+}
+
+// @public
+export enum KnownDiscountType {
+    CustomPrice = "CustomPrice",
+    CustomPriceMultiCurrency = "CustomPriceMultiCurrency",
+    Product = "Product",
+    ProductFamily = "ProductFamily",
+    Sku = "Sku"
+}
+
+// @public
 export enum KnownInstanceFlexibility {
     Off = "Off",
     On = "On"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -173,6 +574,12 @@ export enum KnownPricingCurrencyDuration {
     P1M = "P1M",
     P1Y = "P1Y",
     P3Y = "P3Y"
+}
+
+// @public
+export enum KnownPricingPolicy {
+    Locked = "Locked",
+    Protected = "Protected"
 }
 
 // @public
@@ -222,6 +629,27 @@ export enum KnownTerm {
     P1Y = "P1Y",
     P3Y = "P3Y",
     P5Y = "P5Y"
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
+export interface MarketSetPricesItems {
+    currency: string;
+    // (undocumented)
+    markets: string[];
+    value: number;
 }
 
 // @public
@@ -289,11 +717,26 @@ export interface PaymentDetail {
 // @public
 export type PaymentStatus = string;
 
+// @public
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
+}
+
 // @public (undocumented)
 export interface Price {
     // (undocumented)
     amount?: number;
     currencyCode?: string;
+}
+
+// @public
+export interface PriceGuaranteeProperties {
+    priceGuaranteeDate?: Date;
+    pricingPolicy?: PricingPolicy;
 }
 
 // @public
@@ -305,7 +748,14 @@ export interface PricingCurrencyTotal extends Price {
 }
 
 // @public
+export type PricingPolicy = string;
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public (undocumented)
 export interface PurchaseRequest {
@@ -317,7 +767,7 @@ export interface PurchaseRequest {
     displayName?: string;
     readonly effectiveDateTime?: Date;
     renew?: boolean;
-    sku?: Sku;
+    sku?: ResourceSku;
     term?: Term;
 }
 
@@ -329,7 +779,7 @@ export interface RenewProperties {
 
 // @public
 export interface ReservationOrderAlias {
-    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
+    beginCreate(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<ReservationOrderAliasCreateResponse>, ReservationOrderAliasCreateResponse>>;
     beginCreateAndWait(reservationOrderAliasName: string, body: ReservationOrderAliasRequest, options?: ReservationOrderAliasCreateOptionalParams): Promise<ReservationOrderAliasCreateResponse>;
     get(reservationOrderAliasName: string, options?: ReservationOrderAliasGetOptionalParams): Promise<ReservationOrderAliasGetResponse>;
 }
@@ -369,7 +819,7 @@ export interface ReservationOrderAliasRequest extends Resource {
     reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
     reviewDateTime?: Date;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
@@ -393,7 +843,7 @@ export interface ReservationOrderAliasResponse extends Resource {
     reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
     reservedResourceType?: ReservedResourceType;
     reviewDateTime?: Date;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
@@ -414,6 +864,21 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
+    readonly etag?: string;
+    identity?: ManagedServiceIdentity;
+    kind?: string;
+    managedBy?: string;
+    plan?: Plan;
+    sku?: Sku;
+}
+
+// @public
+export interface ResourceSku {
+    name?: string;
+}
+
+// @public
 export interface RoleAssignmentEntity {
     id?: string;
     name?: string;
@@ -424,10 +889,11 @@ export interface RoleAssignmentEntity {
 
 // @public
 export interface SavingsPlan {
+    beginUpdate(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SavingsPlanUpdateResponse>, SavingsPlanUpdateResponse>>;
+    beginUpdateAndWait(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams): Promise<SavingsPlanUpdateResponse>;
     get(savingsPlanOrderId: string, savingsPlanId: string, options?: SavingsPlanGetOptionalParams): Promise<SavingsPlanGetResponse>;
     list(savingsPlanOrderId: string, options?: SavingsPlanListOptionalParams): PagedAsyncIterableIterator<SavingsPlanModel>;
     listAll(options?: SavingsPlanListAllOptionalParams): PagedAsyncIterableIterator<SavingsPlanModel>;
-    update(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateRequest, options?: SavingsPlanUpdateOptionalParams): Promise<SavingsPlanUpdateResponse>;
     validateUpdate(savingsPlanOrderId: string, savingsPlanId: string, body: SavingsPlanUpdateValidateRequest, options?: SavingsPlanValidateUpdateOptionalParams): Promise<SavingsPlanValidateUpdateResponse>;
 }
 
@@ -496,7 +962,7 @@ export interface SavingsPlanModel extends Resource {
     // (undocumented)
     renewProperties?: RenewProperties;
     renewSource?: string;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
     readonly userFriendlyAppliedScopeType?: string;
     readonly utilization?: Utilization;
@@ -525,7 +991,7 @@ export interface SavingsPlanOrder {
 
 // @public
 export interface SavingsPlanOrderAlias {
-    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<PollerLike<PollOperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
+    beginCreate(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SimplePollerLike<OperationState<SavingsPlanOrderAliasCreateResponse>, SavingsPlanOrderAliasCreateResponse>>;
     beginCreateAndWait(savingsPlanOrderAliasName: string, body: SavingsPlanOrderAliasModel, options?: SavingsPlanOrderAliasCreateOptionalParams): Promise<SavingsPlanOrderAliasCreateResponse>;
     get(savingsPlanOrderAliasName: string, options?: SavingsPlanOrderAliasGetOptionalParams): Promise<SavingsPlanOrderAliasGetResponse>;
 }
@@ -562,8 +1028,9 @@ export interface SavingsPlanOrderAliasModel extends Resource {
     displayName?: string;
     kind?: string;
     readonly provisioningState?: ProvisioningState;
+    renew?: boolean;
     readonly savingsPlanOrderId?: string;
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
@@ -611,7 +1078,7 @@ export interface SavingsPlanOrderModel extends Resource {
     readonly provisioningState?: ProvisioningState;
     // (undocumented)
     savingsPlans?: string[];
-    sku: Sku;
+    sku: ResourceSku;
     term?: Term;
 }
 
@@ -655,6 +1122,8 @@ export interface SavingsPlanUpdateHeaders {
 
 // @public
 export interface SavingsPlanUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -704,8 +1173,15 @@ export interface SavingsPlanValidResponseProperty {
 
 // @public
 export interface Sku {
-    name?: string;
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
 }
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export interface SystemData {
@@ -719,6 +1195,20 @@ export interface SystemData {
 
 // @public
 export type Term = string;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface Utilization {
