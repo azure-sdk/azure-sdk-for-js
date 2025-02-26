@@ -1195,7 +1195,7 @@ export interface DeleteTaskFileDefaultResponse extends HttpResponse {
 
 export interface GetTaskFile200Headers {
   /** The length of the file. */
-  "content-length": string;
+  "content-length": number;
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
   etag?: string;
   /** The time at which the resource was last modified. */
@@ -1231,7 +1231,7 @@ export interface GetTaskFileDefaultResponse extends HttpResponse {
 
 export interface GetTaskFileProperties200Headers {
   /** The length of the file. */
-  "content-length": string;
+  "content-length": number;
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
   etag?: string;
   /** The time at which the resource was last modified. */
@@ -1652,7 +1652,7 @@ export interface DeleteNodeFileDefaultResponse extends HttpResponse {
 
 export interface GetNodeFile200Headers {
   /** The length of the file. */
-  "content-length": string;
+  "content-length": number;
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
   etag?: string;
   /** The time at which the resource was last modified. */
@@ -1688,7 +1688,7 @@ export interface GetNodeFileDefaultResponse extends HttpResponse {
 
 export interface GetNodeFileProperties200Headers {
   /** The length of the file. */
-  "content-length": string;
+  "content-length": number;
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers. */
   etag?: string;
   /** The time at which the resource was last modified. */
