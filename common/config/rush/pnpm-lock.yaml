@@ -3465,7 +3465,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-sql@file:projects/arm-sql.tgz':
-    resolution: {integrity: sha512-mAVOtDHPUngLD5A32gdmQn+/lTCDEw+SToxK6t800n7vG4kbWxZrm075X9nClICmYTra4ksF2cwx3uZuwtL1Kw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-4McAHaPFs0frk1x2roZDVbbMoPXGN2th6WxhmrhyKEK4d4bXPCfX9L6Pt9drxSKapWVvJZuuWZLlKSr0F0q++g==, tarball: file:projects/arm-sql.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-sqlvirtualmachine@file:projects/arm-sqlvirtualmachine.tgz':
@@ -3717,7 +3717,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/data-tables@file:projects/data-tables.tgz':
-    resolution: {integrity: sha512-zldHiLq7jQaJcs6Q2OSlCYLyT1hwrRkSkXDzh/ZhNY5HISAIWHCHDbO+CVi1VCO1x6Ywk7bZpCht3JpApT1rgA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-ncHx4Y4NysoHyoasn8NqGNLlVqAZkQexYzEeBRkXvAMlNfiyM7CI2XvqzHWTHJ00gT1fUXBos/BlACrIor1Dnw==, tarball: file:projects/data-tables.tgz}
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
@@ -4097,11 +4097,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/template-dpg@file:projects/template-dpg.tgz':
-    resolution: {integrity: sha512-KaBGGhq/jozIu1ltIbRJzK9PaMoEMw55YLR3yE7GQE8129wI8mNRdteHhr9PM8PObVHrH5fUhaGRhFCa37tcpw==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-kkPKiKIz44Ih+QJ33/d6/cSJ1eKd/ySnlTNOY4OuxDuD95k6E6/nd26Qn717UZpq1AM0NFLgKi3yDI/TROIbsg==, tarball: file:projects/template-dpg.tgz}
     version: 0.0.0
 
   '@rush-temp/template@file:projects/template.tgz':
-    resolution: {integrity: sha512-xfFUN0SVFOTY02MTJsAlGm+nmlqIaaOsw19seROVIH5gV6Mq1WZHLNkxEq8ugfQohOVWTWWE7gVrLSspR5/6GQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-Kb8eCK1QfJLNkvXjq0854unAAa7JZJENFiuUlVw8g6+yMNSO8q50Zk1SC+UmZb3CXzhQ6xtM+Pb1zxWgMEa+xw==, tarball: file:projects/template.tgz}
     version: 0.0.0
 
   '@rush-temp/test-credential@file:projects/test-credential.tgz':
@@ -4141,7 +4141,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/web-pubsub-express@file:projects/web-pubsub-express.tgz':
-    resolution: {integrity: sha512-G4icH6doEf84vpOM4NKQ2FMimS4Py/kmg16pk6QJpOfb5c00A1XHw1HAzd0MDqCk/X7jXikO0PBaiYRwsZzifQ==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-Ko4faQvWOMLzb5WkUzrtRFr1CuHglmTK1Ky/gZSdgGpN0MSzuTHHkIkv1yoN+annOEjIN4Z9yCGXExUOH4/D7g==, tarball: file:projects/web-pubsub-express.tgz}
     version: 0.0.0
 
   '@rush-temp/web-pubsub@file:projects/web-pubsub.tgz':
@@ -18064,12 +18064,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23808,7 +23808,7 @@ snapshots:
 
   '@types/chai-as-promised@7.1.8':
     dependencies:
-      '@types/chai': 4.3.20
+      '@types/chai': 5.0.1
 
   '@types/chai-as-promised@8.0.1':
     dependencies:
