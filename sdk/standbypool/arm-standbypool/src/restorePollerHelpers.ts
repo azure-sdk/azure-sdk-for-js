@@ -3,13 +3,13 @@
 
 import { StandbyPoolManagementClient } from "./standbyPoolManagementClient.js";
 import {
-  _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-  _standbyVirtualMachinePoolsDeleteDeserialize,
-} from "./api/standbyVirtualMachinePools/index.js";
-import {
-  _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
   _standbyContainerGroupPoolsDeleteDeserialize,
+  _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
 } from "./api/standbyContainerGroupPools/index.js";
+import {
+  _standbyVirtualMachinePoolsDeleteDeserialize,
+  _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
+} from "./api/standbyVirtualMachinePools/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -83,14 +83,9 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
     {
-      deserializer: _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
-    {
-      deserializer: _standbyVirtualMachinePoolsDeleteDeserialize,
+      deserializer: _standbyContainerGroupPoolsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
@@ -98,10 +93,15 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _standbyContainerGroupPoolsCreateOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyContainerGroupPoolName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
     {
-      deserializer: _standbyContainerGroupPoolsDeleteDeserialize,
+      deserializer: _standbyVirtualMachinePoolsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyVirtualMachinePools/{standbyVirtualMachinePoolName}":
+    {
+      deserializer: _standbyVirtualMachinePoolsCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 
