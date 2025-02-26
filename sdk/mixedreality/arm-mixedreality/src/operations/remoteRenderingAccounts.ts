@@ -34,7 +34,7 @@ import {
   RemoteRenderingAccountsRegenerateKeysOptionalParams,
   RemoteRenderingAccountsRegenerateKeysResponse,
   RemoteRenderingAccountsListBySubscriptionNextResponse,
-  RemoteRenderingAccountsListByResourceGroupNextResponse
+  RemoteRenderingAccountsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,11 +51,18 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   }
 
   /**
-   * List Remote Rendering Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Remote Rendering Accounts by Subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -70,13 +77,13 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemoteRenderingAccount[]> {
     let result: RemoteRenderingAccountsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +104,7 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<RemoteRenderingAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -105,13 +112,20 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   }
 
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemoteRenderingAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -128,16 +142,16 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RemoteRenderingAccount[]> {
     let result: RemoteRenderingAccountsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -152,7 +166,7 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -163,46 +177,67 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<RemoteRenderingAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * List Remote Rendering Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Remote Rendering Accounts by Subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionOptionalParams,
   ): Promise<RemoteRenderingAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupOptionalParams,
   ): Promise<RemoteRenderingAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Delete a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Delete a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -210,16 +245,23 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsDeleteOptionalParams
+    options?: RemoteRenderingAccountsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Retrieve a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Retrieve a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -227,16 +269,23 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsGetOptionalParams
+    options?: RemoteRenderingAccountsGetOptionalParams,
   ): Promise<RemoteRenderingAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Updating a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Updating a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
@@ -246,16 +295,23 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsUpdateOptionalParams
+    options?: RemoteRenderingAccountsUpdateOptionalParams,
   ): Promise<RemoteRenderingAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, remoteRenderingAccount, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
-   * Creating or Updating a Remote Rendering Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Creating or Updating a Remote Rendering Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param remoteRenderingAccount Remote Rendering Account parameter.
@@ -265,16 +321,23 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     remoteRenderingAccount: RemoteRenderingAccount,
-    options?: RemoteRenderingAccountsCreateOptionalParams
+    options?: RemoteRenderingAccountsCreateOptionalParams,
   ): Promise<RemoteRenderingAccountsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, remoteRenderingAccount, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
   /**
-   * List Both of the 2 Keys of a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Both of the 2 Keys of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -282,16 +345,23 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: RemoteRenderingAccountsListKeysOptionalParams
+    options?: RemoteRenderingAccountsListKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
-   * Regenerate specified Key of a Remote Rendering Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Regenerate specified Key of a Remote Rendering Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -301,11 +371,11 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams
+    options?: RemoteRenderingAccountsRegenerateKeysOptionalParams,
   ): Promise<RemoteRenderingAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, regenerate, options },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -316,11 +386,11 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RemoteRenderingAccountsListBySubscriptionNextOptionalParams
+    options?: RemoteRenderingAccountsListBySubscriptionNextOptionalParams,
   ): Promise<RemoteRenderingAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -333,11 +403,11 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RemoteRenderingAccountsListByResourceGroupNextOptionalParams
+    options?: RemoteRenderingAccountsListByResourceGroupNextOptionalParams,
   ): Promise<RemoteRenderingAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -345,97 +415,92 @@ export class RemoteRenderingAccountsImpl implements RemoteRenderingAccounts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccount
+      bodyMapper: Mappers.RemoteRenderingAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccount
+      bodyMapper: Mappers.RemoteRenderingAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.remoteRenderingAccount,
   queryParameters: [Parameters.apiVersion],
@@ -443,26 +508,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccount
+      bodyMapper: Mappers.RemoteRenderingAccount,
     },
     201: {
-      bodyMapper: Mappers.RemoteRenderingAccount
+      bodyMapper: Mappers.RemoteRenderingAccount,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.remoteRenderingAccount,
   queryParameters: [Parameters.apiVersion],
@@ -470,45 +534,43 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountKeys
+      bodyMapper: Mappers.AccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/remoteRenderingAccounts/{accountName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccountKeys
+      bodyMapper: Mappers.AccountKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.regenerate,
   queryParameters: [Parameters.apiVersion],
@@ -516,50 +578,48 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.accountName
+    Parameters.accountName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RemoteRenderingAccountPage
+      bodyMapper: Mappers.RemoteRenderingAccountPage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

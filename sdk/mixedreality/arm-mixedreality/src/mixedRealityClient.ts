@@ -11,20 +11,20 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   SpatialAnchorsAccountsImpl,
   RemoteRenderingAccountsImpl,
-  ObjectAnchorsAccountsImpl
+  ObjectAnchorsAccountsImpl,
 } from "./operations/index.js";
 import {
   Operations,
   SpatialAnchorsAccounts,
   RemoteRenderingAccounts,
-  ObjectAnchorsAccounts
+  ObjectAnchorsAccounts,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
@@ -32,7 +32,7 @@ import {
   MixedRealityClientOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityLocalOptionalParams,
-  CheckNameAvailabilityLocalResponse
+  CheckNameAvailabilityLocalResponse,
 } from "./models/index.js";
 
 export class MixedRealityClient extends coreClient.ServiceClient {
@@ -50,7 +50,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MixedRealityClientOptionalParams
+    options?: MixedRealityClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -65,10 +65,10 @@ export class MixedRealityClient extends coreClient.ServiceClient {
     }
     const defaults: MixedRealityClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-mixedreality/4.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-mixedreality/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -78,20 +78,21 @@ export class MixedRealityClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -101,7 +102,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -111,9 +112,9 @@ export class MixedRealityClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -138,7 +139,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -152,7 +153,7 @@ export class MixedRealityClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -166,11 +167,11 @@ export class MixedRealityClient extends coreClient.ServiceClient {
   checkNameAvailabilityLocal(
     location: string,
     checkNameAvailability: CheckNameAvailabilityRequest,
-    options?: CheckNameAvailabilityLocalOptionalParams
+    options?: CheckNameAvailabilityLocalOptionalParams,
   ): Promise<CheckNameAvailabilityLocalResponse> {
     return this.sendOperationRequest(
       { location, checkNameAvailability, options },
-      checkNameAvailabilityLocalOperationSpec
+      checkNameAvailabilityLocalOperationSpec,
     );
   }
 
@@ -183,25 +184,24 @@ export class MixedRealityClient extends coreClient.ServiceClient {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityLocalOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.checkNameAvailability,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

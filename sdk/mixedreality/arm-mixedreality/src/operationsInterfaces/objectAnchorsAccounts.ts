@@ -22,30 +22,51 @@ import {
   ObjectAnchorsAccountsListKeysResponse,
   AccountKeyRegenerateRequest,
   ObjectAnchorsAccountsRegenerateKeysOptionalParams,
-  ObjectAnchorsAccountsRegenerateKeysResponse
+  ObjectAnchorsAccountsRegenerateKeysResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ObjectAnchorsAccounts. */
 export interface ObjectAnchorsAccounts {
   /**
-   * List Object Anchors Accounts by Subscription
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Object Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams
+    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
   /**
-   * List Resources by Resource Group
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Resources by Resource Group
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams
+    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
   /**
-   * Delete an Object Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Delete an Object Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -53,10 +74,17 @@ export interface ObjectAnchorsAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectAnchorsAccountsDeleteOptionalParams
+    options?: ObjectAnchorsAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * Retrieve an Object Anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Retrieve an Object Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -64,10 +92,17 @@ export interface ObjectAnchorsAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectAnchorsAccountsGetOptionalParams
+    options?: ObjectAnchorsAccountsGetOptionalParams,
   ): Promise<ObjectAnchorsAccountsGetResponse>;
   /**
-   * Updating an Object Anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Updating an Object Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param objectAnchorsAccount Object Anchors Account parameter.
@@ -77,10 +112,17 @@ export interface ObjectAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     objectAnchorsAccount: ObjectAnchorsAccount,
-    options?: ObjectAnchorsAccountsUpdateOptionalParams
+    options?: ObjectAnchorsAccountsUpdateOptionalParams,
   ): Promise<ObjectAnchorsAccountsUpdateResponse>;
   /**
-   * Creating or Updating an object anchors Account.
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Creating or Updating an object anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param objectAnchorsAccount Object Anchors Account parameter.
@@ -90,10 +132,17 @@ export interface ObjectAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     objectAnchorsAccount: ObjectAnchorsAccount,
-    options?: ObjectAnchorsAccountsCreateOptionalParams
+    options?: ObjectAnchorsAccountsCreateOptionalParams,
   ): Promise<ObjectAnchorsAccountsCreateResponse>;
   /**
-   * List Both of the 2 Keys of an object anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  List Both of the 2 Keys of an object anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -101,10 +150,17 @@ export interface ObjectAnchorsAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectAnchorsAccountsListKeysOptionalParams
+    options?: ObjectAnchorsAccountsListKeysOptionalParams,
   ): Promise<ObjectAnchorsAccountsListKeysResponse>;
   /**
-   * Regenerate specified Key of an object anchors Account
+   *
+   * > [!NOTE]
+   * >
+   * > **Mixed Reality retirement**
+   * >
+   * > The Mixed Reality service is now deprecated and will be retired.
+   *
+   *  Regenerate specified Key of an object anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -114,6 +170,6 @@ export interface ObjectAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: ObjectAnchorsAccountsRegenerateKeysOptionalParams
+    options?: ObjectAnchorsAccountsRegenerateKeysOptionalParams,
   ): Promise<ObjectAnchorsAccountsRegenerateKeysResponse>;
 }
