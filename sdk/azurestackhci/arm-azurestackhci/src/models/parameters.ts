@@ -59,10 +59,13 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1,
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid",
+      name: "String",
     },
   },
 };
@@ -96,7 +99,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-01",
+    defaultValue: "2024-02-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
