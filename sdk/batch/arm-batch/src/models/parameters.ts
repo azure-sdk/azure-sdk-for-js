@@ -12,8 +12,6 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  BatchAccountCreateParameters as BatchAccountCreateParametersMapper,
-  BatchAccountUpdateParameters as BatchAccountUpdateParametersMapper,
   BatchAccountRegenerateKeyParameters as BatchAccountRegenerateKeyParametersMapper,
   ActivateApplicationPackageParameters as ActivateApplicationPackageParametersMapper,
   ApplicationPackage as ApplicationPackageMapper,
@@ -23,23 +21,6 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Pool as PoolMapper,
 } from "../models/mappers.js";
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: BatchAccountCreateParametersMapper,
-};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -65,33 +46,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const accountName: OperationURLParameter = {
-  parameterPath: "accountName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]+$"),
-      MaxLength: 24,
-      MinLength: 3,
-    },
-    serializedName: "accountName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -115,12 +69,18 @@ export const subscriptionId: OperationURLParameter = {
   },
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: BatchAccountUpdateParametersMapper,
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
-export const accountName1: OperationURLParameter = {
+export const accountName: OperationURLParameter = {
   parameterPath: "accountName",
   mapper: {
     constraints: {
@@ -136,7 +96,19 @@ export const accountName1: OperationURLParameter = {
   },
 };
 
-export const parameters2: OperationParameter = {
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: BatchAccountRegenerateKeyParametersMapper,
 };
@@ -164,7 +136,7 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const parameters3: OperationParameter = {
+export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: ActivateApplicationPackageParametersMapper,
 };
@@ -201,7 +173,7 @@ export const versionName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: ApplicationPackageMapper,
 };
@@ -216,12 +188,12 @@ export const maxresults: OperationQueryParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: ["options", "parameters"],
   mapper: ApplicationMapper,
 };
 
-export const parameters6: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationMapper,
 };
@@ -247,7 +219,7 @@ export const filter: OperationQueryParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckNameAvailabilityParametersMapper,
 };
@@ -262,7 +234,7 @@ export const select: OperationQueryParameter = {
   },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: CertificateCreateOrUpdateParametersMapper,
 };
@@ -335,12 +307,12 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
 
-export const parameters10: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: PoolMapper,
 };

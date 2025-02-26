@@ -8,44 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Parameters supplied to the Create operation. */
-export interface BatchAccountCreateParameters {
-  /** The region in which to create the account. */
-  location: string;
-  /** The user-specified tags associated with the account. */
-  tags?: { [propertyName: string]: string };
-  /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
-  /** The properties related to the auto-storage account. */
-  autoStorage?: AutoStorageBaseProperties;
-  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Microsoft Entra ID. If the mode is UserSubscription, clients must use Microsoft Entra ID. The default is BatchService. */
-  poolAllocationMode?: PoolAllocationMode;
-  /** A reference to the Azure key vault associated with the Batch account. */
-  keyVaultReference?: KeyVaultReference;
-  /** If not specified, the default value is 'enabled'. */
-  publicNetworkAccess?: PublicNetworkAccessType;
-  /** The network profile only takes effect when publicNetworkAccess is enabled. */
-  networkProfile?: NetworkProfile;
-  /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-  encryption?: EncryptionProperties;
-  /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
-  allowedAuthenticationModes?: AuthenticationMode[];
-}
-
-/** The properties related to the auto-storage account. */
-export interface AutoStorageBaseProperties {
-  /** The resource ID of the storage account to be used for auto-storage account. */
-  storageAccountId: string;
-  /** The authentication mode which the Batch service will use to manage the auto-storage account. */
-  authenticationMode?: AutoStorageAuthenticationMode;
-  /** The identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage. */
-  nodeIdentityReference?: ComputeNodeIdentityReference;
-}
-
-/** The reference to a user assigned identity associated with the Batch pool which a compute node will use. */
-export interface ComputeNodeIdentityReference {
-  /** The ARM resource id of the user assigned identity. */
-  resourceId?: string;
+/** Values returned by the List operation. */
+export interface BatchAccountListResult {
+  /** The collection of Batch accounts returned by the listing operation. */
+  value?: BatchAccount[];
+  /** The continuation token. */
+  nextLink?: string;
 }
 
 /** Identifies the Azure key vault associated with a Batch account. */
@@ -78,58 +46,6 @@ export interface IPRule {
   action: "Allow";
   /** IPv4 address, or IPv4 address range in CIDR format. */
   value: string;
-}
-
-/** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-export interface EncryptionProperties {
-  /** Type of the key source. */
-  keySource?: KeySource;
-  /** Additional details when using Microsoft.KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
-}
-
-/** KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault. */
-export interface KeyVaultProperties {
-  /**
-   * Full path to the secret with or without version. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. or https://mykeyvault.vault.azure.net/keys/testkey. To be usable the following prerequisites must be met:
-   *
-   *  The Batch Account has a System Assigned identity
-   *  The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-   *  The KeyVault has soft-delete and purge protection enabled
-   */
-  keyIdentifier?: string;
-}
-
-/** The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode. */
-export interface BatchAccountIdentity {
-  /**
-   * The principal id of the Batch account. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the Batch account. */
-  type: ResourceIdentityType;
-  /** The list of user identities associated with the Batch account. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentities };
-}
-
-/** The list of associated user identities. */
-export interface UserAssignedIdentities {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
 }
 
 /** The private endpoint of the private endpoint connection. */
@@ -180,6 +96,42 @@ export interface AzureProxyResource {
   tags?: { [propertyName: string]: string };
 }
 
+/** The properties related to the auto-storage account. */
+export interface AutoStorageBaseProperties {
+  /** The resource ID of the storage account to be used for auto-storage account. */
+  storageAccountId: string;
+  /** The authentication mode which the Batch service will use to manage the auto-storage account. */
+  authenticationMode?: AutoStorageAuthenticationMode;
+  /** The identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage. */
+  nodeIdentityReference?: ComputeNodeIdentityReference;
+}
+
+/** The reference to a user assigned identity associated with the Batch pool which a compute node will use. */
+export interface ComputeNodeIdentityReference {
+  /** The ARM resource id of the user assigned identity. */
+  resourceId?: string;
+}
+
+/** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
+export interface EncryptionProperties {
+  /** Type of the key source. */
+  keySource?: KeySource;
+  /** Additional details when using Microsoft.KeyVault */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/** KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault. */
+export interface KeyVaultProperties {
+  /**
+   * Full path to the secret with or without version. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. or https://mykeyvault.vault.azure.net/keys/testkey. To be usable the following prerequisites must be met:
+   *
+   *  The Batch Account has a System Assigned identity
+   *  The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
+   *  The KeyVault has soft-delete and purge protection enabled
+   */
+  keyIdentifier?: string;
+}
+
 /** A VM Family and its associated core quota for the Batch account. */
 export interface VirtualMachineFamilyCoreQuota {
   /**
@@ -192,6 +144,38 @@ export interface VirtualMachineFamilyCoreQuota {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly coreQuota?: number;
+}
+
+/** The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode. */
+export interface BatchAccountIdentity {
+  /**
+   * The principal id of the Batch account. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the Batch account. */
+  type: ResourceIdentityType;
+  /** The list of user identities associated with the Batch account. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentities };
+}
+
+/** The list of associated user identities. */
+export interface UserAssignedIdentities {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** A definition of an Azure resource. */
@@ -239,32 +223,6 @@ export interface CloudErrorBody {
   target?: string;
   /** A list of additional details about the error. */
   details?: CloudErrorBody[];
-}
-
-/** Parameters for updating an Azure Batch account. */
-export interface BatchAccountUpdateParameters {
-  /** The user-specified tags associated with the account. */
-  tags?: { [propertyName: string]: string };
-  /** The identity of the Batch account. */
-  identity?: BatchAccountIdentity;
-  /** The properties related to the auto-storage account. */
-  autoStorage?: AutoStorageBaseProperties;
-  /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
-  encryption?: EncryptionProperties;
-  /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
-  allowedAuthenticationModes?: AuthenticationMode[];
-  /** If not specified, the default value is 'enabled'. */
-  publicNetworkAccess?: PublicNetworkAccessType;
-  /** The network profile only takes effect when publicNetworkAccess is enabled. */
-  networkProfile?: NetworkProfile;
-}
-
-/** Values returned by the List operation. */
-export interface BatchAccountListResult {
-  /** The collection of Batch accounts returned by the listing operation. */
-  value?: BatchAccount[];
-  /** The continuation token. */
-  nextLink?: string;
 }
 
 /** Parameters supplied to the RegenerateKey operation. */
@@ -545,7 +503,7 @@ export interface ImageReference {
   sku?: string;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
   version?: string;
-  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
   /** This property is mutually exclusive with other properties and can be fetched from shared gallery image GET call. */
   sharedGalleryImageId?: string;
@@ -655,7 +613,7 @@ export interface OSDisk {
 
 /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
 export interface DiffDiskSettings {
-  /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
+  /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
   placement?: "CacheDisk";
 }
 
@@ -746,7 +704,7 @@ export interface AutoScaleRunError {
 
 /** The network configuration for a pool. */
 export interface NetworkConfiguration {
-  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
+  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication，including ports 29876 and 29877. Also enable outbound connections to Azure Storage on port 443. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /** The scope of dynamic vnet assignment. */
   dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
@@ -770,7 +728,7 @@ export interface InboundNatPool {
   name: string;
   /** The protocol of the endpoint. */
   protocol: InboundEndpointProtocol;
-  /** This must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
+  /** This must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
   backendPort: number;
   /** Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot overlap. If any reserved or overlapping values are provided the request fails with HTTP status code 400. */
   frontendPortRangeStart: number;
@@ -1054,7 +1012,7 @@ export interface UpgradePolicy {
 export interface AutomaticOSUpgradePolicy {
   /** Whether OS image rollback feature should be disabled. */
   disableAutomaticRollback?: boolean;
-  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
+  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
   enableAutomaticOSUpgrade?: boolean;
   /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
   useRollingUpgradePolicy?: boolean;
@@ -1365,10 +1323,46 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** Contains information about the auto-storage account associated with a Batch account. */
-export interface AutoStorageProperties extends AutoStorageBaseProperties {
-  /** The UTC time at which storage keys were last synchronized with the Batch account. */
-  lastKeySync: Date;
+/** Parameters supplied to the Create operation. */
+export interface BatchAccountCreateParameters {
+  /** The region in which to create the account. */
+  location: string;
+  /** The user-specified tags associated with the account. */
+  tags?: { [propertyName: string]: string };
+  /** The identity of the Batch account. */
+  identity?: BatchAccountIdentity;
+  /** The properties related to the auto-storage account. */
+  autoStorage?: AutoStorageBaseProperties;
+  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Microsoft Entra ID. If the mode is UserSubscription, clients must use Microsoft Entra ID. The default is BatchService. */
+  poolAllocationMode?: PoolAllocationMode;
+  /** A reference to the Azure key vault associated with the Batch account. */
+  keyVaultReference?: KeyVaultReference;
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
+  /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
+  encryption?: EncryptionProperties;
+  /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
+  allowedAuthenticationModes?: AuthenticationMode[];
+}
+
+/** Parameters for updating an Azure Batch account. */
+export interface BatchAccountUpdateParameters {
+  /** The user-specified tags associated with the account. */
+  tags?: { [propertyName: string]: string };
+  /** The identity of the Batch account. */
+  identity?: BatchAccountIdentity;
+  /** The properties related to the auto-storage account. */
+  autoStorage?: AutoStorageBaseProperties;
+  /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
+  encryption?: EncryptionProperties;
+  /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
+  allowedAuthenticationModes?: AuthenticationMode[];
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
 }
 
 /** Contains information about a private link resource. */
@@ -1544,7 +1538,7 @@ export interface Pool extends AzureProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocationStateTransitionTime?: Date;
-  /** For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
@@ -1607,6 +1601,12 @@ export interface Pool extends AzureProxyResource {
   upgradePolicy?: UpgradePolicy;
   /** The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. */
   resourceTags?: { [propertyName: string]: string };
+}
+
+/** Contains information about the auto-storage account associated with a Batch account. */
+export interface AutoStorageProperties extends AutoStorageBaseProperties {
+  /** The UTC time at which storage keys were last synchronized with the Batch account. */
+  lastKeySync: Date;
 }
 
 /** Contains information about an Azure Batch account. */
@@ -1741,22 +1741,6 @@ export interface ProxyResource extends Resource {}
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
   /** Network security configuration properties. */
   properties?: NetworkSecurityPerimeterConfigurationProperties;
-}
-
-/** Defines headers for BatchAccount_create operation. */
-export interface BatchAccountCreateHeaders {
-  /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
-  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that specifies the delay in seconds. */
-  retryAfter?: number;
-}
-
-/** Defines headers for BatchAccount_delete operation. */
-export interface BatchAccountDeleteHeaders {
-  /** The URL of the resource used to check the status of the asynchronous operation. */
-  location?: string;
-  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that specifies the delay in seconds. */
-  retryAfter?: number;
 }
 
 /** Defines headers for Certificate_create operation. */
@@ -2056,10 +2040,14 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-/** Defines values for AutoStorageAuthenticationMode. */
-export type AutoStorageAuthenticationMode =
-  | "StorageKeys"
-  | "BatchAccountManagedIdentity";
+/** Defines values for ProvisioningState. */
+export type ProvisioningState =
+  | "Invalid"
+  | "Creating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled";
 /** Defines values for PoolAllocationMode. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
@@ -2069,23 +2057,6 @@ export type PublicNetworkAccessType =
   | "SecuredByPerimeter";
 /** Defines values for EndpointAccessDefaultAction. */
 export type EndpointAccessDefaultAction = "Allow" | "Deny";
-/** Defines values for KeySource. */
-export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
-/** Defines values for AuthenticationMode. */
-export type AuthenticationMode =
-  | "SharedKey"
-  | "AAD"
-  | "TaskAuthenticationToken";
-/** Defines values for ResourceIdentityType. */
-export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
-/** Defines values for ProvisioningState. */
-export type ProvisioningState =
-  | "Invalid"
-  | "Creating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled";
 /** Defines values for PrivateEndpointConnectionProvisioningState. */
 export type PrivateEndpointConnectionProvisioningState =
   | "Creating"
@@ -2100,6 +2071,19 @@ export type PrivateLinkServiceConnectionStatus =
   | "Pending"
   | "Rejected"
   | "Disconnected";
+/** Defines values for AutoStorageAuthenticationMode. */
+export type AutoStorageAuthenticationMode =
+  | "StorageKeys"
+  | "BatchAccountManagedIdentity";
+/** Defines values for KeySource. */
+export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
+/** Defines values for AuthenticationMode. */
+export type AuthenticationMode =
+  | "SharedKey"
+  | "AAD"
+  | "TaskAuthenticationToken";
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Defines values for AccountKeyType. */
 export type AccountKeyType = "Primary" | "Secondary";
 /** Defines values for PackageState. */
@@ -2168,41 +2152,6 @@ export type NodeCommunicationMode = "Default" | "Classic" | "Simplified";
 export type UpgradeMode = "automatic" | "manual" | "rolling";
 /** Defines values for PoolIdentityType. */
 export type PoolIdentityType = "UserAssigned" | "None";
-
-/** Optional parameters. */
-export interface BatchAccountCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type BatchAccountCreateResponse = BatchAccount;
-
-/** Optional parameters. */
-export interface BatchAccountUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BatchAccountUpdateResponse = BatchAccount;
-
-/** Optional parameters. */
-export interface BatchAccountDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface BatchAccountGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BatchAccountGetResponse = BatchAccount;
 
 /** Optional parameters. */
 export interface BatchAccountListOptionalParams
