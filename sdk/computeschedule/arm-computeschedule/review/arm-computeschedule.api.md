@@ -53,6 +53,26 @@ export interface DeallocateResourceOperationResponse {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExecuteDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
@@ -142,9 +162,9 @@ export enum KnownOptimizationPreference {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -157,7 +177,7 @@ export enum KnownResourceOperationType {
 
 // @public
 export enum KnownVersions {
-    "V2024-10-01" = "2024-10-01"
+    "2024-10-01" = "2024-10-01"
 }
 
 // @public

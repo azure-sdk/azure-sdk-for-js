@@ -15,7 +15,7 @@ async function operationsList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operations.list()) {
+  for await (let item of client.operations.Operations_list()) {
     resArray.push(item);
   }
 
