@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   MhsmGeoReplicatedRegion,
-  MhsmRegionsListByResourceOptionalParams
+  MhsmRegionsListByResourceOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -17,13 +17,13 @@ import {
 export interface MhsmRegions {
   /**
    * The List operation gets information about the regions associated with the managed HSM Pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   listByResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmRegionsListByResourceOptionalParams
+    options?: MhsmRegionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<MhsmGeoReplicatedRegion>;
 }

@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
-  MhsmPrivateLinkResourcesListByMhsmResourceResponse
+  MhsmPrivateLinkResourcesListByMhsmResourceResponse,
 } from "../models/index.js";
 
 /** Class containing MhsmPrivateLinkResources operations. */
@@ -30,18 +30,18 @@ export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
 
   /**
    * Gets the private link resources supported for the managed hsm pool.
-   * @param resourceGroupName Name of the resource group that contains the managed HSM pool.
-   * @param name Name of the managed HSM Pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name The name of the managed HSM Pool.
    * @param options The options parameters.
    */
   listByMhsmResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
+    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   ): Promise<MhsmPrivateLinkResourcesListByMhsmResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listByMhsmResourceOperationSpec
+      listByMhsmResourceOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class MhsmPrivateLinkResourcesImpl implements MhsmPrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByMhsmResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/managedHSMs/{name}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MhsmPrivateLinkResourceListResult
+      bodyMapper: Mappers.MhsmPrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.name,
     Parameters.resourceGroupName,
-    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
