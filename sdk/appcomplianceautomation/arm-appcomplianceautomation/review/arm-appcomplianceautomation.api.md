@@ -4,43 +4,34 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public (undocumented)
-export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: AppComplianceAutomationToolForMicrosoft365OptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    evidence: Evidence;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    providerActions: ProviderActions;
-    // (undocumented)
-    report: Report_2;
-    // (undocumented)
-    scopingConfiguration: ScopingConfiguration;
-    // (undocumented)
-    snapshot: Snapshot;
-    // (undocumented)
-    webhook: Webhook;
+export class AppComplianceAutomationClient {
+    constructor(credential: TokenCredential, options?: AppComplianceAutomationClientOptionalParams);
+    readonly evidence: EvidenceOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly providerActions: ProviderActionsOperations;
+    readonly report: ReportOperations;
+    readonly scopingConfiguration: ScopingConfigurationOperations;
+    readonly snapshot: SnapshotOperations;
+    readonly webhook: WebhookOperations;
 }
 
 // @public
-export interface AppComplianceAutomationToolForMicrosoft365OptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface AppComplianceAutomationClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -101,6 +92,11 @@ export interface ComplianceResult {
 
 // @public
 export type ContentType = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export interface Control {
@@ -164,7 +160,7 @@ export type EnableSslVerification = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -183,33 +179,18 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface Evidence {
-    createOrUpdate(reportName: string, evidenceName: string, properties: EvidenceResource, options?: EvidenceCreateOrUpdateOptionalParams): Promise<EvidenceCreateOrUpdateResponse>;
-    delete(reportName: string, evidenceName: string, options?: EvidenceDeleteOptionalParams): Promise<void>;
-    download(reportName: string, evidenceName: string, body: EvidenceFileDownloadRequest, options?: EvidenceDownloadOptionalParams): Promise<EvidenceDownloadResponse>;
-    get(reportName: string, evidenceName: string, options?: EvidenceGetOptionalParams): Promise<EvidenceGetResponse>;
-    listByReport(reportName: string, options?: EvidenceListByReportOptionalParams): PagedAsyncIterableIterator<EvidenceResource>;
-}
-
-// @public
-export interface EvidenceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceCreateOrUpdateOptionalParams extends OperationOptions {
     offerGuid?: string;
     reportCreatorTenantId?: string;
 }
 
 // @public
-export type EvidenceCreateOrUpdateResponse = EvidenceResource;
-
-// @public
-export interface EvidenceDeleteOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EvidenceDownloadOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceDownloadOptionalParams extends OperationOptions {
 }
-
-// @public
-export type EvidenceDownloadResponse = EvidenceFileDownloadResponse;
 
 // @public
 export interface EvidenceFileDownloadRequest {
@@ -228,21 +209,11 @@ export interface EvidenceFileDownloadResponseEvidenceFile {
 }
 
 // @public
-export interface EvidenceGetOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EvidenceGetResponse = EvidenceResource;
-
-// @public
-export interface EvidenceListByReportNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EvidenceListByReportNextResponse = EvidenceResourceListResult;
-
-// @public
-export interface EvidenceListByReportOptionalParams extends coreClient.OperationOptions {
+export interface EvidenceListByReportOptionalParams extends OperationOptions {
     filter?: string;
     offerGuid?: string;
     orderby?: string;
@@ -253,7 +224,13 @@ export interface EvidenceListByReportOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type EvidenceListByReportResponse = EvidenceResourceListResult;
+export interface EvidenceOperations {
+    createOrUpdate: (reportName: string, evidenceName: string, properties: EvidenceResource, options?: EvidenceCreateOrUpdateOptionalParams) => Promise<EvidenceResource>;
+    delete: (reportName: string, evidenceName: string, options?: EvidenceDeleteOptionalParams) => Promise<void>;
+    download: (reportName: string, evidenceName: string, body: EvidenceFileDownloadRequest, options?: EvidenceDownloadOptionalParams) => Promise<EvidenceFileDownloadResponse>;
+    get: (reportName: string, evidenceName: string, options?: EvidenceGetOptionalParams) => Promise<EvidenceResource>;
+    listByReport: (reportName: string, options?: EvidenceListByReportOptionalParams) => PagedAsyncIterableIterator<EvidenceResource>;
+}
 
 // @public
 export interface EvidenceProperties {
@@ -271,12 +248,6 @@ export interface EvidenceResource extends ProxyResource {
 }
 
 // @public
-export interface EvidenceResourceListResult {
-    nextLink?: string;
-    value: EvidenceResource[];
-}
-
-// @public
 export type EvidenceType = string;
 
 // @public
@@ -288,9 +259,6 @@ export interface GetCollectionCountRequest {
 export interface GetCollectionCountResponse {
     count?: number;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GetOverviewStatusRequest {
@@ -414,18 +382,18 @@ export enum KnownIsRecommendSolution {
 
 // @public
 export enum KnownNotificationEvent {
-    AssessmentFailure = "assessment_failure",
-    GenerateSnapshotFailed = "generate_snapshot_failed",
-    GenerateSnapshotSuccess = "generate_snapshot_success",
-    ReportConfigurationChanges = "report_configuration_changes",
-    ReportDeletion = "report_deletion"
+    assessment_failure = "assessment_failure",
+    generate_snapshot_failed = "generate_snapshot_failed",
+    generate_snapshot_success = "generate_snapshot_success",
+    report_configuration_changes = "report_configuration_changes",
+    report_deletion = "report_deletion"
 }
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -528,6 +496,11 @@ export enum KnownUpdateWebhookKey {
 }
 
 // @public
+export enum KnownVersions {
+    v2024_06_27 = "2024-06-27"
+}
+
+// @public
 export enum KnownWebhookKeyEnabled {
     False = "false",
     True = "true"
@@ -558,11 +531,6 @@ export interface OnboardRequest {
 }
 
 // @public
-export interface OnboardResponse {
-    subscriptionIds?: string[];
-}
-
-// @public
 export interface Operation {
     readonly actionType?: ActionType;
     display?: OperationDisplay;
@@ -580,29 +548,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
@@ -617,91 +569,58 @@ export interface OverviewStatus {
 }
 
 // @public
-export interface ProviderActions {
-    beginOnboard(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsOnboardResponse>, ProviderActionsOnboardResponse>>;
-    beginOnboardAndWait(body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams): Promise<ProviderActionsOnboardResponse>;
-    beginTriggerEvaluation(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<SimplePollerLike<OperationState<ProviderActionsTriggerEvaluationResponse>, ProviderActionsTriggerEvaluationResponse>>;
-    beginTriggerEvaluationAndWait(body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams): Promise<ProviderActionsTriggerEvaluationResponse>;
-    checkNameAvailability(body: CheckNameAvailabilityRequest, options?: ProviderActionsCheckNameAvailabilityOptionalParams): Promise<ProviderActionsCheckNameAvailabilityResponse>;
-    getCollectionCount(body: GetCollectionCountRequest, options?: ProviderActionsGetCollectionCountOptionalParams): Promise<ProviderActionsGetCollectionCountResponse>;
-    getOverviewStatus(body: GetOverviewStatusRequest, options?: ProviderActionsGetOverviewStatusOptionalParams): Promise<ProviderActionsGetOverviewStatusResponse>;
-    listInUseStorageAccounts(body: ListInUseStorageAccountsRequest, options?: ProviderActionsListInUseStorageAccountsOptionalParams): Promise<ProviderActionsListInUseStorageAccountsResponse>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface ProviderActionsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export type ProviderActionsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
-
-// @public
-export interface ProviderActionsGetCollectionCountOptionalParams extends coreClient.OperationOptions {
+export interface ProviderActionsCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderActionsGetCollectionCountResponse = GetCollectionCountResponse;
-
-// @public
-export interface ProviderActionsGetOverviewStatusOptionalParams extends coreClient.OperationOptions {
+export interface ProviderActionsGetCollectionCountOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderActionsGetOverviewStatusResponse = GetOverviewStatusResponse;
-
-// @public
-export interface ProviderActionsListInUseStorageAccountsOptionalParams extends coreClient.OperationOptions {
+export interface ProviderActionsGetOverviewStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProviderActionsListInUseStorageAccountsResponse = ListInUseStorageAccountsResponse;
-
-// @public
-export interface ProviderActionsOnboardHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface ProviderActionsListInUseStorageAccountsOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProviderActionsOnboardOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProviderActionsOnboardOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ProviderActionsOnboardResponse = OnboardResponse;
-
-// @public
-export interface ProviderActionsTriggerEvaluationHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface ProviderActionsOperations {
+    checkNameAvailability: (body: CheckNameAvailabilityRequest, options?: ProviderActionsCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    getCollectionCount: (body: GetCollectionCountRequest, options?: ProviderActionsGetCollectionCountOptionalParams) => Promise<GetCollectionCountResponse>;
+    getOverviewStatus: (body: GetOverviewStatusRequest, options?: ProviderActionsGetOverviewStatusOptionalParams) => Promise<GetOverviewStatusResponse>;
+    listInUseStorageAccounts: (body: ListInUseStorageAccountsRequest, options?: ProviderActionsListInUseStorageAccountsOptionalParams) => Promise<ListInUseStorageAccountsResponse>;
+    onboard: (body: OnboardRequest, options?: ProviderActionsOnboardOptionalParams) => PollerLike<OperationState<void>, void>;
+    triggerEvaluation: (body: TriggerEvaluationRequest, options?: ProviderActionsTriggerEvaluationOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
-export interface ProviderActionsTriggerEvaluationOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProviderActionsTriggerEvaluationOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ProviderActionsTriggerEvaluationResponse = TriggerEvaluationResponse;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
-}
-
-// @public
-export interface QuickAssessment {
-    readonly description?: string;
-    readonly displayName?: string;
-    readonly remediationLink?: string;
-    readonly resourceId?: string;
-    readonly resourceStatus?: ResourceStatus;
-    readonly responsibilityId?: string;
-    readonly timestamp?: Date;
 }
 
 // @public
@@ -719,25 +638,8 @@ export interface RecommendationSolution {
 }
 
 // @public
-interface Report_2 {
-    beginCreateOrUpdate(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
-    beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ReportDeleteResponse>, ReportDeleteResponse>>;
-    beginDeleteAndWait(reportName: string, options?: ReportDeleteOptionalParams): Promise<ReportDeleteResponse>;
-    beginFix(reportName: string, options?: ReportFixOptionalParams): Promise<SimplePollerLike<OperationState<ReportFixResponse>, ReportFixResponse>>;
-    beginFixAndWait(reportName: string, options?: ReportFixOptionalParams): Promise<ReportFixResponse>;
-    beginSyncCertRecord(reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams): Promise<SimplePollerLike<OperationState<ReportSyncCertRecordResponse>, ReportSyncCertRecordResponse>>;
-    beginSyncCertRecordAndWait(reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams): Promise<ReportSyncCertRecordResponse>;
-    beginUpdate(reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ReportUpdateResponse>, ReportUpdateResponse>>;
-    beginUpdateAndWait(reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<ReportUpdateResponse>;
-    beginVerify(reportName: string, options?: ReportVerifyOptionalParams): Promise<SimplePollerLike<OperationState<ReportVerifyResponse>, ReportVerifyResponse>>;
-    beginVerifyAndWait(reportName: string, options?: ReportVerifyOptionalParams): Promise<ReportVerifyResponse>;
-    get(reportName: string, options?: ReportGetOptionalParams): Promise<ReportGetResponse>;
-    getScopingQuestions(reportName: string, options?: ReportGetScopingQuestionsOptionalParams): Promise<ReportGetScopingQuestionsResponse>;
-    list(options?: ReportListOptionalParams): PagedAsyncIterableIterator<ReportResource>;
-    nestedResourceCheckNameAvailability(reportName: string, body: CheckNameAvailabilityRequest, options?: ReportNestedResourceCheckNameAvailabilityOptionalParams): Promise<ReportNestedResourceCheckNameAvailabilityResponse>;
+export interface ReportCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
-export { Report_2 as Report }
 
 // @public
 export interface ReportComplianceStatus {
@@ -745,48 +647,19 @@ export interface ReportComplianceStatus {
 }
 
 // @public
-export interface ReportCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReportCreateOrUpdateResponse = ReportResource;
-
-// @public
-export interface ReportDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReportDeleteResponse = ReportDeleteHeaders;
-
-// @public
-export interface ReportFixHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportFixOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportFixOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReportFixResponse = ReportFixResult;
 
 // @public
 export interface ReportFixResult {
@@ -795,28 +668,15 @@ export interface ReportFixResult {
 }
 
 // @public
-export interface ReportGetOptionalParams extends coreClient.OperationOptions {
+export interface ReportGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReportGetResponse = ReportResource;
-
-// @public
-export interface ReportGetScopingQuestionsOptionalParams extends coreClient.OperationOptions {
+export interface ReportGetScopingQuestionsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ReportGetScopingQuestionsResponse = ScopingQuestions;
-
-// @public
-export interface ReportListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ReportListNextResponse = ReportResourceListResult;
-
-// @public
-export interface ReportListOptionalParams extends coreClient.OperationOptions {
+export interface ReportListOptionalParams extends OperationOptions {
     filter?: string;
     offerGuid?: string;
     orderby?: string;
@@ -827,14 +687,18 @@ export interface ReportListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReportListResponse = ReportResourceListResult;
-
-// @public
-export interface ReportNestedResourceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ReportOperations {
+    checkNameAvailability: (reportName: string, body: CheckNameAvailabilityRequest, options?: ReportCheckNameAvailabilityOptionalParams) => Promise<CheckNameAvailabilityResponse>;
+    createOrUpdate: (reportName: string, properties: ReportResource, options?: ReportCreateOrUpdateOptionalParams) => PollerLike<OperationState<ReportResource>, ReportResource>;
+    delete: (reportName: string, options?: ReportDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fix: (reportName: string, options?: ReportFixOptionalParams) => PollerLike<OperationState<ReportFixResult>, ReportFixResult>;
+    get: (reportName: string, options?: ReportGetOptionalParams) => Promise<ReportResource>;
+    getScopingQuestions: (reportName: string, options?: ReportGetScopingQuestionsOptionalParams) => Promise<ScopingQuestions>;
+    list: (options?: ReportListOptionalParams) => PagedAsyncIterableIterator<ReportResource>;
+    syncCertRecord: (reportName: string, body: SyncCertRecordRequest, options?: ReportSyncCertRecordOptionalParams) => PollerLike<OperationState<SyncCertRecordResponse>, SyncCertRecordResponse>;
+    update: (reportName: string, properties: ReportResourcePatch, options?: ReportUpdateOptionalParams) => PollerLike<OperationState<ReportResource>, ReportResource>;
+    verify: (reportName: string, options?: ReportVerifyOptionalParams) => PollerLike<OperationState<ReportVerificationResult>, ReportVerificationResult>;
 }
-
-// @public
-export type ReportNestedResourceCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface ReportPatchProperties {
@@ -878,12 +742,6 @@ export interface ReportResource extends ProxyResource {
 }
 
 // @public
-export interface ReportResourceListResult {
-    nextLink?: string;
-    value: ReportResource[];
-}
-
-// @public
 export interface ReportResourcePatch {
     properties?: ReportPatchProperties;
 }
@@ -892,34 +750,14 @@ export interface ReportResourcePatch {
 export type ReportStatus = string;
 
 // @public
-export interface ReportSyncCertRecordHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportSyncCertRecordOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportSyncCertRecordOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ReportSyncCertRecordResponse = SyncCertRecordResponse;
-
-// @public
-export interface ReportUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReportUpdateResponse = ReportResource;
 
 // @public
 export interface ReportVerificationResult {
@@ -928,19 +766,9 @@ export interface ReportVerificationResult {
 }
 
 // @public
-export interface ReportVerifyHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ReportVerifyOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ReportVerifyOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type ReportVerifyResponse = ReportVerificationResult;
 
 // @public
 export interface Resource {
@@ -1015,6 +843,16 @@ export type ResponsibilityStatus = string;
 export type ResponsibilityType = string;
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AppComplianceAutomationClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type Result = string;
 
 // @public
@@ -1027,44 +865,28 @@ export interface ScopingAnswer {
 }
 
 // @public
-export interface ScopingConfiguration {
-    createOrUpdate(reportName: string, scopingConfigurationName: string, properties: ScopingConfigurationResource, options?: ScopingConfigurationCreateOrUpdateOptionalParams): Promise<ScopingConfigurationCreateOrUpdateResponse>;
-    delete(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationDeleteOptionalParams): Promise<void>;
-    get(reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationGetOptionalParams): Promise<ScopingConfigurationGetResponse>;
-    list(reportName: string, options?: ScopingConfigurationListOptionalParams): PagedAsyncIterableIterator<ScopingConfigurationResource>;
+export interface ScopingConfigurationCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopingConfigurationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopingConfigurationCreateOrUpdateResponse = ScopingConfigurationResource;
-
-// @public
-export interface ScopingConfigurationDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ScopingConfigurationGetOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ScopingConfigurationGetResponse = ScopingConfigurationResource;
-
-// @public
-export interface ScopingConfigurationListNextOptionalParams extends coreClient.OperationOptions {
+export interface ScopingConfigurationOperations {
+    createOrUpdate: (reportName: string, scopingConfigurationName: string, properties: ScopingConfigurationResource, options?: ScopingConfigurationCreateOrUpdateOptionalParams) => Promise<ScopingConfigurationResource>;
+    delete: (reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationDeleteOptionalParams) => Promise<void>;
+    get: (reportName: string, scopingConfigurationName: string, options?: ScopingConfigurationGetOptionalParams) => Promise<ScopingConfigurationResource>;
+    list: (reportName: string, options?: ScopingConfigurationListOptionalParams) => PagedAsyncIterableIterator<ScopingConfigurationResource>;
 }
-
-// @public
-export type ScopingConfigurationListNextResponse = ScopingConfigurationResourceListResult;
-
-// @public
-export interface ScopingConfigurationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScopingConfigurationListResponse = ScopingConfigurationResourceListResult;
 
 // @public
 export interface ScopingConfigurationProperties {
@@ -1075,12 +897,6 @@ export interface ScopingConfigurationProperties {
 // @public
 export interface ScopingConfigurationResource extends ProxyResource {
     properties: ScopingConfigurationProperties;
-}
-
-// @public
-export interface ScopingConfigurationResourceListResult {
-    nextLink?: string;
-    value: ScopingConfigurationResource[];
 }
 
 // @public
@@ -1102,22 +918,7 @@ export interface ScopingQuestions {
 export type SendAllEvents = string;
 
 // @public
-export interface Snapshot {
-    beginDownload(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SimplePollerLike<OperationState<SnapshotDownloadResponse>, SnapshotDownloadResponse>>;
-    beginDownloadAndWait(reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams): Promise<SnapshotDownloadResponse>;
-    get(reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams): Promise<SnapshotGetResponse>;
-    list(reportName: string, options?: SnapshotListOptionalParams): PagedAsyncIterableIterator<SnapshotResource>;
-}
-
-// @public
-export interface SnapshotDownloadHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface SnapshotDownloadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SnapshotDownloadOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -1129,24 +930,11 @@ export interface SnapshotDownloadRequest {
 }
 
 // @public
-export type SnapshotDownloadResponse = DownloadResponse;
-
-// @public
-export interface SnapshotGetOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SnapshotGetResponse = SnapshotResource;
-
-// @public
-export interface SnapshotListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SnapshotListNextResponse = SnapshotResourceListResult;
-
-// @public
-export interface SnapshotListOptionalParams extends coreClient.OperationOptions {
+export interface SnapshotListOptionalParams extends OperationOptions {
     filter?: string;
     offerGuid?: string;
     orderby?: string;
@@ -1157,7 +945,11 @@ export interface SnapshotListOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type SnapshotListResponse = SnapshotResourceListResult;
+export interface SnapshotOperations {
+    download: (reportName: string, snapshotName: string, body: SnapshotDownloadRequest, options?: SnapshotDownloadOptionalParams) => PollerLike<OperationState<DownloadResponse>, DownloadResponse>;
+    get: (reportName: string, snapshotName: string, options?: SnapshotGetOptionalParams) => Promise<SnapshotResource>;
+    list: (reportName: string, options?: SnapshotListOptionalParams) => PagedAsyncIterableIterator<SnapshotResource>;
+}
 
 // @public
 export interface SnapshotProperties {
@@ -1172,12 +964,6 @@ export interface SnapshotProperties {
 // @public
 export interface SnapshotResource extends ProxyResource {
     properties?: SnapshotProperties;
-}
-
-// @public
-export interface SnapshotResourceListResult {
-    nextLink?: string;
-    value: SnapshotResource[];
 }
 
 // @public
@@ -1215,65 +1001,30 @@ export interface SystemData {
 }
 
 // @public
-export interface TriggerEvaluationProperty {
-    readonly evaluationEndTime?: Date;
-    quickAssessments?: QuickAssessment[];
-    resourceIds?: string[];
-    readonly triggerTime?: Date;
-}
-
-// @public
 export interface TriggerEvaluationRequest {
     resourceIds: string[];
-}
-
-// @public
-export interface TriggerEvaluationResponse {
-    properties?: TriggerEvaluationProperty;
 }
 
 // @public
 export type UpdateWebhookKey = string;
 
 // @public
-export interface Webhook {
-    createOrUpdate(reportName: string, webhookName: string, properties: WebhookResource, options?: WebhookCreateOrUpdateOptionalParams): Promise<WebhookCreateOrUpdateResponse>;
-    delete(reportName: string, webhookName: string, options?: WebhookDeleteOptionalParams): Promise<void>;
-    get(reportName: string, webhookName: string, options?: WebhookGetOptionalParams): Promise<WebhookGetResponse>;
-    list(reportName: string, options?: WebhookListOptionalParams): PagedAsyncIterableIterator<WebhookResource>;
-    update(reportName: string, webhookName: string, properties: WebhookResourcePatch, options?: WebhookUpdateOptionalParams): Promise<WebhookUpdateResponse>;
+export interface WebhookCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WebhookCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WebhookDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WebhookCreateOrUpdateResponse = WebhookResource;
-
-// @public
-export interface WebhookDeleteOptionalParams extends coreClient.OperationOptions {
+export interface WebhookGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface WebhookGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebhookGetResponse = WebhookResource;
 
 // @public
 export type WebhookKeyEnabled = string;
 
 // @public
-export interface WebhookListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebhookListNextResponse = WebhookResourceListResult;
-
-// @public
-export interface WebhookListOptionalParams extends coreClient.OperationOptions {
+export interface WebhookListOptionalParams extends OperationOptions {
     filter?: string;
     offerGuid?: string;
     orderby?: string;
@@ -1284,7 +1035,13 @@ export interface WebhookListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type WebhookListResponse = WebhookResourceListResult;
+export interface WebhookOperations {
+    createOrUpdate: (reportName: string, webhookName: string, properties: WebhookResource, options?: WebhookCreateOrUpdateOptionalParams) => Promise<WebhookResource>;
+    delete: (reportName: string, webhookName: string, options?: WebhookDeleteOptionalParams) => Promise<void>;
+    get: (reportName: string, webhookName: string, options?: WebhookGetOptionalParams) => Promise<WebhookResource>;
+    list: (reportName: string, options?: WebhookListOptionalParams) => PagedAsyncIterableIterator<WebhookResource>;
+    update: (reportName: string, webhookName: string, properties: WebhookResourcePatch, options?: WebhookUpdateOptionalParams) => Promise<WebhookResource>;
+}
 
 // @public
 export interface WebhookProperties {
@@ -1309,12 +1066,6 @@ export interface WebhookResource extends ProxyResource {
 }
 
 // @public
-export interface WebhookResourceListResult {
-    nextLink?: string;
-    value: WebhookResource[];
-}
-
-// @public
 export interface WebhookResourcePatch {
     properties?: WebhookProperties;
 }
@@ -1323,11 +1074,8 @@ export interface WebhookResourcePatch {
 export type WebhookStatus = string;
 
 // @public
-export interface WebhookUpdateOptionalParams extends coreClient.OperationOptions {
+export interface WebhookUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type WebhookUpdateResponse = WebhookResource;
 
 // (No @packageDocumentation comment for this package)
 
