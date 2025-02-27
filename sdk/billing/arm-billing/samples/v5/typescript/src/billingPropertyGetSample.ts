@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the billing properties for a subscription
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyGetMCA.json
  */
-async function billingPropertyGetMca() {
+async function billingPropertyGetMca(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -31,7 +31,7 @@ async function billingPropertyGetMca() {
  * @summary Gets the billing properties for a subscription
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyGetMOSP.json
  */
-async function billingPropertyGetMosp() {
+async function billingPropertyGetMosp(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -47,7 +47,7 @@ async function billingPropertyGetMosp() {
  * @summary Gets the billing properties for a subscription
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingPropertyGetMPA.json
  */
-async function billingPropertyGetMpa() {
+async function billingPropertyGetMpa(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -57,7 +57,7 @@ async function billingPropertyGetMpa() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingPropertyGetMca();
   billingPropertyGetMosp();
   billingPropertyGetMpa();
