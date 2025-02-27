@@ -347,6 +347,29 @@ export const AgentProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const FleetStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -631,6 +654,29 @@ export const FleetMemberListResult: coreClient.CompositeMapper = {
   },
 };
 
+export const FleetMemberStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMemberStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
 export const FleetMemberUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -645,6 +691,13 @@ export const FleetMemberUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.group",
         type: {
           name: "String",
+        },
+      },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
       },
     },
@@ -1232,6 +1285,13 @@ export const Fleet: coreClient.CompositeMapper = {
           className: "FleetHubProfile",
         },
       },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetStatus",
+        },
+      },
     },
   },
 };
@@ -1320,6 +1380,20 @@ export const FleetMember: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      labels: {
+        serializedName: "properties.labels",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetMemberStatus",
         },
       },
     },
