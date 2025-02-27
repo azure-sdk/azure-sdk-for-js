@@ -2790,7 +2790,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-+YaxjagnIDZ0i6eppousHV69r9ess4dAQqvm9z+W49bZxAdxbtxSKNQsg0ugY5pCp8mQyfLfeurQtlfPwRtnMA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-5oKVqODcIcSFr89mNj0oeJ31/ho4e7rPTiMg3GKm0m52zjICSoYl91xgb3VgHhZ1dww9gG4MXNYTpojkYEfvXA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3218,7 +3218,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-Vget+Btjm5TB3NqDnubucSSFQxs2rp+rX5CQ9tIQ/m6vPwVTd8blkJ6IUqSIVsxxpgrFEhsJ8cbHbOwEuJ1dlA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-VhAlzN09Jw7ZFw8pdEML1m6X5WzGMXiopKrdfQ2Bou2XDD/mncjuIV0MCrYIFQFcVKvaame0Xh9qH+HIW9VWdA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -3230,7 +3230,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-nginx@file:projects/arm-nginx.tgz':
-    resolution: {integrity: sha512-0Zr+dEe7RW/QTtMzMKwynKxi9E2O8VUD7A4wPGxh/ehH5g11ea4Ay97Li0k/v4HCiizyeLRkXc0SC0bWuoeZxg==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-T2JX94sR7Z2fyia9XglIcbr8Rx3o0M97D71+1xkmHlz1K/yqnGo/QyXhKo84lZMWC2voB2XxzjmpEPftoDHhxg==, tarball: file:projects/arm-nginx.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz':
