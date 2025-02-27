@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BatchAccount,
   BatchAccountListOptionalParams,
@@ -16,15 +15,6 @@ import {
   BatchAccountListDetectorsOptionalParams,
   OutboundEnvironmentEndpoint,
   BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
-  BatchAccountCreateParameters,
-  BatchAccountCreateOptionalParams,
-  BatchAccountCreateResponse,
-  BatchAccountUpdateParameters,
-  BatchAccountUpdateOptionalParams,
-  BatchAccountUpdateResponse,
-  BatchAccountDeleteOptionalParams,
-  BatchAccountGetOptionalParams,
-  BatchAccountGetResponse,
   BatchAccountSynchronizeAutoStorageKeysOptionalParams,
   BatchAccountRegenerateKeyParameters,
   BatchAccountRegenerateKeyOptionalParams,
@@ -71,7 +61,7 @@ export interface BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://learn.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -81,91 +71,6 @@ export interface BatchAccountOperations {
     accountName: string,
     options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-  /**
-   * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with
-   * this API and should instead be updated with the Update Batch Account API.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName A name for the Batch account which must be unique within the region. Batch
-   *                    account names must be between 3 and 24 characters in length and must use only numbers and lowercase
-   *                    letters. This name is used as part of the DNS name that is used to access the Batch service in the
-   *                    region in which the account is created. For example: http://accountname.region.batch.azure.com/.
-   * @param parameters Additional parameters for account creation.
-   * @param options The options parameters.
-   */
-  beginCreate(
-    resourceGroupName: string,
-    accountName: string,
-    parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BatchAccountCreateResponse>,
-      BatchAccountCreateResponse
-    >
-  >;
-  /**
-   * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with
-   * this API and should instead be updated with the Update Batch Account API.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName A name for the Batch account which must be unique within the region. Batch
-   *                    account names must be between 3 and 24 characters in length and must use only numbers and lowercase
-   *                    letters. This name is used as part of the DNS name that is used to access the Batch service in the
-   *                    region in which the account is created. For example: http://accountname.region.batch.azure.com/.
-   * @param parameters Additional parameters for account creation.
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    parameters: BatchAccountCreateParameters,
-    options?: BatchAccountCreateOptionalParams,
-  ): Promise<BatchAccountCreateResponse>;
-  /**
-   * Updates the properties of an existing Batch account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param parameters Additional parameters for account update.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    parameters: BatchAccountUpdateParameters,
-    options?: BatchAccountUpdateOptionalParams,
-  ): Promise<BatchAccountUpdateResponse>;
-  /**
-   * Deletes the specified Batch account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BatchAccountDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes the specified Batch account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BatchAccountDeleteOptionalParams,
-  ): Promise<void>;
-  /**
-   * Gets information about the specified Batch account.
-   * @param resourceGroupName The name of the resource group that contains the Batch account.
-   * @param accountName The name of the Batch account.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    options?: BatchAccountGetOptionalParams,
-  ): Promise<BatchAccountGetResponse>;
   /**
    * Synchronizes access keys for the auto-storage account configured for the specified Batch account,
    * only if storage key authentication is being used.

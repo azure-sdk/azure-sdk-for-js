@@ -8,130 +8,25 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const BatchAccountCreateParameters: coreClient.CompositeMapper = {
+export const BatchAccountListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BatchAccountCreateParameters",
+    className: "BatchAccountListResult",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "BatchAccountIdentity",
-        },
-      },
-      autoStorage: {
-        serializedName: "properties.autoStorage",
-        type: {
-          name: "Composite",
-          className: "AutoStorageBaseProperties",
-        },
-      },
-      poolAllocationMode: {
-        serializedName: "properties.poolAllocationMode",
-        type: {
-          name: "Enum",
-          allowedValues: ["BatchService", "UserSubscription"],
-        },
-      },
-      keyVaultReference: {
-        serializedName: "properties.keyVaultReference",
-        type: {
-          name: "Composite",
-          className: "KeyVaultReference",
-        },
-      },
-      publicNetworkAccess: {
-        defaultValue: "Enabled",
-        serializedName: "properties.publicNetworkAccess",
-        type: {
-          name: "Enum",
-          allowedValues: ["Enabled", "Disabled", "SecuredByPerimeter"],
-        },
-      },
-      networkProfile: {
-        serializedName: "properties.networkProfile",
-        type: {
-          name: "Composite",
-          className: "NetworkProfile",
-        },
-      },
-      encryption: {
-        serializedName: "properties.encryption",
-        type: {
-          name: "Composite",
-          className: "EncryptionProperties",
-        },
-      },
-      allowedAuthenticationModes: {
-        serializedName: "properties.allowedAuthenticationModes",
-        nullable: true,
+      value: {
+        serializedName: "value",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "Enum",
-              allowedValues: ["SharedKey", "AAD", "TaskAuthenticationToken"],
+              name: "Composite",
+              className: "BatchAccount",
             },
           },
         },
       },
-    },
-  },
-};
-
-export const AutoStorageBaseProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AutoStorageBaseProperties",
-    modelProperties: {
-      storageAccountId: {
-        serializedName: "storageAccountId",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      authenticationMode: {
-        defaultValue: "StorageKeys",
-        serializedName: "authenticationMode",
-        type: {
-          name: "Enum",
-          allowedValues: ["StorageKeys", "BatchAccountManagedIdentity"],
-        },
-      },
-      nodeIdentityReference: {
-        serializedName: "nodeIdentityReference",
-        type: {
-          name: "Composite",
-          className: "ComputeNodeIdentityReference",
-        },
-      },
-    },
-  },
-};
-
-export const ComputeNodeIdentityReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeNodeIdentityReference",
-    modelProperties: {
-      resourceId: {
-        serializedName: "resourceId",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
         },
@@ -239,107 +134,6 @@ export const IPRule: coreClient.CompositeMapper = {
   },
 };
 
-export const EncryptionProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EncryptionProperties",
-    modelProperties: {
-      keySource: {
-        serializedName: "keySource",
-        type: {
-          name: "Enum",
-          allowedValues: ["Microsoft.Batch", "Microsoft.KeyVault"],
-        },
-      },
-      keyVaultProperties: {
-        serializedName: "keyVaultProperties",
-        type: {
-          name: "Composite",
-          className: "KeyVaultProperties",
-        },
-      },
-    },
-  },
-};
-
-export const KeyVaultProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyVaultProperties",
-    modelProperties: {
-      keyIdentifier: {
-        serializedName: "keyIdentifier",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const BatchAccountIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchAccountIdentity",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["SystemAssigned", "UserAssigned", "None"],
-        },
-      },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "UserAssignedIdentities" },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const UserAssignedIdentities: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserAssignedIdentities",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      clientId: {
-        serializedName: "clientId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
 export const PrivateEndpoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -430,6 +224,90 @@ export const AzureProxyResource: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoStorageBaseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoStorageBaseProperties",
+    modelProperties: {
+      storageAccountId: {
+        serializedName: "storageAccountId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      authenticationMode: {
+        defaultValue: "StorageKeys",
+        serializedName: "authenticationMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["StorageKeys", "BatchAccountManagedIdentity"],
+        },
+      },
+      nodeIdentityReference: {
+        serializedName: "nodeIdentityReference",
+        type: {
+          name: "Composite",
+          className: "ComputeNodeIdentityReference",
+        },
+      },
+    },
+  },
+};
+
+export const ComputeNodeIdentityReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeNodeIdentityReference",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const EncryptionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionProperties",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        type: {
+          name: "Enum",
+          allowedValues: ["Microsoft.Batch", "Microsoft.KeyVault"],
+        },
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties",
+        },
+      },
+    },
+  },
+};
+
+export const KeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const VirtualMachineFamilyCoreQuota: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -447,6 +325,69 @@ export const VirtualMachineFamilyCoreQuota: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const BatchAccountIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchAccountIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned", "None"],
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentities" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentities",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -547,98 +488,6 @@ export const CloudErrorBody: coreClient.CompositeMapper = {
               className: "CloudErrorBody",
             },
           },
-        },
-      },
-    },
-  },
-};
-
-export const BatchAccountUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchAccountUpdateParameters",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } },
-        },
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "BatchAccountIdentity",
-        },
-      },
-      autoStorage: {
-        serializedName: "properties.autoStorage",
-        type: {
-          name: "Composite",
-          className: "AutoStorageBaseProperties",
-        },
-      },
-      encryption: {
-        serializedName: "properties.encryption",
-        type: {
-          name: "Composite",
-          className: "EncryptionProperties",
-        },
-      },
-      allowedAuthenticationModes: {
-        serializedName: "properties.allowedAuthenticationModes",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: ["SharedKey", "AAD", "TaskAuthenticationToken"],
-            },
-          },
-        },
-      },
-      publicNetworkAccess: {
-        defaultValue: "Enabled",
-        serializedName: "properties.publicNetworkAccess",
-        type: {
-          name: "Enum",
-          allowedValues: ["Enabled", "Disabled", "SecuredByPerimeter"],
-        },
-      },
-      networkProfile: {
-        serializedName: "properties.networkProfile",
-        type: {
-          name: "Composite",
-          className: "NetworkProfile",
-        },
-      },
-    },
-  },
-};
-
-export const BatchAccountListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchAccountListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BatchAccount",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String",
         },
       },
     },
@@ -3703,17 +3552,151 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const AutoStorageProperties: coreClient.CompositeMapper = {
+export const BatchAccountCreateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AutoStorageProperties",
+    className: "BatchAccountCreateParameters",
     modelProperties: {
-      ...AutoStorageBaseProperties.type.modelProperties,
-      lastKeySync: {
-        serializedName: "lastKeySync",
+      location: {
+        serializedName: "location",
         required: true,
         type: {
-          name: "DateTime",
+          name: "String",
+        },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "BatchAccountIdentity",
+        },
+      },
+      autoStorage: {
+        serializedName: "properties.autoStorage",
+        type: {
+          name: "Composite",
+          className: "AutoStorageBaseProperties",
+        },
+      },
+      poolAllocationMode: {
+        serializedName: "properties.poolAllocationMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["BatchService", "UserSubscription"],
+        },
+      },
+      keyVaultReference: {
+        serializedName: "properties.keyVaultReference",
+        type: {
+          name: "Composite",
+          className: "KeyVaultReference",
+        },
+      },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled", "SecuredByPerimeter"],
+        },
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile",
+        },
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperties",
+        },
+      },
+      allowedAuthenticationModes: {
+        serializedName: "properties.allowedAuthenticationModes",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: ["SharedKey", "AAD", "TaskAuthenticationToken"],
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const BatchAccountUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BatchAccountUpdateParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "BatchAccountIdentity",
+        },
+      },
+      autoStorage: {
+        serializedName: "properties.autoStorage",
+        type: {
+          name: "Composite",
+          className: "AutoStorageBaseProperties",
+        },
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperties",
+        },
+      },
+      allowedAuthenticationModes: {
+        serializedName: "properties.allowedAuthenticationModes",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: ["SharedKey", "AAD", "TaskAuthenticationToken"],
+            },
+          },
+        },
+      },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled", "SecuredByPerimeter"],
+        },
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile",
         },
       },
     },
@@ -4267,6 +4250,23 @@ export const Pool: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoStorageProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoStorageProperties",
+    modelProperties: {
+      ...AutoStorageBaseProperties.type.modelProperties,
+      lastKeySync: {
+        serializedName: "lastKeySync",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
 export const BatchAccount: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4541,48 +4541,6 @@ export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
       },
     },
   };
-
-export const BatchAccountCreateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchAccountCreateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const BatchAccountDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BatchAccountDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
 
 export const CertificateCreateHeaders: coreClient.CompositeMapper = {
   type: {
