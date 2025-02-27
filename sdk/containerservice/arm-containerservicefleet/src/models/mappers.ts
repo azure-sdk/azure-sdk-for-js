@@ -558,6 +558,48 @@ export const AutoUpgradeNodeImageSelection: coreClient.CompositeMapper = {
   },
 };
 
+export const AutoUpgradeProfileStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoUpgradeProfileStatus",
+    modelProperties: {
+      lastTriggeredAt: {
+        serializedName: "lastTriggeredAt",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastTriggerStatus: {
+        serializedName: "lastTriggerStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastTriggerError: {
+        serializedName: "lastTriggerError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+      lastTriggerUpgradeVersions: {
+        serializedName: "lastTriggerUpgradeVersions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const FleetCredentialResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1281,6 +1323,13 @@ export const AutoUpgradeProfile: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      autoUpgradeProfileStatus: {
+        serializedName: "properties.autoUpgradeProfileStatus",
+        type: {
+          name: "Composite",
+          className: "AutoUpgradeProfileStatus",
+        },
+      },
     },
   },
 };
@@ -1371,6 +1420,13 @@ export const UpdateRun: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UpdateRunStatus",
+        },
+      },
+      autoUpgradeProfileId: {
+        serializedName: "properties.autoUpgradeProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },

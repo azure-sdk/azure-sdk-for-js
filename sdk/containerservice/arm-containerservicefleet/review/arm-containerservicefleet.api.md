@@ -27,6 +27,9 @@ export interface APIServerAccessProfile {
 }
 
 // @public
+export type AutoUpgradeLastTriggerStatus = string;
+
+// @public
 export interface AutoUpgradeNodeImageSelection {
     type: AutoUpgradeNodeImageSelectionType;
 }
@@ -36,6 +39,7 @@ export type AutoUpgradeNodeImageSelectionType = string;
 
 // @public
 export interface AutoUpgradeProfile extends ProxyResource {
+    autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
     channel?: UpgradeChannel;
     disabled?: boolean;
     readonly eTag?: string;
@@ -116,6 +120,14 @@ export interface AutoUpgradeProfilesListByFleetOptionalParams extends coreClient
 
 // @public
 export type AutoUpgradeProfilesListByFleetResponse = AutoUpgradeProfileListResult;
+
+// @public
+export interface AutoUpgradeProfileStatus {
+    readonly lastTriggeredAt?: Date;
+    readonly lastTriggerError?: ErrorDetail;
+    readonly lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+    readonly lastTriggerUpgradeVersions?: string[];
+}
 
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
@@ -502,6 +514,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAutoUpgradeLastTriggerStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownAutoUpgradeNodeImageSelectionType {
     Consistent = "Consistent",
     Latest = "Latest"
@@ -770,6 +788,7 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
     managedClusterUpdate?: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;
