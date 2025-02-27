@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
 import {
   PrivateLinkResourcesListByVaultOptionalParams,
-  PrivateLinkResourcesListByVaultResponse
+  PrivateLinkResourcesListByVaultResponse,
 } from "../models/index.js";
 
 /** Class containing PrivateLinkResources operations. */
@@ -30,18 +30,18 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 
   /**
    * Gets the private link resources supported for the key vault.
-   * @param resourceGroupName Name of the resource group that contains the key vault.
-   * @param vaultName The name of the key vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vaultName The name of the vault.
    * @param options The options parameters.
    */
   listByVault(
     resourceGroupName: string,
     vaultName: string,
-    options?: PrivateLinkResourcesListByVaultOptionalParams
+    options?: PrivateLinkResourcesListByVaultOptionalParams,
   ): Promise<PrivateLinkResourcesListByVaultResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listByVaultOperationSpec
+      listByVaultOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVaultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
