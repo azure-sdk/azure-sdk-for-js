@@ -13,16 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: DevOpsInfrastructureContext) {
+function _getOperations(context: DevOpsInfrastructureContext) {
   return {
     list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(
+export function _getOperationsOperations(
   context: DevOpsInfrastructureContext,
 ): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

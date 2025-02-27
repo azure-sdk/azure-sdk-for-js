@@ -6,6 +6,7 @@ import {
   SkuListByLocationOptionalParams,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   _ResourceSkuListResult,
   _resourceSkuListResultDeserializer,
   ResourceSku,
@@ -23,17 +24,23 @@ import {
 
 export function _skuListByLocationSend(
   context: Client,
-  subscriptionId: string,
   locationName: string,
   options: SkuListByLocationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus",
-      subscriptionId,
+      context.subscriptionId,
       locationName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _skuListByLocationDeserialize(
@@ -41,7 +48,9 @@ export async function _skuListByLocationDeserialize(
 ): Promise<_ResourceSkuListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return _resourceSkuListResultDeserializer(result.body);
@@ -50,13 +59,12 @@ export async function _skuListByLocationDeserialize(
 /** List ResourceSku resources by subscription ID */
 export function skuListByLocation(
   context: Client,
-  subscriptionId: string,
   locationName: string,
   options: SkuListByLocationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ResourceSku> {
   return buildPagedAsyncIterator(
     context,
-    () => _skuListByLocationSend(context, subscriptionId, locationName, options),
+    () => _skuListByLocationSend(context, locationName, options),
     _skuListByLocationDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

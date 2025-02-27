@@ -7,27 +7,29 @@ export {
   DevOpsInfrastructureClientOptionalParams,
 } from "./devOpsInfrastructureContext.js";
 export {
-  OperationsListOptionalParams,
-  PoolsGetOptionalParams,
-  PoolsCreateOrUpdateOptionalParams,
-  PoolsUpdateOptionalParams,
-  PoolsDeleteOptionalParams,
-  PoolsListByResourceGroupOptionalParams,
-  PoolsListBySubscriptionOptionalParams,
-  ResourceDetailsListByPoolOptionalParams,
-  SkuListByLocationOptionalParams,
-  SubscriptionUsagesUsagesOptionalParams,
   ImageVersionsListByImageOptionalParams,
+  SubscriptionUsagesUsagesOptionalParams,
+  SkuListByLocationOptionalParams,
+  ResourceDetailsListByPoolOptionalParams,
+  PoolsCheckNameAvailabilityOptionalParams,
+  PoolsListBySubscriptionOptionalParams,
+  PoolsListByResourceGroupOptionalParams,
+  PoolsDeleteOptionalParams,
+  PoolsUpdateOptionalParams,
+  PoolsCreateOrUpdateOptionalParams,
+  PoolsGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./options.js";
 export { imageVersionsListByImage } from "./imageVersions/index.js";
 export { operationsList } from "./operations/index.js";
 export {
-  poolsGet,
-  poolsCreateOrUpdate,
-  poolsUpdate,
-  poolsDelete,
-  poolsListByResourceGroup,
+  poolsCheckNameAvailability,
   poolsListBySubscription,
+  poolsListByResourceGroup,
+  poolsDelete,
+  poolsUpdate,
+  poolsCreateOrUpdate,
+  poolsGet,
 } from "./pools/index.js";
 export { resourceDetailsListByPool } from "./resourceDetails/index.js";
 export { skuListByLocation } from "./sku/index.js";
