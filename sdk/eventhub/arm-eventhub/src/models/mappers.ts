@@ -2528,6 +2528,27 @@ export const EHNamespace: coreClient.CompositeMapper = {
   },
 };
 
+export const NamespacesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NamespacesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const NamespacesFailoverHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
