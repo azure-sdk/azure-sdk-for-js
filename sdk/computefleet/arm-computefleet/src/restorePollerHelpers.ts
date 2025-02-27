@@ -3,9 +3,9 @@
 
 import { AzureFleetClient } from "./azureFleetClient.js";
 import {
-  _fleetsCreateOrUpdateDeserialize,
-  _fleetsUpdateDeserialize,
   _fleetsDeleteDeserialize,
+  _fleetsUpdateDeserialize,
+  _fleetsCreateOrUpdateDeserialize,
 } from "./api/fleets/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -80,20 +80,20 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
     {
-      deserializer: _fleetsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      deserializer: _fleetsDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
     {
       deserializer: _fleetsUpdateDeserialize,
       expectedStatuses: ["200", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}":
     {
-      deserializer: _fleetsDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
+      deserializer: _fleetsCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 

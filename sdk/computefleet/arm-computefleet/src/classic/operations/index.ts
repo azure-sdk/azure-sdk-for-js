@@ -13,14 +13,14 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: AzureFleetContext) {
+function _getOperations(context: AzureFleetContext) {
   return {
     list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(context: AzureFleetContext): OperationsOperations {
+export function _getOperationsOperations(context: AzureFleetContext): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }
