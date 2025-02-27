@@ -1,15 +1,81 @@
 # Release History
-
-## 16.0.1 (Unreleased)
-
+    
+## 16.1.0 (2025-02-27)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ContainerApps
+  - Added operation group ContainerAppsRevisions
+  - Added operation group SiteCertificates
+  - Added Interface Configuration
+  - Added Interface ContainerApp
+  - Added Interface ContainerAppCollection
+  - Added Interface ContainerAppsCreateOrUpdateOptionalParams
+  - Added Interface ContainerAppsDeleteOptionalParams
+  - Added Interface ContainerAppSecret
+  - Added Interface ContainerAppsGetOptionalParams
+  - Added Interface ContainerAppsListByResourceGroupNextOptionalParams
+  - Added Interface ContainerAppsListByResourceGroupOptionalParams
+  - Added Interface ContainerAppsListBySubscriptionNextOptionalParams
+  - Added Interface ContainerAppsListBySubscriptionOptionalParams
+  - Added Interface ContainerAppsListSecretsOptionalParams
+  - Added Interface ContainerAppsRevisionsActivateRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsGetRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsListRevisionsNextOptionalParams
+  - Added Interface ContainerAppsRevisionsListRevisionsOptionalParams
+  - Added Interface ContainerAppsRevisionsRestartRevisionOptionalParams
+  - Added Interface Ingress
+  - Added Interface RegistryCredentials
+  - Added Interface Revision
+  - Added Interface RevisionCollection
+  - Added Interface Secret
+  - Added Interface SecretsCollection
+  - Added Interface SiteCertificatesCreateOrUpdateOptionalParams
+  - Added Interface SiteCertificatesCreateOrUpdateSlotOptionalParams
+  - Added Interface SiteCertificatesDeleteOptionalParams
+  - Added Interface SiteCertificatesDeleteSlotOptionalParams
+  - Added Interface SiteCertificatesGetOptionalParams
+  - Added Interface SiteCertificatesGetSlotOptionalParams
+  - Added Interface SiteCertificatesListNextOptionalParams
+  - Added Interface SiteCertificatesListOptionalParams
+  - Added Interface SiteCertificatesListSlotNextOptionalParams
+  - Added Interface SiteCertificatesListSlotOptionalParams
+  - Added Interface SiteCertificatesUpdateOptionalParams
+  - Added Interface SiteCertificatesUpdateSlotOptionalParams
+  - Added Interface TrafficWeight
+  - Added Type Alias ActiveRevisionsMode
+  - Added Type Alias ContainerAppProvisioningState
+  - Added Type Alias ContainerAppsCreateOrUpdateResponse
+  - Added Type Alias ContainerAppsGetResponse
+  - Added Type Alias ContainerAppsListByResourceGroupNextResponse
+  - Added Type Alias ContainerAppsListByResourceGroupResponse
+  - Added Type Alias ContainerAppsListBySubscriptionNextResponse
+  - Added Type Alias ContainerAppsListBySubscriptionResponse
+  - Added Type Alias ContainerAppsListSecretsResponse
+  - Added Type Alias ContainerAppsRevisionsGetRevisionResponse
+  - Added Type Alias ContainerAppsRevisionsListRevisionsNextResponse
+  - Added Type Alias ContainerAppsRevisionsListRevisionsResponse
+  - Added Type Alias IngressTransportMethod
+  - Added Type Alias RevisionHealthState
+  - Added Type Alias RevisionProvisioningState
+  - Added Type Alias SiteCertificatesCreateOrUpdateResponse
+  - Added Type Alias SiteCertificatesCreateOrUpdateSlotResponse
+  - Added Type Alias SiteCertificatesGetResponse
+  - Added Type Alias SiteCertificatesGetSlotResponse
+  - Added Type Alias SiteCertificatesListNextResponse
+  - Added Type Alias SiteCertificatesListResponse
+  - Added Type Alias SiteCertificatesListSlotNextResponse
+  - Added Type Alias SiteCertificatesListSlotResponse
+  - Added Type Alias SiteCertificatesUpdateResponse
+  - Added Type Alias SiteCertificatesUpdateSlotResponse
+  - Added Enum KnownActiveRevisionsMode
+  - Added Enum KnownContainerAppProvisioningState
+  - Added Enum KnownIngressTransportMethod
+  - Added Enum KnownRevisionHealthState
+  - Added Enum KnownRevisionProvisioningState
+    
+    
 ## 16.0.0 (2025-02-12)
     
 ### Features Added
