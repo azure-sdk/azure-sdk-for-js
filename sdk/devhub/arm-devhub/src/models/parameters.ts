@@ -9,13 +9,17 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   GitHubOAuthCallRequest as GitHubOAuthCallRequestMapper,
   ArtifactGenerationProperties as ArtifactGenerationPropertiesMapper,
+  AdooAuthCallRequest as AdooAuthCallRequestMapper,
   Workflow as WorkflowMapper,
-  TagsObject as TagsObjectMapper
+  TagsObject as TagsObjectMapper,
+  IacProfile as IacProfileMapper,
+  ExportTemplateRequest as ExportTemplateRequestMapper,
+  ScaleTemplateRequest as ScaleTemplateRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -25,9 +29,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -36,22 +40,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-11-preview",
+    defaultValue: "2024-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -61,42 +65,39 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: ["options", "parameters"],
-  mapper: GitHubOAuthCallRequestMapper
+  mapper: GitHubOAuthCallRequestMapper,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const code: OperationQueryParameter = {
@@ -105,9 +106,9 @@ export const code: OperationQueryParameter = {
     serializedName: "code",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const state: OperationQueryParameter = {
@@ -116,14 +117,19 @@ export const state: OperationQueryParameter = {
     serializedName: "state",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ArtifactGenerationPropertiesMapper
+  mapper: ArtifactGenerationPropertiesMapper,
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: ["options", "parameters"],
+  mapper: AdooAuthCallRequestMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -131,14 +137,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managedClusterResource: OperationQueryParameter = {
@@ -146,9 +152,9 @@ export const managedClusterResource: OperationQueryParameter = {
   mapper: {
     serializedName: "managedClusterResource",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workflowName: OperationURLParameter = {
@@ -156,27 +162,27 @@ export const workflowName: OperationURLParameter = {
   mapper: {
     constraints: {
       Pattern: new RegExp(
-        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
       ),
       MaxLength: 63,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "workflowName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: WorkflowMapper
+      name: "String",
+    },
+  },
 };
 
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
+  mapper: WorkflowMapper,
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TagsObjectMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -185,8 +191,41 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const iacProfileName: OperationURLParameter = {
+  parameterPath: "iacProfileName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+      ),
+      MaxLength: 63,
+      MinLength: 1,
+    },
+    serializedName: "iacProfileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IacProfileMapper,
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ExportTemplateRequestMapper,
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScaleTemplateRequestMapper,
 };

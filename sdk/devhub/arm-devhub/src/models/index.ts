@@ -135,10 +135,16 @@ export interface GitHubOAuthInfoResponse {
   token?: string;
 }
 
+/** The response from List GitHubOAuth operation. */
+export interface GitHubOAuthProperties {
+  /** user making request */
+  username?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -192,7 +198,63 @@ export interface WorkflowListResult {
   readonly nextLink?: string;
 }
 
-export interface DeploymentProperties {
+/** Workflow properties */
+export interface WorkflowProperties {
+  /** Profile of a github workflow. */
+  githubWorkflowProfile?: GitHubWorkflowProfile;
+  /** Properties for generating artifacts like dockerfile and manifests. */
+  artifactGenerationProperties?: ArtifactGenerationProperties;
+  /** Profile of an azure pipeline. */
+  azurePipelineProfile?: AzurePipelineProfile;
+}
+
+/** GitHub Workflow Profile */
+export interface GitHubWorkflowProfile {
+  /** Repository Owner */
+  repositoryOwner?: string;
+  /** Repository Name */
+  repositoryName?: string;
+  /** Repository Branch Name */
+  branchName?: string;
+  /** Path to the Dockerfile within the repository. */
+  dockerfile?: string;
+  /** Path to Dockerfile Build Context within the repository. */
+  dockerBuildContext?: string;
+  /** Deployment details of the repository associated with the workflow. */
+  deploymentProperties?: Deployment;
+  /** Kubernetes namespace the application is deployed to. */
+  namespace?: string;
+  /** Information on the azure container registry */
+  acr?: Acr;
+  /** The fields needed for OIDC with GitHub. */
+  oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
+  /** The Azure Kubernetes Cluster Resource the application will be deployed to. */
+  aksResourceId?: string;
+  /**
+   * The URL to the Pull Request submitted against the users repository.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prURL?: string;
+  /**
+   * The number associated with the submitted pull request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pullNumber?: number;
+  /**
+   * The status of the Pull Request submitted against the users repository.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prStatus?: PullRequestStatus;
+  lastWorkflowRun?: WorkflowRun;
+  /**
+   * Determines the authorization status of requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authStatus?: AuthorizationStatus;
+}
+
+/** Deployment details of the repository associated with the workflow. */
+export interface Deployment {
   /** Determines the type of manifests within the repository. */
   manifestType?: ManifestType;
   kubeManifestLocations?: string[];
@@ -240,8 +302,11 @@ export interface WorkflowRun {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastRunAt?: Date;
-  /** Describes the status of the workflow run */
-  workflowRunStatus?: WorkflowRunStatus;
+  /**
+   * Describes the status of the workflow run
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workflowRunStatus?: WorkflowRunStatus;
 }
 
 /** Properties used for generating artifacts such as Dockerfiles and manifests. */
@@ -274,82 +339,56 @@ export interface ArtifactGenerationProperties {
   imageTag?: string;
 }
 
-/** delete response if content must be provided on delete operation */
-export interface DeleteWorkflowResponse {
-  /** delete status message */
-  status?: string;
+/** Azure Pipeline Profile */
+export interface AzurePipelineProfile {
+  /** Details of the ADO repository associated with the workflow. */
+  repository?: ADORepository;
+  /** The name of the ARM Service Connection the pipeline is associated with. */
+  armServiceConnection?: string;
+  /** Build details of the repository associated with the workflow. */
+  build?: Build;
+  /** Deployment details of the repository associated with the workflow. */
+  deployment?: Deployment;
+  /** Kubernetes namespace the application is deployed to. */
+  namespace?: string;
+  /** Resource identifier for azure container registry repository associated with the workflow. */
+  acr?: string;
+  /** The Azure Kubernetes Cluster Resource the application will be deployed to. */
+  clusterId?: string;
+  /** Details of the pull request containing the workflow. */
+  pullRequest?: PullRequest;
+  lastWorkflowRun?: WorkflowRun;
+  /**
+   * Determines the authorization status of requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authStatus?: AuthorizationStatus;
 }
 
-/** Resource tags. */
-export interface TagsObject {
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-}
-
-/** Singleton response of GitHubOAuth containing */
-export interface GitHubOAuthResponse extends ProxyResource {
-  /** user making request */
-  username?: string;
-}
-
-/** Resource representation of a workflow */
-export interface Workflow extends TrackedResource {
-  /** The programming language used. */
-  generationLanguage?: GenerationLanguage;
-  /** The version of the language image used for execution in the generated dockerfile. */
-  languageVersion?: string;
-  /** The version of the language image used for building the code in the generated dockerfile. */
-  builderVersion?: string;
-  /** The port the application is exposed on. */
-  port?: string;
-  /** The name of the app. */
-  appName?: string;
-  /** The directory to output the generated Dockerfile to. */
-  dockerfileOutputDirectory?: string;
-  /** The directory to output the generated manifests to. */
-  manifestOutputDirectory?: string;
-  /** The mode of generation to be used for generating Dockerfiles. */
-  dockerfileGenerationMode?: DockerfileGenerationMode;
-  /** The mode of generation to be used for generating Manifest. */
-  manifestGenerationMode?: ManifestGenerationMode;
-  /** Determines the type of manifests to be generated. */
-  manifestType?: GenerationManifestType;
-  /** The name of the image to be generated. */
-  imageName?: string;
-  /** The namespace to deploy the application to. */
-  namespacePropertiesArtifactGenerationPropertiesNamespace?: string;
-  /** The tag to apply to the generated image. */
-  imageTag?: string;
-  /** Repository Owner */
+/** Details of the ADO repository associated with the workflow. */
+export interface ADORepository {
+  /** The owner of the repository the workflow is associated with. */
   repositoryOwner?: string;
-  /** Repository Name */
+  /** The name of the repository the workflow is associated with. */
   repositoryName?: string;
-  /** Repository Branch Name */
+  /** The name of the branch the workflow is associated with. */
   branchName?: string;
+  /** The name of the Azure DevOps organization the pipeline is associated with. */
+  adoOrganization?: string;
+  /** The name of the project the pipeline is associated with. */
+  projectName?: string;
+}
+
+/** Build details of the repository associated with the workflow. */
+export interface Build {
   /** Path to the Dockerfile within the repository. */
   dockerfile?: string;
   /** Path to Dockerfile Build Context within the repository. */
   dockerBuildContext?: string;
-  deploymentProperties?: DeploymentProperties;
-  /** Kubernetes namespace the application is deployed to. */
-  namespacePropertiesGithubWorkflowProfileNamespace?: string;
-  /** Information on the azure container registry */
-  acr?: Acr;
-  /** The fields needed for OIDC with GitHub. */
-  oidcCredentials?: GitHubWorkflowProfileOidcCredentials;
-  /** The Azure Kubernetes Cluster Resource the application will be deployed to. */
-  aksResourceId?: string;
+}
+
+/** Details of the pull request containing the workflow. */
+export interface PullRequest {
   /**
    * The URL to the Pull Request submitted against the users repository.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -365,12 +404,194 @@ export interface Workflow extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly prStatus?: PullRequestStatus;
-  lastWorkflowRun?: WorkflowRun;
+}
+
+/** delete response if content must be provided on delete operation */
+export interface DeleteWorkflowResponse {
+  /** delete status message */
+  status?: string;
+}
+
+/** Resource tags. */
+export interface TagsObject {
+  /** Dictionary of <string> */
+  tags?: { [propertyName: string]: string };
+}
+
+/** ADOOAuth request object */
+export interface AdooAuthCallRequest {
+  /** The URL the client will redirect to on successful authentication. If empty, no redirect will occur. */
+  redirectUrl?: string;
+}
+
+/** Response containing ADO OAuth information */
+export interface AdooAuthInfoResponse {
+  /** URL used to authorize ADO app using Entra ID */
+  authURL?: string;
+  /** OAuth token used to make calls to ADO APIs */
+  token?: string;
+}
+
+/** The properties of ADO OAuth. */
+export interface AdooAuth {
+  /** user making request */
+  username?: string;
+}
+
+/** The response from List ADOOAuth operation. */
+export interface AdooAuthListResponse {
+  /** Singleton list response containing one ADOOAuthResponse */
+  value?: AdooAuthResponse[];
+  /**
+   * The URL to the next set of ADO OAuth results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface IacProfileListResult {
+  /** The list of IacProfiles. */
+  value?: IacProfile[];
+  /**
+   * The URL to the next set of IacProfile results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of a Stage. */
+export interface StageProperties {
+  /** Stage Name */
+  stageName?: string;
+  dependencies?: string[];
+  gitEnvironment?: string;
+}
+
+/** Properties of a IacTemplate. */
+export interface IacTemplateProperties {
+  /** Template Name */
+  templateName?: string;
+  /** the source store of the template */
+  sourceResourceId?: string;
+  /** the source stage of the template */
+  instanceStage?: string;
+  /** the sample instance name of the template */
+  instanceName?: string;
+  templateDetails?: IacTemplateDetails[];
+  /**
+   * Determines the authorization status of requests.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quickStartTemplateType?: QuickStartTemplateType;
+}
+
+export interface IacTemplateDetails {
+  /** The name of the products. */
+  productName?: string;
+  /** Count of the product */
+  count?: number;
+  /** Naming convention of this product */
+  namingConvention?: string;
+}
+
+export interface ExportTemplateRequest {
+  /** Template Name */
+  templateName?: string;
+  resourceGroupIds?: string[];
+  siteId?: string;
+  instanceName?: string;
+  instanceStage?: string;
+}
+
+export interface PrLinkResponse {
+  /** The link of the pull request. */
+  prLink?: string;
+}
+
+export interface ScaleTemplateRequest {
+  /** Template Name */
+  templateName?: string;
+  scaleRequirement?: ScaleProperty[];
+}
+
+export interface ScaleProperty {
+  /** The region of the store */
+  region?: string;
+  /** The stage of the store */
+  stage?: string;
+  /** Number of the store */
+  numberOfStore?: number;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** Singleton response of GitHubOAuth containing */
+export interface GitHubOAuthResponse extends ProxyResource {
+  /** Properties of a workflow. */
+  properties?: GitHubOAuthProperties;
+}
+
+/** Singleton response of ADO OAuth. */
+export interface AdooAuthResponse extends ProxyResource {
+  /** Details of ADO OAuth. */
+  properties?: AdooAuth;
+}
+
+/** Resource representation of a workflow */
+export interface Workflow extends TrackedResource {
+  /** Properties of a workflow. */
+  properties?: WorkflowProperties;
+}
+
+/** Resource representation of a IacProfile. */
+export interface IacProfile extends TrackedResource {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  stages?: StageProperties[];
+  templates?: IacTemplateProperties[];
+  /** Terraform Storage Account Subscription */
+  storageAccountSubscription?: string;
+  /** Terraform Storage Account Resource Group */
+  storageAccountResourceGroup?: string;
+  /** Terraform Storage Account Name */
+  storageAccountName?: string;
+  /** Terraform Container Name */
+  storageContainerName?: string;
+  /** Repository Name */
+  repositoryName?: string;
+  /** Repository Main Branch */
+  repositoryMainBranch?: string;
+  /** Repository Owner */
+  repositoryOwner?: string;
   /**
    * Determines the authorization status of requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly authStatus?: AuthorizationStatus;
+  /**
+   * The number associated with the submitted pull request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pullNumber?: number;
+  /**
+   * The status of the Pull Request submitted against the users repository.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prStatus?: PullRequestStatus;
+  /** Repository Branch Name */
+  branchName?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -380,7 +601,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -397,7 +618,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -418,7 +639,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -438,7 +659,7 @@ export enum KnownManifestType {
   /** Repositories using helm */
   Helm = "helm",
   /** Repositories using kubernetes manifests */
-  Kube = "kube"
+  Kube = "kube",
 }
 
 /**
@@ -460,7 +681,7 @@ export enum KnownPullRequestStatus {
   /** Pull Request merged into repository. */
   Merged = "merged",
   /** Workflow no longer found within repository. */
-  Removed = "removed"
+  Removed = "removed",
 }
 
 /**
@@ -482,7 +703,7 @@ export enum KnownWorkflowRunStatus {
   /** Workflow run is inprogress */
   Inprogress = "inprogress",
   /** Workflow run is completed */
-  Completed = "completed"
+  Completed = "completed",
 }
 
 /**
@@ -503,7 +724,7 @@ export enum KnownAuthorizationStatus {
   /** Requests returned NotFound response */
   NotFound = "NotFound",
   /** Requests returned other error response */
-  Error = "Error"
+  Error = "Error",
 }
 
 /**
@@ -544,7 +765,7 @@ export enum KnownGenerationLanguage {
   /** rust language */
   Rust = "rust",
   /** swift language */
-  Swift = "swift"
+  Swift = "swift",
 }
 
 /**
@@ -573,7 +794,7 @@ export enum KnownDockerfileGenerationMode {
   /** Dockerfiles will be generated */
   Enabled = "enabled",
   /** Dockerfiles will not be generated */
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 /**
@@ -591,7 +812,7 @@ export enum KnownManifestGenerationMode {
   /** Manifests will be generated */
   Enabled = "enabled",
   /** Manifests will not be generated */
-  Disabled = "disabled"
+  Disabled = "disabled",
 }
 
 /**
@@ -609,7 +830,7 @@ export enum KnownGenerationManifestType {
   /** Helm manifests */
   Helm = "helm",
   /** Kubernetes manifests */
-  Kube = "kube"
+  Kube = "kube",
 }
 
 /**
@@ -621,6 +842,30 @@ export enum KnownGenerationManifestType {
  * **kube**: Kubernetes manifests
  */
 export type GenerationManifestType = string;
+
+/** Known values of {@link QuickStartTemplateType} that the service accepts. */
+export enum KnownQuickStartTemplateType {
+  /** The template has not use quick start template */
+  None = "None",
+  /** The template use quick start template of HCI */
+  HCI = "HCI",
+  /** The template use quick start template of HCI and AKS */
+  Hciaks = "HCIAKS",
+  /** The template use quick start template of HCI and ArcVM */
+  Hciarcvm = "HCIARCVM",
+}
+
+/**
+ * Defines values for QuickStartTemplateType. \
+ * {@link KnownQuickStartTemplateType} can be used interchangeably with QuickStartTemplateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: The template has not use quick start template \
+ * **HCI**: The template use quick start template of HCI \
+ * **HCIAKS**: The template use quick start template of HCI and AKS \
+ * **HCIARCVM**: The template use quick start template of HCI and ArcVM
+ */
+export type QuickStartTemplateType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -660,6 +905,16 @@ export interface GeneratePreviewArtifactsOptionalParams
 export type GeneratePreviewArtifactsResponse = {
   [propertyName: string]: string;
 };
+
+/** Optional parameters. */
+export interface GetAdooAuthInfoOptionalParams
+  extends coreClient.OperationOptions {
+  /** The fields required in ADO OAuth call request. */
+  parameters?: AdooAuthCallRequest;
+}
+
+/** Contains response data for the getAdooAuthInfo operation. */
+export type GetAdooAuthInfoResponse = AdooAuthInfoResponse;
 
 /** Optional parameters. */
 export interface WorkflowListOptionalParams
@@ -719,6 +974,98 @@ export interface WorkflowListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkflowListByResourceGroupNextResponse = WorkflowListResult;
+
+/** Optional parameters. */
+export interface AdooAuthGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AdooAuthGetResponse = AdooAuthResponse;
+
+/** Optional parameters. */
+export interface AdooAuthListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AdooAuthListOperationResponse = AdooAuthListResponse;
+
+/** Optional parameters. */
+export interface AdooAuthListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AdooAuthListNextResponse = AdooAuthListResponse;
+
+/** Optional parameters. */
+export interface IacProfilesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type IacProfilesListResponse = IacProfileListResult;
+
+/** Optional parameters. */
+export interface IacProfilesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type IacProfilesListByResourceGroupResponse = IacProfileListResult;
+
+/** Optional parameters. */
+export interface IacProfilesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IacProfilesGetResponse = IacProfile;
+
+/** Optional parameters. */
+export interface IacProfilesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IacProfilesCreateOrUpdateResponse = IacProfile;
+
+/** Optional parameters. */
+export interface IacProfilesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IacProfilesUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type IacProfilesUpdateTagsResponse = IacProfile;
+
+/** Optional parameters. */
+export interface IacProfilesExportOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the export operation. */
+export type IacProfilesExportResponse = PrLinkResponse;
+
+/** Optional parameters. */
+export interface IacProfilesScaleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the scale operation. */
+export type IacProfilesScaleResponse = PrLinkResponse;
+
+/** Optional parameters. */
+export interface IacProfilesSyncOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface IacProfilesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type IacProfilesListNextResponse = IacProfileListResult;
+
+/** Optional parameters. */
+export interface IacProfilesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type IacProfilesListByResourceGroupNextResponse = IacProfileListResult;
 
 /** Optional parameters. */
 export interface DeveloperHubServiceClientOptionalParams

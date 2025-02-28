@@ -8,3 +8,5 @@
 
 export * from "./operations.js";
 export * from "./workflowOperations.js";
+export * from "./adooAuthOperations.js";
+export * from "./iacProfiles.js";
