@@ -22,6 +22,7 @@ import {
   KeyValuesImpl,
   ReplicasImpl,
   SnapshotsImpl,
+  ExperimentationOperationsImpl,
 } from "./operations/index.js";
 import {
   ConfigurationStores,
@@ -31,6 +32,7 @@ import {
   KeyValues,
   Replicas,
   Snapshots,
+  ExperimentationOperations,
 } from "./operationsInterfaces/index.js";
 import { AppConfigurationManagementClientOptionalParams } from "./models/index.js";
 
@@ -66,7 +68,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/4.1.0`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/4.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -120,7 +122,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01";
+    this.apiVersion = options.apiVersion || "2025-02-01-preview";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -128,6 +130,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
     this.keyValues = new KeyValuesImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.snapshots = new SnapshotsImpl(this);
+    this.experimentationOperations = new ExperimentationOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -166,4 +169,5 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
   keyValues: KeyValues;
   replicas: Replicas;
   snapshots: Snapshots;
+  experimentationOperations: ExperimentationOperations;
 }
