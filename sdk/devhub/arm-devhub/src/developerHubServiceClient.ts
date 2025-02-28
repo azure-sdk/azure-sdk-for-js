@@ -11,11 +11,21 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, WorkflowOperationsImpl } from "./operations/index.js";
-import { Operations, WorkflowOperations } from "./operationsInterfaces/index.js";
+import {
+  OperationsImpl,
+  WorkflowOperationsImpl,
+  AdooAuthOperationsImpl,
+  IacProfilesImpl,
+} from "./operations/index.js";
+import {
+  Operations,
+  WorkflowOperations,
+  AdooAuthOperations,
+  IacProfiles,
+} from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
@@ -28,7 +38,9 @@ import {
   ListGitHubOAuthResponse,
   ArtifactGenerationProperties,
   GeneratePreviewArtifactsOptionalParams,
-  GeneratePreviewArtifactsResponse
+  GeneratePreviewArtifactsResponse,
+  GetAdooAuthInfoOptionalParams,
+  GetAdooAuthInfoResponse,
 } from "./models/index.js";
 
 export class DeveloperHubServiceClient extends coreClient.ServiceClient {
@@ -39,13 +51,13 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DeveloperHubServiceClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: DeveloperHubServiceClientOptionalParams
+    options?: DeveloperHubServiceClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -60,7 +72,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     }
     const defaults: DeveloperHubServiceClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-devhub/1.0.0-beta.4`;
@@ -73,20 +85,21 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -96,7 +109,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -106,9 +119,9 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -116,9 +129,11 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-11-preview";
+    this.apiVersion = options.apiVersion || "2024-08-01-preview";
     this.operations = new OperationsImpl(this);
     this.workflowOperations = new WorkflowOperationsImpl(this);
+    this.adooAuthOperations = new AdooAuthOperationsImpl(this);
+    this.iacProfiles = new IacProfilesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -131,7 +146,7 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -145,29 +160,29 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
    * Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   gitHubOAuth(
     location: string,
-    options?: GitHubOAuthOptionalParams
+    options?: GitHubOAuthOptionalParams,
   ): Promise<GitHubOAuthOperationResponse> {
     return this.sendOperationRequest(
       { location, options },
-      gitHubOAuthOperationSpec
+      gitHubOAuthOperationSpec,
     );
   }
 
   /**
    * Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param code The code response from authenticating the GitHub App.
    * @param state The state response from authenticating the GitHub App.
    * @param options The options parameters.
@@ -176,139 +191,174 @@ export class DeveloperHubServiceClient extends coreClient.ServiceClient {
     location: string,
     code: string,
     state: string,
-    options?: GitHubOAuthCallbackOptionalParams
+    options?: GitHubOAuthCallbackOptionalParams,
   ): Promise<GitHubOAuthCallbackResponse> {
     return this.sendOperationRequest(
       { location, code, state, options },
-      gitHubOAuthCallbackOperationSpec
+      gitHubOAuthCallbackOperationSpec,
     );
   }
 
   /**
    * Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listGitHubOAuth(
     location: string,
-    options?: ListGitHubOAuthOptionalParams
+    options?: ListGitHubOAuthOptionalParams,
   ): Promise<ListGitHubOAuthResponse> {
     return this.sendOperationRequest(
       { location, options },
-      listGitHubOAuthOperationSpec
+      listGitHubOAuthOperationSpec,
     );
   }
 
   /**
    * Generate preview dockerfile and manifests.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param parameters Properties used for generating artifacts such as Dockerfiles and manifests.
    * @param options The options parameters.
    */
   generatePreviewArtifacts(
     location: string,
     parameters: ArtifactGenerationProperties,
-    options?: GeneratePreviewArtifactsOptionalParams
+    options?: GeneratePreviewArtifactsOptionalParams,
   ): Promise<GeneratePreviewArtifactsResponse> {
     return this.sendOperationRequest(
       { location, parameters, options },
-      generatePreviewArtifactsOperationSpec
+      generatePreviewArtifactsOperationSpec,
+    );
+  }
+
+  /**
+   * Gets ADOOAuth info used to authenticate users with ADO.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  getAdooAuthInfo(
+    location: string,
+    options?: GetAdooAuthInfoOptionalParams,
+  ): Promise<GetAdooAuthInfoResponse> {
+    return this.sendOperationRequest(
+      { location, options },
+      getAdooAuthInfoOperationSpec,
     );
   }
 
   operations: Operations;
   workflowOperations: WorkflowOperations;
+  adooAuthOperations: AdooAuthOperations;
+  iacProfiles: IacProfiles;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const gitHubOAuthOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default/getGitHubOAuthInfo",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default/getGitHubOAuthInfo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GitHubOAuthInfoResponse
+      bodyMapper: Mappers.GitHubOAuthInfoResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const gitHubOAuthCallbackOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GitHubOAuthResponse
+      bodyMapper: Mappers.GitHubOAuthResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.code, Parameters.state],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listGitHubOAuthOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/githuboauth",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GitHubOAuthListResponse
+      bodyMapper: Mappers.GitHubOAuthListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generatePreviewArtifactsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/generatePreviewArtifacts",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "String" } } }
-      }
+        type: { name: "Dictionary", value: { type: { name: "String" } } },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getAdooAuthInfoOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DevHub/locations/{location}/adooauth/default/getADOOAuthInfo",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AdooAuthInfoResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };

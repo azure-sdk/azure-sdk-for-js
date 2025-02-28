@@ -19,7 +19,7 @@ import {
   WorkflowDeleteResponse,
   TagsObject,
   WorkflowUpdateTagsOptionalParams,
-  WorkflowUpdateTagsResponse
+  WorkflowUpdateTagsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface WorkflowOperations {
    * @param options The options parameters.
    */
   list(
-    options?: WorkflowListOptionalParams
+    options?: WorkflowListOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Gets a list of workflows within a resource group.
@@ -39,7 +39,7 @@ export interface WorkflowOperations {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkflowListByResourceGroupOptionalParams
+    options?: WorkflowListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workflow>;
   /**
    * Gets a workflow.
@@ -50,7 +50,7 @@ export interface WorkflowOperations {
   get(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowGetOptionalParams
+    options?: WorkflowGetOptionalParams,
   ): Promise<WorkflowGetResponse>;
   /**
    * Creates or updates a workflow
@@ -63,7 +63,7 @@ export interface WorkflowOperations {
     resourceGroupName: string,
     workflowName: string,
     parameters: Workflow,
-    options?: WorkflowCreateOrUpdateOptionalParams
+    options?: WorkflowCreateOrUpdateOptionalParams,
   ): Promise<WorkflowCreateOrUpdateResponse>;
   /**
    * Deletes a workflow
@@ -74,7 +74,7 @@ export interface WorkflowOperations {
   delete(
     resourceGroupName: string,
     workflowName: string,
-    options?: WorkflowDeleteOptionalParams
+    options?: WorkflowDeleteOptionalParams,
   ): Promise<WorkflowDeleteResponse>;
   /**
    * Updates tags on a workflow.
@@ -87,6 +87,6 @@ export interface WorkflowOperations {
     resourceGroupName: string,
     workflowName: string,
     parameters: TagsObject,
-    options?: WorkflowUpdateTagsOptionalParams
+    options?: WorkflowUpdateTagsOptionalParams,
   ): Promise<WorkflowUpdateTagsResponse>;
 }
