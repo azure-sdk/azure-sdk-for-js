@@ -15130,6 +15130,44 @@ export const AppserviceGithubTokenRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const ErrorPage: coreClient.CompositeMapper = {
+  serializedName: "ErrorPage",
+  type: {
+    name: "Composite",
+    className: "ErrorPage",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        xmlName: "statusCode",
+        type: {
+          name: "Number",
+        },
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        type: {
+          name: "String",
+        },
+      },
+      contentType: {
+        serializedName: "contentType",
+        xmlName: "contentType",
+        type: {
+          name: "String",
+        },
+      },
+      alwaysUse: {
+        serializedName: "alwaysUse",
+        xmlName: "alwaysUse",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const WorkflowFilter: coreClient.CompositeMapper = {
   serializedName: "WorkflowFilter",
   type: {
@@ -16189,6 +16227,13 @@ export const Site: coreClient.CompositeMapper = {
       endToEndEncryptionEnabled: {
         serializedName: "properties.endToEndEncryptionEnabled",
         xmlName: "properties.endToEndEncryptionEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      sshEnabled: {
+        serializedName: "properties.sshEnabled",
+        xmlName: "properties.sshEnabled",
         type: {
           name: "Boolean",
         },
