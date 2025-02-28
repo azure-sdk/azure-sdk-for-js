@@ -34,7 +34,7 @@ async function getAssetWithSyncStatus(): Promise<void> {
 
 async function main(): Promise<void> {
   await getAsset();
-  getAssetWithSyncStatus();
+  await getAssetWithSyncStatus();
 }
 
 main().catch(console.error);
