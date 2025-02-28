@@ -30,6 +30,7 @@ import {
   ContainerAppsImpl,
   ContainerAppsBuildsByContainerAppImpl,
   ContainerAppsBuildsImpl,
+  ContainerAppsLabelHistoryImpl,
   ContainerAppsPatchesImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
@@ -52,6 +53,8 @@ import {
   DaprComponentResiliencyPoliciesImpl,
   DaprComponentsImpl,
   DaprSubscriptionsImpl,
+  HttpRouteConfigOperationsImpl,
+  MaintenanceConfigurationsImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSessionPoolsImpl,
   ContainerAppsSourceControlsImpl,
@@ -74,6 +77,7 @@ import {
   ContainerApps,
   ContainerAppsBuildsByContainerApp,
   ContainerAppsBuilds,
+  ContainerAppsLabelHistory,
   ContainerAppsPatches,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
@@ -96,6 +100,8 @@ import {
   DaprComponentResiliencyPolicies,
   DaprComponents,
   DaprSubscriptions,
+  HttpRouteConfigOperations,
+  MaintenanceConfigurations,
   ManagedEnvironmentsStorages,
   ContainerAppsSessionPools,
   ContainerAppsSourceControls,
@@ -144,7 +150,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/2.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appcontainers/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -198,7 +204,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-08-02-preview";
+    this.apiVersion = options.apiVersion || "2025-02-02-preview";
     this.appResiliencyOperations = new AppResiliencyOperationsImpl(this);
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
@@ -219,6 +225,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.containerAppsBuildsByContainerApp =
       new ContainerAppsBuildsByContainerAppImpl(this);
     this.containerAppsBuilds = new ContainerAppsBuildsImpl(this);
+    this.containerAppsLabelHistory = new ContainerAppsLabelHistoryImpl(this);
     this.containerAppsPatches = new ContainerAppsPatchesImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
@@ -249,6 +256,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       new DaprComponentResiliencyPoliciesImpl(this);
     this.daprComponents = new DaprComponentsImpl(this);
     this.daprSubscriptions = new DaprSubscriptionsImpl(this);
+    this.httpRouteConfigOperations = new HttpRouteConfigOperationsImpl(this);
+    this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this,
     );
@@ -336,6 +345,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   containerApps: ContainerApps;
   containerAppsBuildsByContainerApp: ContainerAppsBuildsByContainerApp;
   containerAppsBuilds: ContainerAppsBuilds;
+  containerAppsLabelHistory: ContainerAppsLabelHistory;
   containerAppsPatches: ContainerAppsPatches;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
@@ -358,6 +368,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   daprComponentResiliencyPolicies: DaprComponentResiliencyPolicies;
   daprComponents: DaprComponents;
   daprSubscriptions: DaprSubscriptions;
+  httpRouteConfigOperations: HttpRouteConfigOperations;
+  maintenanceConfigurations: MaintenanceConfigurations;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSessionPools: ContainerAppsSessionPools;
   containerAppsSourceControls: ContainerAppsSourceControls;
