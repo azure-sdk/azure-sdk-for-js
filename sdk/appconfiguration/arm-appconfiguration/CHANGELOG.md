@@ -1,5 +1,32 @@
 # Release History
     
+## 4.2.0-beta.1 (2025-02-28)
+Compared with version 4.1.0
+    
+### Features Added
+
+  - Added operation group ExperimentationOperations
+  - Added Interface Experimentation
+  - Added Interface ExperimentationCreateOptionalParams
+  - Added Interface ExperimentationDeleteHeaders
+  - Added Interface ExperimentationDeleteOptionalParams
+  - Added Interface ExperimentationGetOptionalParams
+  - Added Interface ExperimentationListNextOptionalParams
+  - Added Interface ExperimentationListOptionalParams
+  - Added Interface ExperimentationListResult
+  - Added Interface ManagedOnBehalfOfConfiguration
+  - Added Interface MoboBrokerResource
+  - Added Interface TelemetryProperties
+  - Added Type Alias ExperimentationCreateResponse
+  - Added Type Alias ExperimentationDeleteResponse
+  - Added Type Alias ExperimentationGetResponse
+  - Added Type Alias ExperimentationListNextResponse
+  - Added Type Alias ExperimentationListResponse
+  - Interface ConfigurationStore has a new optional parameter managedOnBehalfOfConfiguration
+  - Interface ConfigurationStore has a new optional parameter telemetry
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter telemetry
+    
+    
 ## 4.1.0 (2024-11-11)
     
 ### Features Added
