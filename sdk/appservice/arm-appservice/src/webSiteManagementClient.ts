@@ -34,6 +34,7 @@ import {
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
   GetUsagesInLocationImpl,
+  SiteCertificatesImpl,
   StaticSitesImpl,
   WebAppsImpl,
   WorkflowsImpl,
@@ -64,6 +65,7 @@ import {
   Recommendations,
   ResourceHealthMetadataOperations,
   GetUsagesInLocation,
+  SiteCertificates,
   StaticSites,
   WebApps,
   Workflows,
@@ -191,7 +193,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/16.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/16.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -245,7 +247,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-11-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this,
     );
@@ -269,6 +271,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.resourceHealthMetadataOperations =
       new ResourceHealthMetadataOperationsImpl(this);
     this.getUsagesInLocation = new GetUsagesInLocationImpl(this);
+    this.siteCertificates = new SiteCertificatesImpl(this);
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
     this.workflows = new WorkflowsImpl(this);
@@ -1098,6 +1101,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   recommendations: Recommendations;
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   getUsagesInLocation: GetUsagesInLocation;
+  siteCertificates: SiteCertificates;
   staticSites: StaticSites;
   webApps: WebApps;
   workflows: Workflows;
