@@ -4126,7 +4126,7 @@ export interface VolumeMount {
 export interface EnvironmentVariable {
   /** Environment variable name */
   name: string;
-  /** Environment variable value */
+  /** The value of this environment variable must be the name of an AppSetting. The actual value of the environment variable in container will be retrieved from the specified AppSetting at runtime. If the AppSetting is not found, the value will be set to an empty string in the container at runtime. */
   value: string;
 }
 
@@ -5010,6 +5010,18 @@ export interface AppserviceGithubTokenRequest {
   state: string;
 }
 
+/** A custom error page for a specific status returned by a web app. */
+export interface ErrorPage {
+  /** The status code for which the error page will be used */
+  statusCode?: number;
+  /** The content of the error page. There is a 10kb limit imposed on custom error page content. */
+  content?: string;
+  /** The content type of the error page. For example, 'text/html' */
+  contentType?: string;
+  /** If true, the error page will be shown for all requests with a matching status code, regardless of whether they failed on the App Service FrontEnd load balancer or on the app itself. */
+  alwaysUse?: boolean;
+}
+
 /** The workflow filter. */
 export interface WorkflowFilter {
   /** The state of workflows. */
@@ -5386,6 +5398,8 @@ export interface Site extends Resource {
   ipMode?: IPMode;
   /** Whether to use end to end encryption between the FrontEnd and the Worker */
   endToEndEncryptionEnabled?: boolean;
+  /** Whether to enable ssh access. */
+  sshEnabled?: boolean;
   /**
    * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
    *  If <code>true</code>, the app is only accessible via API management process.
@@ -5556,6 +5570,11 @@ export interface AppServicePlan extends Resource {
    * If <code>false</code>, this App Service Plan will not perform availability zone balancing.
    */
   zoneRedundant?: boolean;
+  /**
+   * If <code>true</code>, this App Service Plan will attempt to scale asynchronously if there are insufficient workers to scale synchronously.
+   * If <code>false</code>, this App Service Plan will only attempt sync scaling.
+   */
+  asyncScalingEnabled?: boolean;
 }
 
 /** SSL certificate for an app. */
@@ -5626,16 +5645,16 @@ export interface Certificate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostingEnvironmentProfile?: HostingEnvironmentProfile;
-  /** Key Vault Csm resource Id. */
+  /** Azure Key Vault Csm resource Id. */
   keyVaultId?: string;
-  /** Key Vault secret name. */
+  /** Azure Key Vault secret name. */
   keyVaultSecretName?: string;
   /**
    * Status of the Key Vault secret.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyVaultSecretStatus?: KeyVaultSecretStatus;
-  /** Resource ID of the associated App Service plan, formatted as: "/subscriptions/{subscriptionID}/resourceGroups/{groupName}/providers/Microsoft.Web/serverfarms/{appServicePlanName}". */
+  /** Resource ID of the associated App Service plan. */
   serverFarmId?: string;
   /** CNAME of the certificate to be issued via free certificate */
   canonicalName?: string;
@@ -8675,6 +8694,8 @@ export interface SiteContainer extends ProxyOnlyResource {
   readonly lastModifiedTime?: Date;
   /** List of volume mounts */
   volumeMounts?: VolumeMount[];
+  /** <code>true</code> if all AppSettings and ConnectionStrings have to be passed to the container as environment variables; <code>false</code> otherwise. */
+  inheritAppSettingsAndConnectionStrings?: boolean;
   /** List of environment variables */
   environmentVariables?: EnvironmentVariable[];
 }
@@ -13223,6 +13244,84 @@ export interface GetUsagesInLocationListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type GetUsagesInLocationListNextResponse = CsmUsageQuotaCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SiteCertificatesListResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SiteCertificatesGetResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SiteCertificatesCreateOrUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SiteCertificatesUpdateResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlot operation. */
+export type SiteCertificatesListSlotResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesGetSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSlot operation. */
+export type SiteCertificatesGetSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesCreateOrUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateSlot operation. */
+export type SiteCertificatesCreateOrUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesDeleteSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SiteCertificatesUpdateSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateSlot operation. */
+export type SiteCertificatesUpdateSlotResponse = Certificate;
+
+/** Optional parameters. */
+export interface SiteCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SiteCertificatesListNextResponse = CertificateCollection;
+
+/** Optional parameters. */
+export interface SiteCertificatesListSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotNext operation. */
+export type SiteCertificatesListSlotNextResponse = CertificateCollection;
 
 /** Optional parameters. */
 export interface StaticSitesPreviewWorkflowOptionalParams
