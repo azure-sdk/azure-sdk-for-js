@@ -15130,6 +15130,44 @@ export const AppserviceGithubTokenRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const ErrorPage: coreClient.CompositeMapper = {
+  serializedName: "ErrorPage",
+  type: {
+    name: "Composite",
+    className: "ErrorPage",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        xmlName: "statusCode",
+        type: {
+          name: "Number",
+        },
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        type: {
+          name: "String",
+        },
+      },
+      contentType: {
+        serializedName: "contentType",
+        xmlName: "contentType",
+        type: {
+          name: "String",
+        },
+      },
+      alwaysUse: {
+        serializedName: "alwaysUse",
+        xmlName: "alwaysUse",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const WorkflowFilter: coreClient.CompositeMapper = {
   serializedName: "WorkflowFilter",
   type: {
@@ -16193,6 +16231,13 @@ export const Site: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      sshEnabled: {
+        serializedName: "properties.sshEnabled",
+        xmlName: "properties.sshEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
       hostNamesDisabled: {
         serializedName: "properties.hostNamesDisabled",
         xmlName: "properties.hostNamesDisabled",
@@ -16585,6 +16630,13 @@ export const AppServicePlan: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "properties.zoneRedundant",
         xmlName: "properties.zoneRedundant",
+        type: {
+          name: "Boolean",
+        },
+      },
+      asyncScalingEnabled: {
+        serializedName: "properties.asyncScalingEnabled",
+        xmlName: "properties.asyncScalingEnabled",
         type: {
           name: "Boolean",
         },
