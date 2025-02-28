@@ -3218,7 +3218,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-networkcloud@file:projects/arm-networkcloud.tgz':
-    resolution: {integrity: sha512-Vget+Btjm5TB3NqDnubucSSFQxs2rp+rX5CQ9tIQ/m6vPwVTd8blkJ6IUqSIVsxxpgrFEhsJ8cbHbOwEuJ1dlA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-VhAlzN09Jw7ZFw8pdEML1m6X5WzGMXiopKrdfQ2Bou2XDD/mncjuIV0MCrYIFQFcVKvaame0Xh9qH+HIW9VWdA==, tarball: file:projects/arm-networkcloud.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-networkfunction@file:projects/arm-networkfunction.tgz':
@@ -3230,7 +3230,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-nginx@file:projects/arm-nginx.tgz':
-    resolution: {integrity: sha512-0Zr+dEe7RW/QTtMzMKwynKxi9E2O8VUD7A4wPGxh/ehH5g11ea4Ay97Li0k/v4HCiizyeLRkXc0SC0bWuoeZxg==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-T2JX94sR7Z2fyia9XglIcbr8Rx3o0M97D71+1xkmHlz1K/yqnGo/QyXhKo84lZMWC2voB2XxzjmpEPftoDHhxg==, tarball: file:projects/arm-nginx.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz':
@@ -3474,7 +3474,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-standbypool@file:projects/arm-standbypool.tgz':
-    resolution: {integrity: sha512-VpqxESExMjxj/o9Ao7TpMIpjWhnSBX43OujiIK2Vv90pgoFgnmegC2YRio3VzbqUmyCUnjwXwXNMk3/vw+Mdmg==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-nGfZAtKw1DvlLppo8CrS0JcpFG2n6dYnVJRcLoPKy7uO+H1IORA0G3N49PJSlLHlLDYC/DcmeL5WZrQK8m7o4g==, tarball: file:projects/arm-standbypool.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid@file:projects/arm-storage-profile-2020-09-01-hybrid.tgz':
@@ -18142,15 +18142,15 @@ snapshots:
 
   '@rush-temp/arm-standbypool@file:projects/arm-standbypool.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@microsoft/api-extractor': 7.50.1(@types/node@18.19.76)
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       eslint: 9.21.0
       playwright: 1.50.1
-      prettier: 3.5.2
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
