@@ -382,9 +382,9 @@ export enum KnownEventObservabilityMode {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -404,7 +404,7 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V20241101 = "2024-11-01"
+    v2024_11_01 = "2024-11-01"
 }
 
 // @public
