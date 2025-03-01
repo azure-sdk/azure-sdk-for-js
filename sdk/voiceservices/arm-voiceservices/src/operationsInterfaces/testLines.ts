@@ -15,10 +15,10 @@ import {
   TestLinesGetResponse,
   TestLinesCreateOrUpdateOptionalParams,
   TestLinesCreateOrUpdateResponse,
-  TestLinesDeleteOptionalParams,
   TestLineUpdate,
   TestLinesUpdateOptionalParams,
-  TestLinesUpdateResponse
+  TestLinesUpdateResponse,
+  TestLinesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface TestLines {
   listByCommunicationsGateway(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: TestLinesListByCommunicationsGatewayOptionalParams
+    options?: TestLinesListByCommunicationsGatewayOptionalParams,
   ): PagedAsyncIterableIterator<TestLine>;
   /**
    * Get a TestLine
@@ -46,7 +46,7 @@ export interface TestLines {
     resourceGroupName: string,
     communicationsGatewayName: string,
     testLineName: string,
-    options?: TestLinesGetOptionalParams
+    options?: TestLinesGetOptionalParams,
   ): Promise<TestLinesGetResponse>;
   /**
    * Create a TestLine
@@ -61,7 +61,7 @@ export interface TestLines {
     communicationsGatewayName: string,
     testLineName: string,
     resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
+    options?: TestLinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TestLinesCreateOrUpdateResponse>,
@@ -81,34 +81,8 @@ export interface TestLines {
     communicationsGatewayName: string,
     testLineName: string,
     resource: TestLine,
-    options?: TestLinesCreateOrUpdateOptionalParams
+    options?: TestLinesCreateOrUpdateOptionalParams,
   ): Promise<TestLinesCreateOrUpdateResponse>;
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a TestLine
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param testLineName Unique identifier for this test line
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    testLineName: string,
-    options?: TestLinesDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Update a TestLine
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -122,6 +96,32 @@ export interface TestLines {
     communicationsGatewayName: string,
     testLineName: string,
     properties: TestLineUpdate,
-    options?: TestLinesUpdateOptionalParams
+    options?: TestLinesUpdateOptionalParams,
   ): Promise<TestLinesUpdateResponse>;
+  /**
+   * Delete a TestLine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param testLineName Unique identifier for this test line
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    testLineName: string,
+    options?: TestLinesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a TestLine
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param testLineName Unique identifier for this test line
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    testLineName: string,
+    options?: TestLinesDeleteOptionalParams,
+  ): Promise<void>;
 }

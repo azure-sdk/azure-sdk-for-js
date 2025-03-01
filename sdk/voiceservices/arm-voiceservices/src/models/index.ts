@@ -143,10 +143,98 @@ export interface PrimaryRegionProperties {
   operatorAddresses: string[];
   /** IP address to use to contact the ESRP from this region */
   esrpAddresses?: string[];
-  /** The allowed source IP address or CIDR ranges for signaling */
+  /** The allowed source IP addresses or CIDR ranges for signaling */
   allowedSignalingSourceAddressPrefixes?: string[];
-  /** The allowed source IP address or CIDR ranges for media */
+  /** The allowed source IP addresses or CIDR ranges for media */
   allowedMediaSourceAddressPrefixes?: string[];
+}
+
+/** Configuration of the API Bridge. */
+export interface ApiBridgeProperties {
+  /** The activation state of the API Bridge for this Communications Gateway */
+  configureApiBridge?: ApiBridgeActivationState;
+  /**
+   * FQDNs for sending requests to the API Bridge endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointFqdns?: string[];
+  /** The allowed source IP addresses or CIDR ranges for accessing the API Bridge */
+  allowedAddressPrefixes?: string[];
+}
+
+/** Details of DNS Domains delegated to the Communications Gateway. */
+export interface DnsDelegationsProperties {
+  /** DNS Domains to delegate for the creation of DNS Zones by the Azure Communications Gateway */
+  delegations?: DnsDelegationProperties[];
+}
+
+/** Details of a DNS Domain delegated to the Communications Gateway. */
+export interface DnsDelegationProperties {
+  /** Domain name to delegate */
+  domain?: string;
+  /**
+   * The Azure-hosted DNS Name Servers for the delegated DNS Zones
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nameServers?: string[];
+}
+
+/** Properties of Custom SIP Headers. */
+export interface CustomSipHeadersProperties {
+  /** The Custom SIP Headers to apply to the calls which traverse the Communications Gateway */
+  headers?: CustomSipHeader[];
+}
+
+/** Details of a Custom SIP Header. */
+export interface CustomSipHeader {
+  /** The name of the Custom SIP Header */
+  name?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The resource model definition representing SKU */
+export interface Sku {
+  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
+  name: string;
+  /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
+  tier?: SkuTier;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -209,6 +297,10 @@ export interface CheckNameAvailabilityResponse {
 
 /** The type used for update operations of the CommunicationsGateway. */
 export interface CommunicationsGatewayUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: Sku;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
 }
@@ -237,6 +329,10 @@ export interface TrackedResource extends Resource {
 
 /** A CommunicationsGateway resource */
 export interface CommunicationsGateway extends TrackedResource {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: Sku;
   /**
    * Resource provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -258,7 +354,7 @@ export interface CommunicationsGateway extends TrackedResource {
   /** What platforms to support */
   platforms?: CommunicationsPlatform[];
   /** Details of API bridge functionality, if required */
-  apiBridge?: Record<string, unknown>;
+  apiBridge?: ApiBridgeProperties;
   /** The scope at which the auto-generated domain name can be re-used */
   autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /**
@@ -270,8 +366,24 @@ export interface CommunicationsGateway extends TrackedResource {
   teamsVoicemailPilotNumber?: string;
   /** Whether an on-premises Mobile Control Point is in use. */
   onPremMcpEnabled?: boolean;
+  /** Whether an integrated Mobile Control Point is in use. */
+  integratedMcpEnabled?: boolean;
   /** A list of dial strings used for emergency calling. */
   emergencyDialStrings?: string[];
+  /** Details of DNS Domains to delegate to the Communications Gateway. */
+  dnsDelegations?: DnsDelegationsProperties;
+  /** Custom SIP Header to add to any subscriber with a custom_header value, if required. */
+  customSipHeaders?: CustomSipHeadersProperties;
+  /**
+   * A list of IP allocated prefixes which may be used to receive signaling data from this Communications Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedSignalingAddressPrefixes?: string[];
+  /**
+   * A list of allocated IP prefixes which may be used to receive media data from this Communications Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedMediaAddressPrefixes?: string[];
 }
 
 /** A TestLine resource */
@@ -297,6 +409,8 @@ export interface CommunicationsGatewaysCreateOrUpdateHeaders {
 export interface CommunicationsGatewaysDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for TestLines_createOrUpdate operation. */
@@ -309,6 +423,8 @@ export interface TestLinesCreateOrUpdateHeaders {
 export interface TestLinesDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -318,7 +434,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -335,7 +451,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -349,12 +465,12 @@ export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled"
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
 }
 
 /**
@@ -362,9 +478,9 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
  */
 export type ProvisioningState = string;
 
@@ -373,7 +489,7 @@ export enum KnownStatus {
   /** The resource has been created or updated, but the CommunicationsGateway service has not yet been updated to reflect the changes. */
   ChangePending = "ChangePending",
   /** The CommunicationsGateway service is up and running with the parameters specified in the resource. */
-  Complete = "Complete"
+  Complete = "Complete",
 }
 
 /**
@@ -389,7 +505,7 @@ export type Status = string;
 /** Known values of {@link Connectivity} that the service accepts. */
 export enum KnownConnectivity {
   /** This deployment connects to the operator network using a Public IP address, e.g. when using MAPS */
-  PublicAddress = "PublicAddress"
+  PublicAddress = "PublicAddress",
 }
 
 /**
@@ -403,18 +519,18 @@ export type Connectivity = string;
 
 /** Known values of {@link TeamsCodecs} that the service accepts. */
 export enum KnownTeamsCodecs {
-  /** Pcma */
+  /** Pulse code modulation(PCM) U-law narrowband audio codec(G.711u) */
   Pcma = "PCMA",
-  /** Pcmu */
+  /** Pulse code modulation(PCM) U-law narrowband audio codec(G.711u) */
   Pcmu = "PCMU",
-  /** G722 */
+  /** G.722 wideband audio codec */
   G722 = "G722",
-  /** G7222 */
+  /** G.722.2 wideband audio codec */
   G7222 = "G722_2",
-  /** Silk8 */
+  /** SILK\/8000 narrowband audio codec */
   Silk8 = "SILK_8",
-  /** Silk16 */
-  Silk16 = "SILK_16"
+  /** SILK\/16000 wideband audio codec */
+  Silk16 = "SILK_16",
 }
 
 /**
@@ -422,12 +538,12 @@ export enum KnownTeamsCodecs {
  * {@link KnownTeamsCodecs} can be used interchangeably with TeamsCodecs,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PCMA** \
- * **PCMU** \
- * **G722** \
- * **G722_2** \
- * **SILK_8** \
- * **SILK_16**
+ * **PCMA**: Pulse code modulation(PCM) U-law narrowband audio codec(G.711u) \
+ * **PCMU**: Pulse code modulation(PCM) U-law narrowband audio codec(G.711u) \
+ * **G722**: G.722 wideband audio codec \
+ * **G722_2**: G.722.2 wideband audio codec \
+ * **SILK_8**: SILK\/8000 narrowband audio codec \
+ * **SILK_16**: SILK\/16000 wideband audio codec
  */
 export type TeamsCodecs = string;
 
@@ -436,7 +552,7 @@ export enum KnownE911Type {
   /** Emergency calls are not handled different from other calls */
   Standard = "Standard",
   /** Emergency calls are routed directly to the ESRP */
-  DirectToEsrp = "DirectToEsrp"
+  DirectToEsrp = "DirectToEsrp",
 }
 
 /**
@@ -451,10 +567,12 @@ export type E911Type = string;
 
 /** Known values of {@link CommunicationsPlatform} that the service accepts. */
 export enum KnownCommunicationsPlatform {
-  /** OperatorConnect */
+  /** Operator Connect */
   OperatorConnect = "OperatorConnect",
-  /** TeamsPhoneMobile */
-  TeamsPhoneMobile = "TeamsPhoneMobile"
+  /** Teams Phone Mobile */
+  TeamsPhoneMobile = "TeamsPhoneMobile",
+  /** Teams Direct Routing */
+  TeamsDirectRouting = "TeamsDirectRouting",
 }
 
 /**
@@ -462,21 +580,40 @@ export enum KnownCommunicationsPlatform {
  * {@link KnownCommunicationsPlatform} can be used interchangeably with CommunicationsPlatform,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **OperatorConnect** \
- * **TeamsPhoneMobile**
+ * **OperatorConnect**: Operator Connect \
+ * **TeamsPhoneMobile**: Teams Phone Mobile \
+ * **TeamsDirectRouting**: Teams Direct Routing
  */
 export type CommunicationsPlatform = string;
 
+/** Known values of {@link ApiBridgeActivationState} that the service accepts. */
+export enum KnownApiBridgeActivationState {
+  /** API Bridge is enabled */
+  Enabled = "enabled",
+  /** API Bridge is disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for ApiBridgeActivationState. \
+ * {@link KnownApiBridgeActivationState} can be used interchangeably with ApiBridgeActivationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: API Bridge is enabled \
+ * **disabled**: API Bridge is disabled
+ */
+export type ApiBridgeActivationState = string;
+
 /** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
 export enum KnownAutoGeneratedDomainNameLabelScope {
-  /** TenantReuse */
+  /** Generated domain name label depends on resource name and tenant ID. */
   TenantReuse = "TenantReuse",
-  /** SubscriptionReuse */
+  /** Generated domain name label depends on resource name, tenant ID and subscription ID. */
   SubscriptionReuse = "SubscriptionReuse",
-  /** ResourceGroupReuse */
+  /** Generated domain name label depends on resource name, tenant ID, subscription ID and resource group name. */
   ResourceGroupReuse = "ResourceGroupReuse",
-  /** NoReuse */
-  NoReuse = "NoReuse"
+  /** Generated domain name label is always unique. */
+  NoReuse = "NoReuse",
 }
 
 /**
@@ -484,12 +621,36 @@ export enum KnownAutoGeneratedDomainNameLabelScope {
  * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TenantReuse** \
- * **SubscriptionReuse** \
- * **ResourceGroupReuse** \
- * **NoReuse**
+ * **TenantReuse**: Generated domain name label depends on resource name and tenant ID. \
+ * **SubscriptionReuse**: Generated domain name label depends on resource name, tenant ID and subscription ID. \
+ * **ResourceGroupReuse**: Generated domain name label depends on resource name, tenant ID, subscription ID and resource group name. \
+ * **NoReuse**: Generated domain name label is always unique.
  */
 export type AutoGeneratedDomainNameLabelScope = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -500,7 +661,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -520,7 +681,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -535,10 +696,10 @@ export type CheckNameAvailabilityReason = string;
 
 /** Known values of {@link TestLinePurpose} that the service accepts. */
 export enum KnownTestLinePurpose {
-  /** Manual */
+  /** The test line is used for manual testing */
   Manual = "Manual",
-  /** Automated */
-  Automated = "Automated"
+  /** The test line is used for automated testing */
+  Automated = "Automated",
 }
 
 /**
@@ -546,10 +707,12 @@ export enum KnownTestLinePurpose {
  * {@link KnownTestLinePurpose} can be used interchangeably with TestLinePurpose,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Manual** \
- * **Automated**
+ * **Manual**: The test line is used for manual testing \
+ * **Automated**: The test line is used for automated testing
  */
 export type TestLinePurpose = string;
+/** Defines values for SkuTier. */
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -570,14 +733,16 @@ export interface CommunicationsGatewaysListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CommunicationsGatewaysListBySubscriptionResponse = CommunicationsGatewayListResult;
+export type CommunicationsGatewaysListBySubscriptionResponse =
+  CommunicationsGatewayListResult;
 
 /** Optional parameters. */
 export interface CommunicationsGatewaysListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CommunicationsGatewaysListByResourceGroupResponse = CommunicationsGatewayListResult;
+export type CommunicationsGatewaysListByResourceGroupResponse =
+  CommunicationsGatewayListResult;
 
 /** Optional parameters. */
 export interface CommunicationsGatewaysGetOptionalParams
@@ -596,7 +761,15 @@ export interface CommunicationsGatewaysCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CommunicationsGatewaysCreateOrUpdateResponse = CommunicationsGateway;
+export type CommunicationsGatewaysCreateOrUpdateResponse =
+  CommunicationsGateway;
+
+/** Optional parameters. */
+export interface CommunicationsGatewaysUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type CommunicationsGatewaysUpdateResponse = CommunicationsGateway;
 
 /** Optional parameters. */
 export interface CommunicationsGatewaysDeleteOptionalParams
@@ -608,25 +781,20 @@ export interface CommunicationsGatewaysDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CommunicationsGatewaysUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type CommunicationsGatewaysUpdateResponse = CommunicationsGateway;
-
-/** Optional parameters. */
 export interface CommunicationsGatewaysListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CommunicationsGatewaysListBySubscriptionNextResponse = CommunicationsGatewayListResult;
+export type CommunicationsGatewaysListBySubscriptionNextResponse =
+  CommunicationsGatewayListResult;
 
 /** Optional parameters. */
 export interface CommunicationsGatewaysListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CommunicationsGatewaysListByResourceGroupNextResponse = CommunicationsGatewayListResult;
+export type CommunicationsGatewaysListByResourceGroupNextResponse =
+  CommunicationsGatewayListResult;
 
 /** Optional parameters. */
 export interface NameAvailabilityCheckLocalOptionalParams
@@ -662,6 +830,13 @@ export interface TestLinesCreateOrUpdateOptionalParams
 export type TestLinesCreateOrUpdateResponse = TestLine;
 
 /** Optional parameters. */
+export interface TestLinesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type TestLinesUpdateResponse = TestLine;
+
+/** Optional parameters. */
 export interface TestLinesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -671,18 +846,12 @@ export interface TestLinesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface TestLinesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type TestLinesUpdateResponse = TestLine;
-
-/** Optional parameters. */
 export interface TestLinesListByCommunicationsGatewayNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCommunicationsGatewayNext operation. */
-export type TestLinesListByCommunicationsGatewayNextResponse = TestLineListResult;
+export type TestLinesListByCommunicationsGatewayNextResponse =
+  TestLineListResult;
 
 /** Optional parameters. */
 export interface MicrosoftVoiceServicesOptionalParams
