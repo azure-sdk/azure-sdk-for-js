@@ -161,7 +161,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.scope2],
   headerParameters: [Parameters.accept],
   serializer,
@@ -177,7 +177,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceId,
