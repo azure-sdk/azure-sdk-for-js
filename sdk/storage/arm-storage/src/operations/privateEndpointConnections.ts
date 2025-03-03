@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,6 +15,7 @@ import * as Parameters from "../models/parameters.js";
 import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   PrivateEndpointConnection,
+  PrivateEndpointConnectionsListNextOptionalParams,
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsListResponse,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -21,6 +23,7 @@ import {
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsPutResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,8 +43,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all the private endpoint connections associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -78,11 +80,29 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     accountName: string,
     options?: PrivateEndpointConnectionsListOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateEndpointConnectionsListResponse;
-    result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextlink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextlink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -101,8 +121,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * List all the private endpoint connections associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -121,8 +140,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Gets the specified private endpoint connection associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -149,8 +167,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Update the state of specified private endpoint connection associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -180,8 +197,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes the specified private endpoint connection associated with the storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -205,6 +221,27 @@ export class PrivateEndpointConnectionsImpl
       deleteOperationSpec,
     );
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: PrivateEndpointConnectionsListNextOptionalParams,
+  ): Promise<PrivateEndpointConnectionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -216,13 +253,16 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -241,9 +281,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
@@ -260,13 +300,13 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.properties2,
+  requestBody: Parameters.properties4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -286,10 +326,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
     Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

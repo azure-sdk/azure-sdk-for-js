@@ -1,6 +1,6 @@
 # Release History
     
-## 18.4.0 (2025-02-27)
+## 19.0.0 (2025-03-03)
     
 ### Features Added
 
@@ -9,20 +9,44 @@
   - Added Interface AccountLimits
   - Added Interface AccountUsage
   - Added Interface AccountUsageElements
+  - Added Interface AzureResourceManagerArmResponseBlobRestoreStatus
+  - Added Interface BlobContainersObjectLevelWormHeaders
+  - Added Interface BlobInventoryPoliciesListNextOptionalParams
+  - Added Interface BlobServicesListNextOptionalParams
   - Added Interface BurstingConstants
   - Added Interface FileServicesGetServiceUsageOptionalParams
   - Added Interface FileServicesListServiceUsagesNextOptionalParams
   - Added Interface FileServicesListServiceUsagesOptionalParams
   - Added Interface FileServiceUsage
-  - Added Interface FileServiceUsageProperties
   - Added Interface FileServiceUsages
   - Added Interface FileShareLimits
   - Added Interface FileSharePropertiesFileSharePaidBursting
   - Added Interface FileShareRecommendations
-  - Added Interface ObjectReplicationPolicyPropertiesMetrics
+  - Added Interface LocalUsersListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListNextOptionalParams
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface PrivateEndpointConnectionsListNextOptionalParams
+  - Added Interface SkusListNextOptionalParams
+  - Added Interface StorageAccountsAbortHierarchicalNamespaceMigrationHeaders
+  - Added Interface StorageAccountsCreateHeaders
+  - Added Interface StorageAccountsFailoverHeaders
+  - Added Interface StorageAccountsHierarchicalNamespaceMigrationHeaders
+  - Added Interface StorageAccountsRestoreBlobRangesHeaders
+  - Added Type Alias ActionType
+  - Added Type Alias BlobInventoryPoliciesListNextResponse
+  - Added Type Alias BlobServicesListNextResponse
   - Added Type Alias FileServicesGetServiceUsageResponse
   - Added Type Alias FileServicesListServiceUsagesNextResponse
   - Added Type Alias FileServicesListServiceUsagesResponse
+  - Added Type Alias LocalUsersListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListNextResponse
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionsListNextResponse
+  - Added Type Alias SkusListNextResponse
+  - Interface BlobContainer has a new optional parameter eTag
+  - Interface BlobServiceItems has a new optional parameter nextlink
+  - Interface FileShare has a new optional parameter eTag
   - Interface FileShare has a new optional parameter fileSharePaidBursting
   - Interface FileShare has a new optional parameter includedBurstIops
   - Interface FileShare has a new optional parameter maxBurstCreditsForIops
@@ -39,13 +63,79 @@
   - Interface FileShareItem has a new optional parameter nextAllowedQuotaDowngradeTime
   - Interface FileShareItem has a new optional parameter provisionedBandwidthMibps
   - Interface FileShareItem has a new optional parameter provisionedIops
-  - Interface ObjectReplicationPolicy has a new optional parameter metrics
+  - Interface ListBlobInventoryPolicy has a new optional parameter nextlink
+  - Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders has a new optional parameter retryAfter
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface OperationListResult has a new optional parameter nextLink
+  - Interface PrivateEndpointConnectionListResult has a new optional parameter nextlink
+  - Interface Resource has a new optional parameter systemData
+  - Interface StorageAccountsCustomerInitiatedMigrationHeaders has a new optional parameter retryAfter
+  - Interface StorageSkuListResult has a new optional parameter nextlink
+  - Interface StorageTaskAssignment has a new optional parameter provisioningState
+  - Interface StorageTaskAssignment has a new optional parameter runStatus
+  - Interface StorageTaskAssignmentsCreateHeaders has a new optional parameter retryAfter
+  - Interface StorageTaskAssignmentsDeleteHeaders has a new optional parameter retryAfter
+  - Interface StorageTaskAssignmentsUpdateHeaders has a new optional parameter retryAfter
+  - Added Enum KnownActionType
+  - Added Enum KnownOrigin
   - Enum KnownSkuName has a new value PremiumV2LRS
   - Enum KnownSkuName has a new value PremiumV2ZRS
   - Enum KnownSkuName has a new value StandardV2GRS
   - Enum KnownSkuName has a new value StandardV2Gzrs
   - Enum KnownSkuName has a new value StandardV2LRS
   - Enum KnownSkuName has a new value StandardV2ZRS
+
+### Breaking Changes
+
+  - Operation BlobContainers.beginObjectLevelWorm has a new signature
+  - Operation BlobContainers.beginObjectLevelWormAndWait has a new signature
+  - Operation BlobContainers.clearLegalHold has a new signature
+  - Operation BlobContainers.create has a new signature
+  - Operation BlobContainers.createOrUpdateImmutabilityPolicy has a new signature
+  - Operation BlobContainers.delete has a new signature
+  - Operation BlobContainers.deleteImmutabilityPolicy has a new signature
+  - Operation BlobContainers.extendImmutabilityPolicy has a new signature
+  - Operation BlobContainers.get has a new signature
+  - Operation BlobContainers.getImmutabilityPolicy has a new signature
+  - Operation BlobContainers.lease has a new signature
+  - Operation BlobContainers.list has a new signature
+  - Operation BlobContainers.lockImmutabilityPolicy has a new signature
+  - Operation BlobContainers.setLegalHold has a new signature
+  - Operation BlobContainers.update has a new signature
+  - Operation BlobServices.getServiceProperties has a new signature
+  - Operation BlobServices.setServiceProperties has a new signature
+  - Operation TableOperations.create has a new signature
+  - Operation TableOperations.update has a new signature
+  - Interface BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams no longer has parameter parameters
+  - Interface BlobInventoryPolicy no longer has parameter systemData
+  - Interface LocalUser no longer has parameter systemData
+  - Interface Operation no longer has parameter serviceSpecification
+  - Interface ResourceAutoGenerated no longer has parameter systemData
+  - Interface StorageAccountMigration no longer has parameter id
+  - Interface StorageAccountMigration no longer has parameter name
+  - Interface StorageAccountMigration no longer has parameter type
+  - Interface StorageTaskAssignment no longer has parameter properties
+  - Interface TableCreateOptionalParams no longer has parameter parameters
+  - Interface TableUpdateOptionalParams no longer has parameter parameters
+  - Interface StorageTaskAssignment has a new required parameter description
+  - Interface StorageTaskAssignment has a new required parameter enabled
+  - Interface StorageTaskAssignment has a new required parameter executionContext
+  - Interface StorageTaskAssignment has a new required parameter report
+  - Interface StorageTaskAssignment has a new required parameter taskId
+  - Parameter value of interface DeletedAccountListResult is now required
+  - Parameter value of interface EncryptionScopeListResult is now required
+  - Parameter value of interface FileShareItems is now required
+  - Parameter value of interface ListContainerItems is now required
+  - Parameter value of interface ListQueueResource is now required
+  - Parameter value of interface ListTableResource is now required
+  - Parameter value of interface LocalUsers is now required
+  - Parameter value of interface NetworkSecurityPerimeterConfigurationList is now required
+  - Parameter value of interface StorageAccountListResult is now required
+  - Parameter value of interface StorageTaskAssignmentsList is now required
+  - Parameter value of interface StorageTaskReportSummary is now required
+  - Type of parameter error of interface ErrorResponse is changed from ErrorResponseBody to ErrorDetail
+  - Type of parameter origin of interface Operation is changed from string to Origin
     
     
 ## 18.3.0 (2024-06-27)

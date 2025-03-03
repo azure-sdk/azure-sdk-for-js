@@ -12,11 +12,11 @@ import {
   FileServicesListServiceUsagesOptionalParams,
   FileServicesListOptionalParams,
   FileServicesListResponse,
+  FileServicesGetServicePropertiesOptionalParams,
+  FileServicesGetServicePropertiesResponse,
   FileServiceProperties,
   FileServicesSetServicePropertiesOptionalParams,
   FileServicesSetServicePropertiesResponse,
-  FileServicesGetServicePropertiesOptionalParams,
-  FileServicesGetServicePropertiesResponse,
   FileServicesGetServiceUsageOptionalParams,
   FileServicesGetServiceUsageResponse,
 } from "../models/index.js";
@@ -26,8 +26,7 @@ import {
 export interface FileServices {
   /**
    * Gets the usages of file service in storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -40,8 +39,7 @@ export interface FileServices {
   ): PagedAsyncIterableIterator<FileServiceUsage>;
   /**
    * List all file services in storage accounts
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -53,10 +51,23 @@ export interface FileServices {
     options?: FileServicesListOptionalParams,
   ): Promise<FileServicesListResponse>;
   /**
+   * Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
+   * Sharing) rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  getServiceProperties(
+    resourceGroupName: string,
+    accountName: string,
+    options?: FileServicesGetServicePropertiesOptionalParams,
+  ): Promise<FileServicesGetServicePropertiesResponse>;
+  /**
    * Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
    * Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -71,25 +82,9 @@ export interface FileServices {
     options?: FileServicesSetServicePropertiesOptionalParams,
   ): Promise<FileServicesSetServicePropertiesResponse>;
   /**
-   * Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
-   * Sharing) rules.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param options The options parameters.
-   */
-  getServiceProperties(
-    resourceGroupName: string,
-    accountName: string,
-    options?: FileServicesGetServicePropertiesOptionalParams,
-  ): Promise<FileServicesGetServicePropertiesResponse>;
-  /**
    * Gets the usage of file service in storage account including account limits, file share limits and
    * constants used in recommendations and bursting formula.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
