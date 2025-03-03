@@ -3,49 +3,33 @@
 
 import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import {
-  deidServicesGet,
-  deidServicesListByResourceGroup,
-  deidServicesListBySubscription,
-  deidServicesCreate,
-  deidServicesUpdate,
   deidServicesDelete,
+  deidServicesUpdate,
+  deidServicesCreate,
+  deidServicesListBySubscription,
+  deidServicesListByResourceGroup,
+  deidServicesGet,
 } from "../../api/deidServices/index.js";
 import { DeidService, DeidUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  DeidServicesGetOptionalParams,
-  DeidServicesListByResourceGroupOptionalParams,
-  DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
-  DeidServicesUpdateOptionalParams,
   DeidServicesDeleteOptionalParams,
+  DeidServicesUpdateOptionalParams,
+  DeidServicesCreateOptionalParams,
+  DeidServicesListBySubscriptionOptionalParams,
+  DeidServicesListByResourceGroupOptionalParams,
+  DeidServicesGetOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a DeidServices operations. */
 export interface DeidServicesOperations {
-  /** Get a DeidService */
-  get: (
+  /** Delete a DeidService */
+  delete: (
     resourceGroupName: string,
     deidServiceName: string,
-    options?: DeidServicesGetOptionalParams,
-  ) => Promise<DeidService>;
-  /** List DeidService resources by resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: DeidServicesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DeidService>;
-  /** List DeidService resources by subscription ID */
-  listBySubscription: (
-    options?: DeidServicesListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<DeidService>;
-  /** Create a DeidService */
-  create: (
-    resourceGroupName: string,
-    deidServiceName: string,
-    resource: DeidService,
-    options?: DeidServicesCreateOptionalParams,
-  ) => PollerLike<OperationState<DeidService>, DeidService>;
+    options?: DeidServicesDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a DeidService */
   update: (
     resourceGroupName: string,
@@ -53,68 +37,67 @@ export interface DeidServicesOperations {
     properties: DeidUpdate,
     options?: DeidServicesUpdateOptionalParams,
   ) => PollerLike<OperationState<DeidService>, DeidService>;
-  /** Delete a DeidService */
-  delete: (
+  /** Create a DeidService */
+  create: (
     resourceGroupName: string,
     deidServiceName: string,
-    options?: DeidServicesDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+    resource: DeidService,
+    options?: DeidServicesCreateOptionalParams,
+  ) => PollerLike<OperationState<DeidService>, DeidService>;
+  /** List DeidService resources by subscription ID */
+  listBySubscription: (
+    options?: DeidServicesListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<DeidService>;
+  /** List DeidService resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: DeidServicesListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<DeidService>;
+  /** Get a DeidService */
+  get: (
+    resourceGroupName: string,
+    deidServiceName: string,
+    options?: DeidServicesGetOptionalParams,
+  ) => Promise<DeidService>;
 }
 
-export function getDeidServices(context: HealthDataAIServicesContext, subscriptionId: string) {
+function _getDeidServices(context: HealthDataAIServicesContext) {
   return {
-    get: (
+    delete: (
       resourceGroupName: string,
       deidServiceName: string,
-      options?: DeidServicesGetOptionalParams,
-    ) => deidServicesGet(context, subscriptionId, resourceGroupName, deidServiceName, options),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: DeidServicesListByResourceGroupOptionalParams,
-    ) => deidServicesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: DeidServicesListBySubscriptionOptionalParams) =>
-      deidServicesListBySubscription(context, subscriptionId, options),
-    create: (
-      resourceGroupName: string,
-      deidServiceName: string,
-      resource: DeidService,
-      options?: DeidServicesCreateOptionalParams,
-    ) =>
-      deidServicesCreate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        resource,
-        options,
-      ),
+      options?: DeidServicesDeleteOptionalParams,
+    ) => deidServicesDelete(context, resourceGroupName, deidServiceName, options),
     update: (
       resourceGroupName: string,
       deidServiceName: string,
       properties: DeidUpdate,
       options?: DeidServicesUpdateOptionalParams,
-    ) =>
-      deidServicesUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        properties,
-        options,
-      ),
-    delete: (
+    ) => deidServicesUpdate(context, resourceGroupName, deidServiceName, properties, options),
+    create: (
       resourceGroupName: string,
       deidServiceName: string,
-      options?: DeidServicesDeleteOptionalParams,
-    ) => deidServicesDelete(context, subscriptionId, resourceGroupName, deidServiceName, options),
+      resource: DeidService,
+      options?: DeidServicesCreateOptionalParams,
+    ) => deidServicesCreate(context, resourceGroupName, deidServiceName, resource, options),
+    listBySubscription: (options?: DeidServicesListBySubscriptionOptionalParams) =>
+      deidServicesListBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: DeidServicesListByResourceGroupOptionalParams,
+    ) => deidServicesListByResourceGroup(context, resourceGroupName, options),
+    get: (
+      resourceGroupName: string,
+      deidServiceName: string,
+      options?: DeidServicesGetOptionalParams,
+    ) => deidServicesGet(context, resourceGroupName, deidServiceName, options),
   };
 }
 
-export function getDeidServicesOperations(
+export function _getDeidServicesOperations(
   context: HealthDataAIServicesContext,
-  subscriptionId: string,
 ): DeidServicesOperations {
   return {
-    ...getDeidServices(context, subscriptionId),
+    ..._getDeidServices(context),
   };
 }
