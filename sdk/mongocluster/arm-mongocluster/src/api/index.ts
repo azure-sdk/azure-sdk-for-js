@@ -3,32 +3,54 @@
 
 export {
   createMongoClusterManagement,
-  DocumentDBContext,
+  MongoClusterManagementContext,
   MongoClusterManagementClientOptionalParams,
 } from "./mongoClusterManagementContext.js";
 export {
-  firewallRulesGet,
-  firewallRulesCreateOrUpdate,
-  firewallRulesDelete,
+  ReplicasListByParentOptionalParams,
+  PrivateLinksListByMongoClusterOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesGetOptionalParams,
+  MongoClustersPromoteOptionalParams,
+  MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersListConnectionStringsOptionalParams,
+  MongoClustersListOptionalParams,
+  MongoClustersListByResourceGroupOptionalParams,
+  MongoClustersDeleteOptionalParams,
+  MongoClustersUpdateOptionalParams,
+  MongoClustersCreateOrUpdateOptionalParams,
+  MongoClustersGetOptionalParams,
+  OperationsListOptionalParams,
+} from "./options.js";
+export {
   firewallRulesListByMongoCluster,
+  firewallRulesDelete,
+  firewallRulesCreateOrUpdate,
+  firewallRulesGet,
 } from "./firewallRules/index.js";
 export {
-  mongoClustersGet,
-  mongoClustersCreateOrUpdate,
-  mongoClustersUpdate,
-  mongoClustersDelete,
-  mongoClustersListByResourceGroup,
-  mongoClustersList,
-  mongoClustersListConnectionStrings,
-  mongoClustersCheckNameAvailability,
   mongoClustersPromote,
+  mongoClustersCheckNameAvailability,
+  mongoClustersListConnectionStrings,
+  mongoClustersList,
+  mongoClustersListByResourceGroup,
+  mongoClustersDelete,
+  mongoClustersUpdate,
+  mongoClustersCreateOrUpdate,
+  mongoClustersGet,
 } from "./mongoClusters/index.js";
 export { operationsList } from "./operations/index.js";
 export {
-  privateEndpointConnectionsListByMongoCluster,
-  privateEndpointConnectionsGet,
-  privateEndpointConnectionsCreate,
   privateEndpointConnectionsDelete,
+  privateEndpointConnectionsCreate,
+  privateEndpointConnectionsGet,
+  privateEndpointConnectionsListByMongoCluster,
 } from "./privateEndpointConnections/index.js";
 export { privateLinksListByMongoCluster } from "./privateLinks/index.js";
 export { replicasListByParent } from "./replicas/index.js";
