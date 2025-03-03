@@ -1,15 +1,26 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0 (2025-03-03)
+    
 ### Features Added
+
+  - Enum KnownAssociationType has a new value subnets
+  - Enum KnownOrigin has a new value "user,system"
+  - Enum KnownOrigin has a new value system
+  - Enum KnownOrigin has a new value user
+  - Enum KnownVersions has a new value v2023_11_01
+  - Enum KnownVersions has a new value v2025_05_01
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownAssociationType no longer has value Subnets
+  - Enum KnownOrigin no longer has value System
+  - Enum KnownOrigin no longer has value User
+  - Enum KnownOrigin no longer has value UserSystem
+  - Enum KnownVersions no longer has value V2023_11_01
+  - Enum KnownVersions no longer has value V2025_05_01
+    
+    
 ## 2.0.0 (2025-02-07)
     
 ### Features Added

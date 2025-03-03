@@ -70,11 +70,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -801,7 +801,7 @@ export function associationPropertiesDeserializer(item: any): AssociationPropert
 /** Association Type Enum */
 export enum KnownAssociationType {
   /** Association of Type Subnet */
-  Subnets = "subnets",
+  subnets = "subnets",
 }
 
 /**
@@ -864,7 +864,7 @@ export function associationUpdatePropertiesSerializer(item: AssociationUpdatePro
 /** Association Subnet. */
 export interface AssociationSubnetUpdate {
   /** Association ID. */
-  id: string;
+  id?: string;
 }
 
 export function associationSubnetUpdateSerializer(item: AssociationSubnetUpdate): any {
@@ -901,7 +901,7 @@ export function associationArrayDeserializer(result: Array<Association>): any[] 
 /** Api versions */
 export enum KnownVersions {
   /** 2023-11-01 stable version */
-  V2023_11_01 = "2023-11-01",
+  v2023_11_01 = "2023-11-01",
   /** 2025-01-01 stable version */
-  V2025_05_01 = "2025-01-01",
+  v2025_05_01 = "2025-01-01",
 }
