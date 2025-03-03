@@ -4,13 +4,28 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams extends OperationOptions {}
+export interface ImageVersionsListByImageOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PoolsGetOptionalParams extends OperationOptions {}
+export interface SubscriptionUsagesUsagesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PoolsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface SkuListByLocationOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ResourceDetailsListByPoolOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface PoolsCheckNameAvailabilityOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface PoolsListBySubscriptionOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface PoolsListByResourceGroupOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface PoolsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -22,25 +37,13 @@ export interface PoolsUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PoolsDeleteOptionalParams extends OperationOptions {
+export interface PoolsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface PoolsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface PoolsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface PoolsListBySubscriptionOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ResourceDetailsListByPoolOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface SkuListByLocationOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface SubscriptionUsagesUsagesOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface ImageVersionsListByImageOptionalParams extends OperationOptions {}
+export interface OperationsListOptionalParams extends OperationOptions {}
