@@ -12,8 +12,8 @@ export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Fleet,
   FleetProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -165,6 +165,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -178,17 +181,18 @@ export {
   Origin,
   KnownActionType,
   ActionType,
+  KnownVersions,
 } from "./models/index.js";
 export {
   AzureFleetClientOptionalParams,
-  OperationsListOptionalParams,
-  FleetsGetOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
+  FleetsListBySubscriptionOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateOptionalParams,
+  FleetsCreateOrUpdateOptionalParams,
+  FleetsGetOptionalParams,
+  OperationsListOptionalParams,
 } from "./api/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
