@@ -118,6 +118,17 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownRegistrationState {
     NotRegistered = "NotRegistered",
     PendingRegister = "PendingRegister",
@@ -126,16 +137,14 @@ export enum KnownRegistrationState {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+export enum KnownVersions {
+    "2024-04-01-preview" = "2024-04-01-preview"
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -174,7 +183,7 @@ export interface PageSettings {
 }
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -190,9 +199,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface SystemData {
