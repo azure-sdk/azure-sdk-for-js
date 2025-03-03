@@ -94,7 +94,6 @@ async function dataflowEndpointCreateOrUpdateAio(): Promise<void> {
         mqttSettings: {
           host: "aio-broker:18883",
           authentication: {
-            method: "Kubernetes",
             serviceAccountTokenSettings: { audience: "aio-internal" },
           },
           tls: {
@@ -304,6 +303,48 @@ async function dataflowEndpointCreateOrUpdateLocalStorage(): Promise<void> {
  * This sample demonstrates how to create a DataflowEndpointResource
  *
  * @summary create a DataflowEndpointResource
+ * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
+ */
+async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
+  const client = new IoTOperationsClient(credential, subscriptionId);
+  const result = await client.dataflowEndpoint.createOrUpdate(
+    "rgiotoperations",
+    "resource-name123",
+    "generic-mqtt-broker-endpoint",
+    {
+      properties: {
+        endpointType: "Mqtt",
+        mqttSettings: {
+          host: "example.broker.local:1883",
+          authentication: {
+            method: "X509Certificate",
+            x509CertificateSettings: { secretRef: "example-secret" },
+          },
+          tls: { mode: "Disabled" },
+          clientIdPrefix: "factory-gateway",
+          retain: "Keep",
+          sessionExpirySeconds: 3600,
+          qos: 1,
+          protocol: "WebSockets",
+          maxInflightMessages: 100,
+          keepAliveSeconds: 60,
+        },
+      },
+      extendedLocation: {
+        name: "qmbrfwcpwwhggszhrdjv",
+        type: "CustomLocation",
+      },
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to create a DataflowEndpointResource
+ *
+ * @summary create a DataflowEndpointResource
  * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dataflowEndpointCreateOrUpdate(): Promise<void> {
@@ -438,48 +479,6 @@ async function dataflowEndpointCreateOrUpdate(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to create a DataflowEndpointResource
- *
- * @summary create a DataflowEndpointResource
- * x-ms-original-file: 2024-11-01/DataflowEndpoint_CreateOrUpdate_MQTT.json
- */
-async function dataflowEndpointCreateOrUpdateMqtt(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
-  const client = new IoTOperationsClient(credential, subscriptionId);
-  const result = await client.dataflowEndpoint.createOrUpdate(
-    "rgiotoperations",
-    "resource-name123",
-    "generic-mqtt-broker-endpoint",
-    {
-      properties: {
-        endpointType: "Mqtt",
-        mqttSettings: {
-          host: "example.broker.local:1883",
-          authentication: {
-            method: "X509Certificate",
-            x509CertificateSettings: { secretRef: "example-secret" },
-          },
-          tls: { mode: "Disabled" },
-          clientIdPrefix: "factory-gateway",
-          retain: "Keep",
-          sessionExpirySeconds: 3600,
-          qos: 1,
-          protocol: "WebSockets",
-          maxInflightMessages: 100,
-          keepAliveSeconds: 60,
-        },
-      },
-      extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
-        type: "CustomLocation",
-      },
-    },
-  );
-  console.log(result);
-}
-
 async function main(): Promise<void> {
   await dataflowEndpointCreateOrUpdateADLSv2();
   await dataflowEndpointCreateOrUpdateAdx();
@@ -489,8 +488,8 @@ async function main(): Promise<void> {
   await dataflowEndpointCreateOrUpdateFabric();
   await dataflowEndpointCreateOrUpdateKafka();
   await dataflowEndpointCreateOrUpdateLocalStorage();
-  await dataflowEndpointCreateOrUpdate();
   await dataflowEndpointCreateOrUpdateMqtt();
+  await dataflowEndpointCreateOrUpdate();
 }
 
 main().catch(console.error);
