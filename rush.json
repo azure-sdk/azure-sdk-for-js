@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/programmableconnectivity",
+      "projectFolder": "sdk/programmableconnectivity/programmableconnectivity",
+      "versionPolicyName": "client"
     }
   ]
 }
