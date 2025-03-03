@@ -16,18 +16,15 @@ export interface SkuOperations {
   ) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
-export function getSku(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getSku(context: DevOpsInfrastructureContext) {
   return {
     listByLocation: (locationName: string, options?: SkuListByLocationOptionalParams) =>
-      skuListByLocation(context, subscriptionId, locationName, options),
+      skuListByLocation(context, locationName, options),
   };
 }
 
-export function getSkuOperations(
-  context: DevOpsInfrastructureContext,
-  subscriptionId: string,
-): SkuOperations {
+export function _getSkuOperations(context: DevOpsInfrastructureContext): SkuOperations {
   return {
-    ...getSku(context, subscriptionId),
+    ..._getSku(context),
   };
 }
