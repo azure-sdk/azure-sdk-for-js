@@ -283,6 +283,9 @@ export interface AgentPoolWindowsProfile {
 }
 
 // @public
+export type ArtifactSource = string;
+
+// @public
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
@@ -558,6 +561,12 @@ export enum KnownAgentPoolType {
 }
 
 // @public
+export enum KnownArtifactSource {
+    Cache = "Cache",
+    Direct = "Direct"
+}
+
+// @public
 export enum KnownBackendPoolType {
     NodeIP = "NodeIP",
     NodeIPConfiguration = "NodeIPConfiguration"
@@ -742,6 +751,7 @@ export enum KnownOSType {
 export enum KnownOutboundType {
     LoadBalancer = "loadBalancer",
     ManagedNATGateway = "managedNATGateway",
+    None = "none",
     UserAssignedNATGateway = "userAssignedNATGateway",
     UserDefinedRouting = "userDefinedRouting"
 }
@@ -1039,6 +1049,7 @@ export interface ManagedCluster extends TrackedResource {
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
+    bootstrapProfile?: ManagedClusterBootstrapProfile;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
@@ -1200,6 +1211,12 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
 export interface ManagedClusterAzureMonitorProfileMetrics {
     enabled: boolean;
     kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+}
+
+// @public
+export interface ManagedClusterBootstrapProfile {
+    artifactSource?: ArtifactSource;
+    containerRegistryId?: string;
 }
 
 // @public
@@ -1473,6 +1490,7 @@ export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
 // @public
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
+    customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
