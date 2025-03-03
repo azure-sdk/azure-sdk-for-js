@@ -37,7 +37,7 @@ export interface SharedPrivateLinkResourceProperties {
   groupId: string;
   /** The request message for requesting approval of the shared private link resource. */
   requestMessage: string;
-  /** The DNS zone to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances. The value to use is the second segment of the host FQDN name of the resource that the shared private link resource is for. */
+  /** The DNS zone segment to be included in the DNS name of the shared private link. Value is required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for SQL logical servers and key vaults. The value is the second segment of the host FQDN name of the resource that the shared private link resource is for. For example: if the host name is 'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if the host name is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is '767d5869f605'. */
   dnsZone?: string;
   /** Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected. */
   readonly status?: SharedPrivateLinkResourceStatus;
@@ -354,7 +354,7 @@ export interface TargetProperties {
   targetAuthenticationType: TargetAuthenticationType;
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
   targetVault?: VaultSecret;
-  /** The server name to use in the connection string when connecting to a target. Port number and instance name must be specified separately. */
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
   /** The provisioning state of the resource. */
   readonly provisioningState?: ResourceProvisioningState;
@@ -470,11 +470,11 @@ export function vaultSecretDeserializer(item: any): VaultSecret {
   };
 }
 
-/** The properties specific to single database in Azure SQL Database. */
+/** The properties specific to a database in Azure SQL Database. */
 export interface SqlDbSingleDatabaseTargetProperties extends TargetProperties {
   /** The Azure SQL DB single database target. */
   targetType: "SqlDb";
-  /** The Azure resource ID of an Azure SQL DB single database target. */
+  /** The Azure resource ID of an Azure SQL DB database target. */
   sqlDbResourceId: string;
   /** Set to true to monitor a high availability replica of specified target, if any. */
   readIntent?: boolean;
@@ -511,7 +511,7 @@ export function sqlDbSingleDatabaseTargetPropertiesDeserializer(
   };
 }
 
-/** The properties specific to elastic pool in Azure SQL Database. */
+/** The properties specific to an elastic pool in Azure SQL Database. */
 export interface SqlDbElasticPoolTargetProperties extends TargetProperties {
   /** The Azure SQL DB elastic pool target. */
   targetType: "SqlEp";
@@ -978,11 +978,11 @@ export function datastoreDeserializer(item: any): Datastore {
 /** The type of Kusto offering. */
 export enum KnownKustoOfferingType {
   /** The Azure Data Explorer cluster Kusto offering. */
-  Adx = "adx",
+  adx = "adx",
   /** The free Azure Data Explorer cluster Kusto offering. */
-  Free = "free",
+  free = "free",
   /** The Fabric Real-Time Analytics Kusto offering. */
-  Fabric = "fabric",
+  fabric = "fabric",
 }
 
 /**
@@ -1122,10 +1122,10 @@ export function userAssignedIdentityRecordDeserializer(
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
   /** The client ID of the assigned identity. */
   readonly clientId?: string;
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -1134,8 +1134,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    principalId: item["principalId"],
     clientId: item["clientId"],
+    principalId: item["principalId"],
   };
 }
 
@@ -1297,11 +1297,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  User = "user",
+  user = "user",
   /** Indicates the operation is initiated by a system. */
-  System = "system",
+  system = "system",
   /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+  "user,system" = "user,system",
 }
 
 /**
@@ -1333,5 +1333,5 @@ export type ActionType = string;
 /** Versions info. */
 export enum KnownVersions {
   /** The 2025-01-02 version. */
-  V20250102 = "2025-01-02",
+  v2025_01_02 = "2025-01-02",
 }

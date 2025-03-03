@@ -42,7 +42,7 @@ async function operationsListMinimumSet(): Promise<void> {
 
 async function main(): Promise<void> {
   await operationsListMaximumSet();
-  operationsListMinimumSet();
+  await operationsListMinimumSet();
 }
 
 main().catch(console.error);
