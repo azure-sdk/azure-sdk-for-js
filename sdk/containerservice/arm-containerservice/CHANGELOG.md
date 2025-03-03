@@ -1,5 +1,17 @@
 # Release History
     
+## 21.5.0 (2025-03-03)
+    
+### Features Added
+
+  - Added Interface ManagedClusterBootstrapProfile
+  - Added Type Alias ArtifactSource
+  - Interface ManagedCluster has a new optional parameter bootstrapProfile
+  - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
+  - Added Enum KnownArtifactSource
+  - Enum KnownOutboundType has a new value None
+    
+    
 ## 21.4.0 (2025-02-17)
     
 ### Features Added
