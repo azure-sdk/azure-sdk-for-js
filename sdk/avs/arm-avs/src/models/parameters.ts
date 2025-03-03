@@ -27,6 +27,9 @@ import {
   GlobalReachConnection as GlobalReachConnectionMapper,
   HcxEnterpriseSite as HcxEnterpriseSiteMapper,
   IscsiPath as IscsiPathMapper,
+  MaintenanceReschedule as MaintenanceRescheduleMapper,
+  MaintenanceSchedule as MaintenanceScheduleMapper,
+  PureStoragePolicy as PureStoragePolicyMapper,
   ScriptExecution as ScriptExecutionMapper,
   WorkloadNetworkDhcp as WorkloadNetworkDhcpMapper,
   WorkloadNetworkDnsService as WorkloadNetworkDnsServiceMapper,
@@ -64,7 +67,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -266,6 +269,20 @@ export const datastore: OperationParameter = {
   mapper: DatastoreMapper,
 };
 
+export const hostId: OperationURLParameter = {
+  parameterPath: "hostId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "hostId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const placementPolicyName: OperationURLParameter = {
   parameterPath: "placementPolicyName",
   mapper: {
@@ -350,6 +367,103 @@ export const hcxEnterpriseSite: OperationParameter = {
 export const resource: OperationParameter = {
   parameterPath: "resource",
   mapper: IscsiPathMapper,
+};
+
+export const stateName: OperationQueryParameter = {
+  parameterPath: ["options", "stateName"],
+  mapper: {
+    serializedName: "stateName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const status: OperationQueryParameter = {
+  parameterPath: ["options", "status"],
+  mapper: {
+    serializedName: "status",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const fromParam: OperationQueryParameter = {
+  parameterPath: ["options", "from"],
+  mapper: {
+    serializedName: "from",
+    type: {
+      name: "DateTime",
+    },
+  },
+};
+
+export const to: OperationQueryParameter = {
+  parameterPath: ["options", "to"],
+  mapper: {
+    serializedName: "to",
+    type: {
+      name: "DateTime",
+    },
+  },
+};
+
+export const maintenanceName: OperationURLParameter = {
+  parameterPath: "maintenanceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "maintenanceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: MaintenanceRescheduleMapper,
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: MaintenanceScheduleMapper,
+};
+
+export const provisionedNetworkName: OperationURLParameter = {
+  parameterPath: "provisionedNetworkName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "provisionedNetworkName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const storagePolicyName: OperationURLParameter = {
+  parameterPath: "storagePolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._]+$"),
+    },
+    serializedName: "storagePolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PureStoragePolicyMapper,
 };
 
 export const scriptExecutionName: OperationURLParameter = {

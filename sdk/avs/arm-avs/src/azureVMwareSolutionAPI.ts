@@ -18,16 +18,21 @@ import {
   OperationsImpl,
   LocationsImpl,
   PrivateCloudsImpl,
+  SkusImpl,
   AddonsImpl,
   AuthorizationsImpl,
   CloudLinksImpl,
   ClustersImpl,
   DatastoresImpl,
+  HostsImpl,
   PlacementPoliciesImpl,
   VirtualMachinesImpl,
   GlobalReachConnectionsImpl,
   HcxEnterpriseSitesImpl,
   IscsiPathsImpl,
+  MaintenancesImpl,
+  ProvisionedNetworksImpl,
+  PureStoragePoliciesImpl,
   ScriptExecutionsImpl,
   ScriptPackagesImpl,
   ScriptCmdletsImpl,
@@ -37,16 +42,21 @@ import {
   Operations,
   Locations,
   PrivateClouds,
+  Skus,
   Addons,
   Authorizations,
   CloudLinks,
   Clusters,
   Datastores,
+  Hosts,
   PlacementPolicies,
   VirtualMachines,
   GlobalReachConnections,
   HcxEnterpriseSites,
   IscsiPaths,
+  Maintenances,
+  ProvisionedNetworks,
+  PureStoragePolicies,
   ScriptExecutions,
   ScriptPackages,
   ScriptCmdlets,
@@ -86,7 +96,7 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-avs/6.0.1`;
+    const packageDetails = `azsdk-js-arm-avs/6.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,20 +150,25 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-09-01";
+    this.apiVersion = options.apiVersion || "2024-09-01";
     this.operations = new OperationsImpl(this);
     this.locations = new LocationsImpl(this);
     this.privateClouds = new PrivateCloudsImpl(this);
+    this.skus = new SkusImpl(this);
     this.addons = new AddonsImpl(this);
     this.authorizations = new AuthorizationsImpl(this);
     this.cloudLinks = new CloudLinksImpl(this);
     this.clusters = new ClustersImpl(this);
     this.datastores = new DatastoresImpl(this);
+    this.hosts = new HostsImpl(this);
     this.placementPolicies = new PlacementPoliciesImpl(this);
     this.virtualMachines = new VirtualMachinesImpl(this);
     this.globalReachConnections = new GlobalReachConnectionsImpl(this);
     this.hcxEnterpriseSites = new HcxEnterpriseSitesImpl(this);
     this.iscsiPaths = new IscsiPathsImpl(this);
+    this.maintenances = new MaintenancesImpl(this);
+    this.provisionedNetworks = new ProvisionedNetworksImpl(this);
+    this.pureStoragePolicies = new PureStoragePoliciesImpl(this);
     this.scriptExecutions = new ScriptExecutionsImpl(this);
     this.scriptPackages = new ScriptPackagesImpl(this);
     this.scriptCmdlets = new ScriptCmdletsImpl(this);
@@ -192,16 +207,21 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
   operations: Operations;
   locations: Locations;
   privateClouds: PrivateClouds;
+  skus: Skus;
   addons: Addons;
   authorizations: Authorizations;
   cloudLinks: CloudLinks;
   clusters: Clusters;
   datastores: Datastores;
+  hosts: Hosts;
   placementPolicies: PlacementPolicies;
   virtualMachines: VirtualMachines;
   globalReachConnections: GlobalReachConnections;
   hcxEnterpriseSites: HcxEnterpriseSites;
   iscsiPaths: IscsiPaths;
+  maintenances: Maintenances;
+  provisionedNetworks: ProvisionedNetworks;
+  pureStoragePolicies: PureStoragePolicies;
   scriptExecutions: ScriptExecutions;
   scriptPackages: ScriptPackages;
   scriptCmdlets: ScriptCmdlets;
