@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list StandbyContainerGroupPoolResource resources by subscription ID
  *
  * @summary list StandbyContainerGroupPoolResource resources by subscription ID
- * x-ms-original-file: 2024-03-01/StandbyContainerGroupPools_ListBySubscription.json
+ * x-ms-original-file: 2025-03-01/StandbyContainerGroupPools_ListBySubscription.json
  */
 async function standbyContainerGroupPoolsListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.standbyContainerGroupPools.listBySubscription()) {
+  for await (let item of client.standbyContainerGroupPools.listBySubscription()) {
     resArray.push(item);
   }
 
