@@ -15,9 +15,6 @@ import * as Parameters from "../models/parameters.js";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
 import {
   Factory,
-  FactoriesListNextOptionalParams,
-  FactoriesListOptionalParams,
-  FactoriesListResponse,
   FactoriesListByResourceGroupNextOptionalParams,
   FactoriesListByResourceGroupOptionalParams,
   FactoriesListByResourceGroupResponse,
@@ -38,7 +35,6 @@ import {
   UserAccessPolicy,
   FactoriesGetDataPlaneAccessOptionalParams,
   FactoriesGetDataPlaneAccessResponse,
-  FactoriesListNextResponse,
   FactoriesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
@@ -53,60 +49,6 @@ export class FactoriesImpl implements Factories {
    */
   constructor(client: DataFactoryManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists factories under the specified subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: FactoriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Factory> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    options?: FactoriesListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Factory[]> {
-    let result: FactoriesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: FactoriesListOptionalParams,
-  ): AsyncIterableIterator<Factory> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -176,16 +118,6 @@ export class FactoriesImpl implements Factories {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Lists factories under the specified subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: FactoriesListOptionalParams,
-  ): Promise<FactoriesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -331,21 +263,6 @@ export class FactoriesImpl implements Factories {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: FactoriesListNextOptionalParams,
-  ): Promise<FactoriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
-  }
-
-  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The resource group name.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -365,22 +282,6 @@ export class FactoriesImpl implements Factories {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/factories",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FactoryListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const configureFactoryRepoOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo",
   httpMethod: "POST",
@@ -559,25 +460,6 @@ const getDataPlaneAccessOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FactoryListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
