@@ -21,6 +21,6 @@ export interface ManagementGroups {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: ManagementGroupsListOptionalParams
+    options?: ManagementGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagementGroup>;
 }

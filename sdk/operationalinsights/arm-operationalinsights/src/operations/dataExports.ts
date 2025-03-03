@@ -20,7 +20,7 @@ import {
   DataExportsCreateOrUpdateResponse,
   DataExportsGetOptionalParams,
   DataExportsGetResponse,
-  DataExportsDeleteOptionalParams
+  DataExportsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class DataExportsImpl implements DataExports {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
+    options?: DataExportsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataExport> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class DataExportsImpl implements DataExports {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,13 +77,13 @@ export class DataExportsImpl implements DataExports {
     resourceGroupName: string,
     workspaceName: string,
     options?: DataExportsListByWorkspaceOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<DataExport[]> {
     let result: DataExportsListByWorkspaceResponse;
     result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -91,12 +91,12 @@ export class DataExportsImpl implements DataExports {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
+    options?: DataExportsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<DataExport> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -111,11 +111,11 @@ export class DataExportsImpl implements DataExports {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
+    options?: DataExportsListByWorkspaceOptionalParams,
   ): Promise<DataExportsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -132,11 +132,11 @@ export class DataExportsImpl implements DataExports {
     workspaceName: string,
     dataExportName: string,
     parameters: DataExport,
-    options?: DataExportsCreateOrUpdateOptionalParams
+    options?: DataExportsCreateOrUpdateOptionalParams,
   ): Promise<DataExportsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataExportName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class DataExportsImpl implements DataExports {
     resourceGroupName: string,
     workspaceName: string,
     dataExportName: string,
-    options?: DataExportsGetOptionalParams
+    options?: DataExportsGetOptionalParams,
   ): Promise<DataExportsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataExportName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,11 +170,11 @@ export class DataExportsImpl implements DataExports {
     resourceGroupName: string,
     workspaceName: string,
     dataExportName: string,
-    options?: DataExportsDeleteOptionalParams
+    options?: DataExportsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, dataExportName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -182,97 +182,93 @@ export class DataExportsImpl implements DataExports {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExportListResult
+      bodyMapper: Mappers.DataExportListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExport
+      bodyMapper: Mappers.DataExport,
     },
     201: {
-      bodyMapper: Mappers.DataExport
+      bodyMapper: Mappers.DataExport,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataExportName
+    Parameters.dataExportName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExport
+      bodyMapper: Mappers.DataExport,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataExportName1
+    Parameters.dataExportName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataExportName1
+    Parameters.dataExportName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

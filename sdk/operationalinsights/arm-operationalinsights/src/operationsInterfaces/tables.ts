@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Table,
   TablesListByWorkspaceOptionalParams,
@@ -19,7 +19,7 @@ import {
   TablesGetResponse,
   TablesDeleteOptionalParams,
   TablesMigrateOptionalParams,
-  TablesCancelSearchOptionalParams
+  TablesCancelSearchOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Tables {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: TablesListByWorkspaceOptionalParams
+    options?: TablesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<Table>;
   /**
    * Update or Create a Log Analytics workspace table.
@@ -49,10 +49,10 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     parameters: Table,
-    options?: TablesCreateOrUpdateOptionalParams
+    options?: TablesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<TablesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<TablesCreateOrUpdateResponse>,
       TablesCreateOrUpdateResponse
     >
   >;
@@ -69,7 +69,7 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     parameters: Table,
-    options?: TablesCreateOrUpdateOptionalParams
+    options?: TablesCreateOrUpdateOptionalParams,
   ): Promise<TablesCreateOrUpdateResponse>;
   /**
    * Update a Log Analytics workspace table.
@@ -84,9 +84,9 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     parameters: Table,
-    options?: TablesUpdateOptionalParams
+    options?: TablesUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<TablesUpdateResponse>, TablesUpdateResponse>
+    SimplePollerLike<OperationState<TablesUpdateResponse>, TablesUpdateResponse>
   >;
   /**
    * Update a Log Analytics workspace table.
@@ -101,7 +101,7 @@ export interface Tables {
     workspaceName: string,
     tableName: string,
     parameters: Table,
-    options?: TablesUpdateOptionalParams
+    options?: TablesUpdateOptionalParams,
   ): Promise<TablesUpdateResponse>;
   /**
    * Gets a Log Analytics workspace table.
@@ -114,7 +114,7 @@ export interface Tables {
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
-    options?: TablesGetOptionalParams
+    options?: TablesGetOptionalParams,
   ): Promise<TablesGetResponse>;
   /**
    * Delete a Log Analytics workspace table.
@@ -127,8 +127,8 @@ export interface Tables {
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
-    options?: TablesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: TablesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Log Analytics workspace table.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -140,7 +140,7 @@ export interface Tables {
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
-    options?: TablesDeleteOptionalParams
+    options?: TablesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to
@@ -154,7 +154,7 @@ export interface Tables {
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
-    options?: TablesMigrateOptionalParams
+    options?: TablesMigrateOptionalParams,
   ): Promise<void>;
   /**
    * Cancel a log analytics workspace search results table query run.
@@ -167,6 +167,6 @@ export interface Tables {
     resourceGroupName: string,
     workspaceName: string,
     tableName: string,
-    options?: TablesCancelSearchOptionalParams
+    options?: TablesCancelSearchOptionalParams,
   ): Promise<void>;
 }
