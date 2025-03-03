@@ -23,8 +23,7 @@ import {
 export interface BlobInventoryPolicies {
   /**
    * Gets the blob inventory policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -37,8 +36,7 @@ export interface BlobInventoryPolicies {
   ): PagedAsyncIterableIterator<BlobInventoryPolicy>;
   /**
    * Gets the blob inventory policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -54,8 +52,7 @@ export interface BlobInventoryPolicies {
   ): Promise<BlobInventoryPoliciesGetResponse>;
   /**
    * Sets the blob inventory policy to the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -73,8 +70,7 @@ export interface BlobInventoryPolicies {
   ): Promise<BlobInventoryPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the blob inventory policy associated with the specified storage account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

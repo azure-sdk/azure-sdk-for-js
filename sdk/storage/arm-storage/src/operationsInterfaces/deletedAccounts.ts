@@ -26,13 +26,13 @@ export interface DeletedAccounts {
   ): PagedAsyncIterableIterator<DeletedAccount>;
   /**
    * Get properties of specified deleted account resource.
+   * @param location The name of Azure region.
    * @param deletedAccountName Name of the deleted storage account.
-   * @param location The location of the deleted storage account.
    * @param options The options parameters.
    */
   get(
-    deletedAccountName: string,
     location: string,
+    deletedAccountName: string,
     options?: DeletedAccountsGetOptionalParams,
   ): Promise<DeletedAccountsGetResponse>;
 }

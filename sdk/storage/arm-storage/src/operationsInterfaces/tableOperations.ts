@@ -10,12 +10,12 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Table,
   TableListOptionalParams,
+  TableGetOptionalParams,
+  TableGetResponse,
   TableCreateOptionalParams,
   TableCreateResponse,
   TableUpdateOptionalParams,
   TableUpdateResponse,
-  TableGetOptionalParams,
-  TableGetResponse,
   TableDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -24,8 +24,7 @@ import {
 export interface TableOperations {
   /**
    * Gets a list of all the tables under the specified storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -37,45 +36,8 @@ export interface TableOperations {
     options?: TableListOptionalParams,
   ): PagedAsyncIterableIterator<Table>;
   /**
-   * Creates a new table with the specified table name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
-   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
-   *                  character.
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    options?: TableCreateOptionalParams,
-  ): Promise<TableCreateResponse>;
-  /**
-   * Creates a new table with the specified table name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
-   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
-   *                  character.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    accountName: string,
-    tableName: string,
-    options?: TableUpdateOptionalParams,
-  ): Promise<TableUpdateResponse>;
-  /**
    * Gets the table with the specified table name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -91,9 +53,46 @@ export interface TableOperations {
     options?: TableGetOptionalParams,
   ): Promise<TableGetResponse>;
   /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
+   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
+   *                  character.
+   * @param parameters The parameters to provide to create a table.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TableCreateOptionalParams,
+  ): Promise<TableCreateResponse>;
+  /**
+   * Creates a new table with the specified table name, under the specified account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param tableName A table name must be unique within a storage account and must be between 3 and 63
+   *                  characters.The name must comprise of only alphanumeric characters and it cannot begin with a numeric
+   *                  character.
+   * @param parameters The parameters to provide to create a table.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TableUpdateOptionalParams,
+  ): Promise<TableUpdateResponse>;
+  /**
    * Deletes the table with the specified table name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

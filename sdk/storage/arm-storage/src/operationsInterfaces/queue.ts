@@ -10,13 +10,13 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ListQueue,
   QueueListOptionalParams,
+  QueueGetOptionalParams,
+  QueueGetResponse,
   StorageQueue,
   QueueCreateOptionalParams,
   QueueCreateResponse,
   QueueUpdateOptionalParams,
   QueueUpdateResponse,
-  QueueGetOptionalParams,
-  QueueGetResponse,
   QueueDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -25,8 +25,7 @@ import {
 export interface Queue {
   /**
    * Gets a list of all the queues under the specified storage account
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -38,9 +37,25 @@ export interface Queue {
     options?: QueueListOptionalParams,
   ): PagedAsyncIterableIterator<ListQueue>;
   /**
+   * Gets the queue with the specified queue name, under the specified account if it exists.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param queueName A queue name must be unique within a storage account and must be between 3 and 63
+   *                  characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it should
+   *                  begin and end with an alphanumeric character and it cannot have two consecutive dash(-) characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    queueName: string,
+    options?: QueueGetOptionalParams,
+  ): Promise<QueueGetResponse>;
+  /**
    * Creates a new queue with the specified queue name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -59,8 +74,7 @@ export interface Queue {
   ): Promise<QueueCreateResponse>;
   /**
    * Creates a new queue with the specified queue name, under the specified account.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.
@@ -78,27 +92,8 @@ export interface Queue {
     options?: QueueUpdateOptionalParams,
   ): Promise<QueueUpdateResponse>;
   /**
-   * Gets the queue with the specified queue name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param accountName The name of the storage account within the specified resource group. Storage
-   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
-   *                    only.
-   * @param queueName A queue name must be unique within a storage account and must be between 3 and 63
-   *                  characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it should
-   *                  begin and end with an alphanumeric character and it cannot have two consecutive dash(-) characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    accountName: string,
-    queueName: string,
-    options?: QueueGetOptionalParams,
-  ): Promise<QueueGetResponse>;
-  /**
    * Deletes the queue with the specified queue name, under the specified account if it exists.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
    *                    only.

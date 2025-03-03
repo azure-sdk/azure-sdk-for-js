@@ -6,19 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Usages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { StorageManagementClient } from "../storageManagementClient.js";
 import {
-  Usage,
   UsagesListByLocationOptionalParams,
   UsagesListByLocationResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */
 export class UsagesImpl implements Usages {
   private readonly client: StorageManagementClient;
@@ -33,55 +30,10 @@ export class UsagesImpl implements Usages {
 
   /**
    * Gets the current usage count and the limit for the resources of the location under the subscription.
-   * @param location The location of the Azure Storage resource.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  public listByLocation(
-    location: string,
-    options?: UsagesListByLocationOptionalParams,
-  ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listByLocationPagingAll(location, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByLocationPagingPage(location, options, settings);
-      },
-    };
-  }
-
-  private async *listByLocationPagingPage(
-    location: string,
-    options?: UsagesListByLocationOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<Usage[]> {
-    let result: UsagesListByLocationResponse;
-    result = await this._listByLocation(location, options);
-    yield result.value || [];
-  }
-
-  private async *listByLocationPagingAll(
-    location: string,
-    options?: UsagesListByLocationOptionalParams,
-  ): AsyncIterableIterator<Usage> {
-    for await (const page of this.listByLocationPagingPage(location, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets the current usage count and the limit for the resources of the location under the subscription.
-   * @param location The location of the Azure Storage resource.
-   * @param options The options parameters.
-   */
-  private _listByLocation(
+  listByLocation(
     location: string,
     options?: UsagesListByLocationOptionalParams,
   ): Promise<UsagesListByLocationResponse> {
@@ -100,6 +52,9 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.UsageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
