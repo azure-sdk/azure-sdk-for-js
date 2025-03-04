@@ -5924,6 +5924,12 @@ export const ProtectionIntentResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5944,6 +5950,12 @@ export const RecoveryPointResourceList: coreClient.CompositeMapper = {
               className: "RecoveryPointResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -5968,6 +5980,12 @@ export const ProtectionPolicyResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -5988,6 +6006,12 @@ export const JobResourceList: coreClient.CompositeMapper = {
               className: "JobResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6012,6 +6036,12 @@ export const ProtectedItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6032,6 +6062,12 @@ export const BackupEngineBaseResourceList: coreClient.CompositeMapper = {
               className: "BackupEngineBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6056,6 +6092,12 @@ export const ProtectableContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6076,6 +6118,12 @@ export const WorkloadItemResourceList: coreClient.CompositeMapper = {
               className: "WorkloadItemResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -6100,6 +6148,12 @@ export const WorkloadProtectableItemResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6122,6 +6176,12 @@ export const ProtectionContainerResourceList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -6142,6 +6202,12 @@ export const ResourceGuardProxyBaseResourceList: coreClient.CompositeMapper = {
               className: "ResourceGuardProxyBaseResource",
             },
           },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
@@ -8387,6 +8453,12 @@ export const AzureStorageContainer: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      operationType: {
+        serializedName: "operationType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -9334,6 +9406,20 @@ export const AzureWorkloadSAPHanaRecoveryPoint: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureWorkloadSAPAseRecoveryPoint: coreClient.CompositeMapper = {
+  serializedName: "AzureWorkloadSAPAseRecoveryPoint",
+  type: {
+    name: "Composite",
+    className: "AzureWorkloadSAPAseRecoveryPoint",
+    uberParent: "AzureWorkloadRecoveryPoint",
+    polymorphicDiscriminator:
+      AzureWorkloadRecoveryPoint.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AzureWorkloadRecoveryPoint.type.modelProperties,
+    },
+  },
+};
+
 export const AzureWorkloadSQLRecoveryPoint: coreClient.CompositeMapper = {
   serializedName: "AzureWorkloadSQLRecoveryPoint",
   type: {
@@ -9383,6 +9469,22 @@ export const AzureWorkloadSAPHanaRestoreRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureWorkloadSAPHanaRestoreRequest",
+    uberParent: "AzureWorkloadRestoreRequest",
+    polymorphicDiscriminator: {
+      serializedName: "objectType",
+      clientName: "objectType",
+    },
+    modelProperties: {
+      ...AzureWorkloadRestoreRequest.type.modelProperties,
+    },
+  },
+};
+
+export const AzureWorkloadSAPAseRestoreRequest: coreClient.CompositeMapper = {
+  serializedName: "AzureWorkloadSAPAseRestoreRequest",
+  type: {
+    name: "Composite",
+    className: "AzureWorkloadSAPAseRestoreRequest",
     uberParent: "AzureWorkloadRestoreRequest",
     polymorphicDiscriminator: {
       serializedName: "objectType",
@@ -9670,6 +9772,21 @@ export const AzureIaaSComputeVMProtectableItem: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureVmWorkloadSAPAseDatabaseProtectableItem: coreClient.CompositeMapper =
+  {
+    serializedName: "SAPAseDatabase",
+    type: {
+      name: "Composite",
+      className: "AzureVmWorkloadSAPAseDatabaseProtectableItem",
+      uberParent: "AzureVmWorkloadProtectableItem",
+      polymorphicDiscriminator:
+        AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureVmWorkloadProtectableItem.type.modelProperties,
+      },
+    },
+  };
+
 export const AzureVmWorkloadSAPAseSystemProtectableItem: coreClient.CompositeMapper =
   {
     serializedName: "SAPAseSystem",
@@ -9837,6 +9954,21 @@ export const AzureWorkloadSAPHanaPointInTimeRecoveryPoint: coreClient.CompositeM
     },
   };
 
+export const AzureWorkloadSAPAsePointInTimeRecoveryPoint: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureWorkloadSAPAsePointInTimeRecoveryPoint",
+    type: {
+      name: "Composite",
+      className: "AzureWorkloadSAPAsePointInTimeRecoveryPoint",
+      uberParent: "AzureWorkloadPointInTimeRecoveryPoint",
+      polymorphicDiscriminator:
+        AzureWorkloadPointInTimeRecoveryPoint.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureWorkloadPointInTimeRecoveryPoint.type.modelProperties,
+      },
+    },
+  };
+
 export const AzureWorkloadSQLPointInTimeRecoveryPoint: coreClient.CompositeMapper =
   {
     serializedName: "AzureWorkloadSQLPointInTimeRecoveryPoint",
@@ -9903,6 +10035,27 @@ export const AzureWorkloadSAPHanaRestoreWithRehydrateRequest: coreClient.Composi
           type: {
             name: "Composite",
             className: "RecoveryPointRehydrationInfo",
+          },
+        },
+      },
+    },
+  };
+
+export const AzureWorkloadSAPAsePointInTimeRestoreRequest: coreClient.CompositeMapper =
+  {
+    serializedName: "AzureWorkloadSAPAsePointInTimeRestoreRequest",
+    type: {
+      name: "Composite",
+      className: "AzureWorkloadSAPAsePointInTimeRestoreRequest",
+      uberParent: "AzureWorkloadSAPAseRestoreRequest",
+      polymorphicDiscriminator:
+        AzureWorkloadSAPAseRestoreRequest.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...AzureWorkloadSAPAseRestoreRequest.type.modelProperties,
+        pointInTime: {
+          serializedName: "pointInTime",
+          type: {
+            name: "DateTime",
           },
         },
       },
@@ -10147,12 +10300,16 @@ export let discriminators = {
     AzureWorkloadPointInTimeRecoveryPoint,
   "AzureWorkloadRecoveryPoint.AzureWorkloadSAPHanaRecoveryPoint":
     AzureWorkloadSAPHanaRecoveryPoint,
+  "AzureWorkloadRecoveryPoint.AzureWorkloadSAPAseRecoveryPoint":
+    AzureWorkloadSAPAseRecoveryPoint,
   "AzureWorkloadRecoveryPoint.AzureWorkloadSQLRecoveryPoint":
     AzureWorkloadSQLRecoveryPoint,
   "AzureWorkloadRestoreRequest.AzureWorkloadPointInTimeRestoreRequest":
     AzureWorkloadPointInTimeRestoreRequest,
   "AzureWorkloadRestoreRequest.AzureWorkloadSAPHanaRestoreRequest":
     AzureWorkloadSAPHanaRestoreRequest,
+  "AzureWorkloadRestoreRequest.AzureWorkloadSAPAseRestoreRequest":
+    AzureWorkloadSAPAseRestoreRequest,
   "AzureWorkloadRestoreRequest.AzureWorkloadSQLRestoreRequest":
     AzureWorkloadSQLRestoreRequest,
   "IaasVMRestoreRequest.IaasVMRestoreWithRehydrationRequest":
@@ -10180,6 +10337,8 @@ export let discriminators = {
     AzureIaaSClassicComputeVMProtectableItem,
   "IaaSVMProtectableItem.Microsoft.Compute/virtualMachines":
     AzureIaaSComputeVMProtectableItem,
+  "AzureVmWorkloadProtectableItem.SAPAseDatabase":
+    AzureVmWorkloadSAPAseDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPAseSystem":
     AzureVmWorkloadSAPAseSystemProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaDatabase":
@@ -10200,12 +10359,16 @@ export let discriminators = {
     AzureWorkloadSQLAutoProtectionIntent,
   "AzureWorkloadPointInTimeRecoveryPoint.AzureWorkloadSAPHanaPointInTimeRecoveryPoint":
     AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
+  "AzureWorkloadPointInTimeRecoveryPoint.AzureWorkloadSAPAsePointInTimeRecoveryPoint":
+    AzureWorkloadSAPAsePointInTimeRecoveryPoint,
   "AzureWorkloadSQLRecoveryPoint.AzureWorkloadSQLPointInTimeRecoveryPoint":
     AzureWorkloadSQLPointInTimeRecoveryPoint,
   "AzureWorkloadSAPHanaRestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreRequest":
     AzureWorkloadSAPHanaPointInTimeRestoreRequest,
   "AzureWorkloadSAPHanaRestoreRequest.AzureWorkloadSAPHanaRestoreWithRehydrateRequest":
     AzureWorkloadSAPHanaRestoreWithRehydrateRequest,
+  "AzureWorkloadSAPAseRestoreRequest.AzureWorkloadSAPAsePointInTimeRestoreRequest":
+    AzureWorkloadSAPAsePointInTimeRestoreRequest,
   "AzureWorkloadSQLRestoreRequest.AzureWorkloadSQLPointInTimeRestoreRequest":
     AzureWorkloadSQLPointInTimeRestoreRequest,
   "AzureWorkloadSQLRestoreRequest.AzureWorkloadSQLRestoreWithRehydrateRequest":
