@@ -14,7 +14,7 @@ import { MicrosoftVoiceServices } from "../microsoftVoiceServices.js";
 import {
   CheckNameAvailabilityRequest,
   NameAvailabilityCheckLocalOptionalParams,
-  NameAvailabilityCheckLocalResponse
+  NameAvailabilityCheckLocalResponse,
 } from "../models/index.js";
 
 /** Class containing NameAvailability operations. */
@@ -38,11 +38,11 @@ export class NameAvailabilityImpl implements NameAvailability {
   checkLocal(
     location: string,
     body: CheckNameAvailabilityRequest,
-    options?: NameAvailabilityCheckLocalOptionalParams
+    options?: NameAvailabilityCheckLocalOptionalParams,
   ): Promise<NameAvailabilityCheckLocalResponse> {
     return this.client.sendOperationRequest(
       { location, body, options },
-      checkLocalOperationSpec
+      checkLocalOperationSpec,
     );
   }
 }
@@ -50,25 +50,24 @@ export class NameAvailabilityImpl implements NameAvailability {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkLocalOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.VoiceServices/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.VoiceServices/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
