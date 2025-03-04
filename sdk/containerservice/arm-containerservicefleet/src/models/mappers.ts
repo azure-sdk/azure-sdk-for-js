@@ -347,6 +347,29 @@ export const AgentProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const FleetStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
 export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -625,6 +648,29 @@ export const FleetMemberListResult: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const FleetMemberStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FleetMemberStatus",
+    modelProperties: {
+      lastOperationId: {
+        serializedName: "lastOperationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastOperationError: {
+        serializedName: "lastOperationError",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
         },
       },
     },
@@ -1232,6 +1278,13 @@ export const Fleet: coreClient.CompositeMapper = {
           className: "FleetHubProfile",
         },
       },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetStatus",
+        },
+      },
     },
   },
 };
@@ -1322,6 +1375,13 @@ export const FleetMember: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      status: {
+        serializedName: "properties.status",
+        type: {
+          name: "Composite",
+          className: "FleetMemberStatus",
+        },
+      },
     },
   },
 };
@@ -1371,6 +1431,13 @@ export const UpdateRun: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "UpdateRunStatus",
+        },
+      },
+      autoUpgradeProfileId: {
+        serializedName: "properties.autoUpgradeProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
