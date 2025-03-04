@@ -14,10 +14,24 @@ export type AddonPropertiesUnion =
   | AddonHcxProperties
   | AddonSrmProperties
   | AddonVrProperties;
+export type HostPropertiesUnion =
+  | HostProperties
+  | GeneralHostProperties
+  | SpecializedHostProperties;
 export type PlacementPolicyPropertiesUnion =
   | PlacementPolicyProperties
   | VmHostPlacementPolicyProperties
   | VmPlacementPolicyProperties;
+export type RescheduleConstraintUnion =
+  | RescheduleConstraint
+  | BlockedRescheduleConstraint
+  | DeadlineRescheduleConstraint
+  | FreezeDaysRescheduleConstraint;
+export type MaintenanceManagementOperationUnion =
+  | MaintenanceManagementOperation
+  | MaintenanceReadinessRefreshOperation
+  | RescheduleOperation
+  | ScheduleOperation;
 export type ScriptExecutionParameterUnion =
   | ScriptExecutionParameter
   | PSCredentialExecutionParameter
@@ -27,6 +41,15 @@ export type WorkloadNetworkDhcpEntityUnion =
   | WorkloadNetworkDhcpEntity
   | WorkloadNetworkDhcpRelay
   | WorkloadNetworkDhcpServer;
+export type RescheduleOperationConstraintUnion =
+  | RescheduleOperationConstraint
+  | AvailableWindowForMaintenanceWhileRescheduleOperation
+  | BlockedWhileRescheduleOperation;
+export type ScheduleOperationConstraintUnion =
+  | ScheduleOperationConstraint
+  | AvailableWindowForMaintenanceWhileScheduleOperation
+  | BlockedWhileScheduleOperation
+  | SchedulingWindow;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -217,7 +240,7 @@ export interface IdentitySource {
   name?: string;
   /** The domain's NetBIOS name */
   alias?: string;
-  /** The domain's dns name */
+  /** The domain's DNS name */
   domain?: string;
   /** The base distinguished name for users */
   baseUserDN?: string;
@@ -399,6 +422,82 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Paged collection of ResourceSku items */
+export interface PagedResourceSku {
+  /** The ResourceSku items on this page */
+  value: ResourceSku[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** A SKU for a resource. */
+export interface ResourceSku {
+  /** The type of resource the SKU applies to. */
+  resourceType: ResourceSkuResourceType;
+  /** The name of the SKU. */
+  name: string;
+  /** The tier of virtual machines in a scale set */
+  tier?: string;
+  /** The size of the SKU. */
+  size?: string;
+  /** The family of the SKU. */
+  family?: string;
+  /** The set of locations that the SKU is available. */
+  locations: string[];
+  /** A list of locations and availability zones in those locations where the SKU is available */
+  locationInfo: ResourceSkuLocationInfo[];
+  /** Name value pairs to describe the capability. */
+  capabilities?: ResourceSkuCapabilities[];
+  /** The restrictions of the SKU. */
+  restrictions: ResourceSkuRestrictions[];
+}
+
+/** Describes an available Compute SKU Location Information. */
+export interface ResourceSkuLocationInfo {
+  /** Location of the SKU */
+  location: string;
+  /** List of availability zones where the SKU is supported. */
+  zones: string[];
+  /** Gets details of capabilities available to a SKU in specific zones. */
+  zoneDetails: ResourceSkuZoneDetails[];
+}
+
+/** Describes The zonal capabilities of a SKU. */
+export interface ResourceSkuZoneDetails {
+  /** Gets the set of zones that the SKU is available in with the specified capabilities. */
+  name: string[];
+  /** A list of capabilities that are available for the SKU in the specified list of zones. */
+  capabilities: ResourceSkuCapabilities[];
+}
+
+/** Describes The SKU capabilities object. */
+export interface ResourceSkuCapabilities {
+  /** The name of the SKU capability. */
+  name: string;
+  /** The value of the SKU capability. */
+  value: string;
+}
+
+/** The restrictions of the SKU. */
+export interface ResourceSkuRestrictions {
+  /** the type of restrictions. */
+  type?: ResourceSkuRestrictionsType;
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  values: string[];
+  /** The information about the restriction where the SKU cannot be used. */
+  restrictionInfo: ResourceSkuRestrictionInfo;
+  /** the reason for restriction. */
+  reasonCode?: ResourceSkuRestrictionsReasonCode;
+}
+
+/** Describes an available Compute SKU Restriction Information. */
+export interface ResourceSkuRestrictionInfo {
+  /** Locations where the SKU is restricted */
+  locations?: string[];
+  /** List of availability zones where the SKU is restricted. */
+  zones?: string[];
+}
+
 /** An update to a private cloud resource */
 export interface PrivateCloudUpdate {
   /** Resource tags. */
@@ -517,6 +616,49 @@ export interface DiskPoolVolume {
 export interface ElasticSanVolume {
   /** Azure resource ID of the Elastic SAN Volume */
   targetId: string;
+}
+
+/** A Pure Storage volume from PureStorage.Block provider */
+export interface PureStorageVolume {
+  /** Azure resource ID of the Pure Storage Pool */
+  storagePoolId: string;
+  /** Volume size to be used to create a Virtual Volumes (vVols) datastore */
+  sizeGb: number;
+}
+
+/** The response of a Host list operation. */
+export interface HostListResult {
+  /** The Host items on this page */
+  value: Host[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The properties of a host. */
+export interface HostProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "General" | "Specialized";
+  /**
+   * The state of the host provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: HostProvisioningState;
+  /** Display name of the host in VMware vCenter. */
+  displayName?: string;
+  /**
+   * vCenter managed object reference ID of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moRefId?: string;
+  /**
+   * Fully qualified domain name of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /** If provided, the host is in maintenance. The value is the reason for maintenance. */
+  maintenance?: HostMaintenance;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly faultDomain?: string;
 }
 
 /** List of all zones and associated hosts for a cluster */
@@ -638,6 +780,175 @@ export interface AdminCredentials {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vcenterPassword?: string;
+}
+
+/** The response of a Maintenance list operation. */
+export interface MaintenanceListResult {
+  /** The Maintenance items on this page */
+  value: Maintenance[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** state of the maintenance */
+export interface MaintenanceState {
+  /** Customer presentable maintenance state */
+  name?: MaintenanceStateName;
+  /** Failure/Success info */
+  message?: string;
+  /** Time when current state started */
+  startedAt?: Date;
+  /** Time when current state ended */
+  endedAt?: Date;
+}
+
+/** Constraints for rescheduling maintenance */
+export interface Reschedule {
+  /**
+   * If rescheduling is disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDisabled?: boolean;
+  /**
+   * Reason for reschedule disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disabledReason?: string;
+  /**
+   * Constraints for rescheduling maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly constraints?: RescheduleConstraintUnion[];
+}
+
+/** Constraint for rescheduling maintenance */
+export interface RescheduleConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Blocked" | "Deadline" | "FreezeDays";
+}
+
+/** Defines operations that can be performed on maintenance */
+export interface MaintenanceManagementOperation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "MaintenanceReadinessRefresh" | "Reschedule" | "Schedule";
+}
+
+/** Maintenance readiness details */
+export interface MaintenanceReadiness {
+  /**
+   * The type of maintenance readiness check
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type: MaintenanceCheckType;
+  /**
+   * The current readiness status of maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: MaintenanceReadinessStatus;
+  /**
+   * A summary message of the readiness check result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * A list of failed checks, if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedChecks?: MaintenanceFailedCheck[];
+  /**
+   * The timestamp of the last readiness update
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdated?: Date;
+}
+
+/** Details about a failed maintenance check */
+export interface MaintenanceFailedCheck {
+  /**
+   * The name of the failed check
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * A list of resources impacted by the failed check
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly impactedResources?: ImpactedMaintenanceResource[];
+}
+
+/** Details about a resource impacted by a failed check */
+export interface ImpactedMaintenanceResource {
+  /**
+   * The ID of the impacted resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * A list of errors associated with the impacted resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ImpactedMaintenanceResourceError[];
+}
+
+/** Details about an error affecting a resource */
+export interface ImpactedMaintenanceResourceError {
+  /**
+   * The error code
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorCode?: string;
+  /**
+   * The name of the error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Additional details about the error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: string;
+  /**
+   * Steps to resolve the error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resolutionSteps?: string[];
+  /**
+   * Indicates whether action is required by the customer
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionRequired?: boolean;
+}
+
+/** reschedule a maintenance */
+export interface MaintenanceReschedule {
+  /** reschedule time */
+  rescheduleTime?: Date;
+  /** rescheduling reason */
+  message?: string;
+}
+
+/** schedule a maintenance */
+export interface MaintenanceSchedule {
+  /** schedule time */
+  scheduleTime?: Date;
+  /** scheduling message */
+  message?: string;
+}
+
+/** The response of a ProvisionedNetwork list operation. */
+export interface ProvisionedNetworkListResult {
+  /** The ProvisionedNetwork items on this page */
+  value: ProvisionedNetwork[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a PureStoragePolicy list operation. */
+export interface PureStoragePolicyListResult {
+  /** The PureStoragePolicy items on this page */
+  value: PureStoragePolicy[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The response of a ScriptExecution list operation. */
@@ -817,6 +1128,56 @@ export interface WorkloadNetworkVMGroupsList {
   nextLink?: string;
 }
 
+/** Defines constraints for reschedule operation on maintenance */
+export interface RescheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AvailableWindowForMaintenance" | "Blocked";
+}
+
+/** Defines constraints for schedule operation on maintenance */
+export interface ScheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AvailableWindowForMaintenance" | "Blocked" | "SchedulingWindow";
+}
+
+/** Blocked Time range Constraints for maintenance */
+export interface BlockedDatesConstraintTimeRange {
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startsAt: Date;
+  /**
+   * End date Time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endsAt: Date;
+  /**
+   * Reason category for blocking maintenance reschedule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** Blocked Time range Constraints for maintenance */
+export interface BlockedRescheduleConstraintTimeRange {
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startAt: Date;
+  /**
+   * End date Time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endAt: Date;
+  /**
+   * Reason category for blocking maintenance reschedule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -842,6 +1203,10 @@ export interface AddonHcxProperties extends AddonProperties {
   addonType: "HCX";
   /** The HCX offer, example VMware MaaS Cloud Provider (Enterprise) */
   offer: string;
+  /** HCX management network. */
+  managementNetwork?: string;
+  /** HCX uplink network */
+  uplinkNetwork?: string;
 }
 
 /** The properties of a Site Recovery Manager (SRM) addon */
@@ -858,6 +1223,20 @@ export interface AddonVrProperties extends AddonProperties {
   addonType: "VR";
   /** The vSphere Replication Server (VRS) count */
   vrsCount: number;
+  /** VR replicationNetwork network. */
+  replicationNetwork?: string;
+}
+
+/** The properties of a general host. */
+export interface GeneralHostProperties extends HostProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "General";
+}
+
+/** The properties of a specialized host. */
+export interface SpecializedHostProperties extends HostProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Specialized";
 }
 
 /** VM-Host placement policy properties */
@@ -885,6 +1264,118 @@ export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
   vmMembers: string[];
   /** placement policy affinity type */
   affinityType: AffinityType;
+}
+
+/** Time ranges blocked for rescheduling maintenance */
+export interface BlockedRescheduleConstraint extends RescheduleConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Blocked";
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category: BlockedDatesConstraintCategory;
+  /**
+   * Date ranges blocked for reschedule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeRanges?: BlockedRescheduleConstraintTimeRange[];
+}
+
+/** The deadline constraint for rescheduling maintenance */
+export interface DeadlineRescheduleConstraint extends RescheduleConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Deadline";
+  /**
+   * The deadline
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deadline: Date;
+}
+
+/** The deadline constraint for rescheduling maintenance */
+export interface FreezeDaysRescheduleConstraint extends RescheduleConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "FreezeDays";
+  /**
+   * Freeze days
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly freezeDays: Date[];
+}
+
+/** Refresh MaintenanceReadiness status */
+export interface MaintenanceReadinessRefreshOperation
+  extends MaintenanceManagementOperation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "MaintenanceReadinessRefresh";
+  /**
+   * If maintenanceReadiness refresh is disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDisabled?: boolean;
+  /**
+   * Reason disabling refresh for maintenanceReadiness
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disabledReason?: string;
+  /**
+   * Status of the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MaintenanceReadinessRefreshOperationStatus;
+  /**
+   * Indicates if the operation was refreshed by Microsoft
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly refreshedByMicrosoft?: boolean;
+  /**
+   * Additional message about the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Constraints for rescheduling maintenance */
+export interface RescheduleOperation extends MaintenanceManagementOperation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Reschedule";
+  /**
+   * If rescheduling is disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDisabled?: boolean;
+  /**
+   * Reason for reschedule disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disabledReason?: string;
+  /**
+   * Constraints for rescheduling maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly constraints?: RescheduleOperationConstraintUnion[];
+}
+
+/** Scheduling window constraint */
+export interface ScheduleOperation extends MaintenanceManagementOperation {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Schedule";
+  /**
+   * If scheduling is disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDisabled?: boolean;
+  /**
+   * Reason for schedule disabled
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disabledReason?: string;
+  /**
+   * Constraints for scheduling maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly constraints?: ScheduleOperationConstraintUnion[];
 }
 
 /** a powershell credential object */
@@ -940,12 +1431,98 @@ export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
   leaseTime?: number;
 }
 
+/** Time window in which Customer can reschedule maintenance */
+export interface AvailableWindowForMaintenanceWhileRescheduleOperation
+  extends RescheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AvailableWindowForMaintenance";
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startsAt: Date;
+  /**
+   * End date Time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endsAt: Date;
+}
+
+/** Time ranges blocked for rescheduling maintenance */
+export interface BlockedWhileRescheduleOperation
+  extends RescheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Blocked";
+  /**
+   * Category of blocked date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category: BlockedDatesConstraintCategory;
+  /**
+   * Date ranges blocked for schedule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
+
+/** Time window in which Customer can to schedule maintenance */
+export interface AvailableWindowForMaintenanceWhileScheduleOperation
+  extends ScheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AvailableWindowForMaintenance";
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startsAt: Date;
+  /**
+   * End date Time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endsAt: Date;
+}
+
+/** Time ranges blocked for scheduling maintenance */
+export interface BlockedWhileScheduleOperation
+  extends ScheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Blocked";
+  /**
+   * Category of blocked date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category: BlockedDatesConstraintCategory;
+  /**
+   * Date ranges blocked for schedule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
+
+/** Time window in which Customer has option to schedule maintenance */
+export interface SchedulingWindow extends ScheduleOperationConstraint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "SchedulingWindow";
+  /**
+   * Start date time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startsAt: Date;
+  /**
+   * End date Time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endsAt: Date;
+}
+
 /** A private cloud resource */
 export interface PrivateCloud extends TrackedResource {
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku: Sku;
   /** The managed service identities assigned to this resource. */
   identity?: PrivateCloudIdentity;
+  /** The availability zones. */
+  zones?: string[];
   /** The default cluster used for management */
   managementCluster?: ManagementCluster;
   /** Connectivity to internet is enabled or disabled */
@@ -1116,11 +1693,44 @@ export interface Datastore extends ProxyResource {
   diskPoolVolume?: DiskPoolVolume;
   /** An Elastic SAN volume */
   elasticSanVolume?: ElasticSanVolume;
+  /** A Pure Storage volume */
+  pureStorageVolume?: PureStorageVolume;
   /**
    * The operational status of the datastore
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: DatastoreStatus;
+}
+
+/** A host resource */
+export interface Host extends ProxyResource {
+  /** The availability zones. */
+  zones?: string[];
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: Sku;
+  /** The kind of host */
+  kind?: HostKind;
+  /**
+   * The state of the host provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: HostProvisioningState;
+  /** Display name of the host in VMware vCenter. */
+  displayName?: string;
+  /**
+   * vCenter managed object reference ID of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moRefId?: string;
+  /**
+   * Fully qualified domain name of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /** If provided, the host is in maintenance. The value is the reason for maintenance. */
+  maintenance?: HostMaintenance;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly faultDomain?: string;
 }
 
 /** A vSphere Distributed Resource Scheduler (DRS) placement policy */
@@ -1142,7 +1752,7 @@ export interface VirtualMachine extends ProxyResource {
    */
   readonly displayName?: string;
   /**
-   * Virtual machine managed object reference id
+   * vCenter managed object reference ID of the virtual machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly moRefId?: string;
@@ -1221,6 +1831,107 @@ export interface IscsiPath extends ProxyResource {
   readonly provisioningState?: IscsiPathProvisioningState;
   /** CIDR Block for iSCSI path. */
   networkBlock?: string;
+}
+
+/** A cluster resource */
+export interface Maintenance extends ProxyResource {
+  /**
+   * type of maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly component?: MaintenanceType;
+  /**
+   * Display name for maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Cluster ID for on which maintenance will be applied. Empty if maintenance is at private cloud level
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterId?: number;
+  /**
+   * Link to maintenance info
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly infoLink?: string;
+  /**
+   * Impact on the resource during maintenance period
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly impact?: string;
+  /**
+   * If maintenance is scheduled by Microsoft
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledByMicrosoft?: boolean;
+  /**
+   * The state of the maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: MaintenanceState;
+  /**
+   * Scheduled maintenance start time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledStartTime?: Date;
+  /**
+   * Estimated time maintenance will take in minutes
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly estimatedDurationInMinutes?: number;
+  /**
+   * The provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: MaintenanceProvisioningState;
+  /**
+   * Constraints for rescheduling maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reschedule?: Reschedule;
+  /**
+   * Operations on  maintenance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operations?: MaintenanceManagementOperationUnion[];
+  /**
+   * Indicates whether the maintenance is ready to proceed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maintenanceReadiness?: MaintenanceReadiness;
+}
+
+/** A provisioned network resource */
+export interface ProvisionedNetwork extends ProxyResource {
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisionedNetworkProvisioningState;
+  /**
+   * The address prefixes of the provisioned network in CIDR notation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addressPrefix?: string;
+  /**
+   * The type of network provisioned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkType?: ProvisionedNetworkTypes;
+}
+
+/** An instance describing a Pure Storage Policy Based Management policy */
+export interface PureStoragePolicy extends ProxyResource {
+  /** Definition of a Pure Storage Policy Based Management policy */
+  storagePolicyDefinition?: string;
+  /** Azure resource ID of the Pure Storage Pool associated with the storage policy */
+  storagePoolId?: string;
+  /**
+   * The state of the Pure Storage Policy Based Management policy provisioning
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PureStoragePolicyProvisioningState;
 }
 
 /** An instance of a script executed by a user - custom or AVS */
@@ -1693,6 +2404,22 @@ export interface IscsiPathsCreateOrUpdateHeaders {
 
 /** Defines headers for IscsiPaths_delete operation. */
 export interface IscsiPathsDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PureStoragePolicies_createOrUpdate operation. */
+export interface PureStoragePoliciesCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PureStoragePolicies_delete operation. */
+export interface PureStoragePoliciesDeleteHeaders {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -2186,6 +2913,60 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ResourceSkuResourceType} that the service accepts. */
+export enum KnownResourceSkuResourceType {
+  /** The SKU is for a private cloud. */
+  PrivateClouds = "privateClouds",
+  /** The SKU is for a private cloud cluster. */
+  PrivateCloudsClusters = "privateClouds/clusters",
+}
+
+/**
+ * Defines values for ResourceSkuResourceType. \
+ * {@link KnownResourceSkuResourceType} can be used interchangeably with ResourceSkuResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **privateClouds**: The SKU is for a private cloud. \
+ * **privateClouds\/clusters**: The SKU is for a private cloud cluster.
+ */
+export type ResourceSkuResourceType = string;
+
+/** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
+export enum KnownResourceSkuRestrictionsType {
+  /** SKU restricted by location. */
+  Location = "Location",
+  /** SKU restricted by availability zone. */
+  Zone = "Zone",
+}
+
+/**
+ * Defines values for ResourceSkuRestrictionsType. \
+ * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Location**: SKU restricted by location. \
+ * **Zone**: SKU restricted by availability zone.
+ */
+export type ResourceSkuRestrictionsType = string;
+
+/** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
+export enum KnownResourceSkuRestrictionsReasonCode {
+  /** The restriction is due to exceeding a quota limitation. */
+  QuotaId = "QuotaId",
+  /** The restriction is not available for this subscription. */
+  NotAvailableForSubscription = "NotAvailableForSubscription",
+}
+
+/**
+ * Defines values for ResourceSkuRestrictionsReasonCode. \
+ * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **QuotaId**: The restriction is due to exceeding a quota limitation. \
+ * **NotAvailableForSubscription**: The restriction is not available for this subscription.
+ */
+export type ResourceSkuRestrictionsReasonCode = string;
+
 /** Known values of {@link AddonType} that the service accepts. */
 export enum KnownAddonType {
   /** SRM */
@@ -2401,6 +3182,63 @@ export enum KnownDatastoreStatus {
  * **DeadOrError**: is dead or error
  */
 export type DatastoreStatus = string;
+
+/** Known values of {@link HostKind} that the service accepts. */
+export enum KnownHostKind {
+  /** General */
+  General = "General",
+  /** Specialized */
+  Specialized = "Specialized",
+}
+
+/**
+ * Defines values for HostKind. \
+ * {@link KnownHostKind} can be used interchangeably with HostKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **General** \
+ * **Specialized**
+ */
+export type HostKind = string;
+
+/** Known values of {@link HostProvisioningState} that the service accepts. */
+export enum KnownHostProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for HostProvisioningState. \
+ * {@link KnownHostProvisioningState} can be used interchangeably with HostProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type HostProvisioningState = string;
+
+/** Known values of {@link HostMaintenance} that the service accepts. */
+export enum KnownHostMaintenance {
+  /** The host is a replacement host. */
+  Replacement = "Replacement",
+  /** The host is for an upgrade, such as an upgrade to ESXi, NSX-T, or other component. */
+  Upgrade = "Upgrade",
+}
+
+/**
+ * Defines values for HostMaintenance. \
+ * {@link KnownHostMaintenance} can be used interchangeably with HostMaintenance,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Replacement**: The host is a replacement host. \
+ * **Upgrade**: The host is for an upgrade, such as an upgrade to ESXi, NSX-T, or other component.
+ */
+export type HostMaintenance = string;
 
 /** Known values of {@link PlacementPolicyType} that the service accepts. */
 export enum KnownPlacementPolicyType {
@@ -2665,6 +3503,267 @@ export enum KnownIscsiPathProvisioningState {
  * **Updating**: is updating
  */
 export type IscsiPathProvisioningState = string;
+
+/** Known values of {@link MaintenanceStateName} that the service accepts. */
+export enum KnownMaintenanceStateName {
+  /** Maintenance Not Scheduled */
+  NotScheduled = "NotScheduled",
+  /** Maintenance Scheduled */
+  Scheduled = "Scheduled",
+  /** Maintenance Planned */
+  Planned = "Planned",
+  /** Maintenance In Progress */
+  InProgress = "InProgress",
+  /** Maintenance Succeeded */
+  Success = "Success",
+  /** Maintenance Failed */
+  Failed = "Failed",
+  /** Maintenance Cancelled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for MaintenanceStateName. \
+ * {@link KnownMaintenanceStateName} can be used interchangeably with MaintenanceStateName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotScheduled**: Maintenance Not Scheduled \
+ * **Scheduled**: Maintenance Scheduled \
+ * **Planned**: Maintenance Planned \
+ * **InProgress**: Maintenance In Progress \
+ * **Success**: Maintenance Succeeded \
+ * **Failed**: Maintenance Failed \
+ * **Canceled**: Maintenance Cancelled
+ */
+export type MaintenanceStateName = string;
+
+/** Known values of {@link MaintenanceStatusFilter} that the service accepts. */
+export enum KnownMaintenanceStatusFilter {
+  /** is active */
+  Active = "Active",
+  /** is inactive */
+  Inactive = "Inactive",
+}
+
+/**
+ * Defines values for MaintenanceStatusFilter. \
+ * {@link KnownMaintenanceStatusFilter} can be used interchangeably with MaintenanceStatusFilter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: is active \
+ * **Inactive**: is inactive
+ */
+export type MaintenanceStatusFilter = string;
+
+/** Known values of {@link MaintenanceType} that the service accepts. */
+export enum KnownMaintenanceType {
+  /** maintenance for vCenter Server Appliance */
+  Vcsa = "VCSA",
+  /** maintenance for ESXi */
+  Esxi = "ESXI",
+  /** maintenance for NSX-T */
+  Nsxt = "NSXT",
+}
+
+/**
+ * Defines values for MaintenanceType. \
+ * {@link KnownMaintenanceType} can be used interchangeably with MaintenanceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VCSA**: maintenance for vCenter Server Appliance \
+ * **ESXI**: maintenance for ESXi \
+ * **NSXT**: maintenance for NSX-T
+ */
+export type MaintenanceType = string;
+
+/** Known values of {@link MaintenanceProvisioningState} that the service accepts. */
+export enum KnownMaintenanceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** is updating */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for MaintenanceProvisioningState. \
+ * {@link KnownMaintenanceProvisioningState} can be used interchangeably with MaintenanceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Updating**: is updating
+ */
+export type MaintenanceProvisioningState = string;
+
+/** Known values of {@link RescheduleConstraintKind} that the service accepts. */
+export enum KnownRescheduleConstraintKind {
+  /** Deadline constraint */
+  Deadline = "Deadline",
+  /** Freeze days constraint */
+  FreezeDays = "FreezeDays",
+  /** Blocked time range constraint */
+  Blocked = "Blocked",
+}
+
+/**
+ * Defines values for RescheduleConstraintKind. \
+ * {@link KnownRescheduleConstraintKind} can be used interchangeably with RescheduleConstraintKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deadline**: Deadline constraint \
+ * **FreezeDays**: Freeze days constraint \
+ * **Blocked**: Blocked time range constraint
+ */
+export type RescheduleConstraintKind = string;
+
+/** Known values of {@link MaintenanceManagementOperationKind} that the service accepts. */
+export enum KnownMaintenanceManagementOperationKind {
+  /** Represents a scheduling operation */
+  Schedule = "Schedule",
+  /** Represents a rescheduling operation */
+  Reschedule = "Reschedule",
+  /** Represents a maintenance readiness refresh operation */
+  MaintenanceReadinessRefresh = "MaintenanceReadinessRefresh",
+}
+
+/**
+ * Defines values for MaintenanceManagementOperationKind. \
+ * {@link KnownMaintenanceManagementOperationKind} can be used interchangeably with MaintenanceManagementOperationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Schedule**: Represents a scheduling operation \
+ * **Reschedule**: Represents a rescheduling operation \
+ * **MaintenanceReadinessRefresh**: Represents a maintenance readiness refresh operation
+ */
+export type MaintenanceManagementOperationKind = string;
+
+/** Known values of {@link MaintenanceCheckType} that the service accepts. */
+export enum KnownMaintenanceCheckType {
+  /** Pre-check maintenance readiness */
+  Precheck = "Precheck",
+  /** Pre-flight maintenance readiness */
+  Preflight = "Preflight",
+}
+
+/**
+ * Defines values for MaintenanceCheckType. \
+ * {@link KnownMaintenanceCheckType} can be used interchangeably with MaintenanceCheckType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Precheck**: Pre-check maintenance readiness \
+ * **Preflight**: Pre-flight maintenance readiness
+ */
+export type MaintenanceCheckType = string;
+
+/** Known values of {@link MaintenanceReadinessStatus} that the service accepts. */
+export enum KnownMaintenanceReadinessStatus {
+  /** The system is ready for maintenance */
+  Ready = "Ready",
+  /** The system is not ready for maintenance */
+  NotReady = "NotReady",
+  /** Data is not available to determine readiness */
+  DataNotAvailable = "DataNotAvailable",
+  /** Readiness check is not applicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for MaintenanceReadinessStatus. \
+ * {@link KnownMaintenanceReadinessStatus} can be used interchangeably with MaintenanceReadinessStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready**: The system is ready for maintenance \
+ * **NotReady**: The system is not ready for maintenance \
+ * **DataNotAvailable**: Data is not available to determine readiness \
+ * **NotApplicable**: Readiness check is not applicable
+ */
+export type MaintenanceReadinessStatus = string;
+
+/** Known values of {@link ProvisionedNetworkProvisioningState} that the service accepts. */
+export enum KnownProvisionedNetworkProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ProvisionedNetworkProvisioningState. \
+ * {@link KnownProvisionedNetworkProvisioningState} can be used interchangeably with ProvisionedNetworkProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ProvisionedNetworkProvisioningState = string;
+
+/** Known values of {@link ProvisionedNetworkTypes} that the service accepts. */
+export enum KnownProvisionedNetworkTypes {
+  /** network for ESX management */
+  EsxManagement = "esxManagement",
+  /** network for ESX replication */
+  EsxReplication = "esxReplication",
+  /** network for HCX management */
+  HcxManagement = "hcxManagement",
+  /** network for HCX uplink */
+  HcxUplink = "hcxUplink",
+  /** network for vCenter management */
+  VcenterManagement = "vcenterManagement",
+  /** network for vmotion */
+  Vmotion = "vmotion",
+  /** network for vsan */
+  Vsan = "vsan",
+}
+
+/**
+ * Defines values for ProvisionedNetworkTypes. \
+ * {@link KnownProvisionedNetworkTypes} can be used interchangeably with ProvisionedNetworkTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **esxManagement**: network for ESX management \
+ * **esxReplication**: network for ESX replication \
+ * **hcxManagement**: network for HCX management \
+ * **hcxUplink**: network for HCX uplink \
+ * **vcenterManagement**: network for vCenter management \
+ * **vmotion**: network for vmotion \
+ * **vsan**: network for vsan
+ */
+export type ProvisionedNetworkTypes = string;
+
+/** Known values of {@link PureStoragePolicyProvisioningState} that the service accepts. */
+export enum KnownPureStoragePolicyProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** is deleting */
+  Deleting = "Deleting",
+  /** is updating */
+  Updating = "Updating",
+}
+
+/**
+ * Defines values for PureStoragePolicyProvisioningState. \
+ * {@link KnownPureStoragePolicyProvisioningState} can be used interchangeably with PureStoragePolicyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleting**: is deleting \
+ * **Updating**: is updating
+ */
+export type PureStoragePolicyProvisioningState = string;
 
 /** Known values of {@link ScriptExecutionParameterType} that the service accepts. */
 export enum KnownScriptExecutionParameterType {
@@ -3272,6 +4371,90 @@ export enum KnownWorkloadNetworkVMGroupProvisioningState {
  */
 export type WorkloadNetworkVMGroupProvisioningState = string;
 
+/** Known values of {@link RescheduleOperationConstraintKind} that the service accepts. */
+export enum KnownRescheduleOperationConstraintKind {
+  /** Time window in which maintenance can be rescheduled */
+  AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
+  /** Blocked time range constraint */
+  BlockedWhileRescheduleOperation = "Blocked",
+}
+
+/**
+ * Defines values for RescheduleOperationConstraintKind. \
+ * {@link KnownRescheduleOperationConstraintKind} can be used interchangeably with RescheduleOperationConstraintKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailableWindowForMaintenance**: Time window in which maintenance can be rescheduled \
+ * **Blocked**: Blocked time range constraint
+ */
+export type RescheduleOperationConstraintKind = string;
+
+/** Known values of {@link ScheduleOperationConstraintKind} that the service accepts. */
+export enum KnownScheduleOperationConstraintKind {
+  /** Time window in which Customer has option to schedule maintenance */
+  SchedulingWindow = "SchedulingWindow",
+  /** Time window in which maintenance can be scheduled */
+  AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
+  /** Blocked time range constraint */
+  BlockedWhileScheduleOperation = "Blocked",
+}
+
+/**
+ * Defines values for ScheduleOperationConstraintKind. \
+ * {@link KnownScheduleOperationConstraintKind} can be used interchangeably with ScheduleOperationConstraintKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SchedulingWindow**: Time window in which Customer has option to schedule maintenance \
+ * **AvailableWindowForMaintenance**: Time window in which maintenance can be scheduled \
+ * **Blocked**: Blocked time range constraint
+ */
+export type ScheduleOperationConstraintKind = string;
+
+/** Known values of {@link BlockedDatesConstraintCategory} that the service accepts. */
+export enum KnownBlockedDatesConstraintCategory {
+  /** Hi-Priority Event */
+  HiPriorityEvent = "HiPriorityEvent",
+  /** Quota Exhausted */
+  QuotaExhausted = "QuotaExhausted",
+  /** Holidays */
+  Holiday = "Holiday",
+}
+
+/**
+ * Defines values for BlockedDatesConstraintCategory. \
+ * {@link KnownBlockedDatesConstraintCategory} can be used interchangeably with BlockedDatesConstraintCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HiPriorityEvent**: Hi-Priority Event \
+ * **QuotaExhausted**: Quota Exhausted \
+ * **Holiday**: Holidays
+ */
+export type BlockedDatesConstraintCategory = string;
+
+/** Known values of {@link MaintenanceReadinessRefreshOperationStatus} that the service accepts. */
+export enum KnownMaintenanceReadinessRefreshOperationStatus {
+  /** Operation is in progress */
+  InProgress = "InProgress",
+  /** Operation has not started */
+  NotStarted = "NotStarted",
+  /** Operation has failed */
+  Failed = "Failed",
+  /** Operation is not applicable */
+  NotApplicable = "NotApplicable",
+}
+
+/**
+ * Defines values for MaintenanceReadinessRefreshOperationStatus. \
+ * {@link KnownMaintenanceReadinessRefreshOperationStatus} can be used interchangeably with MaintenanceReadinessRefreshOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress**: Operation is in progress \
+ * **NotStarted**: Operation has not started \
+ * **Failed**: Operation has failed \
+ * **NotApplicable**: Operation is not applicable
+ */
+export type MaintenanceReadinessRefreshOperationStatus = string;
+
 /** Known values of {@link AffinityType} that the service accepts. */
 export enum KnownAffinityType {
   /** is affinity */
@@ -3423,6 +4606,19 @@ export interface PrivateCloudsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type PrivateCloudsListNextResponse = PrivateCloudList;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = PagedResourceSku;
+
+/** Optional parameters. */
+export interface SkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SkusListNextResponse = PagedResourceSku;
 
 /** Optional parameters. */
 export interface AddonsListOptionalParams extends coreClient.OperationOptions {}
@@ -3652,6 +4848,25 @@ export interface DatastoresListNextOptionalParams
 export type DatastoresListNextResponse = DatastoreList;
 
 /** Optional parameters. */
+export interface HostsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type HostsListResponse = HostListResult;
+
+/** Optional parameters. */
+export interface HostsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type HostsGetResponse = Host;
+
+/** Optional parameters. */
+export interface HostsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type HostsListNextResponse = HostListResult;
+
+/** Optional parameters. */
 export interface PlacementPoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3855,6 +5070,124 @@ export interface IscsiPathsListByPrivateCloudNextOptionalParams
 
 /** Contains response data for the listByPrivateCloudNext operation. */
 export type IscsiPathsListByPrivateCloudNextResponse = IscsiPathListResult;
+
+/** Optional parameters. */
+export interface MaintenancesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filter maintenances based on state */
+  stateName?: MaintenanceStateName;
+  /** Filter active or inactive maintenances */
+  status?: MaintenanceStatusFilter;
+  /** date from which result should be returned. ie. scheduledStartTime >= from */
+  from?: Date;
+  /** date till which result should be returned. i.e. scheduledStartTime <= to */
+  to?: Date;
+}
+
+/** Contains response data for the list operation. */
+export type MaintenancesListResponse = MaintenanceListResult;
+
+/** Optional parameters. */
+export interface MaintenancesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MaintenancesGetResponse = Maintenance;
+
+/** Optional parameters. */
+export interface MaintenancesInitiateChecksOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the initiateChecks operation. */
+export type MaintenancesInitiateChecksResponse = Maintenance;
+
+/** Optional parameters. */
+export interface MaintenancesRescheduleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the reschedule operation. */
+export type MaintenancesRescheduleResponse = Maintenance;
+
+/** Optional parameters. */
+export interface MaintenancesScheduleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the schedule operation. */
+export type MaintenancesScheduleResponse = Maintenance;
+
+/** Optional parameters. */
+export interface MaintenancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MaintenancesListNextResponse = MaintenanceListResult;
+
+/** Optional parameters. */
+export interface ProvisionedNetworksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ProvisionedNetworksListResponse = ProvisionedNetworkListResult;
+
+/** Optional parameters. */
+export interface ProvisionedNetworksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ProvisionedNetworksGetResponse = ProvisionedNetwork;
+
+/** Optional parameters. */
+export interface ProvisionedNetworksListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ProvisionedNetworksListNextResponse = ProvisionedNetworkListResult;
+
+/** Optional parameters. */
+export interface PureStoragePoliciesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PureStoragePoliciesListResponse = PureStoragePolicyListResult;
+
+/** Optional parameters. */
+export interface PureStoragePoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PureStoragePoliciesGetResponse = PureStoragePolicy;
+
+/** Optional parameters. */
+export interface PureStoragePoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PureStoragePoliciesCreateOrUpdateResponse = PureStoragePolicy;
+
+/** Optional parameters. */
+export interface PureStoragePoliciesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PureStoragePoliciesDeleteResponse =
+  PureStoragePoliciesDeleteHeaders;
+
+/** Optional parameters. */
+export interface PureStoragePoliciesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PureStoragePoliciesListNextResponse = PureStoragePolicyListResult;
 
 /** Optional parameters. */
 export interface ScriptExecutionsListOptionalParams

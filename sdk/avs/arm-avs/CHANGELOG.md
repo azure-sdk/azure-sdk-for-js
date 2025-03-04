@@ -1,15 +1,152 @@
 # Release History
-
-## 6.0.1 (Unreleased)
-
+    
+## 6.1.0 (2025-03-04)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Hosts
+  - Added operation group Maintenances
+  - Added operation group ProvisionedNetworks
+  - Added operation group PureStoragePolicies
+  - Added operation group Skus
+  - Added Interface AvailableWindowForMaintenanceWhileRescheduleOperation
+  - Added Interface AvailableWindowForMaintenanceWhileScheduleOperation
+  - Added Interface BlockedDatesConstraintTimeRange
+  - Added Interface BlockedRescheduleConstraint
+  - Added Interface BlockedRescheduleConstraintTimeRange
+  - Added Interface BlockedWhileRescheduleOperation
+  - Added Interface BlockedWhileScheduleOperation
+  - Added Interface DeadlineRescheduleConstraint
+  - Added Interface FreezeDaysRescheduleConstraint
+  - Added Interface GeneralHostProperties
+  - Added Interface Host
+  - Added Interface HostListResult
+  - Added Interface HostProperties
+  - Added Interface HostsGetOptionalParams
+  - Added Interface HostsListNextOptionalParams
+  - Added Interface HostsListOptionalParams
+  - Added Interface ImpactedMaintenanceResource
+  - Added Interface ImpactedMaintenanceResourceError
+  - Added Interface Maintenance
+  - Added Interface MaintenanceFailedCheck
+  - Added Interface MaintenanceListResult
+  - Added Interface MaintenanceManagementOperation
+  - Added Interface MaintenanceReadiness
+  - Added Interface MaintenanceReadinessRefreshOperation
+  - Added Interface MaintenanceReschedule
+  - Added Interface MaintenanceSchedule
+  - Added Interface MaintenancesGetOptionalParams
+  - Added Interface MaintenancesInitiateChecksOptionalParams
+  - Added Interface MaintenancesListNextOptionalParams
+  - Added Interface MaintenancesListOptionalParams
+  - Added Interface MaintenancesRescheduleOptionalParams
+  - Added Interface MaintenancesScheduleOptionalParams
+  - Added Interface MaintenanceState
+  - Added Interface PagedResourceSku
+  - Added Interface ProvisionedNetwork
+  - Added Interface ProvisionedNetworkListResult
+  - Added Interface ProvisionedNetworksGetOptionalParams
+  - Added Interface ProvisionedNetworksListNextOptionalParams
+  - Added Interface ProvisionedNetworksListOptionalParams
+  - Added Interface PureStoragePoliciesCreateOrUpdateHeaders
+  - Added Interface PureStoragePoliciesCreateOrUpdateOptionalParams
+  - Added Interface PureStoragePoliciesDeleteHeaders
+  - Added Interface PureStoragePoliciesDeleteOptionalParams
+  - Added Interface PureStoragePoliciesGetOptionalParams
+  - Added Interface PureStoragePoliciesListNextOptionalParams
+  - Added Interface PureStoragePoliciesListOptionalParams
+  - Added Interface PureStoragePolicy
+  - Added Interface PureStoragePolicyListResult
+  - Added Interface PureStorageVolume
+  - Added Interface Reschedule
+  - Added Interface RescheduleConstraint
+  - Added Interface RescheduleOperation
+  - Added Interface RescheduleOperationConstraint
+  - Added Interface ResourceSku
+  - Added Interface ResourceSkuCapabilities
+  - Added Interface ResourceSkuLocationInfo
+  - Added Interface ResourceSkuRestrictionInfo
+  - Added Interface ResourceSkuRestrictions
+  - Added Interface ResourceSkuZoneDetails
+  - Added Interface ScheduleOperation
+  - Added Interface ScheduleOperationConstraint
+  - Added Interface SchedulingWindow
+  - Added Interface SkusListNextOptionalParams
+  - Added Interface SkusListOptionalParams
+  - Added Interface SpecializedHostProperties
+  - Added Type Alias BlockedDatesConstraintCategory
+  - Added Type Alias HostKind
+  - Added Type Alias HostMaintenance
+  - Added Type Alias HostPropertiesUnion
+  - Added Type Alias HostProvisioningState
+  - Added Type Alias HostsGetResponse
+  - Added Type Alias HostsListNextResponse
+  - Added Type Alias HostsListResponse
+  - Added Type Alias MaintenanceCheckType
+  - Added Type Alias MaintenanceManagementOperationKind
+  - Added Type Alias MaintenanceManagementOperationUnion
+  - Added Type Alias MaintenanceProvisioningState
+  - Added Type Alias MaintenanceReadinessRefreshOperationStatus
+  - Added Type Alias MaintenanceReadinessStatus
+  - Added Type Alias MaintenancesGetResponse
+  - Added Type Alias MaintenancesInitiateChecksResponse
+  - Added Type Alias MaintenancesListNextResponse
+  - Added Type Alias MaintenancesListResponse
+  - Added Type Alias MaintenancesRescheduleResponse
+  - Added Type Alias MaintenancesScheduleResponse
+  - Added Type Alias MaintenanceStateName
+  - Added Type Alias MaintenanceStatusFilter
+  - Added Type Alias MaintenanceType
+  - Added Type Alias ProvisionedNetworkProvisioningState
+  - Added Type Alias ProvisionedNetworksGetResponse
+  - Added Type Alias ProvisionedNetworksListNextResponse
+  - Added Type Alias ProvisionedNetworksListResponse
+  - Added Type Alias ProvisionedNetworkTypes
+  - Added Type Alias PureStoragePoliciesCreateOrUpdateResponse
+  - Added Type Alias PureStoragePoliciesDeleteResponse
+  - Added Type Alias PureStoragePoliciesGetResponse
+  - Added Type Alias PureStoragePoliciesListNextResponse
+  - Added Type Alias PureStoragePoliciesListResponse
+  - Added Type Alias PureStoragePolicyProvisioningState
+  - Added Type Alias RescheduleConstraintKind
+  - Added Type Alias RescheduleConstraintUnion
+  - Added Type Alias RescheduleOperationConstraintKind
+  - Added Type Alias RescheduleOperationConstraintUnion
+  - Added Type Alias ResourceSkuResourceType
+  - Added Type Alias ResourceSkuRestrictionsReasonCode
+  - Added Type Alias ResourceSkuRestrictionsType
+  - Added Type Alias ScheduleOperationConstraintKind
+  - Added Type Alias ScheduleOperationConstraintUnion
+  - Added Type Alias SkusListNextResponse
+  - Added Type Alias SkusListResponse
+  - Interface AddonHcxProperties has a new optional parameter managementNetwork
+  - Interface AddonHcxProperties has a new optional parameter uplinkNetwork
+  - Interface AddonVrProperties has a new optional parameter replicationNetwork
+  - Interface Datastore has a new optional parameter pureStorageVolume
+  - Interface PrivateCloud has a new optional parameter zones
+  - Added Enum KnownBlockedDatesConstraintCategory
+  - Added Enum KnownHostKind
+  - Added Enum KnownHostMaintenance
+  - Added Enum KnownHostProvisioningState
+  - Added Enum KnownMaintenanceCheckType
+  - Added Enum KnownMaintenanceManagementOperationKind
+  - Added Enum KnownMaintenanceProvisioningState
+  - Added Enum KnownMaintenanceReadinessRefreshOperationStatus
+  - Added Enum KnownMaintenanceReadinessStatus
+  - Added Enum KnownMaintenanceStateName
+  - Added Enum KnownMaintenanceStatusFilter
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownProvisionedNetworkProvisioningState
+  - Added Enum KnownProvisionedNetworkTypes
+  - Added Enum KnownPureStoragePolicyProvisioningState
+  - Added Enum KnownRescheduleConstraintKind
+  - Added Enum KnownRescheduleOperationConstraintKind
+  - Added Enum KnownResourceSkuResourceType
+  - Added Enum KnownResourceSkuRestrictionsReasonCode
+  - Added Enum KnownResourceSkuRestrictionsType
+  - Added Enum KnownScheduleOperationConstraintKind
+    
+    
 ## 6.0.0 (2024-09-19)
     
 ### Features Added

@@ -27,7 +27,9 @@ export interface AddonArcProperties extends AddonProperties {
 // @public
 export interface AddonHcxProperties extends AddonProperties {
     addonType: "HCX";
+    managementNetwork?: string;
     offer: string;
+    uplinkNetwork?: string;
 }
 
 // @public
@@ -117,6 +119,7 @@ export type AddonType = string;
 // @public
 export interface AddonVrProperties extends AddonProperties {
     addonType: "VR";
+    replicationNetwork?: string;
     vrsCount: number;
 }
 
@@ -202,6 +205,20 @@ export interface AvailabilityProperties {
 export type AvailabilityStrategy = string;
 
 // @public
+export interface AvailableWindowForMaintenanceWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
+export interface AvailableWindowForMaintenanceWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "AvailableWindowForMaintenance";
+    readonly startsAt: Date;
+}
+
+// @public
 export type AzureHybridBenefitType = string;
 
 // @public (undocumented)
@@ -226,9 +243,13 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     // (undocumented)
     hcxEnterpriseSites: HcxEnterpriseSites;
     // (undocumented)
+    hosts: Hosts;
+    // (undocumented)
     iscsiPaths: IscsiPaths;
     // (undocumented)
     locations: Locations;
+    // (undocumented)
+    maintenances: Maintenances;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -236,11 +257,17 @@ export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
     // (undocumented)
     privateClouds: PrivateClouds;
     // (undocumented)
+    provisionedNetworks: ProvisionedNetworks;
+    // (undocumented)
+    pureStoragePolicies: PureStoragePolicies;
+    // (undocumented)
     scriptCmdlets: ScriptCmdlets;
     // (undocumented)
     scriptExecutions: ScriptExecutions;
     // (undocumented)
     scriptPackages: ScriptPackages;
+    // (undocumented)
+    skus: Skus;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -254,6 +281,44 @@ export interface AzureVMwareSolutionAPIOptionalParams extends coreClient.Service
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export type BlockedDatesConstraintCategory = string;
+
+// @public
+export interface BlockedDatesConstraintTimeRange {
+    readonly endsAt: Date;
+    readonly reason?: string;
+    readonly startsAt: Date;
+}
+
+// @public
+export interface BlockedRescheduleConstraint extends RescheduleConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedRescheduleConstraintTimeRange[];
+}
+
+// @public
+export interface BlockedRescheduleConstraintTimeRange {
+    readonly endAt: Date;
+    readonly reason?: string;
+    readonly startAt: Date;
+}
+
+// @public
+export interface BlockedWhileRescheduleOperation extends RescheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
+}
+
+// @public
+export interface BlockedWhileScheduleOperation extends ScheduleOperationConstraint {
+    readonly category: BlockedDatesConstraintCategory;
+    kind: "Blocked";
+    readonly timeRanges?: BlockedDatesConstraintTimeRange[];
 }
 
 // @public
@@ -468,6 +533,7 @@ export interface Datastore extends ProxyResource {
     elasticSanVolume?: ElasticSanVolume;
     netAppVolume?: NetAppVolume;
     readonly provisioningState?: DatastoreProvisioningState;
+    pureStorageVolume?: PureStorageVolume;
     readonly status?: DatastoreStatus;
 }
 
@@ -539,6 +605,12 @@ export type DatastoresListResponse = DatastoreList;
 
 // @public
 export type DatastoreStatus = string;
+
+// @public
+export interface DeadlineRescheduleConstraint extends RescheduleConstraint {
+    readonly deadline: Date;
+    kind: "Deadline";
+}
 
 // @public
 export type DhcpTypeEnum = string;
@@ -636,6 +708,17 @@ export interface ExpressRouteAuthorizationList {
 
 // @public
 export type ExpressRouteAuthorizationProvisioningState = string;
+
+// @public
+export interface FreezeDaysRescheduleConstraint extends RescheduleConstraint {
+    readonly freezeDays: Date[];
+    kind: "FreezeDays";
+}
+
+// @public
+export interface GeneralHostProperties extends HostProperties {
+    kind: "General";
+}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -779,6 +862,75 @@ export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteList;
 export type HcxEnterpriseSiteStatus = string;
 
 // @public
+export interface Host extends ProxyResource {
+    displayName?: string;
+    readonly faultDomain?: string;
+    readonly fqdn?: string;
+    kind?: HostKind;
+    maintenance?: HostMaintenance;
+    readonly moRefId?: string;
+    readonly provisioningState?: HostProvisioningState;
+    sku?: Sku;
+    zones?: string[];
+}
+
+// @public
+export type HostKind = string;
+
+// @public
+export interface HostListResult {
+    nextLink?: string;
+    value: Host[];
+}
+
+// @public
+export type HostMaintenance = string;
+
+// @public
+export interface HostProperties {
+    displayName?: string;
+    readonly faultDomain?: string;
+    readonly fqdn?: string;
+    kind: "General" | "Specialized";
+    maintenance?: HostMaintenance;
+    readonly moRefId?: string;
+    readonly provisioningState?: HostProvisioningState;
+}
+
+// @public (undocumented)
+export type HostPropertiesUnion = HostProperties | GeneralHostProperties | SpecializedHostProperties;
+
+// @public
+export type HostProvisioningState = string;
+
+// @public
+export interface Hosts {
+    get(resourceGroupName: string, privateCloudName: string, clusterName: string, hostId: string, options?: HostsGetOptionalParams): Promise<HostsGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: HostsListOptionalParams): PagedAsyncIterableIterator<Host>;
+}
+
+// @public
+export interface HostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsGetResponse = Host;
+
+// @public
+export interface HostsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsListNextResponse = HostListResult;
+
+// @public
+export interface HostsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostsListResponse = HostListResult;
+
+// @public
 export interface IdentitySource {
     alias?: string;
     baseGroupDN?: string;
@@ -790,6 +942,21 @@ export interface IdentitySource {
     secondaryServer?: string;
     ssl?: SslEnum;
     username?: string;
+}
+
+// @public
+export interface ImpactedMaintenanceResource {
+    readonly errors?: ImpactedMaintenanceResourceError[];
+    readonly id?: string;
+}
+
+// @public
+export interface ImpactedMaintenanceResourceError {
+    readonly actionRequired?: boolean;
+    readonly details?: string;
+    readonly errorCode?: string;
+    readonly name?: string;
+    readonly resolutionSteps?: string[];
 }
 
 // @public
@@ -913,6 +1080,13 @@ export enum KnownAvailabilityStrategy {
 export enum KnownAzureHybridBenefitType {
     None = "None",
     SqlHost = "SqlHost"
+}
+
+// @public
+export enum KnownBlockedDatesConstraintCategory {
+    HiPriorityEvent = "HiPriorityEvent",
+    Holiday = "Holiday",
+    QuotaExhausted = "QuotaExhausted"
 }
 
 // @public
@@ -1056,6 +1230,25 @@ export enum KnownHcxEnterpriseSiteStatus {
 }
 
 // @public
+export enum KnownHostKind {
+    General = "General",
+    Specialized = "Specialized"
+}
+
+// @public
+export enum KnownHostMaintenance {
+    Replacement = "Replacement",
+    Upgrade = "Upgrade"
+}
+
+// @public
+export enum KnownHostProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownInternetEnum {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1070,6 +1263,67 @@ export enum KnownIscsiPathProvisioningState {
     Pending = "Pending",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownMaintenanceCheckType {
+    Precheck = "Precheck",
+    Preflight = "Preflight"
+}
+
+// @public
+export enum KnownMaintenanceManagementOperationKind {
+    MaintenanceReadinessRefresh = "MaintenanceReadinessRefresh",
+    Reschedule = "Reschedule",
+    Schedule = "Schedule"
+}
+
+// @public
+export enum KnownMaintenanceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownMaintenanceReadinessRefreshOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotApplicable = "NotApplicable",
+    NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownMaintenanceReadinessStatus {
+    DataNotAvailable = "DataNotAvailable",
+    NotApplicable = "NotApplicable",
+    NotReady = "NotReady",
+    Ready = "Ready"
+}
+
+// @public
+export enum KnownMaintenanceStateName {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    NotScheduled = "NotScheduled",
+    Planned = "Planned",
+    Scheduled = "Scheduled",
+    Success = "Success"
+}
+
+// @public
+export enum KnownMaintenanceStatusFilter {
+    Active = "Active",
+    Inactive = "Inactive"
+}
+
+// @public
+export enum KnownMaintenanceType {
+    Esxi = "ESXI",
+    Nsxt = "NSXT",
+    Vcsa = "VCSA"
 }
 
 // @public
@@ -1145,15 +1399,80 @@ export enum KnownPrivateCloudProvisioningState {
 }
 
 // @public
+export enum KnownProvisionedNetworkProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProvisionedNetworkTypes {
+    EsxManagement = "esxManagement",
+    EsxReplication = "esxReplication",
+    HcxManagement = "hcxManagement",
+    HcxUplink = "hcxUplink",
+    VcenterManagement = "vcenterManagement",
+    Vmotion = "vmotion",
+    Vsan = "vsan"
+}
+
+// @public
+export enum KnownPureStoragePolicyProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownQuotaEnabled {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownRescheduleConstraintKind {
+    Blocked = "Blocked",
+    Deadline = "Deadline",
+    FreezeDays = "FreezeDays"
+}
+
+// @public
+export enum KnownRescheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileRescheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileRescheduleOperation = "Blocked"
+}
+
+// @public
 export enum KnownResourceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownResourceSkuResourceType {
+    PrivateClouds = "privateClouds",
+    PrivateCloudsClusters = "privateClouds/clusters"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsReasonCode {
+    NotAvailableForSubscription = "NotAvailableForSubscription",
+    QuotaId = "QuotaId"
+}
+
+// @public
+export enum KnownResourceSkuRestrictionsType {
+    Location = "Location",
+    Zone = "Zone"
+}
+
+// @public
+export enum KnownScheduleOperationConstraintKind {
+    AvailableWindowForMaintenanceWhileScheduleOperation = "AvailableWindowForMaintenance",
+    BlockedWhileScheduleOperation = "Blocked",
+    SchedulingWindow = "SchedulingWindow"
 }
 
 // @public
@@ -1366,6 +1685,161 @@ export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClien
 export type LocationsCheckTrialAvailabilityResponse = Trial;
 
 // @public
+export interface Maintenance extends ProxyResource {
+    readonly clusterId?: number;
+    readonly component?: MaintenanceType;
+    readonly displayName?: string;
+    readonly estimatedDurationInMinutes?: number;
+    readonly impact?: string;
+    readonly infoLink?: string;
+    readonly maintenanceReadiness?: MaintenanceReadiness;
+    readonly operations?: MaintenanceManagementOperationUnion[];
+    readonly provisioningState?: MaintenanceProvisioningState;
+    readonly reschedule?: Reschedule;
+    readonly scheduledByMicrosoft?: boolean;
+    readonly scheduledStartTime?: Date;
+    readonly state?: MaintenanceState;
+}
+
+// @public
+export type MaintenanceCheckType = string;
+
+// @public
+export interface MaintenanceFailedCheck {
+    readonly impactedResources?: ImpactedMaintenanceResource[];
+    readonly name?: string;
+}
+
+// @public
+export interface MaintenanceListResult {
+    nextLink?: string;
+    value: Maintenance[];
+}
+
+// @public
+export interface MaintenanceManagementOperation {
+    kind: "MaintenanceReadinessRefresh" | "Reschedule" | "Schedule";
+}
+
+// @public
+export type MaintenanceManagementOperationKind = string;
+
+// @public (undocumented)
+export type MaintenanceManagementOperationUnion = MaintenanceManagementOperation | MaintenanceReadinessRefreshOperation | RescheduleOperation | ScheduleOperation;
+
+// @public
+export type MaintenanceProvisioningState = string;
+
+// @public
+export interface MaintenanceReadiness {
+    readonly failedChecks?: MaintenanceFailedCheck[];
+    readonly lastUpdated?: Date;
+    readonly message?: string;
+    readonly status: MaintenanceReadinessStatus;
+    readonly type: MaintenanceCheckType;
+}
+
+// @public
+export interface MaintenanceReadinessRefreshOperation extends MaintenanceManagementOperation {
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "MaintenanceReadinessRefresh";
+    readonly message?: string;
+    readonly refreshedByMicrosoft?: boolean;
+    readonly status?: MaintenanceReadinessRefreshOperationStatus;
+}
+
+// @public
+export type MaintenanceReadinessRefreshOperationStatus = string;
+
+// @public
+export type MaintenanceReadinessStatus = string;
+
+// @public
+export interface MaintenanceReschedule {
+    message?: string;
+    rescheduleTime?: Date;
+}
+
+// @public
+export interface Maintenances {
+    get(resourceGroupName: string, privateCloudName: string, maintenanceName: string, options?: MaintenancesGetOptionalParams): Promise<MaintenancesGetResponse>;
+    initiateChecks(resourceGroupName: string, privateCloudName: string, maintenanceName: string, options?: MaintenancesInitiateChecksOptionalParams): Promise<MaintenancesInitiateChecksResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: MaintenancesListOptionalParams): PagedAsyncIterableIterator<Maintenance>;
+    reschedule(resourceGroupName: string, privateCloudName: string, maintenanceName: string, body: MaintenanceReschedule, options?: MaintenancesRescheduleOptionalParams): Promise<MaintenancesRescheduleResponse>;
+    schedule(resourceGroupName: string, privateCloudName: string, maintenanceName: string, body: MaintenanceSchedule, options?: MaintenancesScheduleOptionalParams): Promise<MaintenancesScheduleResponse>;
+}
+
+// @public
+export interface MaintenanceSchedule {
+    message?: string;
+    scheduleTime?: Date;
+}
+
+// @public
+export interface MaintenancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MaintenancesGetResponse = Maintenance;
+
+// @public
+export interface MaintenancesInitiateChecksOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MaintenancesInitiateChecksResponse = Maintenance;
+
+// @public
+export interface MaintenancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MaintenancesListNextResponse = MaintenanceListResult;
+
+// @public
+export interface MaintenancesListOptionalParams extends coreClient.OperationOptions {
+    from?: Date;
+    stateName?: MaintenanceStateName;
+    status?: MaintenanceStatusFilter;
+    to?: Date;
+}
+
+// @public
+export type MaintenancesListResponse = MaintenanceListResult;
+
+// @public
+export interface MaintenancesRescheduleOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MaintenancesRescheduleResponse = Maintenance;
+
+// @public
+export interface MaintenancesScheduleOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MaintenancesScheduleResponse = Maintenance;
+
+// @public
+export interface MaintenanceState {
+    endedAt?: Date;
+    message?: string;
+    name?: MaintenanceStateName;
+    startedAt?: Date;
+}
+
+// @public
+export type MaintenanceStateName = string;
+
+// @public
+export type MaintenanceStatusFilter = string;
+
+// @public
+export type MaintenanceType = string;
+
+// @public
 export interface ManagementCluster {
     readonly clusterId?: number;
     clusterSize?: number;
@@ -1432,6 +1906,12 @@ export type OptionalParamEnum = string;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedResourceSku {
+    nextLink?: string;
+    value: ResourceSku[];
+}
 
 // @public
 export interface PlacementPolicies {
@@ -1579,6 +2059,7 @@ export interface PrivateCloud extends TrackedResource {
     vcenterPassword?: string;
     virtualNetworkId?: string;
     readonly vmotionNetwork?: string;
+    zones?: string[];
 }
 
 // @public
@@ -1745,6 +2226,52 @@ export interface PrivateCloudUpdate {
 }
 
 // @public
+export interface ProvisionedNetwork extends ProxyResource {
+    readonly addressPrefix?: string;
+    readonly networkType?: ProvisionedNetworkTypes;
+    readonly provisioningState?: ProvisionedNetworkProvisioningState;
+}
+
+// @public
+export interface ProvisionedNetworkListResult {
+    nextLink?: string;
+    value: ProvisionedNetwork[];
+}
+
+// @public
+export type ProvisionedNetworkProvisioningState = string;
+
+// @public
+export interface ProvisionedNetworks {
+    get(resourceGroupName: string, privateCloudName: string, provisionedNetworkName: string, options?: ProvisionedNetworksGetOptionalParams): Promise<ProvisionedNetworksGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: ProvisionedNetworksListOptionalParams): PagedAsyncIterableIterator<ProvisionedNetwork>;
+}
+
+// @public
+export interface ProvisionedNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksGetResponse = ProvisionedNetwork;
+
+// @public
+export interface ProvisionedNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksListNextResponse = ProvisionedNetworkListResult;
+
+// @public
+export interface ProvisionedNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvisionedNetworksListResponse = ProvisionedNetworkListResult;
+
+// @public
+export type ProvisionedNetworkTypes = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -1753,6 +2280,89 @@ export interface PSCredentialExecutionParameter extends ScriptExecutionParameter
     password?: string;
     type: "Credential";
     username?: string;
+}
+
+// @public
+export interface PureStoragePolicies {
+    beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PureStoragePoliciesCreateOrUpdateResponse>, PureStoragePoliciesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, resource: PureStoragePolicy, options?: PureStoragePoliciesCreateOrUpdateOptionalParams): Promise<PureStoragePoliciesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PureStoragePoliciesDeleteResponse>, PureStoragePoliciesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesDeleteOptionalParams): Promise<PureStoragePoliciesDeleteResponse>;
+    get(resourceGroupName: string, privateCloudName: string, storagePolicyName: string, options?: PureStoragePoliciesGetOptionalParams): Promise<PureStoragePoliciesGetResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: PureStoragePoliciesListOptionalParams): PagedAsyncIterableIterator<PureStoragePolicy>;
+}
+
+// @public
+export interface PureStoragePoliciesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PureStoragePoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PureStoragePoliciesCreateOrUpdateResponse = PureStoragePolicy;
+
+// @public
+export interface PureStoragePoliciesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PureStoragePoliciesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PureStoragePoliciesDeleteResponse = PureStoragePoliciesDeleteHeaders;
+
+// @public
+export interface PureStoragePoliciesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesGetResponse = PureStoragePolicy;
+
+// @public
+export interface PureStoragePoliciesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesListNextResponse = PureStoragePolicyListResult;
+
+// @public
+export interface PureStoragePoliciesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PureStoragePoliciesListResponse = PureStoragePolicyListResult;
+
+// @public
+export interface PureStoragePolicy extends ProxyResource {
+    readonly provisioningState?: PureStoragePolicyProvisioningState;
+    storagePolicyDefinition?: string;
+    storagePoolId?: string;
+}
+
+// @public
+export interface PureStoragePolicyListResult {
+    nextLink?: string;
+    value: PureStoragePolicy[];
+}
+
+// @public
+export type PureStoragePolicyProvisioningState = string;
+
+// @public
+export interface PureStorageVolume {
+    sizeGb: number;
+    storagePoolId: string;
 }
 
 // @public
@@ -1767,6 +2377,43 @@ export interface Quota {
 export type QuotaEnabled = string;
 
 // @public
+export interface Reschedule {
+    readonly constraints?: RescheduleConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+}
+
+// @public
+export interface RescheduleConstraint {
+    kind: "Blocked" | "Deadline" | "FreezeDays";
+}
+
+// @public
+export type RescheduleConstraintKind = string;
+
+// @public (undocumented)
+export type RescheduleConstraintUnion = RescheduleConstraint | BlockedRescheduleConstraint | DeadlineRescheduleConstraint | FreezeDaysRescheduleConstraint;
+
+// @public
+export interface RescheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: RescheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Reschedule";
+}
+
+// @public
+export interface RescheduleOperationConstraint {
+    kind: "AvailableWindowForMaintenance" | "Blocked";
+}
+
+// @public
+export type RescheduleOperationConstraintKind = string;
+
+// @public (undocumented)
+export type RescheduleOperationConstraintUnion = RescheduleOperationConstraint | AvailableWindowForMaintenanceWhileRescheduleOperation | BlockedWhileRescheduleOperation;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1776,6 +2423,87 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = string;
+
+// @public
+export interface ResourceSku {
+    capabilities?: ResourceSkuCapabilities[];
+    family?: string;
+    locationInfo: ResourceSkuLocationInfo[];
+    locations: string[];
+    name: string;
+    resourceType: ResourceSkuResourceType;
+    restrictions: ResourceSkuRestrictions[];
+    size?: string;
+    tier?: string;
+}
+
+// @public
+export interface ResourceSkuCapabilities {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface ResourceSkuLocationInfo {
+    location: string;
+    zoneDetails: ResourceSkuZoneDetails[];
+    zones: string[];
+}
+
+// @public
+export type ResourceSkuResourceType = string;
+
+// @public
+export interface ResourceSkuRestrictionInfo {
+    locations?: string[];
+    zones?: string[];
+}
+
+// @public
+export interface ResourceSkuRestrictions {
+    reasonCode?: ResourceSkuRestrictionsReasonCode;
+    restrictionInfo: ResourceSkuRestrictionInfo;
+    type?: ResourceSkuRestrictionsType;
+    values: string[];
+}
+
+// @public
+export type ResourceSkuRestrictionsReasonCode = string;
+
+// @public
+export type ResourceSkuRestrictionsType = string;
+
+// @public
+export interface ResourceSkuZoneDetails {
+    capabilities: ResourceSkuCapabilities[];
+    name: string[];
+}
+
+// @public
+export interface ScheduleOperation extends MaintenanceManagementOperation {
+    readonly constraints?: ScheduleOperationConstraintUnion[];
+    readonly disabledReason?: string;
+    readonly isDisabled?: boolean;
+    kind: "Schedule";
+}
+
+// @public
+export interface ScheduleOperationConstraint {
+    kind: "AvailableWindowForMaintenance" | "Blocked" | "SchedulingWindow";
+}
+
+// @public
+export type ScheduleOperationConstraintKind = string;
+
+// @public (undocumented)
+export type ScheduleOperationConstraintUnion = ScheduleOperationConstraint | AvailableWindowForMaintenanceWhileScheduleOperation | BlockedWhileScheduleOperation | SchedulingWindow;
+
+// @public
+export interface SchedulingWindow extends ScheduleOperationConstraint {
+    readonly endsAt: Date;
+    kind: "SchedulingWindow";
+    readonly startsAt: Date;
+}
 
 // @public
 export interface ScriptCmdlet extends ProxyResource {
@@ -2018,7 +2746,31 @@ export interface Sku {
 }
 
 // @public
+export interface Skus {
+    list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+}
+
+// @public
+export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListNextResponse = PagedResourceSku;
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = PagedResourceSku;
+
+// @public
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+
+// @public
+export interface SpecializedHostProperties extends HostProperties {
+    kind: "Specialized";
+}
 
 // @public
 export type SslEnum = string;
