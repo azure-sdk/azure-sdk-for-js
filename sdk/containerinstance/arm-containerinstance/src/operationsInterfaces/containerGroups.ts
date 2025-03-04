@@ -9,11 +9,12 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ContainerGroup,
+  ListResultContainerGroup,
   ContainerGroupsListOptionalParams,
   ContainerGroupsListByResourceGroupOptionalParams,
   ContainerGroupsGetOptionalParams,
   ContainerGroupsGetResponse,
+  ContainerGroup,
   ContainerGroupsCreateOrUpdateOptionalParams,
   ContainerGroupsCreateOrUpdateResponse,
   Resource,
@@ -39,7 +40,7 @@ export interface ContainerGroups {
    */
   list(
     options?: ContainerGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<ContainerGroup>;
+  ): PagedAsyncIterableIterator<ListResultContainerGroup>;
   /**
    * Get a list of container groups in a specified subscription and resource group. This operation
    * returns properties of each container group including containers, image registry credentials, restart
@@ -50,7 +51,7 @@ export interface ContainerGroups {
   listByResourceGroup(
     resourceGroupName: string,
     options?: ContainerGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ContainerGroup>;
+  ): PagedAsyncIterableIterator<ListResultContainerGroup>;
   /**
    * Gets the properties of the specified container group in the specified subscription and resource
    * group. The operation returns the properties of each container group including containers, image

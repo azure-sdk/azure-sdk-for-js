@@ -20,7 +20,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ContainerGroup,
+  ListResultContainerGroup,
   ContainerGroupsListNextOptionalParams,
   ContainerGroupsListOptionalParams,
   ContainerGroupsListResponse,
@@ -29,6 +29,7 @@ import {
   ContainerGroupsListByResourceGroupResponse,
   ContainerGroupsGetOptionalParams,
   ContainerGroupsGetResponse,
+  ContainerGroup,
   ContainerGroupsCreateOrUpdateOptionalParams,
   ContainerGroupsCreateOrUpdateResponse,
   Resource,
@@ -66,7 +67,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
    */
   public list(
     options?: ContainerGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<ContainerGroup> {
+  ): PagedAsyncIterableIterator<ListResultContainerGroup> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -87,7 +88,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   private async *listPagingPage(
     options?: ContainerGroupsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ContainerGroup[]> {
+  ): AsyncIterableIterator<ListResultContainerGroup[]> {
     let result: ContainerGroupsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -108,7 +109,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
 
   private async *listPagingAll(
     options?: ContainerGroupsListOptionalParams,
-  ): AsyncIterableIterator<ContainerGroup> {
+  ): AsyncIterableIterator<ListResultContainerGroup> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -124,7 +125,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   public listByResourceGroup(
     resourceGroupName: string,
     options?: ContainerGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<ContainerGroup> {
+  ): PagedAsyncIterableIterator<ListResultContainerGroup> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -150,7 +151,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
     resourceGroupName: string,
     options?: ContainerGroupsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<ContainerGroup[]> {
+  ): AsyncIterableIterator<ListResultContainerGroup[]> {
     let result: ContainerGroupsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -176,7 +177,7 @@ export class ContainerGroupsImpl implements ContainerGroups {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     options?: ContainerGroupsListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<ContainerGroup> {
+  ): AsyncIterableIterator<ListResultContainerGroup> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options,
