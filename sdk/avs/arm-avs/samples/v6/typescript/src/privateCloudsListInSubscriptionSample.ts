@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List PrivateCloud resources by subscription ID
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_ListInSubscription.json
  */
-async function privateCloudsListInSubscription() {
+async function privateCloudsListInSubscription(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function privateCloudsListInSubscription() {
  * @summary List PrivateCloud resources by subscription ID
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2023-09-01/examples/PrivateClouds_ListInSubscription_Stretched.json
  */
-async function privateCloudsListInSubscriptionStretched() {
+async function privateCloudsListInSubscriptionStretched(): Promise<void> {
   const subscriptionId =
     process.env["AVS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +47,7 @@ async function privateCloudsListInSubscriptionStretched() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateCloudsListInSubscription();
   privateCloudsListInSubscriptionStretched();
 }
