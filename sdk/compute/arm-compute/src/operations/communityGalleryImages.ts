@@ -38,7 +38,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
 
   /**
    * List community gallery images inside a gallery.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param options The options parameters.
    */
@@ -113,8 +113,25 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   }
 
   /**
+   * List community gallery images inside a gallery.
+   * @param location The name of Azure region.
+   * @param publicGalleryName The public name of the community gallery.
+   * @param options The options parameters.
+   */
+  private _list(
+    location: string,
+    publicGalleryName: string,
+    options?: CommunityGalleryImagesListOptionalParams,
+  ): Promise<CommunityGalleryImagesListResponse> {
+    return this.client.sendOperationRequest(
+      { location, publicGalleryName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
    * Get a community gallery image.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param galleryImageName The name of the community gallery image definition.
    * @param options The options parameters.
@@ -132,25 +149,8 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   }
 
   /**
-   * List community gallery images inside a gallery.
-   * @param location Resource location.
-   * @param publicGalleryName The public name of the community gallery.
-   * @param options The options parameters.
-   */
-  private _list(
-    location: string,
-    publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams,
-  ): Promise<CommunityGalleryImagesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, publicGalleryName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -170,6 +170,27 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunityGalleryImageList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.publicGalleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
   httpMethod: "GET",
@@ -185,30 +206,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
+    Parameters.publicGalleryName,
     Parameters.galleryImageName,
-    Parameters.publicGalleryName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CommunityGalleryImageList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-    Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -221,14 +221,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunityGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1,
+    Parameters.subscriptionId,
+    Parameters.location,
     Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],
