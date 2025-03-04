@@ -753,6 +753,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
             className: "AgentPoolSecurityProfile",
           },
         },
+        gpuProfile: {
+          serializedName: "gpuProfile",
+          type: {
+            name: "Composite",
+            className: "GPUProfile",
+          },
+        },
       },
     },
   };
@@ -1243,6 +1250,21 @@ export const AgentPoolSecurityProfile: coreClient.CompositeMapper = {
         serializedName: "enableSecureBoot",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const GPUProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GPUProfile",
+    modelProperties: {
+      driver: {
+        serializedName: "driver",
+        type: {
+          name: "String",
         },
       },
     },
@@ -2539,6 +2561,20 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterSecurityProfileImageCleaner",
         },
       },
+      customCATrustCertificates: {
+        constraints: {
+          MaxItems: 10,
+        },
+        serializedName: "customCATrustCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "ByteArray",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -3144,6 +3180,28 @@ export const ManagedClusterCostAnalysis: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedClusterBootstrapProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterBootstrapProfile",
+    modelProperties: {
+      artifactSource: {
+        defaultValue: "Direct",
+        serializedName: "artifactSource",
+        type: {
+          name: "String",
+        },
+      },
+      containerRegistryId: {
+        serializedName: "containerRegistryId",
+        type: {
+          name: "String",
         },
       },
     },
@@ -5281,6 +5339,13 @@ export const AgentPool: coreClient.CompositeMapper = {
           className: "AgentPoolSecurityProfile",
         },
       },
+      gpuProfile: {
+        serializedName: "properties.gpuProfile",
+        type: {
+          name: "Composite",
+          className: "GPUProfile",
+        },
+      },
     },
   },
 };
@@ -5645,6 +5710,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterMetricsProfile",
+        },
+      },
+      bootstrapProfile: {
+        serializedName: "properties.bootstrapProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterBootstrapProfile",
         },
       },
     },
