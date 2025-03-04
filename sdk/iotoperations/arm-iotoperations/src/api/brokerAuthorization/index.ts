@@ -9,6 +9,7 @@ import {
   IoTOperationsContext as Client,
 } from "../index.js";
 import {
+  errorResponseDeserializer,
   BrokerAuthorizationResource,
   brokerAuthorizationResourceSerializer,
   brokerAuthorizationResourceDeserializer,
@@ -28,63 +29,144 @@ import {
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
-export function _brokerAuthorizationGetSend(
+export function _brokerAuthorizationListByResourceGroupSend(
   context: Client,
-  subscriptionId: string,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  options: BrokerAuthorizationListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  return context
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations",
+      context.subscriptionId,
+      resourceGroupName,
+      instanceName,
+      brokerName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _brokerAuthorizationListByResourceGroupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_BrokerAuthorizationResourceListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return _brokerAuthorizationResourceListResultDeserializer(result.body);
+}
+
+/** List BrokerAuthorizationResource resources by BrokerResource */
+export function brokerAuthorizationListByResourceGroup(
+  context: Client,
+  resourceGroupName: string,
+  instanceName: string,
+  brokerName: string,
+  options: BrokerAuthorizationListByResourceGroupOptionalParams = {
+    requestOptions: {},
+  },
+): PagedAsyncIterableIterator<BrokerAuthorizationResource> {
+  return buildPagedAsyncIterator(
+    context,
+    () =>
+      _brokerAuthorizationListByResourceGroupSend(
+        context,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    _brokerAuthorizationListByResourceGroupDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _brokerAuthorizationDeleteSend(
+  context: Client,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  options: BrokerAuthorizationGetOptionalParams = { requestOptions: {} },
+  options: BrokerAuthorizationDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
       authorizationName,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _brokerAuthorizationGetDeserialize(
+export async function _brokerAuthorizationDeleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<BrokerAuthorizationResource> {
-  const expectedStatuses = ["200"];
+): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return brokerAuthorizationResourceDeserializer(result.body);
+  return;
 }
 
-/** Get a BrokerAuthorizationResource */
-export async function brokerAuthorizationGet(
+/** Delete a BrokerAuthorizationResource */
+export function brokerAuthorizationDelete(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  options: BrokerAuthorizationGetOptionalParams = { requestOptions: {} },
-): Promise<BrokerAuthorizationResource> {
-  const result = await _brokerAuthorizationGetSend(
+  options: BrokerAuthorizationDeleteOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
     context,
-    subscriptionId,
-    resourceGroupName,
-    instanceName,
-    brokerName,
-    authorizationName,
-    options,
-  );
-  return _brokerAuthorizationGetDeserialize(result);
+    _brokerAuthorizationDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _brokerAuthorizationDeleteSend(
+          context,
+          resourceGroupName,
+          instanceName,
+          brokerName,
+          authorizationName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerAuthorizationCreateOrUpdateSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -97,7 +179,7 @@ export function _brokerAuthorizationCreateOrUpdateSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
@@ -105,6 +187,12 @@ export function _brokerAuthorizationCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
       body: brokerAuthorizationResourceSerializer(resource),
     });
 }
@@ -114,7 +202,9 @@ export async function _brokerAuthorizationCreateOrUpdateDeserialize(
 ): Promise<BrokerAuthorizationResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return brokerAuthorizationResourceDeserializer(result.body);
@@ -123,7 +213,6 @@ export async function _brokerAuthorizationCreateOrUpdateDeserialize(
 /** Create a BrokerAuthorizationResource */
 export function brokerAuthorizationCreateOrUpdate(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
@@ -143,7 +232,6 @@ export function brokerAuthorizationCreateOrUpdate(
       getInitialResponse: () =>
         _brokerAuthorizationCreateOrUpdateSend(
           context,
-          subscriptionId,
           resourceGroupName,
           instanceName,
           brokerName,
@@ -156,126 +244,62 @@ export function brokerAuthorizationCreateOrUpdate(
   ) as PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
 }
 
-export function _brokerAuthorizationDeleteSend(
+export function _brokerAuthorizationGetSend(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  options: BrokerAuthorizationDeleteOptionalParams = { requestOptions: {} },
+  options: BrokerAuthorizationGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations/{authorizationName}",
-      subscriptionId,
+      context.subscriptionId,
       resourceGroupName,
       instanceName,
       brokerName,
       authorizationName,
     )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
-export async function _brokerAuthorizationDeleteDeserialize(
+export async function _brokerAuthorizationGetDeserialize(
   result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
+): Promise<BrokerAuthorizationResource> {
+  const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
-  return;
+  return brokerAuthorizationResourceDeserializer(result.body);
 }
 
-/** Delete a BrokerAuthorizationResource */
-export function brokerAuthorizationDelete(
+/** Get a BrokerAuthorizationResource */
+export async function brokerAuthorizationGet(
   context: Client,
-  subscriptionId: string,
   resourceGroupName: string,
   instanceName: string,
   brokerName: string,
   authorizationName: string,
-  options: BrokerAuthorizationDeleteOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
+  options: BrokerAuthorizationGetOptionalParams = { requestOptions: {} },
+): Promise<BrokerAuthorizationResource> {
+  const result = await _brokerAuthorizationGetSend(
     context,
-    _brokerAuthorizationDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _brokerAuthorizationDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          brokerName,
-          authorizationName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
-}
-
-export function _brokerAuthorizationListByResourceGroupSend(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  options: BrokerAuthorizationListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): StreamableMethod {
-  return context
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations",
-      subscriptionId,
-      resourceGroupName,
-      instanceName,
-      brokerName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _brokerAuthorizationListByResourceGroupDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_BrokerAuthorizationResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _brokerAuthorizationResourceListResultDeserializer(result.body);
-}
-
-/** List BrokerAuthorizationResource resources by BrokerResource */
-export function brokerAuthorizationListByResourceGroup(
-  context: Client,
-  subscriptionId: string,
-  resourceGroupName: string,
-  instanceName: string,
-  brokerName: string,
-  options: BrokerAuthorizationListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
-): PagedAsyncIterableIterator<BrokerAuthorizationResource> {
-  return buildPagedAsyncIterator(
-    context,
-    () =>
-      _brokerAuthorizationListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        instanceName,
-        brokerName,
-        options,
-      ),
-    _brokerAuthorizationListByResourceGroupDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    resourceGroupName,
+    instanceName,
+    brokerName,
+    authorizationName,
+    options,
   );
+  return _brokerAuthorizationGetDeserialize(result);
 }
