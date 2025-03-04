@@ -15130,6 +15130,44 @@ export const AppserviceGithubTokenRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const ErrorPage: coreClient.CompositeMapper = {
+  serializedName: "ErrorPage",
+  type: {
+    name: "Composite",
+    className: "ErrorPage",
+    modelProperties: {
+      statusCode: {
+        serializedName: "statusCode",
+        xmlName: "statusCode",
+        type: {
+          name: "Number",
+        },
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        type: {
+          name: "String",
+        },
+      },
+      contentType: {
+        serializedName: "contentType",
+        xmlName: "contentType",
+        type: {
+          name: "String",
+        },
+      },
+      alwaysUse: {
+        serializedName: "alwaysUse",
+        xmlName: "alwaysUse",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
 export const WorkflowFilter: coreClient.CompositeMapper = {
   serializedName: "WorkflowFilter",
   type: {
@@ -16156,6 +16194,13 @@ export const Site: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      clientAffinityPartitioningEnabled: {
+        serializedName: "properties.clientAffinityPartitioningEnabled",
+        xmlName: "properties.clientAffinityPartitioningEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
       clientCertEnabled: {
         serializedName: "properties.clientCertEnabled",
         xmlName: "properties.clientCertEnabled",
@@ -16189,6 +16234,13 @@ export const Site: coreClient.CompositeMapper = {
       endToEndEncryptionEnabled: {
         serializedName: "properties.endToEndEncryptionEnabled",
         xmlName: "properties.endToEndEncryptionEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      sshEnabled: {
+        serializedName: "properties.sshEnabled",
+        xmlName: "properties.sshEnabled",
         type: {
           name: "Boolean",
         },
@@ -16585,6 +16637,13 @@ export const AppServicePlan: coreClient.CompositeMapper = {
         defaultValue: false,
         serializedName: "properties.zoneRedundant",
         xmlName: "properties.zoneRedundant",
+        type: {
+          name: "Boolean",
+        },
+      },
+      asyncScalingEnabled: {
+        serializedName: "properties.asyncScalingEnabled",
+        xmlName: "properties.asyncScalingEnabled",
         type: {
           name: "Boolean",
         },
@@ -25271,6 +25330,13 @@ export const SiteContainer: coreClient.CompositeMapper = {
               className: "VolumeMount",
             },
           },
+        },
+      },
+      inheritAppSettingsAndConnectionStrings: {
+        serializedName: "properties.inheritAppSettingsAndConnectionStrings",
+        xmlName: "properties.inheritAppSettingsAndConnectionStrings",
+        type: {
+          name: "Boolean",
         },
       },
       environmentVariables: {
