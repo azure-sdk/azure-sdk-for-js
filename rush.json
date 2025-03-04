@@ -2331,6 +2331,11 @@
       "packageName": "@azure/arm-databasewatcher",
       "projectFolder": "sdk/databasewatcher/arm-databasewatcher",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-impact",
+      "projectFolder": "sdk/impact/arm-impact",
+      "versionPolicyName": "management"
     }
   ]
 }
