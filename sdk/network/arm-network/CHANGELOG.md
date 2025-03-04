@@ -1,5 +1,193 @@
 # Release History
     
+## 34.0.0 (2025-03-04)
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterAccessRules
+  - Added operation group NetworkSecurityPerimeterAssociableResourceTypes
+  - Added operation group NetworkSecurityPerimeterAssociations
+  - Added operation group NetworkSecurityPerimeterLinkReferences
+  - Added operation group NetworkSecurityPerimeterLinks
+  - Added operation group NetworkSecurityPerimeterLoggingConfigurations
+  - Added operation group NetworkSecurityPerimeterOperationStatuses
+  - Added operation group NetworkSecurityPerimeterProfiles
+  - Added operation group NetworkSecurityPerimeters
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogs
+  - Added operation NetworkVirtualAppliances.beginGetBootDiagnosticLogsAndWait
+  - Added operation NetworkVirtualAppliances.beginReimage
+  - Added operation NetworkVirtualAppliances.beginReimageAndWait
+  - Added operation VirtualNetworkGateways.beginGetResiliencyInformation
+  - Added operation VirtualNetworkGateways.beginGetResiliencyInformationAndWait
+  - Added operation VirtualNetworkGateways.beginGetRoutesInformation
+  - Added operation VirtualNetworkGateways.beginGetRoutesInformationAndWait
+  - Added Interface AdvertisedPublicPrefixProperties
+  - Added Interface CircuitMetadataMap
+  - Added Interface ConnectivityConfigurationPropertiesConnectivityCapabilities
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface GatewayResiliencyInformation
+  - Added Interface GatewayResiliencyRecommendation
+  - Added Interface GatewayRouteSet
+  - Added Interface GatewayRouteSetsInformation
+  - Added Interface ManagedRuleSetRuleGroup
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterAccessRulesCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAccessRulesReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociableResourceTypesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociableResourceTypesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsCreateOrUpdateHeaders
+  - Added Interface NetworkSecurityPerimeterAssociationsCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterAssociationsDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterAssociationsPostOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterLinkReferencesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinkReferencesListOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksDeleteHeaders
+  - Added Interface NetworkSecurityPerimeterLinksDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLinksListOptionalParams
+  - Added Interface NetworkSecurityPerimeterListResult
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterLoggingConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterOperationStatusesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesListNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterProfilesListOptionalParams
+  - Added Interface NetworkSecurityPerimetersCreateOrUpdateOptionalParams
+  - Added Interface NetworkSecurityPerimetersDeleteHeaders
+  - Added Interface NetworkSecurityPerimetersDeleteOptionalParams
+  - Added Interface NetworkSecurityPerimetersGetOptionalParams
+  - Added Interface NetworkSecurityPerimetersListBySubscriptionNextOptionalParams
+  - Added Interface NetworkSecurityPerimetersListBySubscriptionOptionalParams
+  - Added Interface NetworkSecurityPerimetersListNextOptionalParams
+  - Added Interface NetworkSecurityPerimetersListOptionalParams
+  - Added Interface NetworkSecurityPerimetersPatchOptionalParams
+  - Added Interface NetworkVirtualApplianceBootDiagnosticParameters
+  - Added Interface NetworkVirtualApplianceInstanceId
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsHeaders
+  - Added Interface NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams
+  - Added Interface NetworkVirtualAppliancesReimageHeaders
+  - Added Interface NetworkVirtualAppliancesReimageOptionalParams
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleListResult
+  - Added Interface NspAssociation
+  - Added Interface NspAssociationsListResult
+  - Added Interface NspLink
+  - Added Interface NspLinkListResult
+  - Added Interface NspLinkReference
+  - Added Interface NspLinkReferenceListResult
+  - Added Interface NspLoggingConfiguration
+  - Added Interface NspLoggingConfigurationListResult
+  - Added Interface NspProfile
+  - Added Interface NspProfileListResult
+  - Added Interface OperationStatusResult
+  - Added Interface PerimeterAssociableResource
+  - Added Interface PerimeterAssociableResourcesListResult
+  - Added Interface PerimeterBasedAccessRule
+  - Added Interface ProxyResource
+  - Added Interface ResiliencyRecommendationComponents
+  - Added Interface RouteSourceDetails
+  - Added Interface SubscriptionId
+  - Added Interface UpdateTagsRequest
+  - Added Interface VirtualNetworkGatewaysGetResiliencyInformationHeaders
+  - Added Interface VirtualNetworkGatewaysGetResiliencyInformationOptionalParams
+  - Added Interface VirtualNetworkGatewaysGetRoutesInformationHeaders
+  - Added Interface VirtualNetworkGatewaysGetRoutesInformationOptionalParams
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias AdvertisedPublicPrefixPropertiesValidationState
+  - Added Type Alias AssociationAccessMode
+  - Added Type Alias ConnectedGroupAddressOverlap
+  - Added Type Alias ConnectedGroupPrivateEndpointScale
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesListResponse
+  - Added Type Alias NetworkSecurityPerimeterAccessRulesReconcileResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociableResourceTypesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociableResourceTypesListResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterAssociationsPostResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLinkReferencesListResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLinksListResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterLoggingConfigurationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterOperationStatusesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesGetResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesListNextResponse
+  - Added Type Alias NetworkSecurityPerimeterProfilesListResponse
+  - Added Type Alias NetworkSecurityPerimetersCreateOrUpdateResponse
+  - Added Type Alias NetworkSecurityPerimetersGetResponse
+  - Added Type Alias NetworkSecurityPerimetersListBySubscriptionNextResponse
+  - Added Type Alias NetworkSecurityPerimetersListBySubscriptionResponse
+  - Added Type Alias NetworkSecurityPerimetersListNextResponse
+  - Added Type Alias NetworkSecurityPerimetersListResponse
+  - Added Type Alias NetworkSecurityPerimetersPatchResponse
+  - Added Type Alias NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+  - Added Type Alias NetworkVirtualAppliancesReimageResponse
+  - Added Type Alias NspLinkProvisioningState
+  - Added Type Alias NspLinkStatus
+  - Added Type Alias NspProvisioningState
+  - Added Type Alias PeeringEnforcement
+  - Added Type Alias VirtualNetworkGatewaysGetResiliencyInformationResponse
+  - Added Type Alias VirtualNetworkGatewaysGetRoutesInformationResponse
+  - Interface ConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface EffectiveConnectivityConfiguration has a new optional parameter connectivityCapabilities
+  - Interface ExpressRouteCircuitPeeringConfig has a new optional parameter advertisedPublicPrefixInfo
+  - Interface IpamPool has a new optional parameter etag
+  - Interface LoadBalancingRule has a new optional parameter enableConnectionTracking
+  - Interface ManagedRuleSet has a new optional parameter computedDisabledRules
+  - Interface VerifierWorkspace has a new optional parameter etag
+  - Interface VirtualNetworkGateway has a new optional parameter enableHighBandwidthVpnGateway
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownAdvertisedPublicPrefixPropertiesValidationState
+  - Added Enum KnownAssociationAccessMode
+  - Added Enum KnownConnectedGroupAddressOverlap
+  - Added Enum KnownConnectedGroupPrivateEndpointScale
+  - Added Enum KnownNspLinkProvisioningState
+  - Added Enum KnownNspLinkStatus
+  - Added Enum KnownNspProvisioningState
+  - Added Enum KnownPeeringEnforcement
+  - Enum KnownApplicationGatewayFirewallUserSessionVariable has a new value ClientAddrXFFHeader
+  - Enum KnownApplicationGatewayFirewallUserSessionVariable has a new value GeoLocationXFFHeader
+
+### Breaking Changes
+
+  - Removed operation ConnectionMonitors.beginQuery
+  - Removed operation ConnectionMonitors.beginQueryAndWait
+  - Removed operation ConnectionMonitors.beginStart
+  - Removed operation ConnectionMonitors.beginStartAndWait
+  - Type of parameter networkInterfaceIPConfigurationId of interface LoadBalancerHealthPerRulePerBackendAddress is changed from NetworkInterfaceIPConfiguration to string
+    
+    
 ## 33.5.0 (2024-12-10)
     
 ### Features Added
