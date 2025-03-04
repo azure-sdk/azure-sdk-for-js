@@ -139,11 +139,13 @@ export type AzureWorkloadRecoveryPointUnion =
   | AzureWorkloadRecoveryPoint
   | AzureWorkloadPointInTimeRecoveryPointUnion
   | AzureWorkloadSAPHanaRecoveryPoint
+  | AzureWorkloadSAPAseRecoveryPoint
   | AzureWorkloadSQLRecoveryPointUnion;
 export type AzureWorkloadRestoreRequestUnion =
   | AzureWorkloadRestoreRequest
   | AzureWorkloadPointInTimeRestoreRequest
   | AzureWorkloadSAPHanaRestoreRequestUnion
+  | AzureWorkloadSAPAseRestoreRequestUnion
   | AzureWorkloadSQLRestoreRequestUnion;
 export type IaasVMRestoreRequestUnion =
   | IaasVMRestoreRequest
@@ -174,6 +176,7 @@ export type IaaSVMProtectableItemUnion =
   | AzureIaaSComputeVMProtectableItem;
 export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadProtectableItem
+  | AzureVmWorkloadSAPAseDatabaseProtectableItem
   | AzureVmWorkloadSAPAseSystemProtectableItem
   | AzureVmWorkloadSAPHanaDatabaseProtectableItem
   | AzureVmWorkloadSAPHanaSystemProtectableItem
@@ -187,7 +190,8 @@ export type AzureWorkloadAutoProtectionIntentUnion =
   | AzureWorkloadSQLAutoProtectionIntent;
 export type AzureWorkloadPointInTimeRecoveryPointUnion =
   | AzureWorkloadPointInTimeRecoveryPoint
-  | AzureWorkloadSAPHanaPointInTimeRecoveryPoint;
+  | AzureWorkloadSAPHanaPointInTimeRecoveryPoint
+  | AzureWorkloadSAPAsePointInTimeRecoveryPoint;
 export type AzureWorkloadSQLRecoveryPointUnion =
   | AzureWorkloadSQLRecoveryPoint
   | AzureWorkloadSQLPointInTimeRecoveryPoint;
@@ -195,6 +199,9 @@ export type AzureWorkloadSAPHanaRestoreRequestUnion =
   | AzureWorkloadSAPHanaRestoreRequest
   | AzureWorkloadSAPHanaPointInTimeRestoreRequestUnion
   | AzureWorkloadSAPHanaRestoreWithRehydrateRequest;
+export type AzureWorkloadSAPAseRestoreRequestUnion =
+  | AzureWorkloadSAPAseRestoreRequest
+  | AzureWorkloadSAPAsePointInTimeRestoreRequest;
 export type AzureWorkloadSQLRestoreRequestUnion =
   | AzureWorkloadSQLRestoreRequest
   | AzureWorkloadSQLPointInTimeRestoreRequestUnion
@@ -734,6 +741,8 @@ export interface RecoveryPoint {
     | "AzureWorkloadPointInTimeRecoveryPoint"
     | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint"
     | "AzureWorkloadSAPHanaRecoveryPoint"
+    | "AzureWorkloadSAPAsePointInTimeRecoveryPoint"
+    | "AzureWorkloadSAPAseRecoveryPoint"
     | "AzureWorkloadSQLRecoveryPoint"
     | "AzureWorkloadSQLPointInTimeRecoveryPoint"
     | "GenericRecoveryPoint"
@@ -749,6 +758,8 @@ export interface RestoreRequest {
     | "AzureWorkloadPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
+    | "AzureWorkloadSAPAseRestoreRequest"
+    | "AzureWorkloadSAPAsePointInTimeRestoreRequest"
     | "AzureWorkloadSQLRestoreRequest"
     | "AzureWorkloadSQLPointInTimeRestoreRequest"
     | "IaasVMRestoreRequest"
@@ -1003,6 +1014,7 @@ export interface WorkloadProtectableItem {
     | "Microsoft.ClassicCompute/virtualMachines"
     | "Microsoft.Compute/virtualMachines"
     | "AzureVmWorkloadProtectableItem"
+    | "SAPAseDatabase"
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
@@ -2372,66 +2384,88 @@ export interface AzureWorkloadContainerAutoProtectionIntent
 export interface ProtectionIntentResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionIntentResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of RecoveryPoint resources */
 export interface RecoveryPointResourceList extends ResourceList {
   /** List of resources. */
   value?: RecoveryPointResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionPolicy resources */
 export interface ProtectionPolicyResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionPolicyResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of Job resources */
 export interface JobResourceList extends ResourceList {
   /** List of resources. */
   value?: JobResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectedItem resources */
 export interface ProtectedItemResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectedItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of BackupEngineBase resources */
 export interface BackupEngineBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: BackupEngineBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectableContainer resources */
 export interface ProtectableContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectableContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadItem resources */
 export interface WorkloadItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of WorkloadProtectableItem resources */
 export interface WorkloadProtectableItemResourceList extends ResourceList {
   /** List of resources. */
   value?: WorkloadProtectableItemResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ProtectionContainer resources */
 export interface ProtectionContainerResourceList extends ResourceList {
   /** List of resources. */
   value?: ProtectionContainerResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 /** List of ResourceGuardProxyBase resources */
 export interface ResourceGuardProxyBaseResourceList extends ResourceList {
   /** List of resources. */
   value?: ResourceGuardProxyBaseResource[];
+  /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
+  nextLink?: string;
 }
 
 export interface BackupResourceEncryptionConfigExtended
@@ -2692,6 +2726,8 @@ export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
     | "AzureWorkloadPointInTimeRecoveryPoint"
     | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint"
     | "AzureWorkloadSAPHanaRecoveryPoint"
+    | "AzureWorkloadSAPAsePointInTimeRecoveryPoint"
+    | "AzureWorkloadSAPAseRecoveryPoint"
     | "AzureWorkloadSQLRecoveryPoint"
     | "AzureWorkloadSQLPointInTimeRecoveryPoint";
   /** UTC time at which recovery point was created */
@@ -2799,6 +2835,8 @@ export interface AzureWorkloadRestoreRequest extends RestoreRequest {
     | "AzureWorkloadPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
+    | "AzureWorkloadSAPAseRestoreRequest"
+    | "AzureWorkloadSAPAsePointInTimeRestoreRequest"
     | "AzureWorkloadSQLRestoreRequest"
     | "AzureWorkloadSQLPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest"
@@ -3262,6 +3300,8 @@ export interface AzureStorageContainer extends ProtectionContainer {
   protectedItemCount?: number;
   /** Whether storage account lock is to be acquired for this container or not. */
   acquireStorageAccountLock?: AcquireStorageAccountLock;
+  /** Re-Do Operation */
+  operationType?: OperationType;
 }
 
 /** Base class for generic container of backup items */
@@ -3402,6 +3442,7 @@ export interface AzureVmWorkloadProtectableItem
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType:
     | "AzureVmWorkloadProtectableItem"
+    | "SAPAseDatabase"
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
@@ -3629,7 +3670,8 @@ export interface AzureWorkloadPointInTimeRecoveryPoint
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType:
     | "AzureWorkloadPointInTimeRecoveryPoint"
-    | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
+    | "AzureWorkloadSAPHanaPointInTimeRecoveryPoint"
+    | "AzureWorkloadSAPAsePointInTimeRecoveryPoint";
   /** List of log ranges */
   timeRanges?: PointInTimeRange[];
 }
@@ -3639,6 +3681,13 @@ export interface AzureWorkloadSAPHanaRecoveryPoint
   extends AzureWorkloadRecoveryPoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   objectType: "AzureWorkloadSAPHanaRecoveryPoint";
+}
+
+/** SAPAse specific recoverypoint, specifically encapsulates full/diff recoverypoints */
+export interface AzureWorkloadSAPAseRecoveryPoint
+  extends AzureWorkloadRecoveryPoint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "AzureWorkloadSAPAseRecoveryPoint";
 }
 
 /** SQL specific recoverypoint, specifically encapsulates full/diff recoverypoint along with extended info */
@@ -3674,6 +3723,15 @@ export interface AzureWorkloadSAPHanaRestoreRequest
     | "AzureWorkloadSAPHanaPointInTimeRestoreRequest"
     | "AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest"
     | "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
+}
+
+/** AzureWorkload SAP Ase-specific restore. */
+export interface AzureWorkloadSAPAseRestoreRequest
+  extends AzureWorkloadRestoreRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType:
+    | "AzureWorkloadSAPAseRestoreRequest"
+    | "AzureWorkloadSAPAsePointInTimeRestoreRequest";
 }
 
 /** AzureWorkload SQL -specific restore. Specifically for full/diff restore */
@@ -3799,6 +3857,13 @@ export interface AzureIaaSComputeVMProtectableItem
   protectableItemType: "Microsoft.Compute/virtualMachines";
 }
 
+/** Azure VM workload-specific protectable item representing SAP ASE Database. */
+export interface AzureVmWorkloadSAPAseDatabaseProtectableItem
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "SAPAseDatabase";
+}
+
 /** Azure VM workload-specific protectable item representing SAP ASE System. */
 export interface AzureVmWorkloadSAPAseSystemProtectableItem
   extends AzureVmWorkloadProtectableItem {
@@ -3873,6 +3938,13 @@ export interface AzureWorkloadSAPHanaPointInTimeRecoveryPoint
   objectType: "AzureWorkloadSAPHanaPointInTimeRecoveryPoint";
 }
 
+/** Recovery point specific to PointInTime in SAPAse */
+export interface AzureWorkloadSAPAsePointInTimeRecoveryPoint
+  extends AzureWorkloadPointInTimeRecoveryPoint {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "AzureWorkloadSAPAsePointInTimeRecoveryPoint";
+}
+
 /** Recovery point specific to PointInTime */
 export interface AzureWorkloadSQLPointInTimeRecoveryPoint
   extends AzureWorkloadSQLRecoveryPoint {
@@ -3900,6 +3972,15 @@ export interface AzureWorkloadSAPHanaRestoreWithRehydrateRequest
   objectType: "AzureWorkloadSAPHanaRestoreWithRehydrateRequest";
   /** RP Rehydration Info */
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
+}
+
+/** AzureWorkload SAP Ase-specific restore. Specifically for PointInTime/Log restore */
+export interface AzureWorkloadSAPAsePointInTimeRestoreRequest
+  extends AzureWorkloadSAPAseRestoreRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "AzureWorkloadSAPAsePointInTimeRestoreRequest";
+  /** PointInTime value */
+  pointInTime?: Date;
 }
 
 /** AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore */
@@ -5393,6 +5474,8 @@ export enum KnownOperationType {
   Register = "Register",
   /** Reregister */
   Reregister = "Reregister",
+  /** Rehydrate */
+  Rehydrate = "Rehydrate",
 }
 
 /**
@@ -5402,7 +5485,8 @@ export enum KnownOperationType {
  * ### Known values supported by the service
  * **Invalid** \
  * **Register** \
- * **Reregister**
+ * **Reregister** \
+ * **Rehydrate**
  */
 export type OperationType = string;
 
