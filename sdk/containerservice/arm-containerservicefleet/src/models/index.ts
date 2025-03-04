@@ -172,6 +172,20 @@ export interface AgentProfile {
   vmSize?: string;
 }
 
+/** Status information for the fleet. */
+export interface FleetStatus {
+  /**
+   * The last operation ID for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /**
@@ -295,6 +309,20 @@ export interface FleetMemberListResult {
   value: FleetMember[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+/** Status information for the fleet member */
+export interface FleetMemberStatus {
+  /**
+   * The last operation ID for the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationId?: string;
+  /**
+   * The last operation error of the fleet member
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperationError?: ErrorDetail;
 }
 
 /** The type used for update operations of the FleetMember. */
@@ -568,6 +596,11 @@ export interface Fleet extends TrackedResource {
   readonly provisioningState?: FleetProvisioningState;
   /** The FleetHubProfile configures the Fleet's hub. */
   hubProfile?: FleetHubProfile;
+  /**
+   * Status information for the fleet.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetStatus;
 }
 
 /** The AutoUpgradeProfile resource. */
@@ -613,6 +646,11 @@ export interface FleetMember extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetMemberProvisioningState;
+  /**
+   * Status information of the last operation for fleet member.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: FleetMemberStatus;
 }
 
 /** A multi-stage process to perform update operations across members of a Fleet. */
@@ -655,6 +693,11 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: UpdateRunStatus;
+  /**
+   * AutoUpgradeProfileId is the id of an auto upgrade profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoUpgradeProfileId?: string;
 }
 
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */
