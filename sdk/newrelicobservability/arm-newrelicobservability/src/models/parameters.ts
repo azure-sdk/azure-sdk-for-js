@@ -19,6 +19,7 @@ import {
   AppServicesGetRequest as AppServicesGetRequestMapper,
   SwitchBillingRequest as SwitchBillingRequestMapper,
   HostsGetRequest as HostsGetRequestMapper,
+  ResubscribeProperties as ResubscribePropertiesMapper,
   TagRule as TagRuleMapper,
   TagRuleUpdate as TagRuleUpdateMapper,
   MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper,
@@ -51,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-01",
+    defaultValue: "2024-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -195,6 +196,11 @@ export const monitorName1: OperationURLParameter = {
   },
 };
 
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: ResubscribePropertiesMapper,
+};
+
 export const accountId: OperationQueryParameter = {
   parameterPath: ["options", "accountId"],
   mapper: {
@@ -215,7 +221,7 @@ export const organizationId: OperationQueryParameter = {
   },
 };
 
-export const body: OperationParameter = {
+export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: {
     constraints: {
@@ -262,7 +268,7 @@ export const configurationName: OperationURLParameter = {
   },
 };
 
-export const body1: OperationParameter = {
+export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: MonitoredSubscriptionPropertiesMapper,
 };
