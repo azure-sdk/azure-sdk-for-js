@@ -39,8 +39,11 @@ import {
   SwitchBillingRequest,
   MonitorsSwitchBillingOptionalParams,
   MonitorsSwitchBillingResponse,
+  MonitorsRefreshIngestionKeyOptionalParams,
   MonitorsVmHostPayloadOptionalParams,
   MonitorsVmHostPayloadResponse,
+  MonitorsResubscribeOptionalParams,
+  MonitorsResubscribeResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -160,7 +163,25 @@ export interface Monitors {
    * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    properties: NewRelicMonitorResourceUpdate,
+    options?: MonitorsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsUpdateResponse>,
+      MonitorsUpdateResponse
+    >
+  >;
+  /**
+   * Update a NewRelicMonitorResource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param properties The resource properties to be updated.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     properties: NewRelicMonitorResourceUpdate,
@@ -232,6 +253,17 @@ export interface Monitors {
     options?: MonitorsSwitchBillingOptionalParams,
   ): Promise<MonitorsSwitchBillingResponse>;
   /**
+   * Refreshes the ingestion key for all monitors linked to the same account associated to this monitor.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Name of the Monitors resource
+   * @param options The options parameters.
+   */
+  refreshIngestionKey(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsRefreshIngestionKeyOptionalParams,
+  ): Promise<void>;
+  /**
    * Returns the payload that needs to be passed in the request body for installing NewRelic agent on a
    * VM.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -243,4 +275,31 @@ export interface Monitors {
     monitorName: string,
     options?: MonitorsVmHostPayloadOptionalParams,
   ): Promise<MonitorsVmHostPayloadResponse>;
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribe(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsResubscribeResponse>,
+      MonitorsResubscribeResponse
+    >
+  >;
+  /**
+   * Resubscribe the NewRelic Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribeAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsResubscribeOptionalParams,
+  ): Promise<MonitorsResubscribeResponse>;
 }
