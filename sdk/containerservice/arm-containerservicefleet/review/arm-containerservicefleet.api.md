@@ -176,6 +176,7 @@ export interface Fleet extends TrackedResource {
     hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
+    readonly status?: FleetStatus;
 }
 
 // @public
@@ -211,6 +212,7 @@ export interface FleetMember extends ProxyResource {
     readonly eTag?: string;
     group?: string;
     readonly provisioningState?: FleetMemberProvisioningState;
+    readonly status?: FleetMemberStatus;
 }
 
 // @public
@@ -283,6 +285,12 @@ export interface FleetMembersListByFleetOptionalParams extends coreClient.Operat
 
 // @public
 export type FleetMembersListByFleetResponse = FleetMemberListResult;
+
+// @public
+export interface FleetMemberStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
 
 // @public
 export interface FleetMembersUpdateHeaders {
@@ -400,6 +408,12 @@ export interface FleetsListCredentialsOptionalParams extends coreClient.Operatio
 
 // @public
 export type FleetsListCredentialsResponse = FleetCredentialResults;
+
+// @public
+export interface FleetStatus {
+    readonly lastOperationError?: ErrorDetail;
+    readonly lastOperationId?: string;
+}
 
 // @public
 export interface FleetsUpdateHeaders {
@@ -770,6 +784,7 @@ export interface UpdateGroupStatus {
 
 // @public
 export interface UpdateRun extends ProxyResource {
+    readonly autoUpgradeProfileId?: string;
     readonly eTag?: string;
     managedClusterUpdate?: ManagedClusterUpdate;
     readonly provisioningState?: UpdateRunProvisioningState;
