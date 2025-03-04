@@ -16,10 +16,10 @@ import {
   CommunicationsGatewaysGetResponse,
   CommunicationsGatewaysCreateOrUpdateOptionalParams,
   CommunicationsGatewaysCreateOrUpdateResponse,
-  CommunicationsGatewaysDeleteOptionalParams,
   CommunicationsGatewayUpdate,
   CommunicationsGatewaysUpdateOptionalParams,
-  CommunicationsGatewaysUpdateResponse
+  CommunicationsGatewaysUpdateResponse,
+  CommunicationsGatewaysDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface CommunicationsGateways {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CommunicationsGatewaysListBySubscriptionOptionalParams
+    options?: CommunicationsGatewaysListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CommunicationsGateway>;
   /**
    * List CommunicationsGateway resources by resource group
@@ -39,7 +39,7 @@ export interface CommunicationsGateways {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CommunicationsGatewaysListByResourceGroupOptionalParams
+    options?: CommunicationsGatewaysListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CommunicationsGateway>;
   /**
    * Get a CommunicationsGateway
@@ -50,7 +50,7 @@ export interface CommunicationsGateways {
   get(
     resourceGroupName: string,
     communicationsGatewayName: string,
-    options?: CommunicationsGatewaysGetOptionalParams
+    options?: CommunicationsGatewaysGetOptionalParams,
   ): Promise<CommunicationsGatewaysGetResponse>;
   /**
    * Create a CommunicationsGateway
@@ -63,7 +63,7 @@ export interface CommunicationsGateways {
     resourceGroupName: string,
     communicationsGatewayName: string,
     resource: CommunicationsGateway,
-    options?: CommunicationsGatewaysCreateOrUpdateOptionalParams
+    options?: CommunicationsGatewaysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CommunicationsGatewaysCreateOrUpdateResponse>,
@@ -81,30 +81,8 @@ export interface CommunicationsGateways {
     resourceGroupName: string,
     communicationsGatewayName: string,
     resource: CommunicationsGateway,
-    options?: CommunicationsGatewaysCreateOrUpdateOptionalParams
+    options?: CommunicationsGatewaysCreateOrUpdateOptionalParams,
   ): Promise<CommunicationsGatewaysCreateOrUpdateResponse>;
-  /**
-   * Delete a CommunicationsGateway
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    options?: CommunicationsGatewaysDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a CommunicationsGateway
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param communicationsGatewayName Unique identifier for this deployment
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    communicationsGatewayName: string,
-    options?: CommunicationsGatewaysDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Update a CommunicationsGateway
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,6 +94,28 @@ export interface CommunicationsGateways {
     resourceGroupName: string,
     communicationsGatewayName: string,
     properties: CommunicationsGatewayUpdate,
-    options?: CommunicationsGatewaysUpdateOptionalParams
+    options?: CommunicationsGatewaysUpdateOptionalParams,
   ): Promise<CommunicationsGatewaysUpdateResponse>;
+  /**
+   * Delete a CommunicationsGateway
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    options?: CommunicationsGatewaysDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a CommunicationsGateway
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationsGatewayName Unique identifier for this deployment
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    communicationsGatewayName: string,
+    options?: CommunicationsGatewaysDeleteOptionalParams,
+  ): Promise<void>;
 }

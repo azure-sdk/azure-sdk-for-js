@@ -9,7 +9,7 @@
 import {
   CheckNameAvailabilityRequest,
   NameAvailabilityCheckLocalOptionalParams,
-  NameAvailabilityCheckLocalResponse
+  NameAvailabilityCheckLocalResponse,
 } from "../models/index.js";
 
 /** Interface representing a NameAvailability. */
@@ -23,6 +23,6 @@ export interface NameAvailability {
   checkLocal(
     location: string,
     body: CheckNameAvailabilityRequest,
-    options?: NameAvailabilityCheckLocalOptionalParams
+    options?: NameAvailabilityCheckLocalOptionalParams,
   ): Promise<NameAvailabilityCheckLocalResponse>;
 }
